@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -49,26 +49,206 @@ function useElapsed(active: boolean) {
   return elapsed;
 }
 
+function WaitingGame({ active }: { active: boolean }) {
+  const [score, setScore] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [objects, setObjects] = useState<Array<{ id: number; x: number; type: string; duration: number }>>([]);
+  const objectIdCounter = useRef(0);
+  const spawnIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const prefersReducedMotion = useRef(false);
+
+  // Check for reduced motion preference
+  useEffect(() => {
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  // Game difficulty based on score
+  const getSpawnRate = () => {
+    if (score < 15) return 1800;
+    if (score < 35) return 1400;
+    return 1000;
+  };
+
+  const getFallDuration = () => {
+    if (score < 15) return 4 + Math.random() * 2;
+    if (score < 35) return 3 + Math.random() * 1.5;
+    return 2 + Math.random() * 1;
+  };
+
+  // Spawn new objects
+  const spawnObject = useCallback(() => {
+    if (!active || prefersReducedMotion.current) return;
+
+    const types = ['star', 'dot', 'dot', 'book'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    const isFocusToken = Math.random() < 0.12; // 12% chance for focus token
+
+    const newObject = {
+      id: objectIdCounter.current++,
+      x: Math.random() * 80 + 10, // 10-90% width
+      type: isFocusToken ? 'focus' : type,
+      duration: getFallDuration()
+    };
+
+    setObjects(prev => [...prev.slice(-5), newObject]); // Keep max 6 objects on screen
+  }, [active, score]);
+
+  // Spawn loop
+  useEffect(() => {
+    if (!active || prefersReducedMotion.current) {
+      if (spawnIntervalRef.current) {
+        clearInterval(spawnIntervalRef.current);
+        spawnIntervalRef.current = null;
+      }
+      return;
+    }
+
+    const spawnRate = getSpawnRate();
+    spawnIntervalRef.current = setInterval(spawnObject, spawnRate);
+
+    return () => {
+      if (spawnIntervalRef.current) {
+        clearInterval(spawnIntervalRef.current);
+        spawnIntervalRef.current = null;
+      }
+    };
+  }, [active, score, spawnObject]);
+
+  // Handle object catch
+  const handleCatch = useCallback((objectId: number, type: string) => {
+    if (!active) return; // Prevent catching after game stops
+    
+    setObjects(prev => prev.filter(obj => obj.id !== objectId));
+    
+    const points = type === 'focus' ? 3 : 1;
+    setScore(prev => prev + points);
+    setStreak(prev => prev + 1);
+  }, [active]);
+
+  // Update best score when score changes
+  useEffect(() => {
+    if (score > bestScore) {
+      setBestScore(score);
+    }
+  }, [score, bestScore]);
+
+  // Handle object miss (animation end)
+  const handleMiss = () => {
+    setStreak(0);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (spawnIntervalRef.current) {
+        clearInterval(spawnIntervalRef.current);
+      }
+    };
+  }, []);
+
+  // Reset game when not active
+  useEffect(() => {
+    if (!active) {
+      setScore(0);
+      setStreak(0);
+      setObjects([]);
+      if (spawnIntervalRef.current) {
+        clearInterval(spawnIntervalRef.current);
+        spawnIntervalRef.current = null;
+      }
+    }
+  }, [active]);
+
+  if (!active) return null;
+
+  if (prefersReducedMotion.current) {
+    return (
+      <div className="waiting-game-container">
+        <p className="waiting-game-message">Processing your request...</p>
+      </div>
+    );
+  }
+
+  const icons = {
+    star: '✦',
+    dot: '•',
+    book: '📖',
+    focus: '⚡'
+  };
+
+  return (
+    <div className="waiting-game-container">
+      <div className="waiting-game-header">
+        <span className="waiting-game-title">Focus Catch</span>
+        <div className="waiting-game-stats">
+          <span>Score {score}</span>
+          {streak > 1 && <span>• Streak {streak}</span>}
+          {bestScore > 0 && <span>• Best {bestScore}</span>}
+        </div>
+      </div>
+      <div className="waiting-game-area">
+        {objects.map(obj => (
+          <button
+            key={obj.id}
+            className="waiting-game-object"
+            style={{
+              left: `${obj.x}%`,
+              animationDuration: `${obj.duration}s`,
+            }}
+            onClick={() => handleCatch(obj.id, obj.type)}
+            onAnimationEnd={handleMiss}
+            aria-label={`Catch ${obj.type}`}
+          >
+            {icons[obj.type as keyof typeof icons]}
+          </button>
+        ))}
+        <div className="waiting-game-catcher">
+          <span>CATCH</span>
+        </div>
+      </div>
+      <p className="waiting-game-instruction">Catch the falling ideas</p>
+    </div>
+  );
+}
+
 function Loading({
   label,
   hint = "Your local model is preparing a grounded response.",
+  success = false,
+  successMessage = "",
+  finalElapsed = 0,
+  showGame = false,
 }: {
   label: string;
   hint?: string;
+  success?: boolean;
+  successMessage?: string;
+  finalElapsed?: number;
+  showGame?: boolean;
 }) {
-  const elapsed = useElapsed(true);
+  const elapsed = useElapsed(!success);
 
   return (
     <div className="loading-dialog-backdrop" role="status" aria-live="polite">
-      <section className="loading-dialog">
-        <span className="loading-orbit">
-          <i />
-        </span>
-        <p>{label}</p>
-        <small>{hint}</small>
+      <section className={`loading-dialog ${showGame && !success ? 'loading-dialog-with-game' : ''}`}>
+        {success ? (
+          <div className="loading-success">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+        ) : (
+          <span className="loading-orbit">
+            <i />
+          </span>
+        )}
+        <p>{success ? successMessage : label}</p>
+        {hint && <small>{hint}</small>}
         <div className="loading-elapsed">
-          Elapsed <b>{formatElapsed(elapsed)}</b>
+          Elapsed <b>{formatElapsed(success ? finalElapsed : elapsed)}</b>
         </div>
+        {showGame && !success && <WaitingGame active={!success} />}
       </section>
     </div>
   );
@@ -113,6 +293,10 @@ function TeacherStudio({ token }: { token: string }) {
   const [summary, setSummary] = useState("");
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
+  const [text, setText] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
+  const operationElapsed = useElapsed(!!busy);
 
   async function req(path: string, body: object) {
     const r = await fetch(`${API}${path}`, {
@@ -138,18 +322,28 @@ function TeacherStudio({ token }: { token: string }) {
       summary: "Preparing a local summary",
     } as const;
 
+    const successMessages = {
+      classify: "Bloom level classified",
+      moderate: "Moderated and rewritten",
+      qa: "Answered the question",
+      summary: "Summarized the content",
+    } as const;
+
     setBusy(labels[action]);
     setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
 
     try {
       if (action === "classify") {
         const d = await req("/teacher/exam/classify", { question: q });
         setBloom({ level: d.level, confidence: d.confidence });
+        setSuccess({ show: true, message: successMessages.classify, elapsed: operationElapsed });
       }
       if (action === "moderate") {
         const d = await req("/teacher/exam/moderate", { question: q });
         setBloom({ level: d.bloom.level, confidence: d.bloom.confidence });
         setMod(d.moderation);
+        setSuccess({ show: true, message: successMessages.moderate, elapsed: operationElapsed });
       }
       if (action === "qa") {
         setAnswer((await req("/qa", { question: q, scope: "public", top_k: 4 })).answer);
@@ -160,7 +354,62 @@ function TeacherStudio({ token }: { token: string }) {
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const finalElapsed = operationElapsed;
       setBusy("");
+      if (successMessages[action]) {
+        setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      }
+    }
+  }
+
+  async function index() {
+    if (!text.trim()) return;
+    setBusy("Indexing your material");
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+    try {
+      await req("/documents/index", {
+        text,
+        name: "study-notes",
+        scope: "public",
+        content_type: "study_material",
+      });
+      setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
+    } catch (e) {
+      setError(String(e).replace("Error: ", ""));
+    } finally {
+      const finalElapsed = operationElapsed;
+      setBusy("");
+      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+    }
+  }
+
+  async function upload() {
+    if (!file) return;
+    setBusy("Uploading and indexing your file");
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+    try {
+      const f = new FormData();
+      f.set("file", file);
+      f.set("scope", "public");
+      f.set("content_type", "study_material");
+      const r = await fetch(`${API}/documents/upload`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: f,
+      });
+      if (!r.ok) throw Error("Upload failed");
+      setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
+    } catch (e) {
+      setError(String(e).replace("Error: ", ""));
+    } finally {
+      const finalElapsed = operationElapsed;
+      setBusy("");
+      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
     }
   }
 
@@ -169,6 +418,7 @@ function TeacherStudio({ token }: { token: string }) {
     busy === "Classifying the question" || busy === "Preparing moderation guidance"
       ? "Reviewing the question against local Bloom guidance."
       : "Your local model is preparing a grounded response.";
+  const showSuccess = success.show && !busy;
 
   return (
     <main className="page-wrap fade-in teacher-workspace">
@@ -235,6 +485,45 @@ function TeacherStudio({ token }: { token: string }) {
         </div>
       </section>
 
+      <section className="glass-card rounded-[26px] p-5 sm:p-7">
+        <h2 className="section-title">Course material</h2>
+        <p className="section-copy">Index a file or paste text into your authorized local corpus.</p>
+        <div className="mt-6 grid gap-4">
+          <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
+            <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              {file ? file.name : "Choose a learning document"}
+            </span>
+            <input
+              className="sr-only"
+              type="file"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+            />
+          </label>
+          <button className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            Upload and index file
+          </button>
+          <textarea
+            className="min-h-32"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Paste learning material to index..."
+          />
+          <button className="btn-primary" disabled={!!busy || !text.trim()} onClick={index}>
+            Index pasted material
+          </button>
+        </div>
+      </section>
+
       {(level || mod || answer || summary) && (
         <section className="teacher-results">
           {level && (
@@ -283,7 +572,8 @@ function TeacherStudio({ token }: { token: string }) {
         <p className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">{error}</p>
       )}
 
-      {busy && <Loading label={busy} hint={loadingHint} />}
+      {busy && <Loading label={busy} hint={loadingHint} showGame={true} />}
+      {showSuccess && <Loading label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}
     </main>
   );
 }
@@ -298,6 +588,8 @@ export default function Workspace({ role }: { role: Role }) {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [clip, setClip] = useState<(typeof clips)[number] | null>(null);
+  const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
+  const operationElapsed = useElapsed(!!busy);
 
   async function call(path: string, body: object) {
     const r = await fetch(`${API}${path}`, {
@@ -330,6 +622,7 @@ export default function Workspace({ role }: { role: Role }) {
     if (!text.trim()) return;
     setBusy("Indexing your material");
     setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
     try {
       await call("/documents/index", {
         text,
@@ -337,10 +630,14 @@ export default function Workspace({ role }: { role: Role }) {
         scope: "public",
         content_type: "study_material",
       });
+      setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const finalElapsed = operationElapsed;
       setBusy("");
+      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
     }
   }
 
@@ -348,6 +645,7 @@ export default function Workspace({ role }: { role: Role }) {
     if (!file) return;
     setBusy("Uploading and indexing your file");
     setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
     try {
       const f = new FormData();
       f.set("file", file);
@@ -359,10 +657,14 @@ export default function Workspace({ role }: { role: Role }) {
         body: f,
       });
       if (!r.ok) throw Error("Upload failed");
+      setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const finalElapsed = operationElapsed;
       setBusy("");
+      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
     }
   }
 
@@ -491,6 +793,7 @@ export default function Workspace({ role }: { role: Role }) {
 
   const showIndexingOverlay = !!busy && isIndexingBusy(busy);
   const showModelLoading = !!busy && isModelBusy(busy);
+  const showSuccess = success.show && !busy;
 
   return (
     <main className="page-wrap fade-in">
@@ -544,7 +847,12 @@ export default function Workspace({ role }: { role: Role }) {
           <p className="section-copy">Index a file or paste text into your authorized local corpus.</p>
           <div className="mt-6 grid gap-4">
             <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
-              <span className="font-bold text-[#36577a]">
+              <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
                 {file ? file.name : "Choose a learning document"}
               </span>
               <input
@@ -554,6 +862,11 @@ export default function Workspace({ role }: { role: Role }) {
               />
             </label>
             <button className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
               Upload and index file
             </button>
             <textarea
@@ -635,6 +948,16 @@ export default function Workspace({ role }: { role: Role }) {
         <Loading
           label={busy}
           hint="Preparing your material for source-grounded answers."
+          showGame={true}
+        />
+      )}
+      {showSuccess && (
+        <Loading
+          label=""
+          hint="Operation completed successfully"
+          success={true}
+          successMessage={success.message}
+          finalElapsed={success.elapsed}
         />
       )}
     </main>
