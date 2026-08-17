@@ -1,0 +1,128 @@
+# ===========================
+# Secrets & local config
+# ===========================
+.env
+.env.*
+!.env.example
+
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+*.egg
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Virtual environments
+venv/
+.venv/
+venv_web/
+.venv_web/
+
+# ===========================
+# Node / Next.js
+# ===========================
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+frontend/.swc/
+frontend/coverage/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# ===========================
+# IDEs & editors
+# ===========================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ===========================
+# OS
+# ===========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ===========================
+# Logs & scratch
+# ===========================
+*.log
+bench_log.txt
+debug*.log
+tmp*/
+.paper_deps/
+.mplconfig/
+
+# ===========================
+# ML models & weights
+# ===========================
+models/
+!models.py
+
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.onnx
+checkpoint-*/
+
+# ===========================
+# Local runtime & app data
+# ===========================
+data/vector_store/
+data/web_sessions/
+federated/updates/
+federated/bundles/
+federated/_client_cache/
+federated/runs/
+
+# ===========================
+# Build & release artifacts
+# ===========================
+build/
+dist/
+release/
+*.spec.bak
+
+# Packaged offline bundles
+*.7z
+*.zip
+*.exe
+*.msi
+
+# llama.cpp local builds (if vendored)
+llama.cpp/build/
+
+# ===========================
+# Evaluation & research outputs
+# ===========================
+evaluation_outputs/
+evaluation_results/
+paper_bundle/
+results/fydp/
+scripts/fydp/
+
+# ===========================
+# Deployment tooling
+# ===========================
+.railway/
