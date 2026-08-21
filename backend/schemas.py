@@ -15,3 +15,6 @@ class ModerationReviewRequest(BaseModel):
     question: str = Field(min_length=1, max_length=4000)
     decision: Literal["approved", "needs_revision", "rejected"]
     notes: str = Field(default="", max_length=2000)
+class TargetRewriteRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=4000)
+    target_level: Literal["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]

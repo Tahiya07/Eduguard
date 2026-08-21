@@ -3,7 +3,7 @@ from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from .auth import create_token, current_session, require_teacher
 from .config import settings
-from .schemas import BloomRequest, ChatRequest, IndexTextRequest, LoginRequest, ModerationReviewRequest, TextRequest
+from .schemas import BloomRequest, ChatRequest, IndexTextRequest, LoginRequest, ModerationReviewRequest, TargetRewriteRequest, TextRequest
 from .service import service
 
 app = FastAPI(title="Framework Academic API", version="1.0.0")
@@ -43,6 +43,10 @@ def classify(body: BloomRequest, session: dict = Depends(current_session)): retu
 def classify_exam(body: BloomRequest, session: dict = Depends(require_teacher)): return run(lambda: service.classify(body.question))
 @app.post("/teacher/exam/moderate")
 def moderate_exam(body: BloomRequest, session: dict = Depends(require_teacher)): return run(lambda: service.moderate_exam_question(session["sid"], body.question))
+@app.post("/teacher/exam/linguistic-moderate")
+def linguistic_moderate(body: BloomRequest, session: dict = Depends(require_teacher)): return run(lambda: service.linguistic_moderate_question(session["sid"], body.question))
+@app.post("/teacher/exam/target-rewrite")
+def target_rewrite(body: TargetRewriteRequest, session: dict = Depends(require_teacher)): return run(lambda: service.target_level_rewrite(session["sid"], body.question, body.target_level))
 @app.post("/teacher/exam/review")
 def review_exam(body: ModerationReviewRequest, session: dict = Depends(require_teacher)): return service.record_moderation_review(session["sid"], body.question, body.decision, body.notes)
 @app.post("/qa")

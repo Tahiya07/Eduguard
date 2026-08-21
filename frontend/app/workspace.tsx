@@ -319,6 +319,39 @@ function TeacherStudio({ token }: { token: string }) {
   const [q, setQ] = useState("");
   const [bloom, setBloom] = useState<Bloom | null>(null);
   const [mod, setMod] = useState<Moderation | null>(null);
+  const [linguisticMod, setLinguisticMod] = useState<{ original: string; improved: string } | null>(null);
+  const [targetRewrite, setTargetRewrite] = useState<{ original: string; rewritten: string; target_level: string; predicted_level: string; validation_match: boolean; validation_confidence: number; error?: string } | null>(null);
+  const [targetLevel, setTargetLevel] = useState("Analyze");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [dropdownOpen]);
+
+  // Calculate dropdown position when opening
+  const handleDropdownToggle = () => {
+    if (!dropdownOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 8,
+        left: rect.left
+      });
+    }
+    setDropdownOpen(!dropdownOpen);
+  };
   const [answer, setAnswer] = useState("");
   const [summary, setSummary] = useState("");
   const [busy, setBusy] = useState("");
@@ -327,6 +360,45 @@ function TeacherStudio({ token }: { token: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
   const operationElapsed = useElapsed(!!busy);
+
+  // Clear previous output when input changes
+  const handleQuestionChange = (newQuestion: string) => {
+    setQ(newQuestion);
+    // Clear all previous outputs when question changes
+    setBloom(null);
+    setMod(null);
+    setLinguisticMod(null);
+    setTargetRewrite(null);
+    setAnswer("");
+    setSummary("");
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+  };
+
+  // Clear previous output when target level changes
+  const handleTargetLevelChange = (newLevel: string) => {
+    setTargetLevel(newLevel);
+    setDropdownOpen(false);
+    // Clear only target rewrite output when target level changes
+    setTargetRewrite(null);
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+    // Also clear any previous validation-related states
+    setBloom(null);
+    setMod(null);
+    setLinguisticMod(null);
+    setAnswer("");
+    setSummary("");
+  };
+
+  // Handle target level selection and auto-trigger rewrite
+  const handleTargetLevelSelect = (level: string) => {
+    handleTargetLevelChange(level);
+    // Auto-trigger rewrite after selection
+    if (q.trim()) {
+      run("target-rewrite");
+    }
+  };
 
   async function req(path: string, body: object) {
     const r = await apiFetch(`${API}${path}`, {
@@ -342,12 +414,24 @@ function TeacherStudio({ token }: { token: string }) {
     return d;
   }
 
-  async function run(action: "classify" | "moderate" | "qa" | "summary") {
+  async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary") {
     if (!q.trim()) return;
+
+    // Clear previous outputs when starting a new task
+    setBloom(null);
+    setMod(null);
+    setLinguisticMod(null);
+    setTargetRewrite(null);
+    setAnswer("");
+    setSummary("");
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
 
     const labels = {
       classify: "Classifying the question",
       moderate: "Preparing moderation guidance",
+      linguistic: "Improving question quality",
+      "target-rewrite": "Rewriting to target level",
       qa: "Loading the local model and writing a reply",
       summary: "Preparing a local summary",
     } as const;
@@ -355,13 +439,13 @@ function TeacherStudio({ token }: { token: string }) {
     const successMessages = {
       classify: "Bloom level classified",
       moderate: "Moderated and rewritten",
+      linguistic: "Question improved",
+      "target-rewrite": "Question rewritten",
       qa: "Answered the question",
       summary: "Summarized the content",
     } as const;
 
     setBusy(labels[action]);
-    setError("");
-    setSuccess({ show: false, message: "", elapsed: 0 });
 
     try {
       if (action === "classify") {
@@ -375,11 +459,56 @@ function TeacherStudio({ token }: { token: string }) {
         setMod(d.moderation);
         setSuccess({ show: true, message: successMessages.moderate, elapsed: operationElapsed });
       }
+      if (action === "linguistic") {
+        const d = await req("/teacher/exam/linguistic-moderate", { question: q });
+        setLinguisticMod({ original: d.original, improved: d.improved });
+        setSuccess({ show: true, message: successMessages.linguistic, elapsed: operationElapsed });
+      }
+      if (action === "target-rewrite") {
+        const d = await req("/teacher/exam/target-rewrite", { question: q, target_level: targetLevel });
+        
+        if (d.type === "target_level_rewrite_failed") {
+          // Complete failure - no rewrite generated
+          setError(d.error || "Could not generate a validated rewrite matching the selected Bloom level.");
+          setTargetRewrite(null);
+        } else if (d.type === "target_level_rewrite_mismatch") {
+          // Partial success - rewrite generated but validation failed
+          setTargetRewrite({ 
+            original: d.original, 
+            rewritten: d.rewritten, 
+            target_level: d.target_level,
+            predicted_level: d.predicted_level,
+            validation_match: d.validation_match,
+            validation_confidence: d.validation_confidence,
+            error: d.error
+          });
+          setError(d.error || "The generated rewrite may not match the selected Bloom level.");
+        } else {
+          // Full success
+          setTargetRewrite({ 
+            original: d.original, 
+            rewritten: d.rewritten, 
+            target_level: d.target_level,
+            predicted_level: d.predicted_level,
+            validation_match: d.validation_match,
+            validation_confidence: d.validation_confidence
+          });
+          setSuccess({ show: true, message: successMessages["target-rewrite"], elapsed: operationElapsed });
+        }
+      }
       if (action === "qa") {
-        setAnswer((await req("/qa", { question: q, scope: "public", top_k: 4 })).answer);
+        const hasContent = !!text.trim() || !!file;
+        const scope = hasContent ? "public" : "public";
+        const d = await req("/qa", { question: q, scope, top_k: 4 });
+        setAnswer(d.answer);
+        setSuccess({ show: true, message: successMessages.qa, elapsed: operationElapsed });
       }
       if (action === "summary") {
-        setSummary((await req("/summarize", { question: q, scope: "public", top_k: 4 })).answer);
+        const hasContent = !!text.trim() || !!file;
+        const scope = hasContent ? "public" : "public";
+        const d = await req("/summarize", { question: q, scope, top_k: 4 });
+        setSummary(d.answer);
+        setSuccess({ show: true, message: successMessages.summary, elapsed: operationElapsed });
       }
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
@@ -530,31 +659,111 @@ function TeacherStudio({ token }: { token: string }) {
           Assessment question or academic text
           <textarea
             value={q}
-            onChange={(e) => setQ(e.target.value)}
+            onChange={(e) => handleQuestionChange(e.target.value)}
             placeholder="e.g. Explain how formative assessment improves student learning."
           />
         </label>
         <div className="teacher-actions">
-          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("classify")}>
+          <button className="btn-primary" disabled={!!busy || !q.trim()} onClick={() => run("classify")}>
             Classify level
           </button>
           <button
             className="btn-secondary"
             disabled={!!busy || !q.trim()}
-            onClick={() => run("moderate")}
+            onClick={() => run("linguistic")}
           >
-            Higher level rewrite
+            Moderate question
           </button>
+          <div className="teacher-rewrite-dropdown" ref={dropdownRef}>
+            <button
+              className="btn-secondary dropdown-trigger"
+              ref={triggerRef}
+              disabled={!!busy || !q.trim()}
+              onClick={handleDropdownToggle}
+            >
+              <span>Target Level Rewrite</span>
+              <svg 
+                className={`dropdown-arrow ${dropdownOpen ? 'open' : ''}`} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            {dropdownOpen && (
+              <div 
+                className="dropdown-menu glass-card"
+                style={{
+                  position: 'fixed',
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`
+                }}
+              >
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Remember")}
+                  disabled={!!busy}
+                >
+                  <span>Remember</span>
+                  <span className="dropdown-item-sub">C1</span>
+                </button>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Understand")}
+                  disabled={!!busy}
+                >
+                  <span>Understand</span>
+                  <span className="dropdown-item-sub">C2</span>
+                </button>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Apply")}
+                  disabled={!!busy}
+                >
+                  <span>Apply</span>
+                  <span className="dropdown-item-sub">C3</span>
+                </button>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Analyze")}
+                  disabled={!!busy}
+                >
+                  <span>Analyze</span>
+                  <span className="dropdown-item-sub">C4</span>
+                </button>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Evaluate")}
+                  disabled={!!busy}
+                >
+                  <span>Evaluate</span>
+                  <span className="dropdown-item-sub">C5</span>
+                </button>
+                <button 
+                  className="dropdown-item"
+                  onClick={() => handleTargetLevelSelect("Create")}
+                  disabled={!!busy}
+                >
+                  <span>Create</span>
+                  <span className="dropdown-item-sub">C6</span>
+                </button>
+              </div>
+            )}
+          </div>
           <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("summary")}>
             Summarize
           </button>
-          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("qa")}>
-            Ask your queries
+          <button className="btn-quiet" disabled={!!busy || !q.trim()} onClick={() => run("qa")}>
+            Ask model →
           </button>
         </div>
       </section>
 
-      {(level || mod || answer || summary) && (
+      {(level || mod || linguisticMod || targetRewrite || answer || summary) && (
         <section className="teacher-results">
           {level && (
             <article className="glass-card teacher-result-card rounded-[22px] p-5">
@@ -574,13 +783,64 @@ function TeacherStudio({ token }: { token: string }) {
           )}
           {mod && (
             <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
-              <p className="eyebrow">Moderation recommendation</p>
+              <p className="eyebrow">Higher level rewrite suggestion</p>
               <h2 className="section-title mt-2">Elevate to {mod.target_higher_level}</h2>
               <p className="teacher-reason">{mod.reason}</p>
               <div className="teacher-rewrite">
                 <span>Suggested rewrite</span>
                 <p>{mod.higher_level_rewrite}</p>
               </div>
+            </article>
+          )}
+          {linguisticMod && (
+            <article className="glass-card teacher-result-card rounded-[22px] p-5">
+              <p className="eyebrow">Linguistic moderation</p>
+              <div className="teacher-comparison">
+                <div>
+                  <span className="text-sm font-semibold text-[#66819e]">Original</span>
+                  <p className="mt-2 text-sm leading-relaxed">{linguisticMod.original}</p>
+                </div>
+                <div className="text-center text-2xl text-[#416ce4]">→</div>
+                <div>
+                  <span className="text-sm font-semibold text-[#29795f]">Improved</span>
+                  <p className="mt-2 text-sm leading-relaxed">{linguisticMod.improved}</p>
+                </div>
+              </div>
+            </article>
+          )}
+          {targetRewrite && targetRewrite.rewritten && (
+            <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
+              <p className="eyebrow">Target level rewrite</p>
+              <div className="flex items-center gap-3 mt-2">
+                <h2 className="section-title">Rewritten for {targetRewrite.target_level}</h2>
+                {targetRewrite.validation_match ? (
+                  <span className="text-xs font-semibold text-[#29795f] bg-[#29795f]/10 px-2 py-1 rounded-full">
+                    ✓ Validated
+                  </span>
+                ) : (
+                  <span className="text-xs font-semibold text-[#d97706] bg-[#d97706]/10 px-2 py-1 rounded-full">
+                    ⚠ Validation Issue
+                  </span>
+                )}
+              </div>
+              <div className="teacher-rewrite">
+                <span>Original</span>
+                <p className="text-sm text-gray-600">{targetRewrite.original}</p>
+              </div>
+              <div className="teacher-rewrite">
+                <span>Rewritten</span>
+                <p>{targetRewrite.rewritten}</p>
+              </div>
+              {!targetRewrite.validation_match && (
+                <div className="mt-3 text-sm text-[#d97706]">
+                  <p>
+                    The rewrite was classified as "{targetRewrite.predicted_level}" ({Math.round(targetRewrite.validation_confidence * 100)}% confidence), 
+                    which does not match the target "{targetRewrite.target_level}".
+                  </p>
+                  {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
+                  <p className="mt-2">Please try again or select a different target level.</p>
+                </div>
+              )}
             </article>
           )}
           {summary && (

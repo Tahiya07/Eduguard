@@ -7,6 +7,7 @@ import psutil
 
 from bloom_model_profiles import get_profile
 from bloom_policy import BloomDecision, compose_instruction
+from bloom_prompt import moderate_question_linguistic, rewrite_to_target_level
 from ingestion import DocumentChunk, DocumentIngestor, ocr_backend_status
 from models import RAGGenerator
 from predict_bloom import BLOOM_LABELS, QwenBloomPredictor, is_deploy_checkpoint
@@ -143,6 +144,11 @@ class FrameworkService:
     def answer(self, sid: str, role: str, question: str, scope: str, top_k: int, summary: bool = False) -> dict[str, Any]:
         self._authorize_scope(role, scope)
         ws = self.workspace(sid); retriever = ws[scope]
+        
+        # For teachers without uploaded content, use local model directly
+        if role == "teacher" and not ws["chunks"][scope]:
+            return self._local_chat(retriever, question, [], summary=summary)
+        
         if not ws["chunks"][scope]:
             if role == "student":
                 return self._local_chat(retriever, question, [], summary=summary)
@@ -184,8 +190,87 @@ class FrameworkService:
             text = str(output["choices"][0]["text"] or "").strip()
             return text, "llama-cpp-python-cpu-gguf", time.perf_counter() - started
 
+        from bloom_prompt import moderate_bloom_question
         moderation = moderate_bloom_question(question, lora_level=bloom["level"], lora_confidence=bloom["confidence"], probabilities=bloom["probabilities"], rewrite_generator=generate_rewrite)
         return {"bloom": bloom, "moderation": moderation.to_dict(), "privacy_status": "teacher_authorized"}
+
+    def linguistic_moderate_question(self, sid: str, question: str) -> dict[str, Any]:
+        """Linguistic quality improvement without changing cognitive level."""
+        if not question.strip():
+            raise ValueError("Question cannot be empty")
+        
+        try:
+            improved = moderate_question_linguistic(question)
+            return {
+                "original": question,
+                "improved": improved,
+                "privacy_status": "teacher_authorized",
+                "type": "linguistic_moderation"
+            }
+        except Exception as e:
+            raise RuntimeError(f"Linguistic moderation failed: {str(e)}")
+
+    def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
+        """Rewrite question to target specific Bloom level with cognitive task structure validation."""
+        if not question.strip():
+            raise ValueError("Question cannot be empty")
+        
+        try:
+            from bloom_prompt import rewrite_to_target_level, _canonical_bloom_label
+            from predict_bloom import QwenBloomPredictor
+            
+            # Generate rewrite with built-in cognitive task structure validation
+            rewritten, validation_success, error_message = rewrite_to_target_level(question, target_level)
+            
+            if not validation_success:
+                # Return error state instead of incorrect rewrite
+                return {
+                    "original": question,
+                    "rewritten": "",
+                    "target_level": target_level,
+                    "predicted_level": "",
+                    "validation_match": False,
+                    "validation_confidence": 0.0,
+                    "error": error_message,
+                    "privacy_status": "teacher_authorized",
+                    "type": "target_level_rewrite_failed"
+                }
+            
+            # Additional validation to ensure the rewrite matches target level
+            predictor = QwenBloomPredictor()
+            validation = predictor.predict(rewritten)
+            predicted_level = _canonical_bloom_label(validation["prediction"])
+            target_canonical = _canonical_bloom_label(target_level)
+            
+            # Robust validation with confidence threshold
+            confidence = validation.get("confidence", 0.0)
+            validation_match = predicted_level == target_canonical and confidence >= 0.6
+            
+            if not validation_match:
+                return {
+                    "original": question,
+                    "rewritten": rewritten,
+                    "target_level": target_level,
+                    "predicted_level": predicted_level,
+                    "validation_match": False,
+                    "validation_confidence": confidence,
+                    "error": f"Rewrite classified as {predicted_level} (confidence: {confidence:.0%}) does not match target {target_level}. The cognitive task structure may not align with the requested level.",
+                    "privacy_status": "teacher_authorized",
+                    "type": "target_level_rewrite_mismatch"
+                }
+            
+            return {
+                "original": question,
+                "rewritten": rewritten,
+                "target_level": target_level,
+                "predicted_level": predicted_level,
+                "validation_match": validation_match,
+                "validation_confidence": confidence,
+                "privacy_status": "teacher_authorized",
+                "type": "target_level_rewrite"
+            }
+        except Exception as e:
+            raise RuntimeError(f"Target level rewrite failed: {str(e)}")
 
     def record_moderation_review(self, sid: str, question: str, decision: str, notes: str) -> dict[str, Any]:
         item = {"question": question, "decision": decision, "notes": notes.strip(), "reviewed_at": int(time.time())}
