@@ -151,7 +151,7 @@ def build_classifier_aligned_reason(
     return (
         f"The LoRA classifier ({confidence:.0%} confidence) placed this item at **{level}** "
         f"because it primarily requires {guide['depth']}. "
-        f"Focus on reasoning depth, not surface verbs.{runner_up}"
+        f"{runner_up}"
     )
 
 

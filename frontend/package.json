@@ -1,1 +1,24 @@
-{"name":"framework-academic-ui","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start","lint":"next lint"},"dependencies":{"@types/node":"22.10.2","@types/react":"19.0.2","@types/react-dom":"19.0.2","next":"15.1.11","react":"19.0.0","react-dom":"19.0.0","typescript":"5.7.2"},"devDependencies":{"autoprefixer":"10.4.20","postcss":"8.4.49","tailwindcss":"3.4.16"}}
+{
+    "name":  "framework-academic-ui",
+    "private":  true,
+    "scripts":  {
+                    "dev":  "next dev",
+                    "build":  "next build \u0026\u0026 node -e \"const fs=require(\u0027fs\u0027); fs.cpSync(\u0027public\u0027,\u0027.next/standalone/public\u0027,{recursive:true}); fs.cpSync(\u0027.next/static\u0027,\u0027.next/standalone/.next/static\u0027,{recursive:true})\"",
+                    "start":  "next start",
+                    "lint":  "next lint"
+                },
+    "dependencies":  {
+                         "@types/node":  "22.10.2",
+                         "@types/react":  "19.0.2",
+                         "@types/react-dom":  "19.0.2",
+                         "next":  "15.1.11",
+                         "react":  "19.0.0",
+                         "react-dom":  "19.0.0",
+                         "typescript":  "5.7.2"
+                     },
+    "devDependencies":  {
+                            "autoprefixer":  "10.4.20",
+                            "postcss":  "8.4.49",
+                            "tailwindcss":  "3.4.16"
+                        }
+}

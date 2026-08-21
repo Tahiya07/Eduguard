@@ -1,19 +1,88 @@
-# -*- mode: python ; coding: utf-8 -*-
+﻿from pathlib import Path
+from PyInstaller.utils.hooks import collect_submodules
 
+ROOT = Path(SPECPATH)
 
+# ---------------------------------------------------------
+# Hidden imports
+# ---------------------------------------------------------
+hiddenimports = []
+
+for package in [
+    "backend",
+    "backend.routes",
+    "backend.service",
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "sentence_transformers",
+    "transformers",
+    "tokenizers",
+    "faiss",
+    "llama_cpp",
+]:
+    try:
+        hiddenimports += collect_submodules(package)
+    except Exception:
+        pass
+
+# ---------------------------------------------------------
+# Explicit runtime data
+# ---------------------------------------------------------
+datas = []
+binaries = []
+
+# llama.cpp native libraries
+try:
+    from PyInstaller.utils.hooks import collect_dynamic_libs
+    binaries += collect_dynamic_libs("llama_cpp")
+except Exception:
+    pass
+
+# ---------------------------------------------------------
+# Analysis
+# ---------------------------------------------------------
 a = Analysis(
-    ['release/app_launcher.py'],
-    pathex=[],
-    binaries=[],
-    datas=[],
-    hiddenimports=[],
+    ["app_launcher.py"],
+    pathex=[str(ROOT)],
+    binaries=binaries,
+    datas=datas,
+    hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=[
+        # Unused optional packages/features
+        "matplotlib",
+        "IPython",
+        "jupyter",
+        "notebook",
+        "pytest",
+        "pytest_asyncio",
+        "tkinter",
+        "wx",
+        "PyQt5",
+        "PyQt6",
+        "PySide2",
+        "PySide6",
+
+        # Optional ML ecosystems not used by EduGuard
+        "tensorflow",
+        "tensorflow_hub",
+        "keras",
+        "jax",
+        "jaxlib",
+        "flax",
+        "mxnet",
+
+        # Development / notebook integrations
+        "wandb",
+        "tensorboard",
+        "sphinx",
+    ],
     noarchive=False,
-    optimize=0,
 )
+
 pyz = PYZ(a.pure)
 
 exe = EXE(
@@ -22,17 +91,19 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='EduGuard',
+    name="EduGuard",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
+    upx=False,
+    console=True,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=False,
+    name="EduGuard",
 )

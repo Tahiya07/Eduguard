@@ -26,14 +26,20 @@ export default function AppHeader() {
     <header className="sticky top-0 z-40 mx-auto w-[min(1260px,100%)] px-5 pt-6 sm:px-8 sm:pt-8">
       <div className="flex items-center justify-between gap-4">
         {/* Floating Brand */}
-        <Link 
-          href="/" 
-          onClick={() => setOpen(false)} 
-          className="floating-brand display flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-.06em] text-[#16213d] transition-transform hover:scale-105"
-        >
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-[#355cda] text-base text-white shadow-lg">F</span>
-          Framework
-        </Link>
+    <Link
+  href="/"
+  onClick={() => setOpen(false)}
+  className="floating-brand ml-2 flex shrink-0 items-center gap-2 text-lg font-bold tracking-[-.05em] text-[#16213d] transition-transform hover:scale-105"
+>
+  <span className="grid h-7 w-7 place-items-center">
+    <img
+      src="/framework-icon.svg"
+      alt="Framework"
+      className="h-7 w-7"
+    />
+  </span>
+  EduGuard
+</Link>
 
         {/* Floating Navigation Dock */}
         <nav aria-label="Primary navigation" className="floating-nav-dock">
@@ -74,7 +80,7 @@ export default function AppHeader() {
       <aside className="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Framework navigation">
         <div className="mobile-nav-heading">
           <div>
-            <span className="mobile-nav-kicker">Framework</span>
+            <span className="mobile-nav-kicker">EduGuard</span>
             <h2>Explore your workspace</h2>
           </div>
           <button onClick={() => setOpen(false)} className="mobile-nav-close" aria-label="Close navigation menu">

@@ -1,1 +1,3 @@
-import Workspace from "../workspace"; export default function Teacher(){ return <Workspace role="teacher"/> }
+import Workspace from "../workspace";
+export default function Teacher()
+{ return <Workspace role="teacher"/> }

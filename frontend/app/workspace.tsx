@@ -1,8 +1,38 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+async function apiFetch(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+  retries = 12,
+): Promise<Response> {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetch(input, init);
+
+      // Backend is alive. Return the response normally.
+      return response;
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === retries) {
+        throw lastError;
+      }
+
+      // Backend may still be initializing. Wait progressively,
+      // but never block the UI itself.
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.min(1000 + attempt * 500, 3000))
+      );
+    }
+  }
+
+  throw lastError;
+}
 
 const clips = [
   ["Initial_Scene_1.mp4", "Settle in", "A calm place to begin."],
@@ -171,7 +201,7 @@ function WaitingGame({ active }: { active: boolean }) {
   }
 
   const icons = {
-    star: '✦',
+   star: '✦',
     dot: '•',
     book: '📖',
     focus: '⚡'
@@ -299,7 +329,7 @@ function TeacherStudio({ token }: { token: string }) {
   const operationElapsed = useElapsed(!!busy);
 
   async function req(path: string, body: object) {
-    const r = await fetch(`${API}${path}`, {
+    const r = await apiFetch(`${API}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -396,7 +426,7 @@ function TeacherStudio({ token }: { token: string }) {
       f.set("file", file);
       f.set("scope", "public");
       f.set("content_type", "study_material");
-      const r = await fetch(`${API}/documents/upload`, {
+      const r = await apiFetch(`${API}/documents/upload`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: f,
@@ -452,38 +482,6 @@ function TeacherStudio({ token }: { token: string }) {
         />
       </section>
 
-      <section className="teacher-console glass-card rounded-[26px] p-5 sm:p-7">
-        <div>
-          <p className="eyebrow">Question workspace</p>
-          <h2 className="section-title mt-3">Bring a question into focus.</h2>
-        </div>
-        <label className="teacher-question-label">
-          Assessment question or academic text
-          <textarea
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="e.g. Explain how formative assessment improves student learning."
-          />
-        </label>
-        <div className="teacher-actions">
-          <button className="btn-primary" disabled={!!busy || !q.trim()} onClick={() => run("classify")}>
-            Classify level
-          </button>
-          <button
-            className="btn-secondary"
-            disabled={!!busy || !q.trim()}
-            onClick={() => run("moderate")}
-          >
-            Moderate & rewrite
-          </button>
-          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("summary")}>
-            Summarize
-          </button>
-          <button className="btn-quiet" disabled={!!busy || !q.trim()} onClick={() => run("qa")}>
-            Ask model →
-          </button>
-        </div>
-      </section>
 
       <section className="glass-card rounded-[26px] p-5 sm:p-7">
         <h2 className="section-title">Course material</h2>
@@ -520,6 +518,38 @@ function TeacherStudio({ token }: { token: string }) {
           />
           <button className="btn-primary" disabled={!!busy || !text.trim()} onClick={index}>
             Index pasted material
+          </button>
+        </div>
+      </section>
+      <section className="teacher-console glass-card rounded-[26px] p-5 sm:p-7">
+        <div>
+          <p className="eyebrow">Question workspace</p>
+          <h2 className="section-title mt-3">Bring a question into focus.</h2>
+        </div>
+        <label className="teacher-question-label">
+          Assessment question or academic text
+          <textarea
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="e.g. Explain how formative assessment improves student learning."
+          />
+        </label>
+        <div className="teacher-actions">
+          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("classify")}>
+            Classify level
+          </button>
+          <button
+            className="btn-secondary"
+            disabled={!!busy || !q.trim()}
+            onClick={() => run("moderate")}
+          >
+            Higher level rewrite
+          </button>
+          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("summary")}>
+            Summarize
+          </button>
+          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("qa")}>
+            Ask your queries
           </button>
         </div>
       </section>
@@ -592,7 +622,7 @@ export default function Workspace({ role }: { role: Role }) {
   const operationElapsed = useElapsed(!!busy);
 
   async function call(path: string, body: object) {
-    const r = await fetch(`${API}${path}`, {
+    const r = await apiFetch(`${API}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -651,7 +681,7 @@ export default function Workspace({ role }: { role: Role }) {
       f.set("file", file);
       f.set("scope", "public");
       f.set("content_type", "study_material");
-      const r = await fetch(`${API}/documents/upload`, {
+      const r = await apiFetch(`${API}/documents/upload`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: f,
@@ -834,7 +864,7 @@ export default function Workspace({ role }: { role: Role }) {
                 <span>0{i + 1}</span>
                 <h3>{item[1]}</h3>
                 <p>{item[2]}</p>
-                <b>Watch →</b>
+                <b>Watch ➡</b>
               </div>
             </button>
           ))}
@@ -963,3 +993,4 @@ export default function Workspace({ role }: { role: Role }) {
     </main>
   );
 }
+
