@@ -345,8 +345,21 @@ function TeacherStudio({ token }: { token: string }) {
   const handleDropdownToggle = () => {
     if (!dropdownOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
+      const dropdownHeight = 280; // Approximate height of dropdown menu
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom;
+      
+      let topPosition;
+      if (spaceBelow < dropdownHeight + 20) {
+        // Not enough space below, position above the button
+        topPosition = rect.top - dropdownHeight - 8;
+      } else {
+        // Enough space below, position below the button
+        topPosition = rect.bottom + 8;
+      }
+      
       setDropdownPosition({
-        top: rect.bottom + 8,
+        top: topPosition,
         left: rect.left
       });
     }
@@ -471,6 +484,18 @@ function TeacherStudio({ token }: { token: string }) {
           // Complete failure - no rewrite generated
           setError(d.error || "Could not generate a validated rewrite matching the selected Bloom level.");
           setTargetRewrite(null);
+        } else if (d.type === "target_level_rewrite_validation_failed") {
+          // Validation failed but rewrite exists
+          setTargetRewrite({ 
+            original: d.original, 
+            rewritten: d.rewritten, 
+            target_level: d.target_level,
+            predicted_level: d.predicted_level,
+            validation_match: d.validation_match,
+            validation_confidence: d.validation_confidence,
+            error: d.error
+          });
+          setError(d.error || "Bloom validation could not be completed. The generated rewrite may need manual review.");
         } else if (d.type === "target_level_rewrite_mismatch") {
           // Partial success - rewrite generated but validation failed
           setTargetRewrite({ 
@@ -834,8 +859,13 @@ function TeacherStudio({ token }: { token: string }) {
               {!targetRewrite.validation_match && (
                 <div className="mt-3 text-sm text-[#d97706]">
                   <p>
-                    The rewrite was classified as "{targetRewrite.predicted_level}" ({Math.round(targetRewrite.validation_confidence * 100)}% confidence), 
-                    which does not match the target "{targetRewrite.target_level}".
+                    {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown" 
+                      ? `The rewrite was classified as "${targetRewrite.predicted_level}"` 
+                      : "The rewrite could not be classified by the Bloom classifier"}
+                    {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0 
+                      ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)` 
+                      : ""}
+                    {targetRewrite.predicted_level !== targetRewrite.target_level ? `, which does not match the target "${targetRewrite.target_level}".` : "."}
                   </p>
                   {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
                   <p className="mt-2">Please try again or select a different target level.</p>
@@ -1037,7 +1067,7 @@ export default function Workspace({ role }: { role: Role }) {
     );
   }
 
-  if (!token) {
+  if (!token && role === "teacher") {
     return (
       <main className="page-wrap fade-in student-access-page">
         <section className="student-access-layout teacher-access-layout">

@@ -18,6 +18,66 @@ from predict_bloom import BLOOM_LABELS, build_prompt as build_classifier_prompt
 IM_START = "<|im_start|>"
 IM_END = "<|" + "im_end" + "|>"
 
+# Deterministic transformation policies for each Bloom level
+TARGET_TRANSFORMATION_POLICY = {
+    "Remember": {
+        "operation": "recall",
+        "allowed": ["identify", "list", "name", "define", "recognize", "recall", "state"],
+        "forbidden": ["explain", "describe", "apply", "analyze", "evaluate", "design", "create", "develop", "construct", "implement"],
+        "template": "[Identify/List/Name/Define] + [topic/components/concepts]",
+        "task": "Recall or identify facts without explanation or application",
+    },
+    "Understand": {
+        "operation": "comprehension",
+        "allowed": ["explain", "describe", "summarize", "interpret", "classify", "discuss"],
+        "forbidden": ["design", "develop", "construct", "implement", "create", "build", "solve", "evaluate", "justify", "analyze"],
+        "template": "[Explain/Describe/Summarize] + [topic/components/functions/purpose]",
+        "task": "Explain or describe existing concepts without creating/evaluating",
+    },
+    "Apply": {
+        "operation": "application",
+        "allowed": ["apply", "use", "demonstrate", "implement", "solve", "execute"],
+        "forbidden": ["explain", "describe", "identify", "list", "name", "define"],
+        "template": "[Apply/Use/Demonstrate] + [concept] + [specific scenario/problem]",
+        "task": "Apply knowledge to a specific situation or problem",
+    },
+    "Analyze": {
+        "operation": "analysis",
+        "allowed": ["analyze", "compare", "differentiate", "examine", "investigate", "categorize"],
+        "forbidden": ["design", "develop", "construct", "implement", "create", "formulate", "propose"],
+        "template": "[Analyze/Compare/Examine] + [components/relationships/causes/differences]",
+        "task": "Examine structure, relationships, or components of existing information",
+    },
+    "Evaluate": {
+        "operation": "judgment",
+        "allowed": ["evaluate", "assess", "justify", "critique", "defend", "judge"],
+        "forbidden": ["explain", "describe", "list", "identify", "name", "define"],
+        "template": "[Evaluate/Assess/Justify] + [subject] + using [explicit criteria/evidence]",
+        "task": "Make judgment using explicit criteria or evidence",
+    },
+    "Create": {
+        "operation": "creation",
+        "allowed": ["design", "develop", "construct", "formulate", "propose", "create"],
+        "forbidden": ["explain", "describe", "identify", "list", "name", "define", "summarize"],
+        "template": "[Design/Develop/Construct/Formulate] + [new artifact/system/solution]",
+        "task": "Produce or design something new",
+    },
+}
+
+# Special transformation mappings for common cross-level transformations
+SPECIAL_TRANSFORMATIONS = {
+    ("Create", "Understand"): {
+        "remove_patterns": ["design", "develop", "construct", "build", "create", "formulate", "implement", "propose", "produce"],
+        "replace_with": ["explain", "describe", "summarize", "interpret", "classify"],
+        "object_change": "Change from 'how to create' to 'existing components/functions'",
+        "examples": [
+            ("Design X", "Explain the main components and functions of X"),
+            ("Create X", "Describe the key features and purpose of X"),
+            ("Develop X", "Explain how X works and its main functions"),
+        ],
+    },
+}
+
 BLOOM_ORDER = ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
 
 _LEVEL_GUIDANCE: dict[str, dict[str, str]] = {
@@ -190,9 +250,38 @@ Rewrite this question for {target_level}-level cognition:
 
 def _clean_rewrite(text: str) -> str:
     cleaned = (text or "").strip()
-    cleaned = re.sub(r"(?im)^(bloom level|reason|higher[- ]level rewrite|rewrite)\s*:\s*", "", cleaned)
+    # Remove common prefixes that aren't part of the question
+    cleaned = re.sub(r"(?im)^(bloom level|reason|higher[- ]level rewrite|rewrite|question|answer|the question is|the rewritten question is)\s*:\s*", "", cleaned)
+    # Remove explanatory prefixes
+    cleaned = re.sub(r"(?im)^(the|a|an)\s+(rewritten|new|modified|revised)\s+(question|version|answer)\s*(is|:|says|states)\s*", "", cleaned)
+    # Remove sentence fragments that are explanations
+    cleaned = re.sub(r"(?im)^(this|that|the)\s+(analysis|explanation|description|rewrite|version)\s+(involves|requires|means|includes)\s*", "", cleaned)
+    # Remove introductory phrases
+    cleaned = re.sub(r"(?im)^(to|in order to|for the purpose of)\s+", "", cleaned)
     cleaned = cleaned.strip().strip('"').strip("'")
     cleaned = re.sub(r"\s+", " ", cleaned)
+    
+    # If the result is too long (explanation), try to extract the question part
+    if len(cleaned) > 100:
+        # Split by common sentence delimiters and take the first meaningful part
+        parts = re.split(r'[.!?]', cleaned)
+        if len(parts) > 1:
+            # Take the first complete sentence that's not too short
+            for part in parts:
+                part = part.strip()
+                if len(part.split()) >= 4 and len(part) <= 50:
+                    cleaned = part
+                    break
+    
+    # Ensure it ends with appropriate punctuation
+    if cleaned:
+        if not cleaned.endswith('?') and not cleaned.endswith('.'):
+            # If it contains question words, add question mark
+            if any(word in cleaned.lower() for word in ['what', 'how', 'why', 'which', 'who', 'when', 'where', 'explain', 'describe', 'analyze', 'evaluate', 'design', 'create', 'identify', 'list', 'compare']):
+                cleaned += '?'
+            else:
+                cleaned += '.'
+    
     return cleaned
 
 
@@ -329,84 +418,166 @@ def build_targeted_rewrite_prompt(
     question: str,
     *,
     target_level: str,
+    previous_failure: str = "",
 ) -> str:
-    """Prompt for rewriting to a specific target Bloom level with cognitive transformation."""
-    guide = _LEVEL_GUIDANCE.get(target_level, _LEVEL_GUIDANCE["Understand"])
+    """Build compact, structured prompt for deterministic cognitive transformation."""
+    policy = TARGET_TRANSFORMATION_POLICY.get(target_level, TARGET_TRANSFORMATION_POLICY["Understand"])
     
-    # Cognitive transformation guidance for each level
-    cognitive_transforms = {
-        "Remember": "CHANGE REQUIREMENT: The student must only recall, identify, list, name, define, or recognize facts. Remove any requirement to explain, apply, analyze, evaluate, or create. Focus on pure recall and recognition.",
-        "Understand": "CHANGE REQUIREMENT: The student must explain, describe, summarize, interpret, classify, or discuss concepts. Remove any requirement to create, design, or build something. Focus on comprehension and explanation.",
-        "Apply": "CHANGE REQUIREMENT: The student must use knowledge in a new situation, apply concepts, demonstrate, implement, solve, or execute. Remove any requirement to merely recall or explain. Focus on practical application.",
-        "Analyze": "CHANGE REQUIREMENT: The student must analyze, compare, differentiate, examine, investigate, or categorize components and relationships. Remove any requirement to create something new. Focus on breaking down and examining structure.",
-        "Evaluate": "CHANGE REQUIREMENT: The student must evaluate, assess, justify, critique, defend, or judge using criteria. Remove any requirement to merely describe or apply. Focus on making judgments with evidence.",
-        "Create": "CHANGE REQUIREMENT: The student must design, develop, construct, formulate, propose, or create something new. Remove any requirement to merely recall, explain, or analyze. Focus on synthesis and production.",
-    }
+    # Build compact prompt sections
+    allowed_str = ", ".join(policy["allowed"])
+    forbidden_str = ", ".join(policy["forbidden"])
     
-    # Clear task structure guidance to avoid ambiguous multi-verb questions
-    task_structure_guidance = {
-        "Remember": "Use simple, direct verbs: identify, list, name, define, recognize, recall. Avoid complex multi-verb constructions.",
-        "Understand": "Use single cognitive verbs: explain, describe, summarize, interpret, classify, discuss. Avoid mixing with create/evaluate verbs.",
-        "Apply": "Use action verbs: apply, use, demonstrate, implement, solve, execute. Focus on using knowledge in a specific situation.",
-        "Analyze": "Use analytical verbs: analyze, compare, differentiate, examine, investigate, categorize. Focus on examining relationships and structure.",
-        "Evaluate": "Use judgment verbs: evaluate, assess, justify, critique, defend, judge. Always include criteria or evidence requirements.",
-        "Create": "Use creative verbs: design, develop, construct, formulate, propose, create. Focus on producing something new.",
-    }
+    # Add special transformation guidance if applicable
+    special_guidance = ""
+    if previous_failure:
+        special_guidance = f"\nPREVIOUS OUTPUT REJECTED.\nReason: {previous_failure}\nGenerate a new question.\n"
     
-    # Validation criteria for each level
-    validation_criteria = {
-        "Remember": "VALIDATION CHECK: Does this require ONLY recall/recognition/identification/listing/naming/definition? Does it avoid explanation/application/analysis/evaluation/creation?",
-        "Understand": "VALIDATION CHECK: Does this require explaining/describing/summarizing/interpreting/classifying/discussing? Does it avoid designing/constructing/evaluating/solving novel problems? Is the dominant cognitive operation comprehension?",
-        "Apply": "VALIDATION CHECK: Does this require using knowledge/procedures in a specific situation or applying a known method? Does it go beyond merely explaining the concept? Is the dominant task application?",
-        "Analyze": "VALIDATION CHECK: Does this require breaking information into parts and examining relationships/differences/causes/patterns/evidence? Does it involve analytical comparison/examination rather than simple description? Is the dominant task analysis?",
-        "Evaluate": "VALIDATION CHECK: Does this require making a judgment using criteria/evidence/standards/justification? Does it avoid merely asking for opinion without criteria? Is the dominant task evaluation?",
-        "Create": "VALIDATION CHECK: Does this require producing/designing/constructing/formulating/developing/proposing something new? Does it avoid merely explaining an existing design? Is the dominant task creation?",
-    }
+    # For Understand, add specific guidance about changing object of task
+    object_guidance = ""
+    example_guidance = ""
+    if target_level == "Understand":
+        object_guidance = "\nFocus on existing components, functions, or purpose.\nDo not ask how to create/design/develop.\n"
+        example_guidance = "\nExample: Design X → Explain the components of X\n"
+    elif target_level == "Remember":
+        example_guidance = "\nExample: Design X → List the components of X\n"
+    elif target_level == "Apply":
+        example_guidance = "\nExample: Design X → Apply design principles to solve Y\n"
+    elif target_level == "Analyze":
+        example_guidance = "\nExample: Design X → Analyze the structure of X\n"
+    elif target_level == "Evaluate":
+        example_guidance = "\nExample: Design X → Evaluate X using criteria A, B, C\n"
+    elif target_level == "Create":
+        example_guidance = "\nExample: Explain X → Design a new X with feature Y\n"
     
-    cognitive_guidance = cognitive_transforms.get(target_level, "")
-    structure_guidance = task_structure_guidance.get(target_level, "")
-    validation_guidance = validation_criteria.get(target_level, "")
-    
-    return f"""{IM_START}system
-You are an expert exam-question editor using Bloom's Taxonomy.
+    # Keep it compact but provide enough guidance for 1.5B model
+    prompt = f"""{IM_START}system
+You rewrite assessment questions to match specific cognitive levels.
 
-CRITICAL TASK: Transform the cognitive demand of this question to match **{target_level}**-level thinking.
+TARGET LEVEL: {target_level.upper()}
+COGNITIVE OPERATION: {policy["operation"].upper()}
 
-Target cognitive requirement: {guide['depth']}
+TASK:
+{policy["task"]}
 
-{cognitive_guidance}
+ALLOW:
+{allowed_str}
 
-{structure_guidance}
+REMOVE:
+{forbidden_str}
 
-{validation_guidance}
+RULE:
+Preserve the original topic.
+Change the student's required cognitive action.
+Do not preserve the original high-level task.
+Output 10-30 words maximum.
 
-COMMON MISTAKES TO AVOID:
-- Do NOT simply change vocabulary (e.g., "level one" to "elementary") while keeping the same cognitive task
-- Do NOT only add a cognitive verb if the task structure remains unchanged
-- Avoid ambiguous multi-verb questions (e.g., "Explain and design" - choose one clear cognitive operation)
-- "Design" as the student's task means Create-level, but "explain the design" can be Understand-level
-- Focus on what the STUDENT must DO, not on words that appear in the subject matter
-- Your rewrite must fundamentally change the cognitive operation the student performs
-
-PREFERRED QUESTION STRUCTURES:
-- Remember: "Identify the components of..." "List the steps for..." "Define the term..."
-- Understand: "Explain the principles of..." "Describe how..." "Summarize the process of..."
-- Apply: "Apply [concept] to solve..." "Use [method] to address..." "Demonstrate how..."
-- Analyze: "Analyze the relationship between..." "Compare the differences in..." "Examine the causes of..."
-- Evaluate: "Evaluate the effectiveness of... using [criteria]" "Assess whether... based on..."
-- Create: "Design a [system] that includes..." "Develop a [solution] for..." "Construct a [model] of..."
-
-Preserve the original topic and educational intent wherever possible, but the cognitive operation MUST change.
-
-Output ONLY the rewritten question as a single exam-style sentence or short paragraph.
-No labels, no preamble, no bullet list, no explanation.
+{object_guidance}
+{example_guidance}
+{special_guidance}
+OUTPUT ONLY ONE STUDENT-FACING QUESTION.
+No explanation. No answer. No meta language.
 {IM_END}
 {IM_START}user
-Rewrite this question for {target_level}-level cognition (fundamentally change the cognitive task):
 {question.strip()}
 {IM_END}
 {IM_START}assistant
 """.strip()
+    
+    return prompt
+
+def _validate_output_format(question: str) -> tuple[bool, str]:
+    """
+    Validate that output is a student-facing question, not meta-explanation.
+    
+    Returns:
+        tuple: (is_valid, reason)
+    """
+    question_lower = question.lower().strip()
+    
+    # Reject meta-language patterns
+    meta_patterns = [
+        "this question asks",
+        "the rewritten question",
+        "to understand",
+        "this requires",
+        "the analysis involves",
+        "the student must",
+        "this rewrite",
+        "the answer is",
+        "this is a",
+        "the purpose is",
+    ]
+    
+    for pattern in meta_patterns:
+        if pattern in question_lower:
+            return False, f"Contains meta-language: '{pattern}'"
+    
+    # Reject explanatory beginnings
+    explanatory_beginnings = [
+        "this",
+        "the",
+        "an",
+        "a",  # when followed by explanation
+        "to",
+        "in order to",
+    ]
+    
+    words = question_lower.split()
+    if words and words[0] in explanatory_beginnings[:5]:
+        return False, "Begins with explanatory meta-language"
+    
+    # Reject if it's too long (likely an explanation)
+    if len(question.split()) > 40:
+        return False, "Too long - likely an explanation not a question"
+    
+    # Reject if it contains multiple sentences (likely explanation)
+    if question.count('.') > 1 or question.count('!') > 0:
+        return False, "Multiple sentences - likely an explanation"
+    
+    # Check if it's actually a question (ends with ? or has question words)
+    question_words = ["what", "how", "why", "which", "who", "when", "where", "explain", "describe", "analyze", "evaluate", "design", "create", "identify", "list", "compare"]
+    has_question_structure = any(qw in question_lower for qw in question_words)
+    
+    if not has_question_structure:
+        return False, "Lacks question structure"
+    
+    return True, "Output format valid"
+
+def _semantic_cognitive_check_deterministic(question: str, target_level: str) -> tuple[bool, str]:
+    """
+    Perform semantic check using deterministic transformation policy.
+    
+    Returns:
+        tuple: (is_valid, reason)
+    """
+    policy = TARGET_TRANSFORMATION_POLICY.get(target_level)
+    if not policy:
+        return True, "No policy defined - skipping check"
+    
+    question_lower = question.lower()
+    
+    # Check for forbidden operations
+    for forbidden in policy["forbidden"]:
+        # Check for "how to [forbidden]" patterns
+        if f"how to {forbidden}" in question_lower:
+            return False, f"Contains forbidden pattern: 'how to {forbidden}'"
+        # Check for direct [forbidden] task
+        forbidden_patterns = [
+            f"{forbidden} a",
+            f"{forbidden} the",
+            f"{forbidden} an",
+            f"to {forbidden}",
+        ]
+        for pattern in forbidden_patterns:
+            if pattern in question_lower:
+                return False, f"Contains forbidden operation: '{forbidden}'"
+    
+    # Check for required operations
+    has_required = any(req in question_lower for req in policy["allowed"])
+    if not has_required:
+        return False, f"Lacks required cognitive operation for {target_level}"
+    
+    return True, "Semantic cognitive check passed"
 
 def moderate_question_linguistic(question: str) -> str:
     """Improve linguistic quality without changing cognitive level."""
@@ -526,7 +697,10 @@ def _analyze_cognitive_task_structure(question: str, target_level: str) -> tuple
     return True, "Task structure analysis passed."
 
 def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool, str]:
-    """Rewrite question to target specific Bloom level with cognitive task structure validation.
+    """Rewrite question to target specific Bloom level with deterministic transformation pipeline.
+    
+    Pipeline:
+    Generate → Output Format Check → Cognitive Task Check → Bloom Classifier → Confidence Check → PASS/REGENERATE
     
     Returns:
         tuple: (rewrite_text, validation_success, error_message)
@@ -537,15 +711,16 @@ def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool
     max_attempts = 3
     best_rewrite = ""
     best_confidence = 0.0
+    previous_failure = ""
     
     for attempt in range(max_attempts):
-        prompt = build_targeted_rewrite_prompt(question, target_level=target_level)
+        prompt = build_targeted_rewrite_prompt(question, target_level=target_level, previous_failure=previous_failure)
         try:
             from qwen_gguf_cli import QwenGgufCliGenerator
 
             gen = QwenGgufCliGenerator.for_task(
                 "bloom_moderation",
-                max_tokens=180,
+                max_tokens=60,  # Increased for valid question generation
                 ctx_size=2048,
                 threads=4,
             )
@@ -555,18 +730,31 @@ def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool
             llm = _get_llm()
             output = llm(
                 prompt,
-                temperature=0.2,
-                top_p=0.9,
-                top_k=40,
+                temperature=0.1,  # Lower temperature for more deterministic output
+                top_p=0.8,
+                top_k=30,
                 repeat_penalty=1.1,
-                max_tokens=180,
+                max_tokens=60,  # Increased for valid question generation
                 stop=[IM_END, IM_START],
             )
             text = output["choices"][0]["text"].strip()
             rewrite = _clean_rewrite(text)
         
         # Validate the rewrite using multi-layer approach
-        if rewrite and len(rewrite.split()) >= 6:
+        if rewrite and len(rewrite.split()) >= 3:  # Minimum word count for a valid question
+            # Layer 0: Output format validation - is this a student-facing question?
+            format_valid, format_reason = _validate_output_format(rewrite)
+            if not format_valid:
+                previous_failure = format_reason
+                continue  # Skip to next attempt
+            
+            # Layer 1: Semantic cognitive check (pre-filter using deterministic policy)
+            semantic_valid, semantic_reason = _semantic_cognitive_check_deterministic(rewrite, target_level)
+            if not semantic_valid:
+                previous_failure = semantic_reason
+                continue  # Skip to next attempt if semantic check fails
+            
+            # Layer 2: Classifier prediction with confidence threshold
             try:
                 from predict_bloom import QwenBloomPredictor
                 predictor = QwenBloomPredictor()
@@ -574,25 +762,37 @@ def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool
                 predicted_level = _canonical_bloom_label(validation["prediction"])
                 confidence = validation.get("confidence", 0.0)
                 
-                # Layer 1: Classifier prediction with confidence threshold
-                if predicted_level == _canonical_bloom_label(target_level) and confidence >= 0.6:
-                    # Layer 2: Cognitive task structure analysis
-                    task_valid, task_reason = _analyze_cognitive_task_structure(rewrite, target_level)
-                    if task_valid:
-                        return rewrite, True, ""
-                    else:
-                        # Task structure failed, continue trying
-                        if confidence > best_confidence:
-                            best_rewrite = rewrite
-                            best_confidence = confidence
+                # Handle NaN/None confidence
+                if confidence is None or not isinstance(confidence, (int, float)):
+                    confidence = 0.0
+                
+                # Layer 3: Cognitive task structure analysis
+                task_valid, task_reason = _analyze_cognitive_task_structure(rewrite, target_level)
+                
+                # Only proceed if all checks pass
+                if predicted_level == _canonical_bloom_label(target_level) and confidence >= 0.6 and task_valid:
+                    return rewrite, True, ""
                 else:
-                    # Classifier prediction failed
+                    # Keep the best attempt if validation fails
                     if confidence > best_confidence:
                         best_rewrite = rewrite
                         best_confidence = confidence
+                        # Generate failure reason for next attempt
+                        if not task_valid:
+                            previous_failure = task_reason
+                        elif predicted_level != _canonical_bloom_label(target_level):
+                            previous_failure = f"Classified as {predicted_level} instead of {target_level}"
+                        else:
+                            previous_failure = f"Low confidence ({confidence:.0%})"
             except Exception as e:
                 # If validation fails, continue to next attempt
+                previous_failure = f"Validation error: {str(e)}"
                 continue
+    
+    # All attempts failed - return best attempt with error
+    if best_rewrite:
+        return best_rewrite, False, "Could not generate a validated rewrite matching the selected Bloom level."
+    return "", False, "Failed to generate a valid rewrite after multiple attempts."
     
     # All attempts failed validation - do not return incorrect rewrite
     if best_rewrite:
