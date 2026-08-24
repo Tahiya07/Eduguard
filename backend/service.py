@@ -212,12 +212,11 @@ class FrameworkService:
 
     def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
         """Rewrite question to target specific Bloom level with cognitive task structure validation.
-        
+
         The selected target level is authoritative. This function always attempts to provide
         a rewritten question at the requested Bloom level, using the classifier as verification
         rather than as a generator gate.
         """
-        print(f"[DEBUG BACKEND] target_level_rewrite called with target_level: {target_level}")
         if not question.strip():
             raise ValueError("Question cannot be empty")
         
