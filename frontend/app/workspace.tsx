@@ -409,7 +409,7 @@ function TeacherStudio({ token }: { token: string }) {
     handleTargetLevelChange(level);
     // Auto-trigger rewrite after selection
     if (q.trim()) {
-      run("target-rewrite");
+      run("target-rewrite", level);
     }
   };
 
@@ -427,7 +427,7 @@ function TeacherStudio({ token }: { token: string }) {
     return d;
   }
 
-  async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary") {
+  async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary", explicitTargetLevel?: string) {
     if (!q.trim()) return;
 
     // Clear previous outputs when starting a new task
@@ -478,7 +478,9 @@ function TeacherStudio({ token }: { token: string }) {
         setSuccess({ show: true, message: successMessages.linguistic, elapsed: operationElapsed });
       }
       if (action === "target-rewrite") {
-        const d = await req("/teacher/exam/target-rewrite", { question: q, target_level: targetLevel });
+        // Use explicit target level if provided (from click), otherwise use state
+        const effectiveTargetLevel = explicitTargetLevel || targetLevel;
+        const d = await req("/teacher/exam/target-rewrite", { question: q, target_level: effectiveTargetLevel });
         
         if (d.type === "target_level_rewrite_failed") {
           // Complete failure - no rewrite generated

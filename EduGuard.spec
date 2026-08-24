@@ -1,85 +1,25 @@
-﻿from pathlib import Path
-from PyInstaller.utils.hooks import collect_submodules
+from pathlib import Path
 
 ROOT = Path(SPECPATH)
 
-# ---------------------------------------------------------
-# Hidden imports
-# ---------------------------------------------------------
-hiddenimports = []
-
-for package in [
-    "backend",
-    "backend.routes",
-    "backend.service",
-    "fastapi",
-    "uvicorn",
-    "pydantic",
-    "sentence_transformers",
-    "transformers",
-    "tokenizers",
-    "faiss",
-    "llama_cpp",
-]:
-    try:
-        hiddenimports += collect_submodules(package)
-    except Exception:
-        pass
-
-# ---------------------------------------------------------
-# Explicit runtime data
-# ---------------------------------------------------------
-datas = []
 binaries = []
+datas = []
 
-# llama.cpp native libraries
-try:
-    from PyInstaller.utils.hooks import collect_dynamic_libs
-    binaries += collect_dynamic_libs("llama_cpp")
-except Exception:
-    pass
+# Only the Node runtime belongs in the launcher.
+node_exe = ROOT / "node.exe"
+if node_exe.exists():
+    binaries.append((str(node_exe), "."))
 
-# ---------------------------------------------------------
-# Analysis
-# ---------------------------------------------------------
 a = Analysis(
     ["app_launcher.py"],
     pathex=[str(ROOT)],
     binaries=binaries,
     datas=datas,
-    hiddenimports=hiddenimports,
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[
-        # Unused optional packages/features
-        "matplotlib",
-        "IPython",
-        "jupyter",
-        "notebook",
-        "pytest",
-        "pytest_asyncio",
-        "tkinter",
-        "wx",
-        "PyQt5",
-        "PyQt6",
-        "PySide2",
-        "PySide6",
-
-        # Optional ML ecosystems not used by EduGuard
-        "tensorflow",
-        "tensorflow_hub",
-        "keras",
-        "jax",
-        "jaxlib",
-        "flax",
-        "mxnet",
-
-        # Development / notebook integrations
-        "wandb",
-        "tensorboard",
-        "sphinx",
-    ],
+    excludes=[],
     noarchive=False,
 )
 

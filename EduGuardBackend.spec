@@ -1,13 +1,13 @@
-﻿from pathlib import Path
-from PyInstaller.utils.hooks import collect_all, collect_submodules
+from pathlib import Path
+from PyInstaller.utils.hooks import collect_submodules, collect_data_files, collect_dynamic_libs
 
 ROOT = Path(SPECPATH)
 
+hiddenimports = []
 datas = []
 binaries = []
-hiddenimports = []
 
-for package in [
+packages = [
     "backend",
     "uvicorn",
     "fastapi",
@@ -17,17 +17,36 @@ for package in [
     "tokenizers",
     "faiss",
     "llama_cpp",
-]:
+    "multi_slm",
+    "qwen_gguf_cli",
+    "predict_bloom",
+    "bloom_prompt",
+]
+
+for package in packages:
     try:
-        d, b, h = collect_all(package)
-        datas += d
-        binaries += b
-        hiddenimports += h
+        hiddenimports += collect_submodules(package)
     except Exception:
         pass
 
-# Make sure all backend modules are included.
-hiddenimports += collect_submodules("backend")
+for package in [
+    "sentence_transformers",
+    "transformers",
+    "tokenizers",
+]:
+    try:
+        datas += collect_data_files(package)
+    except Exception:
+        pass
+
+try:
+    binaries += collect_dynamic_libs("llama_cpp")
+except Exception:
+    pass
+
+# IMPORTANT:
+# Models are intentionally NOT packaged into the backend EXE.
+# They remain external under dist\EduGuard\models\.
 
 a = Analysis(
     ["backend_launcher.py"],
@@ -38,7 +57,30 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=[
+        "matplotlib",
+        "IPython",
+        "jupyter",
+        "notebook",
+        "pytest",
+        "pytest_asyncio",
+        "tkinter",
+        "wx",
+        "PyQt5",
+        "PyQt6",
+        "PySide2",
+        "PySide6",
+        "tensorflow",
+        "tensorflow_hub",
+        "keras",
+        "jax",
+        "jaxlib",
+        "flax",
+        "mxnet",
+        "wandb",
+        "tensorboard",
+        "sphinx",
+    ],
     noarchive=False,
 )
 

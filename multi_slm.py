@@ -125,6 +125,14 @@ def resolve_slm_model_path(task_id: str, explicit_path: str | Path | None = None
         return Path(explicit_path)
 
     profile = get_task_profile(task_id)
+
+    # Packaged/offline application: models live beside the EXE.
+    generator_model = os.environ.get("GENERATOR_MODEL_PATH")
+    if generator_model:
+        candidate = Path(generator_model).expanduser()
+        if candidate.is_file():
+            return candidate
+
     env_path = os.environ.get(profile.env_var)
     if env_path:
         candidate = Path(env_path).expanduser()
@@ -136,10 +144,11 @@ def resolve_slm_model_path(task_id: str, explicit_path: str | Path | None = None
 
     if SHARED_QWEN_GGUF.is_file():
         return SHARED_QWEN_GGUF
+
     if SHORT_QWEN_GGUF.is_file():
         return SHORT_QWEN_GGUF
-    return LEGACY_QWEN_GGUF
 
+    return LEGACY_QWEN_GGUF
 
 def task_registry_report() -> List[Dict[str, object]]:
     rows: List[Dict[str, object]] = []

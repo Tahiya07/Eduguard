@@ -211,7 +211,13 @@ class FrameworkService:
             raise RuntimeError(f"Linguistic moderation failed: {str(e)}")
 
     def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
-        """Rewrite question to target specific Bloom level with cognitive task structure validation."""
+        """Rewrite question to target specific Bloom level with cognitive task structure validation.
+        
+        The selected target level is authoritative. This function always attempts to provide
+        a rewritten question at the requested Bloom level, using the classifier as verification
+        rather than as a generator gate.
+        """
+        print(f"[DEBUG BACKEND] target_level_rewrite called with target_level: {target_level}")
         if not question.strip():
             raise ValueError("Question cannot be empty")
         
@@ -220,10 +226,11 @@ class FrameworkService:
             from predict_bloom import QwenBloomPredictor
             
             # Generate rewrite with built-in cognitive task structure validation
-            rewritten, validation_success, error_message = rewrite_to_target_level(question, target_level)
+            # Returns: (rewrite_text, needs_review, error_message)
+            rewritten, needs_review, error_message = rewrite_to_target_level(question, target_level)
             
-            if not validation_success:
-                # Return error state instead of incorrect rewrite
+            # If no rewrite was generated (true failure), return error
+            if not rewritten:
                 return {
                     "original": question,
                     "rewritten": "",
@@ -231,12 +238,12 @@ class FrameworkService:
                     "predicted_level": "",
                     "validation_match": False,
                     "validation_confidence": 0.0,
-                    "error": error_message,
+                    "error": error_message or "Failed to generate a valid rewrite",
                     "privacy_status": "teacher_authorized",
                     "type": "target_level_rewrite_failed"
                 }
             
-            # Additional validation to ensure the rewrite matches target level
+            # Rewrite was generated - perform classifier verification for UI feedback
             try:
                 predictor = QwenBloomPredictor()
                 validation = predictor.predict(rewritten)
@@ -245,36 +252,19 @@ class FrameworkService:
                 
                 # Handle potential NaN/None values from classifier
                 confidence = validation.get("confidence", 0.0)
-                if confidence is None or not isinstance(confidence, (int, float)) or not str(predicted_level):
-                    return {
-                        "original": question,
-                        "rewritten": rewritten,
-                        "target_level": target_level,
-                        "predicted_level": "unknown",
-                        "validation_match": False,
-                        "validation_confidence": 0.0,
-                        "error": "Bloom validation could not be completed. Please try again.",
-                        "privacy_status": "teacher_authorized",
-                        "type": "target_level_rewrite_validation_failed"
-                    }
+                if confidence is None or not isinstance(confidence, (int, float)):
+                    confidence = 0.0
+                if not str(predicted_level):
+                    predicted_level = "unknown"
                 
-                # Robust validation with confidence threshold
-                validation_match = predicted_level == target_canonical and confidence >= 0.6
+                # Determine if classifier agrees with target level
+                validation_match = predicted_level == target_canonical and confidence >= 0.50
                 
-                if not validation_match:
-                    return {
-                        "original": question,
-                        "rewritten": rewritten,
-                        "target_level": target_level,
-                        "predicted_level": predicted_level,
-                        "validation_match": False,
-                        "validation_confidence": confidence,
-                        "error": f"Rewrite classified as {predicted_level} (confidence: {confidence:.0%}) does not match target {target_level}. The cognitive task structure may not align with the requested level.",
-                        "privacy_status": "teacher_authorized",
-                        "type": "target_level_rewrite_mismatch"
-                    }
+                # Combine needs_review from generation with classifier verification
+                combined_needs_review = needs_review or not validation_match
                 
-                return {
+                # Build response with the rewrite always provided
+                response = {
                     "original": question,
                     "rewritten": rewritten,
                     "target_level": target_level,
@@ -284,8 +274,23 @@ class FrameworkService:
                     "privacy_status": "teacher_authorized",
                     "type": "target_level_rewrite"
                 }
+                
+                # Add review recommendation if needed
+                if combined_needs_review:
+                    review_reasons = []
+                    if needs_review and error_message:
+                        review_reasons.append(error_message)
+                    if not validation_match:
+                        review_reasons.append(f"classifier predicted {predicted_level} (confidence: {confidence:.0%}) vs target {target_level}")
+                    response["needs_review"] = True
+                    response["review_reason"] = "; ".join(review_reasons) if review_reasons else "Review recommended"
+                else:
+                    response["needs_review"] = False
+                
+                return response
+                
             except Exception as e:
-                # If classifier validation fails, still return the generated rewrite with warning
+                # If classifier verification fails, still return the generated rewrite
                 return {
                     "original": question,
                     "rewritten": rewritten,
@@ -293,9 +298,11 @@ class FrameworkService:
                     "predicted_level": "unknown",
                     "validation_match": False,
                     "validation_confidence": 0.0,
-                    "error": f"Bloom validation could not be completed: {str(e)}. The generated rewrite may need manual review.",
+                    "needs_review": needs_review,
+                    "review_reason": error_message if needs_review else "Classifier verification failed",
+                    "error": f"Bloom validation could not be completed: {str(e)}",
                     "privacy_status": "teacher_authorized",
-                    "type": "target_level_rewrite_validation_failed"
+                    "type": "target_level_rewrite"
                 }
         except Exception as e:
             raise RuntimeError(f"Target level rewrite failed: {str(e)}")

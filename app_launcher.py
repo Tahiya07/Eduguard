@@ -21,6 +21,18 @@ ROOT = get_root()
 FRONTEND_DIR = ROOT / "frontend" / ".next" / "standalone"
 BACKEND_EXE = ROOT / "EduGuardBackend.exe"
 
+# Check if running from bundled exe
+if getattr(sys, "frozen", False):
+    # In bundled mode, frontend should be in the same directory
+    if not FRONTEND_DIR.exists():
+        FRONTEND_DIR = ROOT / "frontend" / ".next" / "standalone"
+        # Try alternative paths for bundled app
+        if not FRONTEND_DIR.exists():
+            # Try relative to exe
+            alt_frontend = ROOT / "frontend" / ".next" / "standalone"
+            if alt_frontend.exists():
+                FRONTEND_DIR = alt_frontend
+
 bundled_node = ROOT / "node.exe"
 system_node = shutil.which("node")
 
@@ -141,7 +153,7 @@ def wait_for_frontend(timeout=60):
 
 
 def start():
-    global frontend_process
+    global frontend_process, backend_process
 
     os.environ.update(build_environment())
 
@@ -161,7 +173,7 @@ def start():
         )
 
     # ---------------------------------------------------------
-    # START FRONTEND FIRST
+    # START FRONTEND AND BACKEND CONCURRENTLY
     # ---------------------------------------------------------
     print("Starting frontend...")
 
@@ -179,19 +191,8 @@ def start():
         creationflags=subprocess.CREATE_NO_WINDOW,
     )
 
-    print("Waiting for frontend...")
-
-    if not wait_for_frontend(timeout=60):
-        raise RuntimeError("EduGuard frontend failed to start.")
-
-    webbrowser.open("http://127.0.0.1:3000")
-    print("Frontend ready.")
-    print()
     print("Starting backend in background...")
 
-    # ---------------------------------------------------------
-    # START BACKEND IN BACKGROUND
-    # ---------------------------------------------------------
     backend_thread = threading.Thread(
         target=run_backend,
         daemon=True,
@@ -199,6 +200,13 @@ def start():
 
     backend_thread.start()
 
+    print("Waiting for frontend...")
+
+    if not wait_for_frontend(timeout=60):
+        raise RuntimeError("EduGuard frontend failed to start.")
+
+    webbrowser.open("http://127.0.0.1:3000")
+    print("Frontend ready.")
     print()
     print("========================================")
     print("        EduGuard is running")
@@ -209,10 +217,12 @@ def start():
     print()
 
     # ---------------------------------------------------------
-    # MONITOR BACKEND WITHOUT BLOCKING THE UI
+    # MONITOR BOTH PROCESSES
     # ---------------------------------------------------------
     backend_ready_reported = False
+    backend_warning_reported = False
     backend_start_time = time.time()
+    backend_failed = False
 
     try:
         while True:
@@ -222,8 +232,19 @@ def start():
                     "EduGuard frontend stopped unexpectedly."
                 )
 
+            # Check if backend process crashed
+            if backend_process is not None and backend_process.poll() is not None:
+                if not backend_failed:
+                    backend_failed = True
+                    print()
+                    print("ERROR: EduGuard backend stopped unexpectedly.")
+                    print("The frontend is still running, but AI features will not work.")
+                    print()
+                # Continue running so frontend remains usable
+
             if (
                 not backend_ready_reported
+                and not backend_failed
                 and port_ready("127.0.0.1", 8000)
             ):
                 backend_ready_reported = True
@@ -235,13 +256,18 @@ def start():
                 )
 
             # Give backend a generous initialization period.
+            # Print warning only once after 300 seconds
             if (
                 not backend_ready_reported
+                and not backend_warning_reported
+                and not backend_failed
                 and time.time() - backend_start_time > 300
             ):
+                backend_warning_reported = True
                 print(
                     "WARNING: AI engine is taking longer than expected."
                 )
+                print("The frontend is still usable while initialization continues.")
 
             time.sleep(1)
 
@@ -265,11 +291,16 @@ def shutdown():
                 except Exception:
                     pass
 
-    if backend_server is not None:
-        try:
-            backend_server.should_exit = True
-        except Exception:
-            pass
+    if backend_process is not None:
+        if backend_process.poll() is None:
+            try:
+                backend_process.terminate()
+                backend_process.wait(timeout=5)
+            except Exception:
+                try:
+                    backend_process.kill()
+                except Exception:
+                    pass
 
 
 if __name__ == "__main__":
