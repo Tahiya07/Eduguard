@@ -861,13 +861,15 @@ function TeacherStudio({ token }: { token: string }) {
               {!targetRewrite.validation_match && (
                 <div className="mt-3 text-sm text-[#d97706]">
                   <p>
-                    {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown" 
-                      ? `The rewrite was classified as "${targetRewrite.predicted_level}"` 
+                    {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown"
+                      ? `Classifier prediction: "${targetRewrite.predicted_level}"`
                       : "The rewrite could not be classified by the Bloom classifier"}
-                    {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0 
-                      ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)` 
+                    {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0
+                      ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)`
                       : ""}
-                    {targetRewrite.predicted_level !== targetRewrite.target_level ? `, which does not match the target "${targetRewrite.target_level}".` : "."}
+                    {targetRewrite.predicted_level !== targetRewrite.target_level
+                      ? ` — this does not match the selected target "${targetRewrite.target_level}". Review recommended.`
+                      : " — review recommended."}
                   </p>
                   {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
                   <p className="mt-2">Please try again or select a different target level.</p>
