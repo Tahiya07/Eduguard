@@ -1,0 +1,36 @@
+{
+  "mix_preset": "A",
+  "requested": {
+    "bloom_rewrite": 0.4,
+    "qa": 0.3,
+    "summarization": 0.3
+  },
+  "actual_train_proportions": {
+    "bloom_rewrite": 0.4,
+    "qa": 0.3,
+    "summarization": 0.3
+  },
+  "actual_train_counts": {
+    "bloom_rewrite": 6975,
+    "qa": 5231,
+    "summarization": 5231
+  },
+  "sensitivity_presets": {
+    "A": {
+      "bloom_rewrite": 0.4,
+      "qa": 0.3,
+      "summarization": 0.3
+    },
+    "B": {
+      "bloom_rewrite": 0.5,
+      "qa": 0.25,
+      "summarization": 0.25
+    },
+    "C": {
+      "bloom_rewrite": 0.35,
+      "qa": 0.325,
+      "summarization": 0.325
+    }
+  },
+  "note": "Mix selection must use validation only; Mix A is pre-registered primary."
+}

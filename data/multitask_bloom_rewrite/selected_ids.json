@@ -1,0 +1,18 @@
+{
+  "qa_train_ids": {
+    "n": 9000,
+    "sha256": "34bf39cbe4e5d9fe515a7fad82d8ef201cbb4ea5cca711e8e60536b1c345e5e5"
+  },
+  "sum_train_ids": {
+    "n": 9000,
+    "sha256": "faaa26328efed64d96c4cea2f09bf9d8512d4a5689ef57073f792734aa9ab6c1"
+  },
+  "sum_val_ids": {
+    "n": 1500,
+    "sha256": "fde8e16ed4c084bead0f4b602bd32de8797a02b23889ab5b093768bcb9f55dc6"
+  },
+  "sum_test_ids": {
+    "n": 1500,
+    "sha256": "47dfc5efd6c7df083163dbe3064563baf4e052da1564e02d0fe8c336c6633707"
+  }
+}

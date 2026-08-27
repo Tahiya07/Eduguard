@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "details": {
+    "bloom_rewrite": {
+      "overlaps": {
+        "train\u2229validation": 0,
+        "train\u2229test": 0,
+        "validation\u2229test": 0
+      },
+      "ok": true,
+      "sizes": {
+        "train": 1458,
+        "validation": 313,
+        "test": 313
+      }
+    },
+    "qa": {
+      "overlaps": {
+        "train\u2229validation": 0,
+        "train\u2229test": 0,
+        "validation\u2229test": 0
+      },
+      "ok": true,
+      "sizes": {
+        "train": 5231,
+        "validation": 5285,
+        "test": 5285
+      }
+    },
+    "summarization": {
+      "overlaps": {
+        "train\u2229validation": 0,
+        "train\u2229test": 0,
+        "validation\u2229test": 0
+      },
+      "ok": true,
+      "sizes": {
+        "train": 5231,
+        "validation": 1500,
+        "test": 1500
+      }
+    }
+  },
+  "identical_sft_text_across_splits": 12,
+  "identical_sft_text_note": "Identical full ChatML strings across splits are recorded for template memorization risk; source-id/group leakage is the hard stop condition."
+}
