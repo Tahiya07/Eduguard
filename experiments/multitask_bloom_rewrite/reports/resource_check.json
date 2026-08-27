@@ -1,0 +1,101 @@
+{
+  "timestamp_utc": "2026-08-27T11:56:39.684229+00:00",
+  "resources": {
+    "cpu_count": 12,
+    "cuda_available": false,
+    "gpu_name": null,
+    "gpu_vram_gb": null,
+    "ram_total_gb": 7.72,
+    "ram_available_gb": 0.35,
+    "disk_free_gb": 193.34,
+    "torch_version": "2.1.0+cpu",
+    "psutil": true,
+    "cpu_physical": 10,
+    "disk_total_gb": 475.64
+  },
+  "models": [
+    {
+      "timestamp_utc": "2026-08-27T11:56:39.684229+00:00",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resources": {
+        "cpu_count": 12,
+        "cuda_available": false,
+        "gpu_name": null,
+        "gpu_vram_gb": null,
+        "ram_total_gb": 7.72,
+        "ram_available_gb": 0.35,
+        "disk_free_gb": 193.34,
+        "torch_version": "2.1.0+cpu",
+        "psutil": true,
+        "cpu_physical": 10,
+        "disk_total_gb": 475.64
+      },
+      "estimates": {
+        "approx_params_b": 0.49,
+        "fp16_weights_gb": 1.0,
+        "fp32_weights_gb": 2.0,
+        "optimizer_adamw_gb_est": 4.0,
+        "activation_gb_est": 2.0,
+        "estimated_cpu_lora_gb": 12.0,
+        "estimated_gpu_lora_gb": 6.0,
+        "min_available_ram_gb": 10.0,
+        "hf_download_gb_est": 1.5
+      },
+      "estimated_footprint_gb": 12.0,
+      "feasible": false,
+      "reasons": [
+        "Total RAM 7.72 GB < estimated training footprint 12.0 GB.",
+        "Available RAM 0.35 GB < 10.0 GB minimum."
+      ],
+      "verdict": "TRAINING NOT STARTED \u2014 INSUFFICIENT RESOURCES",
+      "memory_breakdown_est_gb": {
+        "parameter_memory": 2.0,
+        "optimizer_memory": 4.0,
+        "activation_memory": 2.0,
+        "expected_training_footprint": 12.0
+      }
+    },
+    {
+      "timestamp_utc": "2026-08-27T11:56:39.684229+00:00",
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "resources": {
+        "cpu_count": 12,
+        "cuda_available": false,
+        "gpu_name": null,
+        "gpu_vram_gb": null,
+        "ram_total_gb": 7.72,
+        "ram_available_gb": 0.35,
+        "disk_free_gb": 193.34,
+        "torch_version": "2.1.0+cpu",
+        "psutil": true,
+        "cpu_physical": 10,
+        "disk_total_gb": 475.64
+      },
+      "estimates": {
+        "approx_params_b": 1.54,
+        "fp16_weights_gb": 3.1,
+        "fp32_weights_gb": 6.2,
+        "optimizer_adamw_gb_est": 12.0,
+        "activation_gb_est": 4.0,
+        "estimated_cpu_lora_gb": 28.0,
+        "estimated_gpu_lora_gb": 12.0,
+        "min_available_ram_gb": 22.0,
+        "hf_download_gb_est": 3.5
+      },
+      "estimated_footprint_gb": 28.0,
+      "feasible": false,
+      "reasons": [
+        "Total RAM 7.72 GB < estimated training footprint 28.0 GB.",
+        "Available RAM 0.35 GB < 22.0 GB minimum."
+      ],
+      "verdict": "TRAINING NOT STARTED \u2014 INSUFFICIENT RESOURCES",
+      "memory_breakdown_est_gb": {
+        "parameter_memory": 6.2,
+        "optimizer_memory": 12.0,
+        "activation_memory": 4.0,
+        "expected_training_footprint": 28.0
+      }
+    }
+  ],
+  "any_feasible": false
+}

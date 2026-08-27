@@ -1,0 +1,6 @@
+.cache/
+models/
+*.gguf
+__pycache__/
+*.pyc
+.pytest_cache/

@@ -1,0 +1,13 @@
+{
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "top_k": 0,
+  "repeat_penalty": 1.0,
+  "max_tokens": 128,
+  "seed": 42,
+  "decoding": "greedy",
+  "do_sample": false,
+  "notes": [
+    "Identical settings across all model conditions for final evaluation."
+  ]
+}

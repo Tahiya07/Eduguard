@@ -1,0 +1,47 @@
+{
+  "experiment_name": "multitask_qwen15b",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "1.5b",
+  "dataset_dir": "data/multitask_bloom_rewrite",
+  "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora",
+  "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora",
+  "seed": 42,
+  "epochs": 3,
+  "learning_rate": 0.0002,
+  "max_seq_length": 512,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "warmup_ratio": 0.03,
+  "weight_decay": 0.01,
+  "lr_scheduler_type": "cosine",
+  "per_device_train_batch_size": 2,
+  "per_device_eval_batch_size": 2,
+  "gradient_accumulation_steps": 8,
+  "early_stopping_patience": 2,
+  "metric_for_best_model": "eval_loss",
+  "logging_steps": 20,
+  "save_total_limit": 3,
+  "lora_target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "decoding": "greedy"
+  },
+  "notes": [
+    "Hyperparameters are identical to qwen05b_multitask.json except model_id, output_dir, results_dir.",
+    "Do not tune after seeing test results."
+  ]
+}

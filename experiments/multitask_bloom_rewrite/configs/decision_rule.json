@@ -1,0 +1,44 @@
+{
+  "frozen_before_test_evaluation": true,
+  "created_for": "experiments/multitask_bloom_rewrite",
+  "primary_criteria_order": [
+    "bloom_target_level_quality",
+    "human_bloom_target_correctness",
+    "topic_preservation",
+    "qa_retention",
+    "summarization_retention"
+  ],
+  "secondary_criteria_order": [
+    "ram",
+    "latency",
+    "gguf_size",
+    "tokens_per_sec"
+  ],
+  "operational_gates": {
+    "notes": [
+      "Gates are operational deployment criteria frozen before final test selection.",
+      "Numeric floors are justified by thesis offline-deployability and validation monitoring, not by peeking at test."
+    ],
+    "bloom_fully_validated_rate_min": 0.35,
+    "bloom_target_accuracy_min": 0.40,
+    "topic_preservation_rate_min": 0.80,
+    "invalid_output_rate_max": 0.15,
+    "qa_f1_relative_drop_max_vs_base": 0.10,
+    "summarization_rougeL_relative_drop_max_vs_base": 0.10,
+    "deployment_ram_rss_gb_max": 1.0,
+    "deployment_p95_latency_sec_max": 8.0
+  },
+  "selection_steps": [
+    "STEP 1: Reject models failing critical quality gates.",
+    "STEP 2: Among remaining, compare resource cost.",
+    "STEP 3: If quality is statistically/practically comparable, prefer smaller/faster.",
+    "STEP 4: If 1.5B provides meaningful quality gain within deployment constraints, select 1.5B.",
+    "STEP 5: If 0.5B is comparable with materially lower resources, select 0.5B."
+  ],
+  "allowed_recommendations": [
+    "Qwen2.5-0.5B",
+    "Qwen2.5-1.5B",
+    "INCONCLUSIVE"
+  ],
+  "do_not_change_after_seeing_test_results": true
+}

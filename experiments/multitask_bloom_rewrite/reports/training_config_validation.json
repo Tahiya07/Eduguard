@@ -1,0 +1,9 @@
+{
+  "hyperparameter_diffs_outside_allowed": [],
+  "ok": true,
+  "decision_rule_loaded": true,
+  "model_ids": {
+    "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
+    "1.5b": "Qwen/Qwen2.5-1.5B-Instruct"
+  }
+}
