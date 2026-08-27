@@ -1,0 +1,30 @@
+{
+  "defined_before_results": true,
+  "primary_criteria": [
+    "held-out classifier-based target agreement (validation signal, not human GT)",
+    "independent cognitive-task validity",
+    "topic preservation",
+    "trivial / invalid rewrite rate",
+    "human 1-5 ratings when collected"
+  ],
+  "secondary_criteria": [
+    "generation latency",
+    "peak RSS / USS",
+    "GGUF size",
+    "startup time"
+  ],
+  "rule": [
+    "Exclude models that fail quality on genuine target-level cognitive transformation.",
+    "Among acceptable models, prefer the smaller/faster model if quality is practically comparable.",
+    "Select 1.5B only if it provides a substantial quality advantage AND satisfies CPU/offline memory constraints.",
+    "Do not select 1.5B because it is larger or 0.5B because it is lighter."
+  ],
+  "quantization_control": "Compare GGUF models only under the same quantization regime (Q4_K_M vs Q4_K_M).",
+  "baselines": [
+    "Qwen2.5-0.5B-Instruct base",
+    "Qwen2.5-0.5B-Instruct LoRA",
+    "Qwen2.5-1.5B-Instruct base",
+    "Qwen2.5-1.5B-Instruct LoRA",
+    "production GGUF if it is Qwen2.5-1.5B, not overwritten"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "resources": {
+    "cpu_threads": 12,
+    "cuda_available": false,
+    "gpu_name": null,
+    "gpu_vram_gb": null,
+    "ram_total_gb": 7.72,
+    "ram_available_gb": 0.47,
+    "swap_total_gb": 18.0,
+    "torch_version": "2.11.0+cpu",
+    "psutil": true,
+    "cpu_physical": 10,
+    "disk_total_gb": 475.64,
+    "disk_free_gb": 192.69
+  },
+  "models": [
+    {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "feasible": false,
+      "needed_gb": 12.0,
+      "estimate": {
+        "approx_params_b": 0.49,
+        "fp32_weights_gb": 2.0,
+        "estimated_cpu_lora_gb": 12.0,
+        "estimated_gpu_lora_gb": 6.0,
+        "min_available_ram_gb": 10.0
+      },
+      "resources": {
+        "cpu_threads": 12,
+        "cuda_available": false,
+        "gpu_name": null,
+        "gpu_vram_gb": null,
+        "ram_total_gb": 7.72,
+        "ram_available_gb": 0.47,
+        "swap_total_gb": 18.0,
+        "torch_version": "2.11.0+cpu",
+        "psutil": true,
+        "cpu_physical": 10,
+        "disk_total_gb": 475.64,
+        "disk_free_gb": 192.69
+      },
+      "reasons": [
+        "Total RAM 7.72 GB is below estimated 12.0 GB for Qwen/Qwen2.5-0.5B-Instruct LoRA.",
+        "Available RAM 0.47 GB is below 10.0 GB."
+      ],
+      "verdict": "TRAINING NOT STARTED \u2014 insufficient resources",
+      "checked_utc": "2026-08-26T19:31:00.424323+00:00"
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "feasible": false,
+      "needed_gb": 28.0,
+      "estimate": {
+        "approx_params_b": 1.54,
+        "fp32_weights_gb": 6.2,
+        "estimated_cpu_lora_gb": 28.0,
+        "estimated_gpu_lora_gb": 12.0,
+        "min_available_ram_gb": 22.0
+      },
+      "resources": {
+        "cpu_threads": 12,
+        "cuda_available": false,
+        "gpu_name": null,
+        "gpu_vram_gb": null,
+        "ram_total_gb": 7.72,
+        "ram_available_gb": 0.47,
+        "swap_total_gb": 18.0,
+        "torch_version": "2.11.0+cpu",
+        "psutil": true,
+        "cpu_physical": 10,
+        "disk_total_gb": 475.64,
+        "disk_free_gb": 192.69
+      },
+      "reasons": [
+        "Total RAM 7.72 GB is below estimated 28.0 GB for Qwen/Qwen2.5-1.5B-Instruct LoRA.",
+        "Available RAM 0.47 GB is below 22.0 GB."
+      ],
+      "verdict": "TRAINING NOT STARTED \u2014 insufficient resources",
+      "checked_utc": "2026-08-26T19:31:00.424368+00:00"
+    }
+  ]
+}

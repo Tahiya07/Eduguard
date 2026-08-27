@@ -1,0 +1,25 @@
+{
+  "status": "NO MODEL WINNER \u2014 TRAINING/EVALUATION NOT COMPLETED.",
+  "decision_rule": {
+    "defined_before_results": true,
+    "primary": [
+      "classifier_based_target_agreement on held-out test (not treated as human GT)",
+      "independent cognitive-task / topic / triviality validators",
+      "human 1-5 ratings when collected"
+    ],
+    "secondary": [
+      "latency",
+      "peak RSS",
+      "GGUF size",
+      "startup cost"
+    ],
+    "rule": [
+      "Exclude models that fail the quality threshold on target cognitive transformation.",
+      "Among remaining models, prefer the cheaper model if quality is practically comparable.",
+      "Select 1.5B only if it has a substantial quality advantage AND fits CPU/offline memory constraints.",
+      "Do not select by size alone."
+    ],
+    "quality_threshold_note": "Numeric threshold is locked after a pilot on validation only; it must not be tuned on the test set. Until training exists, no threshold is applied."
+  },
+  "required": "predictions.jsonl from both 0.5B and 1.5B on the identical test split"
+}

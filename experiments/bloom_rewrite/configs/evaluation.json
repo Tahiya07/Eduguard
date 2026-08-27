@@ -1,0 +1,24 @@
+{
+  "classifier": "fixed_existing_eduguard_bloom_classifier",
+  "classifier_is_not_ground_truth": true,
+  "primary_automated_metric": "classifier_based_target_agreement",
+  "do_not_retrain_classifier_per_generator": true,
+  "identical_test_set": "data/bloom_rewrite/test.jsonl",
+  "topic_preservation_threshold": 0.20,
+  "topic_preservation_env": "BLOOM_SEMANTIC_SIMILARITY_THRESHOLD",
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new_tokens": 96,
+    "decoding": "greedy",
+    "seed": 42
+  },
+  "baselines": [
+    "qwen05b_base",
+    "qwen05b_lora",
+    "qwen15b_base",
+    "qwen15b_lora",
+    "production_gguf_not_overwritten"
+  ]
+}

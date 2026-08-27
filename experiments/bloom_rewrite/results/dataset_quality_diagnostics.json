@@ -1,0 +1,39 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v1",
+  "dataset_hash": "681d88530dfc953eb4d230936fade3b43e63b1d4e9369e1dbed4176d856d9e67",
+  "usable_examples": 10002,
+  "source_questions_kept": 2129,
+  "source_questions_dropped": 201,
+  "groups": 2084,
+  "largest_group": 3,
+  "leakage_normalized_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "all_30_transformations_present": true,
+  "underrepresentation": {
+    "note": "The matrix is complete but not balanced. Figshare is Understand-heavy, so Understand→* cells are larger than Create→* and Analyze→Remember cells.",
+    "smallest_cells": [
+      "Create->Remember",
+      "Evaluate->Remember",
+      "Create->Understand"
+    ],
+    "largest_cells": [
+      "Understand->Apply",
+      "Understand->Analyze",
+      "Understand->Evaluate",
+      "Understand->Create"
+    ]
+  },
+  "synthetic_caveats": [
+    "Targets are deterministic task templates, not human-authored gold rewrites.",
+    "Topic extraction on long exam stems can leave awkward phrasing; cognitive task still changes.",
+    "A model could memorize templates. Absolute quality vs human exam writing is not established until human evaluation.",
+    "Relative 0.5B vs 1.5B comparison remains valid because both models see the identical split and prompt."
+  ],
+  "rejected_syntheses": {
+    "TRIVIAL_VERB_SUBSTITUTION": 618,
+    "FORBIDDEN_COGNITIVE_OPERATION": 25
+  }
+}

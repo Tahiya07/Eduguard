@@ -1,0 +1,256 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v2",
+  "created_utc": "2026-08-26T19:28:23.781461+00:00",
+  "seed": 42,
+  "source_inspection": {
+    "filename": "data/figshare_bloom_v1.csv",
+    "rows": 2330,
+    "columns": [
+      "question",
+      "original_label",
+      "bloom_level"
+    ],
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "label_columns": [
+      "original_label",
+      "bloom_level"
+    ],
+    "cannot_supervise_target_rewriting_by_itself": true
+  },
+  "combined_inspection": {
+    "filename": "data/figshare_combined_dataset.csv",
+    "rows": 2522,
+    "columns": [
+      "QUESTION",
+      "BT LEVEL"
+    ],
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "label_columns": [
+      "BT LEVEL"
+    ],
+    "cannot_supervise_target_rewriting_by_itself": true
+  },
+  "filter_stats": {
+    "input_rows": 2330,
+    "kept_rows": 2129,
+    "dropped_rows": 201,
+    "drop_reasons": {
+      "ok": 2129,
+      "incomplete_or_template": 68,
+      "too_short": 120,
+      "topic_too_short": 8,
+      "insufficient_content_tokens": 4,
+      "too_long": 1
+    }
+  },
+  "grouping": {
+    "n_questions": 2129,
+    "n_groups": 2084,
+    "largest_group": 3,
+    "singleton_groups": 2043,
+    "thresholds": {
+      "exact_normalized": true,
+      "sequence_ratio": 0.9,
+      "family_jaccard": 0.8,
+      "family_min_tokens": 4,
+      "family_min_overlap": 3
+    }
+  },
+  "split": {
+    "groups_per_split": {
+      "train": 1458,
+      "validation": 313,
+      "test": 313
+    },
+    "sources_per_split": {
+      "train": 1487,
+      "test": 322,
+      "validation": 320
+    },
+    "normalized_overlaps": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "notes": [],
+    "seed": 42,
+    "ratios": "approximately 70/15/15 by group, stratified on majority source Bloom level"
+  },
+  "synthesis": {
+    "n_pass_examples": 10002,
+    "n_rejected_syntheses": 643,
+    "rejection_categories": {
+      "TRIVIAL_VERB_SUBSTITUTION": 618,
+      "FORBIDDEN_COGNITIVE_OPERATION": 25
+    },
+    "missing_transformations": []
+  },
+  "usable_examples": 10002,
+  "counts": {
+    "train": 6975,
+    "validation": 1491,
+    "test": 1536
+  },
+  "source_bloom_distribution": {
+    "Understand": 876,
+    "Apply": 268,
+    "Remember": 263,
+    "Analyze": 250,
+    "Evaluate": 248,
+    "Create": 224
+  },
+  "target_bloom_distribution": {
+    "Remember": 1427,
+    "Understand": 1049,
+    "Apply": 1861,
+    "Analyze": 1879,
+    "Create": 1905,
+    "Evaluate": 1881
+  },
+  "transformation_coverage": {
+    "Remember->Understand": 248,
+    "Remember->Apply": 263,
+    "Remember->Analyze": 263,
+    "Remember->Evaluate": 263,
+    "Remember->Create": 263,
+    "Understand->Remember": 667,
+    "Understand->Apply": 876,
+    "Understand->Analyze": 876,
+    "Understand->Evaluate": 876,
+    "Understand->Create": 876,
+    "Apply->Remember": 214,
+    "Apply->Understand": 219,
+    "Apply->Analyze": 268,
+    "Apply->Evaluate": 268,
+    "Apply->Create": 268,
+    "Analyze->Remember": 197,
+    "Analyze->Understand": 213,
+    "Analyze->Apply": 250,
+    "Analyze->Evaluate": 250,
+    "Analyze->Create": 250,
+    "Evaluate->Remember": 182,
+    "Evaluate->Understand": 188,
+    "Evaluate->Apply": 248,
+    "Evaluate->Analyze": 248,
+    "Evaluate->Create": 248,
+    "Create->Remember": 167,
+    "Create->Understand": 181,
+    "Create->Apply": 224,
+    "Create->Analyze": 224,
+    "Create->Evaluate": 224
+  },
+  "split_transformation_coverage": {
+    "test": {
+      "Evaluate->Remember": 32,
+      "Evaluate->Understand": 33,
+      "Evaluate->Apply": 37,
+      "Evaluate->Analyze": 37,
+      "Evaluate->Create": 37,
+      "Understand->Apply": 132,
+      "Understand->Analyze": 132,
+      "Understand->Evaluate": 132,
+      "Understand->Create": 132,
+      "Analyze->Remember": 32,
+      "Analyze->Understand": 29,
+      "Analyze->Apply": 37,
+      "Analyze->Evaluate": 37,
+      "Analyze->Create": 37,
+      "Understand->Remember": 106,
+      "Remember->Understand": 38,
+      "Remember->Apply": 39,
+      "Remember->Analyze": 39,
+      "Remember->Evaluate": 39,
+      "Remember->Create": 39,
+      "Apply->Remember": 35,
+      "Apply->Analyze": 44,
+      "Apply->Evaluate": 44,
+      "Apply->Create": 44,
+      "Apply->Understand": 32,
+      "Create->Remember": 29,
+      "Create->Understand": 33,
+      "Create->Apply": 33,
+      "Create->Analyze": 33,
+      "Create->Evaluate": 33
+    },
+    "train": {
+      "Evaluate->Remember": 125,
+      "Evaluate->Understand": 126,
+      "Evaluate->Apply": 173,
+      "Evaluate->Analyze": 173,
+      "Evaluate->Create": 173,
+      "Understand->Remember": 469,
+      "Understand->Apply": 612,
+      "Understand->Analyze": 612,
+      "Understand->Evaluate": 612,
+      "Understand->Create": 612,
+      "Create->Understand": 121,
+      "Create->Apply": 156,
+      "Create->Analyze": 156,
+      "Create->Evaluate": 156,
+      "Apply->Remember": 145,
+      "Apply->Understand": 158,
+      "Apply->Analyze": 185,
+      "Apply->Evaluate": 185,
+      "Apply->Create": 185,
+      "Analyze->Remember": 134,
+      "Analyze->Understand": 152,
+      "Analyze->Apply": 176,
+      "Analyze->Evaluate": 176,
+      "Analyze->Create": 176,
+      "Create->Remember": 114,
+      "Remember->Understand": 173,
+      "Remember->Apply": 185,
+      "Remember->Analyze": 185,
+      "Remember->Evaluate": 185,
+      "Remember->Create": 185
+    },
+    "validation": {
+      "Apply->Remember": 34,
+      "Apply->Understand": 29,
+      "Apply->Analyze": 39,
+      "Apply->Evaluate": 39,
+      "Apply->Create": 39,
+      "Analyze->Understand": 32,
+      "Analyze->Apply": 37,
+      "Analyze->Evaluate": 37,
+      "Analyze->Create": 37,
+      "Understand->Remember": 92,
+      "Understand->Apply": 132,
+      "Understand->Analyze": 132,
+      "Understand->Evaluate": 132,
+      "Understand->Create": 132,
+      "Remember->Understand": 37,
+      "Remember->Apply": 39,
+      "Remember->Analyze": 39,
+      "Remember->Evaluate": 39,
+      "Remember->Create": 39,
+      "Create->Remember": 24,
+      "Create->Understand": 27,
+      "Create->Apply": 35,
+      "Create->Analyze": 35,
+      "Create->Evaluate": 35,
+      "Analyze->Remember": 31,
+      "Evaluate->Understand": 29,
+      "Evaluate->Apply": 38,
+      "Evaluate->Analyze": 38,
+      "Evaluate->Create": 38,
+      "Evaluate->Remember": 25
+    }
+  },
+  "methodology": {
+    "strategy": "B_public_bloom_questions_plus_deterministic_synthetic_transformation",
+    "teacher_model": null,
+    "candidate_models_used_to_generate_labels": false,
+    "self_level_transformations": false,
+    "split_unit": "question_family_group",
+    "generator_task": "question + target_level -> rewrite",
+    "source_bloom_level_role": "metadata_only_not_in_generator_prompt",
+    "prompt_format_version": "production_aligned_v2"
+  },
+  "dataset_hash": "b3725b77862868dcd3d7ad07f1d2e15ae41d6d9887e8510d5396de8c4e790bae",
+  "prompt_format": "question_plus_target_only_v2"
+}

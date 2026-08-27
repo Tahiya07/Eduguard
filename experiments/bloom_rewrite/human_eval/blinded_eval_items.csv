@@ -1,0 +1,37 @@
+item_id,source_question,target_bloom_level,system_output,hidden_system_id,rater_target_bloom_alignment_1to5,rater_topic_preservation_1to5,rater_cognitive_demand_1to5,rater_question_quality_1to5,rater_grammatical_quality_1to5,rater_non_triviality_1to5,notes,example_id,transformation_type,source_bloom_level_withheld
+he_001,Name 5 steps that follow the taking of notes (within 24 hours or less)?,Understand,,,,,,,,,,f70a70b8626613ba,Remember->Understand,Remember
+he_002,List the information that can be obtained from X-Ray Photoelectron Spectroscopy (XPS).,Understand,,,,,,,,,,17afb7a623822bed,Remember->Understand,Remember
+he_003,Describe the 5 hierarchical stages of Welliver's Instructional Transformation Model.,Understand,,,,,,,,,,4517e7470bf082a9,Remember->Understand,Remember
+he_004,Discuss major tasks in data preprocessing.,Apply,,,,,,,,,,b511d9dd78aca997,Understand->Apply,Understand
+he_005,Construct a basic diagram or figure to demonstrate your understandings on what Information System is.,Apply,,,,,,,,,,e1d5ced59ae818d0,Understand->Apply,Understand
+he_006,Explain FIVE (5) advantages of out-of-home (OOH) advertising.,Apply,,,,,,,,,,dc5fd911e0b1872f,Understand->Apply,Understand
+he_007,Use Lagrange multiplier to solve the following nonlinear programming problem.,Analyze,,,,,,,,,,2f90e2aa945a1f70,Apply->Analyze,Apply
+he_008,Draw ONE (1) organic shape and ONE (1) geometric shape. Apply tone and shading.,Analyze,,,,,,,,,,25392edd0ebb75d0,Apply->Analyze,Apply
+he_009,Briefly discuss how TQM could be applied in the management of the newspapers' editorials.,Analyze,,,,,,,,,,73a29d8cda9d2cf3,Apply->Analyze,Apply
+he_010,Investigate whether or not the system can be solved for x; y; z,Evaluate,,,,,,,,,,8b8e0dc55d6ec2fb,Analyze->Evaluate,Analyze
+he_011,Trace the value of alpha after the following code executes. int alpha[5];int j;alpha[0] = 5;for (j = 1; j < 5; j++){if(j % 2 == 0)alpha[j] = alpha[j – 1] + 2;else alpha[j] = alpha[j – 1] + 3;},Evaluate,,,,,,,,,,d4e7b43788f1705a,Analyze->Evaluate,Analyze
+he_012,Differentiate between qualitative research and quantitative research in terms of their goal and design.,Evaluate,,,,,,,,,,395c67c594a9cbb3,Analyze->Evaluate,Analyze
+he_013,Appraise the speech's effectiveness based upon the class' criteria.,Create,,,,,,,,,,f717ad8dba95ee92,Evaluate->Create,Evaluate
+he_014,"After solving a problem, determine the degree to which the problem was solved as efficiently as possible",Create,,,,,,,,,,244372aeed693cc9,Evaluate->Create,Evaluate
+he_015,"Based on your opinion, discuss critically, how far you agree that race relations have become unhealthy in our country.",Create,,,,,,,,,,0a4419f69967351c,Evaluate->Create,Evaluate
+he_016,List any TWO (2) real life examples of the organization that implement the clicks-and-bricks B2C E-Commerce.,Create,,,,,,,,,,300a033fc976fcfa,Remember->Create,Remember
+he_017,List THREE types of Atomic Force Mircroscopes (AFM).,Create,,,,,,,,,,c11bd20de86cee11,Remember->Create,Remember
+he_018,Name 5 steps that follow the taking of notes (within 24 hours or less)?,Create,,,,,,,,,,3f8a6861399fa6f2,Remember->Create,Remember
+he_019,Identify FIVE (5) problem solving processes.,Analyze,,,,,,,,,,159444784a5d0660,Remember->Analyze,Remember
+he_020,Define briefly the role of marketing in advertising effectiveness.,Analyze,,,,,,,,,,e77152a0aa0037e7,Remember->Analyze,Remember
+he_021,List THREE types of Atomic Force Mircroscopes (AFM).,Analyze,,,,,,,,,,87874317bfa59c70,Remember->Analyze,Remember
+he_022,Explain TWO (2) defects which are usually occur on the surface of finished concrete.,Evaluate,,,,,,,,,,6cf0cad9fbecb5f9,Understand->Evaluate,Understand
+he_023,Restate main idea of story in own words.,Evaluate,,,,,,,,,,ea3f7f68aa0a9b46,Understand->Evaluate,Understand
+he_024,"“As additional units of a variable input are added to a fixed input, the marginal product of the variable input may at the beginning rises, subsequently falls and becomes negative in the short-run"". Explain this statement by using appropriate diagrams.",Evaluate,,,,,,,,,,bac322aafb7eed2c,Understand->Evaluate,Understand
+he_025,Briefly discuss how TQM could be applied in the management of the newspapers' editorials.,Create,,,,,,,,,,822abb6d9c332a66,Apply->Create,Apply
+he_026,Calculate the balance of trade when the economy is at equilibrium.,Create,,,,,,,,,,e879b02ad620a8a8,Apply->Create,Apply
+he_027,Solve the following optimization problem by using the golden section search method and terminate the computation when the length of the interval.,Create,,,,,,,,,,852da2b7c5d4395d,Apply->Create,Apply
+he_028,Create a new product. Give it a name and plan a marketing campaign.,Remember,,,,,,,,,,0149a2752085ccb8,Create->Remember,Create
+he_029,You have been assigned by your employer to manage their Instagram and Facebook business page. Suggest FIVE (5) ways to increase engagement with your social media users.,Remember,,,,,,,,,,b33b0cff1f4ae81f,Create->Remember,Create
+he_030,Create an equation to represent the solution to this problem.,Remember,,,,,,,,,,f2b2f843c494d255,Create->Remember,Create
+he_031,Make up a new language code and write material using it.,Apply,,,,,,,,,,f77a63bad7a77942,Create->Apply,Create
+he_032,"Write a TV show play, puppet show, role play, song or pantomime about..",Apply,,,,,,,,,,e59e167ac378910e,Create->Apply,Create
+he_033,Suggest TWO possible poultry breeds that Kaseem are breeding for Malaysia broiler industry.,Apply,,,,,,,,,,359570a919b3d57a,Create->Apply,Create
+he_034,"Award the contract to the best proposal. Rank the principles of ""good sportsmanship"" in order of importance to you.",Understand,,,,,,,,,,5ea793156256ba3f,Evaluate->Understand,Evaluate
+he_035,Predict the effect on bulk density when a large quantity of organic matter is added into the soil. Justify your answer.,Understand,,,,,,,,,,982ba9e4caf740ef,Evaluate->Understand,Evaluate
+he_036,Evaluate board games and justify why rules are important.,Understand,,,,,,,,,,219905b5529589fb,Evaluate->Understand,Evaluate

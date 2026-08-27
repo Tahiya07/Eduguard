@@ -8,8 +8,10 @@
 
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
 from multi_slm import resolve_slm_model_path
@@ -23,44 +25,56 @@ TARGET_TRANSFORMATION_POLICY = {
     "Remember": {
         "operation": "recall",
         "allowed": ["identify", "list", "name", "define", "recognize", "recall", "state"],
-        "forbidden": ["explain", "describe", "apply", "analyze", "evaluate", "design", "create", "develop", "construct", "implement"],
-        "template": "[Identify/List/Name/Define] + [topic/components/concepts]",
-        "task": "Recall or identify facts without explanation or application",
+        "forbidden": ["design a", "evaluate the", "analyze how"],
+        "template": "Recall a fact, term, component, function, or procedure.",
+        "task": "The student recalls or identifies facts without explaining relationships or using a scenario.",
+        "inappropriate": "Do not require explanation, a scenario-based solution, judgment, or design.",
+        "examples": ["List the main functions of virtual memory."],
     },
     "Understand": {
         "operation": "comprehension",
         "allowed": ["explain", "describe", "summarize", "interpret", "classify", "discuss"],
-        "forbidden": ["design", "develop", "construct", "implement", "create", "build", "solve", "evaluate", "justify", "analyze"],
-        "template": "[Explain/Describe/Summarize] + [topic/components/functions/purpose]",
-        "task": "Explain or describe existing concepts without creating/evaluating",
+        "forbidden": ["design a", "evaluate the", "solve the"],
+        "template": "Interpret, summarize, classify, or describe an existing concept.",
+        "task": "The student demonstrates comprehension or interpretation of the existing concept.",
+        "inappropriate": "Do not require creating a solution, judging with criteria, or solving a concrete case.",
+        "examples": ["Describe how virtual memory enables processes to use more memory than is physically available."],
     },
     "Apply": {
         "operation": "application",
         "allowed": ["apply", "use", "demonstrate", "implement", "solve", "execute"],
-        "forbidden": ["explain", "describe", "identify", "list", "name", "define"],
-        "template": "[Apply/Use/Demonstrate] + [concept] + [specific scenario/problem]",
-        "task": "Apply knowledge to a specific situation or problem",
+        "forbidden": ["define ", "list the", "evaluate the"],
+        "template": "Use knowledge or a procedure in a concrete situation.",
+        "task": "The student uses the concept to determine, solve, predict, or handle a specific case.",
+        "inappropriate": "Do not merely request a definition or explanation; include a concrete situation or result to determine.",
+        "examples": ["Given a page-reference scenario, determine how virtual memory handles a page not in physical memory."],
     },
     "Analyze": {
         "operation": "analysis",
         "allowed": ["analyze", "compare", "differentiate", "examine", "investigate", "categorize"],
-        "forbidden": ["design", "develop", "construct", "implement", "create", "formulate", "propose"],
-        "template": "[Analyze/Compare/Examine] + [components/relationships/causes/differences]",
-        "task": "Examine structure, relationships, or components of existing information",
+        "forbidden": ["design a", "create a", "evaluate the"],
+        "template": "Examine parts, relationships, differences, causes, or structure.",
+        "task": "The student breaks existing information into parts and examines their relationships.",
+        "inappropriate": "Do not merely define the concept, judge it by criteria, or design a new artifact.",
+        "examples": ["Analyze how paging and page faults interact in a virtual memory system."],
     },
     "Evaluate": {
         "operation": "judgment",
         "allowed": ["evaluate", "assess", "justify", "critique", "defend", "judge"],
-        "forbidden": ["explain", "describe", "list", "identify", "name", "define"],
-        "template": "[Evaluate/Assess/Justify] + [subject] + using [explicit criteria/evidence]",
-        "task": "Make judgment using explicit criteria or evidence",
+        "forbidden": ["design a", "create a"],
+        "template": "Make and justify a judgment using criteria, evidence, or trade-offs.",
+        "task": "The student makes a judgment using explicit criteria, evidence, or trade-offs.",
+        "inappropriate": "Do not only describe the concept or ask the student to build a new artifact.",
+        "examples": ["Evaluate virtual memory considering performance, memory utilization, and page-fault overhead."],
     },
     "Create": {
         "operation": "creation",
         "allowed": ["design", "develop", "construct", "formulate", "propose", "create"],
-        "forbidden": ["explain", "describe", "identify", "list", "name", "define", "summarize"],
-        "template": "[Design/Develop/Construct/Formulate] + [new artifact/system/solution]",
-        "task": "Produce or design something new",
+        "forbidden": [],
+        "template": "Produce a novel artifact, plan, model, strategy, or solution with constraints.",
+        "task": "The student designs or produces a new artifact, plan, model, or solution.",
+        "inappropriate": "Do not only ask for recall, explanation, or a judgment without producing something new.",
+        "examples": ["Design a virtual memory strategy that minimizes page-fault overhead under stated constraints."],
     },
 }
 
@@ -142,6 +156,8 @@ class BloomModerationResult:
     reason: str
     higher_level_rewrite: str
     raw: str = ""
+    raw_output: str = ""
+    cleaned_output: str = ""
     backend: str = ""
     latency_s: Optional[float] = None
     error: str = ""
@@ -156,6 +172,8 @@ class BloomModerationResult:
             "reason": self.reason,
             "higher_level_rewrite": self.higher_level_rewrite,
             "raw": self.raw,
+            "raw_output": self.raw_output or self.raw,
+            "cleaned_output": self.cleaned_output or self.higher_level_rewrite,
             "backend": self.backend,
             "latency_s": self.latency_s,
             "error": self.error,
@@ -342,18 +360,6 @@ def _clean_rewrite(text: str) -> str:
     cleaned = cleaned.strip().strip('"').strip("'")
     cleaned = re.sub(r"\s+", " ", cleaned)
     
-    # If the result is too long (explanation), try to extract the question part
-    if len(cleaned) > 100:
-        # Split by common sentence delimiters and take the first meaningful part
-        parts = re.split(r'[.!?]', cleaned)
-        if len(parts) > 1:
-            # Take the first complete sentence that's not too short
-            for part in parts:
-                part = part.strip()
-                if len(part.split()) >= 4 and len(part) <= 50:
-                    cleaned = part
-                    break
-    
     # Ensure it ends with appropriate punctuation
     if cleaned:
         if not cleaned.endswith('?') and not cleaned.endswith('.'):
@@ -384,7 +390,7 @@ def _get_llm():
     return _LLM
 
 
-def _generate_rewrite(prompt: str) -> tuple[str, str, float]:
+def _generate_rewrite(prompt: str) -> tuple[str, str, str, float]:
     try:
         from qwen_gguf_cli import QwenGgufCliGenerator
 
@@ -395,7 +401,7 @@ def _generate_rewrite(prompt: str) -> tuple[str, str, float]:
             threads=4,
         )
         out = gen.generate_prompt(prompt)
-        return _clean_rewrite(out.answer), out.backend, float(out.elapsed_s)
+        return out.answer, _clean_rewrite(out.answer), out.backend, float(out.elapsed_s)
     except Exception:
         llm = _get_llm()
         output = llm(
@@ -408,7 +414,7 @@ def _generate_rewrite(prompt: str) -> tuple[str, str, float]:
             stop=[IM_END, IM_START],
         )
         text = output["choices"][0]["text"].strip()
-        return _clean_rewrite(text), "llama-cpp-python", 0.0
+        return text, _clean_rewrite(text), "llama-cpp-python", 0.0
 
 
 def moderate_bloom_question(
@@ -440,11 +446,10 @@ def moderate_bloom_question(
             target_level=target_level,
         )
         if rewrite_generator is None:
-            rewrite, backend, latency_s = _generate_rewrite(prompt)
+            raw, rewrite, backend, latency_s = _generate_rewrite(prompt)
         else:
-            rewrite, backend, latency_s = rewrite_generator(prompt)
-            rewrite = _clean_rewrite(rewrite)
-        raw = rewrite
+            raw, backend, latency_s = rewrite_generator(prompt)
+            rewrite = _clean_rewrite(raw)
         if not rewrite or len(rewrite.split()) < 6:
             raise RuntimeError("rewrite_too_short")
     except Exception as exc:
@@ -464,6 +469,8 @@ def moderate_bloom_question(
         reason=reason,
         higher_level_rewrite=rewrite,
         raw=raw,
+        raw_output=raw,
+        cleaned_output=rewrite,
         backend=backend,
         latency_s=latency_s,
         error=error,
@@ -501,70 +508,29 @@ def build_targeted_rewrite_prompt(
     target_level: str,
     previous_failure: str = "",
 ) -> str:
-    """Build compact, structured prompt for deterministic cognitive transformation."""
+    """Build a concise target-specific prompt for the small local model."""
     policy = TARGET_TRANSFORMATION_POLICY.get(target_level, TARGET_TRANSFORMATION_POLICY["Understand"])
-    
-    # Build compact prompt sections
-    allowed_str = ", ".join(policy["allowed"])
-    forbidden_str = ", ".join(policy["forbidden"])
-    
-    # Add special transformation guidance if applicable
-    special_guidance = ""
-    if previous_failure:
-        special_guidance = f"\nPREVIOUS OUTPUT REJECTED.\nReason: {previous_failure}\nGenerate a new question.\n"
-    
-    # For Understand, add specific guidance about changing object of task
-    object_guidance = ""
-    example_guidance = ""
-    if target_level == "Understand":
-        object_guidance = "\nFocus on existing components, functions, or purpose.\nDo not ask how to create/design/develop.\n"
-        example_guidance = "\nExample: Design X → Explain the components of X\n"
-    elif target_level == "Remember":
-        example_guidance = "\nExample: Design X → List the components of X\n"
-    elif target_level == "Apply":
-        example_guidance = "\nExample: Design X → Apply design principles to solve Y\n"
-    elif target_level == "Analyze":
-        example_guidance = "\nExample: Design X → Analyze the structure of X\n"
-    elif target_level == "Evaluate":
-        example_guidance = "\nExample: Design X → Evaluate X using criteria A, B, C\n"
-    elif target_level == "Create":
-        example_guidance = "\nExample: Explain X → Design a new X with feature Y\n"
-    
-    # Keep it compact but provide enough guidance for 1.5B model
-    prompt = f"""{IM_START}system
-You rewrite assessment questions to match specific cognitive levels.
+    examples = "\n".join(f"- {example}" for example in policy["examples"])
+    retry_instruction = f"\nCorrection: {previous_failure}\n" if previous_failure else ""
+    return f"""{IM_START}system
+You edit one exam question for Bloom's Taxonomy.
 
-TARGET LEVEL: {target_level.upper()}
-COGNITIVE OPERATION: {policy["operation"].upper()}
+TARGET BLOOM LEVEL: {target_level}
+TASK THE QUESTION MUST REQUIRE: {policy["task"]}
 
-TASK:
-{policy["task"]}
+Write ONE student-facing exam question, not an answer or explanation. Preserve
+the original topic and technical entities; change the required cognitive action.
+Do not mention Bloom, the rewrite, or these instructions. 10-40 words.
 
-ALLOW:
-{allowed_str}
-
-REMOVE:
-{forbidden_str}
-
-RULE:
-Preserve the original topic.
-Change the student's required cognitive action.
-Do not preserve the original high-level task.
-Output 10-30 words maximum.
-
-{object_guidance}
-{example_guidance}
-{special_guidance}
-OUTPUT ONLY ONE STUDENT-FACING QUESTION.
-No explanation. No answer. No meta language.
+GOOD OUTPUT EXAMPLE FOR THIS TARGET:
+{examples}
+{retry_instruction}
 {IM_END}
 {IM_START}user
 {question.strip()}
 {IM_END}
 {IM_START}assistant
 """.strip()
-    
-    return prompt
 
 def _validate_output_format(question: str) -> tuple[bool, str]:
     """
@@ -593,18 +559,8 @@ def _validate_output_format(question: str) -> tuple[bool, str]:
         if pattern in question_lower:
             return False, f"Contains meta-language: '{pattern}'"
     
-    # Reject explanatory beginnings
-    explanatory_beginnings = [
-        "this",
-        "the",
-        "an",
-        "a",  # when followed by explanation
-        "to",
-        "in order to",
-    ]
-    
     words = question_lower.split()
-    if words and words[0] in explanatory_beginnings[:5]:
+    if words and words[0] in {"this", "to"}:
         return False, "Begins with explanatory meta-language"
     
     # Reject if it's too long (likely an explanation)
@@ -615,9 +571,15 @@ def _validate_output_format(question: str) -> tuple[bool, str]:
     if question.count('.') > 1 or question.count('!') > 0:
         return False, "Multiple sentences - likely an explanation"
     
-    # Check if it's actually a question (ends with ? or has question words)
-    question_words = ["what", "how", "why", "which", "who", "when", "where", "explain", "describe", "analyze", "evaluate", "design", "create", "identify", "list", "compare"]
-    has_question_structure = any(qw in question_lower for qw in question_words)
+    # Imperative exam prompts are valid questions even without a question mark.
+    # This checks only grammatical prompt form, never Bloom classification.
+    question_words = {"what", "how", "why", "which", "who", "when", "where", "given", "determine", "calculate", "show", "predict", "outline", "distinguish", "recommend", "propose"}
+    imperative_starters = {"define", "identify", "list", "name", "state", "explain", "describe", "summarize", "interpret", "classify", "use", "solve", "demonstrate", "analyze", "compare", "examine", "evaluate", "assess", "justify", "critique", "design", "develop", "construct", "create", "formulate"}
+    has_question_structure = (
+        question.endswith("?")
+        or bool(words and words[0].rstrip(":,.") in question_words)
+        or bool(words and words[0].rstrip(":,.") in imperative_starters)
+    )
     
     if not has_question_structure:
         return False, "Lacks question structure"
@@ -637,26 +599,14 @@ def _semantic_cognitive_check_deterministic(question: str, target_level: str) ->
     
     question_lower = question.lower()
     
-    # Check for forbidden operations
+    # This is a contradiction guardrail, not a Bloom classifier. A valid task
+    # need not use one of the policy's preferred verbs.
     for forbidden in policy["forbidden"]:
         # Check for "how to [forbidden]" patterns
         if f"how to {forbidden}" in question_lower:
             return False, f"Contains forbidden pattern: 'how to {forbidden}'"
-        # Check for direct [forbidden] task
-        forbidden_patterns = [
-            f"{forbidden} a",
-            f"{forbidden} the",
-            f"{forbidden} an",
-            f"to {forbidden}",
-        ]
-        for pattern in forbidden_patterns:
-            if pattern in question_lower:
-                return False, f"Contains forbidden operation: '{forbidden}'"
-    
-    # Check for required operations
-    has_required = any(req in question_lower for req in policy["allowed"])
-    if not has_required:
-        return False, f"Lacks required cognitive operation for {target_level}"
+        if forbidden in question_lower:
+            return False, f"Contains an obvious contradictory task: '{forbidden}'"
     
     return True, "Semantic cognitive check passed"
 
@@ -777,108 +727,128 @@ def _analyze_cognitive_task_structure(question: str, target_level: str) -> tuple
     
     return True, "Task structure analysis passed."
 
+_TOPIC_STOPWORDS = frozenset("a an the what how why which who when where explain describe list name define identify state recall main purpose role concept concepts question given determine would should could of in on for to with and or is are be this that it its than more under using".split())
+SEMANTIC_SIMILARITY_THRESHOLD = float(os.environ.get("BLOOM_SEMANTIC_SIMILARITY_THRESHOLD", "0.20"))
+
+
+def _topic_terms(text: str) -> set[str]:
+    """Extract likely subject terms; this is intentionally small and offline."""
+    tokens = re.findall(r"[a-zA-Z][a-zA-Z0-9_-]*", text.lower())
+    return {token for token in tokens if len(token) > 2 and token not in _TOPIC_STOPWORDS}
+
+
+def semantic_preservation_check(original: str, rewrite: str, *, threshold: float = SEMANTIC_SIMILARITY_THRESHOLD) -> tuple[bool, float, str]:
+    """Guard against topic drift without demanding verb or full-string overlap."""
+    source = _topic_terms(original)
+    candidate = _topic_terms(rewrite)
+    if not source or not candidate:
+        return False, 0.0, "Could not identify topic terms"
+    overlap = source & candidate
+    # Source terms are a better denominator: rewrites legitimately add scenarios.
+    score = len(overlap) / len(source)
+    if not overlap:
+        return False, score, f"Topic drift: none of {sorted(source)} was retained"
+    if score < threshold:
+        return False, score, f"Topic overlap {score:.0%} is below configured threshold {threshold:.0%}"
+    return True, score, f"Topic overlap {score:.0%}: {', '.join(sorted(overlap))}"
+
+
+def _retry_instruction(target_level: str, failure: str) -> str:
+    if failure.startswith("Classified as"):
+        instructions = {
+            "Understand": "Require comprehension or interpretation of the existing concept; do not ask for design, solution, or judgment.",
+            "Apply": "Require the student to use the concept in a concrete situation and determine a result; do not merely ask for an explanation.",
+            "Analyze": "Require examination of relationships, differences, causes, components, or structure; do not merely ask for a description.",
+        }
+        return instructions.get(target_level, f"Make the student's task clearly {target_level}-level.")
+    return failure
+
+
+def _validate_generated_candidate(question: str, rewrite: str, target_level: str, predictor) -> dict:
+    record = {"cleaned_output": rewrite, "format_valid": False, "semantic_similarity": 0.0,
+              "deterministic_check": "not run", "classifier_prediction": "", "classifier_confidence": 0.0,
+              "final_validation": False, "failure_reason": ""}
+    valid, reason = _validate_output_format(rewrite)
+    record["format_valid"] = valid
+    if not valid:
+        record["failure_reason"] = reason
+        return record
+    valid, similarity, reason = semantic_preservation_check(question, rewrite)
+    record["semantic_similarity"] = similarity
+    if not valid:
+        record["failure_reason"] = reason
+        return record
+    valid, reason = _semantic_cognitive_check_deterministic(rewrite, target_level)
+    record["deterministic_check"] = reason
+    if not valid:
+        record["failure_reason"] = reason
+        return record
+    try:
+        result = predictor.predict(rewrite)
+        predicted = _canonical_bloom_label(result["prediction"])
+        confidence = float(result.get("confidence") or 0.0)
+    except Exception as exc:
+        record["failure_reason"] = f"Classifier error: {exc}"
+        return record
+    record["classifier_prediction"] = predicted
+    record["classifier_confidence"] = confidence
+    if predicted != _canonical_bloom_label(target_level):
+        record["failure_reason"] = f"Classified as {predicted}; generate a {target_level} task."
+    elif confidence < 0.6:
+        record["failure_reason"] = f"Classifier confidence {confidence:.0%} is below 60%."
+    else:
+        record["final_validation"] = True
+        record["failure_reason"] = ""
+    return record
+
+
 def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool, str]:
-    """Rewrite question to target specific Bloom level with deterministic transformation pipeline.
-    
-    Pipeline:
-    Generate → Output Format Check → Cognitive Task Check → Bloom Classifier → Confidence Check → PASS/REGENERATE
-    
-    Returns:
-        tuple: (rewrite_text, validation_success, error_message)
-        - rewrite_text: The generated rewrite or empty string if failed
-        - validation_success: True if rewrite matched target level, False otherwise
-        - error_message: Error details if validation failed completely
-    """
-    max_attempts = 3
-    best_rewrite = ""
-    best_confidence = 0.0
+    """Generate at most three candidates; only a classifier-validated one succeeds."""
+    target_level = _canonical_bloom_label(target_level)
+    from predict_bloom import QwenBloomPredictor
+    predictor = QwenBloomPredictor()
     previous_failure = ""
-    
-    for attempt in range(max_attempts):
+    for _attempt in range(1, 4):
         prompt = build_targeted_rewrite_prompt(question, target_level=target_level, previous_failure=previous_failure)
         try:
-            from qwen_gguf_cli import QwenGgufCliGenerator
+            raw_output, rewrite, _backend, _latency = _generate_rewrite(prompt)
+        except Exception as exc:
+            previous_failure = f"Generation error: {exc}"
+            continue
+        record = _validate_generated_candidate(question, rewrite, target_level, predictor)
+        if record["final_validation"]:
+            return rewrite, True, ""
+        previous_failure = _retry_instruction(target_level, record["failure_reason"])
+    return "", False, f"Could not generate a validated {target_level} rewrite after 3 attempts: {previous_failure}"
 
-            gen = QwenGgufCliGenerator.for_task(
-                "bloom_moderation",
-                max_tokens=60,  # Increased for valid question generation
-                ctx_size=2048,
-                threads=4,
-            )
-            out = gen.generate_prompt(prompt)
-            rewrite = _clean_rewrite(out.answer)
-        except Exception:
-            llm = _get_llm()
-            output = llm(
-                prompt,
-                temperature=0.1,  # Lower temperature for more deterministic output
-                top_p=0.8,
-                top_k=30,
-                repeat_penalty=1.1,
-                max_tokens=60,  # Increased for valid question generation
-                stop=[IM_END, IM_START],
-            )
-            text = output["choices"][0]["text"].strip()
-            rewrite = _clean_rewrite(text)
-        
-        # Validate the rewrite using multi-layer approach
-        if rewrite and len(rewrite.split()) >= 3:  # Minimum word count for a valid question
-            # Layer 0: Output format validation - is this a student-facing question?
-            format_valid, format_reason = _validate_output_format(rewrite)
-            if not format_valid:
-                previous_failure = format_reason
-                continue  # Skip to next attempt
-            
-            # Layer 1: Semantic cognitive check (pre-filter using deterministic policy)
-            semantic_valid, semantic_reason = _semantic_cognitive_check_deterministic(rewrite, target_level)
-            if not semantic_valid:
-                previous_failure = semantic_reason
-                continue  # Skip to next attempt if semantic check fails
-            
-            # Layer 2: Classifier prediction with confidence threshold
+
+def run_target_rewrite_diagnostic(question: str = "Explain what virtual memory is.", *, samples_per_target: int = 5) -> list[dict]:
+    """Capture raw evidence for every target without stopping after failures."""
+    from predict_bloom import QwenBloomPredictor
+    predictor = QwenBloomPredictor()
+    records: list[dict] = []
+    for target_level in BLOOM_ORDER:
+        for attempt in range(1, samples_per_target + 1):
+            prompt = build_targeted_rewrite_prompt(question, target_level=target_level)
+            record = {"target_level": target_level, "attempt": attempt, "raw_output": "", "cleaned_output": ""}
             try:
-                from predict_bloom import QwenBloomPredictor
-                predictor = QwenBloomPredictor()
-                validation = predictor.predict(rewrite)
-                predicted_level = _canonical_bloom_label(validation["prediction"])
-                confidence = validation.get("confidence", 0.0)
-                
-                # Handle NaN/None confidence
-                if confidence is None or not isinstance(confidence, (int, float)):
-                    confidence = 0.0
-                
-                # Layer 3: Cognitive task structure analysis
-                task_valid, task_reason = _analyze_cognitive_task_structure(rewrite, target_level)
-                
-                # Only proceed if all checks pass
-                if predicted_level == _canonical_bloom_label(target_level) and confidence >= 0.6 and task_valid:
-                    return rewrite, True, ""
-                else:
-                    # Keep the best attempt if validation fails
-                    if confidence > best_confidence:
-                        best_rewrite = rewrite
-                        best_confidence = confidence
-                        # Generate failure reason for next attempt
-                        if not task_valid:
-                            previous_failure = task_reason
-                        elif predicted_level != _canonical_bloom_label(target_level):
-                            previous_failure = f"Classified as {predicted_level} instead of {target_level}"
-                        else:
-                            previous_failure = f"Low confidence ({confidence:.0%})"
-            except Exception as e:
-                # If validation fails, continue to next attempt
-                previous_failure = f"Validation error: {str(e)}"
-                continue
-    
-    # All attempts failed - return best attempt with error
-    if best_rewrite:
-        return best_rewrite, False, "Could not generate a validated rewrite matching the selected Bloom level."
-    return "", False, "Failed to generate a valid rewrite after multiple attempts."
-    
-    # All attempts failed validation - do not return incorrect rewrite
-    if best_rewrite:
-        return "", False, f"Could not generate a validated rewrite matching {target_level}. The best attempt did not pass cognitive task structure validation."
-    return "", False, f"Could not generate a valid rewrite for {target_level} after {max_attempts} attempts."
+                raw_output, rewrite, _backend, _latency = _generate_rewrite(prompt)
+                record["raw_output"] = raw_output
+                record.update(_validate_generated_candidate(question, rewrite, target_level, predictor))
+            except Exception as exc:
+                record.update({"format_valid": False, "semantic_similarity": 0.0, "deterministic_check": "not run", "classifier_prediction": "", "classifier_confidence": 0.0, "final_validation": False, "failure_reason": f"Generation error: {exc}"})
+            records.append(record)
+    return records
+
+
+def write_target_rewrite_diagnostic(path: str | Path, question: str = "Explain what virtual memory is.", *, samples_per_target: int = 5) -> list[dict]:
+    """Run the diagnostic and persist raw evidence as UTF-8 JSON for review."""
+    import json
+    records = run_target_rewrite_diagnostic(question, samples_per_target=samples_per_target)
+    destination = Path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(records, indent=2), encoding="utf-8")
+    return records
 
 if __name__ == "__main__":
     print("Teacher Bloom moderation — label: predict_bloom.py; rewrite: GGUF")

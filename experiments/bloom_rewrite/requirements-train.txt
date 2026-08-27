@@ -1,0 +1,10 @@
+# Extra packages required to TRAIN the rewrite generators.
+# Production requirements.txt stays CPU-runtime only and is not modified.
+
+peft>=0.11.0
+transformers>=4.41.0
+accelerate>=0.33.0
+safetensors>=0.4.3
+sentencepiece>=0.2.0
+protobuf>=4.25.0
+huggingface_hub>=0.23.0

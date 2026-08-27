@@ -1,0 +1,7 @@
+{
+  "status": "NO MODEL WINNER — TRAINING/EVALUATION NOT COMPLETED.",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "trained": false,
+  "metrics": null,
+  "blocking_reason": "TRAINING NOT STARTED — insufficient resources"
+}

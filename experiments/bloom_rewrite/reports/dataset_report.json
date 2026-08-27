@@ -1,0 +1,127 @@
+{
+  "validated_utc": "2026-08-26T19:30:43.532688+00:00",
+  "dataset_version": "bloom_rewrite_synth_v2",
+  "dataset_hash": "b3725b77862868dcd3d7ad07f1d2e15ae41d6d9887e8510d5396de8c4e790bae",
+  "source_dataset": "data/figshare_bloom_v1.csv",
+  "source_sha256": "f6e53c7c944b26e3e981938c87c2a9ee4c870a2e786eed77e94fca4c9b27600b",
+  "generated_dataset_sha256": "b3725b77862868dcd3d7ad07f1d2e15ae41d6d9887e8510d5396de8c4e790bae",
+  "random_seed": 42,
+  "split_sizes": {
+    "train": 6975,
+    "validation": 1491,
+    "test": 1536
+  },
+  "class_distribution_source": {
+    "Understand": 876,
+    "Apply": 268,
+    "Remember": 263,
+    "Analyze": 250,
+    "Evaluate": 248,
+    "Create": 224
+  },
+  "class_distribution_target": {
+    "Remember": 1427,
+    "Understand": 1049,
+    "Apply": 1861,
+    "Analyze": 1879,
+    "Create": 1905,
+    "Evaluate": 1881
+  },
+  "source_target_matrix": {
+    "Remember->Understand": 248,
+    "Remember->Apply": 263,
+    "Remember->Analyze": 263,
+    "Remember->Evaluate": 263,
+    "Remember->Create": 263,
+    "Understand->Remember": 667,
+    "Understand->Apply": 876,
+    "Understand->Analyze": 876,
+    "Understand->Evaluate": 876,
+    "Understand->Create": 876,
+    "Apply->Remember": 214,
+    "Apply->Understand": 219,
+    "Apply->Analyze": 268,
+    "Apply->Evaluate": 268,
+    "Apply->Create": 268,
+    "Analyze->Remember": 197,
+    "Analyze->Understand": 213,
+    "Analyze->Apply": 250,
+    "Analyze->Evaluate": 250,
+    "Analyze->Create": 250,
+    "Evaluate->Remember": 182,
+    "Evaluate->Understand": 188,
+    "Evaluate->Apply": 248,
+    "Evaluate->Analyze": 248,
+    "Evaluate->Create": 248,
+    "Create->Remember": 167,
+    "Create->Understand": 181,
+    "Create->Apply": 224,
+    "Create->Analyze": 224,
+    "Create->Evaluate": 224
+  },
+  "missing_transformations": [],
+  "filtering_counts": {
+    "input_rows": 2330,
+    "kept_rows": 2129,
+    "dropped_rows": 201,
+    "drop_reasons": {
+      "ok": 2129,
+      "incomplete_or_template": 68,
+      "too_short": 120,
+      "topic_too_short": 8,
+      "insufficient_content_tokens": 4,
+      "too_long": 1
+    }
+  },
+  "rejection_reasons": {
+    "TRIVIAL_VERB_SUBSTITUTION": 618,
+    "FORBIDDEN_COGNITIVE_OPERATION": 25
+  },
+  "transformation_policy_version": "bloom_target_policy_v1",
+  "similarity_threshold": 0.2,
+  "leakage_methodology": "normalize, near-duplicate, question-family grouping, split by group",
+  "leakage_check": {
+    "normalized_question_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "group_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "source_id_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    }
+  },
+  "leakage_pass": true,
+  "generator_task": "question + target_level \u2192 rewrite",
+  "source_bloom_in_generator_prompt": false,
+  "source_bloom_level_leak_count": 0,
+  "template_memorization": {
+    "n_examples": 10002,
+    "template_skeleton_counts": {
+      "Remember::State the main points concerning [TOPIC] .": 312,
+      "Understand::Summarize the academic idea behind [TOPIC] .": 177,
+      "UNMATCHED": 8131,
+      "Remember::Name the primary characteristics of [TOPIC] .": 255,
+      "Remember::Name the essential elements involved in [TOPIC] .": 351,
+      "Remember::Identify the key components of [TOPIC] .": 266,
+      "Remember::Identify the key facts about [TOPIC] .": 206,
+      "Understand::Describe what is meant by [TOPIC] .": 90,
+      "Remember::Define [TOPIC] .": 37,
+      "Understand::Describe the purpose and main characteristics of [TOPIC] .": 177
+    },
+    "unmatched_template_rows": 8131,
+    "unmatched_rate": 0.8129374125174965,
+    "exact_normalized_rewrite_overlap_train_test": 3,
+    "mean_test_4gram_overlap_with_train": 0.3801823719808583,
+    "limitation": "High template frequency and train/test n-gram overlap are expected because targets are synthetic policy templates. Do not claim the model learned Bloom reasoning solely from matching these patterns."
+  },
+  "synthetic_or_original": "synthetic",
+  "human_ground_truth": false,
+  "interpretation": "Because no suitable public human-authored Bloom target-level transformation dataset was identified, a controlled synthetic transformation dataset was constructed from the Figshare Bloom classification corpus. The synthetic dataset is used for controlled model comparison, not as a substitute for human-validated ground truth. BEFORE: question + source Bloom + target Bloom \u2192 rewrite. AFTER: question + target Bloom \u2192 rewrite; source Bloom is metadata only."
+}

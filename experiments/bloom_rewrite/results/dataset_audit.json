@@ -1,0 +1,38 @@
+{
+  "figshare_v1": {
+    "filename": "data/figshare_bloom_v1.csv",
+    "rows": 2330,
+    "columns": [
+      "question",
+      "original_label",
+      "bloom_level"
+    ],
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "label_columns": [
+      "original_label",
+      "bloom_level"
+    ],
+    "cannot_supervise_target_rewriting_by_itself": true
+  },
+  "combined": {
+    "filename": "data/figshare_combined_dataset.csv",
+    "rows": 2522,
+    "columns": [
+      "QUESTION",
+      "BT LEVEL"
+    ],
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "label_columns": [
+      "BT LEVEL"
+    ],
+    "cannot_supervise_target_rewriting_by_itself": true
+  },
+  "strategy": "B_public_bloom_questions_plus_deterministic_synthetic_transformation",
+  "dataset_hash": "681d88530dfc953eb4d230936fade3b43e63b1d4e9369e1dbed4176d856d9e67",
+  "usable_examples": 10002,
+  "public_transformation_pair_dataset_found": false
+}

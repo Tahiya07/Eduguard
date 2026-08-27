@@ -1,0 +1,133 @@
+{
+  "audited_utc": "2026-08-26T18:16:08.120006+00:00",
+  "interpretation": "Because no suitable public human-authored Bloom target-level transformation dataset was identified, a controlled synthetic transformation dataset was constructed from the Figshare Bloom classification corpus. The synthetic dataset is used for controlled model comparison, not as a substitute for human-validated ground truth.",
+  "figshare_v1": {
+    "filename": "data/figshare_bloom_v1.csv",
+    "exists": true,
+    "rows": 2330,
+    "columns": [
+      "question",
+      "original_label",
+      "bloom_level"
+    ],
+    "nulls": {
+      "question": 0,
+      "original_label": 0,
+      "bloom_level": 0
+    },
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "cannot_supervise_target_rewriting_by_itself": true,
+    "question_column": "question",
+    "exact_duplicate_rows": 0,
+    "normalized_duplicate_rows": 5,
+    "unique_questions": 2330,
+    "unique_normalized": 2325,
+    "word_len_min_median_max": [
+      2,
+      12.0,
+      75
+    ],
+    "very_short_lt6_words": 120,
+    "incomplete_like": 81,
+    "label_column": "bloom_level",
+    "label_counts": {
+      "Understand": 915,
+      "Remember": 321,
+      "Apply": 285,
+      "Evaluate": 284,
+      "Analyze": 274,
+      "Create": 251
+    },
+    "original_label_counts": {
+      "Comprehension": 915,
+      "Knowledge": 321,
+      "Application": 285,
+      "Evaluation": 284,
+      "Analysis": 274,
+      "Synthesis": 251
+    }
+  },
+  "figshare_combined": {
+    "filename": "data/figshare_combined_dataset.csv",
+    "exists": true,
+    "rows": 2522,
+    "columns": [
+      "QUESTION",
+      "BT LEVEL"
+    ],
+    "nulls": {
+      "QUESTION": 0,
+      "BT LEVEL": 0
+    },
+    "has_rewrite_pairs": false,
+    "rewrite_pair_columns": [],
+    "dataset_type": "classification_only",
+    "cannot_supervise_target_rewriting_by_itself": true,
+    "question_column": "QUESTION",
+    "exact_duplicate_rows": 185,
+    "normalized_duplicate_rows": 197,
+    "unique_questions": 2337,
+    "unique_normalized": 2325,
+    "word_len_min_median_max": [
+      2,
+      13.0,
+      75
+    ],
+    "very_short_lt6_words": 127,
+    "incomplete_like": 82,
+    "label_column": "BT LEVEL",
+    "label_counts": {
+      "Comprehension": 961,
+      "Knowledge": 344,
+      "Evaluation": 318,
+      "Application": 316,
+      "Analysis": 304,
+      "Synthesis": 279
+    }
+  },
+  "existing_classifier_splits": {
+    "classifier_splits": {
+      "train": {
+        "rows": 1631,
+        "labels": {
+          "Understand": 640,
+          "Remember": 225,
+          "Evaluate": 199,
+          "Apply": 199,
+          "Analyze": 192,
+          "Create": 176
+        }
+      },
+      "val": {
+        "rows": 349,
+        "labels": {
+          "Understand": 137,
+          "Remember": 48,
+          "Apply": 43,
+          "Evaluate": 42,
+          "Analyze": 41,
+          "Create": 38
+        }
+      },
+      "test": {
+        "rows": 350,
+        "labels": {
+          "Understand": 138,
+          "Remember": 48,
+          "Apply": 43,
+          "Evaluate": 43,
+          "Analyze": 41,
+          "Create": 37
+        }
+      }
+    },
+    "normalized_overlap": {
+      "train_val": 2,
+      "train_test": 1,
+      "val_test": 1
+    },
+    "do_not_reuse_for_rewrite": true
+  }
+}
