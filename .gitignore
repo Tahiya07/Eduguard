@@ -92,9 +92,12 @@ checkpoint-*/
 data/vector_store/
 data/web_sessions/
 federated/updates/
-federated/bundles/
-federated/_client_cache/
-federated/runs/
+# Federated training artifacts (research only)
+artifacts/federated/bundles/
+artifacts/federated/updates/
+artifacts/federated/_client_cache/
+artifacts/federated/runs/
+artifacts/federated/models/
 
 # ===========================
 # Build & release artifacts
