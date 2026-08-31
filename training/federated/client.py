@@ -104,16 +104,28 @@ class _WeightedTrainer(Trainer):
         return (loss, outputs) if return_outputs else loss
 
 
+def _resolve_training_precision() -> tuple[torch.dtype, bool, bool]:
+    """Return (model_dtype, trainer_fp16, trainer_bf16) with mutually compatible settings."""
+    if not torch.cuda.is_available():
+        return torch.float32, False, False
+    # bf16 avoids GradScaler and is stable for LoRA on modern NVIDIA GPUs.
+    if torch.cuda.is_bf16_supported():
+        return torch.bfloat16, False, True
+    # fp16 AMP requires fp32 master weights; loading the full model in fp16 breaks unscaling.
+    return torch.float32, True, False
+
+
 def _load_model_stack(config: FederatedLoraConfig, global_dir: Path | None):
     tokenizer = AutoTokenizer.from_pretrained(config.base_model, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
+    model_dtype, _, _ = _resolve_training_precision()
     base = AutoModelForSequenceClassification.from_pretrained(
         config.base_model,
         num_labels=len(BLOOM_LABELS),
         trust_remote_code=True,
-        torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+        torch_dtype=model_dtype,
     )
     base.config.pad_token_id = tokenizer.pad_token_id
 
@@ -167,6 +179,7 @@ def train_local_adapter(
         print(f"[client] FedProx μ={prox_mu}")
 
     cache_dir = ROOT / "artifacts" / "federated" / "_client_cache"
+    _, use_fp16, use_bf16 = _resolve_training_precision()
     args = TrainingArguments(
         output_dir=str(cache_dir),
         learning_rate=lr,
@@ -180,7 +193,8 @@ def train_local_adapter(
         logging_steps=50,
         save_strategy="no",
         report_to="none",
-        fp16=torch.cuda.is_available(),
+        fp16=use_fp16,
+        bf16=use_bf16,
         dataloader_pin_memory=torch.cuda.is_available(),
         remove_unused_columns=False,
         seed=config.seed,

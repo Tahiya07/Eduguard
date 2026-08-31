@@ -437,6 +437,16 @@ def run_pipeline(
     if experiment_id:
         registry = [experiment_by_id(registry, experiment_id)]
 
+    if new_run and experiment_id:
+        spec = registry[0]
+        if spec.prerequisites:
+            _log_master(
+                "WARNING: --new-run resets run_state.json and clears completed prerequisites. "
+                f"{spec.experiment_id} requires {spec.prerequisites}. "
+                "Run prerequisites first with --new-run once, then continue with --resume "
+                "(omit --new-run), or run the full core profile without --experiment."
+            )
+
     state = _load_state()
     old_state = dict(state) if state else {}
     if new_run and old_state:
