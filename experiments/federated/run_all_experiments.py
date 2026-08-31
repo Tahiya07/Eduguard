@@ -41,6 +41,7 @@ from experiments.federated.experiment_registry import (  # noqa: E402
 )
 from experiments.federated.generate_dataset_lock import verify_dataset_lock  # noqa: E402
 from experiments.federated.run_integrity import (  # noqa: E402
+    artifact_match_failure_reason,
     artifact_matches_run,
     config_hash,
     git_revision,
