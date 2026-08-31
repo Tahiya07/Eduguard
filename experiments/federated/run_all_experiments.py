@@ -215,7 +215,6 @@ def _validate_experiment_output(spec: ExperimentSpec, state: Dict[str, Any]) -> 
         return None
     run_id = state["run_id"]
     git_rev = state.get("git_revision")
-    cfg_h = _config_hash_for_spec(spec)
 
     for rel in spec.expected_outputs:
         p = Path(rel)
@@ -230,14 +229,14 @@ def _validate_experiment_output(spec: ExperimentSpec, state: Dict[str, Any]) -> 
             if spec.extra.get("accept_only_if_passed"):
                 if not data.get("validation_gate_passed"):
                     return "DP validation did not pass"
-            if not artifact_matches_run(
+            mismatch = artifact_match_failure_reason(
                 p,
                 run_id=run_id,
                 git_rev=git_rev,
-                config_hash_expected=cfg_h,
                 allow_missing_run_id=(spec.resource_class == "CPU_SMOKE"),
-            ):
-                return f"artifact does not match active run_id={run_id}: {p}"
+            )
+            if mismatch:
+                return f"artifact does not match active run ({mismatch}): {p}"
     return None
 
 

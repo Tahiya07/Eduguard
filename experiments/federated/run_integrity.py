@@ -73,6 +73,43 @@ def result_is_placeholder(data: Dict[str, Any]) -> bool:
     return False
 
 
+def artifact_match_failure_reason(
+    path: Path,
+    *,
+    run_id: str,
+    git_rev: Optional[str] = None,
+    config_hash_expected: Optional[str] = None,
+    allow_missing_run_id: bool = False,
+) -> Optional[str]:
+    """Return a failure reason, or None if the artifact matches the active run."""
+    data = load_json(path)
+    if data is None:
+        return "invalid or missing JSON"
+    if result_is_placeholder(data):
+        return f"placeholder status={data.get('status')!r}"
+
+    artifact_run = data.get("run_id")
+    if artifact_run is not None:
+        if artifact_run != run_id:
+            return f"run_id mismatch (artifact={artifact_run!r}, expected={run_id!r})"
+    elif not allow_missing_run_id:
+        return "missing run_id"
+
+    if git_rev and data.get("git_revision") not in (None, git_rev):
+        return (
+            f"git_revision mismatch (artifact={data.get('git_revision')!r}, "
+            f"expected={git_rev!r})"
+        )
+
+    if config_hash_expected and data.get("config_hash") not in (None, config_hash_expected):
+        return (
+            f"config_hash mismatch (artifact={data.get('config_hash')!r}, "
+            f"expected={config_hash_expected!r})"
+        )
+
+    return None
+
+
 def artifact_matches_run(
     path: Path,
     *,
@@ -82,26 +119,16 @@ def artifact_matches_run(
     allow_missing_run_id: bool = False,
 ) -> bool:
     """Return True only if artifact belongs to the active run and is not a placeholder."""
-    data = load_json(path)
-    if data is None:
-        return False
-    if result_is_placeholder(data):
-        return False
-
-    artifact_run = data.get("run_id")
-    if artifact_run is not None:
-        if artifact_run != run_id:
-            return False
-    elif not allow_missing_run_id:
-        return False
-
-    if git_rev and data.get("git_revision") not in (None, git_rev):
-        return False
-
-    if config_hash_expected and data.get("config_hash") not in (None, config_hash_expected):
-        return False
-
-    return True
+    return (
+        artifact_match_failure_reason(
+            path,
+            run_id=run_id,
+            git_rev=git_rev,
+            config_hash_expected=config_hash_expected,
+            allow_missing_run_id=allow_missing_run_id,
+        )
+        is None
+    )
 
 
 def build_result_envelope(
