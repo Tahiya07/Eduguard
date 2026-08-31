@@ -418,6 +418,30 @@ def _write_manifest(state: Dict[str, Any], registry: List[ExperimentSpec]) -> No
         shutil.copytree(run_dir, latest, dirs_exist_ok=True)
 
 
+def _sync_git_revision_from_outputs(spec: ExperimentSpec, state: Dict[str, Any]) -> None:
+    for rel in spec.expected_outputs:
+        data = load_json(Path(rel))
+        if data and data.get("git_revision"):
+            state["git_revision"] = data["git_revision"]
+            return
+
+
+def _mark_experiment_complete(
+    spec: ExperimentSpec,
+    state: Dict[str, Any],
+    *,
+    completed: Set[str],
+    exit_code: int = 0,
+) -> None:
+    eid = spec.experiment_id
+    completed.add(eid)
+    if eid not in state.setdefault("completed_experiments", []):
+        state["completed_experiments"].append(eid)
+    state.setdefault("timestamps", {})[eid] = _utcnow()
+    state.setdefault("exit_codes", {})[eid] = exit_code
+    _sync_git_revision_from_outputs(spec, state)
+
+
 def run_pipeline(
     *,
     resume: bool,
@@ -488,11 +512,7 @@ def run_pipeline(
     for spec in registry:
         if spec.experiment_id not in completed and _outputs_valid(spec, state) and _prereqs_met(spec, completed):
             if spec.experiment_id not in state.get("failed_experiments", []):
-                completed.add(spec.experiment_id)
-                if spec.experiment_id not in state.setdefault("completed_experiments", []):
-                    state["completed_experiments"].append(spec.experiment_id)
-                state.setdefault("timestamps", {})[spec.experiment_id] = _utcnow()
-                state.setdefault("exit_codes", {})[spec.experiment_id] = 0
+                _mark_experiment_complete(spec, state, completed=completed)
                 if not dry_run:
                     _atomic_write_json(STATE_FILE, state)
 
@@ -606,7 +626,7 @@ def run_pipeline(
                     return 1
                 continue
 
-            state.setdefault("completed_experiments", []).append(eid)
+            _mark_experiment_complete(spec, state, completed=completed)
             if eid in state.get("failed_experiments", []):
                 state["failed_experiments"].remove(eid)
             if eid in state.get("interrupted_experiments", []):

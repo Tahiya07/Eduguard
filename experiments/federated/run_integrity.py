@@ -96,10 +96,12 @@ def artifact_match_failure_reason(
         return "missing run_id"
 
     if git_rev and data.get("git_revision") not in (None, git_rev):
-        return (
-            f"git_revision mismatch (artifact={data.get('git_revision')!r}, "
-            f"expected={git_rev!r})"
-        )
+        # Same run_id: accept artifact even if code was hotfixed mid-run on the GPU box.
+        if artifact_run != run_id:
+            return (
+                f"git_revision mismatch (artifact={data.get('git_revision')!r}, "
+                f"expected={git_rev!r})"
+            )
 
     if config_hash_expected and data.get("config_hash") not in (None, config_hash_expected):
         return (

@@ -55,6 +55,34 @@ def test_config_hash_mismatch_reported(tmp_path: Path):
     assert "config_hash mismatch" in reason
 
 
+def test_git_revision_mismatch_allowed_when_run_id_matches(tmp_path: Path):
+    from experiments.federated.run_integrity import artifact_match_failure_reason
+
+    p = tmp_path / "out.json"
+    p.write_text(
+        json.dumps(
+            {
+                "run_id": "run_x",
+                "status": "EXECUTED",
+                "git_revision": "artifact_rev",
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert artifact_matches_run(
+        p,
+        run_id="run_x",
+        git_rev="state_rev",
+        allow_missing_run_id=False,
+    )
+    assert artifact_match_failure_reason(
+        p,
+        run_id="run_y",
+        git_rev="state_rev",
+        allow_missing_run_id=False,
+    ) is not None
+
+
 def test_config_hash_stable():
     a = config_hash({"seed": 42, "model": "m"})
     b = config_hash({"model": "m", "seed": 42})
