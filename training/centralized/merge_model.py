@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+"""Merge Qwen Bloom LoRA adapter into a single deployable classifier checkpoint."""
+
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+
+import torch
+from peft import PeftModel
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+from bloom_model_profiles import BLOOM_MODEL_PROFILES, DEFAULT_MODEL_SIZE, get_profile
+
+
+DEFAULT_BASE_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
+DEFAULT_LORA_DIR = "models/qwen_bloom_trained0.5B"
+DEFAULT_FEDERATED_LORA_DIR = "models/qwen_bloom_federated"
+DEFAULT_MERGED_DIR = "models/qwen_bloom_merged0.5B"
+
+
+def resolve_lora_dir(explicit: str | Path | None = None) -> Path:
+    if explicit is not None:
+        return Path(explicit)
+    fed = Path(DEFAULT_FEDERATED_LORA_DIR)
+    if (fed / "adapter_config.json").is_file():
+        return fed
+    return Path(DEFAULT_LORA_DIR)
+
+LABELS = {
+    "Remember": 0,
+    "Understand": 1,
+    "Apply": 2,
+    "Analyze": 3,
+    "Evaluate": 4,
+    "Create": 5,
+}
+ID2LABEL = {v: k for k, v in LABELS.items()}
+
+
+def merge_lora(
+    *,
+    lora_dir: str | Path = DEFAULT_LORA_DIR,
+    base_model: str = DEFAULT_BASE_MODEL,
+    output_dir: str | Path = DEFAULT_MERGED_DIR,
+    force: bool = False,
+) -> Path:
+    lora_path = Path(lora_dir)
+    out_path = Path(output_dir)
+
+    if not (lora_path / "adapter_config.json").is_file():
+        raise FileNotFoundError(
+            f"LoRA adapter not found at {lora_path}. Train with train_qwen_bloom.py first."
+        )
+
+    if out_path.is_dir() and (out_path / "config.json").is_file() and not force:
+        lora_mtime = max(
+            (p.stat().st_mtime for p in lora_path.glob("adapter_model.*")),
+            default=0.0,
+        )
+        merged_mtime = (out_path / "config.json").stat().st_mtime
+        if lora_mtime > merged_mtime:
+            print(
+                f"[merge] WARNING: LoRA at {lora_path} is newer than merged {out_path}. "
+                "Re-run with --force to pick up the latest adapter."
+            )
+        print(f"[merge] Using existing merged model at {out_path}")
+        return out_path
+
+    print(f"[merge] Base: {base_model}")
+    print(f"[merge] LoRA: {lora_path}")
+    print(f"[merge] Out:  {out_path}")
+
+    tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
+    base = AutoModelForSequenceClassification.from_pretrained(
+        base_model,
+        num_labels=len(LABELS),
+        id2label=ID2LABEL,
+        label2id=LABELS,
+        torch_dtype=torch.float32,
+        trust_remote_code=True,
+    )
+    model = PeftModel.from_pretrained(base, str(lora_path))
+    merged = model.merge_and_unload()
+
+    out_path.mkdir(parents=True, exist_ok=True)
+    merged.save_pretrained(out_path)
+    # Save tokenizer from the Hub base id (not a possibly-stale local copy).
+    tokenizer.save_pretrained(out_path)
+    print(f"[merge] Saved merged classifier -> {out_path}")
+    return out_path
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Merge Bloom LoRA into a full model folder.")
+    parser.add_argument(
+        "--model-size",
+        choices=sorted(BLOOM_MODEL_PROFILES),
+        default=DEFAULT_MODEL_SIZE,
+        help="Model variant: 0.5b or 1.5b (sets default LoRA / merged paths).",
+    )
+    parser.add_argument(
+        "--lora-dir",
+        default=None,
+        help="LoRA adapter (default: federated if present, else profile lora dir).",
+    )
+    parser.add_argument("--base-model", default=None)
+    parser.add_argument("--output-dir", default=None)
+    parser.add_argument("--force", action="store_true", help="Re-merge even if output exists.")
+    args = parser.parse_args()
+    profile = get_profile(args.model_size)
+    lora_dir = resolve_lora_dir(args.lora_dir or profile.lora_dir)
+    merge_lora(
+        lora_dir=lora_dir,
+        base_model=args.base_model or profile.base_model,
+        output_dir=args.output_dir or profile.merged_dir,
+        force=args.force,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

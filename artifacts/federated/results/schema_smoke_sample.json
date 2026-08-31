@@ -1,0 +1,147 @@
+{
+  "format": "federated_bloom_result_v1",
+  "run_id": "schema_sample",
+  "experiment_id": "schema_sample",
+  "git_revision": "c6c81cc44790768ed49d6a8afbf254da2536482f",
+  "config_hash": "028052a982b2214cd7dc73f79890053be0f885b3fff220d689071e2fdefeb9bb",
+  "dataset_hashes": {
+    "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+    "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+    "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+  },
+  "model_identifier": "Qwen/Qwen2.5-0.5B-Instruct",
+  "seed": 42,
+  "status": "STRUCTURE_ONLY",
+  "start_time": "2026-08-28T19:46:01.818810+00:00",
+  "end_time": "2026-08-28T19:46:01.818834+00:00",
+  "setting_tag": "schema_sample_iid",
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "finetune_learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "max_grad_norm": 1.0,
+    "local_epochs": 0.05,
+    "federated_rounds": 1,
+    "client_count": 2,
+    "algorithm": "fedavg",
+    "prox_mu": 0.0,
+    "label_smoothing": 0.05,
+    "use_class_weights": true,
+    "configured": {
+      "local_epochs": 0.05,
+      "federated_rounds": 1,
+      "client_count": 2,
+      "optimizer_steps_per_client_per_round": {
+        "teacher_site_00": 3,
+        "teacher_site_01": 3
+      },
+      "optimizer_steps_per_round_all_clients": 6,
+      "total_optimizer_steps_estimate": 6
+    },
+    "actual": {
+      "federated_rounds_configured": 1,
+      "federated_rounds_completed": 0,
+      "optimizer_steps_per_client_per_round": {},
+      "optimizer_steps_per_round_all_clients": [],
+      "total_optimizer_steps_completed": 0,
+      "per_round": [],
+      "execution_status": "NOT_EXECUTED",
+      "privacy_accounting_steps_source": "none",
+      "privacy_accounting_steps": null
+    },
+    "optimizer_steps_per_client_per_round": {
+      "teacher_site_00": 3,
+      "teacher_site_01": 3
+    },
+    "optimizer_steps_per_round_all_clients": 6,
+    "total_optimizer_steps_estimate": 6
+  },
+  "lora": {
+    "r": 32,
+    "lora_alpha": 64,
+    "lora_dropout": 0.1,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "modules_to_save": [
+      "score"
+    ],
+    "task_type": "SEQ_CLS"
+  },
+  "trainable_aggregation_state": {
+    "includes": [
+      "lora_adapter_parameters (lora_A, lora_B on target_modules)",
+      "classification_score_head (modules_to_save=['score'])"
+    ],
+    "excludes": [
+      "frozen_base_model_weights",
+      "optimizer_state",
+      "scheduler_state",
+      "non_trainable_buffers"
+    ],
+    "selection_rule": "training.federated.aggregation.is_trainable_key",
+    "aggregation": "fedavg_sample_weighted",
+    "trainable_parameter_count": null
+  },
+  "client_sample_counts": {
+    "teacher_site_00": 817,
+    "teacher_site_01": 814
+  },
+  "partition": {
+    "strategy": "iid",
+    "dirichlet_alpha": null
+  },
+  "communication": {
+    "upload_bytes": 0,
+    "download_bytes": 0,
+    "total_bytes": 0,
+    "trainable_parameter_count": null,
+    "adapter_size_bytes": null,
+    "adapter_size_mb": null,
+    "per_round_upload_bytes": [],
+    "per_round_download_bytes": []
+  },
+  "metrics": {
+    "evaluation_status": "NOT_EVALUATED",
+    "accuracy": null,
+    "macro_f1": null,
+    "per_class_f1": {
+      "Remember": null,
+      "Understand": null,
+      "Apply": null,
+      "Analyze": null,
+      "Evaluate": null,
+      "Create": null
+    },
+    "n_eval": null
+  },
+  "runtime_seconds": 0.0,
+  "history": [],
+  "artifact_paths": {
+    "global_adapter": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\schema_sample_iid",
+    "round_checkpoint": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\runs\\schema_sample_iid\\round_checkpoint.json",
+    "results_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\results\\schema_smoke_sample.json",
+    "train_csv": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\figshare_bloom_v1_train.csv",
+    "test_csv": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\figshare_bloom_v1_test.csv"
+  },
+  "trainable_key_predicate": {
+    "function": "training.federated.aggregation.is_trainable_key",
+    "matches_lora": true,
+    "matches_score_head": true,
+    "example_keys": [
+      "base_model.model.layers.0.self_attn.q_proj.lora_A.default",
+      "base_model.score.weight"
+    ]
+  }
+}

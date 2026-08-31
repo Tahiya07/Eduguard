@@ -1,0 +1,4 @@
+# Federated research extras (install after requirements-training.txt)
+-r requirements-training.txt
+
+pyyaml>=6.0

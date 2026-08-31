@@ -1,0 +1,123 @@
+{
+  "format": "dp_bloom_validation_report_v1",
+  "timestamp_utc": "2026-08-28T18:02:23.817268+00:00",
+  "validation_gate_passed": false,
+  "pytorch_version": "2.11.0+cpu",
+  "train_script": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\train_qwen_bloom.py",
+  "train_script_sha256": "3035714534aa67916bd264a4c7323246920e9a4dcfa02e6946c8f8d4d1c02de6",
+  "federated_config": {
+    "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "global_adapter_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B",
+    "num_clients": 8,
+    "rounds": 5,
+    "local_epochs": 3.0,
+    "learning_rate": 0.0001,
+    "finetune_learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "lr_scheduler_type": "cosine",
+    "label_smoothing": 0.05,
+    "use_class_weights": true,
+    "class_weight_source": "global",
+    "class_weight_max": 3.0,
+    "max_grad_norm": 1.0,
+    "max_length": 256,
+    "batch_size": 2,
+    "grad_accum": 8,
+    "max_samples_per_client": 0,
+    "client_fraction": 1.0,
+    "clip_norm": 1.0,
+    "seed": 42,
+    "train_csv": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\figshare_bloom_v1_train.csv",
+    "test_csv": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\figshare_bloom_v1_test.csv",
+    "text_col": "question",
+    "label_col": "bloom_level",
+    "algorithm": "fedavg",
+    "prox_mu": 0.01,
+    "partition": "iid",
+    "dirichlet_alpha": 0.5,
+    "from_scratch": true,
+    "lora_r": 32,
+    "lora_alpha": 64,
+    "lora_dropout": 0.1,
+    "modules_to_save": [
+      "score"
+    ],
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "gates": [
+    {
+      "name": "opacus_import",
+      "passed": true,
+      "details": {
+        "opacus_version": "1.6.0"
+      },
+      "failure_reason": null
+    },
+    {
+      "name": "accounting_monotonicity",
+      "passed": true,
+      "details": {
+        "epsilon_after_100_steps": 1.2141452107864754,
+        "epsilon_after_200_steps": 1.3401111658286198,
+        "delta": 1e-05
+      },
+      "failure_reason": null
+    },
+    {
+      "name": "per_sample_gradients",
+      "passed": false,
+      "details": {
+        "mismatches": [
+          "max_err=0.116974 at index 1",
+          "max_err=0.165854 at index 3",
+          "max_err=0.798099 at index 5",
+          "max_err=0.447407 at index 7",
+          "max_err=0.258907 at index 9",
+          "max_err=0.422339 at index 11",
+          "max_err=0.199091 at index 13",
+          "max_err=0.112294 at index 15",
+          "max_err=0.272089 at index 17",
+          "max_err=0.751231 at index 19"
+        ]
+      },
+      "failure_reason": "per-sample gradient mismatch"
+    },
+    {
+      "name": "clipping",
+      "passed": true,
+      "details": {
+        "max_grad_norm": 1.0,
+        "post_step_max_grad_norm": 0.4884679317474365
+      },
+      "failure_reason": null
+    },
+    {
+      "name": "loss_variants",
+      "passed": true,
+      "details": {
+        "variants": {
+          "uniform_ce": {
+            "grad_sample_present": true
+          },
+          "label_smoothing": {
+            "grad_sample_present": true
+          },
+          "class_weights": {
+            "grad_sample_present": true
+          }
+        },
+        "recommended_dp_loss": "uniform_ce"
+      },
+      "failure_reason": null
+    }
+  ]
+}

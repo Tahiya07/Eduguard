@@ -1,0 +1,54 @@
+{
+  "format": "eduguard_dataset_lock_v1",
+  "dataset_files": [
+    "data/figshare_bloom_v1_train.csv",
+    "data/figshare_bloom_v1_val.csv",
+    "data/figshare_bloom_v1_test.csv"
+  ],
+  "sha256": {
+    "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+    "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+    "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+  },
+  "stats": {
+    "data/figshare_bloom_v1_train.csv": {
+      "exists": true,
+      "sha256": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+      "row_count": 1631,
+      "label_distribution": {
+        "Understand": 640,
+        "Remember": 225,
+        "Evaluate": 199,
+        "Apply": 199,
+        "Analyze": 192,
+        "Create": 176
+      }
+    },
+    "data/figshare_bloom_v1_val.csv": {
+      "exists": true,
+      "sha256": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+      "row_count": 349,
+      "label_distribution": {
+        "Understand": 137,
+        "Remember": 48,
+        "Apply": 43,
+        "Evaluate": 42,
+        "Analyze": 41,
+        "Create": 38
+      }
+    },
+    "data/figshare_bloom_v1_test.csv": {
+      "exists": true,
+      "sha256": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97",
+      "row_count": 350,
+      "label_distribution": {
+        "Understand": 138,
+        "Remember": 48,
+        "Apply": 43,
+        "Evaluate": 43,
+        "Analyze": 41,
+        "Create": 37
+      }
+    }
+  }
+}

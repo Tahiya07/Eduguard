@@ -1,0 +1,168 @@
+{
+  "run_id": "20260828T181753Z",
+  "git_revision": "c6c81cc44790768ed49d6a8afbf254da2536482f",
+  "environment": {
+    "python": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "cwd": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard",
+    "torch": "2.11.0+cpu",
+    "cuda_available": false,
+    "transformers": "5.5.4",
+    "peft": "0.20.0",
+    "opacus": "1.6.0"
+  },
+  "started_at": "2026-08-28T18:17:53.106111+00:00",
+  "last_update": "2026-08-28T18:18:21.209610+00:00",
+  "experiments": [
+    {
+      "experiment_id": "env_validation",
+      "phase": 1,
+      "resource_class": "CPU_SMOKE",
+      "status": "COMPLETE",
+      "config_path": null,
+      "expected_outputs": []
+    },
+    {
+      "experiment_id": "unit_tests_federated",
+      "phase": 1,
+      "resource_class": "CPU_SMOKE",
+      "status": "COMPLETE",
+      "config_path": null,
+      "expected_outputs": []
+    },
+    {
+      "experiment_id": "baseline_runtime_import",
+      "phase": 2,
+      "resource_class": "CPU_SMOKE",
+      "status": "COMPLETE",
+      "config_path": null,
+      "expected_outputs": []
+    },
+    {
+      "experiment_id": "fl_smoke_fedavg_iid",
+      "phase": 3,
+      "resource_class": "CPU_SMOKE",
+      "status": "PENDING",
+      "config_path": "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/configs/fedavg_iid_smoke.json",
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/smoke_fedavg_iid.json"
+      ]
+    },
+    {
+      "experiment_id": "fedavg_iid",
+      "phase": 4,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/configs/fedavg_iid.json",
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/federated_lora_fedavg_iid.json"
+      ]
+    },
+    {
+      "experiment_id": "fedprox_iid",
+      "phase": 4,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/configs/fedprox_iid.json",
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/federated_lora_fedprox_iid.json"
+      ]
+    },
+    {
+      "experiment_id": "fedavg_noniid_a05",
+      "phase": 4,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/configs/fedavg_noniid_a05.json",
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/federated_lora_fedavg_noniid_a0.5.json"
+      ]
+    },
+    {
+      "experiment_id": "fedprox_noniid_a05",
+      "phase": 4,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/configs/fedprox_noniid_a05.json",
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/federated_lora_fedprox_noniid_a0.5.json"
+      ]
+    },
+    {
+      "experiment_id": "utility_gap_analysis",
+      "phase": 5,
+      "resource_class": "GPU_RECOMMENDED",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/utility_gap_report.json"
+      ]
+    },
+    {
+      "experiment_id": "dp_validation",
+      "phase": 6,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/privacy/dp_bloom_validated_v1.json"
+      ]
+    },
+    {
+      "experiment_id": "federated_dp",
+      "phase": 8,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/results/federated_dp_fedavg_iid.json"
+      ]
+    },
+    {
+      "experiment_id": "secagg_verification",
+      "phase": 9,
+      "resource_class": "CPU_SMOKE",
+      "status": "COMPLETE",
+      "config_path": null,
+      "expected_outputs": []
+    },
+    {
+      "experiment_id": "privacy_attacks",
+      "phase": 11,
+      "resource_class": "GPU_REQUIRED",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/evaluation/privacy_attacks.json"
+      ]
+    },
+    {
+      "experiment_id": "export_federated_artifact",
+      "phase": 14,
+      "resource_class": "GPU_RECOMMENDED",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_merged/config.json"
+      ]
+    },
+    {
+      "experiment_id": "final_research_manifest",
+      "phase": 16,
+      "resource_class": "CPU_SMOKE",
+      "status": "PENDING",
+      "config_path": null,
+      "expected_outputs": [
+        "C:/Users/tahiy/PycharmProjects/Eduguard/experiments/federated/results/runs/latest/run_manifest.json"
+      ]
+    }
+  ],
+  "completed": [
+    "env_validation",
+    "unit_tests_federated",
+    "baseline_runtime_import",
+    "secagg_verification"
+  ],
+  "failed": [],
+  "blocked": []
+}
