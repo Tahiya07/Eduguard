@@ -20,3 +20,21 @@ python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --con
 ```
 
 Use a separate env from `requirements-train.txt` so production packages are not upgraded blindly.
+
+## Evaluation (after training)
+
+```powershell
+python -m unittest experiments.multitask_bloom_rewrite.tests.test_evaluate_rewrite -v
+
+python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
+  --config experiments/multitask_bloom_rewrite/configs/qwen05b_multitask.json `
+  --condition lora
+
+python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
+  --config experiments/multitask_bloom_rewrite/configs/qwen05b_multitask.json `
+  --condition base
+```
+
+Results: `experiments/multitask_bloom_rewrite/results/qwen05b_lora/` (or `qwen05b_base/`).
+
+Uses **only** `data/multitask_bloom_rewrite/test.jsonl` (8321 examples). Requires `models/qwen05b_multitask_lora/best_adapter/` on disk.
