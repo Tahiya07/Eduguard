@@ -1,6 +1,5 @@
 {
-  "experiment_id": "fedavg_iid",
-  "experiment_tag": "fedavg_iid",
+  "experiment_id": "fedavg_iid_r20",
   "resource_class": "GPU_REQUIRED",
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "dataset": "data/figshare_bloom_v1_train.csv",
@@ -9,7 +8,7 @@
   "train_val_test_split": "figshare_bloom_v1 fixed CSV splits",
   "seed": 42,
   "clients": 8,
-  "rounds": 5,
+  "rounds": 20,
   "local_epochs": 3.0,
   "batch_size": 2,
   "gradient_accumulation": 8,
@@ -21,7 +20,9 @@
   "dp": null,
   "secagg": false,
   "from_scratch": true,
-  "output_path": "artifacts/federated/results/federated_lora_fedavg_iid.json",
-  "lora": {"r": 32, "alpha": 64, "dropout": 0.1, "modules_to_save": ["score"]},
-  "framework_parity_reference": "Framework/results/federated_lora_fedavg_iid1.json"
+  "experiment_tag": "fedavg_iid_r20",
+  "output_path": "artifacts/federated/results/federated_lora_fedavg_iid_r20.json",
+  "model_output_dir": "artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20",
+  "purpose": "Convergence diagnostic — same settings as fedavg_iid baseline except 20 rounds",
+  "baseline_reference": "fedavg_iid (5 rounds, 56.86% test accuracy — immutable)"
 }

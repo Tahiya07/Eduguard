@@ -46,10 +46,14 @@ def _sim_cmd(py: str, r: str, **kwargs) -> List[str]:
         "alpha": "--alpha",
         "prox_mu": "--prox-mu",
         "results_json": "--results-json",
+        "experiment_tag": "--experiment-tag",
+        "global_adapter": "--global-adapter",
     }
     for key, flag in mapping.items():
         if key in kwargs and kwargs[key] is not None:
             cmd.extend([flag, str(kwargs[key])])
+    if kwargs.get("aggregation_diagnostics"):
+        cmd.append("--aggregation-diagnostics")
     return cmd
 
 
@@ -140,15 +144,75 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
             config_path=f"{r}/experiments/federated/configs/fedavg_iid.json",
         ),
         ExperimentSpec(
+            experiment_id="framework_parity_audit",
+            phase=4,
+            description="Framework vs EduGuard reproducibility audit",
+            resource_class="CPU_SMOKE",
+            priority="core",
+            command=[py, f"{r}/experiments/federated/scripts/framework_parity_audit.py"],
+            prerequisites=["fedavg_iid"],
+            expected_outputs=[
+                f"{r}/artifacts/evaluation/framework_parity_audit.json",
+                f"{r}/artifacts/evaluation/framework_parity_audit.md",
+            ],
+        ),
+        ExperimentSpec(
             experiment_id="framework_parity_gate",
             phase=4,
             description="Framework parity gate (stop if gap > 5%)",
             resource_class="CPU_SMOKE",
             priority="core",
             command=[py, f"{r}/experiments/federated/scripts/framework_parity_gate.py"],
-            prerequisites=["fedavg_iid"],
+            prerequisites=["framework_parity_audit"],
             expected_outputs=[f"{r}/artifacts/evaluation/framework_parity_gate.json"],
             extra={"allow_parity_skip": True},
+            blocking=False,
+        ),
+        ExperimentSpec(
+            experiment_id="fedavg_iid_r20",
+            phase=4,
+            description="FedAvg+IID convergence diagnostic (20 rounds)",
+            resource_class="GPU_REQUIRED",
+            priority="core",
+            command=_sim_cmd(
+                py,
+                r,
+                clients=8,
+                rounds=20,
+                local_epochs=3,
+                algorithm="fedavg",
+                partition="iid",
+                experiment_tag="fedavg_iid_r20",
+                global_adapter=f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20",
+                results_json=f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_r20.json",
+            ),
+            prerequisites=["framework_parity_audit"],
+            expected_outputs=[f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_r20.json"],
+            config_path=f"{r}/experiments/federated/configs/fedavg_iid_r20.json",
+        ),
+        ExperimentSpec(
+            experiment_id="fedavg_iid_localepoch1",
+            phase=4,
+            description="FedAvg+IID client-drift diagnostic (1 local epoch)",
+            resource_class="GPU_REQUIRED",
+            priority="core",
+            command=_sim_cmd(
+                py,
+                r,
+                clients=8,
+                rounds=5,
+                local_epochs=1,
+                algorithm="fedavg",
+                partition="iid",
+                experiment_tag="fedavg_iid_localepoch1",
+                global_adapter=f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_localepoch1",
+                results_json=f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_localepoch1.json",
+            ),
+            prerequisites=["fedavg_iid_r20"],
+            expected_outputs=[
+                f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_localepoch1.json"
+            ],
+            config_path=f"{r}/experiments/federated/configs/fedavg_iid_localepoch1.json",
         ),
         ExperimentSpec(
             experiment_id="fedprox_iid",
@@ -165,9 +229,11 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
                 algorithm="fedprox",
                 prox_mu=0.01,
                 partition="iid",
+                experiment_tag="fedprox_iid",
+                global_adapter=f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid",
                 results_json=f"{r}/artifacts/federated/results/federated_lora_fedprox_iid.json",
             ),
-            prerequisites=["framework_parity_gate"],
+            prerequisites=["fedavg_iid_localepoch1"],
             expected_outputs=[f"{r}/artifacts/federated/results/federated_lora_fedprox_iid.json"],
             config_path=f"{r}/experiments/federated/configs/fedprox_iid.json",
         ),
@@ -258,13 +324,26 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
         ),
         # --- Phase 5: Utility ---
         ExperimentSpec(
+            experiment_id="fl_baseline_diagnosis",
+            phase=5,
+            description="FL baseline diagnosis across targeted experiments",
+            resource_class="CPU_SMOKE",
+            priority="core",
+            command=[py, f"{r}/experiments/federated/scripts/fl_baseline_diagnosis.py"],
+            prerequisites=["fedprox_iid"],
+            expected_outputs=[
+                f"{r}/artifacts/evaluation/fl_baseline_diagnosis.json",
+                f"{r}/artifacts/evaluation/fl_baseline_diagnosis.md",
+            ],
+        ),
+        ExperimentSpec(
             experiment_id="utility_gap_analysis",
             phase=5,
             description="C7: Utility-gap analysis",
             resource_class="GPU_RECOMMENDED",
             priority="core",
             command=[py, f"{r}/experiments/federated/scripts/utility_gap_report.py"],
-            prerequisites=["fedavg_iid"],
+            prerequisites=["fl_baseline_diagnosis"],
             expected_outputs=[
                 f"{r}/artifacts/evaluation/utility_gap_report.json",
                 f"{r}/artifacts/evaluation/utility_gap_report.md",

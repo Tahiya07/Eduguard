@@ -1,5 +1,6 @@
 {
   "experiment_id": "fedprox_iid",
+  "experiment_tag": "fedprox_iid",
   "resource_class": "GPU_REQUIRED",
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "dataset": "data/figshare_bloom_v1_train.csv",

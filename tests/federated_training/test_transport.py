@@ -17,6 +17,8 @@ def test_roundtrip_integrity():
         n_samples=10,
         state=state,
     )
+    assert bundle["serialized_update_bytes"] > 0
+    assert bundle["serialized_update_bytes"] == len(__import__("base64").b64decode(bundle["payload_b64"]))
     out = unpack_update(bundle)
     for key in state:
         assert torch.allclose(state[key], out[key])

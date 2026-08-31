@@ -183,6 +183,7 @@ def build_metrics_block(
             "macro_f1": None,
             "per_class_f1": flatten_per_class_f1(None),
             "n_eval": None,
+            "confusion_matrix": None,
         }
     per_class_raw = final_test_metrics.get("per_class") or final_test_metrics.get("per_class_f1")
     return {
@@ -190,15 +191,19 @@ def build_metrics_block(
         "accuracy": final_test_metrics.get("accuracy"),
         "macro_f1": final_test_metrics.get("macro_f1"),
         "per_class_f1": flatten_per_class_f1(per_class_raw if isinstance(per_class_raw, dict) else None),
+        "per_class": per_class_raw if isinstance(per_class_raw, dict) else None,
         "n_eval": final_test_metrics.get("n_eval"),
         "quadratic_weighted_kappa": final_test_metrics.get("quadratic_weighted_kappa"),
         "within_one_level_accuracy": final_test_metrics.get("within_one_level_accuracy"),
+        "severe_error_rate": final_test_metrics.get("severe_error_rate"),
         "ece": final_test_metrics.get("ece"),
+        "confusion_matrix": final_test_metrics.get("confusion_matrix"),
     }
 
 
 def build_trainable_aggregation_state(
     trainable_parameter_count: Optional[int],
+    trainable_param_breakdown: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     return {
         "includes": [
@@ -214,6 +219,37 @@ def build_trainable_aggregation_state(
         "selection_rule": "training.federated.aggregation.is_trainable_key",
         "aggregation": "fedavg_sample_weighted",
         "trainable_parameter_count": trainable_parameter_count,
+        "trainable_param_breakdown": trainable_param_breakdown,
+    }
+
+
+def build_training_budget_comparison(
+    configured: Dict[str, Any],
+    actual: Dict[str, Any],
+    *,
+    centralized_optimizer_steps: Optional[int] = None,
+) -> Dict[str, Any]:
+    fed_total = actual.get("total_optimizer_steps_completed")
+    if fed_total is None:
+        fed_total = configured.get("total_optimizer_steps_estimate")
+    return {
+        "centralized_optimizer_steps": centralized_optimizer_steps,
+        "federated_total_optimizer_steps": fed_total,
+        "federated_configured_optimizer_steps_estimate": configured.get("total_optimizer_steps_estimate"),
+        "federated_actual_optimizer_steps_completed": actual.get("total_optimizer_steps_completed"),
+        "steps_per_client_per_round_configured": configured.get("optimizer_steps_per_client_per_round"),
+        "steps_per_round_all_clients_configured": configured.get("optimizer_steps_per_round_all_clients"),
+        "comparable_budget": (
+            centralized_optimizer_steps is not None
+            and fed_total is not None
+            and int(centralized_optimizer_steps) > 0
+            and int(fed_total) > 0
+        ),
+        "budget_ratio_federated_over_centralized": (
+            round(float(fed_total) / float(centralized_optimizer_steps), 4)
+            if centralized_optimizer_steps and fed_total
+            else None
+        ),
     }
 
 
@@ -238,6 +274,7 @@ def build_federated_result_report(
     start_time: Optional[str] = None,
     history: Optional[List[Dict[str, Any]]] = None,
     status: str = "EXECUTED",
+    centralized_optimizer_steps: Optional[int] = None,
 ) -> Dict[str, Any]:
     end_time = datetime.now(timezone.utc).isoformat()
     configured = build_training_configured_block(cfg, client_sample_counts)
@@ -247,6 +284,7 @@ def build_federated_result_report(
     trainable_params = communication.get("trainable_parameters") or communication.get(
         "trainable_parameter_count"
     )
+    trainable_breakdown = communication.get("trainable_param_breakdown")
 
     partition_block: Dict[str, Any] = {
         "strategy": partition_strategy,
@@ -285,6 +323,11 @@ def build_federated_result_report(
             "use_class_weights": bool(cfg.use_class_weights),
             "configured": configured,
             "actual": actual,
+            "training_budget_comparison": build_training_budget_comparison(
+                configured,
+                actual,
+                centralized_optimizer_steps=centralized_optimizer_steps,
+            ),
             # Legacy estimate fields retained at training root for reproducibility.
             "optimizer_steps_per_client_per_round": configured[
                 "optimizer_steps_per_client_per_round"
@@ -296,7 +339,8 @@ def build_federated_result_report(
         },
         "lora": cfg.lora_config_dict(),
         "trainable_aggregation_state": build_trainable_aggregation_state(
-            int(trainable_params) if trainable_params is not None else None
+            int(trainable_params) if trainable_params is not None else None,
+            trainable_breakdown,
         ),
         "client_sample_counts": {k: int(v) for k, v in client_sample_counts.items()},
         "partition": partition_block,
@@ -305,10 +349,15 @@ def build_federated_result_report(
             "download_bytes": download,
             "total_bytes": upload + download,
             "trainable_parameter_count": trainable_params,
+            "trainable_param_breakdown": trainable_breakdown,
             "adapter_size_bytes": communication.get("adapter_bytes"),
             "adapter_size_mb": communication.get("adapter_size_mb"),
             "per_round_upload_bytes": communication.get("per_round_upload_bytes", []),
             "per_round_download_bytes": communication.get("per_round_download_bytes", []),
+            "per_client_upload_bytes_last_round": communication.get("per_client_upload_bytes_last_round"),
+            "per_client_download_bytes_last_round": communication.get(
+                "per_client_download_bytes_last_round"
+            ),
         },
         "metrics": build_metrics_block(final_test_metrics),
         "runtime_seconds": round(float(runtime_seconds), 4),

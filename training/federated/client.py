@@ -27,11 +27,8 @@ from transformers import (
 )
 
 from training.paths import ROOT
-from training.federated.aggregation import (
-    extract_trainable_state,
-    trainable_nbytes,
-    trainable_param_count,
-)
+from training.federated.aggregation import extract_trainable_state, trainable_param_count
+from training.federated.communication import trainable_param_breakdown
 from training.federated.class_weights import resolve_class_weights
 from training.federated.config import (
     BLOOM_LABELS,
@@ -214,9 +211,10 @@ def train_local_adapter(
     exec_stats = read_trainer_execution_stats(trainer)
 
     local_state = extract_trainable_state(model)
+    param_breakdown = trainable_param_breakdown(local_state)
     stats = {
         "trainable_parameters": trainable_param_count(local_state),
-        "update_bytes": trainable_nbytes(local_state),
+        "trainable_param_breakdown": param_breakdown,
         "prox_mu": prox_mu,
         "algorithm": config.algorithm,
         **exec_stats,
@@ -287,7 +285,8 @@ def main() -> int:
         state=local_state,
     )
     bundle["trainable_parameters"] = stats["trainable_parameters"]
-    bundle["update_bytes"] = stats["update_bytes"]
+    bundle["trainable_param_breakdown"] = stats.get("trainable_param_breakdown")
+    bundle["update_bytes"] = int(bundle["serialized_update_bytes"])
     bundle["prox_mu"] = stats["prox_mu"]
     bundle["algorithm"] = stats["algorithm"]
     bundle["execution"] = {

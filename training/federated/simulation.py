@@ -35,6 +35,10 @@ from experiments.federated.run_integrity import (  # noqa: E402
     dataset_hashes,
     git_revision,
 )
+from training.federated.communication import (
+    accumulate_communication,
+    bundle_serialized_upload_bytes,
+)
 from training.federated.execution_stats import summarize_round_bundles
 from training.federated.result_report import build_federated_result_report  # noqa: E402
 from training.federated.transport import load_bundle  # noqa: E402
@@ -49,12 +53,42 @@ def _mb(num_bytes: int | float) -> float:
     return round(float(num_bytes) / (1024.0 * 1024.0), 4)
 
 
+def _parse_server_summary(stdout: str) -> dict:
+    marker = "EDUGUARD_SERVER_SUMMARY_JSON"
+    if marker in stdout:
+        text = stdout.split(marker, 1)[1].strip()
+        return json.loads(text)
+    start = stdout.rfind("{")
+    if start >= 0:
+        return json.loads(stdout[start:])
+    return {}
+
+
+def _load_centralized_optimizer_steps() -> int | None:
+    candidates = [
+        ROOT / "results" / "bloom_lora_eval_0.5B.json",
+        ROOT / "artifacts" / "evaluation" / "bloom_centralized_eval.json",
+    ]
+    for path in candidates:
+        if not path.is_file():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        steps = payload.get("optimizer_steps") or payload.get("training_steps")
+        if steps is not None:
+            return int(steps)
+    return None
+
+
 def _evaluate_global(global_dir: Path, eval_csv: Path, cfg: FederatedLoraConfig) -> dict:
     import pandas as pd
 
     from bloom_eval_metrics import evaluate_predictions
     from predict_bloom import BLOOM_LABELS as LABEL_LIST
     from predict_bloom import QwenBloomPredictor
+    from sklearn.metrics import confusion_matrix
     from training.federated.config import BLOOM_LABELS
 
     df = pd.read_csv(eval_csv).dropna(subset=[cfg.text_col, cfg.label_col])
@@ -82,6 +116,7 @@ def _evaluate_global(global_dir: Path, eval_csv: Path, cfg: FederatedLoraConfig)
         "severe_error_rate": metrics.get("severe_error_rate"),
         "ece": metrics.get("ece"),
         "n_eval": len(y_true),
+        "confusion_matrix": confusion_matrix(y_true, y_pred).tolist(),
     }
 
 
@@ -110,12 +145,24 @@ def main() -> int:
     parser.add_argument("--from-scratch", action="store_true", default=True)
     parser.add_argument("--allow-central-seed", action="store_true")
     parser.add_argument("--init-adapter", default=None)
+    parser.add_argument(
+        "--experiment-tag",
+        default=None,
+        help="Unique run tag for model/results paths (default: derived from algorithm/partition)",
+    )
+    parser.add_argument(
+        "--aggregation-diagnostics",
+        action="store_true",
+        help="Emit one-round LoRA/score-head update norm diagnostics",
+    )
     args = parser.parse_args()
 
     t0 = time.time()
     start_time_iso = datetime.now(timezone.utc).isoformat()
     eval_each_round = bool(args.eval_each_round) and not bool(args.no_eval_each_round)
-    tag = setting_tag(algorithm=args.algorithm, partition=args.partition, alpha=args.alpha)
+    tag = args.experiment_tag or setting_tag(
+        algorithm=args.algorithm, partition=args.partition, alpha=args.alpha
+    )
     default_adapter = ARTIFACTS_FEDERATED / "models" / f"qwen_bloom_federated0.5B_{tag}"
     global_dir = Path(args.global_adapter) if args.global_adapter else default_adapter
     results_path = (
@@ -162,6 +209,7 @@ def main() -> int:
     total_upload = 0
     total_download = 0
     trainable_parameters = None
+    trainable_param_breakdown = None
     adapter_bytes = None
 
     if args.resume and round_ckpt_path.is_file():
@@ -176,6 +224,7 @@ def main() -> int:
         total_upload = int(comm_acc.get("total_upload", 0))
         total_download = int(comm_acc.get("total_download", 0))
         trainable_parameters = ckpt.get("trainable_parameters")
+        trainable_param_breakdown = ckpt.get("trainable_param_breakdown")
         adapter_bytes = ckpt.get("adapter_bytes")
         print(f"[sim] resuming from round {start_round} (checkpoint {round_ckpt_path})")
 
@@ -278,6 +327,7 @@ def main() -> int:
 
         bundles = [load_bundle(p) for p in bundle_paths]
         round_exec = summarize_round_bundles(bundles, round_idx)
+        comm_report_path = BUNDLES_DIR / f"round{round_idx:02d}_comm.json"
 
         server_cmd = [
             py,
@@ -296,7 +346,11 @@ def main() -> int:
             cfg.base_model,
             "--config-json",
             str(config_json),
+            "--comm-report",
+            str(comm_report_path),
         ]
+        if args.aggregation_diagnostics and round_idx == 1:
+            server_cmd.append("--aggregation-diagnostics")
         print("[sim]", " ".join(server_cmd))
         proc = subprocess.run(
             server_cmd,
@@ -307,15 +361,29 @@ def main() -> int:
         )
         if proc.stdout.strip():
             print(proc.stdout)
+
         comm = {}
-        try:
-            text = proc.stdout.strip()
-            start = text.rfind("{")
-            if start >= 0:
-                payload = json.loads(text[start:])
+        if comm_report_path.is_file():
+            comm = json.loads(comm_report_path.read_text(encoding="utf-8"))
+        else:
+            try:
+                payload = _parse_server_summary(proc.stdout)
                 comm = payload.get("communication") or {}
-        except json.JSONDecodeError:
-            comm = {}
+            except json.JSONDecodeError:
+                comm = {}
+
+        if not comm:
+            per_client_upload = {
+                str(bundle.get("client_id", f"client_{i}")): bundle_serialized_upload_bytes(bundle)
+                for i, bundle in enumerate(bundles)
+            }
+            upload_only = int(sum(per_client_upload.values()))
+            comm = {
+                "upload_bytes_total": upload_only,
+                "download_bytes_total": 0,
+                "per_client_upload_bytes": per_client_upload,
+                "measurement_note": "upload_only_fallback_missing_comm_report",
+            }
 
         upload = int(comm.get("upload_bytes_total") or 0)
         download = int(comm.get("download_bytes_total") or 0)
@@ -323,6 +391,8 @@ def main() -> int:
         total_download += download
         if comm.get("trainable_parameters") is not None:
             trainable_parameters = int(comm["trainable_parameters"])
+        if comm.get("trainable_param_breakdown") is not None:
+            trainable_param_breakdown = comm["trainable_param_breakdown"]
         if comm.get("adapter_bytes") is not None:
             adapter_bytes = int(comm["adapter_bytes"])
 
@@ -334,8 +404,12 @@ def main() -> int:
             "upload_mb": _mb(upload),
             "download_mb": _mb(download),
             "communication_mb": _mb(upload + download),
+            "per_client_upload_bytes": comm.get("per_client_upload_bytes"),
+            "per_client_download_bytes": comm.get("per_client_download_bytes"),
             "execution": round_exec,
         }
+        if comm.get("aggregation_diagnostics"):
+            round_record["aggregation_diagnostics"] = comm["aggregation_diagnostics"]
         if eval_each_round and not args.skip_train:
             metrics = _evaluate_global(global_dir, eval_csv, cfg)
             round_record.update(metrics)
@@ -353,6 +427,7 @@ def main() -> int:
                         "total_download": total_download,
                     },
                     "trainable_parameters": trainable_parameters,
+                    "trainable_param_breakdown": trainable_param_breakdown,
                     "adapter_bytes": adapter_bytes,
                     "global_adapter": str(global_dir),
                 },
@@ -369,14 +444,23 @@ def main() -> int:
     run_id = os.environ.get("EDUGUARD_RUN_ID", "standalone")
     experiment_id = os.environ.get("EDUGUARD_EXPERIMENT_ID", tag)
     client_sizes = {cid: int(len(frame)) for cid, frame in parts.items()}
+    comm_totals = accumulate_communication(history)
+    centralized_steps = _load_centralized_optimizer_steps()
     comm_block = {
         "trainable_parameters": trainable_parameters,
+        "trainable_param_breakdown": trainable_param_breakdown,
         "adapter_bytes": adapter_bytes,
         "adapter_size_mb": _mb(adapter_bytes or 0),
-        "total_upload_bytes": total_upload,
-        "total_download_bytes": total_download,
-        "per_round_upload_bytes": [r.get("upload_bytes", 0) for r in history],
-        "per_round_download_bytes": [r.get("download_bytes", 0) for r in history],
+        "total_upload_bytes": comm_totals["total_upload_bytes"],
+        "total_download_bytes": comm_totals["total_download_bytes"],
+        "per_round_upload_bytes": comm_totals["per_round_upload_bytes"],
+        "per_round_download_bytes": comm_totals["per_round_download_bytes"],
+        "per_client_upload_bytes_last_round": (
+            history[-1].get("per_client_upload_bytes") if history else None
+        ),
+        "per_client_download_bytes_last_round": (
+            history[-1].get("per_client_download_bytes") if history else None
+        ),
     }
     report = build_federated_result_report(
         cfg=cfg,
@@ -398,6 +482,7 @@ def main() -> int:
         start_time=start_time_iso,
         history=history,
         status="EXECUTED" if not args.skip_train else "STRUCTURE_ONLY",
+        centralized_optimizer_steps=centralized_steps,
     )
     # Backward-compatible aliases used by utility_gap_report / parity scripts
     report["final_test_metrics"] = final_metrics

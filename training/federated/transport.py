@@ -50,6 +50,7 @@ def pack_update(
         "round": int(round_idx),
         "role": role,
         "n_samples": int(n_samples),
+        "serialized_update_bytes": len(raw),
         "sha256_plaintext": digest,
         "payload_b64": payload,
         "privacy_note": (

@@ -23,7 +23,7 @@ def main() -> int:
     report = {
         "status": "NOT_EXECUTED",
         "eduguard_source": str(FED_RESULT),
-        "framework_reference": str(FRAMEWORK_REF),
+        "framework_reference": None,
         "eduguard_test_accuracy": None,
         "framework_test_accuracy": None,
         "absolute_gap": None,

@@ -45,6 +45,7 @@ def test_bundle_fields_are_metadata_only():
         "round",
         "role",
         "n_samples",
+        "serialized_update_bytes",
         "sha256_plaintext",
         "payload_b64",
         "privacy_note",

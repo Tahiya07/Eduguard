@@ -1,0 +1,188 @@
+{
+  "status": "COMPUTED",
+  "exact_parity_established": false,
+  "parity_threshold_absolute_accuracy": 0.05,
+  "framework_reference_path": "C:\\Users\\tahiy\\PycharmProjects\\Framework\\results\\federated_lora_fedavg_iid1.json",
+  "framework_reference_available": true,
+  "eduguard_result_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid.json",
+  "eduguard_result_available": false,
+  "baseline_lock_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\fedavg_iid_baseline_lock.json",
+  "metrics_comparison": {
+    "framework_test_accuracy": 0.5029,
+    "eduguard_test_accuracy": 0.5686,
+    "absolute_difference_eduguard_minus_framework": 0.0657,
+    "within_parity_threshold": false
+  },
+  "configuration_comparisons": [
+    {
+      "field": "aggregation",
+      "framework_value": "fedavg",
+      "eduguard_value": null,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
+    },
+    {
+      "field": "base_model",
+      "framework_value": "Qwen/Qwen2.5-0.5B-Instruct",
+      "eduguard_value": "Qwen/Qwen2.5-0.5B-Instruct",
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "batch_size",
+      "framework_value": 2,
+      "eduguard_value": 2,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "clients",
+      "framework_value": 8,
+      "eduguard_value": 8,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "dataset_hashes",
+      "framework_value": null,
+      "eduguard_value": null,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "gradient_accumulation",
+      "framework_value": 8,
+      "eduguard_value": 8,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "label_smoothing",
+      "framework_value": null,
+      "eduguard_value": null,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "learning_rate",
+      "framework_value": 0.0001,
+      "eduguard_value": 0.0001,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "local_epochs",
+      "framework_value": 3.0,
+      "eduguard_value": 3.0,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "lora_alpha",
+      "framework_value": 64,
+      "eduguard_value": null,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
+    },
+    {
+      "field": "lora_dropout",
+      "framework_value": 0.1,
+      "eduguard_value": null,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
+    },
+    {
+      "field": "lora_r",
+      "framework_value": 32,
+      "eduguard_value": 32,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "modules_to_save",
+      "framework_value": [
+        "score"
+      ],
+      "eduguard_value": [
+        "score"
+      ],
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "partition",
+      "framework_value": "iid",
+      "eduguard_value": "iid",
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "rounds",
+      "framework_value": 5,
+      "eduguard_value": 5,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "seed",
+      "framework_value": 42,
+      "eduguard_value": 42,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "warmup_ratio",
+      "framework_value": null,
+      "eduguard_value": null,
+      "same": true,
+      "potential_impact": "none (matched)"
+    },
+    {
+      "field": "weight_decay",
+      "framework_value": null,
+      "eduguard_value": null,
+      "same": true,
+      "potential_impact": "none (matched)"
+    }
+  ],
+  "partition_parity": {
+    "eduguard_partition_artifact": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\runs\\fedavg_iid\\partition.json",
+    "partition_available": false,
+    "seed": null,
+    "strategy": null,
+    "client_sizes": null,
+    "client_label_distribution": null,
+    "framework_partition_verified": false,
+    "note": "Framework partition artifact not present in this repo; IID procedure documented only."
+  },
+  "centralized_reference": {
+    "source": null,
+    "available": false,
+    "metrics": null
+  },
+  "known_eduguard_vs_centralized_training_differences": [
+    {
+      "field": "warmup_ratio",
+      "framework_value": 0.06,
+      "eduguard_value": null,
+      "same": false,
+      "potential_impact": "may affect early-round convergence"
+    },
+    {
+      "field": "training_precision",
+      "framework_value": "fp16 when CUDA",
+      "eduguard_value": "bf16 when supported else fp16/fp32",
+      "same": false,
+      "potential_impact": "numerical differences in local updates"
+    },
+    {
+      "field": "centralized_epochs",
+      "framework_value": 12,
+      "eduguard_value": "5 rounds x 3.0 local epochs",
+      "same": false,
+      "potential_impact": "federated budget differs from centralized 12-epoch training"
+    }
+  ],
+  "dp_status": "NOT VALIDATED",
+  "conclusion": "EduGuard FedAvg+IID baseline (56.86%) exceeds historical Framework (~50.3%) by 0.0657 absolute accuracy. Exact parity is NOT established without Framework partition/config artifacts. Diagnose before claiming migration fidelity."
+}
