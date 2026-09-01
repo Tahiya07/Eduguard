@@ -37,16 +37,50 @@ from experiments.federated.run_integrity import (  # noqa: E402
 )
 from training.federated.communication import (
     accumulate_communication,
-    bundle_serialized_upload_bytes,
+    require_bundle_communication,
+    require_result_communication,
+    require_round_communication,
 )
 from training.federated.execution_stats import summarize_round_bundles
 from training.federated.result_report import build_federated_result_report  # noqa: E402
 from training.federated.transport import load_bundle  # noqa: E402
 
+CLIENT_MODULE = "training.federated.client"
+SERVER_MODULE = "training.federated.server"
+
+
+def internal_module_cmd(python_exe: str, module: str, *args: str) -> list[str]:
+    """Build a package-safe subprocess command for an in-repo training module."""
+    return [python_exe, "-m", module, *args]
+
 
 def _run(cmd: list[str]) -> None:
     print("[sim]", " ".join(cmd))
     subprocess.run(cmd, cwd=str(ROOT), check=True)
+
+
+def _write_round_failure(
+    run_dir: Path,
+    *,
+    round_idx: int,
+    client_id: str | None,
+    error: str,
+) -> None:
+    payload = {
+        "round": int(round_idx),
+        "status": "FAILED",
+        "failed_client": client_id,
+        "error": error,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "round_failure.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _clear_round_failure(run_dir: Path) -> None:
+    failure_path = run_dir / "round_failure.json"
+    if failure_path.is_file():
+        failure_path.unlink()
 
 
 def _mb(num_bytes: int | float) -> float:
@@ -284,19 +318,18 @@ def main() -> int:
         print(f"[sim] client {client_id}: {len(frame)} rows | mix={label_mix[client_id]}")
 
     py = sys.executable
-    client_script = ROOT / "training" / "federated" / "client.py"
-    server_script = ROOT / "training" / "federated" / "server.py"
     eval_csv = Path(args.eval_csv)
 
     for round_idx in range(start_round, cfg.rounds + 1):
         bundle_paths: list[Path] = []
+        round_failed_client: str | None = None
         for client_id, csv_path in client_csvs.items():
             bundle_path = BUNDLES_DIR / f"round{round_idx:02d}_{client_id}.json"
             bundle_paths.append(bundle_path)
             if not args.skip_train:
-                cmd = [
+                cmd = internal_module_cmd(
                     py,
-                    str(client_script),
+                    CLIENT_MODULE,
                     "--client-id",
                     client_id,
                     "--round",
@@ -319,19 +352,46 @@ def main() -> int:
                     cfg.base_model,
                     "--config-json",
                     str(config_json),
-                ]
-                _run(cmd)
+                )
+                try:
+                    _run(cmd)
+                except subprocess.CalledProcessError as exc:
+                    round_failed_client = client_id
+                    _write_round_failure(
+                        run_dir,
+                        round_idx=round_idx,
+                        client_id=client_id,
+                        error=f"client subprocess exit {exc.returncode}",
+                    )
+                    raise SystemExit(
+                        f"[sim] round {round_idx} FAILED at client {client_id} "
+                        f"(exit={exc.returncode}); round not aggregated"
+                    ) from exc
 
-        if not bundle_paths or not all(p.is_file() for p in bundle_paths):
-            raise FileNotFoundError("missing client bundles; run without --skip-train")
+        missing_bundles = [p for p in bundle_paths if not p.is_file()]
+        if missing_bundles:
+            _write_round_failure(
+                run_dir,
+                round_idx=round_idx,
+                client_id=round_failed_client,
+                error=f"missing bundles: {[str(p) for p in missing_bundles]}",
+            )
+            raise SystemExit(
+                f"[sim] round {round_idx} incomplete: missing {len(missing_bundles)} client bundle(s)"
+            )
 
         bundles = [load_bundle(p) for p in bundle_paths]
+        for bundle in bundles:
+            require_bundle_communication(
+                bundle,
+                context=f"round {round_idx} client {bundle.get('client_id')}",
+            )
         round_exec = summarize_round_bundles(bundles, round_idx)
         comm_report_path = BUNDLES_DIR / f"round{round_idx:02d}_comm.json"
 
-        server_cmd = [
+        server_cmd = internal_module_cmd(
             py,
-            str(server_script),
+            SERVER_MODULE,
             "--bundles",
             *[str(p) for p in bundle_paths],
             "--global-adapter",
@@ -348,42 +408,64 @@ def main() -> int:
             str(config_json),
             "--comm-report",
             str(comm_report_path),
-        ]
+        )
         if args.aggregation_diagnostics and round_idx == 1:
             server_cmd.append("--aggregation-diagnostics")
         print("[sim]", " ".join(server_cmd))
-        proc = subprocess.run(
-            server_cmd,
-            cwd=str(ROOT),
-            check=True,
-            capture_output=True,
-            text=True,
-        )
+        try:
+            proc = subprocess.run(
+                server_cmd,
+                cwd=str(ROOT),
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        except subprocess.CalledProcessError as exc:
+            _write_round_failure(
+                run_dir,
+                round_idx=round_idx,
+                client_id=None,
+                error=f"server subprocess exit {exc.returncode}",
+            )
+            raise SystemExit(
+                f"[sim] round {round_idx} FAILED during server aggregation (exit={exc.returncode})"
+            ) from exc
         if proc.stdout.strip():
             print(proc.stdout)
 
-        comm = {}
         if comm_report_path.is_file():
             comm = json.loads(comm_report_path.read_text(encoding="utf-8"))
         else:
             try:
                 payload = _parse_server_summary(proc.stdout)
                 comm = payload.get("communication") or {}
-            except json.JSONDecodeError:
-                comm = {}
+            except json.JSONDecodeError as exc:
+                _write_round_failure(
+                    run_dir,
+                    round_idx=round_idx,
+                    client_id=None,
+                    error=f"failed to parse server communication summary: {exc}",
+                )
+                raise SystemExit(
+                    f"[sim] round {round_idx} FAILED: missing communication report at {comm_report_path}"
+                ) from exc
 
         if not comm:
-            per_client_upload = {
-                str(bundle.get("client_id", f"client_{i}")): bundle_serialized_upload_bytes(bundle)
-                for i, bundle in enumerate(bundles)
-            }
-            upload_only = int(sum(per_client_upload.values()))
-            comm = {
-                "upload_bytes_total": upload_only,
-                "download_bytes_total": 0,
-                "per_client_upload_bytes": per_client_upload,
-                "measurement_note": "upload_only_fallback_missing_comm_report",
-            }
+            _write_round_failure(
+                run_dir,
+                round_idx=round_idx,
+                client_id=None,
+                error=f"missing communication report at {comm_report_path}",
+            )
+            raise SystemExit(
+                f"[sim] round {round_idx} FAILED: communication metadata missing after server aggregation"
+            )
+
+        require_round_communication(
+            comm,
+            context=f"round {round_idx}",
+            n_clients=len(bundles),
+        )
 
         upload = int(comm.get("upload_bytes_total") or 0)
         download = int(comm.get("download_bytes_total") or 0)
@@ -398,6 +480,7 @@ def main() -> int:
 
         round_record: dict = {
             "round": round_idx,
+            "status": "COMPLETE",
             "n_clients": len(bundle_paths),
             "upload_bytes": upload,
             "download_bytes": download,
@@ -415,6 +498,7 @@ def main() -> int:
             round_record.update(metrics)
             print(f"[sim] round {round_idx} global eval: {metrics}")
         history.append(round_record)
+        _clear_round_failure(run_dir)
 
         round_ckpt_path.write_text(
             json.dumps(
@@ -462,6 +546,12 @@ def main() -> int:
             history[-1].get("per_client_download_bytes") if history else None
         ),
     }
+    if not args.skip_train:
+        require_result_communication(
+            comm_block,
+            configured_rounds=int(cfg.rounds),
+            completed_rounds=len(history),
+        )
     report = build_federated_result_report(
         cfg=cfg,
         run_id=run_id,

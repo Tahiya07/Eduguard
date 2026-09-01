@@ -79,3 +79,21 @@ def test_accumulate_communication_from_history():
     assert totals["total_upload_bytes"] == 40
     assert totals["total_download_bytes"] == 60
     assert totals["per_round_upload_bytes"] == [10, 30]
+
+
+def test_require_result_communication_rejects_zero_totals():
+    from training.federated.communication import require_result_communication
+    import pytest
+
+    with pytest.raises(ValueError, match="must be positive"):
+        require_result_communication(
+            {
+                "total_upload_bytes": 0,
+                "total_download_bytes": 100,
+                "per_round_upload_bytes": [0],
+                "trainable_parameters": 10,
+                "adapter_bytes": 100,
+            },
+            configured_rounds=1,
+            completed_rounds=1,
+        )

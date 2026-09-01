@@ -42,6 +42,13 @@ def _find_best_checkpoint_dir(output_dir: Path) -> Path | None:
     return numbered[-1] if numbered else None
 
 
+def _load_tokenizer(base_model_id: str) -> Any:
+    """Load tokenizer from the base HF model (LoRA does not change vocabulary)."""
+    from transformers import AutoTokenizer
+
+    return AutoTokenizer.from_pretrained(base_model_id, trust_remote_code=True)
+
+
 def resolve_checkpoint(
     cfg: dict[str, Any], condition: str, *, adapter_override: str | None = None
 ) -> CheckpointInfo:
@@ -79,7 +86,7 @@ def resolve_checkpoint(
 def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict) -> dict[str, Any]:
     """Load model/tokenizer and run one smoke generation. Raises on failure."""
     from peft import PeftModel
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from transformers import AutoModelForCausalLM
 
     from prompts import bloom_messages, render_chatml
 
@@ -88,7 +95,7 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if info.condition == "base":
-        tokenizer = AutoTokenizer.from_pretrained(info.base_model_id, trust_remote_code=True)
+        tokenizer = _load_tokenizer(info.base_model_id)
         model = AutoModelForCausalLM.from_pretrained(
             info.base_model_id, trust_remote_code=True, torch_dtype=dtype
         )
@@ -102,7 +109,9 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
             raise ValueError(
                 f"Adapter base {adapter_base!r} != config model_id {info.base_model_id!r}"
             )
-        tokenizer = AutoTokenizer.from_pretrained(str(info.adapter_path), trust_remote_code=True)
+        # Always use the base-model tokenizer: adapter copies can fail across
+        # tokenizers versions (ModelWrapper parse errors on tokenizer.json).
+        tokenizer = _load_tokenizer(adapter_base)
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
         base = AutoModelForCausalLM.from_pretrained(
@@ -144,15 +153,13 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
 class HFGenerator:
     def __init__(self, info: CheckpointInfo, max_seq_length: int) -> None:
         from peft import PeftModel
-        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from transformers import AutoModelForCausalLM
 
         self.max_seq_length = max_seq_length
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         if info.condition == "base":
-            self.tokenizer = AutoTokenizer.from_pretrained(
-                info.base_model_id, trust_remote_code=True
-            )
+            self.tokenizer = _load_tokenizer(info.base_model_id)
             self.model = AutoModelForCausalLM.from_pretrained(
                 info.base_model_id, trust_remote_code=True, torch_dtype=dtype
             )
@@ -162,9 +169,7 @@ class HFGenerator:
                 (info.adapter_path / "adapter_config.json").read_text(encoding="utf-8")
             )
             base_id = adapter_cfg.get("base_model_name_or_path", info.base_model_id)
-            self.tokenizer = AutoTokenizer.from_pretrained(
-                str(info.adapter_path), trust_remote_code=True
-            )
+            self.tokenizer = _load_tokenizer(base_id)
             base = AutoModelForCausalLM.from_pretrained(
                 base_id, trust_remote_code=True, torch_dtype=dtype
             )

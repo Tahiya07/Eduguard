@@ -39,7 +39,7 @@ def main() -> int:
     args = parser.parse_args()
 
     py = sys.executable
-    sim = ROOT / "training" / "federated" / "simulation.py"
+    sim_module = "training.federated.simulation"
     reports = []
 
     for spec in MATRIX:
@@ -48,7 +48,8 @@ def main() -> int:
             continue
         cmd = [
             py,
-            str(sim),
+            "-m",
+            sim_module,
             "--clients",
             str(args.clients),
             "--rounds",

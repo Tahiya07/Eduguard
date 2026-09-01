@@ -81,6 +81,108 @@ def measure_round_communication(
     }
 
 
+REQUIRED_BUNDLE_COMMUNICATION_KEYS = (
+    "trainable_parameter_count",
+    "update_bytes",
+    "adapter_size_bytes",
+)
+
+REQUIRED_ROUND_COMMUNICATION_KEYS = (
+    "upload_bytes_total",
+    "download_bytes_total",
+    "per_client_upload_bytes",
+)
+
+
+def attach_client_communication_metadata(
+    bundle: Dict[str, Any],
+    local_state: Mapping[str, torch.Tensor],
+) -> Dict[str, Any]:
+    """Attach explicit communication metadata to a client update bundle."""
+    breakdown = trainable_param_breakdown(local_state)
+    update_bytes = bundle_serialized_upload_bytes(bundle)
+    if update_bytes <= 0:
+        raise ValueError("client update_bytes must be positive for non-empty trainable state")
+    comm = {
+        "trainable_parameter_count": int(breakdown["total_trainable_parameters"]),
+        "trainable_param_breakdown": breakdown,
+        "update_bytes": int(update_bytes),
+        "adapter_size_bytes": int(update_bytes),
+    }
+    bundle["communication"] = comm
+    bundle["trainable_parameters"] = comm["trainable_parameter_count"]
+    bundle["update_bytes"] = comm["update_bytes"]
+    bundle["trainable_param_breakdown"] = comm["trainable_param_breakdown"]
+    return bundle
+
+
+def require_bundle_communication(bundle: Mapping[str, Any], *, context: str = "bundle") -> None:
+    """Raise if a client bundle lacks required communication metadata."""
+    comm = bundle.get("communication")
+    if not isinstance(comm, dict):
+        raise ValueError(f"{context}: missing communication block")
+    for key in REQUIRED_BUNDLE_COMMUNICATION_KEYS:
+        if comm.get(key) is None:
+            raise ValueError(f"{context}: communication.{key} is required")
+    if int(comm["update_bytes"]) <= 0:
+        raise ValueError(f"{context}: communication.update_bytes must be positive")
+
+
+def require_round_communication(
+    comm: Mapping[str, Any],
+    *,
+    context: str,
+    n_clients: int,
+) -> None:
+    """Raise if a completed round lacks measured communication totals."""
+    if n_clients <= 0:
+        raise ValueError(f"{context}: n_clients must be positive")
+    for key in REQUIRED_ROUND_COMMUNICATION_KEYS:
+        if comm.get(key) is None:
+            raise ValueError(f"{context}: missing {key}")
+    upload = int(comm["upload_bytes_total"])
+    download = int(comm["download_bytes_total"])
+    if upload <= 0:
+        raise ValueError(f"{context}: upload_bytes_total must be positive")
+    if download <= 0:
+        raise ValueError(f"{context}: download_bytes_total must be positive")
+    per_client = comm.get("per_client_upload_bytes") or {}
+    if len(per_client) != n_clients:
+        raise ValueError(
+            f"{context}: expected per_client_upload_bytes for {n_clients} clients, got {len(per_client)}"
+        )
+
+
+def require_result_communication(
+    comm_block: Mapping[str, Any],
+    *,
+    configured_rounds: int,
+    completed_rounds: int,
+) -> None:
+    """Raise if an executed FL result lacks non-zero communication accounting."""
+    if completed_rounds <= 0:
+        raise ValueError("completed_rounds must be positive for executed FL results")
+    upload = comm_block.get("total_upload_bytes")
+    download = comm_block.get("total_download_bytes")
+    if upload is None or download is None:
+        raise ValueError("result communication missing total_upload_bytes/total_download_bytes")
+    if int(upload) <= 0 or int(download) <= 0:
+        raise ValueError("result communication totals must be positive after successful FL run")
+    if comm_block.get("trainable_parameters") is None:
+        raise ValueError("result communication missing trainable_parameters")
+    if comm_block.get("adapter_bytes") is None or int(comm_block.get("adapter_bytes") or 0) <= 0:
+        raise ValueError("result communication missing positive adapter_bytes")
+    per_round_upload = comm_block.get("per_round_upload_bytes") or []
+    if len(per_round_upload) != completed_rounds:
+        raise ValueError(
+            f"per_round_upload_bytes length {len(per_round_upload)} != completed rounds {completed_rounds}"
+        )
+    if configured_rounds != completed_rounds:
+        raise ValueError(
+            f"refusing to finalize result: completed {completed_rounds} rounds, configured {configured_rounds}"
+        )
+
+
 def accumulate_communication(
   round_records: List[Mapping[str, Any]],
 ) -> Dict[str, Any]:

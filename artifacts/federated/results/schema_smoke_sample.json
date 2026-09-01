@@ -2,7 +2,7 @@
   "format": "federated_bloom_result_v1",
   "run_id": "schema_sample",
   "experiment_id": "schema_sample",
-  "git_revision": "e31ecca5cf115c07c9c27dcfe5a7c2174b2b371b",
+  "git_revision": "5811eec117130e73f51d6af10533e137a30e5dc3",
   "config_hash": "028052a982b2214cd7dc73f79890053be0f885b3fff220d689071e2fdefeb9bb",
   "dataset_hashes": {
     "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
@@ -12,8 +12,8 @@
   "model_identifier": "Qwen/Qwen2.5-0.5B-Instruct",
   "seed": 42,
   "status": "STRUCTURE_ONLY",
-  "start_time": "2026-08-31T18:38:50.029193+00:00",
-  "end_time": "2026-08-31T18:38:50.029193+00:00",
+  "start_time": "2026-09-01T08:11:16.029568+00:00",
+  "end_time": "2026-09-01T08:11:16.029568+00:00",
   "setting_tag": "schema_sample_iid",
   "training": {
     "optimizer": "AdamW",

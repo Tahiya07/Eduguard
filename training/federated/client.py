@@ -28,7 +28,11 @@ from transformers import (
 
 from training.paths import ROOT
 from training.federated.aggregation import extract_trainable_state, trainable_param_count
-from training.federated.communication import trainable_param_breakdown
+from training.federated.communication import (
+    attach_client_communication_metadata,
+    require_bundle_communication,
+    trainable_param_breakdown,
+)
 from training.federated.class_weights import resolve_class_weights
 from training.federated.config import (
     BLOOM_LABELS,
@@ -284,9 +288,7 @@ def main() -> int:
         n_samples=n,
         state=local_state,
     )
-    bundle["trainable_parameters"] = stats["trainable_parameters"]
-    bundle["trainable_param_breakdown"] = stats.get("trainable_param_breakdown")
-    bundle["update_bytes"] = int(bundle["serialized_update_bytes"])
+    bundle = attach_client_communication_metadata(bundle, local_state)
     bundle["prox_mu"] = stats["prox_mu"]
     bundle["algorithm"] = stats["algorithm"]
     bundle["execution"] = {
@@ -295,10 +297,12 @@ def main() -> int:
         "max_steps": stats.get("max_steps"),
         "source": "trainer.state.global_step",
     }
+    require_bundle_communication(bundle, context=f"client {args.client_id} round {args.round}")
     save_bundle(Path(args.out_bundle), bundle)
+    comm = bundle["communication"]
     print(
         f"[client] saved bundle -> {args.out_bundle} "
-        f"(n={n}, params={stats['trainable_parameters']}, bytes={stats['update_bytes']}, "
+        f"(n={n}, params={comm['trainable_parameter_count']}, bytes={comm['update_bytes']}, "
         f"optimizer_steps={stats.get('optimizer_steps_completed')})"
     )
     return 0
