@@ -23,7 +23,7 @@ from eval_metrics import (  # noqa: E402
     qa_token_f1,
     source_target_matrix,
 )
-from eval_model import resolve_checkpoint  # noqa: E402
+from eval_model import resolve_checkpoint, _sanitize_lora_adapter_config  # noqa: E402
 from paths import MULTITASK_DATA_DIR  # noqa: E402
 from prompts import assert_no_source_level_in_prompt, build_generation_prompt  # noqa: E402
 
@@ -87,6 +87,22 @@ class TestMetrics(unittest.TestCase):
 
 
 class TestCheckpointResolution(unittest.TestCase):
+    def test_sanitize_strips_unknown_peft_keys(self) -> None:
+        try:
+            import peft  # noqa: F401
+        except ImportError:
+            self.skipTest("peft not installed")
+        raw = {
+            "r": 16,
+            "lora_alpha": 32,
+            "peft_type": "LORA",
+            "alora_invocation_tokens": None,
+        }
+        sanitized, stripped = _sanitize_lora_adapter_config(raw)
+        self.assertIn("alora_invocation_tokens", stripped)
+        self.assertNotIn("alora_invocation_tokens", sanitized)
+        self.assertEqual(sanitized["r"], 16)
+
     def test_base_condition(self) -> None:
         cfg = {
             "model_id": "Qwen/Qwen2.5-0.5B-Instruct",

@@ -49,6 +49,54 @@ def _load_tokenizer(base_model_id: str) -> Any:
     return AutoTokenizer.from_pretrained(base_model_id, trust_remote_code=True)
 
 
+def _lora_config_param_names() -> set[str]:
+    from peft import LoraConfig
+    import inspect
+
+    return set(inspect.signature(LoraConfig.__init__).parameters.keys()) - {"self"}
+
+
+def _sanitize_lora_adapter_config(raw: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    """Drop adapter_config keys that the installed PEFT cannot parse."""
+    lora_params = _lora_config_param_names()
+    meta_keys = {
+        "peft_type",
+        "task_type",
+        "base_model_name_or_path",
+        "revision",
+        "peft_version",
+        "transformers_version",
+        "auto_mapping",
+    }
+    allowed = lora_params | meta_keys
+    stripped = sorted(k for k in raw if k not in allowed)
+    sanitized = {k: v for k, v in raw.items() if k in allowed}
+    return sanitized, stripped
+
+
+def _load_peft_adapter(base_model: Any, adapter_path: Path) -> Any:
+    """Load LoRA weights, tolerating adapter_config fields from newer PEFT."""
+    import shutil
+    import tempfile
+
+    from peft import PeftModel
+
+    config_path = adapter_path / "adapter_config.json"
+    raw = json.loads(config_path.read_text(encoding="utf-8"))
+    sanitized, stripped = _sanitize_lora_adapter_config(raw)
+    if stripped:
+        with tempfile.TemporaryDirectory(prefix="peft_adapter_") as tmp:
+            tmp_path = Path(tmp)
+            for item in adapter_path.iterdir():
+                dest = tmp_path / item.name
+                if item.name == "adapter_config.json":
+                    dest.write_text(json.dumps(sanitized, indent=2), encoding="utf-8")
+                elif item.is_file():
+                    shutil.copy2(item, dest)
+            return PeftModel.from_pretrained(base_model, str(tmp_path))
+    return PeftModel.from_pretrained(base_model, str(adapter_path))
+
+
 def resolve_checkpoint(
     cfg: dict[str, Any], condition: str, *, adapter_override: str | None = None
 ) -> CheckpointInfo:
@@ -85,7 +133,6 @@ def resolve_checkpoint(
 
 def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict) -> dict[str, Any]:
     """Load model/tokenizer and run one smoke generation. Raises on failure."""
-    from peft import PeftModel
     from transformers import AutoModelForCausalLM
 
     from prompts import bloom_messages, render_chatml
@@ -117,7 +164,7 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
         base = AutoModelForCausalLM.from_pretrained(
             adapter_base, trust_remote_code=True, torch_dtype=dtype
         )
-        model = PeftModel.from_pretrained(base, str(info.adapter_path))
+        model = _load_peft_adapter(base, info.adapter_path)
     model.eval()
     model.to(device)
     load_s = time.perf_counter() - load_start
@@ -152,7 +199,6 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
 
 class HFGenerator:
     def __init__(self, info: CheckpointInfo, max_seq_length: int) -> None:
-        from peft import PeftModel
         from transformers import AutoModelForCausalLM
 
         self.max_seq_length = max_seq_length
@@ -173,7 +219,7 @@ class HFGenerator:
             base = AutoModelForCausalLM.from_pretrained(
                 base_id, trust_remote_code=True, torch_dtype=dtype
             )
-            self.model = PeftModel.from_pretrained(base, str(info.adapter_path))
+            self.model = _load_peft_adapter(base, info.adapter_path)
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         self.model.eval()
