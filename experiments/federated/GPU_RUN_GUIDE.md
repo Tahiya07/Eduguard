@@ -110,7 +110,9 @@ python experiments/federated/run_all_experiments.py --experiment fedavg_iid --no
 ### Checkpoint / shutdown recovery
 
 - FL simulation saves `artifacts/federated/runs/<tag>/round_checkpoint.json` after each round.
-- Resume FL with `python -m training.federated.simulation --resume ...` (same config).
+- **Auto-resume:** re-running the same simulation command (or `run_all_experiments.py --resume`) continues from `last_completed_round + 1` when the checkpoint exists and the config hash matches. You do **not** need `--resume` on the simulation CLI unless you want to be explicit.
+- Use `--fresh` on simulation to discard the checkpoint and restart from round 1.
+- Resume FL manually: `python -m training.federated.simulation ...` (same config as before).
 - Master runner resume: `--resume` loads `experiments/federated/state/run_state.json`, skips completed experiments with matching `run_id` artifacts, continues from first incomplete step.
 - `Ctrl+C` marks current experiment **INTERRUPTED**; `--resume` retries it.
 

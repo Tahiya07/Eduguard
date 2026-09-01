@@ -54,6 +54,9 @@ def _sim_cmd(py: str, r: str, **kwargs) -> List[str]:
             cmd.extend([flag, str(kwargs[key])])
     if kwargs.get("aggregation_diagnostics"):
         cmd.append("--aggregation-diagnostics")
+    # Simulation auto-resumes from round_checkpoint.json when present; --resume is optional.
+    if kwargs.get("resume"):
+        cmd.append("--resume")
     return cmd
 
 

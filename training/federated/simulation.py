@@ -20,6 +20,7 @@ from training.paths import (
     RUNS_DIR,
     UPDATES_DIR,
 )
+from training.federated.checkpoint import resolve_round_resume, write_round_checkpoint
 from training.federated.config import (
     DEFAULT_PROX_MU,
     FederatedLoraConfig,
@@ -173,7 +174,16 @@ def main() -> int:
     parser.add_argument("--global-adapter", default=None)
     parser.add_argument("--results-json", default=None)
     parser.add_argument("--skip-train", action="store_true")
-    parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from round_checkpoint.json when present (also auto-detected)",
+    )
+    parser.add_argument(
+        "--fresh",
+        action="store_true",
+        help="Ignore checkpoint and restart training from round 1",
+    )
     parser.add_argument("--eval-each-round", action="store_true", default=True)
     parser.add_argument("--no-eval-each-round", action="store_true")
     parser.add_argument("--from-scratch", action="store_true", default=True)
@@ -192,7 +202,6 @@ def main() -> int:
     args = parser.parse_args()
 
     t0 = time.time()
-    start_time_iso = datetime.now(timezone.utc).isoformat()
     eval_each_round = bool(args.eval_each_round) and not bool(args.no_eval_each_round)
     tag = args.experiment_tag or setting_tag(
         algorithm=args.algorithm, partition=args.partition, alpha=args.alpha
@@ -238,31 +247,39 @@ def main() -> int:
     cfg_hash = config_hash(cfg.to_dict())
     round_ckpt_path = run_dir / "round_checkpoint.json"
 
-    start_round = 1
-    history: list = []
-    total_upload = 0
-    total_download = 0
-    trainable_parameters = None
-    trainable_param_breakdown = None
-    adapter_bytes = None
+    if args.fresh and round_ckpt_path.is_file():
+        round_ckpt_path.unlink()
+        _clear_round_failure(run_dir)
+        print(f"[sim] --fresh: removed checkpoint {round_ckpt_path}")
 
-    if args.resume and round_ckpt_path.is_file():
-        ckpt = json.loads(round_ckpt_path.read_text(encoding="utf-8"))
-        if ckpt.get("config_hash") != cfg_hash:
-            raise SystemExit(
-                f"Refusing resume: config_hash mismatch ({ckpt.get('config_hash')} vs {cfg_hash})"
-            )
-        start_round = int(ckpt.get("last_completed_round", 0)) + 1
-        history = list(ckpt.get("history", []))
-        comm_acc = ckpt.get("communication_accum", {})
-        total_upload = int(comm_acc.get("total_upload", 0))
-        total_download = int(comm_acc.get("total_download", 0))
-        trainable_parameters = ckpt.get("trainable_parameters")
-        trainable_param_breakdown = ckpt.get("trainable_param_breakdown")
-        adapter_bytes = ckpt.get("adapter_bytes")
-        print(f"[sim] resuming from round {start_round} (checkpoint {round_ckpt_path})")
+    resume_state = resolve_round_resume(
+        round_ckpt_path,
+        config_hash=cfg_hash,
+        configured_rounds=int(cfg.rounds),
+        resume_requested=bool(args.resume),
+        fresh_requested=bool(args.fresh),
+    )
+    start_round = resume_state.start_round
+    history = resume_state.history
+    total_upload = resume_state.total_upload
+    total_download = resume_state.total_download
+    trainable_parameters = resume_state.trainable_parameters
+    trainable_param_breakdown = resume_state.trainable_param_breakdown
+    adapter_bytes = resume_state.adapter_bytes
+    start_time_iso = resume_state.start_time or datetime.now(timezone.utc).isoformat()
 
-    if global_dir.exists() and not args.resume and not args.skip_train:
+    if resume_state.should_resume and not resume_state.training_complete:
+        print(
+            f"[sim] resuming from round {start_round} "
+            f"(checkpoint {round_ckpt_path}, last_completed={resume_state.last_completed_round})"
+        )
+    elif resume_state.training_complete:
+        print(
+            f"[sim] checkpoint shows all {cfg.rounds} rounds complete; "
+            "skipping training and writing final report only"
+        )
+
+    if global_dir.exists() and not resume_state.should_resume and not args.skip_train:
         print(f"[sim] fresh start: clearing existing global adapter at {global_dir}")
         shutil.rmtree(global_dir)
     global_dir.mkdir(parents=True, exist_ok=True)
@@ -500,24 +517,18 @@ def main() -> int:
         history.append(round_record)
         _clear_round_failure(run_dir)
 
-        round_ckpt_path.write_text(
-            json.dumps(
-                {
-                    "last_completed_round": round_idx,
-                    "config_hash": cfg_hash,
-                    "history": history,
-                    "communication_accum": {
-                        "total_upload": total_upload,
-                        "total_download": total_download,
-                    },
-                    "trainable_parameters": trainable_parameters,
-                    "trainable_param_breakdown": trainable_param_breakdown,
-                    "adapter_bytes": adapter_bytes,
-                    "global_adapter": str(global_dir),
-                },
-                indent=2,
-            ),
-            encoding="utf-8",
+        write_round_checkpoint(
+            round_ckpt_path,
+            last_completed_round=round_idx,
+            config_hash=cfg_hash,
+            history=history,
+            total_upload=total_upload,
+            total_download=total_download,
+            trainable_parameters=trainable_parameters,
+            trainable_param_breakdown=trainable_param_breakdown,
+            adapter_bytes=adapter_bytes,
+            global_adapter=str(global_dir),
+            start_time=start_time_iso,
         )
 
     final_metrics = {}
