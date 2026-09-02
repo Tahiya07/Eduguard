@@ -389,6 +389,7 @@ def main() -> int:
     lora_dir = args.lora_dir or profile.lora_dir
     merged_dir = args.merged_dir or profile.merged_dir
     base_model = args.base_model or profile.base_model
+    checkpoint_override = args.model_dir or args.lora_dir
 
     test_df = _load_split(args.test_csv, args.text_col, args.label_col)
     if args.max_test > 0:
@@ -416,7 +417,7 @@ def main() -> int:
                 "format", checkpoint_type
             )
     else:
-        model_dir = resolve_checkpoint_dir(profile, model_dir=args.model_dir, quantized=False)
+        model_dir = resolve_checkpoint_dir(profile, model_dir=checkpoint_override, quantized=False)
         predictor = QwenBloomPredictor(model_dir=model_dir, base_model=base_model)
         checkpoint_type = "lora_adapter" if is_lora_adapter(model_dir) else "merged"
     print(f"[eval] checkpoint={model_dir} ({checkpoint_type})")
