@@ -53,6 +53,16 @@ python experiments/federated/run_all_experiments.py --experiment fedavg_iid --no
 python experiments/federated/run_all_experiments.py --experiment dp_validation --no-laptop-mode --allow-gpu
 ```
 
+## Compare 5-round vs 20-round FedAvg (deployment pick)
+
+```bash
+python experiments/federated/scripts/compare_fedavg_5r_vs_r20.py
+# PowerShell helper (merge + deployment hints):
+powershell -File scripts/deploy_federated_winner.ps1
+```
+
+Outputs: `artifacts/evaluation/fedavg_5r_vs_r20_comparison.md`, `deployment_recommendation.json`
+
 ## DP validation (standalone)
 
 ```bash

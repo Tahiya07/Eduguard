@@ -13,7 +13,13 @@ $env:HF_DATASETS_OFFLINE = "1"
 $env:OFFLINE_MODE = "true"
 
 $env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen.gguf"
-$env:BLOOM_MODEL_DIR = Join-Path $root "models\qwen_bloom_merged0.5B"
+$defaultBloom = Join-Path $root "models\qwen_bloom_merged0.5B"
+$federatedBloom = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
+if (Test-Path (Join-Path $federatedBloom "config.json")) {
+    $env:BLOOM_MODEL_DIR = $federatedBloom
+} else {
+    $env:BLOOM_MODEL_DIR = $defaultBloom
+}
 $env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
 
 $env:CORS_ORIGINS = "http://127.0.0.1:3000,http://localhost:3000"
@@ -31,8 +37,8 @@ if (-not (Test-Path (Join-Path $root "models\bge-small"))) {
     throw "BGE model missing."
 }
 
-if (-not (Test-Path (Join-Path $root "models\qwen_bloom_merged0.5B"))) {
-    throw "Bloom model missing."
+if (-not (Test-Path (Join-Path $env:BLOOM_MODEL_DIR "config.json"))) {
+    throw "Bloom model missing at $($env:BLOOM_MODEL_DIR)."
 }
 
 if (-not (Test-Path (Join-Path $frontend "node_modules"))) {

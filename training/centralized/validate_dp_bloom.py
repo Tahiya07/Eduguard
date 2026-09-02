@@ -344,6 +344,7 @@ def _gate_clipping_on_model(
 
     loader = DataLoader(dataset, batch_size=len(dataset), collate_fn=collate)
     optimizer = SGD(model.parameters(), lr=0.01)
+    model.train()
     try:
         from opacus import PrivacyEngine
 
@@ -358,7 +359,6 @@ def _gate_clipping_on_model(
     except Exception as exc:
         return GateResult(gate_name, False, failure_reason=f"make_private failed: {exc}")
 
-    model.train()
     for batch_in in loader:
         model.zero_grad()
         labels = batch_in.pop("labels")

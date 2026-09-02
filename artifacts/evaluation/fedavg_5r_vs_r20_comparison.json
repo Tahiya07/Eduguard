@@ -1,0 +1,246 @@
+{
+  "format": "fedavg_5r_vs_r20_comparison_v1",
+  "timestamp_utc": "2026-09-02T22:09:16.537131+00:00",
+  "comparison_is_fair": false,
+  "fairness_note": "r20 uses 4x optimizer steps (6240 vs 1560); not budget-matched.",
+  "winner": "fedavg_iid_r20",
+  "models": {
+    "fedavg_iid": {
+      "rounds": 5,
+      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
+      "eval_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_5r.json",
+      "eval_source": "federated_result_json",
+      "metrics": {
+        "accuracy": 0.6657,
+        "macro_f1": 0.6158,
+        "quadratic_weighted_kappa": 0.6678,
+        "within_one_level_accuracy": 0.8229,
+        "severe_error_rate": 0.0857,
+        "ece": 0.1299,
+        "n_eval": 350,
+        "per_class": {
+          "Remember": {
+            "precision": 0.7018,
+            "recall": 0.8333,
+            "f1": 0.7619,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.7852,
+            "recall": 0.7681,
+            "f1": 0.7766,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.4231,
+            "recall": 0.5116,
+            "f1": 0.4632,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.5319,
+            "recall": 0.6098,
+            "f1": 0.5682,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.6842,
+            "recall": 0.6047,
+            "f1": 0.642,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.6667,
+            "recall": 0.3784,
+            "f1": 0.4828,
+            "support": 37
+          }
+        },
+        "confusion_matrix": [
+          [
+            40,
+            6,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            8,
+            106,
+            14,
+            6,
+            3,
+            1
+          ],
+          [
+            3,
+            7,
+            22,
+            3,
+            2,
+            6
+          ],
+          [
+            1,
+            9,
+            3,
+            25,
+            3,
+            0
+          ],
+          [
+            3,
+            3,
+            4,
+            7,
+            26,
+            0
+          ],
+          [
+            2,
+            4,
+            7,
+            6,
+            4,
+            14
+          ]
+        ],
+        "optimizer_steps": 1560,
+        "federated_rounds": 5,
+        "runtime_seconds": 1906.2761,
+        "communication_total_bytes": 5642820720,
+        "artifact_path": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
+        "results_json": "D:\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid.json"
+      }
+    },
+    "fedavg_iid_r20": {
+      "rounds": 20,
+      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+      "eval_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_r20.json",
+      "eval_source": "federated_result_json",
+      "metrics": {
+        "accuracy": 0.7971,
+        "macro_f1": 0.779,
+        "quadratic_weighted_kappa": 0.8037,
+        "within_one_level_accuracy": 0.8829,
+        "severe_error_rate": 0.0743,
+        "ece": 0.0619,
+        "n_eval": 350,
+        "per_class": {
+          "Remember": {
+            "precision": 0.7759,
+            "recall": 0.9375,
+            "f1": 0.8491,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.88,
+            "recall": 0.7971,
+            "f1": 0.8365,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.6341,
+            "recall": 0.6047,
+            "f1": 0.619,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.8049,
+            "recall": 0.8049,
+            "f1": 0.8049,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.8085,
+            "recall": 0.8837,
+            "f1": 0.8444,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.7105,
+            "recall": 0.7297,
+            "f1": 0.72,
+            "support": 37
+          }
+        },
+        "confusion_matrix": [
+          [
+            45,
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            9,
+            110,
+            7,
+            6,
+            6,
+            0
+          ],
+          [
+            0,
+            6,
+            26,
+            0,
+            1,
+            10
+          ],
+          [
+            1,
+            5,
+            2,
+            33,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            1,
+            0,
+            38,
+            1
+          ],
+          [
+            1,
+            0,
+            5,
+            2,
+            2,
+            27
+          ]
+        ],
+        "optimizer_steps": 6240,
+        "federated_rounds": 20,
+        "runtime_seconds": 7526.2142,
+        "communication_total_bytes": 22571282880,
+        "artifact_path": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+        "results_json": "D:\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid_r20.json"
+      }
+    }
+  },
+  "deltas": {
+    "accuracy": 0.1314,
+    "macro_f1": 0.1632,
+    "quadratic_weighted_kappa": 0.1359,
+    "within_one_level_accuracy": 0.06,
+    "severe_error_rate": -0.0114,
+    "ece": -0.068
+  },
+  "mcnemar": null,
+  "merge": {
+    "status": "SKIPPED",
+    "reason": "LoRA adapter missing at C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+    "merge_command": "python training/centralized/merge_model.py --model-size 0.5b --lora-dir artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20 --output-dir artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged --force"
+  },
+  "deployment": {
+    "bloom_model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
+    "start_offline_env": "$env:BLOOM_MODEL_DIR = \"C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged\"",
+    "immutable_baseline_preserved": "artifacts/evaluation/fedavg_iid_baseline_lock.json"
+  }
+}
