@@ -14,7 +14,7 @@
     "opacus": "1.6.0"
   },
   "started_at": "2026-09-02T13:00:42.482937+00:00",
-  "last_update": "2026-09-02T13:00:46.578599+00:00",
+  "last_update": "2026-09-02T13:03:37.443222+00:00",
   "experiments": [
     {
       "experiment_id": "env_validation",
@@ -278,6 +278,7 @@
     "secagg_verification"
   ],
   "failed": [
+    "fl_smoke_fedavg_iid",
     "fl_smoke_fedavg_iid"
   ],
   "blocked": []
