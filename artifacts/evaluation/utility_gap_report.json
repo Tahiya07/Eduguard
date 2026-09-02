@@ -1,0 +1,26 @@
+{
+  "run_id": "20260902T130042Z",
+  "status": "COMPUTED",
+  "centralized_source": null,
+  "centralized_metrics": null,
+  "comparisons": [
+    {
+      "experiment": "fedavg_iid",
+      "accuracy": 0.6657,
+      "macro_f1": 0.6158,
+      "accuracy_gap_vs_central": null
+    },
+    {
+      "experiment": "fedprox_iid",
+      "accuracy": 0.6829,
+      "macro_f1": 0.6382,
+      "accuracy_gap_vs_central": null
+    },
+    {
+      "experiment": "fedavg_noniid_a05",
+      "accuracy": 0.5029,
+      "macro_f1": 0.4948,
+      "accuracy_gap_vs_central": null
+    }
+  ]
+}
