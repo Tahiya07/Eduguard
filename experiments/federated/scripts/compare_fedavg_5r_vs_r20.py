@@ -190,7 +190,8 @@ def _try_merge(winner: str) -> dict:
         }
     cmd = [
         sys.executable,
-        str(ROOT / "training/centralized/merge_model.py"),
+        "-m",
+        "training.centralized.merge_model",
         "--model-size",
         "0.5b",
         "--lora-dir",

@@ -7,16 +7,15 @@ import argparse
 import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import torch
 from peft import PeftModel
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from training.paths import ROOT
-
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from bloom_model_profiles import BLOOM_MODEL_PROFILES, DEFAULT_MODEL_SIZE, get_profile  # noqa: E402
+from bloom_model_profiles import BLOOM_MODEL_PROFILES, DEFAULT_MODEL_SIZE, get_profile
 
 
 DEFAULT_BASE_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"

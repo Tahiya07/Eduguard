@@ -413,7 +413,8 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
             priority="core",
             command=[
                 py,
-                f"{r}/training/centralized/merge_model.py",
+                "-m",
+                "training.centralized.merge_model",
                 "--model-size",
                 "0.5b",
                 "--lora-dir",
