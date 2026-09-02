@@ -19,6 +19,7 @@ EXPERIMENTS = [
     ("fedavg_iid_r20", ROOT / "artifacts" / "federated" / "results" / "federated_lora_fedavg_iid_r20.json", "20 rounds x 3 local epochs"),
     ("fedavg_iid_localepoch1", ROOT / "artifacts" / "federated" / "results" / "federated_lora_fedavg_iid_localepoch1.json", "5 rounds x 1 local epoch"),
     ("fedprox_iid", ROOT / "artifacts" / "federated" / "results" / "federated_lora_fedprox_iid.json", "FedProx mu=0.01, 5 rounds x 3 local epochs"),
+    ("fedprox_iid_r20", ROOT / "artifacts" / "federated" / "results" / "federated_lora_fedprox_iid_r20.json", "FedProx mu=0.01, 20 rounds x 3 local epochs"),
 ]
 
 FRAMEWORK_REF_CANDIDATES = [

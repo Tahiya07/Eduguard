@@ -43,6 +43,8 @@ from training.federated.config import (
 )
 from training.federated.execution_stats import read_trainer_execution_stats
 from training.federated.transport import pack_update, save_bundle
+from training.federated.dp import load_dp_lock, resolve_dp_lock_path
+from training.federated.dp_training import dp_config_from_lock, train_local_adapter_dp
 
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -266,6 +268,10 @@ def main() -> int:
     parser.add_argument("--prox-mu", type=float, default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--config-json", default=None)
+    parser.add_argument("--enable-dp", action="store_true")
+    parser.add_argument("--dp-scope", default="auto")
+    parser.add_argument("--dp-noise-multiplier", type=float, default=1.0)
+    parser.add_argument("--dp-delta", type=float, default=1e-5)
     args = parser.parse_args()
 
     cfg = FederatedLoraConfig()
@@ -289,7 +295,20 @@ def main() -> int:
         df = df.sample(args.max_samples, random_state=cfg.seed)
 
     global_dir = Path(args.global_adapter) if args.global_adapter else None
-    local_state, n, stats = train_local_adapter(df, cfg, global_dir)
+    if args.enable_dp:
+        lock_path = resolve_dp_lock_path(args.dp_scope)
+        lock = load_dp_lock(args.dp_scope)
+        dp_cfg = dp_config_from_lock(
+            lock,
+            noise_multiplier=args.dp_noise_multiplier,
+            target_delta=args.dp_delta,
+            lock_path=str(lock_path),
+        )
+        local_state, n, stats = train_local_adapter_dp(
+            df, cfg, global_dir, dp_cfg, build_prompt=build_prompt
+        )
+    else:
+        local_state, n, stats = train_local_adapter(df, cfg, global_dir)
 
     bundle = pack_update(
         client_id=args.client_id,
@@ -307,6 +326,17 @@ def main() -> int:
         "max_steps": stats.get("max_steps"),
         "source": "trainer.state.global_step",
     }
+    if stats.get("dp_enabled"):
+        bundle["differential_privacy"] = {
+            "enabled": True,
+            "dp_mode": stats.get("dp_mode"),
+            "noise_multiplier": stats.get("dp_noise_multiplier"),
+            "delta": stats.get("dp_delta"),
+            "max_grad_norm": stats.get("dp_max_grad_norm"),
+            "epsilon_local": stats.get("dp_epsilon_local"),
+            "lock_path": stats.get("dp_lock_path"),
+            "loss": stats.get("dp_loss"),
+        }
     require_bundle_communication(bundle, context=f"client {args.client_id} round {args.round}")
     save_bundle(Path(args.out_bundle), bundle)
     comm = bundle["communication"]

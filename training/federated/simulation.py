@@ -27,6 +27,8 @@ from training.federated.config import (
     setting_tag,
 )
 from training.federated.partition import client_label_distributions, partition_csv
+from training.federated.dp import load_dp_lock, resolve_dp_lock_path
+from training.federated.dp_training import compose_federated_privacy_report, normalize_dp_mode
 
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -199,7 +201,25 @@ def main() -> int:
         action="store_true",
         help="Emit one-round LoRA/score-head update norm diagnostics",
     )
+    parser.add_argument("--enable-dp", action="store_true", help="Client DP-SGD (requires Phase 2A lock).")
+    parser.add_argument(
+        "--dp-scope",
+        default="auto",
+        choices=("auto", "full", "score-head-only"),
+        help="Which dp_bloom_*_validated_v1.json lock to use.",
+    )
+    parser.add_argument("--dp-noise-multiplier", type=float, default=1.0)
+    parser.add_argument("--dp-delta", type=float, default=1e-5)
     args = parser.parse_args()
+
+    if args.enable_dp and args.algorithm != "fedavg":
+        raise SystemExit("Client DP-SGD requires --algorithm fedavg (FedProx is not DP-compatible).")
+    dp_lock = None
+    dp_lock_path = None
+    if args.enable_dp:
+        dp_lock_path = resolve_dp_lock_path(args.dp_scope)
+        dp_lock = load_dp_lock(args.dp_scope)
+        print(f"[sim] DP enabled via lock {dp_lock_path} (mode={normalize_dp_mode(dp_lock.get('dp_mode'))})")
 
     t0 = time.time()
     eval_each_round = bool(args.eval_each_round) and not bool(args.no_eval_each_round)
@@ -243,7 +263,18 @@ def main() -> int:
     run_dir = RUNS_DIR / tag
     run_dir.mkdir(parents=True, exist_ok=True)
     config_json = run_dir / "config.json"
-    config_json.write_text(json.dumps(cfg.to_dict(), indent=2), encoding="utf-8")
+    config_payload = cfg.to_dict()
+    if args.enable_dp and dp_lock:
+        config_payload["differential_privacy"] = {
+            "enabled": True,
+            "dp_scope": args.dp_scope,
+            "dp_mode": normalize_dp_mode(dp_lock.get("dp_mode")),
+            "noise_multiplier": float(args.dp_noise_multiplier),
+            "delta": float(args.dp_delta),
+            "lock_path": str(dp_lock_path),
+            "locked_procedure": dp_lock.get("locked_procedure"),
+        }
+    config_json.write_text(json.dumps(config_payload, indent=2), encoding="utf-8")
     cfg_hash = config_hash(cfg.to_dict())
     round_ckpt_path = run_dir / "round_checkpoint.json"
 
@@ -328,6 +359,7 @@ def main() -> int:
     )
 
     client_csvs: dict[str, Path] = {}
+    dp_local_epsilons: list[float] = []
     for client_id, frame in parts.items():
         path = UPDATES_DIR / f"{client_id}.csv"
         frame[[cfg.text_col, cfg.label_col]].to_csv(path, index=False)
@@ -370,6 +402,18 @@ def main() -> int:
                     "--config-json",
                     str(config_json),
                 )
+                if args.enable_dp:
+                    cmd.extend(
+                        [
+                            "--enable-dp",
+                            "--dp-scope",
+                            args.dp_scope,
+                            "--dp-noise-multiplier",
+                            str(args.dp_noise_multiplier),
+                            "--dp-delta",
+                            str(args.dp_delta),
+                        ]
+                    )
                 try:
                     _run(cmd)
                 except subprocess.CalledProcessError as exc:
@@ -403,6 +447,10 @@ def main() -> int:
                 bundle,
                 context=f"round {round_idx} client {bundle.get('client_id')}",
             )
+            dp_block = bundle.get("differential_privacy") or {}
+            eps = dp_block.get("epsilon_local")
+            if eps is not None:
+                dp_local_epsilons.append(float(eps))
         round_exec = summarize_round_bundles(bundles, round_idx)
         comm_report_path = BUNDLES_DIR / f"round{round_idx:02d}_comm.json"
 
@@ -591,10 +639,26 @@ def main() -> int:
     report["client_label_distribution"] = label_mix
     report["simulation"] = "eduguard_federated_qwen25_0.5b_bloom_lora"
     report["privacy_disclaimer"] = (
-        "Federated training keeps raw client data local during collaborative "
-        "optimization but does not by itself provide formal protection against "
-        "inference attacks on updates, secure aggregation, or differential privacy."
+        "Client-side Opacus DP-SGD was applied per locked Phase-2A procedure. "
+        "Server aggregation does not add Gaussian noise. Federated epsilon uses a "
+        "conservative naive composition bound unless a dedicated FL accountant is added."
+        if args.enable_dp
+        else (
+            "Federated training keeps raw client data local during collaborative "
+            "optimization but does not by itself provide formal protection against "
+            "inference attacks on updates, secure aggregation, or differential privacy."
+        )
     )
+    if args.enable_dp:
+        report["differential_privacy"] = compose_federated_privacy_report(
+            client_epsilons=dp_local_epsilons,
+            rounds=int(cfg.rounds),
+            delta=float(args.dp_delta),
+            noise_multiplier=float(args.dp_noise_multiplier),
+            dp_mode=normalize_dp_mode((dp_lock or {}).get("dp_mode")),
+        )
+        report["differential_privacy"]["lock_path"] = str(dp_lock_path) if dp_lock_path else None
+        report["differential_privacy"]["enabled"] = True
     results_path.parent.mkdir(parents=True, exist_ok=True)
     results_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(f"[sim] done -> {global_dir}")

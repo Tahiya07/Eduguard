@@ -63,6 +63,14 @@ powershell -File scripts/deploy_federated_winner.ps1
 
 Outputs: `artifacts/evaluation/fedavg_5r_vs_r20_comparison.md`, `deployment_recommendation.json`
 
+## FedProx IID 20 rounds
+
+```bash
+python experiments/federated/run_all_experiments.py --experiment fedprox_iid_r20 --no-laptop-mode --allow-gpu --profile extended
+
+python -m training.federated.simulation --clients 8 --rounds 20 --local-epochs 3 --algorithm fedprox --prox-mu 0.01 --partition iid --seed 42 --experiment-tag fedprox_iid_r20 --global-adapter artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20 --results-json artifacts/federated/results/federated_lora_fedprox_iid_r20.json --fresh
+```
+
 ## DP validation (standalone)
 
 ```bash
