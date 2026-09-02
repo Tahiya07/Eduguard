@@ -1,0 +1,23 @@
+EduGuard GPU Environment Lock
+==============================
+Python: 3.10.11
+Platform: Windows-10-10.0.22631-SP0
+Git: 7136e1cd23b6d087d19db150ef0c14dccd8c7d2a
+PyTorch: 2.13.0+cu126
+CUDA available: True
+GPU: NVIDIA GeForce RTX 4090 (23.99 GB)
+
+Packages:
+  datasets: 5.0.1
+  faiss: 1.15.0
+  llama_cpp: 0.3.35
+  numpy: 2.2.6
+  opacus: 1.6.0
+  pandas: 2.3.3
+  peft: 0.20.0
+  scipy: 1.15.3
+  sentence_transformers: None
+  sklearn: 1.7.2
+  tokenizers: 0.23.1
+  torch: 2.13.0+cu126
+  transformers: 5.16.1

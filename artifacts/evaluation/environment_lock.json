@@ -1,0 +1,27 @@
+{
+  "format": "environment_lock_v1",
+  "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "python_version": "3.10.11",
+  "platform": "Windows-10-10.0.22631-SP0",
+  "packages": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "opacus": "1.6.0",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "sklearn": "1.7.2",
+    "scipy": "1.15.3",
+    "datasets": "5.0.1",
+    "tokenizers": "0.23.1",
+    "sentence_transformers": null,
+    "faiss": "1.15.0",
+    "llama_cpp": "0.3.35"
+  },
+  "cuda_available": true,
+  "torch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "gpu_name": "NVIDIA GeForce RTX 4090",
+  "gpu_memory_gb": 23.99,
+  "git_revision": "7136e1cd23b6d087d19db150ef0c14dccd8c7d2a"
+}

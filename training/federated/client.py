@@ -181,11 +181,20 @@ def train_local_adapter(
 
     cache_dir = ROOT / "artifacts" / "federated" / "_client_cache"
     _, use_fp16, use_bf16 = _resolve_training_precision()
+
+    optimizer_steps_per_epoch = math.ceil(
+        len(train_ds) / (config.batch_size * config.grad_accum)
+    )
+    total_optimizer_steps = math.ceil(
+        optimizer_steps_per_epoch * config.local_epochs
+    )
+    warmup_steps = int(total_optimizer_steps * config.warmup_ratio)
+
     args = TrainingArguments(
         output_dir=str(cache_dir),
         learning_rate=lr,
         weight_decay=config.weight_decay,
-        warmup_ratio=config.warmup_ratio,
+        warmup_steps=warmup_steps,
         lr_scheduler_type=config.lr_scheduler_type,
         max_grad_norm=config.max_grad_norm,
         per_device_train_batch_size=config.batch_size,

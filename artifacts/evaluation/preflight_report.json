@@ -1,0 +1,126 @@
+{
+  "format": "preflight_check_v1",
+  "ready": true,
+  "git_revision": "7136e1cd23b6d087d19db150ef0c14dccd8c7d2a",
+  "dataset_hashes": {
+    "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+    "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+    "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+  },
+  "blocking_issues": [],
+  "warnings": [],
+  "sections": {
+    "gpu_environment": {
+      "format": "gpu_environment_check_v1",
+      "ready": true,
+      "python_version": "3.10.11",
+      "platform": "Windows-10-10.0.22631-SP0",
+      "git_revision": "7136e1cd23b6d087d19db150ef0c14dccd8c7d2a",
+      "checks": {
+        "pytorch_cuda": {
+          "passed": true,
+          "torch_version": "2.13.0+cu126",
+          "cuda_available": true,
+          "cuda_version": "12.6",
+          "cudnn_version": 91002,
+          "gpu_name": "NVIDIA GeForce RTX 4090",
+          "gpu_memory_gb": 23.99
+        },
+        "transformers": {
+          "passed": true,
+          "version": "5.16.1"
+        },
+        "peft": {
+          "passed": true,
+          "version": "0.20.0"
+        },
+        "opacus": {
+          "passed": true,
+          "version": "1.6.0"
+        },
+        "datasets": {
+          "passed": true,
+          "missing": [],
+          "hashes": {
+            "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+            "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+            "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+          }
+        },
+        "disk_space": {
+          "passed": true,
+          "free_gb": 824.48
+        },
+        "training_package": {
+          "passed": true
+        }
+      },
+      "blocking_issues": [],
+      "warnings": []
+    },
+    "experiment_configs": [
+      {
+        "experiment_id": "fl_smoke_fedavg_iid",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_iid_smoke.json",
+        "config_hash": "335857d26195d0c8c2dd1156fdd8ccdc150a75554fbe4e8a5edda56deadadb5c"
+      },
+      {
+        "experiment_id": "fedavg_iid",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_iid.json",
+        "config_hash": "ff4a56468ce65929ae748d3a0214cc3a44916eadb747ffa761a472b40bde84b2"
+      },
+      {
+        "experiment_id": "fedavg_iid_r20",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_iid_r20.json",
+        "config_hash": "d20f7c1a63af3cc73629718162b5740fc4763b6928a2060627d96ebd2b70fb0e"
+      },
+      {
+        "experiment_id": "fedavg_iid_localepoch1",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_iid_localepoch1.json",
+        "config_hash": "749bc8c060de630aaa3fad8e59ffe473bf10b40bab88f3f7ac2b7b7ac57887a3"
+      },
+      {
+        "experiment_id": "fedprox_iid",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedprox_iid.json",
+        "config_hash": "2d8ea9ef0343cc375e5c6977f7f726bba0389941ae7f94b1d7842d6fc4d0933d"
+      },
+      {
+        "experiment_id": "fedavg_noniid_a05",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_noniid_a05.json",
+        "config_hash": "f889f1b4368ed4331364551b8b0e09634adcbfb74503d8bf01d4cc93a8ac9bf4"
+      },
+      {
+        "experiment_id": "fedprox_noniid_a05",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedprox_noniid_a05.json",
+        "config_hash": "7226dcdbb70fa1226c44b14f2bc9a363cbfaa2a09bd9e715d354fce24deb0b7a"
+      },
+      {
+        "experiment_id": "fedavg_noniid_a01",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_noniid_a01.json",
+        "config_hash": "6b16e6f32854cf12e2d8d6f049ed07b73677a8d1e75840f323524b398ee4a226"
+      },
+      {
+        "experiment_id": "fedavg_noniid_a10",
+        "path": "D:\\Eduguard\\experiments\\federated\\configs\\fedavg_noniid_a10.json",
+        "config_hash": "4654652d7a7a53865bb5662e69e7fa250f88f1f2ce310beffed11664d11fc89f"
+      }
+    ],
+    "run_state": {
+      "exists": true,
+      "run_id": "20260828T181808Z",
+      "status": "COMPLETE",
+      "completed": 4
+    },
+    "dp_gate": {
+      "open": false,
+      "reason": "lock file missing"
+    },
+    "multitask_gate": {
+      "open": false,
+      "reason": "centralized multitask marker missing"
+    },
+    "production_import": {
+      "passed": true
+    }
+  }
+}

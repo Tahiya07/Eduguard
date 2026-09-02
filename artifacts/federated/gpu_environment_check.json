@@ -1,0 +1,48 @@
+{
+  "format": "gpu_environment_check_v1",
+  "ready": true,
+  "python_version": "3.10.11",
+  "platform": "Windows-10-10.0.22631-SP0",
+  "git_revision": "7136e1cd23b6d087d19db150ef0c14dccd8c7d2a",
+  "checks": {
+    "pytorch_cuda": {
+      "passed": true,
+      "torch_version": "2.13.0+cu126",
+      "cuda_available": true,
+      "cuda_version": "12.6",
+      "cudnn_version": 91002,
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_memory_gb": 23.99
+    },
+    "transformers": {
+      "passed": true,
+      "version": "5.16.1"
+    },
+    "peft": {
+      "passed": true,
+      "version": "0.20.0"
+    },
+    "opacus": {
+      "passed": true,
+      "version": "1.6.0"
+    },
+    "datasets": {
+      "passed": true,
+      "missing": [],
+      "hashes": {
+        "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+        "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+        "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+      }
+    },
+    "disk_space": {
+      "passed": true,
+      "free_gb": 824.48
+    },
+    "training_package": {
+      "passed": true
+    }
+  },
+  "blocking_issues": [],
+  "warnings": []
+}
