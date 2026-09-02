@@ -103,6 +103,17 @@ def gate_opacus_import() -> GateResult:
         return GateResult("opacus_import", False, failure_reason=str(exc))
 
 
+def _gsm_trainable_params(gsm) -> Dict[str, torch.nn.Parameter]:
+    """Map manual/PEFT param names to GSM parameters with grad_sample hooks.
+
+    GradSampleModule wraps the model as ``_module``; ``named_parameters()`` on the
+    wrapper uses a ``_module.`` prefix that does not match PEFT names. Per-sample
+    gradients are attached to the inner module's Parameter objects.
+    """
+    inner = gsm._module if hasattr(gsm, "_module") else gsm
+    return {name: param for name, param in inner.named_parameters() if param.requires_grad}
+
+
 def _manual_per_sample_grads(model, batch: dict, trainable_names: List[str]) -> Dict[str, torch.Tensor]:
     """Per-example backward on a fresh model (weights unchanged)."""
     manual: Dict[str, List[torch.Tensor]] = {}
@@ -146,7 +157,7 @@ def gate_per_sample_gradients(
     loss = nn.CrossEntropyLoss()(out.logits, batch["labels"])
     loss.backward()
 
-    gsm_by_name = {n: p for n, p in gsm.named_parameters() if p.requires_grad}
+    gsm_by_name = _gsm_trainable_params(gsm)
     mismatches: List[str] = []
     checked = 0
     score_checked = 0
@@ -255,7 +266,7 @@ def gate_score_head_only_diagnostic(
 
     mismatches = []
     checked = 0
-    gsm_by_name = {n: p for n, p in gsm.named_parameters() if p.requires_grad}
+    gsm_by_name = _gsm_trainable_params(gsm)
     for name in trainable_names:
         param = gsm_by_name.get(name)
         if param is None or not hasattr(param, "grad_sample") or param.grad_sample is None:
