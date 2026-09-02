@@ -2,22 +2,22 @@
   "status": "COMPUTED",
   "exact_parity_established": false,
   "parity_threshold_absolute_accuracy": 0.05,
-  "framework_reference_path": "C:\\Users\\tahiy\\PycharmProjects\\Framework\\results\\federated_lora_fedavg_iid1.json",
-  "framework_reference_available": true,
-  "eduguard_result_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid.json",
-  "eduguard_result_available": false,
-  "baseline_lock_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\fedavg_iid_baseline_lock.json",
+  "framework_reference_path": "Framework/results/federated_lora_fedavg_iid1.json",
+  "framework_reference_available": false,
+  "eduguard_result_path": "D:\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid.json",
+  "eduguard_result_available": true,
+  "baseline_lock_path": "D:\\Eduguard\\artifacts\\evaluation\\fedavg_iid_baseline_lock.json",
   "metrics_comparison": {
-    "framework_test_accuracy": 0.5029,
+    "framework_test_accuracy": 0.503,
     "eduguard_test_accuracy": 0.5686,
-    "absolute_difference_eduguard_minus_framework": 0.0657,
+    "absolute_difference_eduguard_minus_framework": 0.0656,
     "within_parity_threshold": false
   },
   "configuration_comparisons": [
     {
       "field": "aggregation",
-      "framework_value": "fedavg",
-      "eduguard_value": null,
+      "framework_value": "FedAvg weighted by client sample count",
+      "eduguard_value": "fedavg_sample_weighted",
       "same": false,
       "potential_impact": "configuration mismatch may shift convergence or parity"
     },
@@ -45,9 +45,13 @@
     {
       "field": "dataset_hashes",
       "framework_value": null,
-      "eduguard_value": null,
-      "same": true,
-      "potential_impact": "none (matched)"
+      "eduguard_value": {
+        "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+        "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+        "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+      },
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
     },
     {
       "field": "gradient_accumulation",
@@ -59,9 +63,9 @@
     {
       "field": "label_smoothing",
       "framework_value": null,
-      "eduguard_value": null,
-      "same": true,
-      "potential_impact": "none (matched)"
+      "eduguard_value": 0.05,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
     },
     {
       "field": "learning_rate",
@@ -80,16 +84,16 @@
     {
       "field": "lora_alpha",
       "framework_value": 64,
-      "eduguard_value": null,
-      "same": false,
-      "potential_impact": "configuration mismatch may shift convergence or parity"
+      "eduguard_value": 64,
+      "same": true,
+      "potential_impact": "none (matched)"
     },
     {
       "field": "lora_dropout",
       "framework_value": 0.1,
-      "eduguard_value": null,
-      "same": false,
-      "potential_impact": "configuration mismatch may shift convergence or parity"
+      "eduguard_value": 0.1,
+      "same": true,
+      "potential_impact": "none (matched)"
     },
     {
       "field": "lora_r",
@@ -133,25 +137,99 @@
     {
       "field": "warmup_ratio",
       "framework_value": null,
-      "eduguard_value": null,
-      "same": true,
-      "potential_impact": "none (matched)"
+      "eduguard_value": 0.1,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
     },
     {
       "field": "weight_decay",
       "framework_value": null,
-      "eduguard_value": null,
-      "same": true,
-      "potential_impact": "none (matched)"
+      "eduguard_value": 0.01,
+      "same": false,
+      "potential_impact": "configuration mismatch may shift convergence or parity"
     }
   ],
   "partition_parity": {
-    "eduguard_partition_artifact": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\runs\\fedavg_iid\\partition.json",
-    "partition_available": false,
-    "seed": null,
-    "strategy": null,
-    "client_sizes": null,
-    "client_label_distribution": null,
+    "eduguard_partition_artifact": "D:\\Eduguard\\artifacts\\federated\\runs\\fedavg_iid\\partition.json",
+    "partition_available": true,
+    "seed": 42,
+    "strategy": "iid",
+    "client_sizes": {
+      "teacher_site_00": 205,
+      "teacher_site_01": 204,
+      "teacher_site_02": 204,
+      "teacher_site_03": 204,
+      "teacher_site_04": 204,
+      "teacher_site_05": 204,
+      "teacher_site_06": 204,
+      "teacher_site_07": 202
+    },
+    "client_label_distribution": {
+      "teacher_site_00": {
+        "Remember": 0.141463,
+        "Understand": 0.390244,
+        "Apply": 0.121951,
+        "Analyze": 0.117073,
+        "Evaluate": 0.121951,
+        "Create": 0.107317
+      },
+      "teacher_site_01": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_02": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_03": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_04": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_05": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_06": {
+        "Remember": 0.137255,
+        "Understand": 0.392157,
+        "Apply": 0.122549,
+        "Analyze": 0.117647,
+        "Evaluate": 0.122549,
+        "Create": 0.107843
+      },
+      "teacher_site_07": {
+        "Remember": 0.138614,
+        "Understand": 0.39604,
+        "Apply": 0.118812,
+        "Analyze": 0.118812,
+        "Evaluate": 0.118812,
+        "Create": 0.108911
+      }
+    },
     "framework_partition_verified": false,
     "note": "Framework partition artifact not present in this repo; IID procedure documented only."
   },
@@ -164,7 +242,7 @@
     {
       "field": "warmup_ratio",
       "framework_value": 0.06,
-      "eduguard_value": null,
+      "eduguard_value": 0.1,
       "same": false,
       "potential_impact": "may affect early-round convergence"
     },
@@ -184,5 +262,5 @@
     }
   ],
   "dp_status": "NOT VALIDATED",
-  "conclusion": "EduGuard FedAvg+IID baseline (56.86%) exceeds historical Framework (~50.3%) by 0.0657 absolute accuracy. Exact parity is NOT established without Framework partition/config artifacts. Diagnose before claiming migration fidelity."
+  "conclusion": "EduGuard FedAvg+IID baseline (56.86%) exceeds historical Framework (~50.3%) by 0.0656 absolute accuracy. Exact parity is NOT established without Framework partition/config artifacts. Diagnose before claiming migration fidelity."
 }

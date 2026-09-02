@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 """Local teacher-client Bloom LoRA training; exports integrity-protected update bundle.
 
 Matches centralized train_qwen_bloom.py architecture.
@@ -178,7 +178,7 @@ def train_local_adapter(
 
     prox_mu = float(config.prox_mu) if config.algorithm == "fedprox" else 0.0
     if prox_mu > 0:
-        print(f"[client] FedProx μ={prox_mu}")
+        print(f"[client] FedProx mu={prox_mu}")
 
     cache_dir = ROOT / "artifacts" / "federated" / "_client_cache"
     _, use_fp16, use_bf16 = _resolve_training_precision()
@@ -320,3 +320,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+

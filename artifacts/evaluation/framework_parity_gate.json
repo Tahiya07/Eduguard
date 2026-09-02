@@ -1,0 +1,11 @@
+{
+  "status": "COMPUTED",
+  "eduguard_source": "D:\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid.json",
+  "framework_reference": null,
+  "eduguard_test_accuracy": 0.6657,
+  "framework_test_accuracy": null,
+  "absolute_gap": null,
+  "parity_passed": false,
+  "action": "Framework reference not found locally \u2014 record EduGuard result only; compare manually.",
+  "eduguard_macro_f1": 0.6158
+}

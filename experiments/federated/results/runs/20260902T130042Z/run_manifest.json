@@ -1,6 +1,6 @@
 {
   "run_id": "20260902T130042Z",
-  "git_revision": "7136e1cd23b6d087d19db150ef0c14dccd8c7d2a",
+  "git_revision": "750dd56eb211276f470c0e9a537e218bf57e803e",
   "environment": {
     "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
     "platform": "Windows-10-10.0.22631-SP0",
@@ -14,7 +14,7 @@
     "opacus": "1.6.0"
   },
   "started_at": "2026-09-02T13:00:42.482937+00:00",
-  "last_update": "2026-09-02T13:04:46.632477+00:00",
+  "last_update": "2026-09-02T17:06:45.475993+00:00",
   "experiments": [
     {
       "experiment_id": "env_validation",
@@ -54,7 +54,7 @@
       "experiment_id": "fl_smoke_fedavg_iid",
       "phase": 3,
       "resource_class": "CPU_SMOKE",
-      "status": "FAILED",
+      "status": "COMPLETE",
       "config_path": "D:/Eduguard/experiments/federated/configs/fedavg_iid_smoke.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/runs/smoke/fedavg_iid_smoke.json"
@@ -64,7 +64,7 @@
       "experiment_id": "fedavg_iid",
       "phase": 4,
       "resource_class": "GPU_REQUIRED",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": "D:/Eduguard/experiments/federated/configs/fedavg_iid.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/results/federated_lora_fedavg_iid.json"
@@ -74,7 +74,7 @@
       "experiment_id": "framework_parity_audit",
       "phase": 4,
       "resource_class": "CPU_SMOKE",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": null,
       "expected_outputs": [
         "D:/Eduguard/artifacts/evaluation/framework_parity_audit.json",
@@ -85,7 +85,7 @@
       "experiment_id": "framework_parity_gate",
       "phase": 4,
       "resource_class": "CPU_SMOKE",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": null,
       "expected_outputs": [
         "D:/Eduguard/artifacts/evaluation/framework_parity_gate.json"
@@ -95,7 +95,7 @@
       "experiment_id": "fedavg_iid_r20",
       "phase": 4,
       "resource_class": "GPU_REQUIRED",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": "D:/Eduguard/experiments/federated/configs/fedavg_iid_r20.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/results/federated_lora_fedavg_iid_r20.json"
@@ -105,7 +105,7 @@
       "experiment_id": "fedavg_iid_localepoch1",
       "phase": 4,
       "resource_class": "GPU_REQUIRED",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": "D:/Eduguard/experiments/federated/configs/fedavg_iid_localepoch1.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/results/federated_lora_fedavg_iid_localepoch1.json"
@@ -115,7 +115,7 @@
       "experiment_id": "fedprox_iid",
       "phase": 4,
       "resource_class": "GPU_REQUIRED",
-      "status": "PENDING",
+      "status": "FAILED",
       "config_path": "D:/Eduguard/experiments/federated/configs/fedprox_iid.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/results/federated_lora_fedprox_iid.json"
@@ -245,7 +245,7 @@
       "experiment_id": "final_research_manifest",
       "phase": 16,
       "resource_class": "CPU_SMOKE",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "config_path": null,
       "expected_outputs": [
         "D:/Eduguard/experiments/federated/results/runs/latest/run_manifest.json"
@@ -275,12 +275,22 @@
     "unit_tests_federated",
     "generate_environment_lock",
     "baseline_runtime_import",
-    "secagg_verification"
+    "secagg_verification",
+    "fl_smoke_fedavg_iid",
+    "fedavg_iid",
+    "framework_parity_audit",
+    "framework_parity_gate",
+    "final_research_manifest",
+    "fedavg_iid_r20",
+    "fedavg_iid_localepoch1"
   ],
   "failed": [
     "fl_smoke_fedavg_iid",
     "fl_smoke_fedavg_iid",
-    "fl_smoke_fedavg_iid"
+    "fedavg_iid",
+    "fedprox_iid",
+    "fedprox_iid",
+    "fedprox_iid"
   ],
   "blocked": []
 }
