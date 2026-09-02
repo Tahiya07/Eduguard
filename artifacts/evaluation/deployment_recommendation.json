@@ -1,11 +1,12 @@
 {
   "winner": "fedavg_iid_r20",
-  "bloom_model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
-  "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+  "bloom_model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
+  "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
   "merge": {
-    "status": "SKIPPED",
-    "reason": "LoRA adapter missing at C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
-    "merge_command": "python training/centralized/merge_model.py --model-size 0.5b --lora-dir artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20 --output-dir artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged --force"
+    "status": "FAILED",
+    "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+    "merged_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
+    "exit_code": 1
   },
   "rationale": "Higher test accuracy, macro-F1, and QWK on figshare_bloom_v1_test; 4x training budget."
 }

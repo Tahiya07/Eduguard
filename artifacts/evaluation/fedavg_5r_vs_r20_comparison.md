@@ -1,6 +1,6 @@
 # FedAvg IID: 5 rounds vs 20 rounds
 
-Generated: 2026-09-02T22:09:16.537131+00:00
+Generated: 2026-09-02T22:31:33.545069+00:00
 
 ## Summary
 
@@ -28,5 +28,5 @@ Generated: 2026-09-02T22:09:16.537131+00:00
 
 ## Deployment
 
-- Recommended `BLOOM_MODEL_DIR`: `C:\Users\tahiy\PycharmProjects\Eduguard\artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged`
-- Merge status: SKIPPED
+- Recommended `BLOOM_MODEL_DIR`: `D:\Eduguard\artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged`
+- Merge status: FAILED

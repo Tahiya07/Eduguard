@@ -1,6 +1,6 @@
 {
   "format": "dp_bloom_validation_report_v1",
-  "timestamp_utc": "2026-09-02T21:55:40.541268+00:00",
+  "timestamp_utc": "2026-09-02T22:23:56.912099+00:00",
   "validation_gate_passed": true,
   "dp_mode": "full",
   "pytorch_version": "2.13.0+cu126",
@@ -81,6 +81,9 @@
         "score_head_checked": 1,
         "lora_checked": 336,
         "gsm_internal_mean_consistency": 337,
+        "max_abs_err": 0.0,
+        "grad_sample_rtol": 0.001,
+        "grad_sample_atol": 0.001,
         "lora_dropout": 0.0,
         "mismatches": [],
         "score_head_only_pass": true,
@@ -93,7 +96,7 @@
       "passed": true,
       "details": {
         "max_grad_norm": 1.0,
-        "post_step_max_grad_norm": 0.4488418698310852
+        "post_step_max_grad_norm": 0.46206092834472656
       },
       "failure_reason": null
     },

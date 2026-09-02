@@ -119,8 +119,7 @@ llama.cpp/build/
 # ===========================
 # Evaluation & research outputs
 # ===========================
-evaluation_outputs/
-evaluation_results/
+
 paper_bundle/
 results/fydp/
 scripts/fydp/

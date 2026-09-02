@@ -2,9 +2,9 @@
   "benchmark": "bloom_lora_figshare_v1",
   "model_size": "0.5b",
   "experiment_id": "fedavg_iid",
-  "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
-  "source": "federated_result_json",
-  "test_csv": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\figshare_bloom_v1_test.csv",
+  "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
+  "source": "evaluate_bloom.py",
+  "test_csv": "D:\\Eduguard\\data\\figshare_bloom_v1_test.csv",
   "n_test": 350,
   "qwen_lora": {
     "accuracy": 0.6657,

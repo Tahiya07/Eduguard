@@ -1,15 +1,15 @@
 {
   "format": "fedavg_5r_vs_r20_comparison_v1",
-  "timestamp_utc": "2026-09-02T22:09:16.537131+00:00",
+  "timestamp_utc": "2026-09-02T22:31:33.545069+00:00",
   "comparison_is_fair": false,
   "fairness_note": "r20 uses 4x optimizer steps (6240 vs 1560); not budget-matched.",
   "winner": "fedavg_iid_r20",
   "models": {
     "fedavg_iid": {
       "rounds": 5,
-      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
-      "eval_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_5r.json",
-      "eval_source": "federated_result_json",
+      "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid",
+      "eval_json": "D:\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_5r.json",
+      "eval_source": "evaluate_bloom.py",
       "metrics": {
         "accuracy": 0.6657,
         "macro_f1": 0.6158,
@@ -116,9 +116,9 @@
     },
     "fedavg_iid_r20": {
       "rounds": 20,
-      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
-      "eval_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_r20.json",
-      "eval_source": "federated_result_json",
+      "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+      "eval_json": "D:\\Eduguard\\artifacts\\evaluation\\eval_fedavg_iid_r20.json",
+      "eval_source": "evaluate_bloom.py",
       "metrics": {
         "accuracy": 0.7971,
         "macro_f1": 0.779,
@@ -234,13 +234,14 @@
   },
   "mcnemar": null,
   "merge": {
-    "status": "SKIPPED",
-    "reason": "LoRA adapter missing at C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
-    "merge_command": "python training/centralized/merge_model.py --model-size 0.5b --lora-dir artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20 --output-dir artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged --force"
+    "status": "FAILED",
+    "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+    "merged_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
+    "exit_code": 1
   },
   "deployment": {
-    "bloom_model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
-    "start_offline_env": "$env:BLOOM_MODEL_DIR = \"C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged\"",
+    "bloom_model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
+    "start_offline_env": "$env:BLOOM_MODEL_DIR = \"D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged\"",
     "immutable_baseline_preserved": "artifacts/evaluation/fedavg_iid_baseline_lock.json"
   }
 }

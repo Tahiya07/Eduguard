@@ -1,8 +1,8 @@
 {
   "format": "dp_bloom_validation_report_v1",
-  "timestamp_utc": "2026-09-02T21:56:12.221023+00:00",
+  "timestamp_utc": "2026-09-02T22:19:57.580400+00:00",
   "validation_gate_passed": false,
-  "dp_mode": "score-head-only",
+  "dp_mode": "full",
   "pytorch_version": "2.13.0+cu126",
   "train_script": "D:\\Eduguard\\train_qwen_bloom.py",
   "train_script_sha256": "3035714534aa67916bd264a4c7323246920e9a4dcfa02e6946c8f8d4d1c02de6",
@@ -74,40 +74,6 @@
       "failure_reason": null
     },
     {
-      "name": "score_head_per_sample_gradients",
-      "passed": true,
-      "details": {
-        "checked_params": 1,
-        "trainable_param_names": [
-          "score.weight"
-        ],
-        "mismatches": []
-      },
-      "failure_reason": null
-    },
-    {
-      "name": "clipping",
-      "passed": false,
-      "details": {},
-      "failure_reason": "make_private failed: [IllegalModuleConfigurationError('Model needs to be in training mode')]"
-    },
-    {
-      "name": "loss_variants",
-      "passed": true,
-      "details": {
-        "variants": {
-          "uniform_ce": {
-            "grad_sample_present": true
-          }
-        },
-        "recommended_dp_loss": "uniform_ce",
-        "dp_scope": "score_head_only"
-      },
-      "failure_reason": null
-    }
-  ],
-  "diagnostics": [
-    {
       "name": "per_sample_gradients",
       "passed": false,
       "details": {
@@ -117,13 +83,60 @@
         "gsm_internal_mean_consistency": 337,
         "lora_dropout": 0.0,
         "mismatches": [
-          "max_err=0.000162 for base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight"
+          "max_err=0.000242 for base_model.model.model.layers.6.self_attn.k_proj.lora_B.default.weight",
+          "max_err=0.000232 for base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight",
+          "max_err=0.000290 for base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight",
+          "max_err=0.000255 for base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight"
         ],
         "score_head_only_pass": true,
-        "lora_mismatch_count": 1
+        "lora_mismatch_count": 4
       },
-      "failure_reason": "per-sample gradient mismatch (LoRA+PEFT may require Opacus-native loop or score-head-only DP)",
-      "note": "Non-blocking LoRA parity check \u2014 score-head DP does not require this gate."
+      "failure_reason": "per-sample gradient mismatch (LoRA+PEFT may require Opacus-native loop or score-head-only DP)"
+    },
+    {
+      "name": "clipping",
+      "passed": true,
+      "details": {
+        "max_grad_norm": 1.0,
+        "post_step_max_grad_norm": 0.3121264576911926
+      },
+      "failure_reason": null
+    },
+    {
+      "name": "loss_variants",
+      "passed": true,
+      "details": {
+        "variants": {
+          "uniform_ce": {
+            "grad_sample_present": true
+          },
+          "label_smoothing": {
+            "grad_sample_present": true
+          },
+          "class_weights": {
+            "grad_sample_present": true
+          }
+        },
+        "recommended_dp_loss": "uniform_ce"
+      },
+      "failure_reason": null
+    }
+  ],
+  "diagnostics": [
+    {
+      "name": "score_head_only_diagnostic",
+      "passed": true,
+      "details": {
+        "checked_params": 1,
+        "trainable_param_names": [
+          "score.weight"
+        ],
+        "mismatches": [],
+        "diagnostic_only": true,
+        "interpretation": "If this passes but LoRA+score fails, mismatch is likely PEFT/LoRA integration. Use --dp-mode score-head-only for a validated score-head DP lock."
+      },
+      "failure_reason": null,
+      "note": "Non-blocking diagnostic \u2014 does not affect validation_gate_passed"
     }
   ]
 }
