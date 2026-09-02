@@ -1,7 +1,8 @@
 {
   "format": "dp_bloom_validation_report_v1",
-  "timestamp_utc": "2026-09-02T21:02:25.628117+00:00",
+  "timestamp_utc": "2026-09-02T21:56:12.221023+00:00",
   "validation_gate_passed": false,
+  "dp_mode": "score-head-only",
   "pytorch_version": "2.13.0+cu126",
   "train_script": "D:\\Eduguard\\train_qwen_bloom.py",
   "train_script_sha256": "3035714534aa67916bd264a4c7323246920e9a4dcfa02e6946c8f8d4d1c02de6",
@@ -39,7 +40,7 @@
     "from_scratch": true,
     "lora_r": 32,
     "lora_alpha": 64,
-    "lora_dropout": 0.1,
+    "lora_dropout": 0.0,
     "modules_to_save": [
       "score"
     ],
@@ -73,41 +74,22 @@
       "failure_reason": null
     },
     {
-      "name": "per_sample_gradients",
-      "passed": false,
+      "name": "score_head_per_sample_gradients",
+      "passed": true,
       "details": {
-        "checked_params": 0,
-        "score_head_checked": 0,
-        "lora_checked": 0,
-        "gsm_internal_mean_consistency": 0,
-        "mismatches": [
-          "missing gsm param base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.gate_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.gate_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.up_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.up_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight",
-          "missing gsm param base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight",
-          "missing gsm param base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight"
-        ]
+        "checked_params": 1,
+        "trainable_param_names": [
+          "score.weight"
+        ],
+        "mismatches": []
       },
-      "failure_reason": "no overlapping trainable params between manual and GradSampleModule"
+      "failure_reason": null
     },
     {
       "name": "clipping",
-      "passed": true,
-      "details": {
-        "max_grad_norm": 1.0,
-        "post_step_max_grad_norm": 0.4352482557296753
-      },
-      "failure_reason": null
+      "passed": false,
+      "details": {},
+      "failure_reason": "make_private failed: [IllegalModuleConfigurationError('Model needs to be in training mode')]"
     },
     {
       "name": "loss_variants",
@@ -116,36 +98,32 @@
         "variants": {
           "uniform_ce": {
             "grad_sample_present": true
-          },
-          "label_smoothing": {
-            "grad_sample_present": true
-          },
-          "class_weights": {
-            "grad_sample_present": true
           }
         },
-        "recommended_dp_loss": "uniform_ce"
+        "recommended_dp_loss": "uniform_ce",
+        "dp_scope": "score_head_only"
       },
       "failure_reason": null
     }
   ],
   "diagnostics": [
     {
-      "name": "score_head_only_diagnostic",
+      "name": "per_sample_gradients",
       "passed": false,
       "details": {
-        "diagnostic_only": true,
-        "checked_params": 0,
-        "trainable_param_names": [
-          "score.weight"
-        ],
+        "checked_params": 337,
+        "score_head_checked": 1,
+        "lora_checked": 336,
+        "gsm_internal_mean_consistency": 337,
+        "lora_dropout": 0.0,
         "mismatches": [
-          "missing grad_sample for score.weight"
+          "max_err=0.000162 for base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight"
         ],
-        "interpretation": "If this passes but LoRA+score fails, mismatch is likely PEFT/LoRA integration. If this also fails, investigate loss/objective or Opacus setup."
+        "score_head_only_pass": true,
+        "lora_mismatch_count": 1
       },
-      "failure_reason": "score-head-only per-sample gradient mismatch",
-      "note": "Non-blocking diagnostic \u2014 does not affect validation_gate_passed"
+      "failure_reason": "per-sample gradient mismatch (LoRA+PEFT may require Opacus-native loop or score-head-only DP)",
+      "note": "Non-blocking LoRA parity check \u2014 score-head DP does not require this gate."
     }
   ]
 }
