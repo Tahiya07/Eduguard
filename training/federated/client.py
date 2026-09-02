@@ -184,7 +184,7 @@ def train_local_adapter(
     _, use_fp16, use_bf16 = _resolve_training_precision()
 
     optimizer_steps_per_epoch = math.ceil(
-        len(train_ds) / (config.batch_size * config.grad_accum)
+        len(ds) / (config.batch_size * config.grad_accum)
     )
     total_optimizer_steps = math.ceil(
         optimizer_steps_per_epoch * config.local_epochs
