@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 
 import pytest
@@ -49,6 +50,27 @@ def test_accounting_epsilon_monotonicity():
   accountant3.history = [(0.5, sample_rate, 100)]
   eps_low_noise = accountant3.get_epsilon(delta)
   assert eps_low_noise > eps_high_noise
+
+
+def test_validation_cfg_zeros_lora_dropout():
+    from training.centralized.validate_dp_bloom import _validation_cfg
+    from training.federated.config import FederatedLoraConfig
+
+    cfg = _validation_cfg(FederatedLoraConfig())
+    assert cfg.lora_dropout == 0.0
+
+
+def test_resolve_dp_lock_path_prefers_full(tmp_path, monkeypatch):
+    from training.federated import dp as fed_dp
+
+    full = tmp_path / "dp_bloom_validated_v1.json"
+    score = tmp_path / "dp_bloom_score_head_validated_v1.json"
+    full.write_text(json.dumps({"validation_gate_passed": True}), encoding="utf-8")
+    score.write_text(json.dumps({"validation_gate_passed": True}), encoding="utf-8")
+    monkeypatch.setattr(fed_dp, "DP_LOCK_FULL", full)
+    monkeypatch.setattr(fed_dp, "DP_LOCK_SCORE_HEAD", score)
+    assert fed_dp.resolve_dp_lock_path("auto") == full
+    assert fed_dp.resolve_dp_lock_path("score-head-only") == score
 
 
 def test_dp_lock_absent_blocks_federated_dp():

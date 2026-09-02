@@ -6,6 +6,7 @@ artifacts/privacy/dp_bloom_validated_v1.json is written.
 
 Run from repository root:
   python -m training.centralized.validate_dp_bloom --output artifacts/privacy/dp_bloom_validated_v1.json
+  python -m training.centralized.validate_dp_bloom --dp-mode score-head-only
 """
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ import hashlib
 import json
 import math
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
@@ -33,6 +34,9 @@ from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, make_pe
 
 
 DEFAULT_OUTPUT = ARTIFACTS_PRIVACY / "dp_bloom_validated_v1.json"
+DEFAULT_SCORE_HEAD_OUTPUT = ARTIFACTS_PRIVACY / "dp_bloom_score_head_validated_v1.json"
+DP_MODE_FULL = "full"
+DP_MODE_SCORE_HEAD = "score-head-only"
 
 
 @dataclass
@@ -51,6 +55,12 @@ def _file_sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _validation_cfg(cfg: FederatedLoraConfig | None = None) -> FederatedLoraConfig:
+    """Deterministic grad-check config: zero LoRA dropout for Opacus parity tests."""
+    base = cfg or FederatedLoraConfig()
+    return replace(base, lora_dropout=0.0)
+
+
 def _build_tiny_batch(n: int = 4, seed: int = 42):
     import pandas as pd
     from transformers import AutoTokenizer
@@ -62,7 +72,7 @@ def _build_tiny_batch(n: int = 4, seed: int = 42):
         label = labels[i % len(labels)]
         rows.append({"question": f"Sample question {i} about topic {label}", "bloom_level": label})
     df = pd.DataFrame(rows)
-    cfg = FederatedLoraConfig()
+    cfg = _validation_cfg()
     texts = [build_prompt(str(q)) for q in df["question"]]
     y = [BLOOM_LABELS[str(l)] for l in df["bloom_level"]]
     tokenizer = AutoTokenizer.from_pretrained(cfg.base_model, trust_remote_code=True)
@@ -139,6 +149,7 @@ def gate_per_sample_gradients(
     except ImportError as exc:
         return GateResult("per_sample_gradients", False, failure_reason=str(exc))
 
+    cfg = _validation_cfg(cfg)
     model_manual, _ = _load_peft_model(cfg, tokenizer)
     model_gsm, _ = _load_peft_model(cfg, tokenizer)
     model_gsm.load_state_dict(model_manual.state_dict())
@@ -197,6 +208,7 @@ def gate_per_sample_gradients(
         "score_head_checked": score_checked,
         "lora_checked": lora_checked,
         "gsm_internal_mean_consistency": internal_ok,
+        "lora_dropout": cfg.lora_dropout,
         "mismatches": mismatches[:15],
     }
 
@@ -209,8 +221,10 @@ def gate_per_sample_gradients(
         )
 
     score_only_pass = score_checked > 0 and not any("score" in m for m in mismatches)
+    lora_mismatches = [m for m in mismatches if "score" not in m]
+    details["score_head_only_pass"] = score_only_pass
+    details["lora_mismatch_count"] = len(lora_mismatches)
     if mismatches:
-        details["score_head_only_pass"] = score_only_pass
         return GateResult(
             "per_sample_gradients",
             False,
@@ -220,37 +234,35 @@ def gate_per_sample_gradients(
     return GateResult("per_sample_gradients", True, details)
 
 
-def gate_score_head_only_diagnostic(
+def _load_score_only_model(cfg: FederatedLoraConfig, tokenizer):
+    from transformers import AutoModelForSequenceClassification
+
+    base = AutoModelForSequenceClassification.from_pretrained(
+        cfg.base_model,
+        num_labels=len(BLOOM_LABELS),
+        trust_remote_code=True,
+        torch_dtype=torch.float32,
+    )
+    base.config.pad_token_id = tokenizer.pad_token_id
+    for p in base.parameters():
+        p.requires_grad = False
+    for name, p in base.named_parameters():
+        if "score" in name:
+            p.requires_grad = True
+    return base
+
+
+def gate_score_head_per_sample_gradients(
     cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = 1e-3
 ) -> GateResult:
-    """DIAGNOSTIC ONLY: frozen base + trainable score head per-sample gradients.
-
-    Isolates whether Opacus per-sample grad mismatch is LoRA/PEFT-specific.
-    NOT a replacement for full LoRA+score DP validation.
-    """
+    """Frozen base + trainable score head per-sample gradients (validated DP scope)."""
     try:
         from opacus.grad_sample import GradSampleModule
-        from transformers import AutoModelForSequenceClassification
     except ImportError as exc:
-        return GateResult("score_head_only_diagnostic", False, failure_reason=str(exc))
+        return GateResult("score_head_per_sample_gradients", False, failure_reason=str(exc))
 
-    def _load_score_only():
-        base = AutoModelForSequenceClassification.from_pretrained(
-            cfg.base_model,
-            num_labels=len(BLOOM_LABELS),
-            trust_remote_code=True,
-            torch_dtype=torch.float32,
-        )
-        base.config.pad_token_id = tokenizer.pad_token_id
-        for p in base.parameters():
-            p.requires_grad = False
-        for name, p in base.named_parameters():
-            if "score" in name:
-                p.requires_grad = True
-        return base
-
-    model_manual = _load_score_only()
-    model_gsm = _load_score_only()
+    model_manual = _load_score_only_model(cfg, tokenizer)
+    model_gsm = _load_score_only_model(cfg, tokenizer)
     model_gsm.load_state_dict(model_manual.state_dict())
 
     trainable_names = [n for n, p in model_manual.named_parameters() if p.requires_grad]
@@ -282,31 +294,42 @@ def gate_score_head_only_diagnostic(
             mismatches.append(f"max_err={max_err:.6f} for {name}")
 
     details = {
-        "diagnostic_only": True,
         "checked_params": checked,
         "trainable_param_names": trainable_names,
         "mismatches": mismatches[:10],
-        "interpretation": (
-            "If this passes but LoRA+score fails, mismatch is likely PEFT/LoRA integration. "
-            "If this also fails, investigate loss/objective or Opacus setup."
-        ),
     }
     passed = checked > 0 and not mismatches
     return GateResult(
-        "score_head_only_diagnostic",
+        "score_head_per_sample_gradients",
         passed,
         details,
-        None if passed else "score-head-only per-sample gradient mismatch",
+        None if passed else "score-head per-sample gradient mismatch",
     )
 
 
-def gate_clipping(
-    cfg: FederatedLoraConfig, batch: dict, tokenizer, max_grad_norm: float = 1.0
+def gate_score_head_only_diagnostic(
+    cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = 1e-3
+) -> GateResult:
+    """Non-blocking alias kept for reports; same check as score_head_per_sample_gradients."""
+    result = gate_score_head_per_sample_gradients(cfg, batch, tokenizer, rtol=rtol)
+    result = GateResult(
+        "score_head_only_diagnostic",
+        result.passed,
+        {**result.details, "diagnostic_only": True, "interpretation": (
+            "If this passes but LoRA+score fails, mismatch is likely PEFT/LoRA integration. "
+            "Use --dp-mode score-head-only for a validated score-head DP lock."
+        )},
+        result.failure_reason,
+    )
+    return result
+
+
+def _gate_clipping_on_model(
+    model: nn.Module, batch: dict, *, max_grad_norm: float = 1.0, gate_name: str = "clipping"
 ) -> GateResult:
     from torch.optim import SGD
     from torch.utils.data import DataLoader, TensorDataset
 
-    model, _ = _load_peft_model(cfg, tokenizer)
     dataset = TensorDataset(
         batch["input_ids"],
         batch["attention_mask"],
@@ -333,7 +356,7 @@ def gate_clipping(
             max_grad_norm=max_grad_norm,
         )
     except Exception as exc:
-        return GateResult("clipping", False, failure_reason=f"make_private failed: {exc}")
+        return GateResult(gate_name, False, failure_reason=f"make_private failed: {exc}")
 
     model.train()
     for batch_in in loader:
@@ -352,11 +375,25 @@ def gate_clipping(
     post_max = max(norms) if norms else 0.0
     ok = post_max <= max_grad_norm + 1e-3 or max_grad_norm <= 0
     return GateResult(
-        "clipping",
+        gate_name,
         ok,
         {"max_grad_norm": max_grad_norm, "post_step_max_grad_norm": post_max},
         None if ok else "gradient norm exceeds clip bound after step",
     )
+
+
+def gate_clipping(
+    cfg: FederatedLoraConfig, batch: dict, tokenizer, max_grad_norm: float = 1.0
+) -> GateResult:
+    model, _ = _load_peft_model(_validation_cfg(cfg), tokenizer)
+    return _gate_clipping_on_model(model, batch, max_grad_norm=max_grad_norm, gate_name="clipping")
+
+
+def gate_clipping_score_head(
+    cfg: FederatedLoraConfig, batch: dict, tokenizer, max_grad_norm: float = 1.0
+) -> GateResult:
+    model = _load_score_only_model(cfg, tokenizer)
+    return _gate_clipping_on_model(model, batch, max_grad_norm=max_grad_norm, gate_name="clipping")
 
 
 def gate_accounting_monotonicity() -> GateResult:
@@ -387,6 +424,7 @@ def gate_accounting_monotonicity() -> GateResult:
 
 def gate_loss_variants(cfg: FederatedLoraConfig, batch: dict, tokenizer) -> GateResult:
     """Test whether label smoothing / class weights break grad_sample."""
+    cfg = _validation_cfg(cfg)
     results = {}
     for variant, smoothing, weights in [
         ("uniform_ce", 0.0, None),
@@ -429,7 +467,70 @@ def gate_loss_variants(cfg: FederatedLoraConfig, batch: dict, tokenizer) -> Gate
     )
 
 
-def run_validation(output_path: Path, *, skip_model_gates: bool = False) -> dict:
+def gate_loss_variants_score_head(cfg: FederatedLoraConfig, batch: dict, tokenizer) -> GateResult:
+    """Uniform CE grad_sample on frozen-base score-head model (score-head DP scope)."""
+    try:
+        from opacus.grad_sample import GradSampleModule
+
+        model = _load_score_only_model(cfg, tokenizer)
+        gsm = GradSampleModule(model)
+        gsm.train()
+        gsm.zero_grad()
+        out = gsm(**{k: v for k, v in batch.items() if k != "labels"})
+        loss = nn.CrossEntropyLoss()(out.logits, batch["labels"])
+        loss.backward()
+        has_gs = any(
+            hasattr(p, "grad_sample") and p.grad_sample is not None
+            for p in gsm.parameters()
+            if p.requires_grad
+        )
+        return GateResult(
+            "loss_variants",
+            has_gs,
+            {
+                "variants": {"uniform_ce": {"grad_sample_present": has_gs}},
+                "recommended_dp_loss": "uniform_ce",
+                "dp_scope": "score_head_only",
+            },
+            None if has_gs else "uniform CE grad_sample failed on score head",
+        )
+    except Exception as exc:
+        return GateResult("loss_variants", False, failure_reason=str(exc))
+
+
+def _locked_procedure(cfg: FederatedLoraConfig, dp_mode: str) -> Dict[str, Any]:
+    if dp_mode == DP_MODE_SCORE_HEAD:
+        return {
+            "dp_scope": "score_head_only",
+            "base_model": cfg.base_model,
+            "freeze": ["base_model", "lora"],
+            "train": ["score"],
+            "loss": "uniform_cross_entropy",
+            "label_smoothing": 0.0,
+            "class_weights": None,
+            "accountant": "Opacus RDPAccountant",
+            "validation_lora_dropout": 0.0,
+            "note": "LoRA adapters must remain frozen; only the classification score head is DP-trained.",
+        }
+    return {
+        "dp_scope": "full_lora_and_score",
+        "base_model": cfg.base_model,
+        "lora": cfg.lora_config_dict(),
+        "loss": "uniform_cross_entropy",
+        "label_smoothing": 0.0,
+        "class_weights": None,
+        "accountant": "Opacus RDPAccountant",
+        "validation_lora_dropout": 0.0,
+        "note": "Use this locked config for any formal full LoRA+score DP claim.",
+    }
+
+
+def run_validation(
+    output_path: Path,
+    *,
+    skip_model_gates: bool = False,
+    dp_mode: str = DP_MODE_FULL,
+) -> dict:
     gates: List[GateResult] = []
     diagnostics: List[GateResult] = []
     gates.append(gate_opacus_import())
@@ -437,20 +538,27 @@ def run_validation(output_path: Path, *, skip_model_gates: bool = False) -> dict
 
     cfg, tokenizer, batch = _build_tiny_batch()
     if not skip_model_gates and gates[0].passed:
-        gates.append(gate_per_sample_gradients(cfg, batch, tokenizer))
-        diagnostics.append(gate_score_head_only_diagnostic(cfg, batch, tokenizer))
-        gates.append(gate_clipping(cfg, batch, tokenizer))
-        gates.append(gate_loss_variants(cfg, batch, tokenizer))
+        if dp_mode == DP_MODE_SCORE_HEAD:
+            gates.append(gate_score_head_per_sample_gradients(cfg, batch, tokenizer))
+            diagnostics.append(gate_per_sample_gradients(cfg, batch, tokenizer))
+            gates.append(gate_clipping_score_head(cfg, batch, tokenizer))
+            gates.append(gate_loss_variants_score_head(cfg, batch, tokenizer))
+        else:
+            gates.append(gate_per_sample_gradients(cfg, batch, tokenizer))
+            diagnostics.append(gate_score_head_only_diagnostic(cfg, batch, tokenizer))
+            gates.append(gate_clipping(cfg, batch, tokenizer))
+            gates.append(gate_loss_variants(cfg, batch, tokenizer))
 
     all_passed = all(g.passed for g in gates)
     report = {
         "format": "dp_bloom_validation_report_v1",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "validation_gate_passed": all_passed,
+        "dp_mode": dp_mode,
         "pytorch_version": torch.__version__,
         "train_script": str(ROOT / "train_qwen_bloom.py"),
         "train_script_sha256": _file_sha256(ROOT / "train_qwen_bloom.py"),
-        "federated_config": FederatedLoraConfig().to_dict(),
+        "federated_config": cfg.to_dict(),
         "gates": [
             {
                 "name": g.name,
@@ -466,25 +574,21 @@ def run_validation(output_path: Path, *, skip_model_gates: bool = False) -> dict
                 "passed": g.passed,
                 "details": g.details,
                 "failure_reason": g.failure_reason,
-                "note": "Non-blocking diagnostic — does not affect validation_gate_passed",
+                "note": (
+                    "Non-blocking LoRA parity check — score-head DP does not require this gate."
+                    if dp_mode == DP_MODE_SCORE_HEAD and g.name == "per_sample_gradients"
+                    else "Non-blocking diagnostic — does not affect validation_gate_passed"
+                ),
             }
             for g in diagnostics
         ],
     }
 
     if all_passed:
-        report["locked_procedure"] = {
-            "base_model": cfg.base_model,
-            "lora": FederatedLoraConfig().lora_config_dict(),
-            "loss": "uniform_cross_entropy",
-            "label_smoothing": 0.0,
-            "class_weights": None,
-            "accountant": "Opacus RDPAccountant",
-            "note": "Use this locked config for any formal DP claim.",
-        }
+        report["locked_procedure"] = _locked_procedure(cfg, dp_mode)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
-        print(f"[dp-validation] PASSED -> {output_path}")
+        print(f"[dp-validation] PASSED ({dp_mode}) -> {output_path}")
     else:
         failed = [g.name for g in gates if not g.passed]
         print(f"[dp-validation] FAILED gates: {failed}")
@@ -500,10 +604,26 @@ def run_validation(output_path: Path, *, skip_model_gates: bool = False) -> dict
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Phase 2A DP validation gate for Bloom LoRA.")
-    parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    parser.add_argument(
+        "--dp-mode",
+        choices=(DP_MODE_FULL, DP_MODE_SCORE_HEAD),
+        default=DP_MODE_FULL,
+        help="full: LoRA+score per-sample grad check. score-head-only: validated score-head DP lock.",
+    )
+    parser.add_argument(
+        "--output",
+        default=None,
+        help="Lock file path (defaults depend on --dp-mode).",
+    )
     parser.add_argument("--skip-model-gates", action="store_true", help="Only run import/accounting gates.")
     args = parser.parse_args()
-    report = run_validation(Path(args.output), skip_model_gates=args.skip_model_gates)
+    default_output = DEFAULT_SCORE_HEAD_OUTPUT if args.dp_mode == DP_MODE_SCORE_HEAD else DEFAULT_OUTPUT
+    output_path = Path(args.output) if args.output else default_output
+    report = run_validation(
+        output_path,
+        skip_model_gates=args.skip_model_gates,
+        dp_mode=args.dp_mode,
+    )
     return 0 if report["validation_gate_passed"] else 1
 
 
