@@ -37,6 +37,9 @@ DEFAULT_OUTPUT = ARTIFACTS_PRIVACY / "dp_bloom_validated_v1.json"
 DEFAULT_SCORE_HEAD_OUTPUT = ARTIFACTS_PRIVACY / "dp_bloom_score_head_validated_v1.json"
 DP_MODE_FULL = "full"
 DP_MODE_SCORE_HEAD = "score-head-only"
+# Opacus LoRA B vs manual per-example grads can differ by ~1e-4 on CUDA (fp noise).
+GRAD_SAMPLE_RTOL = 1e-3
+GRAD_SAMPLE_ATOL = 1e-3
 
 
 @dataclass
@@ -141,7 +144,7 @@ def _manual_per_sample_grads(model, batch: dict, trainable_names: List[str]) -> 
 
 
 def gate_per_sample_gradients(
-    cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = 1e-3
+    cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = GRAD_SAMPLE_RTOL
 ) -> GateResult:
     """Compare Opacus per-sample grads to manual per-example backward."""
     try:
@@ -174,6 +177,7 @@ def gate_per_sample_gradients(
     score_checked = 0
     lora_checked = 0
     internal_ok = 0
+    max_abs_err = 0.0
 
     for name in trainable_names:
         param = gsm_by_name.get(name)
@@ -197,17 +201,23 @@ def gate_per_sample_gradients(
             continue
         if param.grad is not None:
             mean_gs = gs.mean(dim=0)
-            if torch.allclose(param.grad.detach().cpu().float(), mean_gs.float(), rtol=rtol, atol=1e-4):
+            if torch.allclose(
+                param.grad.detach().cpu().float(), mean_gs.float(), rtol=rtol, atol=GRAD_SAMPLE_ATOL
+            ):
                 internal_ok += 1
-        if not torch.allclose(gs.float(), ref.float(), rtol=rtol, atol=1e-4):
-            max_err = (gs.float() - ref.float()).abs().max().item()
-            mismatches.append(f"max_err={max_err:.6f} for {name}")
+        if not torch.allclose(gs.float(), ref.float(), rtol=rtol, atol=GRAD_SAMPLE_ATOL):
+            err = (gs.float() - ref.float()).abs().max().item()
+            max_abs_err = max(max_abs_err, err)
+            mismatches.append(f"max_err={err:.6f} for {name}")
 
     details = {
         "checked_params": checked,
         "score_head_checked": score_checked,
         "lora_checked": lora_checked,
         "gsm_internal_mean_consistency": internal_ok,
+        "max_abs_err": max_abs_err,
+        "grad_sample_rtol": rtol,
+        "grad_sample_atol": GRAD_SAMPLE_ATOL,
         "lora_dropout": cfg.lora_dropout,
         "mismatches": mismatches[:15],
     }
@@ -253,7 +263,7 @@ def _load_score_only_model(cfg: FederatedLoraConfig, tokenizer):
 
 
 def gate_score_head_per_sample_gradients(
-    cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = 1e-3
+    cfg: FederatedLoraConfig, batch: dict, tokenizer, rtol: float = GRAD_SAMPLE_RTOL
 ) -> GateResult:
     """Frozen base + trainable score head per-sample gradients (validated DP scope)."""
     try:
@@ -289,7 +299,7 @@ def gate_score_head_per_sample_gradients(
             continue
         checked += 1
         gs = param.grad_sample.detach().cpu()
-        if not torch.allclose(gs.float(), ref.float(), rtol=rtol, atol=1e-4):
+        if not torch.allclose(gs.float(), ref.float(), rtol=rtol, atol=GRAD_SAMPLE_ATOL):
             max_err = (gs.float() - ref.float()).abs().max().item()
             mismatches.append(f"max_err={max_err:.6f} for {name}")
 

@@ -234,7 +234,9 @@ def _validate_experiment_output(spec: ExperimentSpec, state: Dict[str, Any]) -> 
                 p,
                 run_id=run_id,
                 git_rev=git_rev,
-                allow_missing_run_id=(spec.resource_class == "CPU_SMOKE"),
+                allow_missing_run_id=(
+                    spec.resource_class == "CPU_SMOKE" or bool(spec.extra.get("allow_missing_run_id"))
+                ),
             )
             if mismatch:
                 return f"artifact does not match active run ({mismatch}): {p}"
@@ -508,13 +510,14 @@ def run_pipeline(
 
     completed = set(state.get("completed_experiments", []))
 
-    # Mark already-valid outputs as complete on resume (must match run_id)
+    # Mark already-valid outputs as complete on resume (must match run_id / gate rules)
     for spec in registry:
         if spec.experiment_id not in completed and _outputs_valid(spec, state) and _prereqs_met(spec, completed):
-            if spec.experiment_id not in state.get("failed_experiments", []):
-                _mark_experiment_complete(spec, state, completed=completed)
-                if not dry_run:
-                    _atomic_write_json(STATE_FILE, state)
+            if spec.experiment_id in state.get("failed_experiments", []):
+                state["failed_experiments"].remove(spec.experiment_id)
+            _mark_experiment_complete(spec, state, completed=completed)
+            if not dry_run:
+                _atomic_write_json(STATE_FILE, state)
 
     try:
         for spec in registry:

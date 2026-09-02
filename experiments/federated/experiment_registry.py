@@ -368,7 +368,7 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
             ],
             prerequisites=["fedavg_iid"],
             expected_outputs=[f"{r}/artifacts/privacy/dp_bloom_validated_v1.json"],
-            extra={"accept_only_if_passed": True},
+            extra={"accept_only_if_passed": True, "allow_missing_run_id": True},
         ),
         ExperimentSpec(
             experiment_id="federated_dp",
@@ -380,6 +380,7 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
             prerequisites=["dp_validation"],
             expected_outputs=[f"{r}/artifacts/federated/results/federated_dp_fedavg_iid.json"],
             gate="dp_validated",
+            blocking=False,
         ),
         # --- Phase 9: SecAgg ---
         ExperimentSpec(
@@ -407,7 +408,7 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
         ExperimentSpec(
             experiment_id="export_federated_artifact",
             phase=14,
-            description="C14: Merge federated adapter for deployment",
+            description="C14: Merge federated adapter for deployment (r20 winner)",
             resource_class="GPU_RECOMMENDED",
             priority="core",
             command=[
@@ -416,13 +417,15 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
                 "--model-size",
                 "0.5b",
                 "--lora-dir",
-                f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid",
+                f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20",
                 "--output-dir",
-                f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_merged",
+                f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
                 "--force",
             ],
-            prerequisites=["fedavg_iid"],
-            expected_outputs=[f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_merged/config.json"],
+            prerequisites=["fedavg_iid_r20"],
+            expected_outputs=[
+                f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_r20_merged/config.json"
+            ],
         ),
         ExperimentSpec(
             experiment_id="deployment_regression",

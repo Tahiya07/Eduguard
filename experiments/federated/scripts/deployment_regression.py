@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "artifacts" / "evaluation" / "deployment_regression.json"
-MERGED = ROOT / "artifacts" / "federated" / "models" / "qwen_bloom_federated0.5B_fedavg_iid_merged"
+MERGED = ROOT / "artifacts" / "federated" / "global" / "qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
 
 
 def main() -> int:
