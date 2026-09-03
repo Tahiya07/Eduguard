@@ -1,0 +1,372 @@
+{
+  "format": "best_fl_checkpoint_selection_v1",
+  "timestamp_utc": "2026-09-03T12:44:07.918554+00:00",
+  "selection_rule": "max validation accuracy; ties by macro_f1 then quadratic_weighted_kappa",
+  "candidates": [
+    {
+      "experiment_id": "fedavg_iid_r20",
+      "results_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedavg_iid_r20.json",
+      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+      "best_round": 17,
+      "best_val_metrics": {
+        "accuracy": 0.8223,
+        "macro_f1": 0.815,
+        "quadratic_weighted_kappa": 0.8316,
+        "within_one_level_accuracy": 0.9112,
+        "severe_error_rate": 0.0487,
+        "ece": 0.034,
+        "n_eval": 349
+      },
+      "best_adapter_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20_best",
+      "best_adapter_exists": false,
+      "best_test_metrics": null,
+      "final_test_metrics": {
+        "accuracy": 0.7971,
+        "macro_f1": 0.779,
+        "per_class": {
+          "Remember": {
+            "precision": 0.7759,
+            "recall": 0.9375,
+            "f1": 0.8491,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.88,
+            "recall": 0.7971,
+            "f1": 0.8365,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.6341,
+            "recall": 0.6047,
+            "f1": 0.619,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.8049,
+            "recall": 0.8049,
+            "f1": 0.8049,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.8085,
+            "recall": 0.8837,
+            "f1": 0.8444,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.7105,
+            "recall": 0.7297,
+            "f1": 0.72,
+            "support": 37
+          }
+        },
+        "quadratic_weighted_kappa": 0.8037,
+        "within_one_level_accuracy": 0.8829,
+        "severe_error_rate": 0.0743,
+        "ece": 0.0619,
+        "n_eval": 350,
+        "confusion_matrix": [
+          [
+            45,
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            9,
+            110,
+            7,
+            6,
+            6,
+            0
+          ],
+          [
+            0,
+            6,
+            26,
+            0,
+            1,
+            10
+          ],
+          [
+            1,
+            5,
+            2,
+            33,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            1,
+            0,
+            38,
+            1
+          ],
+          [
+            1,
+            0,
+            5,
+            2,
+            2,
+            27
+          ]
+        ]
+      },
+      "final_round_val": {
+        "round": 20,
+        "accuracy": 0.8109,
+        "macro_f1": 0.8054,
+        "quadratic_weighted_kappa": 0.8199
+      },
+      "recovered_from_history": true
+    },
+    {
+      "experiment_id": "fedprox_iid_r20",
+      "results_json": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedprox_iid_r20.json",
+      "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20",
+      "best_round": 17,
+      "best_val_metrics": {
+        "accuracy": 0.8481,
+        "macro_f1": 0.841,
+        "quadratic_weighted_kappa": 0.8694,
+        "within_one_level_accuracy": 0.9284,
+        "severe_error_rate": 0.0401,
+        "ece": 0.0497,
+        "n_eval": 349
+      },
+      "best_adapter_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+      "best_adapter_exists": false,
+      "best_test_metrics": null,
+      "final_test_metrics": {
+        "accuracy": 0.8229,
+        "macro_f1": 0.8105,
+        "per_class": {
+          "Remember": {
+            "precision": 0.8077,
+            "recall": 0.875,
+            "f1": 0.84,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.8722,
+            "recall": 0.8406,
+            "f1": 0.8561,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.7045,
+            "recall": 0.7209,
+            "f1": 0.7126,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.7442,
+            "recall": 0.7805,
+            "f1": 0.7619,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.881,
+            "recall": 0.8605,
+            "f1": 0.8706,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.8333,
+            "recall": 0.8108,
+            "f1": 0.8219,
+            "support": 37
+          }
+        },
+        "quadratic_weighted_kappa": 0.8585,
+        "within_one_level_accuracy": 0.9114,
+        "severe_error_rate": 0.04,
+        "ece": 0.0619,
+        "n_eval": 350,
+        "confusion_matrix": [
+          [
+            42,
+            5,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            7,
+            116,
+            7,
+            6,
+            2,
+            0
+          ],
+          [
+            2,
+            4,
+            31,
+            0,
+            1,
+            5
+          ],
+          [
+            0,
+            6,
+            2,
+            32,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            3,
+            37,
+            1
+          ],
+          [
+            1,
+            1,
+            3,
+            1,
+            1,
+            30
+          ]
+        ]
+      },
+      "final_round_val": {
+        "round": 20,
+        "accuracy": 0.8309,
+        "macro_f1": 0.8266,
+        "quadratic_weighted_kappa": 0.844
+      },
+      "recovered_from_history": true
+    }
+  ],
+  "winner": {
+    "experiment_id": "fedprox_iid_r20",
+    "best_round": 17,
+    "best_val_metrics": {
+      "accuracy": 0.8481,
+      "macro_f1": 0.841,
+      "quadratic_weighted_kappa": 0.8694,
+      "within_one_level_accuracy": 0.9284,
+      "severe_error_rate": 0.0401,
+      "ece": 0.0497,
+      "n_eval": 349
+    },
+    "best_test_metrics": null,
+    "best_adapter_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+    "final_test_metrics": {
+      "accuracy": 0.8229,
+      "macro_f1": 0.8105,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8077,
+          "recall": 0.875,
+          "f1": 0.84,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8722,
+          "recall": 0.8406,
+          "f1": 0.8561,
+          "support": 138
+        },
+        "Apply": {
+          "precision": 0.7045,
+          "recall": 0.7209,
+          "f1": 0.7126,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.7442,
+          "recall": 0.7805,
+          "f1": 0.7619,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.881,
+          "recall": 0.8605,
+          "f1": 0.8706,
+          "support": 43
+        },
+        "Create": {
+          "precision": 0.8333,
+          "recall": 0.8108,
+          "f1": 0.8219,
+          "support": 37
+        }
+      },
+      "quadratic_weighted_kappa": 0.8585,
+      "within_one_level_accuracy": 0.9114,
+      "severe_error_rate": 0.04,
+      "ece": 0.0619,
+      "n_eval": 350,
+      "confusion_matrix": [
+        [
+          42,
+          5,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          7,
+          116,
+          7,
+          6,
+          2,
+          0
+        ],
+        [
+          2,
+          4,
+          31,
+          0,
+          1,
+          5
+        ],
+        [
+          0,
+          6,
+          2,
+          32,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          3,
+          37,
+          1
+        ],
+        [
+          1,
+          1,
+          3,
+          1,
+          1,
+          30
+        ]
+      ]
+    }
+  },
+  "merge": {
+    "status": "SKIPPED",
+    "reason": "--skip-merge",
+    "merged_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged"
+  },
+  "deployment": {
+    "bloom_model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged",
+    "start_offline_env": "$env:BLOOM_MODEL_DIR = \"C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged\""
+  }
+}
