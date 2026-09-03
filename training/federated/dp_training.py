@@ -207,6 +207,17 @@ def train_local_adapter_dp(
     tokenizer, model = _load_dp_model_stack(cfg, dp, global_dir)
     device = _device_for_model(model)
 
+    try:
+        from opacus import PrivacyEngine
+        from opacus.validators import ModuleValidator
+    except ImportError as exc:
+        raise RuntimeError("Opacus is required for DP training.") from exc
+
+    # Validator.fix() replaces incompatible modules with new parameter tensors.
+    # The optimizer must be created after that, or Opacus rejects the param set.
+    model = ModuleValidator.fix(model)
+    model.to(device)
+
     global_named = {
         name: param.detach().cpu().clone()
         for name, param in model.named_parameters()
@@ -241,13 +252,6 @@ def train_local_adapter_dp(
         collate_fn=lambda batch: _collate_batch(batch, tokenizer, cfg.max_length),
     )
 
-    try:
-        from opacus import PrivacyEngine
-        from opacus.validators import ModuleValidator
-    except ImportError as exc:
-        raise RuntimeError("Opacus is required for DP training.") from exc
-
-    model = ModuleValidator.fix(model)
     privacy_engine = PrivacyEngine()
     model, optimizer, loader = privacy_engine.make_private(
         module=model,
