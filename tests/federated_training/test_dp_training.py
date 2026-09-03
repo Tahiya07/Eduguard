@@ -6,6 +6,8 @@ from training.federated.dp_training import (
     _batch_size,
     _canonical_trainable_state,
     _collate_batch,
+    _enable_input_require_grads,
+    _make_inputs_require_grads,
     apply_locked_training_rules,
     compose_federated_privacy_report,
     dp_config_from_lock,
@@ -87,3 +89,31 @@ def test_batch_size_from_input_ids():
 
     assert _batch_size({"input_ids": torch.zeros((0, 164), dtype=torch.long)}) == 0
     assert _batch_size({"input_ids": torch.zeros((2, 164), dtype=torch.long)}) == 2
+
+
+def test_input_grad_hook_is_picklable():
+    import pickle
+
+    pickle.dumps(_make_inputs_require_grads)
+
+
+def test_enable_input_require_grads_marks_embeddings():
+    import torch
+    import torch.nn as nn
+
+    class Toy(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.embed = nn.Embedding(8, 4)
+
+        def get_input_embeddings(self):
+            return self.embed
+
+        def forward(self, x):
+            return self.embed(x)
+
+    model = Toy()
+    _enable_input_require_grads(model)
+    out = model(torch.tensor([1, 2, 3]))
+    assert out.requires_grad
+    _enable_input_require_grads(model)  # idempotent

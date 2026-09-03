@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import os
 from dataclasses import dataclass, field, replace
 from typing import Any, Dict, List, Tuple
 
@@ -14,7 +15,6 @@ from torch.utils.data import DataLoader
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from training.federated.aggregation import extract_trainable_state, trainable_param_count
-from training.federated.class_weights import resolve_class_weights
 from training.federated.communication import trainable_param_breakdown
 from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, effective_prox_mu, make_peft_lora_config
 
@@ -80,19 +80,67 @@ def _load_tokenizer(base_model: str):
     return tokenizer
 
 
+def _load_sequence_classifier(base_model: str, num_labels: int):
+    kwargs = {
+        "num_labels": num_labels,
+        "trust_remote_code": True,
+    }
+    try:
+        return AutoModelForSequenceClassification.from_pretrained(
+            base_model, dtype=torch.float32, **kwargs
+        )
+    except TypeError:
+        return AutoModelForSequenceClassification.from_pretrained(
+            base_model, torch_dtype=torch.float32, **kwargs
+        )
+
+
+def _unwrap_module(model: nn.Module) -> nn.Module:
+    return model._module if hasattr(model, "_module") else model
+
+
+def _make_inputs_require_grads(_module, _inputs, output):
+    """Module-level hook so Opacus clone_module/pickle can succeed."""
+    if torch.is_tensor(output):
+        output.requires_grad_(True)
+    return output
+
+
+def _enable_input_require_grads(model: nn.Module) -> None:
+    root = _unwrap_module(model)
+    if getattr(root, "_eduguard_input_grad_hook", False):
+        return
+    embed = root.get_input_embeddings() if hasattr(root, "get_input_embeddings") else None
+    if embed is None:
+        return
+    embed.register_forward_hook(_make_inputs_require_grads)
+    root._eduguard_input_grad_hook = True
+
+
+def _maybe_fix_opacus_modules(model: nn.Module) -> nn.Module:
+    from opacus.validators import ModuleValidator
+
+    # Do not register forward hooks before this: ModuleValidator.fix() pickles the module.
+    if ModuleValidator.is_valid(model):
+        return model
+    print("[dp] ModuleValidator.fix: replacing Opacus-incompatible submodules")
+    try:
+        return ModuleValidator.fix(model)
+    except Exception as exc:
+        print(f"[dp] ModuleValidator.fix skipped ({type(exc).__name__}: {exc}); using original module")
+        return model
+
+
 def _load_dp_model_stack(
     cfg: FederatedLoraConfig,
     dp: DpRuntimeConfig,
     global_dir,
 ):
     tokenizer = _load_tokenizer(cfg.base_model)
-    base = AutoModelForSequenceClassification.from_pretrained(
-        cfg.base_model,
-        num_labels=len(BLOOM_LABELS),
-        trust_remote_code=True,
-        torch_dtype=torch.float32,
-    )
+    base = _load_sequence_classifier(cfg.base_model, len(BLOOM_LABELS))
     base.config.pad_token_id = tokenizer.pad_token_id
+    if getattr(base, "config", None) is not None:
+        base.config.use_cache = False
 
     if dp.dp_mode == DP_MODE_SCORE_HEAD:
         if global_dir and (global_dir / "adapter_config.json").is_file():
@@ -104,16 +152,12 @@ def _load_dp_model_stack(
                     param.requires_grad = False
         for name, param in model.named_parameters():
             param.requires_grad = "score" in name
-        if hasattr(model, "enable_input_require_grads"):
-            model.enable_input_require_grads()
         return tokenizer, model
 
     if global_dir and (global_dir / "adapter_config.json").is_file():
         model = PeftModel.from_pretrained(base, str(global_dir), is_trainable=True)
     else:
         model = get_peft_model(base, make_peft_lora_config(cfg))
-    if hasattr(model, "enable_input_require_grads"):
-        model.enable_input_require_grads()
     if getattr(model, "config", None) is not None:
         model.config.use_cache = False
     return tokenizer, model
@@ -225,21 +269,20 @@ def train_local_adapter_dp(
     if algorithm not in {"fedavg", "fedprox"}:
         raise ValueError(f"Unsupported federated algorithm for DP-SGD: {algorithm}")
     prox_mu = effective_prox_mu(algorithm, config.prox_mu)
+    os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
     cfg = apply_locked_training_rules(config, dp)
     tokenizer, model = _load_dp_model_stack(cfg, dp, global_dir)
-    device = _device_for_model(model)
 
     try:
         from opacus import PrivacyEngine
-        from opacus.validators import ModuleValidator
     except ImportError as exc:
         raise RuntimeError("Opacus is required for DP training.") from exc
 
-    # Validator.fix() replaces incompatible modules with new parameter tensors.
-    # The optimizer must be created after that, or Opacus rejects the param set.
-    model = ModuleValidator.fix(model)
-    model.to(device)
+    # Validator.fix pickles the module; input-grad hooks must be attached after that.
+    model = _maybe_fix_opacus_modules(model)
+    device = _device_for_model(model)
+    _enable_input_require_grads(model)
 
     global_named = {
         name: param.detach().cpu().clone()
@@ -283,7 +326,9 @@ def train_local_adapter_dp(
         noise_multiplier=dp.noise_multiplier,
         max_grad_norm=dp.max_grad_norm,
         poisson_sampling=True,
+        grad_sample_mode="hooks",
     )
+    _enable_input_require_grads(model)
 
     model.train()
     steps_done = 0
