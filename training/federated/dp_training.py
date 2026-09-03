@@ -11,7 +11,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 from peft import PeftModel, get_peft_model
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from training.federated.aggregation import extract_trainable_state, trainable_param_count
@@ -164,7 +164,7 @@ def _load_dp_model_stack(
 
 
 def _collate_batch(batch, tokenizer, max_length: int):
-    # Opacus Poisson sampling can yield an empty index list.
+    """Legacy text collate kept for unit tests; training uses tokenized tensors."""
     if not batch:
         return {
             "input_ids": torch.zeros((0, 1), dtype=torch.long),
@@ -183,7 +183,66 @@ def _collate_batch(batch, tokenizer, max_length: int):
     return enc
 
 
-def _batch_size(batch: dict) -> int:
+class _TokenizedBloomDataset(Dataset):
+    """Map-style tensor dataset so Opacus empty-batch zeros use real torch dtypes.
+
+    Opacus inspects ``dataset[0]`` to build empty Poisson batches. Text/label
+    tuples make it pass Python ``str``/``int`` as dtypes and crash.
+    """
+
+    def __init__(self, texts: List[str], labels: List[int], tokenizer, max_length: int):
+        enc = tokenizer(
+            list(texts),
+            truncation=True,
+            padding="max_length",
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        self.input_ids = enc["input_ids"]
+        self.attention_mask = enc["attention_mask"]
+        self.labels = torch.tensor(labels, dtype=torch.long)
+
+    def __len__(self) -> int:
+        return int(self.labels.shape[0])
+
+    def __getitem__(self, idx: int):
+        return self.input_ids[idx], self.attention_mask[idx], self.labels[idx]
+
+
+def _collate_tokenized(batch):
+    if not batch:
+        return {
+            "input_ids": torch.zeros((0, 1), dtype=torch.long),
+            "attention_mask": torch.zeros((0, 1), dtype=torch.long),
+            "labels": torch.zeros((0,), dtype=torch.long),
+        }
+    input_ids, attention_mask, labels = zip(*batch)
+    return {
+        "input_ids": torch.stack(input_ids, dim=0),
+        "attention_mask": torch.stack(attention_mask, dim=0),
+        "labels": torch.stack(labels, dim=0),
+    }
+
+
+def _normalize_batch(batch) -> Dict[str, torch.Tensor]:
+    """Accept dict batches or Opacus empty placeholders (list of zero tensors)."""
+    if isinstance(batch, dict):
+        return batch
+    if isinstance(batch, (list, tuple)) and len(batch) == 3 and all(torch.is_tensor(t) for t in batch):
+        return {
+            "input_ids": batch[0],
+            "attention_mask": batch[1],
+            "labels": batch[2],
+        }
+    raise TypeError(f"Unsupported DP batch type: {type(batch)!r}")
+
+
+def _batch_size(batch) -> int:
+    if not isinstance(batch, dict):
+        try:
+            batch = _normalize_batch(batch)
+        except TypeError:
+            return 0
     ids = batch.get("input_ids")
     if ids is not None and hasattr(ids, "shape") and ids.ndim >= 1:
         return int(ids.shape[0])
@@ -191,6 +250,41 @@ def _batch_size(batch: dict) -> int:
     if labels is not None and hasattr(labels, "shape") and labels.ndim >= 1:
         return int(labels.shape[0])
     return 0
+
+
+def _iter_nonempty_batches(loader, *, max_iters: int):
+    """Yield (batch, loader_iters, empty_skipped) for non-empty DP batches."""
+    iters = 0
+    skipped = 0
+    while iters < max_iters:
+        data_iter = iter(loader)
+        exhausted = True
+        while iters < max_iters:
+            try:
+                raw = next(data_iter)
+            except StopIteration:
+                break
+            except TypeError as exc:
+                if "dtype" not in str(exc).lower():
+                    raise
+                skipped += 1
+                iters += 1
+                exhausted = False
+                continue
+            exhausted = False
+            iters += 1
+            try:
+                batch = _normalize_batch(raw)
+            except TypeError:
+                skipped += 1
+                continue
+            if _batch_size(batch) == 0:
+                skipped += 1
+                continue
+            yield batch, iters, skipped
+        if exhausted:
+            raise RuntimeError("DP DataLoader produced no batches")
+    return
 
 
 def _device_for_model(model: nn.Module) -> torch.device:
@@ -213,22 +307,22 @@ def compose_federated_privacy_report(
     noise_multiplier: float,
     dp_mode: str,
 ) -> Dict[str, Any]:
-  local_max = max(client_epsilons) if client_epsilons else None
-  local_mean = sum(client_epsilons) / len(client_epsilons) if client_epsilons else None
-  return {
-      "mechanism": "client_dp_sgd_opacus",
-      "dp_mode": dp_mode,
-      "noise_multiplier": noise_multiplier,
-      "delta": delta,
-      "local_epsilon_max": local_max,
-      "local_epsilon_mean": local_mean,
-      "naive_composition_upper_bound": (rounds * local_max) if local_max is not None else None,
-      "composition_note": (
-          "Per-client epsilon is computed by Opacus for one local DP-SGD run. "
-          "Federated composition uses a conservative naive upper bound (rounds * max local epsilon). "
-          "Tighter FL accounting requires a dedicated accountant."
-      ),
-  }
+    local_max = max(client_epsilons) if client_epsilons else None
+    local_mean = sum(client_epsilons) / len(client_epsilons) if client_epsilons else None
+    return {
+        "mechanism": "client_dp_sgd_opacus",
+        "dp_mode": dp_mode,
+        "noise_multiplier": noise_multiplier,
+        "delta": delta,
+        "local_epsilon_max": local_max,
+        "local_epsilon_mean": local_mean,
+        "naive_composition_upper_bound": (rounds * local_max) if local_max is not None else None,
+        "composition_note": (
+            "Per-client epsilon is computed by Opacus for one local DP-SGD run. "
+            "Federated composition uses a conservative naive upper bound (rounds * max local epsilon). "
+            "Tighter FL accounting requires a dedicated accountant."
+        ),
+    }
 
 
 def _strip_opacus_prefix(name: str) -> str:
@@ -290,15 +384,17 @@ def train_local_adapter_dp(
         if param.requires_grad
     }
 
-    rows = [
-        (build_prompt(str(q)), BLOOM_LABELS[str(l)])
-        for q, l in zip(df[cfg.text_col], df[cfg.label_col])
+    rows_text = [
+        build_prompt(str(q))
+        for q in df[cfg.text_col]
     ]
+    rows_labels = [BLOOM_LABELS[str(l)] for l in df[cfg.label_col]]
+    dataset = _TokenizedBloomDataset(rows_text, rows_labels, tokenizer, cfg.max_length)
 
     warm_started = bool(global_dir and (global_dir / "adapter_config.json").is_file())
     lr = cfg.finetune_learning_rate if warm_started else cfg.learning_rate
 
-    optimizer_steps_per_epoch = max(1, math.ceil(len(rows) / max(1, cfg.batch_size)))
+    optimizer_steps_per_epoch = max(1, math.ceil(len(dataset) / max(1, cfg.batch_size)))
     total_optimizer_steps = max(1, math.ceil(optimizer_steps_per_epoch * cfg.local_epochs))
 
     trainable = [p for p in model.parameters() if p.requires_grad]
@@ -312,10 +408,10 @@ def train_local_adapter_dp(
     )
 
     loader = DataLoader(
-        rows,
+        dataset,
         batch_size=cfg.batch_size,
         shuffle=True,
-        collate_fn=lambda batch: _collate_batch(batch, tokenizer, cfg.max_length),
+        collate_fn=_collate_tokenized,
     )
 
     privacy_engine = PrivacyEngine()
@@ -335,26 +431,21 @@ def train_local_adapter_dp(
     empty_batches_skipped = 0
     max_loader_iters = max(total_optimizer_steps * 20, total_optimizer_steps + 8)
     loader_iters = 0
-    while steps_done < total_optimizer_steps and loader_iters < max_loader_iters:
-        for batch in loader:
-            loader_iters += 1
-            batch = _move_batch(batch, device)
-            if _batch_size(batch) == 0:
-                empty_batches_skipped += 1
-                continue
-            labels = batch.pop("labels")
-            optimizer.zero_grad()
-            outputs = model(**batch)
-            loss = nn.CrossEntropyLoss()(outputs.logits, labels)
-            if prox_mu > 0.0:
-                loss = loss + _proximal_penalty(model, global_named, prox_mu)
-            loss.backward()
-            optimizer.step()
-            steps_done += 1
-            if steps_done >= total_optimizer_steps:
-                break
-            if loader_iters >= max_loader_iters:
-                break
+    for batch, loader_iters, empty_batches_skipped in _iter_nonempty_batches(
+        loader, max_iters=max_loader_iters
+    ):
+        batch = _move_batch(batch, device)
+        labels = batch.pop("labels")
+        optimizer.zero_grad()
+        outputs = model(**batch)
+        loss = nn.CrossEntropyLoss()(outputs.logits, labels)
+        if prox_mu > 0.0:
+            loss = loss + _proximal_penalty(model, global_named, prox_mu)
+        loss.backward()
+        optimizer.step()
+        steps_done += 1
+        if steps_done >= total_optimizer_steps:
+            break
     if steps_done < total_optimizer_steps:
         raise RuntimeError(
             f"DP-SGD stopped after {steps_done}/{total_optimizer_steps} steps "
@@ -385,5 +476,6 @@ def train_local_adapter_dp(
         "class_weights_skipped": True,
         "dp_poisson_sampling": True,
         "dp_empty_batches_skipped": empty_batches_skipped,
+        "dp_dataset": "tokenized_tensor",
     }
     return local_state, len(df), stats

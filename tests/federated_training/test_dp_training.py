@@ -6,8 +6,10 @@ from training.federated.dp_training import (
     _batch_size,
     _canonical_trainable_state,
     _collate_batch,
+    _collate_tokenized,
     _enable_input_require_grads,
     _make_inputs_require_grads,
+    _normalize_batch,
     apply_locked_training_rules,
     compose_federated_privacy_report,
     dp_config_from_lock,
@@ -89,6 +91,32 @@ def test_batch_size_from_input_ids():
 
     assert _batch_size({"input_ids": torch.zeros((0, 164), dtype=torch.long)}) == 0
     assert _batch_size({"input_ids": torch.zeros((2, 164), dtype=torch.long)}) == 2
+
+
+def test_normalize_opacus_empty_tensor_list():
+    import torch
+
+    raw = [
+        torch.zeros((0, 8), dtype=torch.long),
+        torch.zeros((0, 8), dtype=torch.long),
+        torch.zeros((0,), dtype=torch.long),
+    ]
+    batch = _normalize_batch(raw)
+    assert _batch_size(batch) == 0
+    assert set(batch) == {"input_ids", "attention_mask", "labels"}
+
+
+def test_collate_tokenized_stacks():
+    import torch
+
+    batch = _collate_tokenized(
+        [
+            (torch.ones(4, dtype=torch.long), torch.ones(4, dtype=torch.long), torch.tensor(1)),
+            (torch.zeros(4, dtype=torch.long), torch.zeros(4, dtype=torch.long), torch.tensor(2)),
+        ]
+    )
+    assert batch["input_ids"].shape == (2, 4)
+    assert batch["labels"].tolist() == [1, 2]
 
 
 def test_input_grad_hook_is_picklable():
