@@ -29,6 +29,11 @@ from training.federated.config import (
 from training.federated.partition import client_label_distributions, partition_csv
 from training.federated.dp import load_dp_lock, resolve_dp_lock_path
 from training.federated.dp_training import compose_federated_privacy_report, normalize_dp_mode
+from training.federated.best_checkpoint import (
+    best_adapter_dir,
+    maybe_save_best_checkpoint,
+    pick_best_history_round,
+)
 
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -210,6 +215,11 @@ def main() -> int:
     )
     parser.add_argument("--dp-noise-multiplier", type=float, default=1.0)
     parser.add_argument("--dp-delta", type=float, default=1e-5)
+    parser.add_argument(
+        "--save-best-checkpoint",
+        action="store_true",
+        help="Copy global adapter to {global_adapter}_best when validation accuracy improves.",
+    )
     args = parser.parse_args()
 
     if args.enable_dp and args.algorithm != "fedavg":
@@ -274,6 +284,9 @@ def main() -> int:
             "lock_path": str(dp_lock_path),
             "locked_procedure": dp_lock.get("locked_procedure"),
         }
+    if args.save_best_checkpoint:
+        config_payload["save_best_checkpoint"] = True
+        config_payload["best_adapter_dir"] = str(best_adapter_dir(global_dir))
     config_json.write_text(json.dumps(config_payload, indent=2), encoding="utf-8")
     cfg_hash = config_hash(cfg.to_dict())
     round_ckpt_path = run_dir / "round_checkpoint.json"
@@ -282,6 +295,10 @@ def main() -> int:
         round_ckpt_path.unlink()
         _clear_round_failure(run_dir)
         print(f"[sim] --fresh: removed checkpoint {round_ckpt_path}")
+        best_path = best_adapter_dir(global_dir)
+        if best_path.is_dir():
+            shutil.rmtree(best_path)
+            print(f"[sim] --fresh: removed best adapter {best_path}")
 
     resume_state = resolve_round_resume(
         round_ckpt_path,
@@ -297,6 +314,27 @@ def main() -> int:
     trainable_parameters = resume_state.trainable_parameters
     trainable_param_breakdown = resume_state.trainable_param_breakdown
     adapter_bytes = resume_state.adapter_bytes
+    best_checkpoint = resume_state.best_checkpoint
+    if args.save_best_checkpoint and best_checkpoint is None and history:
+        picked = pick_best_history_round(history)
+        if picked is not None:
+            best_checkpoint = {
+                "best_round": int(picked.get("round") or 0),
+                "best_val_metrics": {
+                    k: picked.get(k)
+                    for k in (
+                        "accuracy",
+                        "macro_f1",
+                        "quadratic_weighted_kappa",
+                        "within_one_level_accuracy",
+                        "severe_error_rate",
+                        "ece",
+                        "n_eval",
+                    )
+                    if picked.get(k) is not None
+                },
+                "best_adapter_path": str(best_adapter_dir(global_dir)),
+            }
     start_time_iso = resume_state.start_time or datetime.now(timezone.utc).isoformat()
 
     if resume_state.should_resume and not resume_state.training_complete:
@@ -562,6 +600,19 @@ def main() -> int:
             metrics = _evaluate_global(global_dir, eval_csv, cfg)
             round_record.update(metrics)
             print(f"[sim] round {round_idx} global eval: {metrics}")
+            if args.save_best_checkpoint:
+                saved, best_checkpoint = maybe_save_best_checkpoint(
+                    global_dir=global_dir,
+                    round_idx=round_idx,
+                    metrics=metrics,
+                    current_best=best_checkpoint,
+                )
+                if saved:
+                    print(
+                        f"[sim] new best val checkpoint at round {round_idx} "
+                        f"acc={metrics.get('accuracy')} -> {best_checkpoint.get('best_adapter_path')}"
+                    )
+                round_record["is_best_so_far"] = bool(saved)
         history.append(round_record)
         _clear_round_failure(run_dir)
 
@@ -577,11 +628,39 @@ def main() -> int:
             adapter_bytes=adapter_bytes,
             global_adapter=str(global_dir),
             start_time=start_time_iso,
+            best_checkpoint=best_checkpoint,
         )
 
     final_metrics = {}
+    best_test_metrics = {}
     if not args.skip_train:
         final_metrics = _evaluate_global(global_dir, Path(cfg.test_csv), cfg)
+        if args.save_best_checkpoint:
+            best_path = Path((best_checkpoint or {}).get("best_adapter_path") or best_adapter_dir(global_dir))
+            if (best_path / "adapter_config.json").is_file():
+                best_test_metrics = _evaluate_global(best_path, Path(cfg.test_csv), cfg)
+                print(f"[sim] best checkpoint test metrics (round {(best_checkpoint or {}).get('best_round')}): {best_test_metrics}")
+            elif history:
+                picked = pick_best_history_round(history)
+                if picked is not None:
+                    best_checkpoint = {
+                        "best_round": int(picked.get("round") or 0),
+                        "best_val_metrics": {
+                            k: picked.get(k)
+                            for k in (
+                                "accuracy",
+                                "macro_f1",
+                                "quadratic_weighted_kappa",
+                                "within_one_level_accuracy",
+                                "severe_error_rate",
+                                "ece",
+                                "n_eval",
+                            )
+                            if picked.get(k) is not None
+                        },
+                        "best_adapter_path": str(best_adapter_dir(global_dir)),
+                        "note": "best_adapter_path missing on disk; val metrics recovered from history only",
+                    }
 
     elapsed = time.time() - t0
     run_id = os.environ.get("EDUGUARD_RUN_ID", "standalone")
@@ -638,6 +717,9 @@ def main() -> int:
     report["client_sizes"] = client_sizes
     report["client_label_distribution"] = label_mix
     report["simulation"] = "eduguard_federated_qwen25_0.5b_bloom_lora"
+    if best_checkpoint:
+        report["best_checkpoint"] = best_checkpoint
+        report["best_test_metrics"] = best_test_metrics or None
     report["privacy_disclaimer"] = (
         "Client-side Opacus DP-SGD was applied per locked Phase-2A procedure. "
         "Server aggregation does not add Gaussian noise. Federated epsilon uses a "
@@ -663,7 +745,17 @@ def main() -> int:
     results_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(f"[sim] done -> {global_dir}")
     print(f"[sim] report -> {results_path}")
-    print(json.dumps({"final_test_metrics": final_metrics, "communication": report["communication"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "final_test_metrics": final_metrics,
+                "best_checkpoint": best_checkpoint,
+                "best_test_metrics": best_test_metrics or None,
+                "communication": report["communication"],
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

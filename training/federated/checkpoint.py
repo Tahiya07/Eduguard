@@ -24,6 +24,7 @@ class RoundResumeState:
     last_completed_round: int
     training_complete: bool
     global_adapter: Optional[str]
+    best_checkpoint: Optional[Dict[str, Any]] = None
 
 
 def load_round_checkpoint(path: Path) -> Optional[Dict[str, Any]]:
@@ -58,6 +59,7 @@ def resolve_round_resume(
         last_completed_round=0,
         training_complete=False,
         global_adapter=None,
+        best_checkpoint=None,
     )
     if fresh_requested:
         return empty
@@ -81,6 +83,7 @@ def resolve_round_resume(
 
     last_completed = int(ckpt.get("last_completed_round", 0) or 0)
     comm_acc = ckpt.get("communication_accum") or {}
+    best_checkpoint = ckpt.get("best_checkpoint")
 
     if last_completed >= int(configured_rounds):
         return RoundResumeState(
@@ -96,6 +99,7 @@ def resolve_round_resume(
             last_completed_round=last_completed,
             training_complete=True,
             global_adapter=ckpt.get("global_adapter"),
+            best_checkpoint=best_checkpoint,
         )
 
     if last_completed <= 0:
@@ -114,6 +118,7 @@ def resolve_round_resume(
         last_completed_round=last_completed,
         training_complete=False,
         global_adapter=ckpt.get("global_adapter"),
+        best_checkpoint=best_checkpoint,
     )
 
 
@@ -130,6 +135,7 @@ def write_round_checkpoint(
     adapter_bytes: Optional[int],
     global_adapter: str,
     start_time: Optional[str],
+    best_checkpoint: Optional[Dict[str, Any]] = None,
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
@@ -145,5 +151,6 @@ def write_round_checkpoint(
         "adapter_bytes": adapter_bytes,
         "global_adapter": global_adapter,
         "start_time": start_time,
+        "best_checkpoint": best_checkpoint,
     }
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")

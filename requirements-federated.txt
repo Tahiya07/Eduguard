@@ -2,3 +2,4 @@
 -r requirements-training.txt
 
 pyyaml>=6.0
+matplotlib>=3.7

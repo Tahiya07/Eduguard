@@ -14,11 +14,30 @@ $env:OFFLINE_MODE = "true"
 
 $env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen.gguf"
 $defaultBloom = Join-Path $root "models\qwen_bloom_merged0.5B"
-$federatedBloom = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
-if (Test-Path (Join-Path $federatedBloom "config.json")) {
-    $env:BLOOM_MODEL_DIR = $federatedBloom
-} else {
-    $env:BLOOM_MODEL_DIR = $defaultBloom
+$fedavgMerged = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
+$recommendation = Join-Path $root "artifacts\evaluation\deployment_recommendation.json"
+$selection = Join-Path $root "artifacts\evaluation\best_fl_checkpoint_selection.json"
+
+$env:BLOOM_MODEL_DIR = $defaultBloom
+if (Test-Path $recommendation) {
+    try {
+        $rec = Get-Content $recommendation -Raw | ConvertFrom-Json
+        if ($rec.bloom_model_dir -and (Test-Path (Join-Path $rec.bloom_model_dir "config.json"))) {
+            $env:BLOOM_MODEL_DIR = $rec.bloom_model_dir
+        }
+    } catch {}
+}
+if (($env:BLOOM_MODEL_DIR -eq $defaultBloom) -and (Test-Path $selection)) {
+    try {
+        $sel = Get-Content $selection -Raw | ConvertFrom-Json
+        $merged = $sel.merge.merged_dir
+        if ($merged -and (Test-Path (Join-Path $merged "config.json"))) {
+            $env:BLOOM_MODEL_DIR = $merged
+        }
+    } catch {}
+}
+if (($env:BLOOM_MODEL_DIR -eq $defaultBloom) -and (Test-Path (Join-Path $fedavgMerged "config.json"))) {
+    $env:BLOOM_MODEL_DIR = $fedavgMerged
 }
 $env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
 

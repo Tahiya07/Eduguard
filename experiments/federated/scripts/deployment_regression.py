@@ -9,12 +9,33 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "artifacts" / "evaluation" / "deployment_regression.json"
-MERGED = ROOT / "artifacts" / "federated" / "global" / "qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
+RECOMMENDATION = ROOT / "artifacts" / "evaluation" / "deployment_recommendation.json"
+SELECTION = ROOT / "artifacts" / "evaluation" / "best_fl_checkpoint_selection.json"
+FALLBACK_MERGED = (
+    ROOT / "artifacts" / "federated" / "global" / "qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
+)
+
+
+def _resolved_merged() -> Path:
+    for path in (RECOMMENDATION, SELECTION):
+        if not path.is_file():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if path.name.startswith("deployment"):
+            candidate = data.get("bloom_model_dir")
+        else:
+            candidate = (data.get("merge") or {}).get("merged_dir") or (
+                data.get("deployment") or {}
+            ).get("bloom_model_dir")
+        if candidate and (Path(candidate) / "config.json").is_file():
+            return Path(candidate)
+    return FALLBACK_MERGED
 
 
 def main() -> int:
     checks = {}
     errors = []
+    merged = _resolved_merged()
 
     # Production backend isolation
     try:
@@ -37,8 +58,10 @@ def main() -> int:
         checks["bloom_prompt"] = False
         errors.append(f"predict_bloom: {exc}")
 
-    # Merged federated artifact exists
-    checks["federated_merged_exists"] = (MERGED / "config.json").is_file()
+    # Merged federated artifact exists (best-checkpoint recommendation preferred)
+    checks["federated_merged_path"] = str(merged)
+    checks["federated_merged_exists"] = (merged / "config.json").is_file()
+    checks["recommendation_present"] = RECOMMENDATION.is_file() or SELECTION.is_file()
 
     # GGUF generator path convention (1.5B separate)
     gguf_candidates = list((ROOT / "models").glob("**/*.gguf")) if (ROOT / "models").is_dir() else []

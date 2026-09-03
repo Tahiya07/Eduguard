@@ -54,6 +54,8 @@ def _sim_cmd(py: str, r: str, **kwargs) -> List[str]:
             cmd.extend([flag, str(kwargs[key])])
     if kwargs.get("aggregation_diagnostics"):
         cmd.append("--aggregation-diagnostics")
+    if kwargs.get("save_best_checkpoint"):
+        cmd.append("--save-best-checkpoint")
     # Simulation auto-resumes from round_checkpoint.json when present; --resume is optional.
     if kwargs.get("resume"):
         cmd.append("--resume")
@@ -188,6 +190,7 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
                 experiment_tag="fedavg_iid_r20",
                 global_adapter=f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20",
                 results_json=f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_r20.json",
+                save_best_checkpoint=True,
             ),
             prerequisites=["framework_parity_audit"],
             expected_outputs=[f"{r}/artifacts/federated/results/federated_lora_fedavg_iid_r20.json"],
@@ -258,6 +261,7 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
                 experiment_tag="fedprox_iid_r20",
                 global_adapter=f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20",
                 results_json=f"{r}/artifacts/federated/results/federated_lora_fedprox_iid_r20.json",
+                save_best_checkpoint=True,
             ),
             prerequisites=["fedprox_iid"],
             expected_outputs=[f"{r}/artifacts/federated/results/federated_lora_fedprox_iid_r20.json"],
@@ -443,25 +447,36 @@ def build_registry(repo_root: str, py: str) -> List[ExperimentSpec]:
         ExperimentSpec(
             experiment_id="export_federated_artifact",
             phase=14,
-            description="C14: Merge federated adapter for deployment (r20 winner)",
+            description="C14: Select best FedAvg/FedProx checkpoint, merge, recommend deploy path",
+            resource_class="GPU_RECOMMENDED",
+            priority="core",
+            command=[py, f"{r}/experiments/federated/scripts/select_and_deploy_best_fl_checkpoint.py"],
+            prerequisites=["fedavg_iid_r20", "fedprox_iid_r20"],
+            expected_outputs=[
+                f"{r}/artifacts/evaluation/best_fl_checkpoint_selection.json",
+                f"{r}/artifacts/evaluation/deployment_recommendation.json",
+            ],
+            extra={"allow_missing_run_id": True},
+        ),
+        ExperimentSpec(
+            experiment_id="paper_eval_deployable",
+            phase=14,
+            description="Paper tables/figures for deployable FL Bloom model",
             resource_class="GPU_RECOMMENDED",
             priority="core",
             command=[
                 py,
-                "-m",
-                "training.centralized.merge_model",
-                "--model-size",
-                "0.5b",
-                "--lora-dir",
-                f"{r}/artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20",
-                "--output-dir",
-                f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
-                "--force",
+                f"{r}/experiments/federated/scripts/evaluate_deployable_fl_model.py",
+                "--out-dir",
+                f"{r}/artifacts/evaluation/paper",
             ],
-            prerequisites=["fedavg_iid_r20"],
+            prerequisites=["export_federated_artifact"],
             expected_outputs=[
-                f"{r}/artifacts/federated/global/qwen_bloom_federated0.5B_fedavg_iid_r20_merged/config.json"
+                f"{r}/artifacts/evaluation/paper/paper_main_results.json",
+                f"{r}/artifacts/evaluation/paper/PAPER_RESULTS.md",
             ],
+            extra={"allow_missing_run_id": True},
+            blocking=False,
         ),
         ExperimentSpec(
             experiment_id="deployment_regression",

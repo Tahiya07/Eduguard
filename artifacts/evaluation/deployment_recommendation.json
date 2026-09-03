@@ -1,12 +1,23 @@
 {
-  "winner": "fedavg_iid_r20",
-  "bloom_model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
-  "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
+  "winner": "fedprox_iid_r20",
+  "best_round": 17,
+  "selection_rule": "max validation accuracy; ties by macro_f1 then quadratic_weighted_kappa",
+  "bloom_model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged",
+  "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
   "merge": {
-    "status": "FAILED",
-    "lora_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedavg_iid_r20",
-    "merged_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedavg_iid_r20_merged",
-    "exit_code": 1
+    "status": "SKIPPED",
+    "reason": "--skip-merge",
+    "merged_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged"
   },
-  "rationale": "Higher test accuracy, macro-F1, and QWK on figshare_bloom_v1_test; 4x training budget."
+  "best_val_metrics": {
+    "accuracy": 0.8481,
+    "macro_f1": 0.841,
+    "quadratic_weighted_kappa": 0.8694,
+    "within_one_level_accuracy": 0.9284,
+    "severe_error_rate": 0.0401,
+    "ece": 0.0497,
+    "n_eval": 349
+  },
+  "best_test_metrics": null,
+  "rationale": "Highest validation accuracy across FedAvg/FedProx r20 best checkpoints."
 }

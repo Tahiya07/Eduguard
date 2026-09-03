@@ -68,8 +68,27 @@ Outputs: `artifacts/evaluation/fedavg_5r_vs_r20_comparison.md`, `deployment_reco
 ```bash
 python experiments/federated/run_all_experiments.py --experiment fedprox_iid_r20 --no-laptop-mode --allow-gpu --profile extended
 
-python -m training.federated.simulation --clients 8 --rounds 20 --local-epochs 3 --algorithm fedprox --prox-mu 0.01 --partition iid --seed 42 --experiment-tag fedprox_iid_r20 --global-adapter artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20 --results-json artifacts/federated/results/federated_lora_fedprox_iid_r20.json --fresh
+python -m training.federated.simulation --clients 8 --rounds 20 --local-epochs 3 --algorithm fedprox --prox-mu 0.01 --partition iid --seed 42 --experiment-tag fedprox_iid_r20 --global-adapter artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20 --results-json artifacts/federated/results/federated_lora_fedprox_iid_r20.json --save-best-checkpoint --fresh
 ```
+
+## Best checkpoint select + paper eval (after both r20 runs with --save-best-checkpoint)
+
+```bash
+# Re-run FedAvg r20 with best-checkpoint saving (required; mid-round adapters were overwritten):
+python -m training.federated.simulation --clients 8 --rounds 20 --local-epochs 3 --algorithm fedavg --partition iid --seed 42 --experiment-tag fedavg_iid_r20 --global-adapter artifacts/federated/models/qwen_bloom_federated0.5B_fedavg_iid_r20 --results-json artifacts/federated/results/federated_lora_fedavg_iid_r20.json --save-best-checkpoint --fresh
+
+# Select best val checkpoint across FedAvg/FedProx, merge, write deployment_recommendation.json:
+python experiments/federated/scripts/select_and_deploy_best_fl_checkpoint.py
+
+# Paper tables/figures (IEEE-ready) for the deployable model:
+python experiments/federated/scripts/evaluate_deployable_fl_model.py --out-dir artifacts/evaluation/paper
+```
+
+Outputs:
+
+- `artifacts/evaluation/best_fl_checkpoint_selection.json`
+- `artifacts/evaluation/deployment_recommendation.json`
+- `artifacts/evaluation/paper/` (`table*.{md,tex,csv}`, `fig_*.{png,pdf}`, `PAPER_RESULTS.md`)
 
 ## DP validation (standalone)
 
