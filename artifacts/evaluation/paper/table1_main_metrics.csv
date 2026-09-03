@@ -1,2 +1,7 @@
 Metric,Value,95% bootstrap CI
-(no deployable test metrics yet),—,—
+Accuracy,0.8057,—
+Macro-F1,0.7982,—
+QWK,0.8493,—
+Within-1,0.9086,—
+Severe err,0.0429,—
+ECE,0.0537,—

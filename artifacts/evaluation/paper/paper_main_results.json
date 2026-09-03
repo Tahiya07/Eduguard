@@ -1,92 +1,370 @@
 {
   "format": "paper_fl_deployable_results_v1",
-  "timestamp_utc": "2026-09-03T12:45:00.322837+00:00",
+  "timestamp_utc": "2026-09-03T19:26:57.200867+00:00",
   "selection_rule": "max validation accuracy; ties by macro_f1 then quadratic_weighted_kappa",
   "deployable": {
-    "model_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r17_merged",
-    "lora_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+    "model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
+    "lora_dir": "artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
     "experiment_id": "fedprox_iid_r20",
-    "best_round": 17,
+    "best_round": 20,
     "selection_rule": "max validation accuracy; ties by macro_f1 then quadratic_weighted_kappa",
     "best_val_metrics": {
-      "accuracy": 0.8481,
-      "macro_f1": 0.841,
-      "quadratic_weighted_kappa": 0.8694,
-      "within_one_level_accuracy": 0.9284,
-      "severe_error_rate": 0.0401,
-      "ece": 0.0497,
+      "accuracy": 0.851,
+      "macro_f1": 0.8515,
+      "quadratic_weighted_kappa": 0.8651,
+      "within_one_level_accuracy": 0.9255,
+      "severe_error_rate": 0.043,
+      "ece": 0.0388,
       "n_eval": 349
     },
-    "best_test_metrics": null
+    "best_test_metrics": {
+      "accuracy": 0.8057,
+      "macro_f1": 0.7982,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7407,
+          "recall": 0.8333,
+          "f1": 0.7843,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8594,
+          "recall": 0.7971,
+          "f1": 0.8271,
+          "support": 138
+        },
+        "Apply": {
+          "precision": 0.6809,
+          "recall": 0.7442,
+          "f1": 0.7111,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.7857,
+          "recall": 0.8049,
+          "f1": 0.7952,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8511,
+          "recall": 0.9302,
+          "f1": 0.8889,
+          "support": 43
+        },
+        "Create": {
+          "precision": 0.8438,
+          "recall": 0.7297,
+          "f1": 0.7826,
+          "support": 37
+        }
+      },
+      "quadratic_weighted_kappa": 0.8493,
+      "within_one_level_accuracy": 0.9086,
+      "severe_error_rate": 0.0429,
+      "ece": 0.0565,
+      "n_eval": 350,
+      "confusion_matrix": [
+        [
+          40,
+          7,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          11,
+          110,
+          8,
+          6,
+          3,
+          0
+        ],
+        [
+          2,
+          4,
+          32,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          6,
+          1,
+          33,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          1,
+          40,
+          0
+        ],
+        [
+          1,
+          1,
+          4,
+          1,
+          3,
+          27
+        ]
+      ]
+    }
   },
   "live_eval": {
-    "ran": false,
-    "model_dir": null,
-    "n_test": null,
-    "metrics": null,
-    "confusion_matrix": null
+    "ran": true,
+    "model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
+    "n_test": 350,
+    "metrics": {
+      "accuracy": 0.8057,
+      "macro_f1": 0.7982,
+      "weighted_f1": 0.8061,
+      "cohen_kappa": 0.7503,
+      "quadratic_weighted_kappa": 0.8493,
+      "mean_ordinal_distance": 0.3371,
+      "within_one_level_accuracy": 0.9086,
+      "severe_error_rate": 0.0429,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7407,
+          "recall": 0.8333,
+          "f1": 0.7843,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8594,
+          "recall": 0.7971,
+          "f1": 0.8271,
+          "support": 138
+        },
+        "Apply": {
+          "precision": 0.6809,
+          "recall": 0.7442,
+          "f1": 0.7111,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.7857,
+          "recall": 0.8049,
+          "f1": 0.7952,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8511,
+          "recall": 0.9302,
+          "f1": 0.8889,
+          "support": 43
+        },
+        "Create": {
+          "precision": 0.8438,
+          "recall": 0.7297,
+          "f1": 0.7826,
+          "support": 37
+        }
+      },
+      "bootstrap_ci": {
+        "accuracy": {
+          "mean": 0.8056,
+          "ci_low": 0.7656,
+          "ci_high": 0.8457,
+          "n_bootstrap": 2000
+        },
+        "macro_f1": {
+          "mean": 0.7962,
+          "ci_low": 0.7509,
+          "ci_high": 0.841,
+          "n_bootstrap": 2000
+        },
+        "quadratic_weighted_kappa": {
+          "mean": 0.8484,
+          "ci_low": 0.7906,
+          "ci_high": 0.8949,
+          "n_bootstrap": 2000
+        }
+      },
+      "ece": 0.0537,
+      "calibration": {
+        "ece": 0.0537,
+        "reliability_bins": {
+          "bin_centers": [
+            0.25,
+            0.35,
+            0.45,
+            0.55,
+            0.65,
+            0.75,
+            0.85,
+            0.95
+          ],
+          "bin_accuracy": [
+            0.0,
+            0.3333,
+            0.4706,
+            0.4167,
+            0.5263,
+            0.6774,
+            0.7407,
+            0.9333
+          ],
+          "bin_confidence": [
+            0.2788,
+            0.3667,
+            0.462,
+            0.5502,
+            0.6457,
+            0.7521,
+            0.857,
+            0.9605
+          ],
+          "bin_counts": [
+            1,
+            6,
+            17,
+            12,
+            19,
+            31,
+            54,
+            210
+          ]
+        }
+      },
+      "selective_prediction": [
+        {
+          "threshold": 0.7,
+          "coverage": 0.8429,
+          "accuracy": 0.8712,
+          "n_accepted": 295.0,
+          "n_total": 350.0
+        },
+        {
+          "threshold": 0.8,
+          "coverage": 0.7543,
+          "accuracy": 0.8939,
+          "n_accepted": 264.0,
+          "n_total": 350.0
+        },
+        {
+          "threshold": 0.9,
+          "coverage": 0.6,
+          "accuracy": 0.9333,
+          "n_accepted": 210.0,
+          "n_total": 350.0
+        }
+      ]
+    },
+    "confusion_matrix": [
+      [
+        40,
+        7,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        11,
+        110,
+        8,
+        6,
+        3,
+        0
+      ],
+      [
+        2,
+        4,
+        32,
+        0,
+        0,
+        5
+      ],
+      [
+        0,
+        6,
+        1,
+        33,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        1,
+        40,
+        0
+      ],
+      [
+        1,
+        1,
+        4,
+        1,
+        3,
+        27
+      ]
+    ]
   },
   "algorithm_summaries": [
     {
       "experiment_id": "fedavg_iid_r20",
-      "best_round": 17,
+      "best_round": 15,
       "best_val": {
-        "accuracy": 0.8223,
-        "macro_f1": 0.815,
-        "quadratic_weighted_kappa": 0.8316
+        "accuracy": 0.8252,
+        "macro_f1": 0.8179,
+        "quadratic_weighted_kappa": 0.8716,
+        "within_one_level_accuracy": 0.9169,
+        "severe_error_rate": 0.0372,
+        "ece": 0.0455,
+        "n_eval": 349
       },
-      "best_test": {},
-      "final_val": {
-        "round": 20,
-        "accuracy": 0.8109,
-        "macro_f1": 0.8054,
-        "quadratic_weighted_kappa": 0.8199
-      },
-      "final_test": {
-        "accuracy": 0.7971,
-        "macro_f1": 0.779,
+      "best_test": {
+        "accuracy": 0.8,
+        "macro_f1": 0.792,
         "per_class": {
           "Remember": {
-            "precision": 0.7759,
+            "precision": 0.7377,
             "recall": 0.9375,
-            "f1": 0.8491,
+            "f1": 0.8257,
             "support": 48
           },
           "Understand": {
-            "precision": 0.88,
-            "recall": 0.7971,
-            "f1": 0.8365,
+            "precision": 0.8824,
+            "recall": 0.7609,
+            "f1": 0.8171,
             "support": 138
           },
           "Apply": {
-            "precision": 0.6341,
-            "recall": 0.6047,
-            "f1": 0.619,
+            "precision": 0.6905,
+            "recall": 0.6744,
+            "f1": 0.6824,
             "support": 43
           },
           "Analyze": {
-            "precision": 0.8049,
+            "precision": 0.7674,
             "recall": 0.8049,
-            "f1": 0.8049,
+            "f1": 0.7857,
             "support": 41
           },
           "Evaluate": {
-            "precision": 0.8085,
-            "recall": 0.8837,
-            "f1": 0.8444,
+            "precision": 0.8125,
+            "recall": 0.907,
+            "f1": 0.8571,
             "support": 43
           },
           "Create": {
-            "precision": 0.7105,
-            "recall": 0.7297,
-            "f1": 0.72,
+            "precision": 0.7838,
+            "recall": 0.7838,
+            "f1": 0.7838,
             "support": 37
           }
         },
-        "quadratic_weighted_kappa": 0.8037,
-        "within_one_level_accuracy": 0.8829,
-        "severe_error_rate": 0.0743,
-        "ece": 0.0619,
+        "quadratic_weighted_kappa": 0.8412,
+        "within_one_level_accuracy": 0.8943,
+        "severe_error_rate": 0.0486,
+        "ece": 0.0395,
         "n_eval": 350,
         "confusion_matrix": [
           [
@@ -98,20 +376,20 @@
             0
           ],
           [
-            9,
-            110,
-            7,
+            14,
+            105,
+            8,
             6,
-            6,
-            0
+            4,
+            1
           ],
           [
-            0,
-            6,
-            26,
-            0,
             1,
-            10
+            3,
+            29,
+            0,
+            4,
+            6
           ],
           [
             1,
@@ -122,133 +400,336 @@
             0
           ],
           [
+            0,
+            1,
+            1,
+            1,
+            39,
+            1
+          ],
+          [
+            0,
             2,
+            2,
+            3,
+            1,
+            29
+          ]
+        ]
+      },
+      "final_val": {
+        "round": 20,
+        "accuracy": 0.8138,
+        "macro_f1": 0.8064,
+        "quadratic_weighted_kappa": 0.8476
+      },
+      "final_test": {
+        "accuracy": 0.8029,
+        "macro_f1": 0.7927,
+        "per_class": {
+          "Remember": {
+            "precision": 0.7333,
+            "recall": 0.9167,
+            "f1": 0.8148,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.8917,
+            "recall": 0.7754,
+            "f1": 0.8295,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.6905,
+            "recall": 0.6744,
+            "f1": 0.6824,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.8049,
+            "recall": 0.8049,
+            "f1": 0.8049,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.7917,
+            "recall": 0.8837,
+            "f1": 0.8352,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.7692,
+            "recall": 0.8108,
+            "f1": 0.7895,
+            "support": 37
+          }
+        },
+        "quadratic_weighted_kappa": 0.834,
+        "within_one_level_accuracy": 0.8943,
+        "severe_error_rate": 0.0486,
+        "ece": 0.0474,
+        "n_eval": 350,
+        "confusion_matrix": [
+          [
+            44,
+            4,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            12,
+            107,
+            8,
+            6,
+            4,
+            1
+          ],
+          [
+            2,
+            2,
+            29,
+            0,
+            4,
+            6
+          ],
+          [
+            0,
+            5,
+            2,
+            33,
+            1,
+            0
+          ],
+          [
+            1,
             1,
             1,
             0,
             38,
-            1
+            2
           ],
           [
             1,
-            0,
-            5,
+            1,
             2,
             2,
-            27
+            1,
+            30
           ]
         ]
       }
     },
     {
       "experiment_id": "fedprox_iid_r20",
-      "best_round": 17,
+      "best_round": 20,
       "best_val": {
-        "accuracy": 0.8481,
-        "macro_f1": 0.841,
-        "quadratic_weighted_kappa": 0.8694
+        "accuracy": 0.851,
+        "macro_f1": 0.8515,
+        "quadratic_weighted_kappa": 0.8651,
+        "within_one_level_accuracy": 0.9255,
+        "severe_error_rate": 0.043,
+        "ece": 0.0388,
+        "n_eval": 349
       },
-      "best_test": {},
-      "final_val": {
-        "round": 20,
-        "accuracy": 0.8309,
-        "macro_f1": 0.8266,
-        "quadratic_weighted_kappa": 0.844
-      },
-      "final_test": {
-        "accuracy": 0.8229,
-        "macro_f1": 0.8105,
+      "best_test": {
+        "accuracy": 0.8057,
+        "macro_f1": 0.7982,
         "per_class": {
           "Remember": {
-            "precision": 0.8077,
-            "recall": 0.875,
-            "f1": 0.84,
+            "precision": 0.7407,
+            "recall": 0.8333,
+            "f1": 0.7843,
             "support": 48
           },
           "Understand": {
-            "precision": 0.8722,
-            "recall": 0.8406,
-            "f1": 0.8561,
+            "precision": 0.8594,
+            "recall": 0.7971,
+            "f1": 0.8271,
             "support": 138
           },
           "Apply": {
-            "precision": 0.7045,
-            "recall": 0.7209,
-            "f1": 0.7126,
+            "precision": 0.6809,
+            "recall": 0.7442,
+            "f1": 0.7111,
             "support": 43
           },
           "Analyze": {
-            "precision": 0.7442,
-            "recall": 0.7805,
-            "f1": 0.7619,
+            "precision": 0.7857,
+            "recall": 0.8049,
+            "f1": 0.7952,
             "support": 41
           },
           "Evaluate": {
-            "precision": 0.881,
-            "recall": 0.8605,
-            "f1": 0.8706,
+            "precision": 0.8511,
+            "recall": 0.9302,
+            "f1": 0.8889,
             "support": 43
           },
           "Create": {
-            "precision": 0.8333,
-            "recall": 0.8108,
-            "f1": 0.8219,
+            "precision": 0.8438,
+            "recall": 0.7297,
+            "f1": 0.7826,
             "support": 37
           }
         },
-        "quadratic_weighted_kappa": 0.8585,
-        "within_one_level_accuracy": 0.9114,
-        "severe_error_rate": 0.04,
-        "ece": 0.0619,
+        "quadratic_weighted_kappa": 0.8493,
+        "within_one_level_accuracy": 0.9086,
+        "severe_error_rate": 0.0429,
+        "ece": 0.0565,
         "n_eval": 350,
         "confusion_matrix": [
           [
-            42,
-            5,
+            40,
+            7,
             0,
             1,
             0,
             0
           ],
           [
-            7,
-            116,
-            7,
+            11,
+            110,
+            8,
             6,
-            2,
+            3,
             0
           ],
           [
             2,
             4,
-            31,
+            32,
             0,
-            1,
+            0,
             5
           ],
           [
             0,
             6,
-            2,
-            32,
+            1,
+            33,
             1,
             0
           ],
           [
             0,
+            0,
+            2,
             1,
-            1,
-            3,
-            37,
-            1
+            40,
+            0
           ],
           [
             1,
             1,
+            4,
+            1,
             3,
+            27
+          ]
+        ]
+      },
+      "final_val": {
+        "round": 20,
+        "accuracy": 0.851,
+        "macro_f1": 0.8515,
+        "quadratic_weighted_kappa": 0.8651
+      },
+      "final_test": {
+        "accuracy": 0.8057,
+        "macro_f1": 0.7982,
+        "per_class": {
+          "Remember": {
+            "precision": 0.7407,
+            "recall": 0.8333,
+            "f1": 0.7843,
+            "support": 48
+          },
+          "Understand": {
+            "precision": 0.8594,
+            "recall": 0.7971,
+            "f1": 0.8271,
+            "support": 138
+          },
+          "Apply": {
+            "precision": 0.6809,
+            "recall": 0.7442,
+            "f1": 0.7111,
+            "support": 43
+          },
+          "Analyze": {
+            "precision": 0.7857,
+            "recall": 0.8049,
+            "f1": 0.7952,
+            "support": 41
+          },
+          "Evaluate": {
+            "precision": 0.8511,
+            "recall": 0.9302,
+            "f1": 0.8889,
+            "support": 43
+          },
+          "Create": {
+            "precision": 0.8438,
+            "recall": 0.7297,
+            "f1": 0.7826,
+            "support": 37
+          }
+        },
+        "quadratic_weighted_kappa": 0.8493,
+        "within_one_level_accuracy": 0.9086,
+        "severe_error_rate": 0.0429,
+        "ece": 0.0565,
+        "n_eval": 350,
+        "confusion_matrix": [
+          [
+            40,
+            7,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            11,
+            110,
+            8,
+            6,
+            3,
+            0
+          ],
+          [
+            2,
+            4,
+            32,
+            0,
+            0,
+            5
+          ],
+          [
+            0,
+            6,
+            1,
+            33,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            2,
+            1,
+            40,
+            0
+          ],
+          [
             1,
             1,
-            30
+            4,
+            1,
+            3,
+            27
           ]
         ]
       }
