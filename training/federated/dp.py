@@ -2,7 +2,7 @@
 """Federated DP training — gated on Phase 2A validation lock.
 
 Client updates use Opacus DP-SGD per the locked centralized procedure.
-The server performs FedAvg only (no server-side Gaussian noise).
+The server performs FedAvg aggregation (FedProx is a client objective).
 """
 
 from __future__ import annotations
@@ -15,16 +15,18 @@ from pathlib import Path
 
 from training.paths import ARTIFACTS_FEDERATED, ROOT
 
+from training.federated.config import DEFAULT_PROX_MU
+
 DP_LOCK_FULL = ROOT / "artifacts" / "privacy" / "dp_bloom_validated_v1.json"
 DP_LOCK_SCORE_HEAD = ROOT / "artifacts" / "privacy" / "dp_bloom_score_head_validated_v1.json"
 DP_SCOPE_FULL = "full"
 DP_SCOPE_SCORE_HEAD = "score-head-only"
 DP_SCOPE_AUTO = "auto"
 
-DEFAULT_TAG = "fedavg_iid_dp"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "federated" / "results" / "federated_dp_fedavg_iid.json"
+DEFAULT_TAG = "fedprox_iid_dp"
+DEFAULT_OUTPUT = ROOT / "artifacts" / "federated" / "results" / "federated_dp_fedprox_iid.json"
 DEFAULT_ADAPTER = (
-    ROOT / "artifacts" / "federated" / "models" / "qwen_bloom_federated0.5B_fedavg_iid_dp"
+    ROOT / "artifacts" / "federated" / "models" / "qwen_bloom_federated0.5B_fedprox_iid_dp"
 )
 
 
@@ -70,6 +72,8 @@ def run_federated_dp_training(
     experiment_tag: str,
     global_adapter: Path,
     fresh: bool,
+    algorithm: str = "fedprox",
+    prox_mu: float = DEFAULT_PROX_MU,
 ) -> int:
     lock_path = resolve_dp_lock_path(dp_scope)
     lock = load_dp_lock(dp_scope)
@@ -88,7 +92,9 @@ def run_federated_dp_training(
         "--local-epochs",
         str(local_epochs),
         "--algorithm",
-        "fedavg",
+        algorithm,
+        "--prox-mu",
+        str(prox_mu if algorithm == "fedprox" else 0.0),
         "--partition",
         "iid",
         "--seed",
@@ -109,6 +115,7 @@ def run_federated_dp_training(
     ]
     if fresh:
         cmd.append("--fresh")
+    cmd.append("--save-best-checkpoint")
 
     print("[dp] launching federated DP simulation:")
     print(" ", " ".join(cmd))
@@ -137,6 +144,8 @@ def main() -> int:
     parser.add_argument("--local-epochs", type=float, default=3.0)
     parser.add_argument("--experiment-tag", default=DEFAULT_TAG)
     parser.add_argument("--global-adapter", default=str(DEFAULT_ADAPTER))
+    parser.add_argument("--algorithm", choices=("fedavg", "fedprox"), default="fedprox")
+    parser.add_argument("--prox-mu", type=float, default=DEFAULT_PROX_MU)
     parser.add_argument("--fresh", action="store_true")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     args = parser.parse_args()
@@ -165,6 +174,8 @@ def main() -> int:
         experiment_tag=args.experiment_tag,
         global_adapter=Path(args.global_adapter),
         fresh=bool(args.fresh),
+        algorithm=args.algorithm,
+        prox_mu=float(args.prox_mu),
     )
 
 

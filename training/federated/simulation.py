@@ -24,6 +24,7 @@ from training.federated.checkpoint import resolve_round_resume, write_round_chec
 from training.federated.config import (
     DEFAULT_PROX_MU,
     FederatedLoraConfig,
+    effective_prox_mu,
     setting_tag,
 )
 from training.federated.partition import client_label_distributions, partition_csv
@@ -222,8 +223,6 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if args.enable_dp and args.algorithm != "fedavg":
-        raise SystemExit("Client DP-SGD requires --algorithm fedavg (FedProx is not DP-compatible).")
     dp_lock = None
     dp_lock_path = None
     if args.enable_dp:
@@ -263,7 +262,7 @@ def main() -> int:
         test_csv=args.test_csv,
         global_adapter_dir=str(global_dir),
         algorithm=args.algorithm,
-        prox_mu=args.prox_mu,
+        prox_mu=effective_prox_mu(args.algorithm, args.prox_mu),
         partition=args.partition,
         dirichlet_alpha=args.alpha,
         seed=args.seed,

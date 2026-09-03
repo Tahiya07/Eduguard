@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 from training.federated.dp_training import (
+    _canonical_trainable_state,
     apply_locked_training_rules,
     compose_federated_privacy_report,
     dp_config_from_lock,
     normalize_dp_mode,
 )
-from training.federated.config import FederatedLoraConfig
+from training.federated.config import FederatedLoraConfig, effective_prox_mu
 
 
 def test_normalize_dp_mode():
@@ -28,8 +29,8 @@ def test_apply_locked_training_rules_zeros_smoothing_and_weights():
     assert locked.label_smoothing == 0.0
     assert locked.use_class_weights is False
     assert locked.lora_dropout == 0.0
-    assert locked.algorithm == "fedavg"
-    assert locked.prox_mu == 0.0
+    assert locked.algorithm == cfg.algorithm
+    assert locked.prox_mu == cfg.prox_mu
 
 
 def test_compose_federated_privacy_report_naive_bound():
@@ -54,3 +55,18 @@ def test_dp_config_from_lock_reads_max_grad_norm():
     assert dp.max_grad_norm == 0.75
     assert dp.noise_multiplier == 0.8
     assert dp.lock_path == "/tmp/lock.json"
+
+
+def test_effective_prox_mu_ignores_default_on_fedavg():
+    assert effective_prox_mu("fedavg", 0.01) == 0.0
+    assert effective_prox_mu("fedprox", 0.01) == 0.01
+
+
+def test_canonical_trainable_state_strips_opacus_prefix():
+    import torch
+
+    state = _canonical_trainable_state(
+        {"_module.base_model.model.layers.0.lora_A": torch.ones(1)}
+    )
+    assert "base_model.model.layers.0.lora_A" in state
+    assert "_module.base_model.model.layers.0.lora_A" not in state

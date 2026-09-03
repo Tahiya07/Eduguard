@@ -126,6 +126,13 @@ def make_peft_lora_config(config: FederatedLoraConfig | None = None):
     )
 
 
+def effective_prox_mu(algorithm: str, prox_mu: float) -> float:
+    """FedProx mu is ignored unless the algorithm is actually FedProx."""
+    if str(algorithm).lower().strip() != "fedprox":
+        return 0.0
+    return float(prox_mu)
+
+
 def setting_tag(*, algorithm: str, partition: str, alpha: float | None = None) -> str:
     algo = algorithm.lower().strip()
     part = partition.lower().strip()

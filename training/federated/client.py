@@ -2,7 +2,8 @@
 """Local teacher-client Bloom LoRA training; exports integrity-protected update bundle.
 
 Matches centralized train_qwen_bloom.py architecture.
-Supports FedProx on the client (not claimed as differentially private).
+Supports FedAvg and FedProx. Client DP-SGD may use the FedProx objective;
+privacy is from Opacus DP-SGD, not from the proximal term.
 """
 
 from __future__ import annotations
@@ -39,6 +40,7 @@ from training.federated.config import (
     BLOOM_LABELS,
     FederatedLoraConfig,
     TEACHER_ROLE,
+    effective_prox_mu,
     make_peft_lora_config,
 )
 from training.federated.execution_stats import read_trainer_execution_stats
@@ -289,6 +291,7 @@ def main() -> int:
     cfg.algorithm = args.algorithm
     if args.prox_mu is not None:
         cfg.prox_mu = args.prox_mu
+    cfg.prox_mu = effective_prox_mu(cfg.algorithm, cfg.prox_mu)
 
     df = pd.read_csv(args.csv).dropna()
     if args.max_samples > 0 and len(df) > args.max_samples:

@@ -16,7 +16,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from training.federated.aggregation import extract_trainable_state, trainable_param_count
 from training.federated.class_weights import resolve_class_weights
 from training.federated.communication import trainable_param_breakdown
-from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, make_peft_lora_config
+from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, effective_prox_mu, make_peft_lora_config
 
 DP_MODE_FULL = "full"
 DP_MODE_SCORE_HEAD = "score-head-only"
@@ -65,8 +65,6 @@ def apply_locked_training_rules(cfg: FederatedLoraConfig, dp: DpRuntimeConfig) -
     updates: Dict[str, Any] = {
         "label_smoothing": 0.0,
         "use_class_weights": False,
-        "algorithm": "fedavg",
-        "prox_mu": 0.0,
     }
     if dp.dp_mode == DP_MODE_FULL:
         updates["lora_dropout"] = float(
@@ -166,6 +164,32 @@ def compose_federated_privacy_report(
   }
 
 
+def _strip_opacus_prefix(name: str) -> str:
+    while name.startswith("_module."):
+        name = name[len("_module.") :]
+    return name
+
+
+def _canonical_trainable_state(state: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
+    return {_strip_opacus_prefix(k): v for k, v in state.items()}
+
+
+def _proximal_penalty(model: nn.Module, global_params: Dict[str, torch.Tensor], prox_mu: float) -> torch.Tensor:
+    prox = None
+    for name, param in model.named_parameters():
+        if not param.requires_grad:
+            continue
+        g_cpu = global_params.get(name) or global_params.get(_strip_opacus_prefix(name))
+        if g_cpu is None:
+            continue
+        g = g_cpu.to(device=param.device, dtype=param.dtype)
+        term = torch.sum((param - g) ** 2)
+        prox = term if prox is None else prox + term
+    if prox is None:
+        return torch.zeros((), device=next(model.parameters()).device)
+    return 0.5 * float(prox_mu) * prox
+
+
 def train_local_adapter_dp(
     df: pd.DataFrame,
     config: FederatedLoraConfig,
@@ -174,12 +198,20 @@ def train_local_adapter_dp(
     *,
     build_prompt,
 ) -> Tuple[dict, int, dict]:
-    if config.algorithm != "fedavg" or float(config.prox_mu) > 0.0:
-        raise ValueError("Client DP-SGD requires algorithm=fedavg (FedProx is not DP-compatible).")
+    algorithm = (config.algorithm or "fedavg").lower().strip()
+    if algorithm not in {"fedavg", "fedprox"}:
+        raise ValueError(f"Unsupported federated algorithm for DP-SGD: {algorithm}")
+    prox_mu = effective_prox_mu(algorithm, config.prox_mu)
 
     cfg = apply_locked_training_rules(config, dp)
     tokenizer, model = _load_dp_model_stack(cfg, dp, global_dir)
     device = _device_for_model(model)
+
+    global_named = {
+        name: param.detach().cpu().clone()
+        for name, param in model.named_parameters()
+        if param.requires_grad
+    }
 
     rows = [
         (build_prompt(str(q)), BLOOM_LABELS[str(l)])
@@ -234,6 +266,8 @@ def train_local_adapter_dp(
             optimizer.zero_grad()
             outputs = model(**batch)
             loss = nn.CrossEntropyLoss()(outputs.logits, labels)
+            if prox_mu > 0.0:
+                loss = loss + _proximal_penalty(model, global_named, prox_mu)
             loss.backward()
             optimizer.step()
             steps_done += 1
@@ -241,13 +275,13 @@ def train_local_adapter_dp(
                 break
 
     epsilon = float(privacy_engine.get_epsilon(dp.target_delta))
-    local_state = extract_trainable_state(model)
+    local_state = _canonical_trainable_state(extract_trainable_state(model))
     param_breakdown = trainable_param_breakdown(local_state)
     stats = {
         "trainable_parameters": trainable_param_count(local_state),
         "trainable_param_breakdown": param_breakdown,
-        "prox_mu": 0.0,
-        "algorithm": "fedavg",
+        "prox_mu": prox_mu,
+        "algorithm": algorithm,
         "optimizer_steps_completed": steps_done,
         "epochs_completed": cfg.local_epochs,
         "max_steps": total_optimizer_steps,

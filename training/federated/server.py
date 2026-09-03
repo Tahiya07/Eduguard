@@ -32,7 +32,7 @@ from training.federated.communication import (
     serialized_state_bytes,
     trainable_param_breakdown,
 )
-from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, make_peft_lora_config
+from training.federated.config import BLOOM_LABELS, FederatedLoraConfig, effective_prox_mu, make_peft_lora_config
 from training.federated.transport import load_bundle, unpack_update
 
 if str(ROOT) not in sys.path:
@@ -207,6 +207,7 @@ def main() -> int:
     cfg.algorithm = args.algorithm
     if args.prox_mu is not None:
         cfg.prox_mu = args.prox_mu
+    cfg.prox_mu = effective_prox_mu(cfg.algorithm, cfg.prox_mu)
 
     global_dir = Path(args.global_adapter)
     paths = [Path(p) for p in args.bundles]
