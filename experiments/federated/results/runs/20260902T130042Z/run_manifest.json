@@ -1,6 +1,6 @@
 {
   "run_id": "20260902T130042Z",
-  "git_revision": "63b9f1c738bc697fa1d85b630efac93e7794b941",
+  "git_revision": "b8327eb20c9f5884fe77c4cad58b41926b7cf934",
   "environment": {
     "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
     "platform": "Windows-10-10.0.22631-SP0",
@@ -14,7 +14,7 @@
     "opacus": "1.6.0"
   },
   "started_at": "2026-09-02T13:00:42.482937+00:00",
-  "last_update": "2026-09-02T22:23:58.338740+00:00",
+  "last_update": "2026-09-03T09:02:36.764438+00:00",
   "experiments": [
     {
       "experiment_id": "env_validation",
@@ -122,6 +122,16 @@
       ]
     },
     {
+      "experiment_id": "fedprox_iid_r20",
+      "phase": 4,
+      "resource_class": "GPU_REQUIRED",
+      "status": "COMPLETE",
+      "config_path": "D:/Eduguard/experiments/federated/configs/fedprox_iid_r20.json",
+      "expected_outputs": [
+        "D:/Eduguard/artifacts/federated/results/federated_lora_fedprox_iid_r20.json"
+      ]
+    },
+    {
       "experiment_id": "fedavg_noniid_a05",
       "phase": 4,
       "resource_class": "GPU_REQUIRED",
@@ -198,7 +208,7 @@
       "phase": 8,
       "resource_class": "GPU_REQUIRED",
       "status": "PENDING",
-      "config_path": null,
+      "config_path": "D:/Eduguard/experiments/federated/configs/federated_dp_fedavg_iid.json",
       "expected_outputs": [
         "D:/Eduguard/artifacts/federated/results/federated_dp_fedavg_iid.json"
       ]
@@ -290,7 +300,8 @@
     "fedavg_noniid_a10",
     "fl_baseline_diagnosis",
     "utility_gap_analysis",
-    "dp_validation"
+    "dp_validation",
+    "fedprox_iid_r20"
   ],
   "failed": [],
   "blocked": []

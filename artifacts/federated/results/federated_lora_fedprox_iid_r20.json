@@ -1,0 +1,3827 @@
+{
+  "format": "federated_bloom_result_v1",
+  "run_id": "20260902T130042Z",
+  "experiment_id": "fedprox_iid_r20",
+  "git_revision": "b8327eb20c9f5884fe77c4cad58b41926b7cf934",
+  "config_hash": "40698af2fbf35cc4b6865a79ee9659b1ae29d9d47f13b4faa151f83154836f46",
+  "dataset_hashes": {
+    "data/figshare_bloom_v1_train.csv": "d5cd8c28c4b6cbfc6b6803830c64185df6fb591466d1abf145d84f6b24f9fc4d",
+    "data/figshare_bloom_v1_val.csv": "14cd9304434d97d9add2ed13a30ed9bf3adb09373b4f6d3f03c6efd141fe4ef0",
+    "data/figshare_bloom_v1_test.csv": "7ee161c5f006a8e939df97d7528a1ec64e877701ac74c56e1afd63d0a262eb97"
+  },
+  "model_identifier": "Qwen/Qwen2.5-0.5B-Instruct",
+  "seed": 42,
+  "status": "EXECUTED",
+  "start_time": "2026-09-02T22:57:31.993335+00:00",
+  "end_time": "2026-09-03T09:02:36.129631+00:00",
+  "setting_tag": "fedprox_iid_r20",
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "finetune_learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "max_grad_norm": 1.0,
+    "local_epochs": 3.0,
+    "federated_rounds": 20,
+    "client_count": 8,
+    "algorithm": "fedprox",
+    "prox_mu": 0.01,
+    "label_smoothing": 0.05,
+    "use_class_weights": true,
+    "configured": {
+      "local_epochs": 3.0,
+      "federated_rounds": 20,
+      "client_count": 8,
+      "optimizer_steps_per_client_per_round": {
+        "teacher_site_00": 39,
+        "teacher_site_01": 39,
+        "teacher_site_02": 39,
+        "teacher_site_03": 39,
+        "teacher_site_04": 39,
+        "teacher_site_05": 39,
+        "teacher_site_06": 39,
+        "teacher_site_07": 39
+      },
+      "optimizer_steps_per_round_all_clients": 312,
+      "total_optimizer_steps_estimate": 6240
+    },
+    "actual": {
+      "federated_rounds_configured": 20,
+      "federated_rounds_completed": 20,
+      "optimizer_steps_per_client_per_round": {
+        "round_01": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_02": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_03": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_04": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_05": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_06": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_07": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_08": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_09": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_10": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_11": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_12": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_13": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_14": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_15": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_16": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_17": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_18": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_19": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "round_20": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        }
+      },
+      "optimizer_steps_per_round_all_clients": [
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312,
+        312
+      ],
+      "total_optimizer_steps_completed": 6240,
+      "per_round": [
+        {
+          "round": 1,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 2,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 3,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 4,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 5,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 6,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 7,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 8,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 9,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 10,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 11,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 12,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 13,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 14,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 15,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 16,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 17,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 18,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 19,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        },
+        {
+          "round": 20,
+          "optimizer_steps_per_client": {
+            "teacher_site_00": 39,
+            "teacher_site_01": 39,
+            "teacher_site_02": 39,
+            "teacher_site_03": 39,
+            "teacher_site_04": 39,
+            "teacher_site_05": 39,
+            "teacher_site_06": 39,
+            "teacher_site_07": 39
+          },
+          "optimizer_steps_round_total": 312
+        }
+      ],
+      "execution_status": "COMPLETE",
+      "privacy_accounting_steps_source": "actual_global_step",
+      "privacy_accounting_steps": 6240
+    },
+    "training_budget_comparison": {
+      "centralized_optimizer_steps": null,
+      "federated_total_optimizer_steps": 6240,
+      "federated_configured_optimizer_steps_estimate": 6240,
+      "federated_actual_optimizer_steps_completed": 6240,
+      "steps_per_client_per_round_configured": {
+        "teacher_site_00": 39,
+        "teacher_site_01": 39,
+        "teacher_site_02": 39,
+        "teacher_site_03": 39,
+        "teacher_site_04": 39,
+        "teacher_site_05": 39,
+        "teacher_site_06": 39,
+        "teacher_site_07": 39
+      },
+      "steps_per_round_all_clients_configured": 312,
+      "comparable_budget": false,
+      "budget_ratio_federated_over_centralized": null
+    },
+    "optimizer_steps_per_client_per_round": {
+      "teacher_site_00": 39,
+      "teacher_site_01": 39,
+      "teacher_site_02": 39,
+      "teacher_site_03": 39,
+      "teacher_site_04": 39,
+      "teacher_site_05": 39,
+      "teacher_site_06": 39,
+      "teacher_site_07": 39
+    },
+    "optimizer_steps_per_round_all_clients": 312,
+    "total_optimizer_steps_estimate": 6240
+  },
+  "lora": {
+    "r": 32,
+    "lora_alpha": 64,
+    "lora_dropout": 0.1,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "modules_to_save": [
+      "score"
+    ],
+    "task_type": "SEQ_CLS"
+  },
+  "trainable_aggregation_state": {
+    "includes": [
+      "lora_adapter_parameters (lora_A, lora_B on target_modules)",
+      "classification_score_head (modules_to_save=['score'])"
+    ],
+    "excludes": [
+      "frozen_base_model_weights",
+      "optimizer_state",
+      "scheduler_state",
+      "non_trainable_buffers"
+    ],
+    "selection_rule": "training.federated.aggregation.is_trainable_key",
+    "aggregation": "fedavg_sample_weighted",
+    "trainable_parameter_count": 17607168,
+    "trainable_param_breakdown": {
+      "lora_trainable_parameters": 17596416,
+      "score_head_trainable_parameters": 10752,
+      "total_trainable_parameters": 17607168
+    }
+  },
+  "client_sample_counts": {
+    "teacher_site_00": 205,
+    "teacher_site_01": 204,
+    "teacher_site_02": 204,
+    "teacher_site_03": 204,
+    "teacher_site_04": 204,
+    "teacher_site_05": 204,
+    "teacher_site_06": 204,
+    "teacher_site_07": 202
+  },
+  "partition": {
+    "strategy": "iid",
+    "dirichlet_alpha": null
+  },
+  "communication": {
+    "upload_bytes": 11283921120,
+    "download_bytes": 11287361760,
+    "total_bytes": 22571282880,
+    "trainable_parameter_count": 17607168,
+    "trainable_param_breakdown": {
+      "lora_trainable_parameters": 17596416,
+      "score_head_trainable_parameters": 10752,
+      "total_trainable_parameters": 17607168
+    },
+    "adapter_size_bytes": 70546011,
+    "adapter_size_mb": 67.2779,
+    "per_round_upload_bytes": [
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056,
+      564196056
+    ],
+    "per_round_download_bytes": [
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088,
+      564368088
+    ],
+    "per_client_upload_bytes_last_round": {
+      "teacher_site_00": 70524507,
+      "teacher_site_01": 70524507,
+      "teacher_site_02": 70524507,
+      "teacher_site_03": 70524507,
+      "teacher_site_04": 70524507,
+      "teacher_site_05": 70524507,
+      "teacher_site_06": 70524507,
+      "teacher_site_07": 70524507
+    },
+    "per_client_download_bytes_last_round": {
+      "teacher_site_00": 70546011,
+      "teacher_site_01": 70546011,
+      "teacher_site_02": 70546011,
+      "teacher_site_03": 70546011,
+      "teacher_site_04": 70546011,
+      "teacher_site_05": 70546011,
+      "teacher_site_06": 70546011,
+      "teacher_site_07": 70546011
+    }
+  },
+  "metrics": {
+    "evaluation_status": "EVALUATED",
+    "accuracy": 0.8229,
+    "macro_f1": 0.8105,
+    "per_class_f1": {
+      "Remember": 0.84,
+      "Understand": 0.8561,
+      "Apply": 0.7126,
+      "Analyze": 0.7619,
+      "Evaluate": 0.8706,
+      "Create": 0.8219
+    },
+    "per_class": {
+      "Remember": {
+        "precision": 0.8077,
+        "recall": 0.875,
+        "f1": 0.84,
+        "support": 48
+      },
+      "Understand": {
+        "precision": 0.8722,
+        "recall": 0.8406,
+        "f1": 0.8561,
+        "support": 138
+      },
+      "Apply": {
+        "precision": 0.7045,
+        "recall": 0.7209,
+        "f1": 0.7126,
+        "support": 43
+      },
+      "Analyze": {
+        "precision": 0.7442,
+        "recall": 0.7805,
+        "f1": 0.7619,
+        "support": 41
+      },
+      "Evaluate": {
+        "precision": 0.881,
+        "recall": 0.8605,
+        "f1": 0.8706,
+        "support": 43
+      },
+      "Create": {
+        "precision": 0.8333,
+        "recall": 0.8108,
+        "f1": 0.8219,
+        "support": 37
+      }
+    },
+    "n_eval": 350,
+    "quadratic_weighted_kappa": 0.8585,
+    "within_one_level_accuracy": 0.9114,
+    "severe_error_rate": 0.04,
+    "ece": 0.0619,
+    "confusion_matrix": [
+      [
+        42,
+        5,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        7,
+        116,
+        7,
+        6,
+        2,
+        0
+      ],
+      [
+        2,
+        4,
+        31,
+        0,
+        1,
+        5
+      ],
+      [
+        0,
+        6,
+        2,
+        32,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        3,
+        37,
+        1
+      ],
+      [
+        1,
+        1,
+        3,
+        1,
+        1,
+        30
+      ]
+    ]
+  },
+  "runtime_seconds": 1666.3055,
+  "history": [
+    {
+      "round": 1,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 1,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.3725,
+      "macro_f1": 0.0975,
+      "per_class": {
+        "Remember": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.3851,
+          "recall": 0.9416,
+          "f1": 0.5466,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.1111,
+          "recall": 0.0233,
+          "f1": 0.0385,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": -0.0178,
+      "within_one_level_accuracy": 0.6504,
+      "severe_error_rate": 0.2292,
+      "ece": 0.3638,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          0,
+          47,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          129,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          42,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          41,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          41,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          35,
+          1,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "round": 2,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 2,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.4126,
+      "macro_f1": 0.2393,
+      "per_class": {
+        "Remember": {
+          "precision": 0.4889,
+          "recall": 0.4583,
+          "f1": 0.4731,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.4495,
+          "recall": 0.7153,
+          "f1": 0.5521,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.2706,
+          "recall": 0.5349,
+          "f1": 0.3594,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 42
+        },
+        "Create": {
+          "precision": 1.0,
+          "recall": 0.0263,
+          "f1": 0.0513,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.079,
+      "within_one_level_accuracy": 0.6533,
+      "severe_error_rate": 0.2378,
+      "ece": 0.1224,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          22,
+          17,
+          9,
+          0,
+          0,
+          0
+        ],
+        [
+          10,
+          98,
+          29,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          19,
+          23,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          26,
+          9,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          35,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          23,
+          13,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "round": 3,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 3,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.6218,
+      "macro_f1": 0.6067,
+      "per_class": {
+        "Remember": {
+          "precision": 0.5323,
+          "recall": 0.6875,
+          "f1": 0.6,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.6483,
+          "recall": 0.6861,
+          "f1": 0.6667,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.4416,
+          "recall": 0.7907,
+          "f1": 0.5667,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9,
+          "recall": 0.439,
+          "f1": 0.5902,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8636,
+          "recall": 0.4524,
+          "f1": 0.5938,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8261,
+          "recall": 0.5,
+          "f1": 0.623,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.5781,
+      "within_one_level_accuracy": 0.788,
+      "severe_error_rate": 0.1289,
+      "ece": 0.0743,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          33,
+          5,
+          8,
+          1,
+          0,
+          1
+        ],
+        [
+          23,
+          94,
+          16,
+          0,
+          2,
+          2
+        ],
+        [
+          2,
+          7,
+          34,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          16,
+          4,
+          18,
+          1,
+          0
+        ],
+        [
+          2,
+          16,
+          3,
+          1,
+          19,
+          1
+        ],
+        [
+          0,
+          7,
+          12,
+          0,
+          0,
+          19
+        ]
+      ]
+    },
+    {
+      "round": 4,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 4,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.7249,
+      "macro_f1": 0.7274,
+      "per_class": {
+        "Remember": {
+          "precision": 0.6034,
+          "recall": 0.7292,
+          "f1": 0.6604,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.7463,
+          "recall": 0.7299,
+          "f1": 0.738,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.5738,
+          "recall": 0.814,
+          "f1": 0.6731,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.871,
+          "recall": 0.6585,
+          "f1": 0.75,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8966,
+          "recall": 0.619,
+          "f1": 0.7324,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8333,
+          "recall": 0.7895,
+          "f1": 0.8108,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.7318,
+      "within_one_level_accuracy": 0.8567,
+      "severe_error_rate": 0.086,
+      "ece": 0.0522,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          35,
+          4,
+          7,
+          1,
+          0,
+          1
+        ],
+        [
+          20,
+          100,
+          11,
+          2,
+          2,
+          2
+        ],
+        [
+          1,
+          5,
+          35,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          10,
+          3,
+          27,
+          1,
+          0
+        ],
+        [
+          2,
+          12,
+          0,
+          1,
+          26,
+          1
+        ],
+        [
+          0,
+          3,
+          5,
+          0,
+          0,
+          30
+        ]
+      ]
+    },
+    {
+      "round": 5,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 5,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.7564,
+      "macro_f1": 0.7607,
+      "per_class": {
+        "Remember": {
+          "precision": 0.6909,
+          "recall": 0.7917,
+          "f1": 0.7379,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.7669,
+          "recall": 0.7445,
+          "f1": 0.7556,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.6207,
+          "recall": 0.8372,
+          "f1": 0.7129,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.8788,
+          "recall": 0.7073,
+          "f1": 0.7838,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8529,
+          "recall": 0.6905,
+          "f1": 0.7632,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8333,
+          "recall": 0.7895,
+          "f1": 0.8108,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.7615,
+      "within_one_level_accuracy": 0.8768,
+      "severe_error_rate": 0.0802,
+      "ece": 0.0523,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          4,
+          4,
+          1,
+          0,
+          1
+        ],
+        [
+          16,
+          102,
+          11,
+          3,
+          3,
+          2
+        ],
+        [
+          0,
+          5,
+          36,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          8,
+          3,
+          29,
+          1,
+          0
+        ],
+        [
+          1,
+          11,
+          0,
+          0,
+          29,
+          1
+        ],
+        [
+          0,
+          3,
+          4,
+          0,
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "round": 6,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 6,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.7708,
+      "macro_f1": 0.7708,
+      "per_class": {
+        "Remember": {
+          "precision": 0.717,
+          "recall": 0.7917,
+          "f1": 0.7525,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.781,
+          "recall": 0.781,
+          "f1": 0.781,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.6207,
+          "recall": 0.8372,
+          "f1": 0.7129,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9062,
+          "recall": 0.7073,
+          "f1": 0.7945,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8788,
+          "recall": 0.6905,
+          "f1": 0.7733,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8333,
+          "recall": 0.7895,
+          "f1": 0.8108,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.7771,
+      "within_one_level_accuracy": 0.8854,
+      "severe_error_rate": 0.0716,
+      "ece": 0.0403,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          4,
+          4,
+          1,
+          0,
+          1
+        ],
+        [
+          14,
+          107,
+          11,
+          1,
+          2,
+          2
+        ],
+        [
+          0,
+          5,
+          36,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          8,
+          3,
+          29,
+          1,
+          0
+        ],
+        [
+          1,
+          10,
+          1,
+          0,
+          29,
+          1
+        ],
+        [
+          0,
+          3,
+          3,
+          1,
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "round": 7,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 7,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.7822,
+      "macro_f1": 0.7816,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7358,
+          "recall": 0.8125,
+          "f1": 0.7723,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8,
+          "recall": 0.7883,
+          "f1": 0.7941,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.625,
+          "recall": 0.814,
+          "f1": 0.7071,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9091,
+          "recall": 0.7317,
+          "f1": 0.8108,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8824,
+          "recall": 0.7143,
+          "f1": 0.7895,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8158,
+          "recall": 0.8158,
+          "f1": 0.8158,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.7803,
+      "within_one_level_accuracy": 0.8911,
+      "severe_error_rate": 0.0716,
+      "ece": 0.0324,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          2,
+          4,
+          1,
+          0,
+          2
+        ],
+        [
+          13,
+          108,
+          11,
+          1,
+          2,
+          2
+        ],
+        [
+          0,
+          6,
+          35,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          30,
+          1,
+          0
+        ],
+        [
+          1,
+          10,
+          0,
+          0,
+          30,
+          1
+        ],
+        [
+          0,
+          2,
+          3,
+          1,
+          1,
+          31
+        ]
+      ]
+    },
+    {
+      "round": 8,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 8,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8109,
+      "macro_f1": 0.8108,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7959,
+          "recall": 0.8125,
+          "f1": 0.8041,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8346,
+          "recall": 0.8102,
+          "f1": 0.8222,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.625,
+          "recall": 0.814,
+          "f1": 0.7071,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9118,
+          "recall": 0.7561,
+          "f1": 0.8267,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.9,
+          "recall": 0.8571,
+          "f1": 0.878,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8378,
+          "recall": 0.8158,
+          "f1": 0.8267,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8111,
+      "within_one_level_accuracy": 0.9026,
+      "severe_error_rate": 0.0573,
+      "ece": 0.0396,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          2,
+          4,
+          1,
+          0,
+          2
+        ],
+        [
+          10,
+          111,
+          11,
+          1,
+          2,
+          2
+        ],
+        [
+          0,
+          5,
+          35,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          31,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          2,
+          3,
+          1,
+          1,
+          31
+        ]
+      ]
+    },
+    {
+      "round": 9,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 9,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8195,
+      "macro_f1": 0.8191,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7959,
+          "recall": 0.8125,
+          "f1": 0.8041,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.837,
+          "recall": 0.8248,
+          "f1": 0.8309,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.6481,
+          "recall": 0.814,
+          "f1": 0.7216,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9118,
+          "recall": 0.7561,
+          "f1": 0.8267,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.9231,
+          "recall": 0.8571,
+          "f1": 0.8889,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8421,
+          "recall": 0.8421,
+          "f1": 0.8421,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8227,
+      "within_one_level_accuracy": 0.9083,
+      "severe_error_rate": 0.0516,
+      "ece": 0.0341,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          2,
+          4,
+          1,
+          0,
+          2
+        ],
+        [
+          10,
+          113,
+          10,
+          1,
+          1,
+          2
+        ],
+        [
+          0,
+          5,
+          35,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          31,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          1,
+          1,
+          32
+        ]
+      ]
+    },
+    {
+      "round": 10,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 10,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8195,
+      "macro_f1": 0.8171,
+      "per_class": {
+        "Remember": {
+          "precision": 0.76,
+          "recall": 0.7917,
+          "f1": 0.7755,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8496,
+          "recall": 0.8248,
+          "f1": 0.837,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.6545,
+          "recall": 0.8372,
+          "f1": 0.7347,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9375,
+          "recall": 0.7317,
+          "f1": 0.8219,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.9024,
+          "recall": 0.881,
+          "f1": 0.8916,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8421,
+          "recall": 0.8421,
+          "f1": 0.8421,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8338,
+      "within_one_level_accuracy": 0.914,
+      "severe_error_rate": 0.0487,
+      "ece": 0.0241,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          3,
+          4,
+          1,
+          0,
+          2
+        ],
+        [
+          12,
+          113,
+          9,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          30,
+          1,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          32
+        ]
+      ]
+    },
+    {
+      "round": 11,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 11,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8252,
+      "macro_f1": 0.821,
+      "per_class": {
+        "Remember": {
+          "precision": 0.76,
+          "recall": 0.7917,
+          "f1": 0.7755,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8357,
+          "recall": 0.854,
+          "f1": 0.8448,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.6863,
+          "recall": 0.814,
+          "f1": 0.7447,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9355,
+          "recall": 0.7073,
+          "f1": 0.8056,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.925,
+          "recall": 0.881,
+          "f1": 0.9024,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8649,
+          "recall": 0.8421,
+          "f1": 0.8533,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.851,
+      "within_one_level_accuracy": 0.9169,
+      "severe_error_rate": 0.043,
+      "ece": 0.0451,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          4,
+          4,
+          1,
+          0,
+          1
+        ],
+        [
+          12,
+          117,
+          6,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          5,
+          35,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          8,
+          3,
+          29,
+          1,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          32
+        ]
+      ]
+    },
+    {
+      "round": 12,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 12,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8367,
+      "macro_f1": 0.8306,
+      "per_class": {
+        "Remember": {
+          "precision": 0.7917,
+          "recall": 0.7917,
+          "f1": 0.7917,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8392,
+          "recall": 0.8759,
+          "f1": 0.8571,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.7292,
+          "recall": 0.814,
+          "f1": 0.7692,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9062,
+          "recall": 0.7073,
+          "f1": 0.7945,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.925,
+          "recall": 0.881,
+          "f1": 0.9024,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8684,
+          "recall": 0.8684,
+          "f1": 0.8684,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8668,
+      "within_one_level_accuracy": 0.9226,
+      "severe_error_rate": 0.0372,
+      "ece": 0.0228,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          5,
+          3,
+          1,
+          0,
+          1
+        ],
+        [
+          10,
+          120,
+          5,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          5,
+          35,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          8,
+          3,
+          29,
+          1,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 13,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 13,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8367,
+      "macro_f1": 0.8297,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8261,
+          "recall": 0.7917,
+          "f1": 0.8085,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8392,
+          "recall": 0.8759,
+          "f1": 0.8571,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.7447,
+          "recall": 0.814,
+          "f1": 0.7778,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9062,
+          "recall": 0.7073,
+          "f1": 0.7945,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8409,
+          "recall": 0.881,
+          "f1": 0.8605,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8919,
+          "recall": 0.8684,
+          "f1": 0.88,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8616,
+      "within_one_level_accuracy": 0.9169,
+      "severe_error_rate": 0.043,
+      "ece": 0.0563,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          6,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          8,
+          120,
+          5,
+          0,
+          3,
+          1
+        ],
+        [
+          0,
+          4,
+          35,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          8,
+          3,
+          29,
+          1,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 14,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 14,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8395,
+      "macro_f1": 0.8325,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8261,
+          "recall": 0.7917,
+          "f1": 0.8085,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8451,
+          "recall": 0.8759,
+          "f1": 0.8602,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.75,
+          "recall": 0.8372,
+          "f1": 0.7912,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9062,
+          "recall": 0.7073,
+          "f1": 0.7945,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8409,
+          "recall": 0.881,
+          "f1": 0.8605,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8919,
+          "recall": 0.8684,
+          "f1": 0.88,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8655,
+      "within_one_level_accuracy": 0.9226,
+      "severe_error_rate": 0.043,
+      "ece": 0.0488,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          6,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          8,
+          120,
+          5,
+          0,
+          3,
+          1
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          29,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 15,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 15,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8395,
+      "macro_f1": 0.8303,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8636,
+          "recall": 0.7917,
+          "f1": 0.8261,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8462,
+          "recall": 0.8832,
+          "f1": 0.8643,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.7447,
+          "recall": 0.814,
+          "f1": 0.7778,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9062,
+          "recall": 0.7073,
+          "f1": 0.7945,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8222,
+          "recall": 0.881,
+          "f1": 0.8506,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8684,
+          "recall": 0.8684,
+          "f1": 0.8684,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8557,
+      "within_one_level_accuracy": 0.9169,
+      "severe_error_rate": 0.0458,
+      "ece": 0.0539,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          38,
+          6,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          6,
+          121,
+          5,
+          0,
+          3,
+          2
+        ],
+        [
+          0,
+          4,
+          35,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          29,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 16,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 16,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8453,
+      "macro_f1": 0.8377,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8667,
+          "recall": 0.8125,
+          "f1": 0.8387,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8414,
+          "recall": 0.8905,
+          "f1": 0.8652,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.75,
+          "recall": 0.8372,
+          "f1": 0.7912,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9355,
+          "recall": 0.7073,
+          "f1": 0.8056,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8571,
+          "recall": 0.8571,
+          "f1": 0.8571,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8684,
+          "recall": 0.8684,
+          "f1": 0.8684,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8671,
+      "within_one_level_accuracy": 0.9255,
+      "severe_error_rate": 0.0401,
+      "ece": 0.0341,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          7,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          6,
+          122,
+          5,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          29,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          1,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 17,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 17,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8481,
+      "macro_f1": 0.841,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8667,
+          "recall": 0.8125,
+          "f1": 0.8387,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8472,
+          "recall": 0.8905,
+          "f1": 0.8683,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.75,
+          "recall": 0.8372,
+          "f1": 0.7912,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9375,
+          "recall": 0.7317,
+          "f1": 0.8219,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8571,
+          "recall": 0.8571,
+          "f1": 0.8571,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8684,
+          "recall": 0.8684,
+          "f1": 0.8684,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8694,
+      "within_one_level_accuracy": 0.9284,
+      "severe_error_rate": 0.0401,
+      "ece": 0.0497,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          7,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          6,
+          122,
+          5,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          6,
+          3,
+          30,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          1,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 18,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 18,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8367,
+      "macro_f1": 0.8315,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8125,
+          "recall": 0.8125,
+          "f1": 0.8125,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.838,
+          "recall": 0.8686,
+          "f1": 0.853,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.75,
+          "recall": 0.8372,
+          "f1": 0.7912,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9667,
+          "recall": 0.7073,
+          "f1": 0.8169,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8372,
+          "recall": 0.8571,
+          "f1": 0.8471,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8684,
+          "recall": 0.8684,
+          "f1": 0.8684,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8612,
+      "within_one_level_accuracy": 0.9284,
+      "severe_error_rate": 0.043,
+      "ece": 0.0286,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          7,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          9,
+          119,
+          5,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          6,
+          3,
+          29,
+          3,
+          0
+        ],
+        [
+          0,
+          5,
+          1,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          1,
+          2,
+          1,
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "round": 19,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 19,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8367,
+      "macro_f1": 0.8342,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8163,
+          "recall": 0.8333,
+          "f1": 0.8247,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8207,
+          "recall": 0.8686,
+          "f1": 0.844,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.7826,
+          "recall": 0.8372,
+          "f1": 0.809,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9667,
+          "recall": 0.7073,
+          "f1": 0.8169,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8571,
+          "recall": 0.8571,
+          "f1": 0.8571,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8649,
+          "recall": 0.8421,
+          "f1": 0.8533,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.8482,
+      "within_one_level_accuracy": 0.9255,
+      "severe_error_rate": 0.0458,
+      "ece": 0.0408,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          40,
+          7,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          9,
+          119,
+          5,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          4,
+          36,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          29,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          1,
+          0,
+          36,
+          0
+        ],
+        [
+          0,
+          3,
+          1,
+          1,
+          1,
+          32
+        ]
+      ]
+    },
+    {
+      "round": 20,
+      "status": "COMPLETE",
+      "n_clients": 8,
+      "upload_bytes": 564196056,
+      "download_bytes": 564368088,
+      "upload_mb": 538.0593,
+      "download_mb": 538.2234,
+      "communication_mb": 1076.2826,
+      "per_client_upload_bytes": {
+        "teacher_site_00": 70524507,
+        "teacher_site_01": 70524507,
+        "teacher_site_02": 70524507,
+        "teacher_site_03": 70524507,
+        "teacher_site_04": 70524507,
+        "teacher_site_05": 70524507,
+        "teacher_site_06": 70524507,
+        "teacher_site_07": 70524507
+      },
+      "per_client_download_bytes": {
+        "teacher_site_00": 70546011,
+        "teacher_site_01": 70546011,
+        "teacher_site_02": 70546011,
+        "teacher_site_03": 70546011,
+        "teacher_site_04": 70546011,
+        "teacher_site_05": 70546011,
+        "teacher_site_06": 70546011,
+        "teacher_site_07": 70546011
+      },
+      "execution": {
+        "round": 20,
+        "optimizer_steps_per_client": {
+          "teacher_site_00": 39,
+          "teacher_site_01": 39,
+          "teacher_site_02": 39,
+          "teacher_site_03": 39,
+          "teacher_site_04": 39,
+          "teacher_site_05": 39,
+          "teacher_site_06": 39,
+          "teacher_site_07": 39
+        },
+        "optimizer_steps_round_total": 312,
+        "clients_reporting": 8
+      },
+      "accuracy": 0.8309,
+      "macro_f1": 0.8266,
+      "per_class": {
+        "Remember": {
+          "precision": 0.8125,
+          "recall": 0.8125,
+          "f1": 0.8125,
+          "support": 48
+        },
+        "Understand": {
+          "precision": 0.8207,
+          "recall": 0.8686,
+          "f1": 0.844,
+          "support": 137
+        },
+        "Apply": {
+          "precision": 0.7556,
+          "recall": 0.7907,
+          "f1": 0.7727,
+          "support": 43
+        },
+        "Analyze": {
+          "precision": 0.9667,
+          "recall": 0.7073,
+          "f1": 0.8169,
+          "support": 41
+        },
+        "Evaluate": {
+          "precision": 0.8409,
+          "recall": 0.881,
+          "f1": 0.8605,
+          "support": 42
+        },
+        "Create": {
+          "precision": 0.8649,
+          "recall": 0.8421,
+          "f1": 0.8533,
+          "support": 38
+        }
+      },
+      "quadratic_weighted_kappa": 0.844,
+      "within_one_level_accuracy": 0.9198,
+      "severe_error_rate": 0.0458,
+      "ece": 0.0392,
+      "n_eval": 349,
+      "confusion_matrix": [
+        [
+          39,
+          6,
+          2,
+          0,
+          0,
+          1
+        ],
+        [
+          9,
+          119,
+          5,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          5,
+          34,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          7,
+          3,
+          29,
+          2,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          37,
+          0
+        ],
+        [
+          0,
+          3,
+          1,
+          1,
+          1,
+          32
+        ]
+      ]
+    }
+  ],
+  "artifact_paths": {
+    "global_adapter": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20",
+    "round_checkpoint": "D:\\Eduguard\\artifacts\\federated\\runs\\fedprox_iid_r20\\round_checkpoint.json",
+    "results_json": "D:\\Eduguard\\artifacts\\federated\\results\\federated_lora_fedprox_iid_r20.json",
+    "train_csv": "D:\\Eduguard\\data\\figshare_bloom_v1_train.csv",
+    "test_csv": "D:\\Eduguard\\data\\figshare_bloom_v1_test.csv"
+  },
+  "trainable_key_predicate": {
+    "function": "training.federated.aggregation.is_trainable_key",
+    "matches_lora": true,
+    "matches_score_head": true,
+    "example_keys": [
+      "base_model.model.layers.0.self_attn.q_proj.lora_A.default",
+      "base_model.score.weight"
+    ]
+  },
+  "final_test_metrics": {
+    "accuracy": 0.8229,
+    "macro_f1": 0.8105,
+    "per_class": {
+      "Remember": {
+        "precision": 0.8077,
+        "recall": 0.875,
+        "f1": 0.84,
+        "support": 48
+      },
+      "Understand": {
+        "precision": 0.8722,
+        "recall": 0.8406,
+        "f1": 0.8561,
+        "support": 138
+      },
+      "Apply": {
+        "precision": 0.7045,
+        "recall": 0.7209,
+        "f1": 0.7126,
+        "support": 43
+      },
+      "Analyze": {
+        "precision": 0.7442,
+        "recall": 0.7805,
+        "f1": 0.7619,
+        "support": 41
+      },
+      "Evaluate": {
+        "precision": 0.881,
+        "recall": 0.8605,
+        "f1": 0.8706,
+        "support": 43
+      },
+      "Create": {
+        "precision": 0.8333,
+        "recall": 0.8108,
+        "f1": 0.8219,
+        "support": 37
+      }
+    },
+    "quadratic_weighted_kappa": 0.8585,
+    "within_one_level_accuracy": 0.9114,
+    "severe_error_rate": 0.04,
+    "ece": 0.0619,
+    "n_eval": 350,
+    "confusion_matrix": [
+      [
+        42,
+        5,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        7,
+        116,
+        7,
+        6,
+        2,
+        0
+      ],
+      [
+        2,
+        4,
+        31,
+        0,
+        1,
+        5
+      ],
+      [
+        0,
+        6,
+        2,
+        32,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        3,
+        37,
+        1
+      ],
+      [
+        1,
+        1,
+        3,
+        1,
+        1,
+        30
+      ]
+    ]
+  },
+  "client_sizes": {
+    "teacher_site_00": 205,
+    "teacher_site_01": 204,
+    "teacher_site_02": 204,
+    "teacher_site_03": 204,
+    "teacher_site_04": 204,
+    "teacher_site_05": 204,
+    "teacher_site_06": 204,
+    "teacher_site_07": 202
+  },
+  "client_label_distribution": {
+    "teacher_site_00": {
+      "Remember": 0.141463,
+      "Understand": 0.390244,
+      "Apply": 0.121951,
+      "Analyze": 0.117073,
+      "Evaluate": 0.121951,
+      "Create": 0.107317
+    },
+    "teacher_site_01": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_02": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_03": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_04": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_05": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_06": {
+      "Remember": 0.137255,
+      "Understand": 0.392157,
+      "Apply": 0.122549,
+      "Analyze": 0.117647,
+      "Evaluate": 0.122549,
+      "Create": 0.107843
+    },
+    "teacher_site_07": {
+      "Remember": 0.138614,
+      "Understand": 0.39604,
+      "Apply": 0.118812,
+      "Analyze": 0.118812,
+      "Evaluate": 0.118812,
+      "Create": 0.108911
+    }
+  },
+  "simulation": "eduguard_federated_qwen25_0.5b_bloom_lora",
+  "privacy_disclaimer": "Federated training keeps raw client data local during collaborative optimization but does not by itself provide formal protection against inference attacks on updates, secure aggregation, or differential privacy."
+}
