@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from training.federated.dp_training import (
+    _batch_size,
     _canonical_trainable_state,
+    _collate_batch,
     apply_locked_training_rules,
     compose_federated_privacy_report,
     dp_config_from_lock,
@@ -70,3 +72,18 @@ def test_canonical_trainable_state_strips_opacus_prefix():
     )
     assert "base_model.model.layers.0.lora_A" in state
     assert "_module.base_model.model.layers.0.lora_A" not in state
+
+
+def test_collate_empty_poisson_batch():
+    import torch
+
+    batch = _collate_batch([], tokenizer=None, max_length=256)
+    assert _batch_size(batch) == 0
+    assert tuple(batch["input_ids"].shape)[0] == 0
+
+
+def test_batch_size_from_input_ids():
+    import torch
+
+    assert _batch_size({"input_ids": torch.zeros((0, 164), dtype=torch.long)}) == 0
+    assert _batch_size({"input_ids": torch.zeros((2, 164), dtype=torch.long)}) == 2

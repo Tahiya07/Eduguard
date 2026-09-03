@@ -104,16 +104,29 @@ def _load_dp_model_stack(
                     param.requires_grad = False
         for name, param in model.named_parameters():
             param.requires_grad = "score" in name
+        if hasattr(model, "enable_input_require_grads"):
+            model.enable_input_require_grads()
         return tokenizer, model
 
     if global_dir and (global_dir / "adapter_config.json").is_file():
         model = PeftModel.from_pretrained(base, str(global_dir), is_trainable=True)
     else:
         model = get_peft_model(base, make_peft_lora_config(cfg))
+    if hasattr(model, "enable_input_require_grads"):
+        model.enable_input_require_grads()
+    if getattr(model, "config", None) is not None:
+        model.config.use_cache = False
     return tokenizer, model
 
 
 def _collate_batch(batch, tokenizer, max_length: int):
+    # Opacus Poisson sampling can yield an empty index list.
+    if not batch:
+        return {
+            "input_ids": torch.zeros((0, 1), dtype=torch.long),
+            "attention_mask": torch.zeros((0, 1), dtype=torch.long),
+            "labels": torch.zeros((0,), dtype=torch.long),
+        }
     texts, labels = zip(*batch)
     enc = tokenizer(
         list(texts),
@@ -124,6 +137,16 @@ def _collate_batch(batch, tokenizer, max_length: int):
     )
     enc["labels"] = torch.tensor(list(labels), dtype=torch.long)
     return enc
+
+
+def _batch_size(batch: dict) -> int:
+    ids = batch.get("input_ids")
+    if ids is not None and hasattr(ids, "shape") and ids.ndim >= 1:
+        return int(ids.shape[0])
+    labels = batch.get("labels")
+    if labels is not None and hasattr(labels, "shape") and labels.ndim >= 1:
+        return int(labels.shape[0])
+    return 0
 
 
 def _device_for_model(model: nn.Module) -> torch.device:
@@ -259,13 +282,21 @@ def train_local_adapter_dp(
         data_loader=loader,
         noise_multiplier=dp.noise_multiplier,
         max_grad_norm=dp.max_grad_norm,
+        poisson_sampling=True,
     )
 
     model.train()
     steps_done = 0
-    while steps_done < total_optimizer_steps:
+    empty_batches_skipped = 0
+    max_loader_iters = max(total_optimizer_steps * 20, total_optimizer_steps + 8)
+    loader_iters = 0
+    while steps_done < total_optimizer_steps and loader_iters < max_loader_iters:
         for batch in loader:
+            loader_iters += 1
             batch = _move_batch(batch, device)
+            if _batch_size(batch) == 0:
+                empty_batches_skipped += 1
+                continue
             labels = batch.pop("labels")
             optimizer.zero_grad()
             outputs = model(**batch)
@@ -277,6 +308,15 @@ def train_local_adapter_dp(
             steps_done += 1
             if steps_done >= total_optimizer_steps:
                 break
+            if loader_iters >= max_loader_iters:
+                break
+    if steps_done < total_optimizer_steps:
+        raise RuntimeError(
+            f"DP-SGD stopped after {steps_done}/{total_optimizer_steps} steps "
+            f"(empty Poisson batches skipped={empty_batches_skipped})."
+        )
+    if empty_batches_skipped:
+        print(f"[dp] skipped {empty_batches_skipped} empty Poisson-sampled batches")
 
     epsilon = float(privacy_engine.get_epsilon(dp.target_delta))
     local_state = _canonical_trainable_state(extract_trainable_state(model))
@@ -298,5 +338,7 @@ def train_local_adapter_dp(
         "dp_lock_path": dp.lock_path,
         "dp_loss": "uniform_cross_entropy",
         "class_weights_skipped": True,
+        "dp_poisson_sampling": True,
+        "dp_empty_batches_skipped": empty_batches_skipped,
     }
     return local_state, len(df), stats
