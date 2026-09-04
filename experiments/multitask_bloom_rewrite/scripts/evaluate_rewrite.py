@@ -30,6 +30,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from bloom_validation import validate_bloom_example  # noqa: E402
+from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
 from eval_dataset import load_test_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
     CLASSIFIER_CONFIDENCE_MIN,
@@ -121,29 +122,6 @@ def clean_generation(text: str) -> str:
     return re.sub(r"\s+", " ", cleaned.strip().strip('"').strip("'"))
 
 
-def load_classifier(classifier_dir: str | None):
-    try:
-        from predict_bloom import QwenBloomPredictor
-
-        predictor = (
-            QwenBloomPredictor(model_dir=classifier_dir)
-            if classifier_dir
-            else QwenBloomPredictor()
-        )
-    except Exception as exc:  # noqa: BLE001
-        return None, str(exc)
-
-    def predict(text: str) -> dict[str, Any]:
-        result = predictor.predict(text)
-        level = result.get("prediction") or result.get("label") or ""
-        return {
-            "predicted_level": canonical_bloom(level) or level,
-            "confidence": float(result.get("confidence") or 0.0),
-        }
-
-    return predict, None
-
-
 def classify_failure(record: dict[str, Any]) -> str:
     if record.get("empty_output"):
         return "EMPTY_OUTPUT"
@@ -171,6 +149,7 @@ def evaluate_bloom_row(
     generator: HFGenerator,
     gen_cfg: dict[str, Any],
     classify_fn,
+    clf_stats: ClassifierCallStats | None = None,
 ) -> dict[str, Any]:
     prompt = build_generation_prompt(TASK_BLOOM, row)
     assert_no_source_level_in_prompt(prompt)
@@ -204,7 +183,16 @@ def evaluate_bloom_row(
             clf = classify_fn(prediction)
             clf_pred = clf["predicted_level"]
             clf_conf = clf["confidence"]
-        except Exception:
+            if clf_stats is not None:
+                clf_stats.record_ok()
+        except Exception as exc:  # noqa: BLE001
+            if clf_stats is not None:
+                clf_stats.record_fail(exc)
+                if clf_stats.n_fail == 1:
+                    print(
+                        "WARNING: Bloom classifier call failed "
+                        f"(will count as MISSING): {type(exc).__name__}: {exc}"
+                    )
             clf_pred = None
             clf_conf = 0.0
 
@@ -418,7 +406,11 @@ def main() -> None:
     parser.add_argument(
         "--classifier-dir",
         default=None,
-        help="Fixed Bloom classifier directory (default: predict_bloom default)",
+        help=(
+            "Fixed Bloom classifier directory. Default auto-detects among "
+            "models/qwen_bloom_merged0.5B, models/qwen_bloom_trained0.5B, "
+            "models/qwen_bloom_federated0.5B"
+        ),
     )
     parser.add_argument(
         "--output-dir",
@@ -521,10 +513,27 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     load_time = smoke["load_time_s"]
-    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
-    classify_fn, clf_error = load_classifier(args.classifier_dir)
-
     task_filter = set(args.tasks) if args.tasks else {TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION}
+
+    classify_fn = None
+    clf_meta: dict[str, Any] = {"skipped": True}
+    clf_stats = ClassifierCallStats()
+    if TASK_BLOOM in task_filter:
+        # Load classifier BEFORE the generative model so failures are loud and early.
+        try:
+            classify_fn, clf_meta = load_classifier(
+                args.classifier_dir, repo_root=REPO_ROOT, require_smoke=True
+            )
+        except Exception as exc:
+            print("EVALUATION NOT STARTED — Bloom classifier unavailable:", exc)
+            raise SystemExit(2) from exc
+        print(
+            "Classifier OK:",
+            json.dumps({k: v for k, v in clf_meta.items() if k != "smoke_traceback"}, indent=2),
+        )
+
+    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
+
     bloom_rows = [r for r in test_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
     qa_rows = [r for r in test_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
     sum_rows = [
@@ -541,12 +550,20 @@ def main() -> None:
     print(f"Evaluating Bloom: {len(bloom_rows)} examples...")
     bloom_preds: list[dict[str, Any]] = []
     for i, row in enumerate(bloom_rows):
-        rec = evaluate_bloom_row(row, generator, gen_cfg, classify_fn)
+        rec = evaluate_bloom_row(row, generator, gen_cfg, classify_fn, clf_stats)
         bloom_preds.append(rec)
         predictions.append(rec)
         latencies.append(rec["latency_s"])
         if (i + 1) % 100 == 0:
             print(f"  Bloom {i + 1}/{len(bloom_rows)}")
+        if clf_stats.n_fail >= 5 and clf_stats.n_ok == 0:
+            print(
+                "EVALUATION ABORTED — Bloom classifier failed on first 5 calls. "
+                f"first_error={clf_stats.first_error}"
+            )
+            if clf_stats.first_traceback:
+                print(clf_stats.first_traceback)
+            raise SystemExit(2)
 
     print(f"Evaluating QA: {len(qa_rows)} examples...")
     qa_preds: list[dict[str, Any]] = []
@@ -591,7 +608,9 @@ def main() -> None:
         "checkpoint": ckpt_info,
         "dataset": dataset_meta,
         "generation": gen_cfg,
-        "classifier_error": clf_error,
+        "classifier_error": None,
+        "classifier_meta": clf_meta,
+        "classifier_call_stats": clf_stats.as_dict(),
         "classifier_is_not_ground_truth": True,
         "bloom": {
             "classification": bloom_class,

@@ -23,8 +23,9 @@ from eval_metrics import (  # noqa: E402
     qa_token_f1,
     source_target_matrix,
 )
+from eval_classifier import resolve_classifier_dir  # noqa: E402
 from eval_model import resolve_checkpoint, _sanitize_lora_adapter_config  # noqa: E402
-from paths import MULTITASK_DATA_DIR  # noqa: E402
+from paths import MULTITASK_DATA_DIR, REPO_ROOT  # noqa: E402
 from prompts import assert_no_source_level_in_prompt, build_generation_prompt  # noqa: E402
 
 
@@ -87,6 +88,14 @@ class TestMetrics(unittest.TestCase):
 
 
 class TestCheckpointResolution(unittest.TestCase):
+    def test_resolve_classifier_prefers_merged(self) -> None:
+        merged = REPO_ROOT / "models" / "qwen_bloom_merged0.5B"
+        if not (merged / "config.json").is_file():
+            self.skipTest("merged Bloom classifier not present")
+        resolved = resolve_classifier_dir(None, repo_root=REPO_ROOT)
+        self.assertTrue(resolved.exists())
+        self.assertIn("qwen_bloom", resolved.name)
+
     def test_sanitize_strips_unknown_peft_keys(self) -> None:
         try:
             import peft  # noqa: F401
