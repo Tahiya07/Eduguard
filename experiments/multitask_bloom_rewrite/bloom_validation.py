@@ -95,6 +95,13 @@ def _looks_like_question(text: str) -> bool:
         "list ",
         "name ",
         "identify ",
+        "state ",
+        "recall ",
+        "recognize ",
+        "summarize ",
+        "interpret ",
+        "illustrate ",
+        "distinguish ",
         "compare ",
         "contrast ",
         "evaluate ",
@@ -103,13 +110,26 @@ def _looks_like_question(text: str) -> bool:
         "propose ",
         "create ",
         "develop ",
+        "formulate ",
+        "construct ",
         "analyze ",
         "analyse ",
+        "examine ",
         "discuss ",
         "calculate ",
+        "compute ",
+        "determine ",
         "apply ",
+        "use ",
+        "solve ",
         "justify ",
         "critique ",
+        # Valid exam imperatives used heavily in Apply templates (v2/v3)
+        "given ",
+        "using ",
+        "for the following ",
+        "in the following ",
+        "consider ",
     )
     return _normalize(t).startswith(starters)
 
@@ -123,10 +143,29 @@ def _looks_like_answer(text: str) -> bool:
     n = _normalize(text)
     if any(re.search(p, n) for p in ANSWER_PATTERNS):
         return True
-    # Declarative-only without question cue
+    if _has_meta(text):
+        return True
+    # Declarative-only without exam question cue
     if "?" not in text and not _looks_like_question(text):
         return True
+    # Explicit answer-style openings even if long
+    if re.match(
+        r"^(it|this|that|there|these|those)\s+(is|are|was|were|means|refers)\b",
+        n,
+    ):
+        return True
     return False
+
+
+def is_valid_interrogative(text: str) -> bool:
+    return "?" in (text or "")
+
+
+def is_valid_imperative_exam(text: str) -> bool:
+    t = (text or "").strip()
+    if not t or "?" in t:
+        return False
+    return _looks_like_question(t) and not _looks_like_answer(t)
 
 
 def _trivial_verb_swap(source: str, rewrite: str) -> bool:

@@ -16,7 +16,11 @@ SYSTEM_PROMPT = (
     "Preserve the original topic, important technical concepts, and academic "
     "intent. "
     "Do not merely replace verbs. "
-    "Output only one student-facing exam question."
+    "OUTPUT ONLY THE REWRITTEN EXAM QUESTION. "
+    "Do not answer the question. "
+    "Do not write explanations, definitions-as-answers, bullet lists, or meta commentary. "
+    "The output must be exactly one student-facing exam question "
+    "(interrogative or valid exam imperative)."
 )
 
 USER_TEMPLATE = (

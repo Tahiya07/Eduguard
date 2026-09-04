@@ -29,7 +29,11 @@ if str(EXPERIMENT_DIR) not in sys.path:
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from bloom_validation import validate_bloom_example  # noqa: E402
+from bloom_validation import (  # noqa: E402
+    is_valid_imperative_exam,
+    is_valid_interrogative,
+    validate_bloom_example,
+)
 from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
 from eval_dataset import load_test_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
@@ -175,6 +179,9 @@ def evaluate_bloom_row(
     meta_response = "meta_response" in (validation.rejection_reason or "")
     answer_output = "answer_or_declarative" in (validation.rejection_reason or "")
     empty_output = not prediction
+    interrogative_valid = is_valid_interrogative(prediction)
+    imperative_valid = is_valid_imperative_exam(prediction)
+    question_form_valid = interrogative_valid or imperative_valid
 
     clf_pred = None
     clf_conf = 0.0
@@ -224,6 +231,9 @@ def evaluate_bloom_row(
         "meta_response": meta_response,
         "answer_output": answer_output,
         "empty_output": empty_output,
+        "interrogative_valid": interrogative_valid,
+        "imperative_valid": imperative_valid,
+        "question_form_valid": question_form_valid,
         "classifier_prediction": clf_pred,
         "classifier_confidence": clf_conf,
         "target_match": target_match,

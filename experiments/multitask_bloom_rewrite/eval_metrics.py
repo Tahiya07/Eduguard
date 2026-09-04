@@ -208,6 +208,18 @@ def bloom_rates(records: list[dict[str, Any]]) -> dict[str, Any]:
         "meta_response_rate": round(sum(1 for r in records if r.get("meta_response")) / n, 6),
         "answer_output_rate": round(sum(1 for r in records if r.get("answer_output")) / n, 6),
         "empty_output_rate": round(sum(1 for r in records if r.get("empty_output")) / n, 6),
+        "interrogative_valid_rate": round(
+            sum(1 for r in records if r.get("interrogative_valid")) / n, 6
+        ),
+        "imperative_valid_rate": round(
+            sum(1 for r in records if r.get("imperative_valid")) / n, 6
+        ),
+        "question_form_valid_rate": round(
+            sum(1 for r in records if r.get("question_form_valid")) / n, 6
+        ),
+        "mean_output_chars": round(
+            sum(len(str(r.get("prediction") or "")) for r in records) / n, 2
+        ),
         "mean_semantic_similarity": round(
             sum(r.get("semantic_similarity", 0.0) for r in records) / n, 6
         ),
