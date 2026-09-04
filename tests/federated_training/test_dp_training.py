@@ -13,6 +13,7 @@ from training.federated.dp_training import (
     apply_locked_training_rules,
     compose_federated_privacy_report,
     dp_config_from_lock,
+    dp_optimizer_step_budget,
     normalize_dp_mode,
 )
 from training.federated.config import FederatedLoraConfig, effective_prox_mu
@@ -117,6 +118,22 @@ def test_collate_tokenized_stacks():
     )
     assert batch["input_ids"].shape == (2, 4)
     assert batch["labels"].tolist() == [1, 2]
+
+
+def test_dp_optimizer_step_budget_matches_non_dp_grad_accum():
+    # 204 samples, batch 2, accum 8 -> logical 16 -> ceil(204/16)=13 steps/epoch
+    # 3 epochs -> 39 steps (same as non-DP FedProx client budget)
+    logical, per_epoch, total = dp_optimizer_step_budget(
+        204, batch_size=2, grad_accum=8, local_epochs=3.0
+    )
+    assert logical == 16
+    assert per_epoch == 13
+    assert total == 39
+
+    # Without accum fix this would be ceil(204/2)*3 = 306
+    wrong = max(1, __import__("math").ceil(204 / 2)) * 3
+    assert total < wrong
+    assert wrong == 306
 
 
 def test_input_grad_hook_is_picklable():

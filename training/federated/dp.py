@@ -23,11 +23,13 @@ DP_SCOPE_FULL = "full"
 DP_SCOPE_SCORE_HEAD = "score-head-only"
 DP_SCOPE_AUTO = "auto"
 
-DEFAULT_TAG = "fedprox_iid_dp"
-DEFAULT_OUTPUT = ROOT / "artifacts" / "federated" / "results" / "federated_dp_fedprox_iid.json"
+DEFAULT_TAG = "fedprox_iid_dp_r20"
+DEFAULT_OUTPUT = ROOT / "artifacts" / "federated" / "results" / "federated_dp_fedprox_iid_r20.json"
 DEFAULT_ADAPTER = (
-    ROOT / "artifacts" / "federated" / "models" / "qwen_bloom_federated0.5B_fedprox_iid_dp"
+    ROOT / "artifacts" / "federated" / "models" / "qwen_bloom_federated0.5B_fedprox_iid_dp_r20"
 )
+DEFAULT_ROUNDS = 20
+DEFAULT_NOISE_MULTIPLIER = 0.5
 
 
 def resolve_dp_lock_path(scope: str = DP_SCOPE_AUTO) -> Path:
@@ -137,9 +139,9 @@ def main() -> int:
         default=DP_SCOPE_AUTO,
         help="Which validation lock to require (auto prefers full LoRA+score if present).",
     )
-    parser.add_argument("--noise-multiplier", type=float, default=1.0)
+    parser.add_argument("--noise-multiplier", type=float, default=DEFAULT_NOISE_MULTIPLIER)
     parser.add_argument("--target-delta", type=float, default=1e-5)
-    parser.add_argument("--rounds", type=int, default=5)
+    parser.add_argument("--rounds", type=int, default=DEFAULT_ROUNDS)
     parser.add_argument("--clients", type=int, default=8)
     parser.add_argument("--local-epochs", type=float, default=3.0)
     parser.add_argument("--experiment-tag", default=DEFAULT_TAG)

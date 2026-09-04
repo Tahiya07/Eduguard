@@ -163,6 +163,29 @@ def _load_dp_model_stack(
     return tokenizer, model
 
 
+def dp_logical_batch_size(batch_size: int, grad_accum: int) -> int:
+    """Match non-DP effective batch (batch_size * gradient_accumulation)."""
+    return max(1, int(batch_size) * max(1, int(grad_accum)))
+
+
+def dp_optimizer_step_budget(
+    n_samples: int,
+    *,
+    batch_size: int,
+    grad_accum: int,
+    local_epochs: float,
+) -> Tuple[int, int, int]:
+    """Return (logical_batch, steps_per_epoch, total_optimizer_steps).
+
+    Mirrors non-DP client budgeting in ``train_local_adapter`` so DP does not
+    take ~grad_accum times more noisy steps than the federated config claims.
+    """
+    logical = dp_logical_batch_size(batch_size, grad_accum)
+    steps_per_epoch = max(1, math.ceil(max(1, int(n_samples)) / logical))
+    total_steps = max(1, math.ceil(steps_per_epoch * float(local_epochs)))
+    return logical, steps_per_epoch, total_steps
+
+
 def _collate_batch(batch, tokenizer, max_length: int):
     """Legacy text collate kept for unit tests; training uses tokenized tensors."""
     if not batch:
@@ -394,8 +417,18 @@ def train_local_adapter_dp(
     warm_started = bool(global_dir and (global_dir / "adapter_config.json").is_file())
     lr = cfg.finetune_learning_rate if warm_started else cfg.learning_rate
 
-    optimizer_steps_per_epoch = max(1, math.ceil(len(dataset) / max(1, cfg.batch_size)))
-    total_optimizer_steps = max(1, math.ceil(optimizer_steps_per_epoch * cfg.local_epochs))
+    physical_batch = max(1, int(cfg.batch_size))
+    logical_batch, steps_per_epoch, total_optimizer_steps = dp_optimizer_step_budget(
+        len(dataset),
+        batch_size=physical_batch,
+        grad_accum=int(cfg.grad_accum),
+        local_epochs=float(cfg.local_epochs),
+    )
+    print(
+        f"[dp] step budget: n={len(dataset)} physical_batch={physical_batch} "
+        f"grad_accum={cfg.grad_accum} logical_batch={logical_batch} "
+        f"steps/epoch={steps_per_epoch} total_steps={total_optimizer_steps}"
+    )
 
     trainable = [p for p in model.parameters() if p.requires_grad]
     if not trainable:
@@ -407,9 +440,11 @@ def train_local_adapter_dp(
         weight_decay=cfg.weight_decay,
     )
 
+    # Logical batch matches non-DP effective batch (batch_size * grad_accum) so
+    # Opacus sample_rate and optimizer step count stay aligned with FedProx IID.
     loader = DataLoader(
         dataset,
-        batch_size=cfg.batch_size,
+        batch_size=logical_batch,
         shuffle=True,
         collate_fn=_collate_tokenized,
     )
@@ -426,26 +461,72 @@ def train_local_adapter_dp(
     )
     _enable_input_require_grads(model)
 
+    try:
+        from opacus.utils.batch_memory_manager import BatchMemoryManager
+    except ImportError:
+        BatchMemoryManager = None  # type: ignore[misc, assignment]
+
+    def _privacy_steps() -> int:
+        history = getattr(privacy_engine.accountant, "history", None)
+        return len(history) if history is not None else -1
+
     model.train()
     steps_done = 0
     empty_batches_skipped = 0
-    max_loader_iters = max(total_optimizer_steps * 20, total_optimizer_steps + 8)
+    max_loader_iters = max(total_optimizer_steps * 40, total_optimizer_steps + 16)
     loader_iters = 0
-    for batch, loader_iters, empty_batches_skipped in _iter_nonempty_batches(
-        loader, max_iters=max_loader_iters
-    ):
-        batch = _move_batch(batch, device)
-        labels = batch.pop("labels")
-        optimizer.zero_grad()
-        outputs = model(**batch)
-        loss = nn.CrossEntropyLoss()(outputs.logits, labels)
-        if prox_mu > 0.0:
-            loss = loss + _proximal_penalty(model, global_named, prox_mu)
-        loss.backward()
-        optimizer.step()
-        steps_done += 1
-        if steps_done >= total_optimizer_steps:
+    use_bmm = bool(BatchMemoryManager is not None and logical_batch > physical_batch)
+
+    def _run_loader(active_loader) -> None:
+        nonlocal steps_done, empty_batches_skipped, loader_iters
+        for raw in active_loader:
+            loader_iters += 1
+            try:
+                batch = _normalize_batch(raw)
+            except TypeError:
+                empty_batches_skipped += 1
+                if loader_iters >= max_loader_iters:
+                    return
+                continue
+            if _batch_size(batch) == 0:
+                empty_batches_skipped += 1
+                if loader_iters >= max_loader_iters:
+                    return
+                continue
+            batch = _move_batch(batch, device)
+            labels = batch.pop("labels")
+            before = _privacy_steps()
+            optimizer.zero_grad(set_to_none=True)
+            outputs = model(**batch)
+            loss = nn.CrossEntropyLoss()(outputs.logits, labels)
+            if prox_mu > 0.0:
+                loss = loss + _proximal_penalty(model, global_named, prox_mu)
+            loss.backward()
+            optimizer.step()
+            after = _privacy_steps()
+            if after < 0:
+                # Accountant history unavailable: count every optimizer.step().
+                steps_done += 1
+            elif after > before:
+                steps_done += 1
+            if steps_done >= total_optimizer_steps or loader_iters >= max_loader_iters:
+                return
+
+    while steps_done < total_optimizer_steps and loader_iters < max_loader_iters:
+        if use_bmm:
+            with BatchMemoryManager(
+                data_loader=loader,
+                max_physical_batch_size=physical_batch,
+                optimizer=optimizer,
+            ) as safe_loader:
+                _run_loader(safe_loader)
+        else:
+            _run_loader(loader)
+            if steps_done < total_optimizer_steps and loader_iters < max_loader_iters:
+                # Epoch exhausted under Poisson loader; continue until budget met.
+                continue
             break
+
     if steps_done < total_optimizer_steps:
         raise RuntimeError(
             f"DP-SGD stopped after {steps_done}/{total_optimizer_steps} steps "
@@ -453,6 +534,7 @@ def train_local_adapter_dp(
         )
     if empty_batches_skipped:
         print(f"[dp] skipped {empty_batches_skipped} empty Poisson-sampled batches")
+    print(f"[dp] completed {steps_done} optimizer steps (target {total_optimizer_steps})")
 
     epsilon = float(privacy_engine.get_epsilon(dp.target_delta))
     local_state = _canonical_trainable_state(extract_trainable_state(model))
@@ -477,5 +559,10 @@ def train_local_adapter_dp(
         "dp_poisson_sampling": True,
         "dp_empty_batches_skipped": empty_batches_skipped,
         "dp_dataset": "tokenized_tensor",
+        "dp_physical_batch_size": physical_batch,
+        "dp_logical_batch_size": logical_batch,
+        "dp_grad_accum": int(cfg.grad_accum),
+        "dp_steps_per_epoch": steps_per_epoch,
+        "dp_batch_memory_manager": use_bmm,
     }
     return local_state, len(df), stats
