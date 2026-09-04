@@ -1,0 +1,176 @@
+{
+  "rescored_utc": "2026-09-04T14:35:18.299684+00:00",
+  "source_predictions": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen05b_lora\\predictions.jsonl",
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9619
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 1536,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "bloom": {
+    "classification": {
+      "n": 1536,
+      "accuracy": 0.763021,
+      "macro_precision": 0.798191,
+      "macro_recall": 0.743891,
+      "macro_f1": 0.719168,
+      "weighted_f1": 0.743839,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.226496,
+          "f1": 0.369338,
+          "support": 234
+        },
+        "Understand": {
+          "precision": 0.447761,
+          "recall": 0.727273,
+          "f1": 0.554273,
+          "support": 165
+        },
+        "Apply": {
+          "precision": 0.877193,
+          "recall": 0.719424,
+          "f1": 0.790514,
+          "support": 278
+        },
+        "Analyze": {
+          "precision": 0.878676,
+          "recall": 0.838596,
+          "f1": 0.858169,
+          "support": 285
+        },
+        "Evaluate": {
+          "precision": 0.7125,
+          "recall": 1.0,
+          "f1": 0.832117,
+          "support": 285
+        },
+        "Create": {
+          "precision": 0.873016,
+          "recall": 0.951557,
+          "f1": 0.910596,
+          "support": 289
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 53,
+          "Understand": 127,
+          "Apply": 11,
+          "Analyze": 12,
+          "Evaluate": 20,
+          "Create": 11,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 120,
+          "Apply": 8,
+          "Analyze": 8,
+          "Evaluate": 17,
+          "Create": 12,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 10,
+          "Apply": 200,
+          "Analyze": 9,
+          "Evaluate": 51,
+          "Create": 8,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 11,
+          "Apply": 9,
+          "Analyze": 239,
+          "Evaluate": 17,
+          "Create": 9,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 285,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 4,
+          "Evaluate": 10,
+          "Create": 275,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.522786,
+      "semantic_valid_rate": 0.991536,
+      "cognitive_valid_rate": 0.525391,
+      "classifier_match_rate": 0.763021,
+      "fully_validated_rewrite_rate": 0.366536,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.005859,
+      "answer_output_rate": 0.474609,
+      "empty_output_rate": 0.0,
+      "mean_semantic_similarity": 0.469756,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.226496,
+        "f1": 0.369338,
+        "support": 234
+      },
+      "Understand": {
+        "precision": 0.447761,
+        "recall": 0.727273,
+        "f1": 0.554273,
+        "support": 165
+      },
+      "Apply": {
+        "precision": 0.877193,
+        "recall": 0.719424,
+        "f1": 0.790514,
+        "support": 278
+      },
+      "Analyze": {
+        "precision": 0.878676,
+        "recall": 0.838596,
+        "f1": 0.858169,
+        "support": 285
+      },
+      "Evaluate": {
+        "precision": 0.7125,
+        "recall": 1.0,
+        "f1": 0.832117,
+        "support": 285
+      },
+      "Create": {
+        "precision": 0.873016,
+        "recall": 0.951557,
+        "f1": 0.910596,
+        "support": 289
+      }
+    }
+  },
+  "note": "QA/summarization unchanged; only Bloom classifier fields were rescored.",
+  "deployment_recommendation": "INCONCLUSIVE"
+}

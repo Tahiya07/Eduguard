@@ -1,0 +1,270 @@
+{
+  "evaluated_utc": "2026-09-04T19:42:09.282870+00:00",
+  "condition": "lora",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "1.5b",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  },
+  "dataset": {
+    "test_manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite\\test.jsonl",
+    "dataset_hash": "79fe6c7b7680839ef5ddc8c5065fbb183d9ef30f9a6c605392f04db2b4c666f4",
+    "file_sha256": "1eb88cd5900fcb9154cbf70e6a62d49636c9ad882aa5d8e303285524c74cc391",
+    "counts": {
+      "test_count": 8321,
+      "by_task": {
+        "bloom_rewrite": 1536,
+        "qa": 5285,
+        "summarization": 1500
+      }
+    },
+    "leakage": {
+      "key_overlaps": {
+        "train\u2229test": 0,
+        "validation\u2229test": 0,
+        "train\u2229validation": 0
+      },
+      "bloom_group_overlaps": {
+        "train_groups\u2229test": 0,
+        "val_groups\u2229test": 0
+      }
+    }
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "decoding": "greedy",
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9619
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 1536,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 1536,
+      "accuracy": 0.794922,
+      "macro_precision": 0.815126,
+      "macro_recall": 0.777803,
+      "macro_f1": 0.761343,
+      "weighted_f1": 0.783357,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.333333,
+          "f1": 0.5,
+          "support": 234
+        },
+        "Understand": {
+          "precision": 0.486275,
+          "recall": 0.751515,
+          "f1": 0.590476,
+          "support": 165
+        },
+        "Apply": {
+          "precision": 0.885375,
+          "recall": 0.805755,
+          "f1": 0.843691,
+          "support": 278
+        },
+        "Analyze": {
+          "precision": 0.861818,
+          "recall": 0.831579,
+          "f1": 0.846429,
+          "support": 285
+        },
+        "Evaluate": {
+          "precision": 0.796089,
+          "recall": 1.0,
+          "f1": 0.88647,
+          "support": 285
+        },
+        "Create": {
+          "precision": 0.861199,
+          "recall": 0.944637,
+          "f1": 0.90099,
+          "support": 289
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 78,
+          "Understand": 102,
+          "Apply": 11,
+          "Analyze": 16,
+          "Evaluate": 15,
+          "Create": 12,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 124,
+          "Apply": 9,
+          "Analyze": 7,
+          "Evaluate": 13,
+          "Create": 12,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 16,
+          "Apply": 224,
+          "Analyze": 9,
+          "Evaluate": 18,
+          "Create": 11,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 13,
+          "Apply": 9,
+          "Analyze": 237,
+          "Evaluate": 17,
+          "Create": 9,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 285,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 6,
+          "Evaluate": 10,
+          "Create": 273,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.568359,
+      "semantic_valid_rate": 0.985026,
+      "cognitive_valid_rate": 0.570964,
+      "classifier_match_rate": 0.794922,
+      "fully_validated_rewrite_rate": 0.421875,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.005859,
+      "answer_output_rate": 0.429036,
+      "empty_output_rate": 0.0,
+      "mean_semantic_similarity": 0.460911,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.333333,
+        "f1": 0.5,
+        "support": 234
+      },
+      "Understand": {
+        "precision": 0.486275,
+        "recall": 0.751515,
+        "f1": 0.590476,
+        "support": 165
+      },
+      "Apply": {
+        "precision": 0.885375,
+        "recall": 0.805755,
+        "f1": 0.843691,
+        "support": 278
+      },
+      "Analyze": {
+        "precision": 0.861818,
+        "recall": 0.831579,
+        "f1": 0.846429,
+        "support": 285
+      },
+      "Evaluate": {
+        "precision": 0.796089,
+        "recall": 1.0,
+        "f1": 0.88647,
+        "support": 285
+      },
+      "Create": {
+        "precision": 0.861199,
+        "recall": 0.944637,
+        "f1": 0.90099,
+        "support": 289
+      }
+    }
+  },
+  "qa": {
+    "squad": {
+      "n": 5285,
+      "exact_match": 0.616272,
+      "f1": 0.81299
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 1500,
+    "rouge1": 0.244139,
+    "rouge2": 0.055728,
+    "rougeL": 0.146033
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 12.3606,
+    "per_example": {
+      "mean": 1.677107,
+      "p50": 0.426104,
+      "p95": 7.670689,
+      "min": 0.05629,
+      "max": 10.20147
+    }
+  },
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 2022.93,
+    "uss_mb": 1762.32,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_allocated_mb": 3976.8,
+    "gpu_memory_reserved_mb": 4234.0
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "fa44fa107791d96e77a04bc55bcb4465b001f7a8",
+  "deployment_recommendation": "INCONCLUSIVE"
+}
