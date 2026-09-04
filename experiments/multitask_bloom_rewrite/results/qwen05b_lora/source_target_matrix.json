@@ -1,0 +1,215 @@
+{
+  "cells": {
+    "C1\u2192C2": {
+      "source_level": "Remember",
+      "target_level": "Understand",
+      "n": 38,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C1\u2192C3": {
+      "source_level": "Remember",
+      "target_level": "Apply",
+      "n": 39,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C1\u2192C4": {
+      "source_level": "Remember",
+      "target_level": "Analyze",
+      "n": 39,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C1\u2192C5": {
+      "source_level": "Remember",
+      "target_level": "Evaluate",
+      "n": 39,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C1\u2192C6": {
+      "source_level": "Remember",
+      "target_level": "Create",
+      "n": 39,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C2\u2192C1": {
+      "source_level": "Understand",
+      "target_level": "Remember",
+      "n": 106,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C2\u2192C3": {
+      "source_level": "Understand",
+      "target_level": "Apply",
+      "n": 132,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C2\u2192C4": {
+      "source_level": "Understand",
+      "target_level": "Analyze",
+      "n": 132,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C2\u2192C5": {
+      "source_level": "Understand",
+      "target_level": "Evaluate",
+      "n": 132,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C2\u2192C6": {
+      "source_level": "Understand",
+      "target_level": "Create",
+      "n": 132,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C3\u2192C1": {
+      "source_level": "Apply",
+      "target_level": "Remember",
+      "n": 35,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C3\u2192C2": {
+      "source_level": "Apply",
+      "target_level": "Understand",
+      "n": 32,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C3\u2192C4": {
+      "source_level": "Apply",
+      "target_level": "Analyze",
+      "n": 44,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C3\u2192C5": {
+      "source_level": "Apply",
+      "target_level": "Evaluate",
+      "n": 44,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C3\u2192C6": {
+      "source_level": "Apply",
+      "target_level": "Create",
+      "n": 44,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C4\u2192C1": {
+      "source_level": "Analyze",
+      "target_level": "Remember",
+      "n": 32,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C4\u2192C2": {
+      "source_level": "Analyze",
+      "target_level": "Understand",
+      "n": 29,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C4\u2192C3": {
+      "source_level": "Analyze",
+      "target_level": "Apply",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C4\u2192C5": {
+      "source_level": "Analyze",
+      "target_level": "Evaluate",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C4\u2192C6": {
+      "source_level": "Analyze",
+      "target_level": "Create",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C5\u2192C1": {
+      "source_level": "Evaluate",
+      "target_level": "Remember",
+      "n": 32,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C5\u2192C2": {
+      "source_level": "Evaluate",
+      "target_level": "Understand",
+      "n": 33,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C5\u2192C3": {
+      "source_level": "Evaluate",
+      "target_level": "Apply",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C5\u2192C4": {
+      "source_level": "Evaluate",
+      "target_level": "Analyze",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C5\u2192C6": {
+      "source_level": "Evaluate",
+      "target_level": "Create",
+      "n": 37,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C6\u2192C1": {
+      "source_level": "Create",
+      "target_level": "Remember",
+      "n": 29,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C6\u2192C2": {
+      "source_level": "Create",
+      "target_level": "Understand",
+      "n": 33,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C6\u2192C3": {
+      "source_level": "Create",
+      "target_level": "Apply",
+      "n": 33,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C6\u2192C4": {
+      "source_level": "Create",
+      "target_level": "Analyze",
+      "n": 33,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    },
+    "C6\u2192C5": {
+      "source_level": "Create",
+      "target_level": "Evaluate",
+      "n": 33,
+      "target_accuracy": 0.0,
+      "fully_validated_rate": 0.0
+    }
+  },
+  "topic_similarity_threshold": 0.2
+}
