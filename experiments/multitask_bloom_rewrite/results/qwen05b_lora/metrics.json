@@ -1,5 +1,5 @@
 {
-  "evaluated_utc": "2026-09-04T02:07:40.032559+00:00",
+  "evaluated_utc": "2026-09-04T23:18:18.828722+00:00",
   "condition": "lora",
   "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
   "model_key": "0.5b",
@@ -46,107 +46,122 @@
     "max_tokens": 128
   },
   "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9619
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 1536,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
   "classifier_is_not_ground_truth": true,
   "bloom": {
     "classification": {
       "n": 1536,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1": 0.0,
-      "weighted_f1": 0.0,
+      "accuracy": 0.763021,
+      "macro_precision": 0.798191,
+      "macro_recall": 0.743891,
+      "macro_f1": 0.719168,
+      "weighted_f1": 0.743839,
       "per_level": {
         "Remember": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 1.0,
+          "recall": 0.226496,
+          "f1": 0.369338,
           "support": 234
         },
         "Understand": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 0.447761,
+          "recall": 0.727273,
+          "f1": 0.554273,
           "support": 165
         },
         "Apply": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 0.877193,
+          "recall": 0.719424,
+          "f1": 0.790514,
           "support": 278
         },
         "Analyze": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 0.878676,
+          "recall": 0.838596,
+          "f1": 0.858169,
           "support": 285
         },
         "Evaluate": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 0.7125,
+          "recall": 1.0,
+          "f1": 0.832117,
           "support": 285
         },
         "Create": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "precision": 0.873016,
+          "recall": 0.951557,
+          "f1": 0.910596,
           "support": 289
         }
       },
       "confusion_matrix": {
         "Remember": {
-          "Remember": 0,
-          "Understand": 0,
-          "Apply": 0,
-          "Analyze": 0,
-          "Evaluate": 0,
-          "Create": 0,
-          "MISSING": 234
+          "Remember": 53,
+          "Understand": 127,
+          "Apply": 11,
+          "Analyze": 12,
+          "Evaluate": 20,
+          "Create": 11,
+          "MISSING": 0
         },
         "Understand": {
           "Remember": 0,
-          "Understand": 0,
-          "Apply": 0,
-          "Analyze": 0,
-          "Evaluate": 0,
-          "Create": 0,
-          "MISSING": 165
+          "Understand": 120,
+          "Apply": 8,
+          "Analyze": 8,
+          "Evaluate": 17,
+          "Create": 12,
+          "MISSING": 0
         },
         "Apply": {
           "Remember": 0,
-          "Understand": 0,
-          "Apply": 0,
-          "Analyze": 0,
-          "Evaluate": 0,
-          "Create": 0,
-          "MISSING": 278
+          "Understand": 10,
+          "Apply": 200,
+          "Analyze": 9,
+          "Evaluate": 51,
+          "Create": 8,
+          "MISSING": 0
         },
         "Analyze": {
           "Remember": 0,
-          "Understand": 0,
-          "Apply": 0,
-          "Analyze": 0,
-          "Evaluate": 0,
-          "Create": 0,
-          "MISSING": 285
+          "Understand": 11,
+          "Apply": 9,
+          "Analyze": 239,
+          "Evaluate": 17,
+          "Create": 9,
+          "MISSING": 0
         },
         "Evaluate": {
           "Remember": 0,
           "Understand": 0,
           "Apply": 0,
           "Analyze": 0,
-          "Evaluate": 0,
+          "Evaluate": 285,
           "Create": 0,
-          "MISSING": 285
+          "MISSING": 0
         },
         "Create": {
           "Remember": 0,
           "Understand": 0,
           "Apply": 0,
-          "Analyze": 0,
-          "Evaluate": 0,
-          "Create": 0,
-          "MISSING": 289
+          "Analyze": 4,
+          "Evaluate": 10,
+          "Create": 275,
+          "MISSING": 0
         }
       }
     },
@@ -154,8 +169,8 @@
       "format_valid_rate": 0.522786,
       "semantic_valid_rate": 0.991536,
       "cognitive_valid_rate": 0.525391,
-      "classifier_match_rate": 0.0,
-      "fully_validated_rewrite_rate": 0.0,
+      "classifier_match_rate": 0.763021,
+      "fully_validated_rewrite_rate": 0.366536,
       "trivial_transform_rate": 0.0,
       "meta_response_rate": 0.005859,
       "answer_output_rate": 0.474609,
@@ -165,39 +180,39 @@
     },
     "per_level": {
       "Remember": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 1.0,
+        "recall": 0.226496,
+        "f1": 0.369338,
         "support": 234
       },
       "Understand": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.447761,
+        "recall": 0.727273,
+        "f1": 0.554273,
         "support": 165
       },
       "Apply": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.877193,
+        "recall": 0.719424,
+        "f1": 0.790514,
         "support": 278
       },
       "Analyze": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.878676,
+        "recall": 0.838596,
+        "f1": 0.858169,
         "support": 285
       },
       "Evaluate": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.7125,
+        "recall": 1.0,
+        "f1": 0.832117,
         "support": 285
       },
       "Create": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.873016,
+        "recall": 0.951557,
+        "f1": 0.910596,
         "support": 289
       }
     }
@@ -224,23 +239,23 @@
     "reason": "bert_score not installed"
   },
   "latency": {
-    "model_load_s": 7.209,
+    "model_load_s": 6.3381,
     "per_example": {
-      "mean": 1.505063,
-      "p50": 0.349172,
-      "p95": 6.378328,
-      "min": 0.06928,
-      "max": 6.764017
+      "mean": 1.47339,
+      "p50": 0.277946,
+      "p95": 6.490055,
+      "min": 0.046148,
+      "max": 7.06448
     }
   },
   "resources": {
     "cuda_available": true,
-    "rss_mb": 1849.57,
-    "uss_mb": 1590.89,
+    "rss_mb": 2014.13,
+    "uss_mb": 1753.78,
     "cpu_percent": 0.0,
     "gpu_name": "NVIDIA GeForce RTX 4090",
-    "gpu_memory_allocated_mb": 992.04,
-    "gpu_memory_reserved_mb": 1094.0
+    "gpu_memory_allocated_mb": 1942.22,
+    "gpu_memory_reserved_mb": 2084.0
   },
   "package_versions": {
     "torch": "2.13.0+cu126",
@@ -250,6 +265,6 @@
     "rouge_score": "ok",
     "bert_score": null
   },
-  "git_commit": "e71a2ae65247901cfb37db654e827191a7f57072",
+  "git_commit": "02f04173d91e142f6dc35633d7b7a1166b391b1c",
   "deployment_recommendation": "INCONCLUSIVE"
 }

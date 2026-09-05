@@ -1,6 +1,6 @@
 # Multi-task Evaluation Report
 
-Generated (UTC): 2026-09-04T02:07:40.032559+00:00
+Generated (UTC): 2026-09-04T23:18:18.828722+00:00
 Condition: **lora**
 Model: `Qwen/Qwen2.5-0.5B-Instruct`
 
@@ -13,10 +13,10 @@ Model: `Qwen/Qwen2.5-0.5B-Instruct`
 ## Bloom rewrite (held-out test)
 
 - N: 1536
-- Target accuracy: 0.0
-- Macro-F1: 0.0
-- Weighted-F1: 0.0
-- Fully validated rate: 0.0
+- Target accuracy: 0.763021
+- Macro-F1: 0.719168
+- Weighted-F1: 0.743839
+- Fully validated rate: 0.366536
 - Semantic preservation rate: 0.991536
 - Cognitive validity rate: 0.525391
 - Trivial transform rate: 0.0
@@ -36,13 +36,13 @@ Model: `Qwen/Qwen2.5-0.5B-Instruct`
 
 ## Efficiency
 
-- Mean latency (s): 1.505063
-- P50: 0.349172
-- P95: 6.378328
-- Model load time (s): 7.209
-- RSS (MB): 1849.57
-- USS (MB): 1590.89
-- GPU memory allocated (MB): 992.04
+- Mean latency (s): 1.47339
+- P50: 0.277946
+- P95: 6.490055
+- Model load time (s): 6.3381
+- RSS (MB): 2014.13
+- USS (MB): 1753.78
+- GPU memory allocated (MB): 1942.22
 
 ## Deployment recommendation
 
