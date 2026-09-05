@@ -1,0 +1,9 @@
+{
+  "failure_counts": {
+    "WRONG_TARGET_LEVEL": 678,
+    "LOW_CONFIDENCE": 40,
+    "TOPIC_DRIFT": 2,
+    "META_RESPONSE": 9
+  },
+  "n_failures": 729
+}
