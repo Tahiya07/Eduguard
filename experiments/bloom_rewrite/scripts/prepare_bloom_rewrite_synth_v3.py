@@ -31,6 +31,7 @@ if str(EXPERIMENT_DIR) not in sys.path:
 from bloom_target_policy_v3 import (  # noqa: E402
     BLOOM_LEVELS,
     POLICY_VERSION,
+    REWRITE_TEMPLATES_V3,
     all_source_target_pairs,
     canonical_level,
     source_is_usable,
@@ -183,50 +184,76 @@ def main() -> None:
     rows: list[dict] = []
     fail_counts = Counter()
     template_counts: dict[str, Counter] = defaultdict(Counter)
+    # Round-robin start index per target level to avoid hash/template collapse.
+    template_rr: dict[str, int] = {lvl: 0 for lvl in BLOOM_LEVELS}
     for _, src in sources.iterrows():
         src_level = src["source_bloom_level"]
         for tgt in BLOOM_LEVELS:
             if tgt == src_level:
                 continue
+            n_templates = len(REWRITE_TEMPLATES_V3[tgt])
+            start = template_rr[tgt] % n_templates
+            template_rr[tgt] += 1
+            accepted = False
+            last_fail = "fail"
             try:
-                rewrite, meta = synthesize_rewrite_v3(
-                    src["source_question"], src_level, tgt, src["source_id"]
-                )
-                validation = validate_rewrite_v3(src["source_question"], tgt, rewrite)
-                if not validation.ok:
-                    fail_counts[validation.failure_category or "fail"] += 1
-                    continue
-                example_id = sha256_text(
-                    f"{src['source_id']}|{src_level}|{tgt}|{rewrite}|v3"
-                )[:16]
-                messages = build_messages(src["source_question"], tgt, rewrite)
-                # Strengthen assistant-side instruction consistency via SFT text from prompt_format
-                text = build_sft_text(src["source_question"], tgt, rewrite)
-                rows.append(
-                    {
-                        "example_id": example_id,
-                        "source_id": src["source_id"],
-                        "group_id": int(src["group_id"]),
-                        "split": src["split"],
-                        "source_question": src["source_question"],
-                        "source_bloom_level": src_level,
-                        "target_bloom_level": tgt,
-                        "target_rewrite": rewrite,
-                        "transformation_type": f"{src_level}->{tgt}",
-                        "synthetic_or_original": "synthetic",
-                        "synthetic": True,
-                        "dataset_version": DATASET_VERSION,
-                        "policy_version": POLICY_VERSION,
-                        "quality_status": "pass",
-                        "topic_overlap": validation.topic_overlap,
-                        "source_file": src["source_file"],
-                        "generator_inputs": ["source_question", "target_bloom_level"],
-                        "template_index": meta["template_index"],
-                        "messages": messages,
-                        "text": text,
-                    }
-                )
-                template_counts[tgt][meta["template_index"]] += 1
+                for offset in range(n_templates):
+                    idx = (start + offset) % n_templates
+                    try:
+                        rewrite, meta = synthesize_rewrite_v3(
+                            src["source_question"],
+                            src_level,
+                            tgt,
+                            src["source_id"],
+                            template_index=idx,
+                        )
+                    except ValueError as exc:
+                        last_fail = str(exc).split(":")[-1].strip() or "ValueError"
+                        break
+                    validation = validate_rewrite_v3(
+                        src["source_question"],
+                        tgt,
+                        rewrite,
+                        topic=meta.get("topic"),
+                    )
+                    if not validation.ok:
+                        last_fail = validation.failure_category or "fail"
+                        continue
+                    example_id = sha256_text(
+                        f"{src['source_id']}|{src_level}|{tgt}|{rewrite}|v3.1"
+                    )[:16]
+                    messages = build_messages(src["source_question"], tgt, rewrite)
+                    text = build_sft_text(src["source_question"], tgt, rewrite)
+                    rows.append(
+                        {
+                            "example_id": example_id,
+                            "source_id": src["source_id"],
+                            "group_id": int(src["group_id"]),
+                            "split": src["split"],
+                            "source_question": src["source_question"],
+                            "source_bloom_level": src_level,
+                            "target_bloom_level": tgt,
+                            "target_rewrite": rewrite,
+                            "extracted_topic": meta.get("topic"),
+                            "transformation_type": f"{src_level}->{tgt}",
+                            "synthetic_or_original": "synthetic",
+                            "synthetic": True,
+                            "dataset_version": DATASET_VERSION,
+                            "policy_version": POLICY_VERSION,
+                            "quality_status": "pass",
+                            "topic_overlap": validation.topic_overlap,
+                            "source_file": src["source_file"],
+                            "generator_inputs": ["source_question", "target_bloom_level"],
+                            "template_index": meta["template_index"],
+                            "messages": messages,
+                            "text": text,
+                        }
+                    )
+                    template_counts[tgt][meta["template_index"]] += 1
+                    accepted = True
+                    break
+                if not accepted:
+                    fail_counts[last_fail] += 1
             except Exception as exc:  # noqa: BLE001
                 fail_counts[type(exc).__name__] += 1
 

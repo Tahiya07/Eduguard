@@ -1,0 +1,16 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v3",
+  "policy_version": "bloom_target_policy_v3",
+  "corpus_hash": "34d836552a50d582017cf37193012e5617ef5f17e76d2738ef2379f1dc14cd14",
+  "seed": 42,
+  "paths": {
+    "train": "data/bloom_rewrite_versions/bloom_rewrite_synth_v3/train.jsonl",
+    "validation": "data/bloom_rewrite_versions/bloom_rewrite_synth_v3/validation.jsonl",
+    "test": "data/bloom_rewrite_versions/bloom_rewrite_synth_v3/test.jsonl"
+  },
+  "counts": {
+    "train": 4470,
+    "validation": 942,
+    "test": 1986
+  }
+}
