@@ -80,6 +80,8 @@ def enrich_bloom(row: dict) -> dict:
     out = dict(row)
     out["task"] = TASK_BLOOM
     out["text"] = build_sft_text(TASK_BLOOM, out)
+    # Training script requires sft_text; keep text for compatibility/inspection.
+    out["sft_text"] = out["text"]
     out["prompt_text"] = build_prompt_only_text(TASK_BLOOM, out)
     out["generation_prompt"] = build_generation_prompt(TASK_BLOOM, out)
     return out
