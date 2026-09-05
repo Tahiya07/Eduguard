@@ -1,0 +1,54 @@
+{
+  "dataset": "D:\\Eduguard\\data\\multitask_bloom_rewrite\\train.jsonl",
+  "n_summarization": 5231,
+  "source_chars": {
+    "n": 5231,
+    "mean": 2324.31,
+    "median": 2342,
+    "p95": 2544.0,
+    "min": 66,
+    "max": 3261
+  },
+  "target_chars": {
+    "n": 5231,
+    "mean": 1229.25,
+    "median": 1275,
+    "p95": 1927.0,
+    "min": 249,
+    "max": 2542
+  },
+  "source_tokens_est": {
+    "n": 5231,
+    "mean": 580.7,
+    "median": 585,
+    "p95": 636.0,
+    "min": 16,
+    "max": 815
+  },
+  "target_tokens_est": {
+    "n": 5231,
+    "mean": 306.94,
+    "median": 318,
+    "p95": 481.0,
+    "min": 62,
+    "max": 635
+  },
+  "max_seq_length": 512,
+  "max_new_tokens": 128,
+  "approx_chars_per_token": 4.0,
+  "source_truncation_rate_est": 0.98853,
+  "target_exceeds_max_new_tokens_rate_est": 0.924489,
+  "mean_compression_ratio_chars": 0.548259,
+  "findings": [
+    "High estimated source truncation under max_seq_length=512; consider a controlled summarization-only config with larger max_seq_length.",
+    "Most gold abstracts appear longer than max_new_tokens=128 (est.); ROUGE may be depressed by generation length cap \u2014 create controlled sumfix config with max_new_tokens=256 without changing Bloom/QA protocol defaults."
+  ],
+  "recommended_followup_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_sumfix.json",
+  "prediction_audit": {
+    "n": 1500,
+    "empty_output_rate": 0.001333,
+    "excessively_short_rate": 0.003333,
+    "excessively_long_rate": 0.0,
+    "repetition_rate_heuristic": 0.458
+  }
+}

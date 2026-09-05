@@ -1,0 +1,71 @@
+{
+  "n_bloom": 1536,
+  "failure_category_counts": {
+    "A_wrong_Bloom_level": 85,
+    "B_answer_instead_of_question": 640,
+    "G_Analyze_Evaluate_confusion": 17,
+    "D_Remember_Understand_confusion": 102,
+    "OK": 648,
+    "I_topic_drift": 23,
+    "F_Apply_Analyze_confusion": 9,
+    "H_Evaluate_Create_confusion": 3,
+    "L_meta_response": 9
+  },
+  "by_target_level": {
+    "Remember": {
+      "A_wrong_Bloom_level": 56,
+      "D_Remember_Understand_confusion": 102,
+      "OK": 75,
+      "L_meta_response": 1
+    },
+    "Understand": {
+      "B_answer_instead_of_question": 161,
+      "L_meta_response": 1,
+      "I_topic_drift": 1,
+      "A_wrong_Bloom_level": 1,
+      "OK": 1
+    },
+    "Apply": {
+      "B_answer_instead_of_question": 267,
+      "I_topic_drift": 8,
+      "L_meta_response": 2,
+      "A_wrong_Bloom_level": 1
+    },
+    "Analyze": {
+      "G_Analyze_Evaluate_confusion": 17,
+      "OK": 228,
+      "A_wrong_Bloom_level": 24,
+      "F_Apply_Analyze_confusion": 9,
+      "L_meta_response": 2,
+      "B_answer_instead_of_question": 1,
+      "I_topic_drift": 4
+    },
+    "Evaluate": {
+      "OK": 278,
+      "I_topic_drift": 6,
+      "L_meta_response": 1
+    },
+    "Create": {
+      "B_answer_instead_of_question": 211,
+      "OK": 66,
+      "H_Evaluate_Create_confusion": 3,
+      "L_meta_response": 2,
+      "A_wrong_Bloom_level": 3,
+      "I_topic_drift": 4
+    }
+  },
+  "augmentation_guidance": {
+    "note": "Generate analogous TRAIN-pool examples for high-count categories. Never copy frozen test targets into training.",
+    "priority_categories": [
+      "B_answer_instead_of_question",
+      "D_Remember_Understand_confusion",
+      "A_wrong_Bloom_level",
+      "I_topic_drift",
+      "G_Analyze_Evaluate_confusion",
+      "F_Apply_Analyze_confusion",
+      "L_meta_response",
+      "H_Evaluate_Create_confusion"
+    ]
+  },
+  "source_predictions": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_lora\\predictions.jsonl"
+}

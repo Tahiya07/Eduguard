@@ -1,0 +1,47 @@
+{
+  "timestamp_utc": "2026-09-05T14:09:54.789878+00:00",
+  "seed": 42,
+  "mix_preset": "A",
+  "mix": {
+    "bloom_rewrite": 0.4,
+    "qa": 0.3,
+    "summarization": 0.3
+  },
+  "bloom_dataset_version": "bloom_rewrite_synth_v3",
+  "locked_baseline_multitask_dir": "data/multitask_bloom_rewrite",
+  "locked_test_sha256": "1eb88cd5900fcb9154cbf70e6a62d49636c9ad882aa5d8e303285524c74cc391",
+  "test_frozen": true,
+  "test_identical_to_baseline": true,
+  "corpus_hash": "ba92375b3e95160af7b82bb21b35021db186655fcab363e1190d797908178bff",
+  "counts": {
+    "train": {
+      "total": 11174,
+      "by_task": {
+        "qa": 3352,
+        "summarization": 3352,
+        "bloom_rewrite": 4470
+      }
+    },
+    "validation": {
+      "total": 7727,
+      "by_task": {
+        "qa": 5285,
+        "summarization": 1500,
+        "bloom_rewrite": 942
+      }
+    },
+    "test": {
+      "total": 8321,
+      "by_task": {
+        "bloom_rewrite": 1536,
+        "qa": 5285,
+        "summarization": 1500
+      }
+    }
+  },
+  "notes": [
+    "TEST split is byte-identical to data/multitask_bloom_rewrite/test.jsonl.",
+    "Bloom train/val from synth_v3; QA/sum reused from locked multitask.",
+    "Do not tune on test."
+  ]
+}

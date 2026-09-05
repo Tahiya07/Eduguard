@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 """Multi-task LoRA SFT for Qwen2.5 (QA + summarization + Bloom rewrite).
 
 Loss is computed ONLY on assistant tokens (prompt masked with -100).
 Does not train GGUF. Does not modify production models.
 
 If the resource gate fails:
-    TRAINING NOT STARTED — INSUFFICIENT RESOURCES
+    TRAINING NOT STARTED â€” INSUFFICIENT RESOURCES
 """
 from __future__ import annotations
 
@@ -105,7 +105,7 @@ def main() -> None:
     print(json.dumps(feasibility, indent=2))
     if not feasibility["feasible"] and not args.force:
         print(feasibility["verdict"])
-        print("TRAINING NOT STARTED — INSUFFICIENT RESOURCES")
+        print("TRAINING NOT STARTED â€” INSUFFICIENT RESOURCES")
         out = Path(cfg["output_dir"])
         if not out.is_absolute():
             out = REPO_ROOT / out
@@ -129,6 +129,12 @@ def main() -> None:
 
     train_rows = read_jsonl(data_dir / "train.jsonl")
     val_rows = read_jsonl(data_dir / "validation.jsonl")
+    print("DATASET DIR:", data_dir.resolve())
+    print("TRAIN FILE:", (data_dir / "train.jsonl").resolve())
+    print("TRAIN ROWS:", len(train_rows))
+    print("TRAIN MISSING SFT:", [i for i,r in enumerate(train_rows) if "sft_text" not in r][:20])
+    print("TRAIN MISSING PROMPT:", [i for i,r in enumerate(train_rows) if "prompt_text" not in r][:20])
+    print("VAL MISSING SFT:", [i for i,r in enumerate(val_rows) if "sft_text" not in r][:20])
     device = "cuda" if resources.get("cuda_available") else "cpu"
     print("=" * 72)
     print("MULTI-TASK LORA TRAINING")
@@ -150,7 +156,7 @@ def main() -> None:
             TrainingArguments,
         )
     except ImportError as exc:
-        print("TRAINING NOT STARTED — missing training dependencies:", exc)
+        print("TRAINING NOT STARTED â€” missing training dependencies:", exc)
         raise SystemExit(2) from exc
 
     tokenizer = AutoTokenizer.from_pretrained(cfg["model_id"], trust_remote_code=True)
@@ -195,17 +201,27 @@ def main() -> None:
     model = get_peft_model(model, lora)
     model.print_trainable_parameters()
 
+    import math
+
+    effective_batch_size = (
+        int(cfg["per_device_train_batch_size"])
+        * int(cfg["gradient_accumulation_steps"])
+    )
+    steps_per_epoch = math.ceil(len(train_ds) / effective_batch_size)
+    total_steps = steps_per_epoch * int(cfg["epochs"])
+    warmup_steps = int(total_steps * float(cfg["warmup_ratio"]))
+
     args_tr = TrainingArguments(
         output_dir=str(output_dir),
         num_train_epochs=float(cfg["epochs"]),
         learning_rate=float(cfg["learning_rate"]),
-        warmup_ratio=float(cfg["warmup_ratio"]),
+        warmup_steps=warmup_steps,
         weight_decay=float(cfg["weight_decay"]),
         lr_scheduler_type=cfg.get("lr_scheduler_type", "cosine"),
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
         metric_for_best_model=cfg.get("metric_for_best_model", "eval_loss"),
@@ -254,3 +270,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+
