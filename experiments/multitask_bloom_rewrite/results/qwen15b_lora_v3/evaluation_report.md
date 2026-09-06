@@ -1,6 +1,6 @@
 # Multi-task Evaluation Report
 
-Generated (UTC): 2026-09-05T19:00:54.309623+00:00
+Generated (UTC): 2026-09-05T23:30:32.870029+00:00
 Condition: **lora**
 Model: `Qwen/Qwen2.5-1.5B-Instruct`
 
@@ -13,35 +13,35 @@ Model: `Qwen/Qwen2.5-1.5B-Instruct`
 ## Bloom rewrite (held-out test)
 
 - N: 1536
-- Target accuracy: 0.555339
-- Macro-F1: 0.49944
-- Weighted-F1: 0.506866
-- Fully validated rate: 0.525391
-- Semantic preservation rate: 0.998698
-- Cognitive validity rate: 1.0
-- Trivial transform rate: 0.0
+- Target accuracy: 0.888021
+- Macro-F1: 0.876835
+- Weighted-F1: 0.890034
+- Fully validated rate: 0.707031
+- Semantic preservation rate: 0.824219
+- Cognitive validity rate: 0.995443
+- Trivial transform rate: 0.001302
 
 ## QA (SQuAD held-out test half)
 
 - N: 5285
-- Exact Match: 0.607758
-- Token F1: 0.802765
+- Exact Match: 0.57843
+- Token F1: 0.785403
 
 ## Summarization (PubMed test)
 
 - N: 1500
-- ROUGE-1: 0.245588
-- ROUGE-2: 0.055844
-- ROUGE-L: 0.146661
+- ROUGE-1: 0.249109
+- ROUGE-2: 0.057348
+- ROUGE-L: 0.149551
 
 ## Efficiency
 
-- Mean latency (s): 1.401479
-- P50: 0.330946
-- P95: 5.835658
-- Model load time (s): 5.0304
-- RSS (MB): 2020.76
-- USS (MB): 1759.91
+- Mean latency (s): 1.469519
+- P50: 0.387555
+- P95: 6.350181
+- Model load time (s): 4.7528
+- RSS (MB): 2014.6
+- USS (MB): 1754.52
 - GPU memory allocated (MB): 3977.11
 
 ## Deployment recommendation

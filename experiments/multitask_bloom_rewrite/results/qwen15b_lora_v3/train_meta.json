@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-09-05T15:44:06.749474+00:00",
+  "timestamp_utc": "2026-09-05T20:04:54.675919+00:00",
   "config": {
     "experiment_name": "multitask_qwen15b_v3",
     "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -49,7 +49,7 @@
       "Do not tune after seeing test results."
     ]
   },
-  "git_commit": "fe74f23f7cdabb559611792dacd24e5387b3ba50",
+  "git_commit": "99b5d29ef3473fe4e9943ed62b123980697aff28",
   "package_versions": {
     "torch": "2.13.0+cu126",
     "transformers": "5.16.1",
@@ -64,15 +64,15 @@
     "gpu_name": "NVIDIA GeForce RTX 4090",
     "gpu_vram_gb": 23.99,
     "ram_total_gb": 63.84,
-    "ram_available_gb": 55.15,
-    "disk_free_gb": 812.92,
+    "ram_available_gb": 54.07,
+    "disk_free_gb": 812.04,
     "torch_version": "2.13.0+cu126",
     "psutil": true,
     "cpu_physical": 24,
     "disk_total_gb": 931.5
   },
   "feasibility": {
-    "timestamp_utc": "2026-09-05T14:52:53.868166+00:00",
+    "timestamp_utc": "2026-09-05T19:30:40.825188+00:00",
     "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
     "resources": {
       "cpu_count": 32,
@@ -80,8 +80,8 @@
       "gpu_name": "NVIDIA GeForce RTX 4090",
       "gpu_vram_gb": 23.99,
       "ram_total_gb": 63.84,
-      "ram_available_gb": 55.15,
-      "disk_free_gb": 812.92,
+      "ram_available_gb": 54.07,
+      "disk_free_gb": 812.04,
       "torch_version": "2.13.0+cu126",
       "psutil": true,
       "cpu_physical": 24,
@@ -111,14 +111,14 @@
       "expected_training_footprint": 12.0
     }
   },
-  "train_samples": 11174,
-  "validation_samples": 7727,
+  "train_samples": 6466,
+  "validation_samples": 7337,
   "metrics": {
-    "train_runtime": 3064.1852,
-    "train_samples_per_second": 10.94,
-    "train_steps_per_second": 0.684,
-    "total_flos": 9.76721223463342e+16,
-    "train_loss": 0.28853577389623875,
+    "train_runtime": 2045.0309,
+    "train_samples_per_second": 9.485,
+    "train_steps_per_second": 0.594,
+    "total_flos": 5.641579293478502e+16,
+    "train_loss": 0.31385441042268225,
     "epoch": 3.0
   },
   "checkpoint_selection": "validation_loss_only",

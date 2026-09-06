@@ -7,11 +7,11 @@
     "rouge_score": "ok",
     "bert_score": null
   },
-  "git_commit": "fe74f23f7cdabb559611792dacd24e5387b3ba50",
+  "git_commit": "99b5d29ef3473fe4e9943ed62b123980697aff28",
   "resources": {
     "cuda_available": true,
-    "rss_mb": 2020.76,
-    "uss_mb": 1759.91,
+    "rss_mb": 2014.6,
+    "uss_mb": 1754.52,
     "cpu_percent": 0.0,
     "gpu_name": "NVIDIA GeForce RTX 4090",
     "gpu_memory_allocated_mb": 3977.11,
