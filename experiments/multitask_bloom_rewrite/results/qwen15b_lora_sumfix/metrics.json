@@ -1,13 +1,13 @@
 {
-  "evaluated_utc": "2026-09-06T10:41:49.512755+00:00",
+  "evaluated_utc": "2026-09-06T16:10:01.532404+00:00",
   "condition": "lora",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
   "model_key": "15b",
   "checkpoint": {
     "condition": "lora",
     "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
-    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_v3\\best_adapter",
-    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_v3\\best_adapter",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_sumfix\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_sumfix\\best_adapter",
     "checkpoint_selection": "validation_loss_only"
   },
   "dataset": {
@@ -40,7 +40,7 @@
     "top_p": 1.0,
     "top_k": 0,
     "repeat_penalty": 1.0,
-    "max_new_tokens": 128,
+    "max_new_tokens": 256,
     "decoding": "greedy",
     "seed": 42,
     "max_tokens": 128
@@ -65,84 +65,84 @@
   "bloom": {
     "classification": {
       "n": 1536,
-      "accuracy": 0.888021,
-      "macro_precision": 0.891078,
-      "macro_recall": 0.881695,
-      "macro_f1": 0.876835,
-      "weighted_f1": 0.890034,
+      "accuracy": 0.89974,
+      "macro_precision": 0.899821,
+      "macro_recall": 0.889256,
+      "macro_f1": 0.886912,
+      "weighted_f1": 0.898833,
       "per_level": {
         "Remember": {
-          "precision": 0.988095,
-          "recall": 0.709402,
-          "f1": 0.825871,
+          "precision": 0.981366,
+          "recall": 0.675214,
+          "f1": 0.8,
           "support": 234
         },
         "Understand": {
-          "precision": 0.623377,
-          "recall": 0.872727,
-          "f1": 0.727273,
+          "precision": 0.707071,
+          "recall": 0.848485,
+          "f1": 0.77135,
           "support": 165
         },
         "Apply": {
-          "precision": 0.984962,
-          "recall": 0.942446,
-          "f1": 0.963235,
+          "precision": 0.97619,
+          "recall": 0.884892,
+          "f1": 0.928302,
           "support": 278
         },
         "Analyze": {
-          "precision": 0.95082,
-          "recall": 0.814035,
-          "f1": 0.877127,
+          "precision": 0.942177,
+          "recall": 0.97193,
+          "f1": 0.956822,
           "support": 285
         },
         "Evaluate": {
-          "precision": 0.830904,
+          "precision": 0.823699,
           "recall": 1.0,
-          "f1": 0.907643,
+          "f1": 0.903328,
           "support": 285
         },
         "Create": {
-          "precision": 0.96831,
-          "recall": 0.951557,
-          "f1": 0.95986,
+          "precision": 0.968421,
+          "recall": 0.955017,
+          "f1": 0.961672,
           "support": 289
         }
       },
       "confusion_matrix": {
         "Remember": {
-          "Remember": 166,
-          "Understand": 49,
-          "Apply": 1,
-          "Analyze": 5,
-          "Evaluate": 12,
+          "Remember": 158,
+          "Understand": 55,
+          "Apply": 2,
+          "Analyze": 7,
+          "Evaluate": 11,
           "Create": 1,
           "MISSING": 0
         },
         "Understand": {
-          "Remember": 2,
-          "Understand": 144,
-          "Apply": 3,
-          "Analyze": 3,
-          "Evaluate": 10,
-          "Create": 3,
+          "Remember": 3,
+          "Understand": 140,
+          "Apply": 4,
+          "Analyze": 4,
+          "Evaluate": 12,
+          "Create": 2,
           "MISSING": 0
         },
         "Apply": {
           "Remember": 0,
-          "Understand": 0,
-          "Apply": 262,
-          "Analyze": 2,
-          "Evaluate": 11,
-          "Create": 3,
+          "Understand": 3,
+          "Apply": 246,
+          "Analyze": 5,
+          "Evaluate": 19,
+          "Create": 5,
           "MISSING": 0
         },
         "Analyze": {
           "Remember": 0,
-          "Understand": 38,
+          "Understand": 0,
           "Apply": 0,
-          "Analyze": 232,
-          "Evaluate": 13,
-          "Create": 2,
+          "Analyze": 277,
+          "Evaluate": 7,
+          "Create": 1,
           "MISSING": 0
         },
         "Evaluate": {
@@ -158,65 +158,65 @@
           "Remember": 0,
           "Understand": 0,
           "Apply": 0,
-          "Analyze": 2,
+          "Analyze": 1,
           "Evaluate": 12,
-          "Create": 275,
+          "Create": 276,
           "MISSING": 0
         }
       }
     },
     "rates": {
-      "format_valid_rate": 0.994141,
-      "semantic_valid_rate": 0.824219,
-      "cognitive_valid_rate": 0.995443,
-      "classifier_match_rate": 0.888021,
-      "fully_validated_rewrite_rate": 0.707031,
-      "trivial_transform_rate": 0.001302,
+      "format_valid_rate": 0.783854,
+      "semantic_valid_rate": 0.832682,
+      "cognitive_valid_rate": 0.783854,
+      "classifier_match_rate": 0.89974,
+      "fully_validated_rewrite_rate": 0.556641,
+      "trivial_transform_rate": 0.0,
       "meta_response_rate": 0.005859,
-      "answer_output_rate": 0.003906,
+      "answer_output_rate": 0.215495,
       "empty_output_rate": 0.0,
-      "interrogative_valid_rate": 0.311198,
-      "imperative_valid_rate": 0.684896,
-      "question_form_valid_rate": 0.996094,
-      "mean_output_chars": 105.6,
-      "mean_semantic_similarity": 0.353579,
+      "interrogative_valid_rate": 0.160807,
+      "imperative_valid_rate": 0.623698,
+      "question_form_valid_rate": 0.784505,
+      "mean_output_chars": 109.18,
+      "mean_semantic_similarity": 0.348821,
       "classifier_confidence_min": 0.5
     },
     "per_level": {
       "Remember": {
-        "precision": 0.988095,
-        "recall": 0.709402,
-        "f1": 0.825871,
+        "precision": 0.981366,
+        "recall": 0.675214,
+        "f1": 0.8,
         "support": 234
       },
       "Understand": {
-        "precision": 0.623377,
-        "recall": 0.872727,
-        "f1": 0.727273,
+        "precision": 0.707071,
+        "recall": 0.848485,
+        "f1": 0.77135,
         "support": 165
       },
       "Apply": {
-        "precision": 0.984962,
-        "recall": 0.942446,
-        "f1": 0.963235,
+        "precision": 0.97619,
+        "recall": 0.884892,
+        "f1": 0.928302,
         "support": 278
       },
       "Analyze": {
-        "precision": 0.95082,
-        "recall": 0.814035,
-        "f1": 0.877127,
+        "precision": 0.942177,
+        "recall": 0.97193,
+        "f1": 0.956822,
         "support": 285
       },
       "Evaluate": {
-        "precision": 0.830904,
+        "precision": 0.823699,
         "recall": 1.0,
-        "f1": 0.907643,
+        "f1": 0.903328,
         "support": 285
       },
       "Create": {
-        "precision": 0.96831,
-        "recall": 0.951557,
-        "f1": 0.95986,
+        "precision": 0.968421,
+        "recall": 0.955017,
+        "f1": 0.961672,
         "support": 289
       }
     }
@@ -224,8 +224,8 @@
   "qa": {
     "squad": {
       "n": 5285,
-      "exact_match": 0.57843,
-      "f1": 0.785403
+      "exact_match": 0.620246,
+      "f1": 0.80901
     },
     "eduguard_rag_qa": {
       "available": false,
@@ -234,32 +234,32 @@
   },
   "summarization": {
     "n": 1500,
-    "rouge1": 0.249109,
-    "rouge2": 0.057348,
-    "rougeL": 0.149551
+    "rouge1": 0.361013,
+    "rouge2": 0.111706,
+    "rougeL": 0.210515
   },
   "bertscore": {
     "available": false,
     "reason": "bert_score not installed"
   },
   "latency": {
-    "model_load_s": 5.8251,
+    "model_load_s": 5.6599,
     "per_example": {
-      "mean": 1.430819,
-      "p50": 0.395347,
-      "p95": 6.146234,
-      "min": 0.056167,
-      "max": 7.092249
+      "mean": 1.988162,
+      "p50": 0.328683,
+      "p95": 11.439686,
+      "min": 0.084819,
+      "max": 14.670781
     }
   },
   "resources": {
     "cuda_available": true,
-    "rss_mb": 2016.53,
-    "uss_mb": 1756.18,
+    "rss_mb": 2031.6,
+    "uss_mb": 1770.52,
     "cpu_percent": 0.0,
     "gpu_name": "NVIDIA GeForce RTX 4090",
     "gpu_memory_allocated_mb": 3977.11,
-    "gpu_memory_reserved_mb": 4234.0
+    "gpu_memory_reserved_mb": 4530.0
   },
   "package_versions": {
     "torch": "2.13.0+cu126",

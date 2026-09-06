@@ -1,0 +1,125 @@
+{
+  "timestamp_utc": "2026-09-06T07:14:00.450742+00:00",
+  "config": {
+    "experiment_name": "multitask_qwen15b_sumfix_followup",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "model_key": "15b",
+    "dataset_dir": "data/multitask_bloom_rewrite_v3",
+    "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_sumfix",
+    "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_sumfix",
+    "seed": 42,
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "max_seq_length": 1024,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "early_stopping_patience": 2,
+    "metric_for_best_model": "eval_loss",
+    "logging_steps": 20,
+    "save_total_limit": 3,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "generation": {
+      "do_sample": false,
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "top_k": 0,
+      "repeat_penalty": 1.0,
+      "max_new_tokens": 256,
+      "decoding": "greedy"
+    },
+    "notes": [
+      "OPTIONAL follow-up ONLY if audit_summarization_lengths.py reports high truncation.",
+      "Changes max_seq_length and max_new_tokens \u2014 NOT part of primary Bloom v3 comparison.",
+      "Do not declare Bloom success/failure from this config."
+    ]
+  },
+  "git_commit": "647cab96d7dbab6c280ab7cffdfbd7847e91b41d",
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "datasets": "5.0.1",
+    "numpy": "2.2.6"
+  },
+  "resources": {
+    "cpu_count": 32,
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_vram_gb": 23.99,
+    "ram_total_gb": 63.84,
+    "ram_available_gb": 53.02,
+    "disk_free_gb": 812.04,
+    "torch_version": "2.13.0+cu126",
+    "psutil": true,
+    "cpu_physical": 24,
+    "disk_total_gb": 931.5
+  },
+  "feasibility": {
+    "timestamp_utc": "2026-09-06T06:02:55.298529+00:00",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "resources": {
+      "cpu_count": 32,
+      "cuda_available": true,
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_vram_gb": 23.99,
+      "ram_total_gb": 63.84,
+      "ram_available_gb": 53.02,
+      "disk_free_gb": 812.04,
+      "torch_version": "2.13.0+cu126",
+      "psutil": true,
+      "cpu_physical": 24,
+      "disk_total_gb": 931.5
+    },
+    "estimates": {
+      "approx_params_b": 1.54,
+      "fp16_weights_gb": 3.1,
+      "fp32_weights_gb": 6.2,
+      "optimizer_adamw_gb_est": 12.0,
+      "activation_gb_est": 4.0,
+      "estimated_cpu_lora_gb": 28.0,
+      "estimated_gpu_lora_gb": 12.0,
+      "min_available_ram_gb": 22.0,
+      "hf_download_gb_est": 3.5
+    },
+    "estimated_footprint_gb": 12.0,
+    "feasible": true,
+    "reasons": [
+      "Resource estimates indicate training may proceed."
+    ],
+    "verdict": "TRAINING MAY PROCEED",
+    "memory_breakdown_est_gb": {
+      "parameter_memory": 6.2,
+      "optimizer_memory": 12.0,
+      "activation_memory": 4.0,
+      "expected_training_footprint": 12.0
+    }
+  },
+  "train_samples": 6466,
+  "validation_samples": 7337,
+  "metrics": {
+    "train_runtime": 4255.506,
+    "train_samples_per_second": 4.558,
+    "train_steps_per_second": 0.286,
+    "total_flos": 5.725404057251635e+16,
+    "train_loss": 1.3032590928882237,
+    "epoch": 3.0
+  },
+  "checkpoint_selection": "validation_loss_only",
+  "assistant_only_loss": true
+}

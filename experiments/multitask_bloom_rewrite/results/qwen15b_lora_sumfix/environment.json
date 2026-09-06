@@ -10,18 +10,18 @@
   "git_commit": "647cab96d7dbab6c280ab7cffdfbd7847e91b41d",
   "resources": {
     "cuda_available": true,
-    "rss_mb": 2016.53,
-    "uss_mb": 1756.18,
+    "rss_mb": 2031.6,
+    "uss_mb": 1770.52,
     "cpu_percent": 0.0,
     "gpu_name": "NVIDIA GeForce RTX 4090",
     "gpu_memory_allocated_mb": 3977.11,
-    "gpu_memory_reserved_mb": 4234.0
+    "gpu_memory_reserved_mb": 4530.0
   },
   "checkpoint": {
     "condition": "lora",
     "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
-    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_v3\\best_adapter",
-    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_v3\\best_adapter",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_sumfix\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_sumfix\\best_adapter",
     "checkpoint_selection": "validation_loss_only"
   }
 }

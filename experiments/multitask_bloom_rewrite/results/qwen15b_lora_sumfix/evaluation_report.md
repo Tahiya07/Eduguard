@@ -1,6 +1,6 @@
 # Multi-task Evaluation Report
 
-Generated (UTC): 2026-09-06T10:41:49.512755+00:00
+Generated (UTC): 2026-09-06T16:10:01.532404+00:00
 Condition: **lora**
 Model: `Qwen/Qwen2.5-1.5B-Instruct`
 
@@ -13,39 +13,39 @@ Model: `Qwen/Qwen2.5-1.5B-Instruct`
 ## Bloom rewrite (held-out test)
 
 - N: 1536
-- Target accuracy: 0.888021
-- Macro-F1: 0.876835
-- Weighted-F1: 0.890034
-- Fully validated rate: 0.707031
-- Semantic preservation rate: 0.824219
-- Cognitive validity rate: 0.995443
-- Trivial transform rate: 0.001302
+- Target accuracy: 0.89974
+- Macro-F1: 0.886912
+- Weighted-F1: 0.898833
+- Fully validated rate: 0.556641
+- Semantic preservation rate: 0.832682
+- Cognitive validity rate: 0.783854
+- Trivial transform rate: 0.0
 
 ## QA (SQuAD held-out test half)
 
 - N: 5285
-- Exact Match: 0.57843
-- Token F1: 0.785403
+- Exact Match: 0.620246
+- Token F1: 0.80901
 
 ## Summarization (PubMed test)
 
 - N: 1500
-- ROUGE-1: 0.249109
-- ROUGE-2: 0.057348
-- ROUGE-L: 0.149551
+- ROUGE-1: 0.361013
+- ROUGE-2: 0.111706
+- ROUGE-L: 0.210515
 
 ## Efficiency
 
-- Mean latency (s): 1.430819
-- P50: 0.395347
-- P95: 6.146234
-- Model load time (s): 5.8251
-- RSS (MB): 2016.53
-- USS (MB): 1756.18
+- Mean latency (s): 1.988162
+- P50: 0.328683
+- P95: 11.439686
+- Model load time (s): 5.6599
+- RSS (MB): 2031.6
+- USS (MB): 1770.52
 - GPU memory allocated (MB): 3977.11
 
 ## Deployment recommendation
 
 **INCONCLUSIVE** — 0.5B base, 0.5B LoRA, 1.5B base, and 1.5B LoRA must be evaluated under the same protocol before model selection.
 
-Checkpoint: `experiments\multitask_bloom_rewrite\models\qwen15b_multitask_lora_v3\best_adapter`
+Checkpoint: `experiments\multitask_bloom_rewrite\models\qwen15b_multitask_lora_sumfix\best_adapter`
