@@ -1,0 +1,25 @@
+{
+  "timestamp_utc": "2026-09-07T06:59:26.561994+00:00",
+  "gguf": "D:\\Eduguard\\models\\gguf\\qwen15b_multitask_v3_q4_k_m.gguf",
+  "gguf_size_bytes": 986048032,
+  "startup_sec": 0.687,
+  "threads": 8,
+  "context_size": 512,
+  "n_prompts": 50,
+  "max_tokens": 128,
+  "p50_latency_sec": 0.6846,
+  "p95_latency_sec": 0.7077,
+  "mean_latency_sec": 0.6865,
+  "tokens_per_sec_mean": 28.8944,
+  "peak_memory_after_load": {
+    "rss_mb": 1300.01,
+    "uss_mb": 694.46
+  },
+  "generation": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "decoding": "greedy"
+  }
+}

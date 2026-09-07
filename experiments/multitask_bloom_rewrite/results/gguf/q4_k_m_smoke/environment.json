@@ -1,0 +1,29 @@
+{
+  "package_versions": {
+    "llama_cpp": "0.3.35",
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "e6f4e12c6a6b88667527235129799900489cdb82",
+  "resources": {
+    "rss_mb": 3820.55,
+    "uss_mb": 2975.52
+  },
+  "gguf": "D:\\Eduguard\\models\\gguf\\qwen15b_multitask_v3_q4_k_m.gguf",
+  "gguf_size_bytes": 986048032,
+  "generation": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_tokens": 128,
+    "decoding": "greedy",
+    "threads": 8,
+    "context": 1024,
+    "gpu_layers": 0
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "evaluated_utc": "2026-09-07T07:21:56.922002+00:00",
+  "condition": "gguf",
+  "gguf": "D:\\Eduguard\\models\\gguf\\qwen15b_multitask_v3_q4_k_m.gguf",
+  "gguf_size_bytes": 986048032,
+  "dataset": {
+    "test_manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite\\test.jsonl",
+    "dataset_hash": "79fe6c7b7680839ef5ddc8c5065fbb183d9ef30f9a6c605392f04db2b4c666f4",
+    "file_sha256": "1eb88cd5900fcb9154cbf70e6a62d49636c9ad882aa5d8e303285524c74cc391",
+    "counts": {
+      "test_count": 8321,
+      "by_task": {
+        "bloom_rewrite": 1536,
+        "qa": 5285,
+        "summarization": 1500
+      }
+    },
+    "leakage": {
+      "key_overlaps": {
+        "train\u2229test": 0,
+        "validation\u2229test": 0,
+        "train\u2229validation": 0
+      },
+      "bloom_group_overlaps": {
+        "train_groups\u2229test": 0,
+        "val_groups\u2229test": 0
+      }
+    }
+  },
+  "generation": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_tokens": 128,
+    "decoding": "greedy",
+    "threads": 8,
+    "context": 1024,
+    "gpu_layers": 0
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9829
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 2,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 2,
+      "accuracy": 0.5,
+      "macro_precision": 0.166667,
+      "macro_recall": 0.166667,
+      "macro_f1": 0.166667,
+      "weighted_f1": 0.5,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1
+        },
+        "Understand": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1
+        },
+        "Apply": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Analyze": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Evaluate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Create": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 1,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 1.0,
+      "semantic_valid_rate": 1.0,
+      "cognitive_valid_rate": 1.0,
+      "classifier_match_rate": 0.5,
+      "fully_validated_rewrite_rate": 0.5,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.0,
+      "answer_output_rate": 0.0,
+      "empty_output_rate": 0.0,
+      "interrogative_valid_rate": 1.0,
+      "imperative_valid_rate": 0.0,
+      "question_form_valid_rate": 1.0,
+      "mean_output_chars": 61.5,
+      "mean_semantic_similarity": 0.375,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1
+      },
+      "Understand": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      "Apply": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "Analyze": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "Evaluate": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "Create": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      }
+    }
+  },
+  "qa": {
+    "squad": {
+      "n": 2,
+      "exact_match": 0.5,
+      "f1": 0.833333
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 2,
+    "rouge1": 0.409761,
+    "rouge2": 0.135187,
+    "rougeL": 0.229031
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 0.581673,
+    "per_example": {
+      "mean": 2.174906,
+      "p50": 0.579248,
+      "p95": 5.495216,
+      "min": 0.435532,
+      "max": 5.495216
+    }
+  },
+  "resources": {
+    "rss_mb": 3820.55,
+    "uss_mb": 2975.52
+  },
+  "package_versions": {
+    "llama_cpp": "0.3.35",
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "e6f4e12c6a6b88667527235129799900489cdb82",
+  "deployment_recommendation": "INCONCLUSIVE"
+}
