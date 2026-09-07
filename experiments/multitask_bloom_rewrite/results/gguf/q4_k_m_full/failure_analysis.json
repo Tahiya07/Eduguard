@@ -1,0 +1,11 @@
+{
+  "failure_counts": {
+    "WRONG_TARGET_LEVEL": 166,
+    "TOPIC_DRIFT": 198,
+    "LOW_CONFIDENCE": 15,
+    "TRIVIAL_VERB_SWAP": 1,
+    "META_RESPONSE": 8,
+    "INVALID_QUESTION": 1
+  },
+  "n_failures": 389
+}
