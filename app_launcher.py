@@ -47,6 +47,29 @@ frontend_process = None
 backend_process = None
 
 
+def _has_bloom_weights(path: Path) -> bool:
+    return (path / "config.json").is_file() and (
+        (path / "model.safetensors").is_file() or (path / "pytorch_model.bin").is_file()
+    )
+
+
+def resolve_runtime_bloom_dir(root: Path) -> Path:
+    """Final Bloom classifier: FedProx IID r20 best merged Qwen2.5-0.5B only."""
+    packaged = root / "models" / "qwen_bloom_fedprox_r20"
+    artifact = (
+        root
+        / "artifacts"
+        / "federated"
+        / "global"
+        / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
+    )
+    for candidate in (packaged, artifact):
+        if _has_bloom_weights(candidate):
+            return candidate
+    # Prefer the portable final path so missing-weight errors are explicit.
+    return packaged if packaged.parent.is_dir() else artifact
+
+
 def build_environment():
     env = os.environ.copy()
 
@@ -55,13 +78,19 @@ def build_environment():
     env["HF_DATASETS_OFFLINE"] = "1"
     env["OFFLINE_MODE"] = "true"
 
-    env["GENERATOR_MODEL_PATH"] = str(
-        ROOT / "models" / "qwen.gguf"
-    )
+    # Final generator: multitask v3 Q4_K_M GGUF
+    env["GENERATOR_MODEL_PATH"] = str(ROOT / "models" / "qwen.gguf")
+    env["GENERATOR_THREADS"] = env.get("GENERATOR_THREADS") or "8"
+    env["GENERATOR_CONTEXT_TOKENS"] = env.get("GENERATOR_CONTEXT_TOKENS") or "512"
+    env["GENERATOR_ANSWER_TOKENS"] = env.get("GENERATOR_ANSWER_TOKENS") or "64"
+    env["GENERATOR_SUMMARY_TOKENS"] = env.get("GENERATOR_SUMMARY_TOKENS") or "80"
+    env["GENERATOR_MODERATION_TOKENS"] = env.get("GENERATOR_MODERATION_TOKENS") or "64"
+    env["GENERATOR_REWRITE_TOKENS"] = env.get("GENERATOR_REWRITE_TOKENS") or "64"
 
-    env["BLOOM_MODEL_DIR"] = str(
-        ROOT / "models" / "qwen_bloom_merged0.5B"
-    )
+    # Final Bloom classifier: FedProx r20 best (not centralized merge)
+    env["BLOOM_MODEL_DIR"] = str(resolve_runtime_bloom_dir(ROOT))
+    env["BLOOM_MODEL_SIZE"] = "0.5b"
+    env["BLOOM_USE_QUANTIZED"] = "false"
 
     # IMPORTANT:
     # This is a profile name, not the filesystem path.
@@ -88,11 +117,12 @@ def port_ready(host, port):
 def run_backend():
     global backend_process
 
+    env = build_environment()
     if getattr(sys, "frozen", False):
         backend_process = subprocess.Popen(
             [str(BACKEND_EXE)],
             cwd=str(ROOT),
-            env=os.environ.copy(),
+            env=env,
             creationflags=subprocess.CREATE_NO_WINDOW,
         )
     else:
@@ -110,7 +140,7 @@ def run_backend():
                 "8000",
             ],
             cwd=str(ROOT),
-            env=os.environ.copy(),
+            env=env,
             creationflags=subprocess.CREATE_NO_WINDOW,
         )
 

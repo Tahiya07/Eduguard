@@ -13,31 +13,20 @@ $env:HF_DATASETS_OFFLINE = "1"
 $env:OFFLINE_MODE = "true"
 
 $env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen.gguf"
-$defaultBloom = Join-Path $root "models\qwen_bloom_merged0.5B"
-$fedavgMerged = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedavg_iid_r20_merged"
-$recommendation = Join-Path $root "artifacts\evaluation\deployment_recommendation.json"
-$selection = Join-Path $root "artifacts\evaluation\best_fl_checkpoint_selection.json"
+if (-not $env:GENERATOR_THREADS) { $env:GENERATOR_THREADS = "8" }
+if (-not $env:GENERATOR_CONTEXT_TOKENS) { $env:GENERATOR_CONTEXT_TOKENS = "512" }
+if (-not $env:GENERATOR_ANSWER_TOKENS) { $env:GENERATOR_ANSWER_TOKENS = "64" }
+if (-not $env:GENERATOR_SUMMARY_TOKENS) { $env:GENERATOR_SUMMARY_TOKENS = "80" }
+if (-not $env:GENERATOR_MODERATION_TOKENS) { $env:GENERATOR_MODERATION_TOKENS = "64" }
+if (-not $env:GENERATOR_REWRITE_TOKENS) { $env:GENERATOR_REWRITE_TOKENS = "64" }
 
-$env:BLOOM_MODEL_DIR = $defaultBloom
-if (Test-Path $recommendation) {
-    try {
-        $rec = Get-Content $recommendation -Raw | ConvertFrom-Json
-        if ($rec.bloom_model_dir -and (Test-Path (Join-Path $rec.bloom_model_dir "config.json"))) {
-            $env:BLOOM_MODEL_DIR = $rec.bloom_model_dir
-        }
-    } catch {}
-}
-if (($env:BLOOM_MODEL_DIR -eq $defaultBloom) -and (Test-Path $selection)) {
-    try {
-        $sel = Get-Content $selection -Raw | ConvertFrom-Json
-        $merged = $sel.merge.merged_dir
-        if ($merged -and (Test-Path (Join-Path $merged "config.json"))) {
-            $env:BLOOM_MODEL_DIR = $merged
-        }
-    } catch {}
-}
-if (($env:BLOOM_MODEL_DIR -eq $defaultBloom) -and (Test-Path (Join-Path $fedavgMerged "config.json"))) {
-    $env:BLOOM_MODEL_DIR = $fedavgMerged
+# Final Bloom classifier: FedProx IID r20 best (Qwen2.5-0.5B).
+$packagedBloom = Join-Path $root "models\qwen_bloom_fedprox_r20"
+$artifactBloom = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
+if (Test-Path (Join-Path $packagedBloom "model.safetensors")) {
+    $env:BLOOM_MODEL_DIR = $packagedBloom
+} else {
+    $env:BLOOM_MODEL_DIR = $artifactBloom
 }
 $env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
 
@@ -58,6 +47,13 @@ if (-not (Test-Path (Join-Path $root "models\bge-small"))) {
 
 if (-not (Test-Path (Join-Path $env:BLOOM_MODEL_DIR "config.json"))) {
     throw "Bloom model missing at $($env:BLOOM_MODEL_DIR)."
+}
+$bloomWeights = @(
+    (Join-Path $env:BLOOM_MODEL_DIR "model.safetensors"),
+    (Join-Path $env:BLOOM_MODEL_DIR "pytorch_model.bin")
+) | Where-Object { Test-Path $_ }
+if (-not $bloomWeights) {
+    throw "FedProx r20 merged classifier is selected, but no weight file is in $($env:BLOOM_MODEL_DIR). Place model.safetensors there. The folder currently has config and tokenizer files only."
 }
 
 if (-not (Test-Path (Join-Path $frontend "node_modules"))) {

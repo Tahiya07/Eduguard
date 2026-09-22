@@ -104,9 +104,9 @@ def _ok(msg: str) -> None:
 # ----------------------------------------------------------------------------
 # Defaults
 # ----------------------------------------------------------------------------
-DEFAULT_N_CTX = 2048              # room for several trimmed context chunks
-DEFAULT_MAX_TOKENS = 256
-DEFAULT_N_THREADS = max(1, (os.cpu_count() or 4) // 2)
+DEFAULT_N_CTX = 512
+DEFAULT_MAX_TOKENS = 64
+DEFAULT_N_THREADS = max(4, min(8, (os.cpu_count() or 4)))
 DEFAULT_SEED = 42
 
 SYSTEM_PROMPT = (
@@ -369,8 +369,8 @@ class RAGGenerator:
             max_tokens=int(max_tokens or self.max_tokens),
             temperature=0.0,
             top_p=1.0,
-            top_k=1,
-            repeat_penalty=1.1,
+            top_k=0,
+            repeat_penalty=1.0,
             stop=["<|im_end|>", "<|im_start|>"],
             echo=False,
             seed=self.seed,

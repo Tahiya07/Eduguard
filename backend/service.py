@@ -37,29 +37,74 @@ class FrameworkService:
             return self._workspaces[sid]
 
     def _bloom_path(self) -> Path:
+        root = Path(__file__).resolve().parents[1]
         if settings.bloom_model_dir:
             path = Path(settings.bloom_model_dir)
-            return path if path.is_absolute() else (Path(__file__).resolve().parents[1] / path).resolve()
-        profile = get_profile(settings.bloom_model_size)
-        return (Path(__file__).resolve().parents[1] / (profile.quantized_dir if settings.bloom_use_quantized else profile.merged_dir)).resolve()
+            preferred = path if path.is_absolute() else (root / path).resolve()
+        else:
+            preferred = (root / "models" / "qwen_bloom_fedprox_r20").resolve()
+            artifact = (
+                root
+                / "artifacts"
+                / "federated"
+                / "global"
+                / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
+            ).resolve()
+            if self._checkpoint_has_weights(preferred):
+                return preferred
+            if self._checkpoint_has_weights(artifact):
+                return artifact
+            return preferred
+        if settings.bloom_use_quantized:
+            return preferred
+        # Final deploy is FedProx r20 only. Do not silently fall back to the
+        # centralized merge — that is a different checkpoint.
+        if self._checkpoint_has_weights(preferred):
+            return preferred
+        packaged = (root / "models" / "qwen_bloom_fedprox_r20").resolve()
+        artifact = (
+            root
+            / "artifacts"
+            / "federated"
+            / "global"
+            / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
+        ).resolve()
+        for candidate in (packaged, artifact):
+            if candidate != preferred and self._checkpoint_has_weights(candidate):
+                return candidate
+        return preferred
+
+    @staticmethod
+    def _checkpoint_has_weights(path: Path) -> bool:
+        return (path / "config.json").is_file() and (
+            (path / "model.safetensors").is_file() or (path / "pytorch_model.bin").is_file()
+        )
 
     def bloom_ready(self) -> tuple[bool, str]:
         path = self._bloom_path()
-        valid = is_deploy_checkpoint(path) if settings.bloom_use_quantized else (path / "config.json").is_file()
-        return valid, str(path)
+        if settings.bloom_use_quantized:
+            return is_deploy_checkpoint(path), str(path)
+        return self._checkpoint_has_weights(path), str(path)
 
     def bloom(self) -> QwenBloomPredictor:
         with self._lock:
             if self._bloom is None:
                 ok, path = self.bloom_ready()
-                if not ok: raise RuntimeError("Bloom checkpoint is not ready. Configure BLOOM_MODEL_DIR to a prepared merged or quantized checkpoint.")
+                if not ok:
+                    raise RuntimeError(
+                        "Final FedProx r20 Bloom checkpoint is not ready. "
+                        "Set BLOOM_MODEL_DIR to the merged FedProx folder containing "
+                        "model.safetensors (artifacts/.../qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged "
+                        "or models/qwen_bloom_fedprox_r20)."
+                    )
                 self._bloom = QwenBloomPredictor(model_dir=path, model_size=settings.bloom_model_size, quantized=settings.bloom_use_quantized, prefer_quantized=settings.bloom_use_quantized)
             return self._bloom
 
     def classify(self, question: str) -> dict[str, Any]:
         out = self.bloom().predict(question)
-        summary = UncertaintyEngine(K=len(BLOOM_LABELS)).aggregate_summary(out["distribution"])
-        gate = UncertaintyEngine(K=len(BLOOM_LABELS)).gate(out["distribution"], threshold=settings.bloom_gate_threshold)
+        engine = UncertaintyEngine(K=len(BLOOM_LABELS))
+        summary = engine.aggregate_summary(out["distribution"])
+        gate = engine.gate(out["distribution"], threshold=settings.bloom_gate_threshold)
         effective = out["rag_key"] if gate["accepted"] else "understand"
         decision = BloomDecision(out["prediction"], effective, float(out["confidence"]), summary.bloom_uncertainty, bool(gate["accepted"]))
         return {"level": decision.predicted_level, "effective_level": decision.effective_level.title(), "confidence": decision.confidence, "uncertainty": decision.uncertainty, "accepted": decision.accepted, "probabilities": out["probabilities"]}
@@ -158,7 +203,7 @@ class FrameworkService:
             privacy = assess_student_query_against_protected_corpus(question, protected)
             if not privacy.allowed: return {"answer": STUDENT_REFUSAL, "refused": True, "privacy_status": "blocked", "sources": []}
         bloom = self.classify(question)
-        pool = retriever.retrieve(question, top_k=max(20, top_k), candidate_pool=max(20, top_k), rank_by="relevance" if role == "student" else "privacy")
+        pool = retriever.retrieve(question, top_k=max(8, top_k), candidate_pool=max(8, top_k), rank_by="relevance" if role == "student" else "privacy")
         chunks, _ = _apply_retrieval_governor(pool, "summary" if summary else "qa", question, top_k, retriever)
         instruction = policy_instruction(role, scope) + "\n" + compose_instruction(bloom["effective_level"], task="summarization" if summary else "question answering")
         generator = self._generator_instance(retriever)
@@ -184,9 +229,23 @@ class FrameworkService:
 
         def generate_rewrite(prompt: str) -> tuple[str, str, float]:
             reset = getattr(generator.llm, "reset", None)
-            if callable(reset): reset()
+            if callable(reset):
+                try:
+                    reset()
+                except Exception:
+                    pass
             started = time.perf_counter()
-            output = generator.llm(prompt, max_tokens=settings.generator_moderation_tokens, temperature=0.2, top_p=0.9, top_k=40, repeat_penalty=1.1, stop=["<|im_end|>", "<|im_start|>"], echo=False, seed=generator.seed)
+            output = generator.llm(
+                prompt,
+                max_tokens=settings.generator_moderation_tokens,
+                temperature=0.0,
+                top_p=1.0,
+                top_k=0,
+                repeat_penalty=1.0,
+                stop=["<|im_end|>", "<|im_start|>"],
+                echo=False,
+                seed=generator.seed,
+            )
             text = str(output["choices"][0]["text"] or "").strip()
             return text, "llama-cpp-python-cpu-gguf", time.perf_counter() - started
 
@@ -198,113 +257,118 @@ class FrameworkService:
         """Linguistic quality improvement without changing cognitive level."""
         if not question.strip():
             raise ValueError("Question cannot be empty")
-        
+        generator = self._generator_instance(self.workspace(sid)["public"])
         try:
-            improved = moderate_question_linguistic(question)
+            improved = moderate_question_linguistic(
+                question,
+                llm=generator.llm,
+                max_tokens=settings.generator_moderation_tokens,
+            )
             return {
                 "original": question,
                 "improved": improved,
                 "privacy_status": "teacher_authorized",
-                "type": "linguistic_moderation"
+                "type": "linguistic_moderation",
             }
         except Exception as e:
             raise RuntimeError(f"Linguistic moderation failed: {str(e)}")
 
     def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
-        """Rewrite question to target specific Bloom level with cognitive task structure validation.
+        """Rewrite with the finalized v3 GGUF prompt, then verify with the deployed classifier.
 
-        The selected target level is authoritative. This function always attempts to provide
-        a rewritten question at the requested Bloom level, using the classifier as verification
-        rather than as a generator gate.
+        The generator sees only the question and the selected target level. The classifier
+        scores the rewrite and does not choose a different question.
         """
         if not question.strip():
             raise ValueError("Question cannot be empty")
-        
+
+        generator = self._generator_instance(self.workspace(sid)["public"])
+        predictor = None
+        predictor_error = ""
         try:
-            from bloom_prompt import rewrite_to_target_level, _canonical_bloom_label
-            from predict_bloom import QwenBloomPredictor
-            
-            # Generate rewrite with built-in cognitive task structure validation
-            # Returns: (rewrite_text, needs_review, error_message)
-            rewritten, needs_review, error_message = rewrite_to_target_level(question, target_level)
-            
-            # If no rewrite was generated (true failure), return error
-            if not rewritten:
-                return {
-                    "original": question,
-                    "rewritten": "",
-                    "target_level": target_level,
-                    "predicted_level": "",
-                    "validation_match": False,
-                    "validation_confidence": 0.0,
-                    "error": error_message or "Failed to generate a valid rewrite",
-                    "privacy_status": "teacher_authorized",
-                    "type": "target_level_rewrite_failed"
-                }
-            
-            # Rewrite was generated - perform classifier verification for UI feedback
-            try:
-                predictor = QwenBloomPredictor()
-                validation = predictor.predict(rewritten)
-                predicted_level = _canonical_bloom_label(validation["prediction"])
-                target_canonical = _canonical_bloom_label(target_level)
-                
-                # Handle potential NaN/None values from classifier
-                confidence = validation.get("confidence", 0.0)
-                if confidence is None or not isinstance(confidence, (int, float)):
-                    confidence = 0.0
-                if not str(predicted_level):
-                    predicted_level = "unknown"
-                
-                # Determine if classifier agrees with target level
-                validation_match = predicted_level == target_canonical and confidence >= 0.50
-                
-                # Combine needs_review from generation with classifier verification
-                combined_needs_review = needs_review or not validation_match
-                
-                # Build response with the rewrite always provided
-                response = {
-                    "original": question,
-                    "rewritten": rewritten,
-                    "target_level": target_level,
-                    "predicted_level": predicted_level,
-                    "validation_match": validation_match,
-                    "validation_confidence": confidence,
-                    "privacy_status": "teacher_authorized",
-                    "type": "target_level_rewrite"
-                }
-                
-                # Add review recommendation if needed
-                if combined_needs_review:
-                    review_reasons = []
-                    if needs_review and error_message:
-                        review_reasons.append(error_message)
-                    if not validation_match:
-                        review_reasons.append(f"classifier predicted {predicted_level} (confidence: {confidence:.0%}) vs target {target_level}")
-                    response["needs_review"] = True
-                    response["review_reason"] = "; ".join(review_reasons) if review_reasons else "Review recommended"
-                else:
-                    response["needs_review"] = False
-                
-                return response
-                
-            except Exception as e:
-                # If classifier verification fails, still return the generated rewrite
-                return {
-                    "original": question,
-                    "rewritten": rewritten,
-                    "target_level": target_level,
-                    "predicted_level": "unknown",
-                    "validation_match": False,
-                    "validation_confidence": 0.0,
-                    "needs_review": needs_review,
-                    "review_reason": error_message if needs_review else "Classifier verification failed",
-                    "error": f"Bloom validation could not be completed: {str(e)}",
-                    "privacy_status": "teacher_authorized",
-                    "type": "target_level_rewrite"
-                }
-        except Exception as e:
-            raise RuntimeError(f"Target level rewrite failed: {str(e)}")
+            predictor = self.bloom()
+        except Exception as exc:
+            predictor_error = str(exc)
+
+        result = rewrite_to_target_level(
+            question,
+            target_level,
+            llm=generator.llm,
+            predictor=predictor,
+            predictor_error=predictor_error,
+            max_tokens=settings.generator_rewrite_tokens,
+        )
+        if not result.rewritten:
+            return {
+                "original": question,
+                "rewritten": "",
+                "target_level": target_level,
+                "predicted_level": "",
+                "validation_match": False,
+                "validation_confidence": 0.0,
+                "needs_review": True,
+                "error": result.note or "Failed to generate a rewrite",
+                "privacy_status": "teacher_authorized",
+                "type": "target_level_rewrite_failed",
+            }
+
+        response = {
+            "original": question,
+            "rewritten": result.rewritten,
+            "target_level": target_level,
+            "predicted_level": result.predicted_level or "unknown",
+            "validation_match": result.validation_match,
+            "validation_confidence": result.confidence,
+            "needs_review": result.needs_review,
+            "privacy_status": "teacher_authorized",
+        }
+        if result.validation_error:
+            response["type"] = "target_level_rewrite_validation_failed"
+            response["error"] = result.note
+            response["review_reason"] = result.note
+        elif not result.validation_match:
+            response["type"] = "target_level_rewrite_mismatch"
+            response["error"] = result.note
+            response["review_reason"] = result.note
+        else:
+            response["type"] = "target_level_rewrite"
+        return response
+
+    def warmup(self) -> dict[str, Any]:
+        """Warm only the two inference models: 1.5B GGUF + 0.5B Bloom.
+
+        BGE stays lazy until a corpus is indexed or searched.
+        """
+        report: dict[str, Any] = {"generator": False, "bloom": False, "bge_loaded": False}
+        try:
+            # Empty public retriever does not load BGE until .model is touched.
+            generator = self._generator_instance(self.workspace("_warmup")["public"])
+            reset = getattr(generator.llm, "reset", None)
+            if callable(reset):
+                try:
+                    reset()
+                except Exception:
+                    pass
+            generator.llm("Ready.", max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
+            report["generator"] = True
+            report["generator_path"] = Path(str(generator.model_path)).name
+        except Exception as exc:
+            report["generator_error"] = str(exc)
+        try:
+            predictor = self.bloom()
+            predictor.predict("Define photosynthesis.")
+            report["bloom"] = True
+            report["bloom_checkpoint"] = Path(predictor.model_dir).name
+        except Exception as exc:
+            report["bloom_error"] = str(exc)
+        # Confirm retrieval encoder was not pulled in during warmup.
+        try:
+            ws = self._workspaces.get("_warmup")
+            if ws is not None and getattr(ws["public"], "_model", None) is not None:
+                report["bge_loaded"] = True
+        except Exception:
+            pass
+        return report
 
     def record_moderation_review(self, sid: str, question: str, decision: str, notes: str) -> dict[str, Any]:
         item = {"question": question, "decision": decision, "notes": notes.strip(), "reviewed_at": int(time.time())}
@@ -316,6 +380,29 @@ class FrameworkService:
         gguf = Path(settings.generator_model_path) if settings.generator_model_path else None
         if gguf is not None and not gguf.is_absolute():
             gguf = (Path(__file__).resolve().parents[1] / gguf).resolve()
-        return {"bloom": {"selected_model": profile.display_name, "checkpoint_configured": bool(ready), "checkpoint": Path(path).name, "quantized": settings.bloom_use_quantized, "loaded": self._bloom is not None}, "generator": {"configured": bool(gguf and gguf.is_file()), "loaded": self._generator is not None, "local_only": True}, "retrieval": {"encoder": settings.retrieval_encoder, "backend": "FAISS", "session_namespaced": True}, "runtime": {"offline_mode": settings.offline_mode, "cpu_count": os.cpu_count(), "rss_mb": round(psutil.Process().memory_info().rss / 1024**2, 1)}, "ocr": ocr_backend_status()}
+        return {
+            "bloom": {
+                "selected_model": profile.display_name,
+                "checkpoint_configured": bool(ready),
+                "checkpoint": Path(path).name,
+                "quantized": settings.bloom_use_quantized,
+                "loaded": self._bloom is not None,
+            },
+            "generator": {
+                "configured": bool(gguf and gguf.is_file()),
+                "loaded": self._generator is not None,
+                "local_only": True,
+                "threads": settings.generator_threads,
+                "context_tokens": settings.generator_context_tokens,
+                "rewrite_tokens": settings.generator_rewrite_tokens,
+            },
+            "retrieval": {"encoder": settings.retrieval_encoder, "backend": "FAISS", "session_namespaced": True},
+            "runtime": {
+                "offline_mode": settings.offline_mode,
+                "cpu_count": os.cpu_count(),
+                "rss_mb": round(psutil.Process().memory_info().rss / 1024**2, 1),
+            },
+            "ocr": ocr_backend_status(),
+        }
 
 service = FrameworkService()

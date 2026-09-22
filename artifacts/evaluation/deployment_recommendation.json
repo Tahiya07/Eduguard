@@ -2,12 +2,12 @@
   "winner": "fedprox_iid_r20",
   "best_round": 20,
   "selection_rule": "max validation accuracy; ties by macro_f1 then quadratic_weighted_kappa",
-  "bloom_model_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
+  "bloom_model_dir": "artifacts/federated/global/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
   "lora_dir": "artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
   "merge": {
     "status": "MERGED",
     "lora_dir": "artifacts\\federated\\models\\qwen_bloom_federated0.5B_fedprox_iid_r20_best",
-    "merged_dir": "D:\\Eduguard\\artifacts\\federated\\global\\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
+    "merged_dir": "artifacts/federated/global/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
     "exit_code": 0,
     "command": [
       "D:\\Eduguard\\.venv\\Scripts\\python.exe",

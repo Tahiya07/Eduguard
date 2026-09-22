@@ -378,10 +378,12 @@ def _get_llm():
         from llama_cpp import Llama
 
         model_path = resolve_slm_model_path("bloom_moderation")
+        threads = max(1, int(os.environ.get("GENERATOR_THREADS", "8")))
+        n_ctx = max(512, int(os.environ.get("GENERATOR_CONTEXT_TOKENS", "512")))
         _LLM = Llama(
             model_path=str(model_path),
-            n_ctx=4096,
-            n_threads=8,
+            n_ctx=n_ctx,
+            n_threads=threads,
             n_gpu_layers=0,
             use_mmap=True,
             use_mlock=False,
@@ -390,31 +392,31 @@ def _get_llm():
     return _LLM
 
 
-def _generate_rewrite(prompt: str) -> tuple[str, str, str, float]:
-    try:
-        from qwen_gguf_cli import QwenGgufCliGenerator
+def _generate_rewrite(prompt: str, *, llm=None, max_tokens: int | None = None) -> tuple[str, str, str, float]:
+    """Continue ChatML on the shared in-process GGUF. No llama-cli subprocess."""
+    import time as _time
 
-        gen = QwenGgufCliGenerator.for_task(
-            "bloom_moderation",
-            max_tokens=180,
-            ctx_size=2048,
-            threads=4,
-        )
-        out = gen.generate_prompt(prompt)
-        return out.answer, _clean_rewrite(out.answer), out.backend, float(out.elapsed_s)
-    except Exception:
-        llm = _get_llm()
-        output = llm(
-            prompt,
-            temperature=0.2,
-            top_p=0.9,
-            top_k=40,
-            repeat_penalty=1.1,
-            max_tokens=180,
-            stop=[IM_END, IM_START],
-        )
-        text = output["choices"][0]["text"].strip()
-        return text, _clean_rewrite(text), "llama-cpp-python", 0.0
+    limit = int(max_tokens or os.environ.get("GENERATOR_MODERATION_TOKENS", "64"))
+    model = llm if llm is not None else _get_llm()
+    reset = getattr(model, "reset", None)
+    if callable(reset):
+        try:
+            reset()
+        except Exception:
+            pass
+    t0 = _time.perf_counter()
+    output = model(
+        prompt,
+        max_tokens=limit,
+        temperature=0.0,
+        top_p=1.0,
+        top_k=0,
+        repeat_penalty=1.0,
+        stop=[IM_END, IM_START],
+        echo=False,
+    )
+    text = str(output["choices"][0]["text"] or "").strip()
+    return text, _clean_rewrite(text), "llama-cpp-python-shared", _time.perf_counter() - t0
 
 
 def moderate_bloom_question(
@@ -502,35 +504,87 @@ Improve the linguistic quality of this exam question (do not change its cognitiv
 {IM_START}assistant
 """.strip()
 
+# Locked v3 GGUF contract: question + target level, greedy decoding.
+# Interactive default is 64 new tokens (one exam question). Paper eval used 128.
+V3_REWRITE_MAX_TOKENS = int(os.environ.get("GENERATOR_REWRITE_TOKENS", "64"))
+V3_CLASSIFIER_CONFIDENCE_MIN = 0.5
+_V3_PROMPTS = None
+
+
+def _load_v3_prompts():
+    global _V3_PROMPTS
+    if _V3_PROMPTS is None:
+        import importlib.util
+
+        path = Path(__file__).resolve().parent / "experiments" / "multitask_bloom_rewrite" / "prompts.py"
+        spec = importlib.util.spec_from_file_location("eduguard_v3_prompts", path)
+        if spec is None or spec.loader is None:
+            raise RuntimeError(f"v3 prompt module missing: {path}")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _V3_PROMPTS = module
+    return _V3_PROMPTS
+
+
+def build_v3_target_rewrite_prompt(question: str, target_level: str) -> str:
+    """ChatML prompt the finalized v3 multitask model was trained to continue."""
+    target_level = _canonical_bloom_label(target_level)
+    prompts = _load_v3_prompts()
+    prompt = prompts.build_generation_prompt(
+        "bloom_rewrite",
+        {
+            "source_question": question.strip(),
+            "target_bloom_level": target_level,
+        },
+    )
+    prompts.assert_no_source_level_in_prompt(prompt)
+    return prompt
+
+
+def clean_v3_generation(text: str) -> str:
+    """Same cleanup as the v3 GGUF evaluator. Does not invent punctuation."""
+    cleaned = (text or "").strip()
+    cleaned = cleaned.replace(IM_END, "").replace(IM_START, "")
+    cleaned = re.sub(
+        r"(?im)^(bloom level|reason|rewrite|question|answer|the rewritten question is)\s*:\s*",
+        "",
+        cleaned,
+    )
+    return re.sub(r"\s+", " ", cleaned.strip().strip('"').strip("'"))
+
+
+def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> str:
+    """Greedy continuation matching evaluate_gguf.py; token cap may be lower for UI latency."""
+    limit = int(max_tokens if max_tokens is not None else V3_REWRITE_MAX_TOKENS)
+    reset = getattr(llm, "reset", None)
+    if callable(reset):
+        try:
+            reset()
+        except Exception:
+            pass
+    output = llm(
+        prompt,
+        max_tokens=limit,
+        temperature=0.0,
+        top_p=1.0,
+        top_k=0,
+        repeat_penalty=1.0,
+        stop=[IM_END, IM_START],
+        echo=False,
+    )
+    raw = str(output["choices"][0]["text"] or "")
+    return clean_v3_generation(raw)
+
+
 def build_targeted_rewrite_prompt(
     question: str,
     *,
     target_level: str,
     previous_failure: str = "",
 ) -> str:
-    """Build a concise target-specific prompt for the small local model."""
-    policy = TARGET_TRANSFORMATION_POLICY.get(target_level, TARGET_TRANSFORMATION_POLICY["Understand"])
-    examples = "\n".join(f"- {example}" for example in policy["examples"])
-    retry_instruction = f"\nCorrection: {previous_failure}\n" if previous_failure else ""
-    return f"""{IM_START}system
-You edit one exam question for Bloom's Taxonomy.
-
-TARGET BLOOM LEVEL: {target_level}
-TASK THE QUESTION MUST REQUIRE: {policy["task"]}
-
-Write ONE student-facing exam question, not an answer or explanation. Preserve
-the original topic and technical entities; change the required cognitive action.
-Do not mention Bloom, the rewrite, or these instructions. 10-40 words.
-
-GOOD OUTPUT EXAMPLE FOR THIS TARGET:
-{examples}
-{retry_instruction}
-{IM_END}
-{IM_START}user
-{question.strip()}
-{IM_END}
-{IM_START}assistant
-""".strip()
+    """v3 target-level prompt. Correction text is ignored so the trained contract stays intact."""
+    del previous_failure
+    return build_v3_target_rewrite_prompt(question, target_level)
 
 def _validate_output_format(question: str) -> tuple[bool, str]:
     """
@@ -610,33 +664,11 @@ def _semantic_cognitive_check_deterministic(question: str, target_level: str) ->
     
     return True, "Semantic cognitive check passed"
 
-def moderate_question_linguistic(question: str) -> str:
-    """Improve linguistic quality without changing cognitive level."""
+def moderate_question_linguistic(question: str, *, llm=None, max_tokens: int | None = None) -> str:
+    """Improve linguistic quality without changing cognitive level. Uses shared GGUF when provided."""
     prompt = build_moderation_prompt(question)
-    try:
-        from qwen_gguf_cli import QwenGgufCliGenerator
-
-        gen = QwenGgufCliGenerator.for_task(
-            "bloom_moderation",
-            max_tokens=180,
-            ctx_size=2048,
-            threads=4,
-        )
-        out = gen.generate_prompt(prompt)
-        return _clean_rewrite(out.answer)
-    except Exception:
-        llm = _get_llm()
-        output = llm(
-            prompt,
-            temperature=0.2,
-            top_p=0.9,
-            top_k=40,
-            repeat_penalty=1.1,
-            max_tokens=180,
-            stop=[IM_END, IM_START],
-        )
-        text = output["choices"][0]["text"].strip()
-        return _clean_rewrite(text)
+    _, cleaned, _, _ = _generate_rewrite(prompt, llm=llm, max_tokens=max_tokens)
+    return cleaned
 
 def _analyze_cognitive_task_structure(question: str, target_level: str) -> tuple[bool, str]:
     """
@@ -802,24 +834,77 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
     return record
 
 
-def rewrite_to_target_level(question: str, target_level: str) -> tuple[str, bool, str]:
-    """Generate at most three candidates; only a classifier-validated one succeeds."""
+@dataclass
+class TargetRewriteResult:
+    rewritten: str
+    needs_review: bool
+    note: str
+    predicted_level: str = ""
+    confidence: float = 0.0
+    validation_match: bool = False
+    validation_error: bool = False
+
+
+def rewrite_to_target_level(
+    question: str,
+    target_level: str,
+    *,
+    llm=None,
+    predictor=None,
+    predictor_error: str = "",
+    max_tokens: int | None = None,
+) -> TargetRewriteResult:
+    """One greedy v3 GGUF rewrite. The classifier verifies; it does not replace the text."""
     target_level = _canonical_bloom_label(target_level)
-    from predict_bloom import QwenBloomPredictor
-    predictor = QwenBloomPredictor()
-    previous_failure = ""
-    for _attempt in range(1, 4):
-        prompt = build_targeted_rewrite_prompt(question, target_level=target_level, previous_failure=previous_failure)
-        try:
-            raw_output, rewrite, _backend, _latency = _generate_rewrite(prompt)
-        except Exception as exc:
-            previous_failure = f"Generation error: {exc}"
-            continue
-        record = _validate_generated_candidate(question, rewrite, target_level, predictor)
-        if record["final_validation"]:
-            return rewrite, True, ""
-        previous_failure = _retry_instruction(target_level, record["failure_reason"])
-    return "", False, f"Could not generate a validated {target_level} rewrite after 3 attempts: {previous_failure}"
+    prompt = build_v3_target_rewrite_prompt(question, target_level)
+    model = llm if llm is not None else _get_llm()
+    try:
+        rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+    except Exception as exc:
+        return TargetRewriteResult("", True, f"Generation error: {exc}", validation_error=True)
+    if not rewritten:
+        return TargetRewriteResult("", True, f"The v3 generator returned an empty {target_level} rewrite.")
+
+    if predictor is None and not predictor_error:
+        return TargetRewriteResult(
+            rewritten,
+            True,
+            "Rewrite generated. Classifier verification was not requested.",
+            validation_error=True,
+        )
+    if predictor is None:
+        return TargetRewriteResult(
+            rewritten,
+            True,
+            f"Rewrite generated. Classifier verification failed: {predictor_error}",
+            validation_error=True,
+        )
+    try:
+        validation = predictor.predict(rewritten)
+        predicted = _canonical_bloom_label(validation["prediction"])
+        confidence = float(validation.get("confidence") or 0.0)
+    except Exception as exc:
+        return TargetRewriteResult(
+            rewritten,
+            True,
+            f"Rewrite generated. Classifier verification failed: {exc}",
+            validation_error=True,
+        )
+    match = predicted == target_level and confidence >= V3_CLASSIFIER_CONFIDENCE_MIN
+    if predicted != target_level:
+        note = f"Classifier predicted {predicted} ({confidence:.0%}) for target {target_level}."
+    elif not match:
+        note = f"Classifier predicted {predicted} at {confidence:.0%}, below the 50% verification threshold."
+    else:
+        note = ""
+    return TargetRewriteResult(
+        rewritten,
+        not match,
+        note,
+        predicted_level=predicted,
+        confidence=confidence,
+        validation_match=match,
+    )
 
 
 def run_target_rewrite_diagnostic(question: str = "Explain what virtual memory is.", *, samples_per_target: int = 5) -> list[dict]:
@@ -829,10 +914,11 @@ def run_target_rewrite_diagnostic(question: str = "Explain what virtual memory i
     records: list[dict] = []
     for target_level in BLOOM_ORDER:
         for attempt in range(1, samples_per_target + 1):
-            prompt = build_targeted_rewrite_prompt(question, target_level=target_level)
+            prompt = build_v3_target_rewrite_prompt(question, target_level)
             record = {"target_level": target_level, "attempt": attempt, "raw_output": "", "cleaned_output": ""}
             try:
-                raw_output, rewrite, _backend, _latency = _generate_rewrite(prompt)
+                rewrite = generate_v3_rewrite(_get_llm(), prompt)
+                raw_output = rewrite
                 record["raw_output"] = raw_output
                 record.update(_validate_generated_candidate(question, rewrite, target_level, predictor))
             except Exception as exc:
@@ -900,9 +986,10 @@ if __name__ == "__main__":
         print(f"Target: {target_level}")
         
         try:
-            rewrite, success, error = rewrite_to_target_level(question, target_level)
-            
-            if success:
+            result = rewrite_to_target_level(question, target_level)
+            rewrite = result.rewritten
+
+            if rewrite and result.validation_match:
                 print(f"✓ SUCCESS: {rewrite}")
                 
                 # Verify with classifier
@@ -920,7 +1007,9 @@ if __name__ == "__main__":
                 else:
                     print(f"  Validation: PARTIAL (predicted: {predicted}, target: {target_level}, confidence: {confidence:.0%}, task: {'valid' if task_valid else 'invalid'})")
             else:
-                print(f"✗ FAILED: {error}")
+                print(f"✗ FAILED: {result.note or 'no rewrite'}")
+                if rewrite:
+                    print(f"  Rewrite: {rewrite}")
                 
         except Exception as e:
             print(f"✗ ERROR: {str(e)}")

@@ -1,4 +1,7 @@
 from __future__ import annotations
+import threading
+from contextlib import asynccontextmanager
+
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from .auth import create_token, current_session, require_teacher
@@ -6,7 +9,16 @@ from .config import settings
 from .schemas import BloomRequest, ChatRequest, IndexTextRequest, LoginRequest, ModerationReviewRequest, TargetRewriteRequest, TextRequest
 from .service import service
 
-app = FastAPI(title="Framework Academic API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Load GGUF (and Bloom when weights exist) in the background so the first
+    # teacher rewrite is not paying cold-start cost.
+    threading.Thread(target=service.warmup, name="eduguard-warmup", daemon=True).start()
+    yield
+
+
+app = FastAPI(title="Framework Academic API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins(),
