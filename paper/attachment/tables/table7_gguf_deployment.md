@@ -1,0 +1,16 @@
+# Q4\_K\_M GGUF micro-benchmark for the 1.5B multitask v3 generator
+
+| Item | Value |
+| --- | --- |
+| GGUF path (historical) | D:\Eduguard\models\gguf\qwen15b_multitask_v3_q4_k_m.gguf |
+| Quantization | Q4_K_M |
+| Size (bytes) | 986048032 |
+| Size (MB, decimal) | 986.05 |
+| Startup (s) | 0.687 |
+| Mean latency (s) | 0.6865 |
+| P50 latency (s) | 0.6846 |
+| P95 latency (s) | 0.7077 |
+| Mean throughput (tok/s) | 28.8944 |
+| Peak RSS (MB) | 1300.01 |
+| Peak USS (MB) | 694.46 |
+| Threads / context / prompts | 8 / 512 / 50 |

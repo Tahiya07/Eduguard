@@ -1,0 +1,159 @@
+{
+  "timestamp_utc": "2026-09-21T18:01:33.404168+00:00",
+  "git_revision": "76c8d276ee78efd6096c9387c15b22522b056c65",
+  "root": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard",
+  "evidence_presence": {
+    "paper_main_results": {
+      "path": "artifacts/evaluation/paper/paper_main_results.json",
+      "exists": true,
+      "sha256": "badbc635b135a43f4b3092243d13baa98a0958aae9dbf4b9d2d755a966e1196e"
+    },
+    "paper_results_md": {
+      "path": "artifacts/evaluation/paper/PAPER_RESULTS.md",
+      "exists": true,
+      "sha256": "66d6f0d13105491430c2b0ae1b12532dd485347309189f8d6b416ed79a5e6a5a"
+    },
+    "best_fl_selection": {
+      "path": "artifacts/evaluation/best_fl_checkpoint_selection.json",
+      "exists": true,
+      "sha256": "0c0961b9f76bda2481f792576ca31bef83fbca7f69d1e007436a88125a1f60fd"
+    },
+    "fedprox_r20": {
+      "path": "artifacts/federated/results/federated_lora_fedprox_iid_r20.json",
+      "exists": true,
+      "sha256": "5b63a779fce3428bef2154f8ac6b3bcda1717e1787a57a95883326d247cd3b5d"
+    },
+    "fedavg_r20": {
+      "path": "artifacts/federated/results/federated_lora_fedavg_iid_r20.json",
+      "exists": true,
+      "sha256": "708d43a9f52803e05546ac5ca414a56291bec6f9cc577f306678beaf7140a11a"
+    },
+    "fedavg_iid_5r": {
+      "path": "artifacts/federated/results/federated_lora_fedavg_iid.json",
+      "exists": true,
+      "sha256": "1b565939d33afec282cfe42bc6ea086106e902d734d9e369be9ba345b4a17456"
+    },
+    "fedprox_iid_5r": {
+      "path": "artifacts/federated/results/federated_lora_fedprox_iid.json",
+      "exists": true,
+      "sha256": "4fdb1c3c26a3ccd966b6e0fcc0056c813beddedb98df7693cdbde3ac0e956dd1"
+    },
+    "fedavg_noniid_a05": {
+      "path": "artifacts/federated/results/federated_lora_fedavg_noniid_a0.5.json",
+      "exists": true,
+      "sha256": "cc322819c2074f5bf1a57938578035e9f5769a6386a894e51444ecc96fe1167c"
+    },
+    "fedprox_noniid_a05": {
+      "path": "artifacts/federated/results/federated_lora_fedprox_noniid_a0.5.json",
+      "exists": true,
+      "sha256": "c6438eb39f5c13da12e2dd741b2707ae41ab46d1e0c8bada90fe486556c798ba"
+    },
+    "central_0p5b": {
+      "path": "artifacts/model train results/bloom_quantized_eval_0.5B.json",
+      "exists": true,
+      "sha256": "a8299413e53ce5569acf1b590e7efe1d30dea6fbd5d222136f5f0f80d981fad1"
+    },
+    "v3_metrics": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/metrics.json",
+      "exists": true,
+      "sha256": "d33f56e3c02be41a11e7b7e225e711bd8216163c21c9c3a0e4a5c4229d2f1074"
+    },
+    "v3_st_matrix": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/source_target_matrix.json",
+      "exists": true,
+      "sha256": "9b84f69f835db41af5db97c5116ef0073cd5bb9d297ae0a5cc734bf889da6d1f"
+    },
+    "v3_fedprox_metrics": {
+      "path": "experiments/multitask_bloom_rewrite/results/v3_fedprox_r20_best_full/metrics.json",
+      "exists": true,
+      "sha256": "f61506477d7ebc8224739ae4ff9676efc6bc51515fbad237fc449b20644e14da"
+    },
+    "v3_fedprox_st": {
+      "path": "experiments/multitask_bloom_rewrite/results/v3_fedprox_r20_best_full/source_target_matrix.json",
+      "exists": true,
+      "sha256": "b4cf84173c52efa226eb77606314063d5e3cff19735c6a016cf44afa33406c56"
+    },
+    "gguf_bench": {
+      "path": "experiments/multitask_bloom_rewrite/results/q4_k_m_benchmark.json",
+      "exists": true,
+      "sha256": "8873689bdfad6efee4b17bd9d600281bdae0648335e18a372470feefb33bd71a"
+    },
+    "privacy_guard": {
+      "path": "artifacts/model train results/privacy_guard_eval.json",
+      "exists": true,
+      "sha256": "ed0b874c6638201c8da3f1a8d46af205ac47aa4e230e752d1dc8ebb880b52d08"
+    },
+    "privacy_baselines": {
+      "path": "artifacts/model train results/privacy_benchmark_baselines.json",
+      "exists": true,
+      "sha256": "1277e89cf8a0d847b7a69e32f1c22ecdf090b69b67973d8b8c08d5bc54d7b7ee"
+    },
+    "v3_manifest": {
+      "path": "data/multitask_bloom_rewrite_v3/dataset_manifest.json",
+      "exists": true,
+      "sha256": "4d0aaee878f37bf1d73877fa4507a92dd852cde98f3c4fd7679ddb80006cd4aa"
+    },
+    "synth_v3_manifest": {
+      "path": "data/bloom_rewrite_versions/bloom_rewrite_synth_v3/dataset_manifest.json",
+      "exists": true,
+      "sha256": "c8b630392cab0d113e28345bb3af888150289caa3b292df8eeb2bd48d468f918"
+    },
+    "dp_fail": {
+      "path": "artifacts/privacy/dp_validation_failure.json",
+      "exists": true,
+      "sha256": "69051f12258a888505b9f7a59e4c8807c63311ff48fc15bc4eb1319052263788"
+    },
+    "dp_pass": {
+      "path": "artifacts/privacy/dp_bloom_validated_v1.json",
+      "exists": true,
+      "sha256": "ecbf4a6818ec28dc097c8056fe81e9fbd7b7929413ca55c65858fa0ec5557f4e"
+    },
+    "dp_fl": {
+      "path": "artifacts/federated/results/federated_dp_fedprox_iid.json",
+      "exists": true,
+      "sha256": "ae1d0ff29c3f0782f1211d7620fc8026ee3bd48ce8e1f3516fb52dffb5bfecf0"
+    }
+  },
+  "excluded": {
+    "qwen05b_lora": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen05b_lora/",
+      "reason": "Pre-v3 Mix-A / synth_v2; dataset and evaluation issues documented in v3_root_cause_diagnosis.md"
+    },
+    "qwen15b_lora": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora/",
+      "reason": "Pre-v3 locked baseline on synth_v2; format/answer-output failures; historical only"
+    },
+    "qwen15b_lora_sumfix": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_sumfix/",
+      "reason": "Optional length ablation (not primary v3); usable only as historical trade-off note"
+    },
+    "dp_fl_utility": {
+      "path": "artifacts/federated/results/federated_dp_fedprox_iid.json",
+      "reason": "Formal DP-FL utility collapsed (test Acc 0.1286); no competitive claim; no epsilon reported as guarantee"
+    }
+  },
+  "warnings": [
+    "Weight/binary not present in this checkout: experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_v3/best_adapter (metrics JSON may still be valid; D:\\Eduguard paths used historically)",
+    "Weight/binary not present in this checkout: artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20_best (metrics JSON may still be valid; D:\\Eduguard paths used historically)",
+    "Weight/binary not present in this checkout: models/gguf/qwen15b_multitask_v3_q4_k_m.gguf (metrics JSON may still be valid; D:\\Eduguard paths used historically)"
+  ],
+  "errors": [],
+  "weight_presence": {
+    "central_merged_0p5b": {
+      "path": "models/qwen_bloom_merged0.5B/model.safetensors",
+      "exists": true
+    },
+    "v3_adapter": {
+      "path": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_v3/best_adapter",
+      "exists": false
+    },
+    "fedprox_lora_adapter": {
+      "path": "artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+      "exists": false
+    },
+    "gguf_v3": {
+      "path": "models/gguf/qwen15b_multitask_v3_q4_k_m.gguf",
+      "exists": false
+    }
+  }
+}

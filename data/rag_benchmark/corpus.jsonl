@@ -1,0 +1,5 @@
+{"doc_id": "circuits_ohm", "text": "Ohm's law states that voltage equals current times resistance. A resistor with constant resistance has a linear current-voltage relationship."}
+{"doc_id": "circuits_power", "text": "Electrical power in a simple circuit can be computed as voltage times current. Power is measured in watts."}
+{"doc_id": "networks_tcp", "text": "TCP provides reliable, ordered delivery using acknowledgements and retransmission. UDP has lower transport overhead but does not guarantee ordering or delivery."}
+{"doc_id": "algo_mergesort", "text": "Merge sort is a divide-and-conquer algorithm with time complexity O(n log n) in the average and worst cases."}
+{"doc_id": "stats_pvalue", "text": "A p-value is the probability, under the null hypothesis, of observing a result at least as extreme as the one obtained. Smaller p-values indicate stronger evidence against the null at a fixed significance level alpha."}

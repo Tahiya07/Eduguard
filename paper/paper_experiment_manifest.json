@@ -1,0 +1,110 @@
+{
+  "format": "eduguard_paper_experiment_manifest_v1",
+  "timestamp_utc": "2026-09-21T18:01:55.075995+00:00",
+  "git_revision": "76c8d276ee78efd6096c9387c15b22522b056c65",
+  "script": "scripts/final_paper_experiments.py",
+  "selected_system": {
+    "bloom_classifier": "Qwen2.5-0.5B-Instruct SEQ_CLS LoRA; FedProx IID r20 best round 20",
+    "generator": "Qwen2.5-1.5B-Instruct multitask LoRA v3",
+    "gguf": "qwen15b_multitask_v3_q4_k_m.gguf (Q4_K_M)"
+  },
+  "excluded": {
+    "qwen05b_lora": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen05b_lora/",
+      "reason": "Pre-v3 Mix-A / synth_v2; dataset and evaluation issues documented in v3_root_cause_diagnosis.md"
+    },
+    "qwen15b_lora": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora/",
+      "reason": "Pre-v3 locked baseline on synth_v2; format/answer-output failures; historical only"
+    },
+    "qwen15b_lora_sumfix": {
+      "path": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_sumfix/",
+      "reason": "Optional length ablation (not primary v3); usable only as historical trade-off note"
+    },
+    "dp_fl_utility": {
+      "path": "artifacts/federated/results/federated_dp_fedprox_iid.json",
+      "reason": "Formal DP-FL utility collapsed (test Acc 0.1286); no competitive claim; no epsilon reported as guarantee"
+    }
+  },
+  "figures": {
+    "timestamp_utc": "2026-09-21T18:01:54.687421+00:00",
+    "reused_fl_figures": [
+      {
+        "artifact": "fig_confusion_matrix.png",
+        "source": "artifacts\\evaluation\\paper\\fig_confusion_matrix.png",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_confusion_matrix.pdf",
+        "source": "artifacts\\evaluation\\paper\\fig_confusion_matrix.pdf",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_learning_curves.png",
+        "source": "artifacts\\evaluation\\paper\\fig_learning_curves.png",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_learning_curves.pdf",
+        "source": "artifacts\\evaluation\\paper\\fig_learning_curves.pdf",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_best_vs_final.png",
+        "source": "artifacts\\evaluation\\paper\\fig_best_vs_final.png",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_best_vs_final.pdf",
+        "source": "artifacts\\evaluation\\paper\\fig_best_vs_final.pdf",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_per_class_f1.png",
+        "source": "artifacts\\evaluation\\paper\\fig_per_class_f1.png",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_per_class_f1.pdf",
+        "source": "artifacts\\evaluation\\paper\\fig_per_class_f1.pdf",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_reliability.png",
+        "source": "artifacts\\evaluation\\paper\\fig_reliability.png",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      },
+      {
+        "artifact": "fig_reliability.pdf",
+        "source": "artifacts\\evaluation\\paper\\fig_reliability.pdf",
+        "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+      }
+    ],
+    "created": [
+      "fig01_system_architecture",
+      "fig04_source_target_accuracy",
+      "fig05_source_target_fully_validated",
+      "fig06_multitask_task_performance",
+      "fig07_gguf_deployment",
+      "fig08_privacy_ablation",
+      "fig02_bloom_confusion_matrix",
+      "fig03_fedavg_fedprox_learning_curves"
+    ],
+    "note": "fig_confusion_matrix / learning_curves / best_vs_final / reliability provenance-checked to FedProx r20 paper pack"
+  },
+  "tables": {
+    "timestamp_utc": "2026-09-21T18:01:55.062308+00:00",
+    "tables": [
+      "table1_datasets",
+      "table2_bloom_classifier",
+      "table3_classifier_size_selection",
+      "table4_multitask_v3",
+      "table5_source_target_extremes",
+      "table6_role_privacy",
+      "table7_gguf_deployment",
+      "table2b_fedavg_vs_fedprox"
+    ]
+  },
+  "ece_policy": "Headline ECE=0.0537 from live_eval; stored FL best_test ECE=0.0565 disclosed",
+  "central_acc_policy": "Use 0.8314 from bloom_quantized_eval_0.5B.json; exclude unified_results_table 0.840"
+}

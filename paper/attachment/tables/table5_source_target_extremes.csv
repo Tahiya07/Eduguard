@@ -1,0 +1,11 @@
+Transformation,N,Target Acc,Fully validated,Group
+Evaluate→Remember,32,0.6562,0.4062,lowest Acc
+Evaluate→Understand,33,0.7273,0.4848,lowest Acc
+Analyze→Understand,29,0.8276,0.6207,lowest Acc
+Evaluate→Apply,37,0.8378,0.5405,lowest Acc
+Evaluate→Analyze,37,0.8378,0.6486,lowest Acc
+Apply→Evaluate,44,1.0000,0.7273,highest Acc
+Apply→Create,44,1.0000,0.7045,highest Acc
+Analyze→Evaluate,37,1.0000,0.9189,highest Acc
+Create→Analyze,33,1.0000,0.8485,highest Acc
+Create→Evaluate,33,1.0000,0.7273,highest Acc

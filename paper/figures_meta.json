@@ -1,0 +1,66 @@
+{
+  "timestamp_utc": "2026-09-21T18:01:54.687421+00:00",
+  "reused_fl_figures": [
+    {
+      "artifact": "fig_confusion_matrix.png",
+      "source": "artifacts\\evaluation\\paper\\fig_confusion_matrix.png",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_confusion_matrix.pdf",
+      "source": "artifacts\\evaluation\\paper\\fig_confusion_matrix.pdf",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_learning_curves.png",
+      "source": "artifacts\\evaluation\\paper\\fig_learning_curves.png",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_learning_curves.pdf",
+      "source": "artifacts\\evaluation\\paper\\fig_learning_curves.pdf",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_best_vs_final.png",
+      "source": "artifacts\\evaluation\\paper\\fig_best_vs_final.png",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_best_vs_final.pdf",
+      "source": "artifacts\\evaluation\\paper\\fig_best_vs_final.pdf",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_per_class_f1.png",
+      "source": "artifacts\\evaluation\\paper\\fig_per_class_f1.png",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_per_class_f1.pdf",
+      "source": "artifacts\\evaluation\\paper\\fig_per_class_f1.pdf",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_reliability.png",
+      "source": "artifacts\\evaluation\\paper\\fig_reliability.png",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    },
+    {
+      "artifact": "fig_reliability.pdf",
+      "source": "artifacts\\evaluation\\paper\\fig_reliability.pdf",
+      "provenance": "artifacts/evaluation/paper (FedProx r20 deployable pack, 2026-09-03)"
+    }
+  ],
+  "created": [
+    "fig01_system_architecture",
+    "fig04_source_target_accuracy",
+    "fig05_source_target_fully_validated",
+    "fig06_multitask_task_performance",
+    "fig07_gguf_deployment",
+    "fig08_privacy_ablation",
+    "fig02_bloom_confusion_matrix",
+    "fig03_fedavg_fedprox_learning_curves"
+  ],
+  "note": "fig_confusion_matrix / learning_curves / best_vs_final / reliability provenance-checked to FedProx r20 paper pack"
+}

@@ -1,0 +1,23 @@
+{
+  "timestamp_utc": "2026-09-21T18:06:43.356595+00:00",
+  "git_revision": "76c8d276ee78efd6096c9387c15b22522b056c65",
+  "ok": true,
+  "issues": [],
+  "notes": [
+    "ECE disagreement documented: live_eval ECE=0.0537; training-run best_test ECE=0.0565. Paper headline uses live_eval ECE=0.0537 with note.",
+    "Centralized Bloom Acc locked to bloom_quantized_eval_0.5B.json (0.8314). unified_results_table.md row claiming 0.840 is excluded (no backing metrics JSON).",
+    "prompts.py present; generator uses question + target level (metadata audit).",
+    "Human-eval predictions exported but ratings not collected (items.jsonl missing)."
+  ],
+  "selected": {
+    "fl_experiment": "fedprox_iid_r20",
+    "fl_best_round": 20,
+    "fl_lora": "artifacts/federated/models/qwen_bloom_federated0.5B_fedprox_iid_r20_best",
+    "fl_merged": "artifacts/federated/global/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged",
+    "central_classifier": "models/qwen_bloom_merged0.5B",
+    "v3_adapter": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_v3/best_adapter",
+    "gguf": "models/gguf/qwen15b_multitask_v3_q4_k_m.gguf",
+    "headline_ece_source": "live_eval (0.0537)",
+    "central_acc_source": "bloom_quantized_eval_0.5B.json (0.8314)"
+  }
+}

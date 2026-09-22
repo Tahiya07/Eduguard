@@ -1,0 +1,11 @@
+Item,Value
+Base model,Qwen2.5-0.5B-Instruct
+Task head,sequence classification (score)
+Merged FP32/FP16 size (MB),1899.78
+FP16 export size (MB),957.48
+FP32–FP16 agreement,1.0
+Dynamic INT8,Rejected in code (accuracy collapse; not used)
+Classifier GGUF,Not used (seq-cls architecture)
+Selected FL checkpoint,fedprox_iid_r20 best round 20
+FL test Acc / Macro-F1,0.8057 / 0.7982
+McNemar vs 1.5B (in eval JSON),p=—; n_discordant=—; full 1.5B metrics JSON absent on disk

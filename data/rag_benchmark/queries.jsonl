@@ -1,0 +1,6 @@
+{"query_id": "q_ohm", "query": "What relationship does Ohm's law define?", "relevant_doc_ids": ["circuits_ohm"]}
+{"query_id": "q_power", "query": "What unit is electrical power measured in?", "relevant_doc_ids": ["circuits_power"]}
+{"query_id": "q_tcp", "query": "Which protocol provides reliable ordered delivery?", "relevant_doc_ids": ["networks_tcp"]}
+{"query_id": "q_udp", "query": "What tradeoff does UDP make compared with TCP?", "relevant_doc_ids": ["networks_tcp"]}
+{"query_id": "q_merge", "query": "What is the time complexity of merge sort?", "relevant_doc_ids": ["algo_mergesort"]}
+{"query_id": "q_pval", "query": "What does a p-value represent in hypothesis testing?", "relevant_doc_ids": ["stats_pvalue"]}
