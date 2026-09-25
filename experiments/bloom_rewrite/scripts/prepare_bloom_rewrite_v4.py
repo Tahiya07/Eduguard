@@ -43,87 +43,60 @@ def sha(s):
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
 
-def render(messages,tokenizer):
-    if getattr(tokenizer,"chat_template",None):
+def render(messages,tokenizer=None):
+    if tokenizer is not None and getattr(tokenizer,"chat_template",None):
         kwargs=dict(tokenize=False,add_generation_prompt=True)
         try:
-            return tokenizer.apply_chat_template(messages,enable_thinking=False,**kwargs)
+            return tokenizer.apply_chat_template(
+                messages,
+                enable_thinking=False,
+                **kwargs,
+            )
         except TypeError:
             return tokenizer.apply_chat_template(messages,**kwargs)
     parts=[]
     for m in messages:
-        parts.append(f"<|im_start|>{m['role']}\n{m['content']}<|im_end|>")
-    return "\n".join(parts)+"\n<|im_start|>assistant\n"
+        parts.append(f"<|im_start|>{m['role']}\\n{m['content']}<|im_end|>")
+    return "\\n".join(parts)+"\\n<|im_start|>assistant\\n"
 
 
-def load_teacher(model_id,device,use_4bit):
-    import torch
-    from transformers import AutoModelForCausalLM,AutoTokenizer
-    tok=AutoTokenizer.from_pretrained(model_id,trust_remote_code=True)
-    if tok.pad_token is None:
-        tok.pad_token=tok.eos_token
+def load_teacher(model_id,provider,token_env):
+    import os
+    from huggingface_hub import InferenceClient
 
-    if device=="cuda" and use_4bit:
-        try:
-            from transformers import BitsAndBytesConfig
-        except ImportError as exc:
-            raise RuntimeError(
-                "4-bit teacher loading requires a recent transformers build with BitsAndBytesConfig."
-            ) from exc
-        if not torch.cuda.is_available():
-            raise RuntimeError("CUDA was requested but torch.cuda.is_available() is False.")
-        quant=BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
+    token=os.getenv(token_env)
+    if not token:
+        raise RuntimeError(
+            f"{token_env} is not set. Create a Hugging Face access token and set "
+            f"the environment variable before running teacher generation."
         )
-        model=AutoModelForCausalLM.from_pretrained(
-            model_id,
-            trust_remote_code=True,
-            quantization_config=quant,
-            device_map={"":0},
-        )
-    else:
-        dtype=torch.float16 if device=="cuda" else torch.float32
-        model=AutoModelForCausalLM.from_pretrained(
-            model_id,
-            trust_remote_code=True,
-            torch_dtype=dtype,
-        )
-        model.eval().to(device)
 
-    model.eval()
-    return tok,model
+    client=InferenceClient(
+        provider=provider,
+        token=token,
+    )
+    return client
 
 
-def make_generator(tok,model,device,max_input=512,max_new=128,temperature=.35,top_p=.9):
-    import torch
+def make_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
     def generate(source,target,retry=False):
-        prompt=render(build_teacher_messages(source,target,retry=retry),tok)
-        x=tok(prompt,return_tensors="pt",truncation=True,max_length=max_input)
-        if device=="cuda":
-            x={k:v.to("cuda:0") for k,v in x.items()}
-        else:
-            x={k:v.to(device) for k,v in x.items()}
-        kwargs=dict(
-            max_new_tokens=max_new,
-            do_sample=True,
+        messages=build_teacher_messages(source,target,retry=retry)
+        # Qwen3 supports the /no_think soft switch in API prompts.
+        messages[-1]["content"] += "\\n\\n/no_think"
+
+        response=client.chat.completions.create(
+            model=model_id,
+            messages=messages,
+            max_tokens=max_new,
             temperature=temperature,
             top_p=top_p,
-            pad_token_id=tok.pad_token_id,
-            eos_token_id=tok.eos_token_id,
         )
-        with torch.no_grad():
-            y=model.generate(**x,**kwargs)
-        return clean_output(
-            tok.decode(
-                y[0][x["input_ids"].shape[1]:],
-                skip_special_tokens=True,
-            )
-        )
-    return generate
+        content=getattr(response.choices[0].message,"content",None)
+        if not content:
+            raise RuntimeError("Hugging Face teacher returned an empty response.")
+        return clean_output(str(content))
 
+    return generate
 
 def load_semantic():
     try:
@@ -140,7 +113,9 @@ def load_semantic():
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--teacher-model",required=True)
+    ap.add_argument("--teacher-model",default="Qwen/Qwen3-14B")
+    ap.add_argument("--teacher-provider",default="nscale",help="Hugging Face Inference Provider; use auto for automatic routing")
+    ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
     ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4")
     ap.add_argument("--split",choices=["train","validation"],default="train")
@@ -149,8 +124,8 @@ def main():
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
     ap.add_argument("--min-semantic",type=float,default=.55)
-    ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
-    ap.add_argument("--teacher-4bit",action="store_true")
+    ap.add_argument("--temperature",type=float,default=.7)
+    ap.add_argument("--top-p",type=float,default=.8)
     args=ap.parse_args()
 
     random.seed(args.seed)
@@ -168,8 +143,8 @@ def main():
     if args.limit:
         items=items[:args.limit]
 
-    tok,model=load_teacher(args.teacher_model,args.device,args.teacher_4bit)
-    generate=make_generator(tok,model,args.device)
+    client=load_teacher(args.teacher_model,args.teacher_provider,args.hf_token_env)
+    generate=make_generator(client,args.teacher_model,max_new=128,temperature=args.temperature,top_p=args.top_p)
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
 
     accepted=[]
@@ -182,7 +157,12 @@ def main():
         best=None
 
         for attempt in range(args.attempts):
-            candidate=generate(source,target,retry=attempt>0)
+                try:
+                candidate=generate(source,target,retry=attempt>0)
+            except Exception as exc:
+                failures["TEACHER_API_ERROR"]+=1
+                print(f"teacher_error example={i} attempt={attempt+1}: {exc}")
+                continue
             semantic=sim_fn(source,candidate) if sim_fn and candidate else None
             v=validate_candidate(
                 source,
@@ -236,7 +216,8 @@ def main():
         "dataset_version":"bloom_rewrite_synth_v4",
         "policy_version":POLICY_VERSION,
         "teacher_model":args.teacher_model,
-        "teacher_4bit":args.teacher_4bit,
+        "teacher_provider":args.teacher_provider,
+        "hf_token_env":args.hf_token_env,
         "source_dataset":str(inp),
         "split":args.split,
         "source_pairs":len(items),
