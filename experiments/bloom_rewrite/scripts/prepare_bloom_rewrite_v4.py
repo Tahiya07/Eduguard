@@ -7,8 +7,8 @@ Important:
 - Reuses the existing v3 TRAIN/VALIDATION source split only to preserve the
   experiment's leakage grouping. Existing v3 targets are never used as labels.
 - Does not modify the locked multitask test set.
-- Qwen3-14B is run in non-thinking mode.
-- On CUDA, 4-bit loading is supported for 24 GB GPUs.
+- Qwen3-14B is accessed through Hugging Face Inference Providers.
+- The current reproducible provider is Nscale; --teacher-provider auto enables automatic routing.
 """
 from __future__ import annotations
 import argparse, hashlib, json, random, sys
@@ -74,6 +74,7 @@ def load_teacher(model_id,provider,token_env):
     client=InferenceClient(
         provider=provider,
         token=token,
+        timeout=120,
     )
     return client
 
@@ -90,6 +91,7 @@ def make_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
             max_tokens=max_new,
             temperature=temperature,
             top_p=top_p,
+            stop=["<|im_end|>","<|endoftext|>"],
         )
         content=getattr(response.choices[0].message,"content",None)
         if not content:
@@ -157,7 +159,7 @@ def main():
         best=None
 
         for attempt in range(args.attempts):
-                try:
+            try:
                 candidate=generate(source,target,retry=attempt>0)
             except Exception as exc:
                 failures["TEACHER_API_ERROR"]+=1
@@ -201,6 +203,7 @@ def main():
             "quality_status":"pass",
             "validation":v.__dict__,
             "teacher_model":args.teacher_model,
+            "teacher_provider":args.teacher_provider,
             "generator_inputs":["source_question","target_bloom_level"],
             "teacher_attempts":ntry,
         }
