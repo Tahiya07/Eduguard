@@ -17,6 +17,18 @@ MARKERS = {
 "Create":("design","develop","construct","formulate","propose","create","devise","produce","plan","strategy","solution","procedure","artifact","model","framework","prototype"),}
 META=("the rewritten question","rewritten question:","the answer is","correct answer","as an ai","bloom level","target level","original question:","this question asks","the student should","here is the question")
 GENERIC=("compare the main components of","analyze how the parts of","examine the causes and patterns that structure","assess how well","how well does","stated academic criteria","create an original academic artifact","formulate a structured approach for constructing a new solution","develop an original procedure related to","given a concrete case involving","in the following problem about","analyze how the parts of a","design and analyze","design and evaluate","develop and evaluate","explain how a program can be structured")
+FORBIDDEN_LEVEL_CUES={
+"Remember":("steps involved","steps to","procedure for","how to","implement a program","write a program","modify a program"),
+"Understand":("evaluate whether","judge whether","design a new","create a new solution"),
+"Apply":(),
+"Analyze":(),
+"Evaluate":("design a new","create a new","construct a new","develop a new"),
+"Create":(),
+}
+INVENTED_ARTIFACT_CUES=("provided code","provided program","provided data","provided passage","given code","given program","given data","given passage")
+SCOPE_EXPANSION_CUES=("input validation","edge cases","error handling","resource utilization","memory utilization","time complexity","user-specified range","valid range")
+COGNITIVE_SUPPORT_WORDS=set(("analyze analyse structure logic components parts relationship relationships interactions causes patterns effects criteria evidence effectiveness validity suitability quality strengths limitations trade-off design develop construct formulate propose create devise plan strategy solution procedure artifact model framework prototype".split()))
+
 WORD_RE=re.compile(r"[A-Za-z0-9][A-Za-z0-9_+.#/-]*")
 NUMBER_RE=re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?(?![A-Za-z])")
 
@@ -58,8 +70,16 @@ def _signals(text,target):
 def _target_ok(text,target):
     n=text.lower(); s=_signals(text,target)
     if any(x in n for x in FORBIDDEN_LEVEL_CUES.get(target,())): return False
-    if target=="Evaluate": return bool(any(x in n for x in ("evaluate","assess","critique","judge","justify","defend")) and any(x in n for x in ("criteria","evidence","effectiveness","validity","suitability","quality","strengths","limitations","trade-off")))
-    if target=="Create": return bool(any(x in n for x in ("design","develop","construct","formulate","propose","create","devise")) and any(x in n for x in ("plan","strategy","solution","procedure","artifact","model","framework","prototype")))
+    if target=="Evaluate":
+        return bool(
+            any(x in n for x in ("evaluate","assess","critique","judge","justify","defend"))
+            and any(x in n for x in ("criteria","evidence","effectiveness","validity","suitability","quality","strengths","limitations","trade-off"))
+        )
+    if target=="Create":
+        return bool(
+            any(x in n for x in ("design","develop","construct","formulate","propose","create","devise"))
+            and any(x in n for x in ("plan","strategy","solution","procedure","artifact","model","framework","prototype","program"))
+        )
     return bool(s)
 
 def validate_candidate(source_question,target_level,candidate,*,semantic_similarity=None,min_semantic_similarity=.55,classifier_prediction=None,classifier_confidence=None,min_classifier_confidence=.60):
@@ -73,6 +93,28 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     if "?" not in text and not n.startswith(("define ","identify ","name ","list ","state ","describe ","explain ","summarize ","analyze ","analyse ","compare ","contrast ","examine ","evaluate ","assess ","critique ","justify ","design ","develop ","construct ","formulate ","propose ","create ","apply ","use ")): r.append("invalid_exam_question_form")
     generic=next((p for p in GENERIC if p in n),None)
     if generic: r.append("generic_template:"+generic)
+
+    source_lower=source_question.lower()
+    # Do not refer to an artifact as though it was supplied when the source
+    # question does not actually contain one.
+    artifact_terms=("code","program","data","passage","table","diagram","graph","dataset","document","solution")
+    source_has_artifact=any(x in source_lower for x in artifact_terms)
+    if target=="Evaluate" and not source_has_artifact and any(x in n for x in INVENTED_ARTIFACT_CUES):
+        r.append("invented_artifact_reference")
+
+    # Guard common forms of scope expansion that add requirements absent from
+    # the source. These are especially risky for Create/Evaluate rewrites.
+    if target in ("Create","Evaluate") and any(x in n for x in SCOPE_EXPANSION_CUES):
+        source_scope = set(content(source_question))
+        extra_cues=[]
+        for cue in SCOPE_EXPANSION_CUES:
+            if cue in n:
+                cue_terms=[t for t in tokens(cue) if t not in STOP and t not in VERBS]
+                if cue_terms and not all(t in source_scope for t in cue_terms):
+                    extra_cues.append(cue)
+        if extra_cues:
+            r.append("scope_expansion:"+extra_cues[0])
+
     s_norm=re.sub(r"\s+"," ",source_question.lower()).strip(" ?."); c_norm=re.sub(r"\s+"," ",text.lower()).strip(" ?.")
     lex=SequenceMatcher(None,s_norm,c_norm).ratio()
     if s_norm==c_norm: r.append("exact_source_copy")
@@ -87,7 +129,16 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     if classifier_prediction is not None and classifier_confidence is not None and classifier_confidence<min_classifier_confidence: r.append("classifier_low_confidence")
     if not r: cat=""
     else:
-        cat=next((x.upper() for x in ("empty_output","meta_or_answer_language","generic_template","protected_span_loss","low_source_content_recall","low_semantic_similarity","classifier_target_mismatch","target_structure_mismatch","near_source_copy") if any(y.startswith(x) for y in r)),"QUALITY_REJECTION")
+        cat=next(
+            (x.upper() for x in (
+                "empty_output","meta_or_answer_language","generic_template",
+                "invented_artifact_reference","scope_expansion",
+                "protected_span_loss","low_source_content_recall",
+                "low_semantic_similarity","classifier_target_mismatch",
+                "target_structure_mismatch","near_source_copy"
+            ) if any(y.startswith(x) for y in r)),
+            "QUALITY_REJECTION"
+        )
     return ValidationResult(not r,cat,r,round(recall,4),round(prec,4),round(lex,4),semantic_similarity,_signals(text,target),canonical_level(classifier_prediction) if classifier_prediction else None,classifier_confidence)
 
 def build_teacher_messages(source_question,target_level,retry=False):
@@ -112,7 +163,11 @@ def build_teacher_messages(source_question,target_level,retry=False):
         "- Preserve the original topic, technical entities, quantities, constraints, and academic intent.\n"
         "- Change the student's task, not the subject matter.\n"
         "- Do not merely replace a verb.\n"
-        "- Do not introduce unrelated content.\n"
+        "- Do not introduce unrelated content or any new requirements.\n"
+        "- Never invent an artifact, code, data, passage, diagram, or other material that the source question does not provide.\n"
+        "- Do not add validation, edge cases, implementation features, performance criteria, or other scope unless the source already requires them or they are strictly necessary to express the target cognitive process.\n"
+        "- For Evaluate, evaluate the stated task/concept when no concrete artifact is supplied; never pretend that code, data, or another artifact was provided.\n"
+        "- For Create, preserve the original constraints and topic while changing the task into a new construction/design task; do not add unrelated features.\n"
         "- Do not answer, explain, or discuss the rewrite.\n"
         "- Do not mention Bloom, the target level, the source question, or these instructions.\n"
         "- Output exactly ONE exam question or valid exam imperative.\n"
