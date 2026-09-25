@@ -12,10 +12,19 @@ from transformers import AutoModelForCausalLM,AutoTokenizer
 
 END_MARKERS=("<|im_end|>","<|endoftext|>")
 
+BLOOM_GUIDANCE = {
+    "Remember": "Recall facts, definitions, terminology, syntax, or basic information.",
+    "Understand": "Explain, describe, summarize, interpret, or classify a concept.",
+    "Apply": "Use a known rule, concept, method, or procedure to solve or carry out a concrete task.",
+    "Analyze": "Break a problem or program into parts and examine relationships, interactions, causes, structure, patterns, or effects.",
+    "Evaluate": "Make a justified judgment about correctness, quality, efficiency, validity, effectiveness, or suitability using criteria or evidence.",
+    "Create": "Design, construct, formulate, develop, or propose a new solution, program, procedure, model, plan, or artifact.",
+}
+
 def prompt(question,target,tokenizer):
     messages=[
       {"role":"system","content":"You are an expert academic assessment editor. Rewrite the complete student-facing academic exam question so that its required cognitive operation matches the requested Bloom level. Preserve the topic, technical entities, quantities, constraints, and academic intent. Do not answer it, explain it, mention Bloom, or use a generic template. Output exactly one exam question."},
-      {"role":"user","content":f"Original question:\n{question}\n\nTarget Bloom level:\n{target}\n\nReturn only the rewritten exam question."}
+      {"role":"user","content":f"Original question:\n{question}\n\nTarget Bloom level:\n{target}\n\nTarget-level guidance:\n{BLOOM_GUIDANCE.get(target.strip(), '')}\n\nReturn only the rewritten exam question."}
     ]
     if getattr(tokenizer,"chat_template",None):
         return tokenizer.apply_chat_template(messages,tokenize=False,add_generation_prompt=True)
