@@ -77,8 +77,6 @@ def _hard_protected_token(t:str)->bool:
         return True
     if "-" in raw and any(ch.isdigit() for ch in raw):
         return True
-    if len(raw) <= 6 and raw.isupper():
-        return True
     return False
 
 def protected(x:str):
@@ -90,8 +88,14 @@ def protected(x:str):
     # Preserve short quoted/backticked technical entities exactly.
     for m in re.findall(r'["\\x60]([^"\\x60]{1,80})["\\x60]', x or ""):
         mt=m.strip()
-        if mt and (any(c.isdigit() for c in mt) or any(c in mt for c in "+#._/-") or len(mt.split())<=3):
+        if mt and (
+            any(c.isdigit() for c in mt)
+            or any(c in mt for c in "+#._/-")
+            or any(part.isupper() for part in mt.split())
+        ):
             out.add(mt.lower())
+    # Preserve conventional all-caps technical acronyms such as SQL/HTTP/HTML.
+    out.update(m.lower() for m in re.findall(r"(?<![A-Za-z])([A-Z]{2,8})(?![A-Za-z])", x or ""))
     return sorted(out)
 
 def _word(text, term):
@@ -233,7 +237,7 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
         )
     return ValidationResult(not r,cat,r,round(recall,4),round(prec,4),round(lex,4),semantic_similarity,_signals(text,target),canonical_level(classifier_prediction) if classifier_prediction else None,classifier_confidence)
 
-def build_teacher_messages(source_question,target_level,retry=False):
+def build_teacher_messages(source_question,target_level,retry=False,repair_reasons=None):
     target=canonical_level(target_level) or target_level
     guidance={
         "Remember":"Recall facts, definitions, terminology, syntax, or basic information. Do not require implementation, explanation, analysis, judgment, or design.",
@@ -243,10 +247,20 @@ def build_teacher_messages(source_question,target_level,retry=False):
         "Evaluate":"Make a judgment about correctness, quality, efficiency, validity, effectiveness, or suitability using explicit or implied criteria. Do not design a new solution.",
         "Create":"Design, construct, formulate, develop, or propose a new solution, program, procedure, model, plan, or artifact.",
     }[target]
-    retry_note = (
-        "\nREPAIR MODE: The previous candidate failed validation. Generate substantially different wording that fixes the quality problem while preserving the same topic and target level."
-        if retry else ""
-    )
+    repair_note = ""
+    if repair_reasons:
+        repair_note = (
+            "\nREPAIR MODE: The previous candidate failed validation. Fix these specific issues while keeping "
+            "the same topic, facts, quantities, technical entities, constraints, and academic intent:\n- "
+            + "\n- ".join(str(x) for x in repair_reasons[:4])
+            + "\n"
+        )
+    elif retry:
+        repair_note = (
+            "\nREPAIR MODE: The previous candidate failed validation. Generate substantially different wording "
+            "that fixes the quality problem while preserving the same topic, facts, quantities, technical entities, "
+            "constraints, and target cognitive operation.\n"
+        )
     system=(
         "You are a senior university assessment editor. "
         "Rewrite the complete student-facing academic exam question so its PRIMARY cognitive demand matches the requested Revised Bloom level.\n\n"
