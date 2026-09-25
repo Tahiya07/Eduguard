@@ -159,13 +159,6 @@ def _content_sets(source, candidate):
     return source_terms,candidate_terms,shared,added
 
 
-def _semantic_content_island(text, terms):
-    # Returns whether a candidate-added phrase is likely a normal cognitive
-    # instruction rather than a new subject-matter requirement. This is kept
-    # conservative and word-based so it is auditable without another model.
-    return all(t in COGNITIVE_SUPPORT_WORDS for t in terms)
-
-
 def _content_addition_ratio(source, candidate):
     source_terms,candidate_terms,shared,added=_content_sets(source,candidate)
     denom=max(1,len(candidate_terms))
@@ -290,14 +283,10 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
         if recall<.30 or (recall<.50 and semantic_similarity<min_semantic_similarity+.12):
             r.append("low_source_content_recall")
 
-    # Penalize unsupported subject-matter additions. Cognitive-operation words
-    # are excluded, but new concrete requirements/topics are not.
-    source_len=max(1,len(st))
-    max_added=2 if source_len<=8 else max(3, round(source_len*0.30))
-    if len(added)>max_added and addition_ratio>0.28:
-        r.append("scope_content_addition:" + ",".join(sorted(added)[:8]))
-    elif len(added)>=3 and addition_ratio>0.36:
-        r.append("scope_content_addition:" + ",".join(sorted(added)[:8]))
+    # Raw added-word counts are not a hard failure: legitimate rewrites often
+    # introduce connective academic wording or paraphrased task language.
+    # Keep the statistic for auditability; teacher adjudication makes the
+    # final scope decision during generation.
 
     # A generic phrase is acceptable when it is anchored to the source topic.
     # Reject only generic/template-like outputs that also have weak content preservation.
