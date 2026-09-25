@@ -284,7 +284,7 @@ def main():
     ap.add_argument("--seed",type=int,default=42)
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
-    ap.add_argument("--min-semantic",type=float,default=.62)
+    ap.add_argument("--min-semantic",type=float,default=.68)
     ap.add_argument("--temperature",type=float,default=.3)
     ap.add_argument("--top-p",type=float,default=.8)
     ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
@@ -326,6 +326,8 @@ def main():
     accepted=[]
     failures=Counter()
     attempts_used=[]
+    judge_passes=0
+    judge_rejections=0
     existing_path=out/f"{args.split}.jsonl"
     completed_keys=set()
     if args.resume and existing_path.exists():
@@ -389,11 +391,13 @@ def main():
             if judge is not None and not hard_reasons:
                 judge_result=judge(source,target,candidate)
                 if judge_result.get("pass",False):
+                    judge_passes+=1
                     # Teacher adjudication resolves soft warnings such as
                     # lexical overlap or rigid keyword-based target cues.
                     v.ok=True
                     v.failure_category=""
                 else:
+                    judge_rejections+=1
                     v.reasons.append("teacher_judge:" + str(judge_result.get("reason","rejected")))
                     v.failure_category="TEACHER_JUDGE_REJECTION"
                     v.ok=False
@@ -461,6 +465,9 @@ def main():
         "semantic_model":sim_name,
         "min_semantic":args.min_semantic,
         "attempts":args.attempts,
+        "teacher_judge_enabled":args.teacher_mode=="llama_cpp",
+        "teacher_judge_passes":judge_passes,
+        "teacher_judge_rejections":judge_rejections,
         "transformation_counts":dict(Counter(x["transformation_type"] for x in accepted)),
     }
     (out/f"{args.split}_report.json").write_text(
