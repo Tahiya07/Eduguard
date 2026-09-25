@@ -68,36 +68,71 @@ def content(x:str):
     ]
 
 def _hard_protected_token(t:str)->bool:
-    raw=t.strip().lower()
+    raw=t.strip()
+    low=raw.lower()
     if not raw:
         return False
-    if any(c.isdigit() for c in raw):
+    # Hard anchors are values and unmistakable technical identifiers.
+    if NUMBER_RE.fullmatch(raw):
         return True
-    if any(c in raw for c in "+#._/\\"):
+    if re.fullmatch(r"(?i)[a-z][a-z0-9_]*(?:\\+\\+|#)", raw):
         return True
-    if "-" in raw and any(ch.isdigit() for ch in raw):
+    if re.fullmatch(r"(?i)o\\s*\\([^)]{1,40}\\)", raw):
+        return True
+    if re.fullmatch(r"(?i)0x[0-9a-f]+", raw):
+        return True
+    if re.search(r"\\d", raw) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.-]*", raw):
+        return True
+    if re.fullmatch(r"(?i)[A-Za-z0-9_.-]+\\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)", raw):
         return True
     return False
 
 def protected(x:str):
-    raw_tokens=tokens(x)
     out=set(NUMBER_RE.findall(x or ""))
-    for t in raw_tokens:
-        if _hard_protected_token(t):
-            out.add(t.lower())
-    # Preserve short quoted/backticked technical entities exactly.
+
+    # C/C++/C# and other clearly code-like identifiers.
+    out.update(
+        m.group(0).strip().lower()
+        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_]*(?:\\+\\+|#)(?![A-Za-z0-9_])", x or "")
+    )
+
+    # Big-O notation is a semantic technical anchor.
+    out.update(
+        re.sub(r"\\s+","",m.group(0)).lower()
+        for m in re.finditer(r"(?i)\\bO\\s*\\([^)]{1,40}\\)", x or "")
+    )
+
+    # Numeric technical identifiers such as Python3, IPv4, HTML5, v2.1.
+    out.update(
+        m.group(0).lower()
+        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_.-]*\\d[A-Za-z0-9_.-]*(?![A-Za-z0-9_])", x or "")
+    )
+
+    # File names/extensions and hex literals.
+    out.update(
+        m.group(0).lower()
+        for m in re.finditer(
+            r"(?<![A-Za-z0-9_])(?:[A-Za-z0-9_.-]+\\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)|0x[0-9A-Fa-f]+)(?![A-Za-z0-9_])",
+            x or "",
+        )
+    )
+
+    # Short all-caps technical acronyms are useful anchors, but ordinary
+    # hyphenated phrases and punctuation-heavy prose are not protected.
+    for m in re.findall(r"(?<![A-Za-z])([A-Z]{2,8})(?![A-Za-z])", x or ""):
+        out.add(m.lower())
+
+    # Preserve short explicitly quoted/backticked technical entities.
     for m in re.findall(r'["\\x60]([^"\\x60]{1,80})["\\x60]', x or ""):
         mt=m.strip()
         if mt and (
             any(c.isdigit() for c in mt)
-            or any(c in mt for c in "+#._/-")
-            or any(part.isupper() for part in mt.split())
+            or re.search(r"(?i)[A-Za-z0-9]+(?:\\+\\+|#)", mt)
+            or re.fullmatch(r"[A-Z][A-Za-z0-9_.-]{1,31}", mt)
         ):
             out.add(mt.lower())
-    # Preserve conventional all-caps technical acronyms such as SQL/HTTP/HTML.
-    out.update(m.lower() for m in re.findall(r"(?<![A-Za-z])([A-Z]{2,8})(?![A-Za-z])", x or ""))
-    return sorted(out)
 
+    return sorted(out)
 def _word(text, term):
     return re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text.lower()) is not None
 
@@ -217,8 +252,15 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     ps=protected(source_question)
     missing=[x for x in ps if not _word(n,x) and x not in n]
     prec=(len(ps)-len(missing))/len(ps) if ps else 1.0
-    if missing:
-        r.append("protected_span_loss")
+
+    # Hard technical anchors are preserved exactly. Acronyms are informative
+    # but are not allowed to dominate rejection by themselves.
+    hard_missing=[x for x in missing if _hard_protected_token(x)]
+    soft_missing=[x for x in missing if x not in hard_missing]
+    if hard_missing:
+        r.append("protected_span_loss:" + ",".join(hard_missing[:6]))
+    elif len(soft_missing) >= 2:
+        r.append("protected_acronym_loss:" + ",".join(soft_missing[:6]))
     if not _target_ok(text,target): r.append("target_structure_mismatch")
     if semantic_similarity is not None and semantic_similarity<min_semantic_similarity: r.append("low_semantic_similarity")
     if classifier_prediction is not None and canonical_level(classifier_prediction)!=target: r.append("classifier_target_mismatch")
@@ -229,7 +271,7 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
             (x.upper() for x in (
                 "empty_output","meta_or_answer_language","generic_template",
                 "invented_artifact_reference","scope_expansion",
-                "protected_span_loss","low_source_content_recall",
+                "protected_span_loss","protected_acronym_loss","low_source_content_recall",
                 "low_semantic_similarity","classifier_target_mismatch",
                 "target_structure_mismatch","near_source_copy"
             ) if any(y.startswith(x) for y in r)),
