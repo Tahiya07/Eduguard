@@ -16,7 +16,7 @@ MARKERS = {
 "Evaluate":("evaluate","assess","critique","judge","justify","defend","effectiveness","validity","suitability","criteria","evidence","strengths","limitations","trade-off"),
 "Create":("design","develop","construct","formulate","propose","create","devise","produce","plan","strategy","solution","procedure","artifact","model","framework","prototype"),}
 META=("the rewritten question","rewritten question:","the answer is","correct answer","as an ai","bloom level","target level","original question:","this question asks","the student should","here is the question")
-GENERIC=("compare the main components of","analyze how the parts of","examine the causes and patterns that structure","assess how well","how well does","stated academic criteria","create an original academic artifact","formulate a structured approach for constructing a new solution","develop an original procedure related to","given a concrete case involving","in the following problem about")
+GENERIC=("compare the main components of","analyze how the parts of","examine the causes and patterns that structure","assess how well","how well does","stated academic criteria","create an original academic artifact","formulate a structured approach for constructing a new solution","develop an original procedure related to","given a concrete case involving","in the following problem about","analyze how the parts of a","design and analyze","design and evaluate","develop and evaluate","explain how a program can be structured")
 WORD_RE=re.compile(r"[A-Za-z0-9][A-Za-z0-9_+.#/-]*")
 NUMBER_RE=re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?(?![A-Za-z])")
 
@@ -40,7 +40,8 @@ def canonical_level(x:str)->str|None:
 
 def clean_output(x:str)->str:
     x=(x or "").replace("<|im_start|>assistant","").replace("<|im_end|>","").replace("<|endoftext|>","").strip()
-    x=re.sub(r"^\s*(?:answer|response|rewrite|rewritten question|question)\s*:\s*","",x,flags=re.I)
+    x=re.sub(r"<think>.*?</think>\s*","",x,flags=re.I|re.S)
+    x=re.sub(r"^\s*(?:answer|response|rewrite|rewritten question|question|output)\s*:\s*","",x,flags=re.I)
     x=re.sub(r"\s+"," ",x).strip(" \t\"'")
     return x
 
