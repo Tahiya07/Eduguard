@@ -57,6 +57,7 @@ def _signals(text,target):
 
 def _target_ok(text,target):
     n=text.lower(); s=_signals(text,target)
+    if any(x in n for x in FORBIDDEN_LEVEL_CUES.get(target,())): return False
     if target=="Evaluate": return bool(any(x in n for x in ("evaluate","assess","critique","judge","justify","defend")) and any(x in n for x in ("criteria","evidence","effectiveness","validity","suitability","quality","strengths","limitations","trade-off")))
     if target=="Create": return bool(any(x in n for x in ("design","develop","construct","formulate","propose","create","devise")) and any(x in n for x in ("plan","strategy","solution","procedure","artifact","model","framework","prototype")))
     return bool(s)
