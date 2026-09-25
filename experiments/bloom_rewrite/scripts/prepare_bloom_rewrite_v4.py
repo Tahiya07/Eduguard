@@ -268,7 +268,7 @@ def main():
             if previous.get("policy_version") != POLICY_VERSION or previous.get("dataset_version") != "bloom_rewrite_synth_v4_1":
                 raise SystemExit(
                     "Refusing to resume an incompatible dataset: the existing output was generated with "
-                    f"policy={previous.get(\"policy_version\")} dataset={previous.get(\"dataset_version\")}. "
+                    f"policy={previous.get('policy_version')} dataset={previous.get('dataset_version')}. "
                     "Use a fresh output directory or delete the old v4 output."
                 )
         existing=read_jsonl(existing_path)
