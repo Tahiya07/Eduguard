@@ -350,7 +350,7 @@ def main():
 
     report={
         "timestamp_utc":datetime.now(timezone.utc).isoformat(),
-        "dataset_version":"bloom_rewrite_synth_v4",
+        "dataset_version":"bloom_rewrite_synth_v4_1",
         "policy_version":POLICY_VERSION,
         "teacher_model":args.teacher_model,
         "teacher_mode":args.teacher_mode,
