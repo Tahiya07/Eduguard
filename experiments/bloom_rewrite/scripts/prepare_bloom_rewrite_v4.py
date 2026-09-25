@@ -11,7 +11,7 @@ Important:
 - Local mode is intended for GPU notebooks such as Google Colab and avoids inference-provider credits.
 """
 from __future__ import annotations
-import argparse, hashlib, json, random, sys
+import argparse, hashlib, json, random, re, sys
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -236,29 +236,32 @@ def build_teacher_judge_messages(source_question,target_level,candidate):
 
 def make_llama_judge(llm):
     def judge(source,target,candidate):
-        response=llm.create_chat_completion(
-            messages=build_teacher_judge_messages(source,target,candidate),
-            max_tokens=180,
-            temperature=0.0,
-            top_p=1.0,
-            stop=["<|im_end|>","<|endoftext|>"],
-        )
-        raw=response["choices"][0]["message"].get("content","")
-        obj=_parse_json_object(raw)
-        if obj is None:
-            return {"pass":False,"reason":"judge_parse_error","raw":clean_output(raw)}
-        raw_pass=obj.get("pass")
-        pass_flag = raw_pass is True or (
-            isinstance(raw_pass,str) and raw_pass.strip().lower() in ("true","yes","1")
-        ) or (isinstance(raw_pass,(int,float)) and raw_pass==1)
         try:
-            scores_ok=all(int(obj.get(k,0))==2 for k in (
-                "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
-            ))
-        except (TypeError,ValueError):
-            scores_ok=False
-        obj["pass"]=bool(pass_flag and scores_ok)
-        return obj
+            response=llm.create_chat_completion(
+                messages=build_teacher_judge_messages(source,target,candidate),
+                max_tokens=180,
+                temperature=0.0,
+                top_p=1.0,
+                stop=["<|im_end|>","<|endoftext|>"],
+            )
+            raw=response["choices"][0]["message"].get("content","")
+            obj=_parse_json_object(raw)
+            if obj is None:
+                return {"pass":False,"reason":"judge_parse_error","raw":clean_output(raw)}
+            raw_pass=obj.get("pass")
+            pass_flag = raw_pass is True or (
+                isinstance(raw_pass,str) and raw_pass.strip().lower() in ("true","yes","1")
+            ) or (isinstance(raw_pass,(int,float)) and raw_pass==1)
+            try:
+                scores_ok=all(int(obj.get(k,0))==2 for k in (
+                    "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
+                ))
+            except (TypeError,ValueError):
+                scores_ok=False
+            obj["pass"]=bool(pass_flag and scores_ok)
+            return obj
+        except Exception as exc:
+            return {"pass":False,"reason":"judge_runtime_error:"+str(exc)}
     return judge
 
 
