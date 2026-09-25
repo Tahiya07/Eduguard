@@ -90,8 +90,38 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     return ValidationResult(not r,cat,r,round(recall,4),round(prec,4),round(lex,4),semantic_similarity,_signals(text,target),canonical_level(classifier_prediction) if classifier_prediction else None,classifier_confidence)
 
 def build_teacher_messages(source_question,target_level,retry=False):
-    retry_note=" Retry: substantially change the wording and do not use a stock template." if retry else ""
-    system=("You are a senior university assessment editor. Rewrite the complete student-facing academic exam question so its required cognitive operation matches the requested Revised Bloom level. Preserve the original topic, technical entities, quantities, constraints, and academic intent. Change the student's task, not the subject matter. Output exactly one exam question or valid exam imperative. Do not answer it, explain it, mention Bloom, mention the source question, or use a generic template. Do not introduce unrelated content."+retry_note)
-    guidance={"Remember":"recall, identify, name, list, define, or state facts without analysis or judgment.","Understand":"explain, describe, interpret, summarize, or classify existing material.","Apply":"use knowledge or a procedure in a concrete case, scenario, calculation, or problem.","Analyze":"examine components, relationships, causes, patterns, comparisons, or structure.","Evaluate":"make a justified judgment about quality, effectiveness, validity, or suitability using criteria or evidence.","Create":"design, develop, formulate, construct, or propose a new solution, plan, procedure, model, or artifact grounded in the source topic."}[canonical_level(target_level) or target_level]
-    user=f"Original question:\n{source_question.strip()}\n\nTarget Bloom level:\n{target_level}\n\nRequired cognitive task:\n{guidance}\n\nReturn only the rewritten exam question."
+    target=canonical_level(target_level) or target_level
+    guidance={
+        "Remember":"Recall facts, definitions, terminology, syntax, or basic information. Do not require implementation, explanation, analysis, judgment, or design.",
+        "Understand":"Explain, describe, summarize, interpret, or classify a concept. Do not require implementation or judgment.",
+        "Apply":"Use a known rule, concept, method, or procedure to solve or carry out a concrete task.",
+        "Analyze":"Break the problem or program into parts and examine relationships, interactions, causes, structure, patterns, or effects.",
+        "Evaluate":"Make a judgment about correctness, quality, efficiency, validity, effectiveness, or suitability using explicit or implied criteria. Do not design a new solution.",
+        "Create":"Design, construct, formulate, develop, or propose a new solution, program, procedure, model, plan, or artifact.",
+    }[target]
+    retry_note = (
+        "\nREPAIR MODE: The previous candidate failed validation. Generate substantially different wording that fixes the quality problem while preserving the same topic and target level."
+        if retry else ""
+    )
+    system=(
+        "You are a senior university assessment editor. "
+        "Rewrite the complete student-facing academic exam question so its PRIMARY cognitive demand matches the requested Revised Bloom level.\n\n"
+        "Target-level requirement:\n" + guidance +
+        "\n\nStrict rules:\n"
+        "- Preserve the original topic, technical entities, quantities, constraints, and academic intent.\n"
+        "- Change the student's task, not the subject matter.\n"
+        "- Do not merely replace a verb.\n"
+        "- Do not introduce unrelated content.\n"
+        "- Do not answer, explain, or discuss the rewrite.\n"
+        "- Do not mention Bloom, the target level, the source question, or these instructions.\n"
+        "- Output exactly ONE exam question or valid exam imperative.\n"
+        "- The requested level must be the dominant cognitive operation; avoid mixing multiple Bloom levels.\n"
+        "- Do not use generic stock phrases.\n"
+        "- Be concise and specific." + retry_note
+    )
+    user=(
+        f"Original question:\n{source_question.strip()}\n\n"
+        f"Target Bloom level:\n{target}\n\n"
+        "Return only the rewritten exam question.\n\n/no_think"
+    )
     return [{"role":"system","content":system},{"role":"user","content":user}]
