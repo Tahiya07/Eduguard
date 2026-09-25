@@ -245,7 +245,7 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     # Do not refer to an artifact as though it was supplied when the source
     # merely asks the student to create or write one.
     supplied_refs=("provided","given","following","below","above","attached","shown","presented")
-    artifact_terms=("code","program","data","passage","table","diagram","graph","dataset","document","solution")
+    artifact_terms=("code","program","data","passage","table","truth table","diagram","graph","dataset","document","file","solution","algorithm","structure","model","framework","prototype","artifact","system","plan","strategy","design")
     source_supplies_artifact=(
         any(
             (ref in source_lower and artifact in source_lower and
@@ -255,7 +255,11 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
         or chr(96)*3 in source_lower
         or "<code>" in source_lower
     )
-    if target=="Evaluate" and not source_supplies_artifact and any(x in n for x in INVENTED_ARTIFACT_CUES):
+    invented_refs=("provided","given","following","below","above","attached","shown","presented")
+    candidate_artifact_terms=artifact_terms
+    if not source_supplies_artifact and any(ref in n for ref in invented_refs) and any(term in n for term in candidate_artifact_terms):
+        # Do not let a rewrite pretend that an artifact exists when the source
+        # only asks the student to create/build it.
         r.append("invented_artifact_reference")
 
     # Guard common forms of scope expansion that add requirements absent from
@@ -291,6 +295,8 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     source_len=max(1,len(st))
     max_added=2 if source_len<=8 else max(3, round(source_len*0.30))
     if len(added)>max_added and addition_ratio>0.28:
+        r.append("scope_content_addition:" + ",".join(sorted(added)[:8]))
+    elif len(added)>=3 and addition_ratio>0.36:
         r.append("scope_content_addition:" + ",".join(sorted(added)[:8]))
 
     # A generic phrase is acceptable when it is anchored to the source topic.
