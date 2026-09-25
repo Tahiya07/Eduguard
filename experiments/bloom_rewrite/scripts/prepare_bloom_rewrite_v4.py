@@ -7,8 +7,8 @@ Important:
 - Reuses the existing v3 TRAIN/VALIDATION source split only to preserve the
   experiment's leakage grouping. Existing v3 targets are never used as labels.
 - Does not modify the locked multitask test set.
-- Qwen3-14B is accessed through Hugging Face Inference Providers.
-- The current reproducible provider is Nscale; --teacher-provider auto enables automatic routing.
+- Supports either a remote Hugging Face teacher or a local 4-bit Qwen3-14B teacher.
+- Local mode is intended for GPU notebooks such as Google Colab and avoids inference-provider credits.
 """
 from __future__ import annotations
 import argparse, hashlib, json, random, sys
@@ -60,7 +60,7 @@ def render(messages,tokenizer=None):
     return "\\n".join(parts)+"\\n<|im_start|>assistant\\n"
 
 
-def load_teacher(model_id,provider,token_env):
+def load_hf_teacher(model_id,provider,token_env):
     import os
     from huggingface_hub import InferenceClient
 
@@ -79,7 +79,34 @@ def load_teacher(model_id,provider,token_env):
     return client
 
 
-def make_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
+def load_local_teacher(model_id,device):
+    import torch
+    from transformers import AutoModelForCausalLM,AutoTokenizer,BitsAndBytesConfig
+
+    if device!="cuda" or not torch.cuda.is_available():
+        raise RuntimeError("Local Qwen3-14B mode requires a CUDA GPU. Use Colab with a GPU runtime.")
+
+    tok=AutoTokenizer.from_pretrained(model_id,trust_remote_code=True)
+    if tok.pad_token is None:
+        tok.pad_token=tok.eos_token
+
+    quant=BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
+    )
+    model=AutoModelForCausalLM.from_pretrained(
+        model_id,
+        trust_remote_code=True,
+        quantization_config=quant,
+        device_map="auto",
+    )
+    model.eval()
+    return tok,model
+
+
+def make_hf_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
     def generate(source,target,retry=False):
         messages=build_teacher_messages(source,target,retry=retry)
         # Qwen3 supports the /no_think soft switch in API prompts.
@@ -100,6 +127,41 @@ def make_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
 
     return generate
 
+
+def make_local_generator(tok,model,device,max_input=512,max_new=128,temperature=.7,top_p=.8):
+    import torch
+    def generate(source,target,retry=False):
+        messages=build_teacher_messages(source,target,retry=retry)
+        try:
+            prompt=tok.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+        except TypeError:
+            prompt=tok.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+            prompt += "\n/no_think"
+        x=tok(prompt,return_tensors="pt",truncation=True,max_length=max_input)
+        x={k:v.to(model.device) for k,v in x.items()}
+        with torch.no_grad():
+            y=model.generate(
+                **x,
+                max_new_tokens=max_new,
+                do_sample=True,
+                temperature=temperature,
+                top_p=top_p,
+                pad_token_id=tok.pad_token_id,
+                eos_token_id=tok.eos_token_id,
+            )
+        return clean_output(tok.decode(y[0][x["input_ids"].shape[1]:],skip_special_tokens=True))
+    return generate
+
+
 def load_semantic():
     try:
         from sentence_transformers import SentenceTransformer
@@ -116,6 +178,7 @@ def load_semantic():
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--teacher-model",default="Qwen/Qwen3-14B")
+    ap.add_argument("--teacher-mode",choices=["hf","local"],default="hf")
     ap.add_argument("--teacher-provider",default="nscale",help="Hugging Face Inference Provider; use auto for automatic routing")
     ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
@@ -128,6 +191,9 @@ def main():
     ap.add_argument("--min-semantic",type=float,default=.55)
     ap.add_argument("--temperature",type=float,default=.7)
     ap.add_argument("--top-p",type=float,default=.8)
+    ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
+    ap.add_argument("--checkpoint-every",type=int,default=25)
+    ap.add_argument("--resume",action="store_true")
     args=ap.parse_args()
 
     random.seed(args.seed)
@@ -145,17 +211,31 @@ def main():
     if args.limit:
         items=items[:args.limit]
 
-    client=load_teacher(args.teacher_model,args.teacher_provider,args.hf_token_env)
-    generate=make_generator(client,args.teacher_model,max_new=128,temperature=args.temperature,top_p=args.top_p)
+    if args.teacher_mode=="local":
+        tok,model=load_local_teacher(args.teacher_model,args.device)
+        generate=make_local_generator(tok,model,args.device,max_new=128,temperature=args.temperature,top_p=args.top_p)
+    else:
+        client=load_hf_teacher(args.teacher_model,args.teacher_provider,args.hf_token_env)
+        generate=make_hf_generator(client,args.teacher_model,max_new=128,temperature=args.temperature,top_p=args.top_p)
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
 
     accepted=[]
     failures=Counter()
     attempts_used=[]
+    existing_path=out/f"{args.split}.jsonl"
+    completed_keys=set()
+    if args.resume and existing_path.exists():
+        existing=read_jsonl(existing_path)
+        accepted.extend(existing)
+        completed_keys={(str(r.get("source_id")),canonical_level(r.get("target_bloom_level"))) for r in existing}
+        print(f"RESUME: loaded {len(existing)} accepted rows from {existing_path}")
 
     for i,row in enumerate(items,1):
         source=row["source_question"]
         target=row["target_bloom_level"]
+        source_key=(str(row.get("source_id") or sha(source)[:16]),canonical_level(target))
+        if source_key in completed_keys:
+            continue
         best=None
 
         for attempt in range(args.attempts):
@@ -209,8 +289,9 @@ def main():
         }
         accepted.append(rec)
 
-        if i%25==0:
-            print(f"{i}/{len(items)} accepted={len(accepted)}")
+        if args.checkpoint_every and i%args.checkpoint_every==0:
+            write_jsonl(existing_path,accepted)
+            print(f"CHECKPOINT {i}/{len(items)} accepted={len(accepted)}")
 
     write_jsonl(out/f"{args.split}.jsonl",accepted)
 
@@ -219,7 +300,8 @@ def main():
         "dataset_version":"bloom_rewrite_synth_v4",
         "policy_version":POLICY_VERSION,
         "teacher_model":args.teacher_model,
-        "teacher_provider":args.teacher_provider,
+        "teacher_mode":args.teacher_mode,
+        "teacher_provider":args.teacher_provider if args.teacher_mode=="hf" else None,
         "hf_token_env":args.hf_token_env,
         "source_dataset":str(inp),
         "split":args.split,
