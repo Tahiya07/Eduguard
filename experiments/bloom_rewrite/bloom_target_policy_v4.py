@@ -91,13 +91,13 @@ def protected(x:str):
     out=set()
     for m in NUMBER_RE.finditer(x or ""):
         value=m.group(0)
-        line_start=(x or "").rfind("\\n",0,m.start())+1
+        line_start=(x or "").rfind("\n",0,m.start())+1
         prefix=(x or "")[line_start:m.start()].strip().lower()
         # Ignore ordinary question/item numbering such as "1." or "2)".
         after=(x or "")[m.end():m.end()+1]
         if not prefix and after in (".",")") and value.isdigit() and int(value)<=50:
             continue
-        if re.search(r"\\b(?:question|item|q|no|number)\\s*$",prefix):
+        if re.search(r"\b(?:question|item|q|no|number)\s*$",prefix):
             continue
         out.add(value)
 
