@@ -107,8 +107,8 @@ def load_local_teacher(model_id,device):
 
 
 def make_hf_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
-    def generate(source,target,retry=False):
-        messages=build_teacher_messages(source,target,retry=retry)
+    def generate(source,target,retry=False,repair_reasons=None):
+        messages=build_teacher_messages(source,target,retry=retry,repair_reasons=repair_reasons)
         # Qwen3 supports the /no_think soft switch in API prompts.
         messages[-1]["content"] += "\\n\\n/no_think"
 
@@ -130,8 +130,8 @@ def make_hf_generator(client,model_id,max_new=128,temperature=.7,top_p=.8):
 
 def make_local_generator(tok,model,device,max_input=512,max_new=128,temperature=.7,top_p=.8):
     import torch
-    def generate(source,target,retry=False):
-        messages=build_teacher_messages(source,target,retry=retry)
+    def generate(source,target,retry=False,repair_reasons=None):
+        messages=build_teacher_messages(source,target,retry=retry,repair_reasons=repair_reasons)
         try:
             prompt=tok.apply_chat_template(
                 messages,
@@ -174,8 +174,8 @@ def load_llama_teacher(model_path,n_ctx=4096,n_gpu_layers=-1):
 
 
 def make_llama_generator(llm,max_new=128,temperature=.7,top_p=.8):
-    def generate(source,target,retry=False):
-        messages=build_teacher_messages(source,target,retry=retry)
+    def generate(source,target,retry=False,repair_reasons=None):
+        messages=build_teacher_messages(source,target,retry=retry,repair_reasons=repair_reasons)
         messages[-1]["content"] += "\n\n/no_think"
         response=llm.create_chat_completion(
             messages=messages,
@@ -220,7 +220,7 @@ def main():
     ap.add_argument("--seed",type=int,default=42)
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
-    ap.add_argument("--min-semantic",type=float,default=.55)
+    ap.add_argument("--min-semantic",type=float,default=.62)
     ap.add_argument("--temperature",type=float,default=.3)
     ap.add_argument("--top-p",type=float,default=.8)
     ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
@@ -274,10 +274,16 @@ def main():
         if source_key in completed_keys:
             continue
         best=None
+        repair_reasons=None
 
         for attempt in range(args.attempts):
             try:
-                candidate=generate(source,target,retry=attempt>0)
+                candidate=generate(
+                    source,
+                    target,
+                    retry=attempt>0,
+                    repair_reasons=repair_reasons,
+                )
             except Exception as exc:
                 failures["TEACHER_API_ERROR"]+=1
                 print(f"teacher_error example={i} attempt={attempt+1}: {exc}")
@@ -294,6 +300,7 @@ def main():
                 best=(candidate,v,attempt+1)
                 break
             failures[v.failure_category or "QUALITY_REJECTION"]+=1
+            repair_reasons=v.reasons
 
         if best is None:
             attempts_used.append(args.attempts)
