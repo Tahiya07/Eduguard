@@ -7,6 +7,8 @@ Important:
 - Reuses the existing v3 TRAIN/VALIDATION source split only to preserve the
   experiment's leakage grouping. Existing v3 targets are never used as labels.
 - Does not modify the locked multitask test set.
+- Qwen3-14B is run in non-thinking mode.
+- On CUDA, 4-bit loading is supported for 24 GB GPUs.
 """
 from __future__ import annotations
 import argparse, hashlib, json, random, sys
@@ -19,7 +21,7 @@ EXP=SCRIPT_DIR.parent
 ROOT=EXP.parents[1]
 if str(EXP) not in sys.path: sys.path.insert(0,str(EXP))
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
-from bloom_target_policy_v4 import BLOOM_LEVELS, POLICY_VERSION, build_teacher_messages, validate_candidate, clean_output, canonical_level
+from bloom_target_policy_v4 import POLICY_VERSION, build_teacher_messages, validate_candidate, clean_output, canonical_level
 
 
 def read_jsonl(p):
@@ -29,41 +31,99 @@ def read_jsonl(p):
             if line.strip(): rows.append(json.loads(line))
     return rows
 
+
 def write_jsonl(p,rows):
     p.parent.mkdir(parents=True,exist_ok=True)
     with open(p,"w",encoding="utf-8") as f:
-        for r in rows: f.write(json.dumps(r,ensure_ascii=False)+"\n")
+        for r in rows:
+            f.write(json.dumps(r,ensure_ascii=False)+"\n")
 
-def sha(s): return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+def sha(s):
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
 
 def render(messages,tokenizer):
     if getattr(tokenizer,"chat_template",None):
-        return tokenizer.apply_chat_template(messages,tokenize=False,add_generation_prompt=True)
+        kwargs=dict(tokenize=False,add_generation_prompt=True)
+        try:
+            return tokenizer.apply_chat_template(messages,enable_thinking=False,**kwargs)
+        except TypeError:
+            return tokenizer.apply_chat_template(messages,**kwargs)
     parts=[]
-    for m in messages: parts.append(f"<|im_start|>{m['role']}\n{m['content']}<|im_end|>")
+    for m in messages:
+        parts.append(f"<|im_start|>{m['role']}\n{m['content']}<|im_end|>")
     return "\n".join(parts)+"\n<|im_start|>assistant\n"
 
-def load_teacher(model_id,device):
+
+def load_teacher(model_id,device,use_4bit):
     import torch
     from transformers import AutoModelForCausalLM,AutoTokenizer
     tok=AutoTokenizer.from_pretrained(model_id,trust_remote_code=True)
-    if tok.pad_token is None: tok.pad_token=tok.eos_token
-    dtype=torch.float16 if device=="cuda" else torch.float32
-    model=AutoModelForCausalLM.from_pretrained(model_id,trust_remote_code=True,torch_dtype=dtype)
-    model.eval().to(device)
+    if tok.pad_token is None:
+        tok.pad_token=tok.eos_token
+
+    if device=="cuda" and use_4bit:
+        try:
+            from transformers import BitsAndBytesConfig
+        except ImportError as exc:
+            raise RuntimeError(
+                "4-bit teacher loading requires a recent transformers build with BitsAndBytesConfig."
+            ) from exc
+        if not torch.cuda.is_available():
+            raise RuntimeError("CUDA was requested but torch.cuda.is_available() is False.")
+        quant=BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+        )
+        model=AutoModelForCausalLM.from_pretrained(
+            model_id,
+            trust_remote_code=True,
+            quantization_config=quant,
+            device_map={"":0},
+        )
+    else:
+        dtype=torch.float16 if device=="cuda" else torch.float32
+        model=AutoModelForCausalLM.from_pretrained(
+            model_id,
+            trust_remote_code=True,
+            torch_dtype=dtype,
+        )
+        model.eval().to(device)
+
+    model.eval()
     return tok,model
+
 
 def make_generator(tok,model,device,max_input=512,max_new=128,temperature=.35,top_p=.9):
     import torch
     def generate(source,target,retry=False):
         prompt=render(build_teacher_messages(source,target,retry=retry),tok)
         x=tok(prompt,return_tensors="pt",truncation=True,max_length=max_input)
-        x={k:v.to(device) for k,v in x.items()}
-        kwargs=dict(max_new_tokens=max_new,do_sample=True,temperature=temperature,top_p=top_p,
-                    pad_token_id=tok.pad_token_id,eos_token_id=tok.eos_token_id)
-        with torch.no_grad(): y=model.generate(**x,**kwargs)
-        return clean_output(tok.decode(y[0][x["input_ids"].shape[1]:],skip_special_tokens=True))
+        if device=="cuda":
+            x={k:v.to("cuda:0") for k,v in x.items()}
+        else:
+            x={k:v.to(device) for k,v in x.items()}
+        kwargs=dict(
+            max_new_tokens=max_new,
+            do_sample=True,
+            temperature=temperature,
+            top_p=top_p,
+            pad_token_id=tok.pad_token_id,
+            eos_token_id=tok.eos_token_id,
+        )
+        with torch.no_grad():
+            y=model.generate(**x,**kwargs)
+        return clean_output(
+            tok.decode(
+                y[0][x["input_ids"].shape[1]:],
+                skip_special_tokens=True,
+            )
+        )
     return generate
+
 
 def load_semantic():
     try:
@@ -77,6 +137,7 @@ def load_semantic():
     except Exception as e:
         return None,f"unavailable: {e}"
 
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--teacher-model",required=True)
@@ -88,36 +149,61 @@ def main():
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
     ap.add_argument("--min-semantic",type=float,default=.55)
-    ap.add_argument("--device",default="cuda")
+    ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
+    ap.add_argument("--teacher-4bit",action="store_true")
     args=ap.parse_args()
+
     random.seed(args.seed)
-    inp=Path(args.input_v3); out=Path(args.output_dir)
+    inp=Path(args.input_v3)
+    out=Path(args.output_dir)
     source_rows=read_jsonl(inp/f"{args.split}.jsonl")
     pairs={}
     for r in source_rows:
-        q=r.get("source_question"); t=canonical_level(r.get("target_bloom_level"))
-        if q and t: pairs[(str(r.get("source_id") or sha(q)[:16]),q,t)]=r
-    items=list(pairs.values()); random.shuffle(items)
-    if args.limit: items=items[:args.limit]
-    tok,model=load_teacher(args.teacher_model,args.device)
+        q=r.get("source_question")
+        t=canonical_level(r.get("target_bloom_level"))
+        if q and t:
+            pairs[(str(r.get("source_id") or sha(q)[:16]),q,t)]=r
+    items=list(pairs.values())
+    random.shuffle(items)
+    if args.limit:
+        items=items[:args.limit]
+
+    tok,model=load_teacher(args.teacher_model,args.device,args.teacher_4bit)
     generate=make_generator(tok,model,args.device)
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
-    accepted=[]; failures=Counter(); attempts_used=[]
+
+    accepted=[]
+    failures=Counter()
+    attempts_used=[]
+
     for i,row in enumerate(items,1):
-        source=row["source_question"]; target=row["target_bloom_level"]
+        source=row["source_question"]
+        target=row["target_bloom_level"]
         best=None
+
         for attempt in range(args.attempts):
             candidate=generate(source,target,retry=attempt>0)
             semantic=sim_fn(source,candidate) if sim_fn and candidate else None
-            v=validate_candidate(source,target,candidate,semantic_similarity=semantic,min_semantic_similarity=args.min_semantic)
+            v=validate_candidate(
+                source,
+                target,
+                candidate,
+                semantic_similarity=semantic,
+                min_semantic_similarity=args.min_semantic,
+            )
             if v.ok:
-                best=(candidate,v,attempt+1); break
+                best=(candidate,v,attempt+1)
+                break
             failures[v.failure_category or "QUALITY_REJECTION"]+=1
+
         if best is None:
             attempts_used.append(args.attempts)
             continue
-        candidate,v,ntry=best; attempts_used.append(ntry)
+
+        candidate,v,ntry=best
+        attempts_used.append(ntry)
         src_id=str(row.get("source_id") or sha(source)[:16])
+
         rec={
             "example_id":sha(f"v4|{src_id}|{target}|{candidate}")[:16],
             "source_id":src_id,
@@ -139,17 +225,36 @@ def main():
             "teacher_attempts":ntry,
         }
         accepted.append(rec)
-        if i%25==0: print(f"{i}/{len(items)} accepted={len(accepted)}")
+
+        if i%25==0:
+            print(f"{i}/{len(items)} accepted={len(accepted)}")
+
     write_jsonl(out/f"{args.split}.jsonl",accepted)
+
     report={
-        "timestamp_utc":datetime.now(timezone.utc).isoformat(),"dataset_version":"bloom_rewrite_synth_v4",
-        "policy_version":POLICY_VERSION,"teacher_model":args.teacher_model,"source_dataset":str(inp),
-        "split":args.split,"source_pairs":len(items),"accepted":len(accepted),"rejected":len(items)-len(accepted),
-        "acceptance_rate":len(accepted)/len(items) if items else 0,"failure_counts":dict(failures),
-        "semantic_model":sim_name,"min_semantic":args.min_semantic,"attempts":args.attempts,
+        "timestamp_utc":datetime.now(timezone.utc).isoformat(),
+        "dataset_version":"bloom_rewrite_synth_v4",
+        "policy_version":POLICY_VERSION,
+        "teacher_model":args.teacher_model,
+        "teacher_4bit":args.teacher_4bit,
+        "source_dataset":str(inp),
+        "split":args.split,
+        "source_pairs":len(items),
+        "accepted":len(accepted),
+        "rejected":len(items)-len(accepted),
+        "acceptance_rate":len(accepted)/len(items) if items else 0,
+        "failure_counts":dict(failures),
+        "semantic_model":sim_name,
+        "min_semantic":args.min_semantic,
+        "attempts":args.attempts,
         "transformation_counts":dict(Counter(x["transformation_type"] for x in accepted)),
     }
-    (out/f"{args.split}_report.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+    (out/f"{args.split}_report.json").write_text(
+        json.dumps(report,indent=2),
+        encoding="utf-8",
+    )
     print(json.dumps(report,indent=2))
 
-if __name__=="__main__": main()
+
+if __name__=="__main__":
+    main()
