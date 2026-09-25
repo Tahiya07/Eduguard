@@ -279,7 +279,7 @@ def build_teacher_messages(source_question,target_level,retry=False,repair_reaso
         "- Output exactly ONE exam question or valid exam imperative.\n"
         "- The requested level must be the dominant cognitive operation; avoid mixing multiple Bloom levels.\n"
         "- Do not use generic stock phrases.\n"
-        "- Be concise and specific." + retry_note
+        "- Be concise and specific." + repair_note
     )
     user=(
         f"Original question:\n{source_question.strip()}\n\n"
