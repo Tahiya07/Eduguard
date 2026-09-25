@@ -75,15 +75,15 @@ def _hard_protected_token(t:str)->bool:
     # Hard anchors are values and unmistakable technical identifiers.
     if NUMBER_RE.fullmatch(raw):
         return True
-    if re.fullmatch(r"(?i)[a-z][a-z0-9_]*(?:\\+\\+|#)", raw):
+    if re.fullmatch(r"(?i)[a-z][a-z0-9_]*(?:\+\+|#)", raw):
         return True
-    if re.fullmatch(r"(?i)o\\s*\\([^)]{1,40}\\)", raw):
+    if re.fullmatch(r"(?i)o\s*\([^)]{1,40}\)", raw):
         return True
     if re.fullmatch(r"(?i)0x[0-9a-f]+", raw):
         return True
-    if re.search(r"\\d", raw) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.-]*", raw):
+    if re.search(r"\d", raw) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.-]*", raw):
         return True
-    if re.fullmatch(r"(?i)[A-Za-z0-9_.-]+\\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)", raw):
+    if re.fullmatch(r"(?i)[A-Za-z0-9_.-]+\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)", raw):
         return True
     return False
 
@@ -93,26 +93,26 @@ def protected(x:str):
     # C/C++/C# and other clearly code-like identifiers.
     out.update(
         m.group(0).strip().lower()
-        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_]*(?:\\+\\+|#)(?![A-Za-z0-9_])", x or "")
+        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_]*(?:\+\+|#)(?![A-Za-z0-9_])", x or "")
     )
 
     # Big-O notation is a semantic technical anchor.
     out.update(
-        re.sub(r"\\s+","",m.group(0)).lower()
-        for m in re.finditer(r"(?i)\\bO\\s*\\([^)]{1,40}\\)", x or "")
+        re.sub(r"\s+","",m.group(0)).lower()
+        for m in re.finditer(r"(?i)\bO\s*\([^)]{1,40}\)", x or "")
     )
 
     # Numeric technical identifiers such as Python3, IPv4, HTML5, v2.1.
     out.update(
         m.group(0).lower()
-        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_.-]*\\d[A-Za-z0-9_.-]*(?![A-Za-z0-9_])", x or "")
+        for m in re.finditer(r"(?<![A-Za-z0-9_])[A-Za-z][A-Za-z0-9_.-]*\d[A-Za-z0-9_.-]*(?![A-Za-z0-9_])", x or "")
     )
 
     # File names/extensions and hex literals.
     out.update(
         m.group(0).lower()
         for m in re.finditer(
-            r"(?<![A-Za-z0-9_])(?:[A-Za-z0-9_.-]+\\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)|0x[0-9A-Fa-f]+)(?![A-Za-z0-9_])",
+            r"(?<![A-Za-z0-9_])(?:[A-Za-z0-9_.-]+\.(?:c|cc|cpp|h|hpp|py|java|js|ts|tsx|jsx|html|css|sql|json|csv|xml|md)|0x[0-9A-Fa-f]+)(?![A-Za-z0-9_])",
             x or "",
         )
     )
@@ -123,11 +123,11 @@ def protected(x:str):
         out.add(m.lower())
 
     # Preserve short explicitly quoted/backticked technical entities.
-    for m in re.findall(r'["\\x60]([^"\\x60]{1,80})["\\x60]', x or ""):
+    for m in re.findall(r'["\x60]([^"\x60]{1,80})["\x60]', x or ""):
         mt=m.strip()
         if mt and (
             any(c.isdigit() for c in mt)
-            or re.search(r"(?i)[A-Za-z0-9]+(?:\\+\\+|#)", mt)
+            or re.search(r"(?i)[A-Za-z0-9]+(?:\+\+|#)", mt)
             or re.fullmatch(r"[A-Z][A-Za-z0-9_.-]{1,31}", mt)
         ):
             out.add(mt.lower())
