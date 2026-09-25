@@ -191,6 +191,70 @@ def make_llama_generator(llm,max_new=128,temperature=.7,top_p=.8):
     return generate
 
 
+def _parse_json_object(text):
+    text=clean_output(str(text or ""))
+    fenced=re.search(r"\\{.*\\}",text,flags=re.S)
+    if fenced:
+        text=fenced.group(0)
+    try:
+        obj=json.loads(text)
+    except Exception:
+        return None
+    return obj if isinstance(obj,dict) else None
+
+
+def build_teacher_judge_messages(source_question,target_level,candidate):
+    target=canonical_level(target_level) or target_level
+    guidance={
+        "Remember":"The student should recall or identify information.",
+        "Understand":"The student should explain, describe, interpret, summarize, or classify.",
+        "Apply":"The student should use a known method, rule, or procedure on a concrete task.",
+        "Analyze":"The student should examine parts, relationships, interactions, causes, structure, patterns, or effects.",
+        "Evaluate":"The student should make a justified judgment using relevant criteria or evidence.",
+        "Create":"The student should design, construct, formulate, develop, or propose a new solution or artifact.",
+    }[target]
+    system=(
+        "You are the final quality-control reviewer for a university Bloom-level rewrite dataset. "
+        "Judge one candidate rewrite against its source question and requested target cognitive operation. "
+        "Be conservative: reject any candidate that changes the subject matter, invents supplied artifacts, "
+        "adds substantive requirements, or changes the intended task beyond what is necessary to express the target level. "
+        "New wording needed only to express the cognitive operation is allowed. "
+        "A good candidate preserves technical entities, quantities, constraints, and academic intent. "
+        "Return JSON only with keys: pass, content_fidelity, scope_fidelity, target_alignment, artifact_fidelity, reason. "
+        "Scores are integers from 0 to 2. pass is true only when content_fidelity=2, scope_fidelity=2, "
+        "target_alignment=2, and artifact_fidelity=2."
+    )
+    user=(
+        f"Source question:\n{source_question.strip()}\n\n"
+        f"Requested target Bloom level:\n{target}\n"
+        f"Target cognitive operation:\n{guidance}\n\n"
+        f"Candidate rewrite:\n{candidate.strip()}\n\n"
+        "Assess the candidate. Do not rewrite it. Return JSON only."
+    )
+    return [{"role":"system","content":system},{"role":"user","content":user}]
+
+
+def make_llama_judge(llm):
+    def judge(source,target,candidate):
+        response=llm.create_chat_completion(
+            messages=build_teacher_judge_messages(source,target,candidate),
+            max_tokens=180,
+            temperature=0.0,
+            top_p=1.0,
+            stop=["<|im_end|>","<|endoftext|>"],
+        )
+        raw=response["choices"][0]["message"].get("content","")
+        obj=_parse_json_object(raw)
+        if obj is None:
+            return {"pass":False,"reason":"judge_parse_error","raw":clean_output(raw)}
+        passed=bool(obj.get("pass")) and all(int(obj.get(k,0))==2 for k in (
+            "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
+        ))
+        obj["pass"]=passed
+        return obj
+    return judge
+
+
 def load_semantic():
     try:
         from sentence_transformers import SentenceTransformer
@@ -248,12 +312,15 @@ def main():
             raise SystemExit("--teacher-model-path is required with --teacher-mode llama_cpp")
         llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers)
         generate=make_llama_generator(llm,max_new=128,temperature=args.temperature,top_p=args.top_p)
+        judge=make_llama_judge(llm)
     elif args.teacher_mode=="local":
         tok,model=load_local_teacher(args.teacher_model,args.device)
         generate=make_local_generator(tok,model,args.device,max_new=128,temperature=args.temperature,top_p=args.top_p)
+        judge=None
     else:
         client=load_hf_teacher(args.teacher_model,args.teacher_provider,args.hf_token_env)
         generate=make_hf_generator(client,args.teacher_model,max_new=128,temperature=args.temperature,top_p=args.top_p)
+        judge=None
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
 
     accepted=[]
@@ -305,8 +372,21 @@ def main():
                 semantic_similarity=semantic,
                 min_semantic_similarity=args.min_semantic,
             )
+            judge_result=None
+            if v.ok and judge is not None:
+                judge_result=judge(source,target,candidate)
+                if not judge_result.get("pass",False):
+                    v=validate_candidate(
+                        source,
+                        target,
+                        candidate,
+                        semantic_similarity=semantic,
+                        min_semantic_similarity=args.min_semantic,
+                    )
+                    v.reasons.append("teacher_judge:" + str(judge_result.get("reason","rejected")))
+                    v.failure_category="TEACHER_JUDGE_REJECTION"
             if v.ok:
-                best=(candidate,v,attempt+1)
+                best=(candidate,v,attempt+1,judge_result)
                 break
             failures[v.failure_category or "QUALITY_REJECTION"]+=1
             repair_reasons=v.reasons
@@ -315,7 +395,7 @@ def main():
             attempts_used.append(args.attempts)
             continue
 
-        candidate,v,ntry=best
+        candidate,v,ntry,judge_result=best
         attempts_used.append(ntry)
         src_id=str(row.get("source_id") or sha(source)[:16])
 
@@ -335,6 +415,7 @@ def main():
             "policy_version":POLICY_VERSION,
             "quality_status":"pass",
             "validation":v.__dict__,
+            "teacher_judge":judge_result,
             "teacher_model":args.teacher_model,
             "teacher_provider":args.teacher_provider if args.teacher_mode=="hf" else None,
             "generator_inputs":["source_question","target_bloom_level"],
