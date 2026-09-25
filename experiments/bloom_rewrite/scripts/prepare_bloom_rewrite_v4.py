@@ -193,7 +193,7 @@ def make_llama_generator(llm,max_new=128,temperature=.7,top_p=.8):
 
 def _parse_json_object(text):
     text=clean_output(str(text or ""))
-    fenced=re.search(r"\\{.*\\}",text,flags=re.S)
+    fenced=re.search(r"\{.*\}",text,flags=re.S)
     if fenced:
         text=fenced.group(0)
     try:
@@ -373,21 +373,35 @@ def main():
                 min_semantic_similarity=args.min_semantic,
             )
             judge_result=None
-            if v.ok and judge is not None:
+
+            # In llama.cpp mode, let the 14B teacher adjudicate candidates that
+            # have only soft lexical/structure warnings. Hard safety/content
+            # violations are rejected before adjudication.
+            hard_prefixes=(
+                "EMPTY_OUTPUT","META_OR_ANSWER_LANGUAGE","INVALID_EXAM_QUESTION_FORM",
+                "INVENTED_ARTIFACT_REFERENCE","SCOPE_EXPANSION","SCOPE_CONTENT_ADDITION",
+                "PROTECTED_SPAN_LOSS","LOW_SEMANTIC_SIMILARITY","CLASSIFIER_TARGET_MISMATCH",
+                "CLASSIFIER_LOW_CONFIDENCE","MULTIPLE_QUESTIONS","TOO_LONG",
+                "NEAR_SOURCE_COPY","EXACT_SOURCE_COPY"
+            )
+            hard_reasons=[x for x in v.reasons if x.upper().startswith(hard_prefixes)]
+
+            if judge is not None and not hard_reasons:
                 judge_result=judge(source,target,candidate)
-                if not judge_result.get("pass",False):
-                    v=validate_candidate(
-                        source,
-                        target,
-                        candidate,
-                        semantic_similarity=semantic,
-                        min_semantic_similarity=args.min_semantic,
-                    )
+                if judge_result.get("pass",False):
+                    # Teacher adjudication resolves soft warnings such as
+                    # lexical overlap or rigid keyword-based target cues.
+                    v.ok=True
+                    v.failure_category=""
+                else:
                     v.reasons.append("teacher_judge:" + str(judge_result.get("reason","rejected")))
                     v.failure_category="TEACHER_JUDGE_REJECTION"
+                    v.ok=False
+
             if v.ok:
                 best=(candidate,v,attempt+1,judge_result)
                 break
+
             failures[v.failure_category or "QUALITY_REJECTION"]+=1
             repair_reasons=v.reasons
 
