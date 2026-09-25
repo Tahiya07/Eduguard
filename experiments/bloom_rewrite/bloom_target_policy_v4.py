@@ -96,10 +96,19 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
 
     source_lower=source_question.lower()
     # Do not refer to an artifact as though it was supplied when the source
-    # question does not actually contain one.
+    # merely asks the student to create or write one.
+    supplied_refs=("provided","given","following","below","above","attached","shown","presented")
     artifact_terms=("code","program","data","passage","table","diagram","graph","dataset","document","solution")
-    source_has_artifact=any(x in source_lower for x in artifact_terms)
-    if target=="Evaluate" and not source_has_artifact and any(x in n for x in INVENTED_ARTIFACT_CUES):
+    source_supplies_artifact=(
+        any(
+            (ref in source_lower and artifact in source_lower and
+             abs(source_lower.index(ref)-source_lower.index(artifact)) <= 80)
+            for ref in supplied_refs for artifact in artifact_terms
+        )
+        or chr(96)*3 in source_lower
+        or "<code>" in source_lower
+    )
+    if target=="Evaluate" and not source_supplies_artifact and any(x in n for x in INVENTED_ARTIFACT_CUES):
         r.append("invented_artifact_reference")
 
     # Guard common forms of scope expansion that add requirements absent from
