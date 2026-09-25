@@ -214,7 +214,7 @@ def main():
     ap.add_argument("--n-gpu-layers",type=int,default=-1)
     ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
-    ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4")
+    ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_1")
     ap.add_argument("--split",choices=["train","validation"],default="train")
     ap.add_argument("--attempts",type=int,default=3)
     ap.add_argument("--seed",type=int,default=42)
@@ -262,6 +262,15 @@ def main():
     existing_path=out/f"{args.split}.jsonl"
     completed_keys=set()
     if args.resume and existing_path.exists():
+        report_path=out/f"{args.split}_report.json"
+        if report_path.exists():
+            previous=json.loads(report_path.read_text(encoding="utf-8"))
+            if previous.get("policy_version") != POLICY_VERSION or previous.get("dataset_version") != "bloom_rewrite_synth_v4_1":
+                raise SystemExit(
+                    "Refusing to resume an incompatible dataset: the existing output was generated with "
+                    f"policy={previous.get(\"policy_version\")} dataset={previous.get(\"dataset_version\")}. "
+                    "Use a fresh output directory or delete the old v4 output."
+                )
         existing=read_jsonl(existing_path)
         accepted.extend(existing)
         completed_keys={(str(r.get("source_id")),canonical_level(r.get("target_bloom_level"))) for r in existing}
@@ -311,7 +320,7 @@ def main():
         src_id=str(row.get("source_id") or sha(source)[:16])
 
         rec={
-            "example_id":sha(f"v4|{src_id}|{target}|{candidate}")[:16],
+            "example_id":sha(f"v4.1|{src_id}|{target}|{candidate}")[:16],
             "source_id":src_id,
             "group_id":row.get("group_id"),
             "split":args.split,
@@ -322,7 +331,7 @@ def main():
             "transformation_type":f"{row.get('source_bloom_level')}->{target}",
             "synthetic_or_original":"synthetic_teacher_generated",
             "synthetic":True,
-            "dataset_version":"bloom_rewrite_synth_v4",
+            "dataset_version":"bloom_rewrite_synth_v4_1",
             "policy_version":POLICY_VERSION,
             "quality_status":"pass",
             "validation":v.__dict__,
