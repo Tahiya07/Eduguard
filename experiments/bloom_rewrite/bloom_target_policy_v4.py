@@ -367,7 +367,9 @@ def build_teacher_messages(source_question,target_level,retry=False,repair_reaso
         "- Change the student's task, not the subject matter.\n"
         "- Do not merely replace a verb.\n"
         "- Do not introduce unrelated content or any new requirements.\n"
+        "- Do not introduce new people, stakeholders, metrics, examples, criteria, technologies, constraints, or domain-specific requirements that are absent from the source.\n"
         "- Never invent an artifact, code, data, passage, diagram, or other material that the source question does not provide.\n"
+        "- Before finalizing, check that every concrete subject-matter noun or requirement in the rewrite is supported by the source; only the wording needed to express the target cognitive operation may be new.\n"
         "- Do not add validation, edge cases, implementation features, performance criteria, or other scope unless the source already requires them or they are strictly necessary to express the target cognitive process.\n"
         "- For Evaluate, evaluate the stated task/concept when no concrete artifact is supplied; never pretend that code, data, or another artifact was provided.\n"
         "- For Create, preserve the original constraints and topic while changing the task into a new construction/design task; do not add unrelated features.\n"
@@ -376,7 +378,7 @@ def build_teacher_messages(source_question,target_level,retry=False,repair_reaso
         "- Output exactly ONE exam question or valid exam imperative.\n"
         "- The requested level must be the dominant cognitive operation; avoid mixing multiple Bloom levels.\n"
         "- Do not use generic stock phrases.\n"
-        "- Be concise and specific." + repair_note
+        "- Be concise and specific.\n" + repair_note
     )
     user=(
         f"Original question:\n{source_question.strip()}\n\n"
