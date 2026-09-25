@@ -247,10 +247,17 @@ def make_llama_judge(llm):
         obj=_parse_json_object(raw)
         if obj is None:
             return {"pass":False,"reason":"judge_parse_error","raw":clean_output(raw)}
-        passed=bool(obj.get("pass")) and all(int(obj.get(k,0))==2 for k in (
-            "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
-        ))
-        obj["pass"]=passed
+        raw_pass=obj.get("pass")
+        pass_flag = raw_pass is True or (
+            isinstance(raw_pass,str) and raw_pass.strip().lower() in ("true","yes","1")
+        ) or (isinstance(raw_pass,(int,float)) and raw_pass==1)
+        try:
+            scores_ok=all(int(obj.get(k,0))==2 for k in (
+                "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
+            ))
+        except (TypeError,ValueError):
+            scores_ok=False
+        obj["pass"]=bool(pass_flag and scores_ok)
         return obj
     return judge
 
