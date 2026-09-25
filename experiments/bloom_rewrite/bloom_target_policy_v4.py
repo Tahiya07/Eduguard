@@ -27,7 +27,7 @@ FORBIDDEN_LEVEL_CUES={
 }
 INVENTED_ARTIFACT_CUES=("provided code","provided program","provided data","provided passage","given code","given program","given data","given passage")
 SCOPE_EXPANSION_CUES=("input validation","edge cases","error handling","resource utilization","memory utilization","time complexity","user-specified range","valid range")
-COGNITIVE_SUPPORT_WORDS=set(("analyze analyse structure logic components parts relationship relationships interactions causes patterns effects criteria evidence effectiveness validity suitability quality strengths limitations trade-off design develop construct formulate propose create devise plan strategy solution procedure artifact model framework prototype".split()))
+COGNITIVE_SUPPORT_WORDS=set(("analyze analyse structure logic components parts relationship relationships interactions causes patterns effects criteria evidence effectiveness validity suitability quality strengths limitations trade-off design develop construct formulate propose create devise plan strategy solution procedure artifact model framework prototype evaluate assess critique judge justify defend compare contrast differentiate examine explain describe summarize interpret classify illustrate apply use calculate compute determine solve implement demonstrate recall identify list define state name write build produce generate approach method task student".split()))
 
 WORD_RE=re.compile(r"[A-Za-z0-9][A-Za-z0-9_+.#/-]*")
 NUMBER_RE=re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?(?![A-Za-z])")
@@ -150,6 +150,32 @@ def _word(text, term):
 def _any_word(text, terms):
     return any(_word(text, t) for t in terms)
 
+
+def _content_sets(source, candidate):
+    source_terms=set(content(source))
+    candidate_terms=set(content(candidate))
+    added=candidate_terms-source_terms-COGNITIVE_SUPPORT_WORDS
+    shared=source_terms & candidate_terms
+    return source_terms,candidate_terms,shared,added
+
+
+def _semantic_content_island(text, terms):
+    # Returns whether a candidate-added phrase is likely a normal cognitive
+    # instruction rather than a new subject-matter requirement. This is kept
+    # conservative and word-based so it is auditable without another model.
+    return all(t in COGNITIVE_SUPPORT_WORDS for t in terms)
+
+
+def _content_addition_ratio(source, candidate):
+    source_terms,candidate_terms,shared,added=_content_sets(source,candidate)
+    denom=max(1,len(candidate_terms))
+    return len(added)/denom
+
+
+def _content_recall(source, candidate):
+    source_terms,candidate_terms,shared,added=_content_sets(source,candidate)
+    return len(shared)/len(source_terms) if source_terms else 1.0
+
 def _signals(text,target):
     n=text.lower()
     return [m for m in MARKERS[target] if (m in n)]
@@ -249,15 +275,23 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     lex=SequenceMatcher(None,s_norm,c_norm).ratio()
     if s_norm==c_norm: r.append("exact_source_copy")
     if lex>=.93: r.append("near_source_copy")
-    st=set(content(source_question)); ct=set(content(text)); recall=len(st&ct)/len(st) if st else 1.0
+    st,ct,shared,added=_content_sets(source_question,text); recall=len(shared)/len(st) if st else 1.0
+    addition_ratio=len(added)/max(1,len(ct))
     # Literal content overlap is supportive, not the primary semantic test.
     # Strong semantic similarity can legitimately accompany lexical paraphrase.
     if semantic_similarity is None:
-        if recall<.40:
+        if recall<.50:
             r.append("low_source_content_recall")
     else:
-        if recall<.30 or (recall<.45 and semantic_similarity<min_semantic_similarity+.08):
+        if recall<.30 or (recall<.50 and semantic_similarity<min_semantic_similarity+.12):
             r.append("low_source_content_recall")
+
+    # Penalize unsupported subject-matter additions. Cognitive-operation words
+    # are excluded, but new concrete requirements/topics are not.
+    source_len=max(1,len(st))
+    max_added=2 if source_len<=8 else max(3, round(source_len*0.30))
+    if len(added)>max_added and addition_ratio>0.28:
+        r.append("scope_content_addition:" + ",".join(sorted(added)[:8]))
 
     # A generic phrase is acceptable when it is anchored to the source topic.
     # Reject only generic/template-like outputs that also have weak content preservation.
@@ -285,7 +319,7 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
         cat=next(
             (x.upper() for x in (
                 "empty_output","meta_or_answer_language","generic_template",
-                "invented_artifact_reference","scope_expansion",
+                "invented_artifact_reference","scope_expansion","scope_content_addition",
                 "protected_span_loss","protected_acronym_loss","low_source_content_recall",
                 "low_semantic_similarity","classifier_target_mismatch",
                 "target_structure_mismatch","near_source_copy"
