@@ -5,9 +5,9 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 BLOOM_LEVELS = ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
-POLICY_VERSION = "bloom_target_policy_v4_teacher_validated"
+POLICY_VERSION = "bloom_target_policy_v4_1_teacher_validated"
 STOP = set("a an the and or but if then than that this these those it its of in on at to for from with by as is are was were be been being do does did can could may might will would should must into over under after before during through about against between among within without using used".split())
-VERBS = set("define explain describe list name state identify recall recognize summarize interpret classify illustrate apply use calculate compute determine solve implement demonstrate analyze analyse compare contrast differentiate examine evaluate assess critique justify judge defend design develop construct formulate propose create devise produce generate".split())
+VERBS = set("define explain describe list name state identify recall recognize summarize interpret classify illustrate apply use calculate compute determine solve implement demonstrate analyze analyse compare contrast differentiate examine evaluate assess critique justify judge defend design develop construct formulate propose create devise produce generate write build show discuss state tell".split())
 MARKERS = {
 "Remember":("define","identify","name","list","state","recall","recognize","what is","what are"),
 "Understand":("explain","describe","summarize","interpret","classify","illustrate","why does","why is","how does","how do","meaning of","purpose of"),
@@ -58,35 +58,107 @@ def clean_output(x:str)->str:
     return x
 
 def tokens(x:str): return [t.lower() for t in WORD_RE.findall(x or "")]
-def content(x:str): return [t for t in tokens(x) if len(t)>2 and t not in STOP and t not in VERBS]
+def content(x:str):
+    return [
+        t for t in tokens(x)
+        if len(t)>2
+        and t not in STOP
+        and t not in VERBS
+        and t not in {"question","student","task","following","given","provided"}
+    ]
+
+def _hard_protected_token(t:str)->bool:
+    raw=t.strip().lower()
+    if not raw:
+        return False
+    if any(c.isdigit() for c in raw):
+        return True
+    if any(c in raw for c in "+#._/\\"):
+        return True
+    if "-" in raw and any(ch.isdigit() for ch in raw):
+        return True
+    if len(raw) <= 6 and raw.isupper():
+        return True
+    return False
+
 def protected(x:str):
-    out=NUMBER_RE.findall(x or "")
-    out += [t.lower() for t in tokens(x) if any(c.isdigit() for c in t) or any(c in t for c in "+#/-._")]
-    return sorted(set(out))
+    raw_tokens=tokens(x)
+    out=set(NUMBER_RE.findall(x or ""))
+    for t in raw_tokens:
+        if _hard_protected_token(t):
+            out.add(t.lower())
+    # Preserve short quoted/backticked technical entities exactly.
+    for m in re.findall(r'["\\x60]([^"\\x60]{1,80})["\\x60]', x or ""):
+        mt=m.strip()
+        if mt and (any(c.isdigit() for c in mt) or any(c in mt for c in "+#._/-") or len(mt.split())<=3):
+            out.add(mt.lower())
+    return sorted(out)
+
+def _word(text, term):
+    return re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text.lower()) is not None
+
+def _any_word(text, terms):
+    return any(_word(text, t) for t in terms)
 
 def _signals(text,target):
-    n=text.lower(); return [m for m in MARKERS[target] if m in n]
+    n=text.lower()
+    return [m for m in MARKERS[target] if (m in n)]
 
 def _target_ok(text,target):
-    n=text.lower(); s=_signals(text,target)
-    if any(x in n for x in FORBIDDEN_LEVEL_CUES.get(target,())): return False
-    if target=="Evaluate":
-        return bool(
-            any(x in n for x in ("evaluate","assess","critique","judge","justify","defend"))
-            and any(x in n for x in ("criteria","evidence","effectiveness","validity","suitability","quality","strengths","limitations","trade-off"))
-        )
-    if target=="Create":
-        return bool(
-            any(x in n for x in ("design","develop","construct","formulate","propose","create","devise"))
-            and any(x in n for x in ("plan","strategy","solution","procedure","artifact","model","framework","prototype","program"))
-        )
-    return bool(s)
+    n=text.lower()
+    if any(x in n for x in FORBIDDEN_LEVEL_CUES.get(target,())):
+        return False
 
-def validate_candidate(source_question,target_level,candidate,*,semantic_similarity=None,min_semantic_similarity=.55,classifier_prediction=None,classifier_confidence=None,min_classifier_confidence=.60):
+    if target=="Remember":
+        return _any_word(n, ("define","identify","name","list","state","recall","recognize")) or bool(
+            re.search(r"\bwhat\s+(?:is|are)\b", n)
+        )
+
+    if target=="Understand":
+        return _any_word(n, ("explain","describe","summarize","interpret","classify","illustrate")) or bool(
+            re.search(r"\b(?:why|how)\s+(?:does|do|is|are|can|does)\b", n)
+        )
+
+    if target=="Apply":
+        return _any_word(n, ("apply","use","calculate","compute","solve","determine","implement","demonstrate")) or bool(
+            re.search(r"\busing\s+(?:the|a|an)\b", n)
+        )
+
+    if target=="Analyze":
+        return _any_word(n, ("analyze","analyse","compare","contrast","differentiate","examine")) or bool(
+            re.search(r"\b(?:relationships?|interactions?|causes?|patterns?|structure)\b", n)
+            and re.search(r"\b(?:how|why|between|among)\b", n)
+        )
+
+    if target=="Evaluate":
+        judgment=_any_word(
+            n,
+            ("evaluate","assess","critique","judge","justify","defend","rank","recommend","decide")
+        ) or bool(re.search(r"\bshould\b", n))
+        criterion=_any_word(
+            n,
+            ("criteria","evidence","effectiveness","validity","suitability","quality",
+             "strengths","limitations","trade-off","appropriate","efficient","effective",
+             "correct","better","worse","advantage","disadvantage")
+        ) or bool(re.search(r"\bwhether\b", n))
+        return judgment and criterion
+
+    if target=="Create":
+        action=_any_word(n, ("design","develop","construct","formulate","propose","create","devise","build","produce"))
+        outcome=_any_word(
+            n,
+            ("plan","strategy","solution","procedure","artifact","model","framework",
+             "prototype","program","algorithm","approach","system","method")
+        )
+        return action and outcome
+
+    return False
+
+def validate_candidate(source_question,target_level,candidate,*,semantic_similarity=None,min_semantic_similarity=.68,classifier_prediction=None,classifier_confidence=None,min_classifier_confidence=.60):
     target=canonical_level(target_level); text=clean_output(candidate); r=[]
     if not target: return ValidationResult(False,"INVALID_TARGET_LEVEL",["invalid_target_level"])
     if not text: return ValidationResult(False,"EMPTY_OUTPUT",["empty_output"])
-    if len(text)>600: r.append("too_long")
+    if len(text)>700: r.append("too_long")
     if text.count("?")>1: r.append("multiple_questions")
     n=text.lower()
     if any(p in n for p in META): r.append("meta_or_answer_language")
@@ -129,9 +201,20 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     if s_norm==c_norm: r.append("exact_source_copy")
     if lex>=.93: r.append("near_source_copy")
     st=set(content(source_question)); ct=set(content(text)); recall=len(st&ct)/len(st) if st else 1.0
-    if recall<.55: r.append("low_source_content_recall")
-    ps=protected(source_question); hits=sum(x in n for x in ps); prec=hits/len(ps) if ps else 1.0
-    if prec<.90: r.append("protected_span_loss")
+    # Literal content overlap is supportive, not the primary semantic test.
+    # Strong semantic similarity can legitimately accompany lexical paraphrase.
+    if semantic_similarity is None:
+        if recall<.40:
+            r.append("low_source_content_recall")
+    else:
+        if recall<.30 or (recall<.45 and semantic_similarity<min_semantic_similarity+.08):
+            r.append("low_source_content_recall")
+
+    ps=protected(source_question)
+    missing=[x for x in ps if not _word(n,x) and x not in n]
+    prec=(len(ps)-len(missing))/len(ps) if ps else 1.0
+    if missing:
+        r.append("protected_span_loss")
     if not _target_ok(text,target): r.append("target_structure_mismatch")
     if semantic_similarity is not None and semantic_similarity<min_semantic_similarity: r.append("low_semantic_similarity")
     if classifier_prediction is not None and canonical_level(classifier_prediction)!=target: r.append("classifier_target_mismatch")
