@@ -221,7 +221,7 @@ def main():
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
     ap.add_argument("--min-semantic",type=float,default=.55)
-    ap.add_argument("--temperature",type=float,default=.7)
+    ap.add_argument("--temperature",type=float,default=.3)
     ap.add_argument("--top-p",type=float,default=.8)
     ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
     ap.add_argument("--checkpoint-every",type=int,default=25)
