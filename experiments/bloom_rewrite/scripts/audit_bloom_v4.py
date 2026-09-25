@@ -4,6 +4,12 @@ from __future__ import annotations
 import argparse,json,re
 from collections import Counter
 from pathlib import Path
+import sys
+
+SCRIPT_DIR=Path(__file__).resolve().parent
+if str(SCRIPT_DIR.parent) not in sys.path:
+    sys.path.insert(0,str(SCRIPT_DIR.parent))
+
 from bloom_target_policy_v4 import validate_candidate
 
 def read(p):
