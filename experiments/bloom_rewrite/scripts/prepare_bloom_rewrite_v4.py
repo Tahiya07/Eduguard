@@ -162,6 +162,35 @@ def make_local_generator(tok,model,device,max_input=512,max_new=128,temperature=
     return generate
 
 
+def load_llama_teacher(model_path,n_ctx=4096,n_gpu_layers=-1):
+    from llama_cpp import Llama
+    llm=Llama(
+        model_path=model_path,
+        n_ctx=n_ctx,
+        n_gpu_layers=n_gpu_layers,
+        verbose=False,
+    )
+    return llm
+
+
+def make_llama_generator(llm,max_new=128,temperature=.7,top_p=.8):
+    def generate(source,target,retry=False):
+        messages=build_teacher_messages(source,target,retry=retry)
+        messages[-1]["content"] += "\n\n/no_think"
+        response=llm.create_chat_completion(
+            messages=messages,
+            max_tokens=max_new,
+            temperature=temperature,
+            top_p=top_p,
+            stop=["<|im_end|>","<|endoftext|>"],
+        )
+        content=response["choices"][0]["message"].get("content","")
+        if not content:
+            raise RuntimeError("llama.cpp teacher returned an empty response.")
+        return clean_output(str(content))
+    return generate
+
+
 def load_semantic():
     try:
         from sentence_transformers import SentenceTransformer
@@ -178,8 +207,11 @@ def load_semantic():
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--teacher-model",default="Qwen/Qwen3-14B")
-    ap.add_argument("--teacher-mode",choices=["hf","local"],default="hf")
+    ap.add_argument("--teacher-mode",choices=["hf","local","llama_cpp"],default="hf")
     ap.add_argument("--teacher-provider",default="nscale",help="Hugging Face Inference Provider; use auto for automatic routing")
+    ap.add_argument("--teacher-model-path",default="",help="Local GGUF path used only with --teacher-mode llama_cpp")
+    ap.add_argument("--n-ctx",type=int,default=4096)
+    ap.add_argument("--n-gpu-layers",type=int,default=-1)
     ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
     ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4")
@@ -211,7 +243,12 @@ def main():
     if args.limit:
         items=items[:args.limit]
 
-    if args.teacher_mode=="local":
+    if args.teacher_mode=="llama_cpp":
+        if not args.teacher_model_path:
+            raise SystemExit("--teacher-model-path is required with --teacher-mode llama_cpp")
+        llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers)
+        generate=make_llama_generator(llm,max_new=128,temperature=args.temperature,top_p=args.top_p)
+    elif args.teacher_mode=="local":
         tok,model=load_local_teacher(args.teacher_model,args.device)
         generate=make_local_generator(tok,model,args.device,max_new=128,temperature=args.temperature,top_p=args.top_p)
     else:
