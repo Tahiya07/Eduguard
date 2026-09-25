@@ -320,7 +320,7 @@ def main():
             "quality_status":"pass",
             "validation":v.__dict__,
             "teacher_model":args.teacher_model,
-            "teacher_provider":args.teacher_provider,
+            "teacher_provider":args.teacher_provider if args.teacher_mode=="hf" else None,
             "generator_inputs":["source_question","target_bloom_level"],
             "teacher_attempts":ntry,
         }
