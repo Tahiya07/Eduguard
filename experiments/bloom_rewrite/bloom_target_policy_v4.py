@@ -88,7 +88,18 @@ def _hard_protected_token(t:str)->bool:
     return False
 
 def protected(x:str):
-    out=set(NUMBER_RE.findall(x or ""))
+    out=set()
+    for m in NUMBER_RE.finditer(x or ""):
+        value=m.group(0)
+        line_start=(x or "").rfind("\\n",0,m.start())+1
+        prefix=(x or "")[line_start:m.start()].strip().lower()
+        # Ignore ordinary question/item numbering such as "1." or "2)".
+        after=(x or "")[m.end():m.end()+1]
+        if not prefix and after in (".",")") and value.isdigit() and int(value)<=50:
+            continue
+        if re.search(r"\\b(?:question|item|q|no|number)\\s*$",prefix):
+            continue
+        out.add(value)
 
     # C/C++/C# and other clearly code-like identifiers.
     out.update(
@@ -178,12 +189,12 @@ def _target_ok(text,target):
             n,
             ("criteria","evidence","effectiveness","validity","suitability","quality",
              "strengths","limitations","trade-off","appropriate","efficient","effective",
-             "correct","better","worse","advantage","disadvantage")
+             "correct","better","worse","preferable","advantage","disadvantage","benefit","risk","relevance")
         ) or bool(re.search(r"\bwhether\b", n))
         return judgment and criterion
 
     if target=="Create":
-        action=_any_word(n, ("design","develop","construct","formulate","propose","create","devise","build","produce"))
+        action=_any_word(n, ("design","develop","construct","formulate","propose","create","devise","build","produce","write","implement","compose"))
         outcome=_any_word(
             n,
             ("plan","strategy","solution","procedure","artifact","model","framework",
@@ -203,7 +214,6 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     if any(p in n for p in META): r.append("meta_or_answer_language")
     if "?" not in text and not n.startswith(("define ","identify ","name ","list ","state ","describe ","explain ","summarize ","analyze ","analyse ","compare ","contrast ","examine ","evaluate ","assess ","critique ","justify ","design ","develop ","construct ","formulate ","propose ","create ","apply ","use ")): r.append("invalid_exam_question_form")
     generic=next((p for p in GENERIC if p in n),None)
-    if generic: r.append("generic_template:"+generic)
 
     source_lower=source_question.lower()
     # Do not refer to an artifact as though it was supplied when the source
@@ -248,6 +258,11 @@ def validate_candidate(source_question,target_level,candidate,*,semantic_similar
     else:
         if recall<.30 or (recall<.45 and semantic_similarity<min_semantic_similarity+.08):
             r.append("low_source_content_recall")
+
+    # A generic phrase is acceptable when it is anchored to the source topic.
+    # Reject only generic/template-like outputs that also have weak content preservation.
+    if generic and recall<.45 and (semantic_similarity is None or semantic_similarity<min_semantic_similarity+.08):
+        r.append("generic_template:"+generic)
 
     ps=protected(source_question)
     missing=[x for x in ps if not _word(n,x) and x not in n]
