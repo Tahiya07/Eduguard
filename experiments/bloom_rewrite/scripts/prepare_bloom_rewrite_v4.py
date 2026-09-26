@@ -214,84 +214,306 @@ def _parse_json_object(text):
     return obj if isinstance(obj,dict) else None
 
 
-def build_teacher_judge_messages(source_question,target_level,candidate):
-    target=canonical_level(target_level) or target_level
-    guidance={
-        "Remember":"The student should recall or identify information.",
-        "Understand":"The student should explain, describe, interpret, summarize, or classify.",
-        "Apply":"The student should use a known method, rule, or procedure on a concrete task.",
-        "Analyze":"The student should examine parts, relationships, interactions, causes, structure, patterns, or effects.",
-        "Evaluate":"The student should make a justified judgment using relevant criteria or evidence.",
-        "Create":"The student should design, construct, formulate, develop, or propose a new solution or artifact.",
+def build_teacher_judge_messages(source_question, target_level, candidate):
+    target = canonical_level(target_level) or target_level
+
+    guidance = {
+        "Remember": "Recall or identify information.",
+        "Understand": "Explain, describe, interpret, summarize, or classify.",
+        "Apply": "Use a known rule, concept, method, or procedure on a concrete task.",
+        "Analyze": "Examine parts, relationships, interactions, causes, structure, patterns, or effects.",
+        "Evaluate": "Make a justified judgment using relevant criteria or evidence.",
+        "Create": "Design, construct, formulate, develop, or propose a new solution or artifact.",
     }[target]
-    system=(
-        "You are the final quality-control reviewer for a university Bloom-level rewrite dataset. "
-        "Judge one candidate rewrite against its source question and requested target cognitive operation. "
-        "Be conservative: reject any candidate that changes the subject matter, invents supplied artifacts, "
-        "adds substantive requirements, or changes the intended task beyond what is necessary to express the target level. "
-        "New wording needed only to express the cognitive operation is allowed. "
-        "A good candidate preserves technical entities, quantities, constraints, and academic intent. "
-        "Return JSON only with keys: pass, content_fidelity, scope_fidelity, target_alignment, artifact_fidelity, reason. "
-        "Scores are integers from 0 to 2. pass is true only when content_fidelity=2, scope_fidelity=2, "
-        "target_alignment=2, and artifact_fidelity=2."
+
+    system = (
+        "You are the STRICT final quality-control reviewer for a university Bloom-level rewrite dataset. "
+        "The source question is the ONLY authority for substantive subject-matter content. "
+
+        "Judge whether the candidate preserves the source while changing only its dominant cognitive operation "
+        "to the requested Bloom level. Do NOT judge whether the candidate is merely a plausible or sensible "
+        "answer to the source. "
+
+        "CRITICAL SOURCE-FIDELITY RULE: An open-ended source question does NOT implicitly supply a specific "
+        "solution, method, measurement, criterion, theory, framework, evidence type, technology, example, "
+        "quantity, value, stakeholder, dataset, artifact, or factual detail. "
+
+        "A candidate MUST be rejected when it introduces any such concrete detail that is not explicitly "
+        "supported by the source, even when the added detail is common knowledge, realistic, useful, or a "
+        "correct way to solve the source problem. "
+
+        "Example A: "
+        "Source: 'How could we determine the number of pennies in a jar without counting them?' "
+        "Allowed: 'Evaluate the suitability of a method for determining the number of pennies in a jar "
+        "without counting them, and justify the judgment.' "
+        "Rejected: 'Evaluate whether using the mass of the jar and the average mass of a penny is the most "
+        "accurate method for determining the number of pennies without counting them.' "
+        "The rejected candidate invents a mass-based method and a specific accuracy criterion. "
+
+        "Example B: "
+        "Source: 'How do psychologists differ in their general attitudes toward third party presence?' "
+        "Allowed: 'Evaluate the differences in psychologists' general attitudes toward third party presence "
+        "and justify the judgment.' "
+        "Rejected: 'Evaluate the differences in psychologists' general attitudes toward third party presence "
+        "using established theories and empirical evidence.' "
+        "The rejected candidate invents specific evaluation resources. "
+
+        "Generic wording needed only to express the Bloom operation is allowed. Examples are: "
+        "'evaluate the suitability of a method', 'justify the judgment', 'examine the relationship', "
+        "'use an appropriate method', and 'propose a solution'. "
+
+        "For Evaluate, generic judgment/justification wording is allowed, but a specific criterion, "
+        "measurement, theory, evidence type, named method, comparison standard, or technology is not "
+        "allowed unless the source supplies it. Words such as 'most accurate' are substantive when they "
+        "introduce a comparison criterion absent from the source. "
+
+        "For Apply, the candidate must ask the student to use a known rule, concept, method, or procedure "
+        "on the source's task. Do not accept vague wording that does not create an actual application task. "
+
+        "For Analyze, the object, components, relationships, causes, interactions, patterns, or structure "
+        "being analyzed must be grounded in the source. "
+
+        "For Create, a new student-produced artifact is allowed only when its topic and constraints come "
+        "from the source. Do not invent unrelated features or requirements. "
+
+        "Also reject invented supplied artifacts such as 'the provided code', 'the given data', "
+        "'the following passage', or 'the attached diagram' when the source does not actually provide one. "
+
+        "Return ONLY one JSON object with exactly these keys: "
+        "pass, target_aligned, source_faithful, unsupported_additions, reason. "
+
+        "target_aligned and source_faithful are booleans. "
+        "unsupported_additions is an array of concrete newly introduced subject-matter details. "
+        "Do not list generic Bloom-operation wording. "
+        "pass MUST be false whenever target_aligned is false, source_faithful is false, or "
+        "unsupported_additions is non-empty. When uncertain, reject."
     )
-    user=(
+
+    user = (
         f"Source question:\n{source_question.strip()}\n\n"
-        f"Requested target Bloom level:\n{target}\n"
+        f"Requested target Bloom level:\n{target}\n\n"
         f"Target cognitive operation:\n{guidance}\n\n"
         f"Candidate rewrite:\n{candidate.strip()}\n\n"
-        "Assess the candidate. Do not rewrite it. "
-        "Return ONLY the JSON object. Do not think aloud.\n/no_think"
+        "Trace every concrete subject-matter detail in the candidate back to the source. "
+        "A plausible real-world solution is NOT source-supported unless stated in the source. "
+        "Do not rewrite the candidate. Return ONLY the JSON object.\n/no_think"
     )
-    return [{"role":"system","content":system},{"role":"user","content":user}]
+
+    return [
+        {"role":"system","content":system},
+        {"role":"user","content":user},
+    ]
+
+
+def _normalize_bool(value):
+    if value is True:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() in ("true", "yes", "1")
+    if isinstance(value, (int, float)):
+        return value == 1
+    return False
+
+
+def _finalize_judge(obj, raw=""):
+    if not isinstance(obj, dict):
+        return {
+            "pass": False,
+            "target_aligned": False,
+            "source_faithful": False,
+            "unsupported_additions": [],
+            "reason": "judge_parse_error",
+            "raw": clean_output(raw),
+        }
+
+    target_aligned = _normalize_bool(obj.get("target_aligned"))
+    source_faithful = _normalize_bool(obj.get("source_faithful"))
+
+    additions = obj.get("unsupported_additions", [])
+    if not isinstance(additions, list):
+        return {
+            "pass": False,
+            "target_aligned": target_aligned,
+            "source_faithful": source_faithful,
+            "unsupported_additions": [],
+            "reason": "judge_invalid_additions_field",
+            "raw": clean_output(raw),
+        }
+
+    additions = [
+        str(x).strip()
+        for x in additions
+        if str(x).strip()
+    ]
+
+    passed = (
+        target_aligned
+        and source_faithful
+        and len(additions) == 0
+    )
+
+    return {
+        "pass": passed,
+        "target_aligned": target_aligned,
+        "source_faithful": source_faithful,
+        "unsupported_additions": additions,
+        "reason": (
+            "judge_pass"
+            if passed
+            else str(obj.get("reason") or "unsupported_or_misaligned_content")
+        ),
+    }
+
+
+def _parse_judge_response(response):
+    raw = response["choices"][0]["message"].get("content", "")
+    obj = _parse_json_object(raw)
+    return _finalize_judge(obj, raw=raw)
 
 
 def make_llama_judge(llm):
-    def judge(source,target,candidate):
-        try:
-            response=llm.create_chat_completion(
-                messages=build_teacher_judge_messages(source,target,candidate),
-                max_tokens=160,
-                temperature=0.0,
-                top_p=1.0,
-                response_format={
-                    "type":"json_object",
-                    "schema":{
-                        "type":"object",
-                        "properties":{
-                            "pass":{"type":"boolean"},
-                            "content_fidelity":{"type":"integer","enum":[0,1,2]},
-                            "scope_fidelity":{"type":"integer","enum":[0,1,2]},
-                            "target_alignment":{"type":"integer","enum":[0,1,2]},
-                            "artifact_fidelity":{"type":"integer","enum":[0,1,2]},
-                            "reason":{"type":"string"},
+    def judge(source, target, candidate):
+        messages = build_teacher_judge_messages(source, target, candidate)
+
+        def call(structured):
+            kwargs = {
+                "messages": messages,
+                "max_tokens": 256,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "stop": ["<|im_end|>", "<|endoftext|>"],
+            }
+
+            if structured:
+                kwargs["response_format"] = {
+                    "type": "json_object",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "pass": {"type": "boolean"},
+                            "target_aligned": {"type": "boolean"},
+                            "source_faithful": {"type": "boolean"},
+                            "unsupported_additions": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
+                            "reason": {"type": "string"},
                         },
-                        "required":[
-                            "pass","content_fidelity","scope_fidelity",
-                            "target_alignment","artifact_fidelity","reason"
+                        "required": [
+                            "pass",
+                            "target_aligned",
+                            "source_faithful",
+                            "unsupported_additions",
+                            "reason",
                         ],
                     },
-                },
-                stop=["<|im_end|>","<|endoftext|>"],
-            )
-            raw=response["choices"][0]["message"].get("content","")
-            obj=_parse_json_object(raw)
-            if obj is None:
-                return {"pass":False,"reason":"judge_parse_error","raw":clean_output(raw)}
-            raw_pass=obj.get("pass")
-            pass_flag = raw_pass is True or (
-                isinstance(raw_pass,str) and raw_pass.strip().lower() in ("true","yes","1")
-            ) or (isinstance(raw_pass,(int,float)) and raw_pass==1)
+                }
+
+            return llm.create_chat_completion(**kwargs)
+
+        try:
+            return _parse_judge_response(call(True))
+        except Exception:
             try:
-                scores_ok=all(int(obj.get(k,0))==2 for k in (
-                    "content_fidelity","scope_fidelity","target_alignment","artifact_fidelity"
-                ))
-            except (TypeError,ValueError):
-                scores_ok=False
-            obj["pass"]=bool(pass_flag and scores_ok)
-            return obj
-        except Exception as exc:
-            return {"pass":False,"reason":"judge_runtime_error:"+str(exc)}
+                return _parse_judge_response(call(False))
+            except Exception as exc:
+                return {
+                    "pass": False,
+                    "target_aligned": False,
+                    "source_faithful": False,
+                    "unsupported_additions": [],
+                    "reason": "judge_runtime_error:" + str(exc),
+                }
+
+    return judge
+
+
+def make_hf_judge(client, model_id):
+    def judge(source, target, candidate):
+        messages = build_teacher_judge_messages(source, target, candidate)
+
+        def call(structured):
+            kwargs = {
+                "model": model_id,
+                "messages": messages,
+                "max_tokens": 256,
+                "temperature": 0.0,
+                "top_p": 1.0,
+            }
+
+            if structured:
+                kwargs["response_format"] = {
+                    "type": "json_object"
+                }
+
+            return client.chat.completions.create(**kwargs)
+
+        try:
+            return _parse_judge_response(call(True))
+        except Exception:
+            try:
+                return _parse_judge_response(call(False))
+            except Exception as exc:
+                return {
+                    "pass": False,
+                    "target_aligned": False,
+                    "source_faithful": False,
+                    "unsupported_additions": [],
+                    "reason": "judge_runtime_error:" + str(exc),
+                }
+
+    return judge
+
+
+def make_local_judge(tok, model):
+    import torch
+
+    def judge(source, target, candidate):
+        messages = build_teacher_judge_messages(source, target, candidate)
+
+        try:
+            prompt = tok.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+        except TypeError:
+            prompt = tok.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+            prompt += "\n/no_think"
+
+        x = tok(
+            prompt,
+            return_tensors="pt",
+            truncation=True,
+            max_length=1024,
+        )
+        x = {k: v.to(model.device) for k, v in x.items()}
+
+        with torch.no_grad():
+            y = model.generate(
+                **x,
+                max_new_tokens=256,
+                do_sample=False,
+                temperature=0.0,
+                top_p=1.0,
+                pad_token_id=tok.pad_token_id,
+                eos_token_id=tok.eos_token_id,
+            )
+
+        raw = tok.decode(
+            y[0][x["input_ids"].shape[1]:],
+            skip_special_tokens=True,
+        )
+        return _finalize_judge(
+            _parse_json_object(raw),
+            raw=raw,
+        )
+
     return judge
 
 
@@ -332,6 +554,7 @@ def main():
     ap.add_argument("--device",default="cuda",choices=["cuda","cpu"])
     ap.add_argument("--checkpoint-every",type=int,default=25)
     ap.add_argument("--resume",action="store_true")
+    ap.add_argument("--overwrite",action="store_true")
     args=ap.parse_args()
 
     random.seed(args.seed)
@@ -352,17 +575,53 @@ def main():
     if args.teacher_mode=="llama_cpp":
         if not args.teacher_model_path:
             raise SystemExit("--teacher-model-path is required with --teacher-mode llama_cpp")
-        llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers,args.n_batch,args.n_threads or None)
-        generate=make_llama_generator(llm,max_new=96,temperature=args.temperature,top_p=args.top_p)
+        llm=load_llama_teacher(
+            args.teacher_model_path,
+            args.n_ctx,
+            args.n_gpu_layers,
+            args.n_batch,
+            args.n_threads or None,
+        )
+        generate=make_llama_generator(
+            llm,
+            max_new=96,
+            temperature=args.temperature,
+            top_p=args.top_p,
+        )
         judge=make_llama_judge(llm)
+
     elif args.teacher_mode=="local":
-        tok,model=load_local_teacher(args.teacher_model,args.device)
-        generate=make_local_generator(tok,model,args.device,max_new=128,temperature=args.temperature,top_p=args.top_p)
-        judge=None
+        tok,model=load_local_teacher(
+            args.teacher_model,
+            args.device,
+        )
+        generate=make_local_generator(
+            tok,
+            model,
+            args.device,
+            max_new=128,
+            temperature=args.temperature,
+            top_p=args.top_p,
+        )
+        judge=make_local_judge(tok,model)
+
     else:
-        client=load_hf_teacher(args.teacher_model,args.teacher_provider,args.hf_token_env)
-        generate=make_hf_generator(client,args.teacher_model,max_new=128,temperature=args.temperature,top_p=args.top_p)
-        judge=None
+        client=load_hf_teacher(
+            args.teacher_model,
+            args.teacher_provider,
+            args.hf_token_env,
+        )
+        generate=make_hf_generator(
+            client,
+            args.teacher_model,
+            max_new=128,
+            temperature=args.temperature,
+            top_p=args.top_p,
+        )
+        judge=make_hf_judge(
+            client,
+            args.teacher_model,
+        )
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
 
     accepted=[]
@@ -372,6 +631,13 @@ def main():
     judge_rejections=0
     existing_path=out/f"{args.split}.jsonl"
     completed_keys=set()
+
+    if existing_path.exists() and not args.resume and not args.overwrite:
+        raise SystemExit(
+            f"Output already exists: {existing_path}. "
+            "Use --resume to continue it or --overwrite to replace it."
+        )
+
     if args.resume and existing_path.exists():
         report_path=out/f"{args.split}_report.json"
         if report_path.exists():
@@ -453,19 +719,31 @@ def main():
                     f"pass={judge_result.get('pass',False)} reason={judge_result.get('reason','')}",
                     flush=True,
                 )
-                if judge_result.get("pass",False):
-                    judge_passes+=1
-                    # Teacher adjudication resolves soft warnings such as
-                    # lexical overlap or rigid keyword-based target cues.
-                    v.ok=True
-                    v.failure_category=""
+                if judge_result.get("pass") is True:
+                    judge_passes += 1
+                    # The judge may clear only soft validation findings.
+                    v.ok = True
+                    v.failure_category = ""
                 else:
-                    judge_rejections+=1
-                    v.reasons.append("teacher_judge:" + str(judge_result.get("reason","rejected")))
-                    v.failure_category="TEACHER_JUDGE_REJECTION"
-                    v.ok=False
+                    judge_rejections += 1
+                    v.reasons.append(
+                        "teacher_judge:" + str(
+                            judge_result.get("reason","rejected")
+                        )
+                    )
+                    additions = judge_result.get(
+                        "unsupported_additions", []
+                    )
+                    if additions:
+                        v.reasons.append(
+                            "unsupported_additions:" + " | ".join(
+                                str(x) for x in additions[:6]
+                            )
+                        )
+                    v.failure_category = "TEACHER_JUDGE_REJECTION"
+                    v.ok = False
 
-            if v.ok:
+            if v.ok and judge_result is not None and judge_result.get("pass") is True:
                 best=(candidate,v,attempt+1,judge_result)
                 print(
                     f"[{i}/{total_items}] ACCEPTED on attempt {attempt+1} "
@@ -524,6 +802,18 @@ def main():
             write_jsonl(existing_path,accepted)
             print(f"CHECKPOINT {i}/{len(items)} accepted={len(accepted)} elapsed={time.perf_counter()-run_started:.1f}s", flush=True)
 
+    for rec in accepted:
+        gate=rec.get("teacher_judge") or {}
+        if not (
+            gate.get("pass") is True
+            and gate.get("target_aligned") is True
+            and gate.get("source_faithful") is True
+            and not gate.get("unsupported_additions")
+        ):
+            raise RuntimeError(
+                f"Final acceptance audit failed for {rec.get('example_id')}"
+            )
+
     write_jsonl(out/f"{args.split}.jsonl",accepted)
 
     report={
@@ -546,9 +836,10 @@ def main():
         "attempts":args.attempts,
         "max_new_tokens":96,
         "judge_max_tokens":160,
-        "teacher_judge_enabled":args.teacher_mode=="llama_cpp",
+        "teacher_judge_enabled":True,
         "teacher_judge_passes":judge_passes,
         "teacher_judge_rejections":judge_rejections,
+        "source_fidelity_policy":"open-ended questions do not imply specific solution methods, measurements, criteria, theories, evidence types, or technologies",
         "elapsed_seconds":round(time.perf_counter()-run_started,2),
         "transformation_counts":dict(Counter(x["transformation_type"] for x in accepted)),
     }
