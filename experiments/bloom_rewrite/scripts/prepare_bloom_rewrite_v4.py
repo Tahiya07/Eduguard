@@ -11,7 +11,7 @@ Important:
 - Local mode is intended for GPU notebooks such as Google Colab and avoids inference-provider credits.
 """
 from __future__ import annotations
-import argparse, hashlib, json, random, re, sys
+import argparse, hashlib, json, random, re, sys, time
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -162,14 +162,25 @@ def make_local_generator(tok,model,device,max_input=512,max_new=128,temperature=
     return generate
 
 
-def load_llama_teacher(model_path,n_ctx=4096,n_gpu_layers=-1):
+def load_llama_teacher(model_path,n_ctx=2048,n_gpu_layers=-1,n_batch=1024,n_threads=None):
     from llama_cpp import Llama
+    import os
+    if n_threads is None:
+        n_threads=max(1,(os.cpu_count() or 4)//2)
+    print(
+        f"LOADING QWEN3-14B: n_ctx={n_ctx} n_gpu_layers={n_gpu_layers} "
+        f"n_batch={n_batch} n_threads={n_threads}",
+        flush=True,
+    )
     llm=Llama(
         model_path=model_path,
         n_ctx=n_ctx,
+        n_batch=n_batch,
         n_gpu_layers=n_gpu_layers,
+        n_threads=n_threads,
         verbose=False,
     )
+    print("QWEN3-14B READY", flush=True)
     return llm
 
 
@@ -284,8 +295,10 @@ def main():
     ap.add_argument("--teacher-mode",choices=["hf","local","llama_cpp"],default="hf")
     ap.add_argument("--teacher-provider",default="nscale",help="Hugging Face Inference Provider; use auto for automatic routing")
     ap.add_argument("--teacher-model-path",default="",help="Local GGUF path used only with --teacher-mode llama_cpp")
-    ap.add_argument("--n-ctx",type=int,default=4096)
+    ap.add_argument("--n-ctx",type=int,default=2048)
     ap.add_argument("--n-gpu-layers",type=int,default=-1)
+    ap.add_argument("--n-batch",type=int,default=1024)
+    ap.add_argument("--n-threads",type=int,default=0)
     ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
     ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_1")
@@ -320,7 +333,7 @@ def main():
     if args.teacher_mode=="llama_cpp":
         if not args.teacher_model_path:
             raise SystemExit("--teacher-model-path is required with --teacher-mode llama_cpp")
-        llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers)
+        llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers,args.n_batch,args.n_threads or None)
         generate=make_llama_generator(llm,max_new=128,temperature=args.temperature,top_p=args.top_p)
         judge=make_llama_judge(llm)
     elif args.teacher_mode=="local":
@@ -355,9 +368,18 @@ def main():
         completed_keys={(str(r.get("source_id")),canonical_level(r.get("target_bloom_level"))) for r in existing}
         print(f"RESUME: loaded {len(existing)} accepted rows from {existing_path}")
 
+    total_items=len(items)
+    run_started=time.perf_counter()
+
     for i,row in enumerate(items,1):
         source=row["source_question"]
         target=row["target_bloom_level"]
+        item_started=time.perf_counter()
+        print(
+            f"[{i}/{total_items}] START target={target} "
+            f"source={source[:100].replace(chr(10),' ')}",
+            flush=True,
+        )
         source_key=(str(row.get("source_id") or sha(source)[:16]),canonical_level(target))
         if source_key in completed_keys:
             continue
@@ -365,6 +387,8 @@ def main():
         repair_reasons=None
 
         for attempt in range(args.attempts):
+            print(f"[{i}/{total_items}] attempt {attempt+1}/{args.attempts} generating", flush=True)
+            gen_started=time.perf_counter()
             try:
                 candidate=generate(
                     source,
@@ -376,6 +400,8 @@ def main():
                 failures["TEACHER_API_ERROR"]+=1
                 print(f"teacher_error example={i} attempt={attempt+1}: {exc}")
                 continue
+            gen_seconds=time.perf_counter()-gen_started
+            print(f"[{i}/{total_items}] attempt {attempt+1} generated in {gen_seconds:.1f}s", flush=True)
             semantic=sim_fn(source,candidate) if sim_fn and candidate else None
             v=validate_candidate(
                 source,
@@ -399,7 +425,15 @@ def main():
             hard_reasons=[x for x in v.reasons if x.upper().startswith(hard_prefixes)]
 
             if judge is not None and not hard_reasons:
+                print(f"[{i}/{total_items}] judge running", flush=True)
+                judge_started=time.perf_counter()
                 judge_result=judge(source,target,candidate)
+                judge_seconds=time.perf_counter()-judge_started
+                print(
+                    f"[{i}/{total_items}] judge finished in {judge_seconds:.1f}s "
+                    f"pass={judge_result.get('pass',False)} reason={judge_result.get('reason','')}",
+                    flush=True,
+                )
                 if judge_result.get("pass",False):
                     judge_passes+=1
                     # Teacher adjudication resolves soft warnings such as
@@ -414,13 +448,29 @@ def main():
 
             if v.ok:
                 best=(candidate,v,attempt+1,judge_result)
+                print(
+                    f"[{i}/{total_items}] ACCEPTED on attempt {attempt+1} "
+                    f"item_time={time.perf_counter()-item_started:.1f}s",
+                    flush=True,
+                )
                 break
 
             failures[v.failure_category or "QUALITY_REJECTION"]+=1
             repair_reasons=v.reasons
+            print(
+                f"[{i}/{total_items}] REJECTED attempt {attempt+1}: "
+                f"{v.failure_category or 'QUALITY_REJECTION'} "
+                f"reasons={'; '.join(v.reasons[:3])}",
+                flush=True,
+            )
 
         if best is None:
             attempts_used.append(args.attempts)
+            print(
+                f"[{i}/{total_items}] REJECTED after {args.attempts} attempts "
+                f"item_time={time.perf_counter()-item_started:.1f}s",
+                flush=True,
+            )
             continue
 
         candidate,v,ntry,judge_result=best
@@ -453,7 +503,7 @@ def main():
 
         if args.checkpoint_every and i%args.checkpoint_every==0:
             write_jsonl(existing_path,accepted)
-            print(f"CHECKPOINT {i}/{len(items)} accepted={len(accepted)}")
+            print(f"CHECKPOINT {i}/{len(items)} accepted={len(accepted)} elapsed={time.perf_counter()-run_started:.1f}s", flush=True)
 
     write_jsonl(out/f"{args.split}.jsonl",accepted)
 
@@ -478,6 +528,7 @@ def main():
         "teacher_judge_enabled":args.teacher_mode=="llama_cpp",
         "teacher_judge_passes":judge_passes,
         "teacher_judge_rejections":judge_rejections,
+        "elapsed_seconds":round(time.perf_counter()-run_started,2),
         "transformation_counts":dict(Counter(x["transformation_type"] for x in accepted)),
     }
     (out/f"{args.split}_report.json").write_text(
