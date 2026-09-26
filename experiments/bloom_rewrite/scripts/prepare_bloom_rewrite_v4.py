@@ -231,20 +231,43 @@ def build_teacher_judge_messages(source_question, target_level, candidate):
     target = canonical_level(target_level) or target_level
 
     guidance = {
-        "Remember": "Recall or identify information.",
-        "Understand": "Explain, describe, interpret, summarize, or classify.",
-        "Apply": "Use a known rule, concept, method, or procedure on a concrete task.",
-        "Analyze": "Examine parts, relationships, interactions, causes, structure, patterns, or effects.",
-        "Evaluate": "Make a justified judgment using relevant criteria or evidence.",
-        "Create": "Design, construct, formulate, develop, or propose a new solution or artifact.",
+        "Remember": "Recall or identify information; valid operations include define, list, name, identify, state, recall, recognize, and what-is/what-are questions.",
+        "Understand": "Explain, describe, summarize, interpret, or classify a concept or idea.",
+        "Apply": "Use or apply a known rule, concept, method, or procedure on a concrete task.",
+        "Analyze": "Examine parts, components, relationships, interactions, causes, structure, patterns, or effects.",
+        "Evaluate": "Make a justified judgment about correctness, quality, validity, effectiveness, or suitability using relevant criteria or evidence.",
+        "Create": "Design, construct, formulate, develop, propose, create, or build a new solution, procedure, model, plan, program, or other artifact grounded in the source.",
     }[target]
 
     system = (
         "You are the STRICT final quality-control reviewer for a university Bloom-level rewrite dataset. "
         "The source question is the ONLY authority for substantive subject-matter content. "
 
-        "Judge whether the candidate preserves the source while changing only its dominant cognitive operation "
-        "to the requested Bloom level. Do NOT judge whether the candidate is merely a plausible or sensible "
+        "TARGET ALIGNMENT MUST BE JUDGED AGAINST THE REQUESTED TARGET LEVEL ONLY. "
+        "The source and target Bloom levels are intentionally allowed to differ in ANY direction. "
+        "Never reject a candidate because its cognitive operation is higher or lower than the source question. "
+        "Do not infer, compare, or preserve the source's original Bloom level. "
+
+        "TARGET-LEVEL RUBRIC: "
+        "Remember includes valid recall operations such as define, list, name, identify, state, recall, recognize, "
+        "and what-is/what-are questions. In particular, 'list' is a valid Remember operation and must NOT be "
+        "rejected merely because the source was at a higher Bloom level. "
+        "Understand includes explain, describe, summarize, interpret, classify, and illustrate. "
+        "Apply asks the student to use or apply a known rule, concept, method, or procedure on a concrete task. "
+        "Analyze asks the student to examine parts, components, relationships, interactions, causes, structure, "
+        "patterns, or effects. "
+        "Evaluate asks the student to make a justified judgment about correctness, quality, validity, effectiveness, "
+        "suitability, or another relevant property, using criteria or evidence. Generic judgment/justification "
+        "wording is allowed when needed to express Evaluate. "
+        "Create asks the student to design, construct, formulate, develop, propose, create, or build a new "
+        "solution, procedure, model, plan, program, or other artifact grounded in the source topic and constraints. "
+
+        "Examples of correct downward transformations include an Evaluate source becoming a Remember question "
+        "with 'list' or 'identify', and an Analyze source becoming an Understand question with 'explain'. "
+        "These are valid because target alignment is determined by the target operation, not the source operation. "
+
+        "Judge whether the candidate preserves the source while changing its dominant cognitive operation "
+        "to the requested target level. Do NOT judge whether the candidate is merely a plausible or sensible "
         "answer to the source. "
 
         "CRITICAL SOURCE-FIDELITY RULE: An open-ended source question does NOT implicitly supply a specific "
@@ -255,51 +278,33 @@ def build_teacher_judge_messages(source_question, target_level, candidate):
         "supported by the source, even when the added detail is common knowledge, realistic, useful, or a "
         "correct way to solve the source problem. "
 
-        "Example A: "
-        "Source: 'How could we determine the number of pennies in a jar without counting them?' "
-        "Allowed: 'Evaluate the suitability of a method for determining the number of pennies in a jar "
-        "without counting them, and justify the judgment.' "
-        "Rejected: 'Evaluate whether using the mass of the jar and the average mass of a penny is the most "
-        "accurate method for determining the number of pennies without counting them.' "
-        "The rejected candidate invents a mass-based method and a specific accuracy criterion. "
+        "Generic wording required only to express the target cognitive operation is allowed. Do not mark generic "
+        "Bloom-operation wording as unsupported_additions. For Evaluate, phrases such as 'justify the judgment' "
+        "or 'evaluate the suitability' are generic operation wording, not invented subject matter. "
 
-        "Example B: "
-        "Source: 'How do psychologists differ in their general attitudes toward third party presence?' "
-        "Allowed: 'Evaluate the differences in psychologists' general attitudes toward third party presence "
-        "and justify the judgment.' "
-        "Rejected: 'Evaluate the differences in psychologists' general attitudes toward third party presence "
-        "using established theories and empirical evidence.' "
-        "The rejected candidate invents specific evaluation resources. "
+        "For Evaluate, a specific criterion, measurement, theory, evidence type, named method, comparison standard, "
+        "technology, or other concrete evaluation resource is unsupported unless the source supplies it. "
 
-        "Generic wording needed only to express the Bloom operation is allowed. Examples are: "
-        "'evaluate the suitability of a method', 'justify the judgment', 'examine the relationship', "
-        "'use an appropriate method', and 'propose a solution'. "
+        "For Apply, the candidate must create an actual application task on the source's topic; vague explanatory "
+        "paraphrases are insufficient. "
 
-        "For Evaluate, generic judgment/justification wording is allowed, but a specific criterion, "
-        "measurement, theory, evidence type, named method, comparison standard, or technology is not "
-        "allowed unless the source supplies it. Words such as 'most accurate' are substantive when they "
-        "introduce a comparison criterion absent from the source. "
+        "For Analyze, the object, components, relationships, causes, interactions, patterns, or structure being "
+        "analyzed must be grounded in the source. "
 
-        "For Apply, the candidate must ask the student to use a known rule, concept, method, or procedure "
-        "on the source's task. Do not accept vague wording that does not create an actual application task. "
+        "For Create, a new student-produced artifact is allowed only when its topic and constraints come from "
+        "the source. Do not invent unrelated features or requirements. "
 
-        "For Analyze, the object, components, relationships, causes, interactions, patterns, or structure "
-        "being analyzed must be grounded in the source. "
-
-        "For Create, a new student-produced artifact is allowed only when its topic and constraints come "
-        "from the source. Do not invent unrelated features or requirements. "
-
-        "Also reject invented supplied artifacts such as 'the provided code', 'the given data', "
-        "'the following passage', or 'the attached diagram' when the source does not actually provide one. "
+        "Reject invented supplied artifacts such as 'the provided code', 'the given data', 'the following passage', "
+        "or 'the attached diagram' when the source does not actually provide one. "
 
         "Return ONLY one JSON object with exactly these keys: "
         "pass, target_aligned, source_faithful, unsupported_additions, reason. "
 
         "target_aligned and source_faithful are booleans. "
-        "unsupported_additions is an array of concrete newly introduced subject-matter details. "
-        "Do not list generic Bloom-operation wording. "
-        "pass MUST be false whenever target_aligned is false, source_faithful is false, or "
-        "unsupported_additions is non-empty. When uncertain, reject."
+        "unsupported_additions is an array of concrete newly introduced subject-matter details; do not list "
+        "generic Bloom-operation wording. "
+        "pass MUST be false whenever target_aligned is false, source_faithful is false, or unsupported_additions "
+        "is non-empty. When uncertain about source support, reject."
     )
 
     user = (
@@ -307,7 +312,8 @@ def build_teacher_judge_messages(source_question, target_level, candidate):
         f"Requested target Bloom level:\n{target}\n\n"
         f"Target cognitive operation:\n{guidance}\n\n"
         f"Candidate rewrite:\n{candidate.strip()}\n\n"
-        "Trace every concrete subject-matter detail in the candidate back to the source. "
+        "Determine target alignment from the candidate itself. Do not compare it with the source's original "
+        "cognitive level. Trace every concrete subject-matter detail in the candidate back to the source. "
         "A plausible real-world solution is NOT source-supported unless stated in the source. "
         "Do not rewrite the candidate. Return ONLY the JSON object.\n/no_think"
     )
@@ -316,7 +322,6 @@ def build_teacher_judge_messages(source_question, target_level, candidate):
         {"role":"system","content":system},
         {"role":"user","content":user},
     ]
-
 
 def _normalize_bool(value):
     if value is True:
@@ -555,9 +560,9 @@ def main():
     ap.add_argument("--n-threads",type=int,default=0)
     ap.add_argument("--hf-token-env",default="HF_TOKEN")
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
-    ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_1")
+    ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_2")
     ap.add_argument("--split",choices=["train","validation"],default="train")
-    ap.add_argument("--attempts",type=int,default=2)
+    ap.add_argument("--attempts",type=int,default=3)
     ap.add_argument("--seed",type=int,default=42)
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
@@ -660,7 +665,7 @@ def main():
         report_path=out/f"{args.split}_report.json"
         if report_path.exists():
             previous=json.loads(report_path.read_text(encoding="utf-8"))
-            if previous.get("policy_version") != POLICY_VERSION or previous.get("dataset_version") != "bloom_rewrite_synth_v4_1":
+            if previous.get("policy_version") != POLICY_VERSION or previous.get("dataset_version") != "bloom_rewrite_synth_v4_2":
                 raise SystemExit(
                     "Refusing to resume an incompatible dataset: the existing output was generated with "
                     f"policy={previous.get('policy_version')} dataset={previous.get('dataset_version')}. "
@@ -793,7 +798,7 @@ def main():
         src_id=str(row.get("source_id") or sha(source)[:16])
 
         rec={
-            "example_id":sha(f"v4.1|{src_id}|{target}|{candidate}")[:16],
+            "example_id":sha(f"v4.2|{src_id}|{target}|{candidate}")[:16],
             "source_id":src_id,
             "group_id":row.get("group_id"),
             "split":args.split,
@@ -804,7 +809,7 @@ def main():
             "transformation_type":f"{row.get('source_bloom_level')}->{target}",
             "synthetic_or_original":"synthetic_teacher_generated",
             "synthetic":True,
-            "dataset_version":"bloom_rewrite_synth_v4_1",
+            "dataset_version":"bloom_rewrite_synth_v4_2",
             "policy_version":POLICY_VERSION,
             "quality_status":"pass",
             "validation":v.__dict__,
@@ -836,7 +841,7 @@ def main():
 
     report={
         "timestamp_utc":datetime.now(timezone.utc).isoformat(),
-        "dataset_version":"bloom_rewrite_synth_v4_1",
+        "dataset_version":"bloom_rewrite_synth_v4_2",
         "policy_version":POLICY_VERSION,
         "teacher_model":teacher_record,
         "teacher_mode":args.teacher_mode,
