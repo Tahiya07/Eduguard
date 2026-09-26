@@ -240,7 +240,8 @@ def build_teacher_judge_messages(source_question,target_level,candidate):
         f"Requested target Bloom level:\n{target}\n"
         f"Target cognitive operation:\n{guidance}\n\n"
         f"Candidate rewrite:\n{candidate.strip()}\n\n"
-        "Assess the candidate. Do not rewrite it. Return JSON only."
+        "Assess the candidate. Do not rewrite it. "
+        "Return ONLY the JSON object. Do not think aloud.\\n/no_think"
     )
     return [{"role":"system","content":system},{"role":"user","content":user}]
 
@@ -250,9 +251,27 @@ def make_llama_judge(llm):
         try:
             response=llm.create_chat_completion(
                 messages=build_teacher_judge_messages(source,target,candidate),
-                max_tokens=180,
+                max_tokens=160,
                 temperature=0.0,
                 top_p=1.0,
+                response_format={
+                    "type":"json_object",
+                    "schema":{
+                        "type":"object",
+                        "properties":{
+                            "pass":{"type":"boolean"},
+                            "content_fidelity":{"type":"integer","enum":[0,1,2]},
+                            "scope_fidelity":{"type":"integer","enum":[0,1,2]},
+                            "target_alignment":{"type":"integer","enum":[0,1,2]},
+                            "artifact_fidelity":{"type":"integer","enum":[0,1,2]},
+                            "reason":{"type":"string"},
+                        },
+                        "required":[
+                            "pass","content_fidelity","scope_fidelity",
+                            "target_alignment","artifact_fidelity","reason"
+                        ],
+                    },
+                },
                 stop=["<|im_end|>","<|endoftext|>"],
             )
             raw=response["choices"][0]["message"].get("content","")
@@ -526,7 +545,7 @@ def main():
         "min_semantic":args.min_semantic,
         "attempts":args.attempts,
         "max_new_tokens":96,
-        "judge_max_tokens":96,
+        "judge_max_tokens":160,
         "teacher_judge_enabled":args.teacher_mode=="llama_cpp",
         "teacher_judge_passes":judge_passes,
         "teacher_judge_rejections":judge_rejections,
