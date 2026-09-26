@@ -38,3 +38,22 @@ python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
 Results: `experiments/multitask_bloom_rewrite/results/qwen05b_lora/` (or `qwen05b_base/`).
 
 Uses **only** `data/multitask_bloom_rewrite/test.jsonl` (8321 examples). Requires `models/qwen05b_multitask_lora/best_adapter/` on disk.
+
+## v4 corrected Bloom supervision
+
+The v4 branch uses a stricter teacher policy with level-specific cognitive
+requirements, output cleanup for Qwen3 thinking tags, negative guards for
+cross-level/procedural leakage, and up to three teacher attempts per example.
+
+For the local Qwen3-14B GGUF used in Colab:
+
+```bash
+python experiments/bloom_rewrite/scripts/prepare_bloom_rewrite_v4.py \
+  --teacher-mode llama_cpp \
+  --teacher-model-path /content/qwen3_teacher/Qwen3-14B-Q4_K_M.gguf \
+  --split train \
+  --limit 100
+```
+
+After inspecting the 100-example pilot, generate the full train and validation
+splits separately. Do not modify the frozen multitask test set.
