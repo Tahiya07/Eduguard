@@ -241,7 +241,7 @@ def build_teacher_judge_messages(source_question,target_level,candidate):
         f"Target cognitive operation:\n{guidance}\n\n"
         f"Candidate rewrite:\n{candidate.strip()}\n\n"
         "Assess the candidate. Do not rewrite it. "
-        "Return ONLY the JSON object. Do not think aloud.\\n/no_think"
+        "Return ONLY the JSON object. Do not think aloud.\n/no_think"
     )
     return [{"role":"system","content":system},{"role":"user","content":user}]
 
