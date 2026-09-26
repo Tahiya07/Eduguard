@@ -184,7 +184,7 @@ def load_llama_teacher(model_path,n_ctx=2048,n_gpu_layers=-1,n_batch=1024,n_thre
     return llm
 
 
-def make_llama_generator(llm,max_new=128,temperature=.7,top_p=.8):
+def make_llama_generator(llm,max_new=96,temperature=.3,top_p=.8):
     def generate(source,target,retry=False,repair_reasons=None):
         messages=build_teacher_messages(source,target,retry=retry,repair_reasons=repair_reasons)
         messages[-1]["content"] += "\n\n/no_think"
@@ -303,7 +303,7 @@ def main():
     ap.add_argument("--input-v3",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v3")
     ap.add_argument("--output-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_1")
     ap.add_argument("--split",choices=["train","validation"],default="train")
-    ap.add_argument("--attempts",type=int,default=3)
+    ap.add_argument("--attempts",type=int,default=2)
     ap.add_argument("--seed",type=int,default=42)
     ap.add_argument("--limit",type=int,default=0)
     ap.add_argument("--no-semantic",action="store_true")
@@ -334,7 +334,7 @@ def main():
         if not args.teacher_model_path:
             raise SystemExit("--teacher-model-path is required with --teacher-mode llama_cpp")
         llm=load_llama_teacher(args.teacher_model_path,args.n_ctx,args.n_gpu_layers,args.n_batch,args.n_threads or None)
-        generate=make_llama_generator(llm,max_new=128,temperature=args.temperature,top_p=args.top_p)
+        generate=make_llama_generator(llm,max_new=96,temperature=args.temperature,top_p=args.top_p)
         judge=make_llama_judge(llm)
     elif args.teacher_mode=="local":
         tok,model=load_local_teacher(args.teacher_model,args.device)
@@ -525,6 +525,8 @@ def main():
         "semantic_model":sim_name,
         "min_semantic":args.min_semantic,
         "attempts":args.attempts,
+        "max_new_tokens":96,
+        "judge_max_tokens":96,
         "teacher_judge_enabled":args.teacher_mode=="llama_cpp",
         "teacher_judge_passes":judge_passes,
         "teacher_judge_rejections":judge_rejections,
