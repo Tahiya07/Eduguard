@@ -16,7 +16,7 @@ def read(p):
     with open(p,encoding="utf-8") as f:return [json.loads(x) for x in f if x.strip()]
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--dataset-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_1"); ap.add_argument("--split",choices=["train","validation","all"],default="all"); ap.add_argument("--min-semantic",type=float,default=.68); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument("--dataset-dir",default="data/bloom_rewrite_versions/bloom_rewrite_synth_v4_2"); ap.add_argument("--split",choices=["train","validation","all"],default="all"); ap.add_argument("--min-semantic",type=float,default=.68); args=ap.parse_args()
     d=Path(args.dataset_dir); splits=["train","validation"] if args.split=="all" else [args.split]
     rows=[]
     for s in splits:
