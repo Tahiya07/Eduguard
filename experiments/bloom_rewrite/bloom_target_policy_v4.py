@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 BLOOM_LEVELS = ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
-POLICY_VERSION = "bloom_target_policy_v4_1_teacher_validated"
+POLICY_VERSION = "bloom_target_policy_v4_2_teacher_validated"
 STOP = set("a an the and or but if then than that this these those it its of in on at to for from with by as is are was were be been being do does did can could may might will would should must into over under after before during through about against between among within without using used".split())
 VERBS = set("define explain describe list name state identify recall recognize summarize interpret classify illustrate apply use calculate compute determine solve implement demonstrate analyze analyse compare contrast differentiate examine evaluate assess critique justify judge defend design develop construct formulate propose create devise produce generate write build show discuss state tell".split())
 MARKERS = {
