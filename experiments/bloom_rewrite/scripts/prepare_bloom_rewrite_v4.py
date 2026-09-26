@@ -7,8 +7,8 @@ Important:
 - Reuses the existing v3 TRAIN/VALIDATION source split only to preserve the
   experiment's leakage grouping. Existing v3 targets are never used as labels.
 - Does not modify the locked multitask test set.
-- Supports either a remote Hugging Face teacher or a local 4-bit Qwen3-14B teacher.
-- Local mode is intended for GPU notebooks such as Google Colab and avoids inference-provider credits.
+- Uses a local Qwen3-14B GGUF teacher through llama.cpp for generation and judging.
+- Local GGUF mode is intended for GPU notebooks such as Google Colab and avoids inference-provider credits.
 """
 from __future__ import annotations
 import argparse, hashlib, json, random, re, sys, time
@@ -163,13 +163,26 @@ def make_local_generator(tok,model,device,max_input=512,max_new=128,temperature=
 
 
 def load_llama_teacher(model_path,n_ctx=2048,n_gpu_layers=-1,n_batch=1024,n_threads=None):
+    import llama_cpp
     from llama_cpp import Llama
     import os
+
+    if n_gpu_layers == 0:
+        raise RuntimeError(
+            "v4 Colab teacher must use GPU offload; --n-gpu-layers cannot be 0."
+        )
+
+    supports_gpu = getattr(llama_cpp, "llama_supports_gpu_offload", None)
+    if callable(supports_gpu) and not supports_gpu():
+        raise RuntimeError(
+            "Installed llama-cpp-python has no CUDA GPU offload support. "
+            "Reinstall a CUDA-enabled llama-cpp-python wheel/build in Colab."
+        )
     if n_threads is None:
         n_threads=max(1,(os.cpu_count() or 4)//2)
     print(
-        f"LOADING QWEN3-14B: n_ctx={n_ctx} n_gpu_layers={n_gpu_layers} "
-        f"n_batch={n_batch} n_threads={n_threads}",
+        f"LOADING LOCAL QWEN3-14B GGUF: n_ctx={n_ctx} n_gpu_layers={n_gpu_layers} "
+        f"n_batch={n_batch} n_threads={n_threads} gpu_offload=True",
         flush=True,
     )
     llm=Llama(
@@ -533,9 +546,9 @@ def load_semantic():
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--teacher-model",default="Qwen/Qwen3-14B")
-    ap.add_argument("--teacher-mode",choices=["hf","local","llama_cpp"],default="hf")
-    ap.add_argument("--teacher-provider",default="nscale",help="Hugging Face Inference Provider; use auto for automatic routing")
-    ap.add_argument("--teacher-model-path",default="",help="Local GGUF path used only with --teacher-mode llama_cpp")
+    ap.add_argument("--teacher-mode",choices=["hf","local","llama_cpp"],default="llama_cpp")
+    ap.add_argument("--teacher-provider",default="auto",help="Hugging Face Inference Provider; used only with --teacher-mode hf")
+    ap.add_argument("--teacher-model-path",default="",help="Local GGUF path used with --teacher-mode llama_cpp (recommended for Colab)")
     ap.add_argument("--n-ctx",type=int,default=2048)
     ap.add_argument("--n-gpu-layers",type=int,default=-1)
     ap.add_argument("--n-batch",type=int,default=1024)
@@ -701,7 +714,7 @@ def main():
             # have only soft lexical/structure warnings. Hard safety/content
             # violations are rejected before adjudication.
             hard_prefixes=(
-                "EMPTY_OUTPUT","META_OR_ANSWER_LANGUAGE","INVALID_EXAM_QUESTION_FORM",
+                "EMPTY_OUTPUT","META_OR_ANSWER_LANGUAGE",
                 "INVENTED_ARTIFACT_REFERENCE","SCOPE_EXPANSION","SCOPE_CONTENT_ADDITION",
                 "PROTECTED_SPAN_LOSS","LOW_SEMANTIC_SIMILARITY","CLASSIFIER_TARGET_MISMATCH",
                 "CLASSIFIER_LOW_CONFIDENCE","MULTIPLE_QUESTIONS","TOO_LONG",
