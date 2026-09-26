@@ -635,6 +635,11 @@ def main():
             client,
             args.teacher_model,
         )
+    teacher_record = (
+        str(Path(args.teacher_model_path).resolve())
+        if args.teacher_mode=="llama_cpp"
+        else args.teacher_model
+    )
     sim_fn,sim_name=(None,"disabled") if args.no_semantic else load_semantic()
 
     accepted=[]
@@ -804,7 +809,7 @@ def main():
             "quality_status":"pass",
             "validation":v.__dict__,
             "teacher_judge":judge_result,
-            "teacher_model":args.teacher_model,
+            "teacher_model":teacher_record,
             "teacher_provider":args.teacher_provider if args.teacher_mode=="hf" else None,
             "generator_inputs":["source_question","target_bloom_level"],
             "teacher_attempts":ntry,
@@ -833,7 +838,7 @@ def main():
         "timestamp_utc":datetime.now(timezone.utc).isoformat(),
         "dataset_version":"bloom_rewrite_synth_v4_1",
         "policy_version":POLICY_VERSION,
-        "teacher_model":args.teacher_model,
+        "teacher_model":teacher_record,
         "teacher_mode":args.teacher_mode,
         "teacher_provider":args.teacher_provider if args.teacher_mode=="hf" else None,
         "hf_token_env":args.hf_token_env,
