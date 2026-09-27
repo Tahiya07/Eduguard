@@ -202,7 +202,7 @@ def has_any_phrase(text, phrases):
         for p in phrases
     )
 
-def support(source,topic,form,target):
+def supported(source,topic,form,target):
     low=(source+" "+topic).lower()
 
     if target=="Remember":
