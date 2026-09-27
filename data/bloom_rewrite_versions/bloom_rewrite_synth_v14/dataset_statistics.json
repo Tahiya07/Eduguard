@@ -1,0 +1,176 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v14",
+  "policy_version": "bloom_target_policy_v14_strict_source_supported",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 848,
+  "rejected_source_count": 1482,
+  "rejected_sources_by_reason": {
+    "multiple_actions": 81,
+    "multiple_sentences": 461,
+    "unrecognized": 341,
+    "thin_content": 433,
+    "length": 131,
+    "placeholder": 24,
+    "missing_context": 10,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 593,
+    "validation": 121,
+    "test": 134
+  },
+  "counts": {
+    "train": {
+      "total": 755,
+      "by_target": {
+        "Remember": 123,
+        "Understand": 313,
+        "Apply": 93,
+        "Analyze": 75,
+        "Evaluate": 92,
+        "Create": 59
+      },
+      "cross_level_rows": 162,
+      "identity_rows": 593
+    },
+    "validation": {
+      "total": 162,
+      "by_target": {
+        "Remember": 22,
+        "Understand": 75,
+        "Apply": 14,
+        "Analyze": 18,
+        "Evaluate": 19,
+        "Create": 14
+      },
+      "cross_level_rows": 41,
+      "identity_rows": 121
+    },
+    "test": {
+      "total": 166,
+      "by_target": {
+        "Remember": 27,
+        "Understand": 76,
+        "Apply": 14,
+        "Analyze": 12,
+        "Evaluate": 27,
+        "Create": 10
+      },
+      "cross_level_rows": 32,
+      "identity_rows": 134
+    }
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "total": 123,
+        "cross_level": 44,
+        "identity": 79
+      },
+      "Understand": {
+        "total": 313,
+        "cross_level": 41,
+        "identity": 272
+      },
+      "Apply": {
+        "total": 93,
+        "cross_level": 6,
+        "identity": 87
+      },
+      "Analyze": {
+        "total": 75,
+        "cross_level": 9,
+        "identity": 66
+      },
+      "Evaluate": {
+        "total": 92,
+        "cross_level": 50,
+        "identity": 42
+      },
+      "Create": {
+        "total": 59,
+        "cross_level": 12,
+        "identity": 47
+      }
+    },
+    "validation": {
+      "Remember": {
+        "total": 22,
+        "cross_level": 9,
+        "identity": 13
+      },
+      "Understand": {
+        "total": 75,
+        "cross_level": 10,
+        "identity": 65
+      },
+      "Apply": {
+        "total": 14,
+        "cross_level": 2,
+        "identity": 12
+      },
+      "Analyze": {
+        "total": 18,
+        "cross_level": 3,
+        "identity": 15
+      },
+      "Evaluate": {
+        "total": 19,
+        "cross_level": 13,
+        "identity": 6
+      },
+      "Create": {
+        "total": 14,
+        "cross_level": 4,
+        "identity": 10
+      }
+    },
+    "test": {
+      "Remember": {
+        "total": 27,
+        "cross_level": 7,
+        "identity": 20
+      },
+      "Understand": {
+        "total": 76,
+        "cross_level": 10,
+        "identity": 66
+      },
+      "Apply": {
+        "total": 14,
+        "cross_level": 0,
+        "identity": 14
+      },
+      "Analyze": {
+        "total": 12,
+        "cross_level": 0,
+        "identity": 12
+      },
+      "Evaluate": {
+        "total": 27,
+        "cross_level": 12,
+        "identity": 15
+      },
+      "Create": {
+        "total": 10,
+        "cross_level": 3,
+        "identity": 7
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Cross-level transformations are allowed only when source task form supports the target operation.",
+    "Unsupported transformations are omitted rather than invented.",
+    "Same-level source questions are retained as identity supervision."
+  ]
+}
