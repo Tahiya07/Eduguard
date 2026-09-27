@@ -1,4 +1,5 @@
 name: Build Bloom rewrite v14
+# strict source-supported builder
 
 on:
   push:
