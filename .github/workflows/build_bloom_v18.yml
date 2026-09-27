@@ -1,4 +1,5 @@
 name: Build Bloom rewrite v18
+# quality-first explicit-safe builder
 
 on:
   push:
