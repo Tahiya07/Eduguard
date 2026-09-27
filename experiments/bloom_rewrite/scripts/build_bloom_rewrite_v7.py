@@ -156,6 +156,44 @@ def create_supported(source,topic):
     low=(source+" "+topic).lower()
     return any(c in low for c in CREATE_CUES)
 
+def target_supported(source, topic, target):
+    low=(source+" "+topic).lower()
+
+    if target in {"Remember","Understand"}:
+        return True
+
+    if target=="Apply":
+        cues=("calculate","compute","determine","find","solve","apply","use ",
+              "implement","demonstrate","algorithm","procedure","method",
+              "formula","equation","scenario","case","problem","modify",
+              "construct","how to")
+        return any(c in low for c in cues)
+
+    if target=="Analyze":
+        cues=("compare","contrast","differentiate","distinguish","between",
+              "among","relationship","relationships","interaction",
+              "interactions","component","components","parts","structure",
+              "pattern","patterns","cause","causes","effect","effects",
+              "difference","differences","similarity","similarities")
+        # Also allow multi-entity topics where analysis is naturally meaningful.
+        nouns=[x for x in content(topic) if len(x)>3]
+        return any(c in low for c in cues) or len(nouns)>=3
+
+    if target=="Evaluate":
+        cues=("evaluate","assess","appraise","judge","justify","critique",
+              "defend","recommend","appropriate","suitable","effectiveness",
+              "advantage","advantages","disadvantage","disadvantages",
+              "best","better","worse","should","opinion","agree",
+              "alternative","alternatives","choice","compare")
+        return any(c in low for c in cues)
+
+    if target=="Create":
+        cues=CREATE_CUES
+        return any(c in low for c in cues) or len(content(topic))>=8
+
+    return False
+
+
 def transform(topic,target):
     if target=="Remember":
         if re.match(r"(?i)^(how|why|whether|if|when|where)\b",topic):
@@ -288,6 +326,8 @@ def main():
             shuffled=splits[split][:]
             random.Random(args.seed+sum(map(ord,target))+len(split)).shuffle(shuffled)
             for s in shuffled:
+                if not target_supported(s["source_question"], s["topic"], target):
+                    continue
                 if s["source_bloom_level"]==target:
                     rewrite=s["source_question"].rstrip()
                     template="identity_source_question"
@@ -336,6 +376,8 @@ def main():
       "source_leakage_check":leakage,
       "notes":[
         "Synthetic supervision; not human gold.",
+        "Target-specific adequacy gates prevent unsupported Apply, Analyze, Evaluate, and Create transformations.",
+
         "Built directly from data/figshare_bloom_v1.csv.",
         "No LLM generation or LLM judging is used.",
         "Multi-action, incomplete, placeholder, and missing-context source prompts are rejected.",
