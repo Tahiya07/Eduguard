@@ -1,0 +1,86 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v5",
+  "policy_version": "bloom_target_policy_v5_controlled_conservative",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 742,
+  "rejected_source_count": 1588,
+  "rejected_sources_by_reason": {
+    "thin_content": 689,
+    "unrecognized_form": 608,
+    "multiple_actions": 114,
+    "length": 131,
+    "placeholder": 22,
+    "missing_context": 10,
+    "thin_topic": 9,
+    "what": 4,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 521,
+    "validation": 114,
+    "test": 107
+  },
+  "candidate_counts": {
+    "train": {
+      "Remember": 32,
+      "Understand": 23,
+      "Apply": 1,
+      "Analyze": 38,
+      "Evaluate": 0,
+      "Create": 34
+    },
+    "validation": {
+      "Remember": 9,
+      "Understand": 7,
+      "Apply": 0,
+      "Analyze": 11,
+      "Evaluate": 0,
+      "Create": 8
+    },
+    "test": {
+      "Remember": 2,
+      "Understand": 4,
+      "Apply": 0,
+      "Analyze": 4,
+      "Evaluate": 0,
+      "Create": 2
+    }
+  },
+  "balanced_target_count_per_level": {
+    "train": 0,
+    "validation": 0,
+    "test": 0
+  },
+  "counts": {
+    "train": {
+      "total": 0,
+      "by_target": {},
+      "by_source_target": {}
+    },
+    "validation": {
+      "total": 0,
+      "by_target": {},
+      "by_source_target": {}
+    },
+    "test": {
+      "total": 0,
+      "by_target": {},
+      "by_source_target": {}
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Only source-grounded deterministic task frames are emitted.",
+    "Target classes are exactly balanced within each split at the maximum validated count.",
+    "Each source question occurs in only one split."
+  ]
+}
