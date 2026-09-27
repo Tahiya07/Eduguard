@@ -26,7 +26,6 @@ DATASET_VERSION="bloom_rewrite_synth_v6"
 POLICY_VERSION="bloom_target_policy_v6_conservative"
 SOURCE_FILE="data/figshare_bloom_v1.csv"
 SEED=42
-TARGET_PER_SPLIT={"train":200,"validation":50,"test":50}
 
 COGNITIVE=set("""define explain describe list name state identify recall recognize
 recognise summarize summarise interpret classify illustrate apply use calculate
@@ -149,10 +148,6 @@ def extract_topic(q):
     # Do not force ambiguous question fragments.
     return None,"unrecognized_form"
 
-def residual_cognitive(topic):
-    toks=re.findall(r"\b[A-Za-z]+\b",(topic or "").lower())
-    return sorted(set(t for t in toks if t in COGNITIVE))
-
 def create_supported(source,topic):
     low=(source+" "+topic).lower()
     cues=("design","develop","construct","formulate","propose","create","devise",
@@ -163,6 +158,8 @@ def create_supported(source,topic):
 
 def make_rewrite(topic,target):
     if target=="Remember":
+        if re.match(r"(?i)^(how|why|whether|if|when|where)\\b", topic.strip()):
+            return f"State the key facts about {topic}.","remember_facts"
         return f"State {topic}.","remember_state"
     if target=="Understand":
         return f"Explain {topic}.","understand_explain"
@@ -178,24 +175,36 @@ def make_rewrite(topic,target):
 
 def validate(source,topic,target,rewrite):
     reasons=[]
-    if residual_cognitive(topic):
-        reasons.append("COGNITIVE_RESIDUE")
     src_p=protected(source); out_p=protected(rewrite)
     missing=sorted(src_p-out_p)
-    if missing: reasons.append("PROTECTED_SPAN_LOSS")
-    if target=="Remember" and re.match(r"(?i)^(how|why|whether|if|when|where)\b",topic.strip()):
-        reasons.append("REMEMBER_NEEDS_NOUN_TOPIC")
-    if target=="Create" and not create_supported(source,topic):
-        reasons.append("CREATE_NOT_GROUNDED_IN_SOURCE_TASK")
-    src_c=content_tokens(topic); out_c=content_tokens(rewrite)
+    if missing:
+        reasons.append("PROTECTED_SPAN_LOSS")
+
+    low=rewrite.lower()
+    starts={
+        "Remember":r"^(state|list|name|identify|recall|recognize)\\b",
+        "Understand":r"^(explain|describe|summarize|interpret|classify|illustrate)\\b",
+        "Apply":r"^apply\\b",
+        "Analyze":r"^(analyze|analyse)\\b",
+        "Evaluate":r"^evaluate\\b",
+        "Create":r"^develop\\b",
+    }
+    if not re.search(starts[target],low):
+        reasons.append("TARGET_OPERATION_MISSING")
+
+    src_c=content_tokens(topic)
+    out_c=content_tokens(rewrite)
     recall=len(src_c & out_c)/max(1,len(src_c))
-    if recall<0.95: reasons.append("TOPIC_CONTENT_LOSS")
+    if recall<0.95:
+        reasons.append("TOPIC_CONTENT_LOSS")
+
     return not reasons,{
         "reasons":reasons,
         "topic_content_recall":round(recall,4),
         "protected_spans":sorted(src_p),
         "missing_protected":missing
     }
+
 
 def read_source(path):
     good=[]; bad=[]
@@ -251,18 +260,11 @@ def candidates(rows,target):
             out.append((s,rewrite,template,info))
     return out
 
-def choose(cands,target_n,seed):
-    # Prefer cross-level transformations. Fill only when necessary with
-    # authentic same-level source questions.
-    rng=random.Random(seed)
-    cross=[x for x in cands if x[3].get("cross_level")]
-    ident=[x for x in cands if not x[3].get("cross_level")]
-    rng.shuffle(cross); rng.shuffle(ident)
-    cross_need=min(len(cross),target_n)
-    chosen=cross[:cross_need]
-    if len(chosen)<target_n:
-        chosen.extend(ident[:target_n-len(chosen)])
-    return chosen
+def choose_all(cands, seed):
+    arr=cands[:]
+    random.Random(seed).shuffle(arr)
+    return arr
+
 
 def make_row(split,target,s,rew,template,info):
     messages=[
