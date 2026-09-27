@@ -78,6 +78,11 @@ def norm(x):
     return re.sub(r"\s+"," ",(x or "").replace("\u00a0"," ")).strip()
 
 
+def canon(x):
+    x = str(x or "").strip()
+    return x if x in LEVELS else MAP.get(x.lower())
+
+
 def detect_level(q):
     x=q.strip()
     # "How do you <verb> ..." must use the cognitive verb inside the question.
