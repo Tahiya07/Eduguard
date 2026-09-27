@@ -1,0 +1,1 @@
+# bloom_rewrite_synth_v12\n\nConservative deterministic Bloom-target rewrite supervision built directly from data/figshare_bloom_v1.csv. The source remainder is preserved and only the cognitive task frame is transformed. Unsupported transformations are omitted. No LLM is used.\n
