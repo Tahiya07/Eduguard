@@ -223,7 +223,7 @@ def transform(topic, target, source):
     cues=source_cues(source,topic)
 
     if target=="Remember":
-        if re.match(r"(?i)^(how|why|whether|if|when|where)\\b",topic):
+        if re.match(r"(?i)^(how|why|whether|if|when|where)\b",topic):
             return f"State the key facts about {topic}.","remember_facts"
         return f"Identify {topic}.","remember_identify"
 
@@ -279,11 +279,11 @@ def validate(source, topic, target, rewrite):
     # The transformed row must contain only one task operation. Evaluate's
     # integrated "justify your judgment" is explicitly allowed.
     if target!="Evaluate" and re.search(
-        r"\\b(?:and|then|also)\\s+(?:define|explain|describe|list|name|state|identify|"
+        r"\b(?:and|then|also)\s+(?:define|explain|describe|list|name|state|identify|"
         r"calculate|compute|determine|solve|apply|use|implement|demonstrate|analyze|"
         r"analyse|compare|contrast|differentiate|examine|evaluate|assess|judge|justify|"
         r"design|develop|construct|formulate|propose|create|devise|produce|build|write|"
-        r"draw|sketch|discuss)\\b", low):
+        r"draw|sketch|discuss)\b", low):
         reasons.append("MULTIPLE_ACTIONS")
 
     if protected(source)-protected(rewrite):
@@ -296,12 +296,12 @@ def validate(source, topic, target, rewrite):
         reasons.append("TOPIC_CONTENT_LOSS")
 
     starts={
-        "Remember":r"^(state|identify)\\b",
-        "Understand":r"^explain\\b",
-        "Apply":r"^apply\\b",
-        "Analyze":r"^analyze\\b",
-        "Evaluate":r"^evaluate\\b",
-        "Create":r"^develop\\b",
+        "Remember":r"^(state|identify)\b",
+        "Understand":r"^explain\b",
+        "Apply":r"^apply\b",
+        "Analyze":r"^analyze\b",
+        "Evaluate":r"^evaluate\b",
+        "Create":r"^develop\b",
     }
     if not re.search(starts[target],low):
         reasons.append("TARGET_OPERATION_MISSING")
