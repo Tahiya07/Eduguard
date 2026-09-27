@@ -144,6 +144,29 @@ def rewrite(target, t, source, src_detected):
 
     raise ValueError(target)
 
+def detect_level(q):
+    x=norm(q)
+    m=re.match(r"^\\s*how\\s+(?:do|does|did|can|could|would|should|will)\\s+(?:you|we|someone|somebody|one)\\s+([A-Za-z]+)\\b",x,re.I)
+    if m:
+        v=m.group(1).lower()
+        if v in {"calculate","compute","determine","find","solve","apply","use","implement","demonstrate","modify","estimate","measure"}: return "Apply"
+        if v in {"compare","contrast","differentiate","distinguish","analyze","analyse","examine"}: return "Analyze"
+        if v in {"evaluate","assess","appraise","judge","justify","critique","criticize","criticise","defend","recommend"}: return "Evaluate"
+        if v in {"design","develop","construct","formulate","propose","create","devise","produce","build","compose","write","draw","sketch"}: return "Create"
+        return "Understand"
+    if re.match(r"^\\s*what\\s+(?:is|are|was|were)\\b",x,re.I): return "Remember"
+    if re.match(r"^\\s*why\\b",x,re.I): return "Understand"
+    for level, pat in (
+        ("Evaluate",r"^(?:briefly\\s+|critically\\s+|carefully\\s+)?(?:evaluate|assess|appraise|judge|justify|critique|criticize|criticise|defend|recommend)\\b"),
+        ("Analyze",r"^(?:briefly\\s+)?(?:analyze|analyse|examine|compare|contrast|differentiate|distinguish)\\b"),
+        ("Apply",r"^(?:calculate|compute|determine|find|solve|apply|use|implement|demonstrate|modify|estimate|measure)\\b"),
+        ("Create",r"^(?:design|develop|construct|formulate|propose|create|devise|produce|build|compose|write|draw|sketch)\\b"),
+        ("Remember",r"^(?:define|identify|name|list|state|recite|label|recognize|recognise)\\b"),
+        ("Understand",r"^(?:explain|describe|summarize|summarise|interpret|classify|illustrate|discuss|retell)\\b"),
+    ):
+        if re.search(pat,x,re.I): return level
+    return "Unknown"
+
 def validate(source,target,rw):
     if not rw or len(rw.split())>90: return ["length"]
     starts={
