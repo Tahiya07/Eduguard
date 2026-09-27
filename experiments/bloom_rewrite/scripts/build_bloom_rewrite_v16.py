@@ -124,6 +124,27 @@ def source_ok(q):
     if not topic or len(content(topic))<3: return False,"topic_parse"
     return True,""
 
+def source_eligible(q):
+    q=norm(q).strip(' "')
+    if not (30<=len(q)<=900): return False,"length"
+    if PLACEHOLDER_RE.search(q): return False,"placeholder"
+    low=q.lower()
+    if any(x in low for x in MISSING): return False,"missing_context"
+    if q.count("?")>1: return False,"multiple_questions"
+    # Reject clear multi-action alternatives.
+    if re.search(
+        r"\b(?:or|and)\s+(?:take|write|draw|sketch|calculate|compute|determine|find|solve|"
+        r"apply|use|implement|demonstrate|explain|describe|discuss|justify|evaluate|assess|"
+        r"design|develop|construct|propose|create|list|name|state)\b",
+        q, re.I
+    ):
+        return False,"multiple_actions"
+    if len(content(q))<5: return False,"thin_content"
+    topic=normalize_topic(q)
+    if not topic or len(content(topic))<3: return False,"topic_parse"
+    return True,""
+
+
 def eval_cue(topic):
     low=topic.lower()
     phrases=("advantages and disadvantages","advantages","disadvantages","effectiveness",
