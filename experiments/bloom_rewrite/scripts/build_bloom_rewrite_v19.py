@@ -74,6 +74,10 @@ MULTI_RE=re.compile(
 )
 
 # -------- source operation detection --------
+def norm(x):
+    return re.sub(r"\s+"," ",(x or "").replace("\u00a0"," ")).strip()
+
+
 def detect_level(q):
     x=q.strip()
     # "How do you <verb> ..." must use the cognitive verb inside the question.
