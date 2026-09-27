@@ -24,50 +24,92 @@
   },
   "candidate_counts": {
     "train": {
-      "Remember": 32,
-      "Understand": 23,
-      "Apply": 1,
-      "Analyze": 38,
-      "Evaluate": 0,
-      "Create": 34
+      "Remember": 46,
+      "Understand": 269,
+      "Apply": 74,
+      "Analyze": 46,
+      "Evaluate": 44,
+      "Create": 42
     },
     "validation": {
-      "Remember": 9,
-      "Understand": 7,
-      "Apply": 0,
-      "Analyze": 11,
-      "Evaluate": 0,
-      "Create": 8
+      "Remember": 8,
+      "Understand": 67,
+      "Apply": 10,
+      "Analyze": 12,
+      "Evaluate": 7,
+      "Create": 10
     },
     "test": {
-      "Remember": 2,
-      "Understand": 4,
-      "Apply": 0,
-      "Analyze": 4,
-      "Evaluate": 0,
-      "Create": 2
+      "Remember": 13,
+      "Understand": 52,
+      "Apply": 8,
+      "Analyze": 8,
+      "Evaluate": 16,
+      "Create": 10
     }
   },
   "balanced_target_count_per_level": {
-    "train": 0,
-    "validation": 0,
-    "test": 0
+    "train": 42,
+    "validation": 7,
+    "test": 8
   },
   "counts": {
     "train": {
-      "total": 0,
-      "by_target": {},
-      "by_source_target": {}
+      "total": 252,
+      "by_target": {
+        "Remember": 42,
+        "Understand": 42,
+        "Apply": 42,
+        "Analyze": 42,
+        "Evaluate": 42,
+        "Create": 42
+      },
+      "by_source_target": {
+        "Remember->Remember": 42,
+        "Understand->Understand": 42,
+        "Apply->Apply": 42,
+        "Analyze->Analyze": 42,
+        "Evaluate->Evaluate": 42,
+        "Create->Create": 42
+      }
     },
     "validation": {
-      "total": 0,
-      "by_target": {},
-      "by_source_target": {}
+      "total": 42,
+      "by_target": {
+        "Remember": 7,
+        "Understand": 7,
+        "Apply": 7,
+        "Analyze": 7,
+        "Evaluate": 7,
+        "Create": 7
+      },
+      "by_source_target": {
+        "Remember->Remember": 7,
+        "Understand->Understand": 7,
+        "Apply->Apply": 7,
+        "Analyze->Analyze": 7,
+        "Evaluate->Evaluate": 7,
+        "Create->Create": 7
+      }
     },
     "test": {
-      "total": 0,
-      "by_target": {},
-      "by_source_target": {}
+      "total": 48,
+      "by_target": {
+        "Remember": 8,
+        "Understand": 8,
+        "Apply": 8,
+        "Analyze": 8,
+        "Evaluate": 8,
+        "Create": 8
+      },
+      "by_source_target": {
+        "Remember->Remember": 8,
+        "Understand->Understand": 8,
+        "Apply->Apply": 8,
+        "Analyze->Analyze": 8,
+        "Evaluate->Evaluate": 8,
+        "Create->Create": 8
+      }
     }
   },
   "source_leakage_check": {
