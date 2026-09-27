@@ -38,3 +38,5 @@ jobs:
             git commit -m "Generate Bloom rewrite v16 dataset"
             git push origin HEAD:fix/bloom-rewrite-v4
           fi
+
+# trigger
