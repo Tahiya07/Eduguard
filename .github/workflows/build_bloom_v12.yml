@@ -1,4 +1,5 @@
 name: Build Bloom rewrite v12
+# final source-preserving builder
 
 on:
   push:
