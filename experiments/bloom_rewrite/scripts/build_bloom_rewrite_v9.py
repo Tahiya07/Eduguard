@@ -579,7 +579,7 @@ def main():
                     continue
 
                 rewrite, template = transform(
-                    source_row["topic"], target, source_row["source_question"]
+                    source_row["source_question"], source_row["topic"], target
                 )
                 ok, info = validate(
                     source_row["source_question"],
