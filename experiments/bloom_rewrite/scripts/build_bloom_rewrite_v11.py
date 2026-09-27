@@ -279,6 +279,32 @@ def capability(source, topic, form):
     }
 
 
+def target_supported(source, topic, form, target):
+    cap = capability(source, topic, form)
+
+    if target == "Remember":
+        # Recall is safe only for conceptual/factual source tasks, not tasks
+        # whose central operation is calculation or artifact creation.
+        return cap["remember"]
+
+    if target == "Understand":
+        return True
+
+    if target == "Apply":
+        return cap["apply"]
+
+    if target == "Analyze":
+        return cap["analyze"]
+
+    if target == "Evaluate":
+        return cap["evaluate"]
+
+    if target == "Create":
+        return cap["create"]
+
+    return False
+
+
 def transform(source, topic, form, target):
     cap = capability(source, topic, form)
 
