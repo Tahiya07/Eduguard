@@ -1,0 +1,55 @@
+name: Build Bloom rewrite v21
+
+on:
+  push:
+    branches:
+      - fix/bloom-rewrite-v4
+    paths:
+      - experiments/bloom_rewrite/scripts/build_bloom_rewrite_v21.py
+      - .github/workflows/build_bloom_v21.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bloom-rewrite-v4
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build dataset
+        run: python experiments/bloom_rewrite/scripts/build_bloom_rewrite_v21.py
+
+      - name: Upload combined JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: bloom-rewrite-synth-v21-json
+          path: data/bloom_rewrite_versions/bloom_rewrite_synth_v21/bloom_rewrite_synth_v21.json
+          if-no-files-found: error
+
+      - name: Upload training package
+        uses: actions/upload-artifact@v4
+        with:
+          name: bloom-rewrite-synth-v21-package
+          path: data/bloom_rewrite_versions/bloom_rewrite_synth_v21/
+          if-no-files-found: error
+
+      - name: Commit reproducible dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bloom_rewrite_versions/bloom_rewrite_synth_v21
+          if git diff --cached --quiet; then
+            echo "No dataset changes to commit."
+          else
+            git commit -m "Generate controlled Bloom rewrite v21 dataset"
+            git push origin HEAD:fix/bloom-rewrite-v4
+          fi
