@@ -222,12 +222,12 @@ def validate(source, topic_text, target, rewrite):
     # beginning. Identity rows (source level == target level) are accepted as
     # authentic source supervision and are marked separately.
     starts = {
-        "Remember": r"^state\\b",
-        "Understand": r"^explain\\b",
-        "Apply": r"^apply\\b",
-        "Analyze": r"^analyze\\b",
-        "Evaluate": r"^evaluate\\b",
-        "Create": r"^develop\\b",
+        "Remember": r"^state\b",
+        "Understand": r"^explain\b",
+        "Apply": r"^apply\b",
+        "Analyze": r"^analyze\b",
+        "Evaluate": r"^evaluate\b",
+        "Create": r"^develop\b",
     }
     if not re.search(starts[target], low):
         reasons.append("target_cue")
