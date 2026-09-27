@@ -1,0 +1,201 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v8",
+  "policy_version": "bloom_target_policy_v8_conservative",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 613,
+  "rejected_source_count": 1717,
+  "rejected_sources_by_reason": {
+    "thin_content": 675,
+    "multiple_sentences_or_questions": 497,
+    "unrecognized_form": 293,
+    "multiple_actions": 88,
+    "length": 131,
+    "placeholder": 22,
+    "missing_context": 10,
+    "fragment_topic": 1
+  },
+  "source_split_sizes": {
+    "train": 431,
+    "validation": 91,
+    "test": 91
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "accepted": 46,
+        "cross_level": 0,
+        "identity": 46
+      },
+      "Understand": {
+        "accepted": 213,
+        "cross_level": 0,
+        "identity": 213
+      },
+      "Apply": {
+        "accepted": 67,
+        "cross_level": 0,
+        "identity": 67
+      },
+      "Analyze": {
+        "accepted": 40,
+        "cross_level": 0,
+        "identity": 40
+      },
+      "Evaluate": {
+        "accepted": 30,
+        "cross_level": 0,
+        "identity": 30
+      },
+      "Create": {
+        "accepted": 35,
+        "cross_level": 0,
+        "identity": 35
+      }
+    },
+    "validation": {
+      "Remember": {
+        "accepted": 8,
+        "cross_level": 0,
+        "identity": 8
+      },
+      "Understand": {
+        "accepted": 56,
+        "cross_level": 0,
+        "identity": 56
+      },
+      "Apply": {
+        "accepted": 10,
+        "cross_level": 0,
+        "identity": 10
+      },
+      "Analyze": {
+        "accepted": 9,
+        "cross_level": 0,
+        "identity": 9
+      },
+      "Evaluate": {
+        "accepted": 2,
+        "cross_level": 0,
+        "identity": 2
+      },
+      "Create": {
+        "accepted": 6,
+        "cross_level": 0,
+        "identity": 6
+      }
+    },
+    "test": {
+      "Remember": {
+        "accepted": 12,
+        "cross_level": 0,
+        "identity": 12
+      },
+      "Understand": {
+        "accepted": 46,
+        "cross_level": 0,
+        "identity": 46
+      },
+      "Apply": {
+        "accepted": 9,
+        "cross_level": 0,
+        "identity": 9
+      },
+      "Analyze": {
+        "accepted": 8,
+        "cross_level": 0,
+        "identity": 8
+      },
+      "Evaluate": {
+        "accepted": 11,
+        "cross_level": 0,
+        "identity": 11
+      },
+      "Create": {
+        "accepted": 5,
+        "cross_level": 0,
+        "identity": 5
+      }
+    }
+  },
+  "counts": {
+    "train": {
+      "total": 431,
+      "by_target": {
+        "Remember": 46,
+        "Understand": 213,
+        "Apply": 67,
+        "Analyze": 40,
+        "Evaluate": 30,
+        "Create": 35
+      },
+      "cross_level_rows": 0,
+      "identity_rows": 431,
+      "by_source_target": {
+        "Remember->Remember": 46,
+        "Understand->Understand": 213,
+        "Apply->Apply": 67,
+        "Analyze->Analyze": 40,
+        "Evaluate->Evaluate": 30,
+        "Create->Create": 35
+      }
+    },
+    "validation": {
+      "total": 91,
+      "by_target": {
+        "Remember": 8,
+        "Understand": 56,
+        "Apply": 10,
+        "Analyze": 9,
+        "Evaluate": 2,
+        "Create": 6
+      },
+      "cross_level_rows": 0,
+      "identity_rows": 91,
+      "by_source_target": {
+        "Remember->Remember": 8,
+        "Understand->Understand": 56,
+        "Apply->Apply": 10,
+        "Analyze->Analyze": 9,
+        "Evaluate->Evaluate": 2,
+        "Create->Create": 6
+      }
+    },
+    "test": {
+      "total": 91,
+      "by_target": {
+        "Remember": 12,
+        "Understand": 46,
+        "Apply": 9,
+        "Analyze": 8,
+        "Evaluate": 11,
+        "Create": 5
+      },
+      "cross_level_rows": 0,
+      "identity_rows": 91,
+      "by_source_target": {
+        "Remember->Remember": 12,
+        "Understand->Understand": 46,
+        "Apply->Apply": 9,
+        "Analyze->Analyze": 8,
+        "Evaluate->Evaluate": 11,
+        "Create->Create": 5
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Target-specific adequacy gates prevent unsupported Apply, Analyze, Evaluate, and Create transformations.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Multi-action, incomplete, placeholder, and missing-context source prompts are rejected.",
+    "Cross-level rows use minimal deterministic target-task frames.",
+    "Same-level source questions are retained as identity supervision."
+  ]
+}
