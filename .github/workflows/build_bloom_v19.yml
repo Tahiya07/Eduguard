@@ -25,6 +25,38 @@ jobs:
           python-version: "3.11"
       - name: Build v19
         run: python experiments/bloom_rewrite/scripts/build_bloom_rewrite_v19.py
+      - name: Package JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          src = Path("data/bloom_rewrite_versions/bloom_rewrite_synth_v19")
+          all_rows = []
+          for split in ("train", "validation", "test"):
+              p = src / f"{split}.jsonl"
+              rows = [json.loads(x) for x in p.read_text(encoding="utf-8").splitlines() if x.strip()]
+              all_rows.extend(rows)
+          Path("bloom_rewrite_synth_v19.json").write_text(
+              json.dumps(
+                  {
+                      "dataset_version": "bloom_rewrite_synth_v19",
+                      "source": "data/figshare_bloom_v1.csv",
+                      "rows": all_rows,
+                  },
+                  ensure_ascii=False,
+                  indent=2,
+              ),
+              encoding="utf-8",
+          )
+          print("rows:", len(all_rows))
+          PY
+      - name: Upload dataset artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bloom-rewrite-synth-v19-json
+          path: bloom_rewrite_synth_v19.json
+          if-no-files-found: error
+
       - name: Commit dataset
         run: |
           git config user.name "github-actions[bot]"
