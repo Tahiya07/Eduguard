@@ -1,0 +1,40 @@
+name: Build Bloom rewrite v15
+
+on:
+  push:
+    branches:
+      - fix/bloom-rewrite-v4
+    paths:
+      - experiments/bloom_rewrite/scripts/build_bloom_rewrite_v15.py
+      - .github/workflows/build_bloom_v15.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/bloom-rewrite-v4
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build v15
+        run: python experiments/bloom_rewrite/scripts/build_bloom_rewrite_v15.py --overwrite
+      - name: Commit dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin fix/bloom-rewrite-v4
+          git reset --mixed origin/fix/bloom-rewrite-v4
+          git add data/bloom_rewrite_versions/bloom_rewrite_synth_v15
+          if git diff --cached --quiet; then
+            echo "No dataset changes."
+          else
+            git commit -m "Generate Bloom rewrite v15 dataset"
+            git push origin HEAD:fix/bloom-rewrite-v4
+          fi
