@@ -1,0 +1,6 @@
+[
+  {"source_id":"src_022dd867d1ebb06c","group_id":333669702,"split":"train","reason":"ellipsis_or_placeholder"},
+  {"source_id":"src_84d466a7de7dcfb4","group_id":1470352588,"split":"train","reason":"ellipsis_or_placeholder"},
+  {"source_id":"src_ca7bea1c8da4c18a","group_id":3991959278,"split":"train","reason":"ellipsis_or_placeholder"},
+  {"source_id":"src_94763320b6e86191","group_id":4106458924,"split":"test","reason":"ellipsis_or_placeholder"}
+]

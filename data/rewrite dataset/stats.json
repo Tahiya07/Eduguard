@@ -1,0 +1,18 @@
+{
+  "source": "data/figshare_bloom_v1.csv",
+  "source_questions_input": 897,
+  "source_questions_used": 893,
+  "source_questions_rejected": 4,
+  "examples_per_source": 6,
+  "total_rows": 5358,
+  "rows_by_split": {"train": 3768, "validation": 756, "test": 834},
+  "rows_by_target": {"Remember": 893, "Understand": 893, "Apply": 893, "Analyze": 893, "Evaluate": 893, "Create": 893},
+  "rows_by_split_target": {
+    "train": {"Remember": 628, "Understand": 628, "Apply": 628, "Analyze": 628, "Evaluate": 628, "Create": 628},
+    "validation": {"Remember": 126, "Understand": 126, "Apply": 126, "Analyze": 126, "Evaluate": 126, "Create": 126},
+    "test": {"Remember": 139, "Understand": 139, "Apply": 139, "Analyze": 139, "Evaluate": 139, "Create": 139}
+  },
+  "row_rejections": 0,
+  "no_source_group_leakage": true,
+  "identity_rows": 893
+}

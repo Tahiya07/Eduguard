@@ -1,0 +1,22 @@
+{
+  "source": "data/figshare_bloom_v1.csv",
+  "source_questions_input": 897,
+  "source_questions_used": 893,
+  "source_questions_rejected": 4,
+  "examples_per_source": 6,
+  "total_rows": 5358,
+  "rows_by_split": {"train": 3768, "validation": 756, "test": 834},
+  "rows_by_target": {"Remember": 893, "Understand": 893, "Apply": 893, "Analyze": 893, "Evaluate": 893, "Create": 893},
+  "source_level_counts": {"Create": 77, "Understand": 383, "Apply": 121, "Remember": 144, "Analyze": 107, "Evaluate": 61},
+  "rejected_sources_reasons": {"ellipsis_or_placeholder": 4},
+  "row_rejections": 0,
+  "no_source_group_leakage": true,
+  "identity_rows": 893,
+  "dataset_version": "figshare_target_rewrite_final_v2",
+  "policy_version": "figshare_bloom_target_policy_final_v2",
+  "canonical_files": {
+    "train": {"jsonl": "train.jsonl", "json": "train.json", "jsonl_sha256": "b5968a3c71bfcac5f653b9aebe6e0df7df688a13e25be1ff417ce362f89307eb"},
+    "validation": {"jsonl": "validation.jsonl", "json": "validation.json", "jsonl_sha256": "ca7d13697c1c491c663d97098946b5ad8f185c1f3c88f6e0ee2ff7c78a5f6ada"},
+    "test": {"jsonl": "test.jsonl", "json": "test.json", "jsonl_sha256": "76a15a37b455a6d09f1148c3f145a73a3ee1c2a58162da6bb6d88c98b2d687bb"}
+  }
+}
