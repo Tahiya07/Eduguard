@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
-"""Build the final Figshare-backed Bloom target-level rewrite dataset.
-
-Source of truth:
-  data/figshare_bloom_v1_train.csv
-  data/figshare_bloom_v1_val.csv
-  data/figshare_bloom_v1_test.csv
-
-For each usable source question, this produces one student-facing rewrite
-for each of the six target Bloom levels.  Cross-level examples use
-source-anchored deterministic templates rather than verb-only substitution.
-"""
+"""Build the final Figshare-backed Bloom target-level rewrite dataset."""
 from __future__ import annotations
 
 import csv
@@ -21,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data" / "rewrite_dataset"
+
 LEVELS = ("Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create")
 INPUTS = {
     "train": ROOT / "data" / "figshare_bloom_v1_train.csv",
@@ -44,316 +35,157 @@ TASK_VERBS = (
     "construct|suggest|recommend|highlight|outline|determine|give|show|comment|"
     "illustrate|mention|specify|write|draw|revise|participate|derive|predict|"
     "choose|select|use|implement|elaborate|retell|recite|compose|criticize|"
-    "criticise|rank|place|judge|defend|correct|find|detect|fix|sketch|estimate|"
-    "label|verify|paraphrase|perform|produce|devise|prepare|plan"
+    "criticise|rank|rate|place|judge|defend|correct|find|detect|fix|sketch|"
+    "estimate|label|verify|paraphrase|perform|produce|devise|prepare|plan|"
+    "relate|differ|inspect|investigate|prove|test|validate|generalize|"
+    "generalise|restate|restating|express|model|combine|categorize|categorise|"
+    "group|argue|review|comment|appraise|synthesize|synthesise"
 )
 
+TASK_RE = re.compile(rf"\\b(?:{TASK_VERBS})\\b", re.I)
+PLACEHOLDER_RE = re.compile(
+    r"(?:\\.\\s*\\.\\s*\\.|\\.{3}|_{3,}|fill\\s+in\\s+the\\s+blank|"
+    r"\\b(?:tbd|to be completed)\\b)",
+    re.I,
+)
+TRUNC_RE = re.compile(r"(?:\\b(?:and|or|to|of|in|for|with|because|although)\\s*)$")
 PREFIX_RE = re.compile(
-    rf"^(?:(?:please|briefly|clearly|concisely|carefully|critically)\s+)+"
-    rf"|^(?:based on (?:your|the) understanding|in your own words)"
-    rf"[,:]?\s*|^(?:with|using|by using)\s+(?:the\s+|an?\s+)?"
-    rf"(?:appropriate|relevant)\s+[^,;:]+[,:]\s*|"
-    rf"^(?:with (?:the )?aid of)\s+[^,;:]+[,:]\s*",
+    r"^(?:(?:please|briefly|clearly|concisely|carefully|critically)\\s+)+"
+    r"|^(?:based on (?:your|the) understanding|in your own words)[,:]?\\s*|"
+    r"^(?:with (?:the )?aid of)\\s+[^,;:]+[,:]\\s*|"
+    r"^(?:with|using|by using)\\s+(?:the\\s+|an?\\s+)?"
+    r"(?:appropriate|relevant)\\s+[^,;:]+[,:]\\s*",
     re.I,
 )
-LEAD_VERB_RE = re.compile(rf"^(?:{TASK_VERBS})\b[\s,:-]*", re.I)
+LEAD_RE = re.compile(rf"^(?:{TASK_VERBS})\\b[\\s,:-]*", re.I)
 
-META_RE = re.compile(
-    r"(?:\.\\s*\\.\\s*\\.|\.{3}|_{3,}|fill\s+in\s+the\s+blank|to\s+be\s+completed)",
+GENERIC_REF_RE = re.compile(
+    r"^(?:this statement|the statement|your answer|the answer|your position|"
+    r"the following|the above|evidence|arguments?|justifications?|the decision|"
+    r"the recommendation|the recommendations|the choice|the result)\\b",
     re.I,
 )
-TRUNCATED_TAIL_RE = re.compile(
-    r"(?:\b(?:what|how|why|which|when|where)\s+can\s+be$|"
-    r"\b(?:when|where|because|although|if|whether)\s+[^.?!]*$)",
-    re.I,
-)
-
 OUTPUT_TAIL_RE = re.compile(
-    r"\s*(?:,?\s*)"
-    r"(?:show|provide|support|justify|defend)\s+"
+    r"\\s*(?:,?\\s+)?(?:show|provide|support|justify|defend|comment)\\s+"
     r"(?:your|the|each|one|two|three|four|five|six|seven|eight|nine|ten|"
-    r"an?|relevant|appropriate)\b.*$",
+    r"an?|relevant|appropriate)\\b.*$",
     re.I,
 )
 EXAMPLE_TAIL_RE = re.compile(
-    r"\s*(?:with|using|provide|give|include)\s+"
-    r"(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+"
-    r"(?:relevant|appropriate|real[- ]life)?\s*examples?\b.*$",
+    r"\\s*(?:with|using|provide|give|include)\\s+"
+    r"(?:one|two|three|four|five|six|seven|eight|nine|ten|\\d+)\\s+"
+    r"(?:relevant|appropriate|real[- ]life)?\\s*examples?\\b.*$",
     re.I,
 )
-FOLLOWING_TAIL_RE = re.compile(
-    r"\s+(?:on the following page|on the next page|below|above)\s*$", re.I
-)
-PURPOSE_TAIL_RE = re.compile(
-    r"\s+(?:in order to|so that|so as to|to)\s+"
-    r"(?:help|allow|enable|let|make it possible|work out|answer|determine|"
-    r"complete|solve|identify|find|improve|prevent)\b.*$",
-    re.I,
-)
-
-GENERIC_TOPIC_RE = re.compile(
-    r"^(?:this|that|these|those|it|the following|the above|the below|"
-    r"something|anything|everything|the process|the method|the statement|"
-    r"the answer|the problem|the question|the concept|the idea|the model)$",
+SECONDARY_TASK_RE = re.compile(
+    rf"\\s+(?:and|or)\\s+(?:justify|support|defend|provide|show|comment|"
+    rf"explain|describe|discuss|analyze|analyse|evaluate|assess|critique|"
+    rf"identify|list|give|state|illustrate)\\b.*$",
     re.I,
 )
 
 SPECIALS: list[tuple[re.Pattern[str], object]] = [
     (
-        re.compile(
-            r"^how\s+(?:was|were|is|are)\s+(.+?)\s+similar\s+to\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+(?:was|were|is|are)\\s+(.+?)\\s+similar\\s+to\\s+(.+)\\??$", re.I),
         lambda m: f"the similarity between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+(?:does|do)\s+(.+?)\s+compare\s+(?:with|to)\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+(?:does|do)\\s+(.+?)\\s+compare\\s+(?:with|to)\\s+(.+)\\??$", re.I),
         lambda m: f"the comparison between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+(?:does|do)\s+(.+?)\s+differ\s+from\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+(?:does|do)\\s+(.+?)\\s+differ\\s+from\\s+(.+)\\??$", re.I),
         lambda m: f"the difference between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+does\s+(.+?)\s+affect\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+does\\s+(.+?)\\s+affect\\s+(.+)\\??$", re.I),
         lambda m: f"the effect of {m.group(1)} on {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+would\s+you\s+(?:relate|link|connect)\s+(.+?)\s+(?:with|to)\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+would\\s+you\\s+(?:relate|link|connect)\\s+(.+?)\\s+(?:with|to)\\s+(.+)\\??$", re.I),
         lambda m: f"the relationship between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+would\s+you\s+(?:differentiate|distinguish)\s+(.+?)\s+from\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+would\\s+you\\s+(?:differentiate|distinguish)\\s+(.+?)\\s+from\\s+(.+)\\??$", re.I),
         lambda m: f"the distinction between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(
-            r"^how\s+would\s+you\s+(?:classify|categorize|categorise)\s+(.+)\??$",
-            re.I,
-        ),
+        re.compile(r"^how\\s+would\\s+you\\s+(?:classify|categorize|categorise)\\s+(.+)$", re.I),
         lambda m: f"the classification of {m.group(1)}",
     ),
     (
         re.compile(
-            r"^how\s+(.+?)\s+(?:will|would|could|can|may|might)\s+be\s+more\s+useful\s+than\s+(.+?)(?:\s+in\s+(.+))?$",
+            r"^how\\s+(.+?)\\s+(?:will|would|could|can|may|might)\\s+be\\s+more\\s+useful\\s+than\\s+(.+?)(?:\\s+in\\s+(.+))?$",
             re.I,
         ),
-        lambda m: (
-            f"relative usefulness of {m.group(1)} compared with {m.group(2)}"
-            + (f" in {m.group(3)}" if m.group(3) else "")
-        ),
+        lambda m: f"relative usefulness of {m.group(1)} compared with {m.group(2)}"
+        + (f" in {m.group(3)}" if m.group(3) else ""),
     ),
     (
-        re.compile(
-            r"^how\s+(.+?)\s+is\s+represented\s+by\s+(.+)$", re.I
-        ),
+        re.compile(r"^how\\s+(.+?)\\s+is\\s+represented\\s+by\\s+(.+)$", re.I),
         lambda m: f"representation of {m.group(1)} by {m.group(2)}",
     ),
     (
-        re.compile(r"^how\s+(.+?)\s+(?:are|is)\s+combined\b.*$", re.I),
+        re.compile(r"^how\\s+(.+?)\\s+(?:are|is)\\s+combined\\b.*$", re.I),
         lambda m: f"combination of {m.group(1)}",
     ),
     (
-        re.compile(r"^how\s+(.+?)\s+(?:is|are)\s+used\b.*$", re.I),
+        re.compile(r"^how\\s+(.+?)\\s+(?:is|are)\\s+used\\b.*$", re.I),
         lambda m: f"use of {m.group(1)}",
     ),
     (
-        re.compile(r"^how\s+(.+?)\s+(?:works|work)$", re.I),
+        re.compile(r"^how\\s+(.+?)\\s+(?:works|work)$", re.I),
         lambda m: f"functioning of {m.group(1)}",
     ),
     (
-        re.compile(
-            r"^what\s+(?:does|do)\s+(.+?)\s+(?:mean|refer to|stand for)\??$",
-            re.I,
-        ),
+        re.compile(r"^what\\s+(?:does|do)\\s+(.+?)\\s+(?:mean|refer to|stand for)\\??$", re.I),
         lambda m: f"the meaning of {m.group(1)}",
     ),
     (
-        re.compile(r"^what\s+(?:types?)\s+of\s+(.+)$", re.I),
+        re.compile(r"^what\\s+types?\\s+of\\s+(.+)$", re.I),
         lambda m: f"types of {m.group(1)}",
     ),
     (
-        re.compile(r"^what\s+(?:is|are)\s+(.+?)\??$", re.I),
+        re.compile(r"^what\\s+(?:is|are)\\s+(.+?)\\??$", re.I),
         lambda m: m.group(1),
     ),
     (
-        re.compile(r"^what\s+(?:happens|happened)\s+if\s+(.+)$", re.I),
+        re.compile(r"^what\\s+(?:happens|happened)\\s+if\\s+(.+)$", re.I),
         lambda m: f"the effects of {m.group(1)}",
     ),
     (
-        re.compile(
-            r"^what\s+(?:would|should)\s+you\s+do\s+if\s+(.+)$", re.I
-        ),
+        re.compile(r"^what\\s+(?:would|should)\\s+you\\s+do\\s+if\\s+(.+)$", re.I),
         lambda m: f"appropriate action when {m.group(1)}",
     ),
     (
-        re.compile(
-            r"^what\s+solutions\s+would\s+you\s+suggest\s+for\s+(.+)$", re.I
-        ),
+        re.compile(r"^what\\s+solutions\\s+would\\s+you\\s+suggest\\s+for\\s+(.+)$", re.I),
         lambda m: f"possible solutions for {m.group(1)}",
     ),
     (
-        re.compile(
-            r"^what\s+criteria\s+would\s+you\s+use\s+to\s+evaluate\s+(.+)$",
-            re.I,
-        ),
+        re.compile(r"^what\\s+criteria\\s+would\\s+you\\s+use\\s+to\\s+evaluate\\s+(.+)$", re.I),
         lambda m: f"criteria for evaluating {m.group(1)}",
     ),
     (
-        re.compile(
-            r"^why\s+(?:does|do|did|is|are|was|were)\s+(.+)$", re.I
-        ),
+        re.compile(r"^why\\s+(?:does|do|did|is|are|was|were)\\s+(.+)$", re.I),
         lambda m: f"the reasons for {m.group(1)}",
     ),
     (
-        re.compile(r"^why\s+(.+)$", re.I),
+        re.compile(r"^why\\s+(.+)$", re.I),
         lambda m: f"the reasons for {m.group(1)}",
     ),
     (
-        re.compile(r"^which\s+of\s+the\s+following\s+(.+)$", re.I),
+        re.compile(r"^which\\s+of\\s+the\\s+following\\s+(.+)$", re.I),
         lambda m: f"the appropriate {m.group(1)}",
     ),
     (
-        re.compile(r"^between\s+(.+?)\s+and\s+(.+)$", re.I),
+        re.compile(r"^between\\s+(.+?)\\s+and\\s+(.+)$", re.I),
         lambda m: f"the distinction between {m.group(1)} and {m.group(2)}",
     ),
     (
-        re.compile(r"^among\s+(.+)$", re.I),
+        re.compile(r"^among\\s+(.+)$", re.I),
         lambda m: f"the distinctions among {m.group(1)}",
     ),
 ]
-
-def clean(text: str) -> str:
-    return re.sub(r"\s+", " ", str(text)).strip().strip('"').strip("'").strip()
-
-def hash_id(text: str) -> str:
-    return hashlib.sha256(clean(text).encode("utf-8")).hexdigest()[:16]
-
-def content_tokens(text: str) -> set[str]:
-    return {
-        x for x in re.findall(r"[a-z0-9][a-z0-9_-]*", text.lower())
-        if len(x) > 2
-    }
-
-def looks_like_task(text: str) -> bool:
-    s = clean(text)
-    if not s or META_RE.search(s):
-        return False
-    if len(s.split()) > 90:
-        return False
-    if "?" in s:
-        return True
-    return bool(
-        re.match(r"^(?:what|why|how|which|who|when|where)\b", s, re.I)
-        or re.match(rf"^(?:please\s+)?(?:{TASK_VERBS})\b", s, re.I)
-        or re.search(rf"\.\s*(?:please\s+)?(?:{TASK_VERBS})\b", s, re.I)
-        or re.match(
-            r"^(?:briefly|critically|concisely|carefully)\s+(?:"
-            + TASK_VERBS
-            + r")\b",
-            s,
-            re.I,
-        )
-    )
-
-def extract_topic(source: str) -> str | None:
-    s = clean(source)
-    # Use the last clear task sentence when explanatory context precedes it.
-    parts = re.split(r"(?<=[.!?])\s+", s)
-    task_part = None
-    for part in reversed(parts):
-        if "?" in part or re.match(
-            rf"^(?:please\s+)?(?:briefly\s+|critically\s+|concisely\s+|carefully\s+)?(?:{TASK_VERBS})\b",
-            part,
-            re.I,
-        ):
-            task_part = part.strip()
-            break
-    if task_part:
-        s = task_part
-    s = META_RE.sub("", s).strip()
-    for _ in range(5):
-        before = s
-        s = PREFIX_RE.sub("", s).strip()
-        s = LEAD_VERB_RE.sub("", s).strip()
-        s = re.sub(r"^(?:and|or)\s+", "", s, flags=re.I).strip()
-        s = re.sub(
-            r"^(?:briefly|clearly|concisely|critically|carefully)\s+", "",
-            s, flags=re.I
-        ).strip()
-        if s == before:
-            break
-    s = re.sub(
-        r"^(?:to\s+)?(?:illustrate|show|explain|describe|indicate)\s+",
-        "", s, flags=re.I,
-    ).strip()
-    # Specific interrogatives.
-    for pat, fn in SPECIALS:
-        m = pat.match(s)
-        if m:
-            s = clean(fn(m))
-            break
-    # Generic WH nominalization.
-    if re.match(r"^how\s+far\s+", s, re.I):
-        s = re.sub(r"^how\s+far\s+", "the extent to which ", s, flags=re.I)
-    elif re.match(r"^how\s+", s, re.I):
-        m = re.match(r"^how\s+(.+)$", s, re.I)
-        if m:
-            s = f"the way {m.group(1)}"
-    elif re.match(r"^why\s+", s, re.I):
-        s = re.sub(r"^why\s+", "the reasons for ", s, flags=re.I)
-    elif re.match(r"^what\s+", s, re.I):
-        s = re.sub(r"^what\s+", "the meaning of ", s, flags=re.I)
-    elif re.match(r"^which\s+", s, re.I):
-        s = re.sub(r"^which\s+", "the choice among ", s, flags=re.I)
-    elif re.match(r"^(?:whether|if)\s+", s, re.I):
-        s = "the question of " + s
-    # Remove obvious output scaffolding after the core topic.
-    s = OUTPUT_TAIL_RE.sub("", s).strip()
-    s = EXAMPLE_TAIL_RE.sub("", s).strip()
-    s = PURPOSE_TAIL_RE.sub("", s).strip()
-    s = FOLLOWING_TAIL_RE.sub("", s).strip()
-    # Remove a second instruction after an explicit conjunction.
-    s = re.sub(
-        rf"\s+and\s+(?:{TASK_VERBS})\b.*$",
-        "",
-        s,
-        flags=re.I,
-    ).strip()
-    s = re.sub(r"\s+(?:and|or|with|of|in|on|for|to)\s*$", "", s, flags=re.I)
-    s = re.sub(r'^[,:;\\-]+|[,:;\\-]+$', '', s).strip()
-    s = s.rstrip(" .,:;?")
-    if len(s) < 3 or GENERIC_TOPIC_RE.fullmatch(s):
-        return None
-    if re.search(
-        r"\b(?:show your working|justify your answer|support your answer|"
-        r"provide a relevant example|target bloom level|original question)\b",
-        s,
-        re.I,
-    ):
-        return None
-    if re.match(
-        r"^(?:how|why|what|which|whether|if|can|could|would|should|do|does|did)\b",
-        s,
-        re.I,
-    ):
-        return None
-    return s
 
 TEMPLATES = {
     "Remember": (
@@ -407,41 +239,121 @@ TEMPLATES = {
 }
 
 CUES = {
-    "Remember": ("facts", "recall", "state", "identify", "name", "list", "define", "characteristics"),
+    "Remember": ("recall", "state", "identify", "name", "list", "facts", "characteristics"),
     "Understand": ("explain", "describe", "summarize", "meaning", "purpose"),
-    "Apply": ("apply", "concrete", "case", "procedure", "problem", "determine", "practical", "scenario", "use"),
+    "Apply": ("apply", "concrete", "case", "determine", "practical", "scenario", "procedure", "problem", "use"),
     "Analyze": ("analyze", "examine", "compare", "components", "relationships", "structure", "patterns", "causes"),
     "Evaluate": ("evaluate", "assess", "critique", "criteria", "evidence", "justify", "judgment", "effective", "judge"),
     "Create": ("design", "develop", "construct", "original", "artifact", "strategy", "solution", "constraints", "formulate", "propose", "create"),
 }
 
-def build_rewrite(topic: str, target: str, source: str, sid: str) -> tuple[str, int]:
-    base = int(hashlib.sha256(f"{sid}|{target}".encode()).hexdigest()[:8], 16)
-    source_norm = re.sub(r"[^a-z0-9\s]", " ", source.lower())
-    source_norm = re.sub(r"\s+", " ", source_norm).strip()
-    for off in range(len(TEMPLATES[target])):
-        idx = (base + off) % len(TEMPLATES[target])
+def clean(text: str) -> str:
+    return re.sub(r"\\s+", " ", str(text)).strip().strip('"').strip("'").strip()
+
+def norm(text: str) -> str:
+    return re.sub(r"\\s+", " ", re.sub(r"[^a-z0-9\\s]", " ", text.lower())).strip()
+
+def hash_id(text: str) -> str:
+    return hashlib.sha256(clean(text).encode("utf-8")).hexdigest()[:16]
+
+def has_task_or_question(text: str) -> bool:
+    s = clean(text)
+    return bool(s and not PLACEHOLDER_RE.search(s) and ("?" in s or TASK_RE.search(s)))
+
+def extract_topic(source: str) -> str | None:
+    s = clean(source)
+    if not has_task_or_question(s):
+        return None
+
+    sentences = re.split(r"(?<=[.!?])\\s+", s)
+    task_sentence = None
+    context = ""
+    for sentence in reversed(sentences):
+        if "?" in sentence or TASK_RE.search(sentence):
+            task_sentence = sentence.strip()
+            prefix = s[: s.rfind(sentence)].strip(" .,:;-")
+            context = prefix
+            break
+    if task_sentence is None:
+        task_sentence = s
+
+    # Take the first explicit task operator in the task sentence.
+    match = TASK_RE.search(task_sentence)
+    if match:
+        body = task_sentence[match.end():].strip(" ,:;-")
+        before_task = task_sentence[:match.start()].strip()
+    else:
+        body = task_sentence
+        before_task = ""
+
+    # When the operator points to a generic reference, use the immediate context.
+    if GENERIC_REF_RE.match(body) and context:
+        ctx_parts = re.split(r"(?<=[.!?])\\s+", context)
+        body = ctx_parts[-1].strip(" .,:;-") if ctx_parts else context
+
+    body = PLACEHOLDER_RE.sub("", body).strip()
+    for _ in range(6):
+        before = body
+        body = PREFIX_RE.sub("", body).strip()
+        body = LEAD_RE.sub("", body).strip(" ,:;-")
+        body = re.sub(r"^(?:and|or)\\s+", "", body, flags=re.I).strip()
+        body = re.sub(r"^(?:briefly|clearly|concisely|critically|carefully)\\s+", "", body, flags=re.I).strip()
+        if body == before:
+            break
+
+    for pattern, fn in SPECIALS:
+        m = pattern.match(body)
+        if m:
+            body = clean(fn(m))
+            break
+
+    if re.match(r"^how\\s+far\\s+", body, re.I):
+        body = re.sub(r"^how\\s+far\\s+", "the extent to which ", body, flags=re.I)
+    elif re.match(r"^how\\s+", body, re.I):
+        body = re.sub(r"^how\\s+", "the way ", body, flags=re.I)
+    elif re.match(r"^why\\s+", body, re.I):
+        body = re.sub(r"^why\\s+", "the reasons for ", body, flags=re.I)
+    elif re.match(r"^what\\s+", body, re.I):
+        body = re.sub(r"^what\\s+", "the meaning or description of ", body, flags=re.I)
+    elif re.match(r"^which\\s+", body, re.I):
+        body = re.sub(r"^which\\s+", "the choice among ", body, flags=re.I)
+    elif re.match(r"^(?:whether|if)\\s+", body, re.I):
+        body = "the question of " + body
+
+    body = EXAMPLE_TAIL_RE.sub("", body).strip()
+    body = OUTPUT_TAIL_RE.sub("", body).strip()
+    body = SECONDARY_TASK_RE.sub("", body).strip()
+    body = re.sub(r"\\s+(?:and|or|with|of|in|on|for|to)\\s*$", "", body, flags=re.I)
+    body = re.sub(r"^[,:;\\-]+|[,:;\\-]+$", "", body).strip()
+    body = clean(body).rstrip(" .,:;?")
+
+    if len(body) < 3 or GENERIC_REF_RE.fullmatch(body):
+        return None
+    if PLACEHOLDER_RE.search(body) or TRUNC_RE.search(body):
+        return None
+    if re.match(r"^(?:how|why|what|which|whether|if|can|could|would|should|do|does|did)\\b", body, re.I):
+        return None
+    return body
+
+def build_rewrite(topic: str, target: str, source: str, source_id: str) -> tuple[str, int]:
+    base = int(hashlib.sha256(f"{source_id}|{target}".encode()).hexdigest()[:8], 16)
+    source_n = norm(source)
+    for offset in range(len(TEMPLATES[target])):
+        idx = (base + offset) % len(TEMPLATES[target])
         candidate = TEMPLATES[target][idx].format(topic=topic)
-        cand_norm = re.sub(r"[^a-z0-9\s]", " ", candidate.lower())
-        cand_norm = re.sub(r"\s+", " ", cand_norm).strip()
-        if cand_norm == source_norm:
+        cn = norm(candidate)
+        if cn == source_n:
             continue
-        if target == "Remember" and not any(c in cand_norm for c in CUES[target]):
-            continue
-        if not any(c in cand_norm for c in CUES[target]):
-            continue
-        tt = content_tokens(topic)
-        rr = content_tokens(candidate)
-        if tt and len(tt & rr) / len(tt) < 0.45:
+        if not any(c in cn for c in CUES[target]):
             continue
         return candidate, idx
     raise ValueError("no_valid_template")
 
-def read_csv(path: Path) -> list[dict[str, str]]:
+def read_rows(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
-def make_row(source: dict[str, str], split: str, target: str, topic: str) -> dict:
+def make_record(source: dict[str, str], split: str, target: str, topic: str) -> dict:
     question = clean(source["question"])
     original_level = clean(source["bloom_level"])
     sid = "src_" + hash_id(question)
@@ -453,13 +365,15 @@ def make_row(source: dict[str, str], split: str, target: str, topic: str) -> dic
         rewrite, idx = build_rewrite(topic, target, question, sid)
         template = f"{target.lower()}_{idx}"
         synthetic = True
-    user = f"Original question:\n{question}\n\nTarget Bloom level:\n{target}"
+
+    user = f"Original question:\\n{question}\\n\\nTarget Bloom level:\\n{target}"
     sft = (
-        f"<|im_start|>system\n{SYSTEM}<|im_end|>\n"
-        f"<|im_start|>user\n{user}<|im_end|>\n"
-        f"<|im_start|>assistant\n{rewrite}<|im_end|>"
+        f"<|im_start|>system\\n{SYSTEM}<|im_end|>\\n"
+        f"<|im_start|>user\\n{user}<|im_end|>\\n"
+        f"<|im_start|>assistant\\n{rewrite}<|im_end|>"
     )
-    prompt = f"<|im_start|>system\n{SYSTEM}<|im_end|>\n<|im_start|>user\n{user}<|im_end|>"
+    prompt = f"<|im_start|>system\\n{SYSTEM}<|im_end|>\\n<|im_start|>user\\n{user}<|im_end|>"
+
     return {
         "example_id": hashlib.sha256(f"{sid}|{target}".encode()).hexdigest()[:16],
         "task": "bloom_rewrite",
@@ -475,10 +389,16 @@ def make_row(source: dict[str, str], split: str, target: str, topic: str) -> dic
         "transformation_type": f"{original_level}->{target}",
         "construction_method": "deterministic_source_anchored_template_transformation",
         "construction_template": template,
-        "dataset_version": "figshare_target_rewrite_v1",
-        "policy_version": "figshare_bloom_target_policy_v1",
-        "source_file": str(INPUTS[split].relative_to(ROOT)).replace("\\", "/"),
+        "dataset_version": "figshare_target_rewrite_v2",
+        "policy_version": "figshare_bloom_target_policy_v2",
+        "source_file": str(INPUTS[split].relative_to(ROOT)).replace("\\\\", "/"),
         "quality_status": "pass",
+        "validation": {
+            "source_topic_nonempty": bool(topic),
+            "cross_level_not_identity": (not synthetic) or (norm(question) != norm(rewrite)),
+            "target_cue_present": any(c in norm(rewrite) for c in CUES[target]),
+            "meta_free": not bool(re.search(r"as an ai|target bloom level|original question|rewritten question|the answer is", rewrite, re.I)),
+        },
         "prompt_text": prompt,
         "sft_text": sft,
         "text": sft,
@@ -492,53 +412,46 @@ def make_row(source: dict[str, str], split: str, target: str, topic: str) -> dic
 def main() -> None:
     all_rows: list[dict] = []
     rejected: list[dict] = []
-    split_counts = {}
-    source_sets = {}
+    source_sets: dict[str, set[str]] = {k: set() for k in INPUTS}
 
     for split, path in INPUTS.items():
-        rows = read_csv(path)
-        source_sets[split] = set()
-        kept = []
-        for source in rows:
-            q = clean(source.get("question", ""))
-            source["question"] = q
-            if not looks_like_task(q):
-                rejected.append({"split": split, "question": q, "reason": "invalid_source_form"})
+        accepted_rows = []
+        for source in read_rows(path):
+            question = clean(source.get("question", ""))
+            if not has_task_or_question(question):
+                rejected.append({"split": split, "question": question, "reason": "invalid_source_or_placeholder"})
                 continue
-            topic = extract_topic(q)
+            topic = extract_topic(question)
             if topic is None:
-                rejected.append({"split": split, "question": q, "reason": "unextractable_topic"})
+                rejected.append({"split": split, "question": question, "reason": "unextractable_or_truncated_topic"})
                 continue
-            sid = "src_" + hash_id(q)
+            sid = "src_" + hash_id(question)
             if sid in source_sets[split]:
-                rejected.append({"split": split, "question": q, "reason": "duplicate_source_id"})
+                rejected.append({"split": split, "question": question, "reason": "duplicate_source"})
                 continue
             source_sets[split].add(sid)
-            generated = []
+
+            group = []
             failed = None
             for target in LEVELS:
                 try:
-                    generated.append(make_row(source, split, target, topic))
+                    record = make_record(source, split, target, topic)
                 except Exception as exc:
-                    failed = {
-                        "split": split,
-                        "source_id": sid,
-                        "question": q,
-                        "source_bloom_level": source.get("bloom_level", ""),
-                        "reason": "generation_failed",
-                        "detail": str(exc),
-                        "target": target,
-                        "topic": topic,
-                    }
+                    failed = {"split": split, "source_id": sid, "question": question, "reason": "generation_failed", "target": target, "detail": str(exc)}
                     break
+                if not all(record["validation"].values()):
+                    failed = {"split": split, "source_id": sid, "question": question, "reason": "validation_failed", "target": target}
+                    break
+                group.append(record)
+
             if failed:
                 rejected.append(failed)
+                source_sets[split].discard(sid)
                 continue
-            kept.extend(generated)
-        all_rows.extend(kept)
-        split_counts[split] = Counter(r["target_bloom_level"] for r in kept)
+            accepted_rows.extend(group)
 
-    # Hard source-level leakage check.
+        all_rows.extend(accepted_rows)
+
     split_ids = {k: {r["source_id"] for r in all_rows if r["split"] == k} for k in INPUTS}
     overlaps = {
         "train_validation": len(split_ids["train"] & split_ids["validation"]),
@@ -548,63 +461,52 @@ def main() -> None:
     if any(overlaps.values()):
         raise SystemExit(f"Source leakage detected: {overlaps}")
 
-    # Every accepted source must have exactly six targets.
     per_source = defaultdict(list)
-    for r in all_rows:
-        per_source[r["source_id"]].append(r["target_bloom_level"])
-    incomplete = [sid for sid, ts in per_source.items() if set(ts) != set(LEVELS) or len(ts) != 6]
+    for row in all_rows:
+        per_source[row["source_id"]].append(row["target_bloom_level"])
+    incomplete = [sid for sid, targets in per_source.items() if len(targets) != 6 or set(targets) != set(LEVELS)]
     if incomplete:
-        raise SystemExit(f"Incomplete six-target source groups: {len(incomplete)}")
-
-    # Final output checks.
+        raise SystemExit(f"Incomplete source groups: {len(incomplete)}")
     duplicate_ids = len(all_rows) - len({r["example_id"] for r in all_rows})
     if duplicate_ids:
         raise SystemExit(f"Duplicate example IDs: {duplicate_ids}")
 
     OUT.mkdir(parents=True, exist_ok=True)
     all_rows.sort(key=lambda r: (r["split"], r["source_id"], LEVELS.index(r["target_bloom_level"])))
-
     for split in INPUTS:
         rows = [r for r in all_rows if r["split"] == split]
         (OUT / f"bloom_rewrite_{split}.jsonl").write_text(
-            "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows),
+            "".join(json.dumps(r, ensure_ascii=False) + "\\n" for r in rows),
             encoding="utf-8",
         )
-
     (OUT / "bloom_rewrite_all.jsonl").write_text(
-        "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in all_rows),
+        "".join(json.dumps(r, ensure_ascii=False) + "\\n" for r in all_rows),
         encoding="utf-8",
     )
+
     stats = {
-        "source_of_truth": {k: str(v.relative_to(ROOT)).replace("\\", "/") for k, v in INPUTS.items()},
-        "source_rows": {k: len(source_sets[k]) for k in INPUTS},
-        "rewrite_rows": {
-            k: sum(1 for r in all_rows if r["split"] == k) for k in INPUTS
-        },
+        "source_of_truth": {k: str(v.relative_to(ROOT)).replace("\\\\", "/") for k, v in INPUTS.items()},
+        "source_rows_in_figshare_splits": {k: len(read_rows(v)) for k, v in INPUTS.items()},
+        "accepted_source_rows": {k: len(source_sets[k]) for k in INPUTS},
+        "rewrite_rows": {k: sum(1 for r in all_rows if r["split"] == k) for k in INPUTS},
         "targets_per_source": 6,
-        "target_levels": list(LEVELS),
-        "target_counts": Counter(r["target_bloom_level"] for r in all_rows),
-        "splits": {
-            k: dict(split_counts[k]) for k in INPUTS
-        },
+        "target_counts": dict(Counter(r["target_bloom_level"] for r in all_rows)),
         "rejected_source_rows": len(rejected),
-        "rejection_reasons": Counter(r["reason"] for r in rejected),
+        "rejection_reasons": dict(Counter(r["reason"] for r in rejected)),
         "source_split_overlap": overlaps,
         "incomplete_source_groups": len(incomplete),
         "duplicate_example_ids": duplicate_ids,
     }
     (OUT / "stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8")
-    (OUT / "rejected_sources.json").write_text(
-        json.dumps(rejected, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
+    (OUT / "rejected_sources.json").write_text(json.dumps(rejected, indent=2, ensure_ascii=False), encoding="utf-8")
     manifest = {
-        "dataset_version": "figshare_target_rewrite_v1",
-        "policy_version": "figshare_bloom_target_policy_v1",
-        "source_of_truth": "Figshare Bloom dataset already checked into data/figshare_bloom_v1_*.csv",
+        "dataset_version": "figshare_target_rewrite_v2",
+        "policy_version": "figshare_bloom_target_policy_v2",
+        "source_of_truth": "Figshare Bloom dataset split files in data/figshare_bloom_v1_{train,val,test}.csv",
         "generation": "deterministic source-anchored target-level transformation",
         "target_levels": list(LEVELS),
         "same_level_behavior": "identity copy",
-        "cross_level_behavior": "template transformation with source-topic anchoring",
+        "cross_level_behavior": "source-topic-anchored cognitive-operation transformation",
         "training_files": {
             "train": "bloom_rewrite_train.jsonl",
             "validation": "bloom_rewrite_validation.jsonl",
@@ -613,7 +515,7 @@ def main() -> None:
         "checks": {
             "six_targets_per_accepted_source": len(incomplete) == 0,
             "source_level_split_disjoint": not any(overlaps.values()),
-            "duplicate_example_ids": duplicate_ids == 0,
+            "duplicate_example_ids_ok": duplicate_ids == 0,
             "all_rows_quality_status_pass": all(r["quality_status"] == "pass" for r in all_rows),
         },
         "stats": stats,
