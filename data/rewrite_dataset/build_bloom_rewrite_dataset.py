@@ -26,7 +26,7 @@ TASKS=("define|explain|describe|discuss|list|name|state|identify|recall|recogniz
        "judge|defend|correct|find|detect|fix|sketch|estimate|label|verify|paraphrase|perform|"
        "produce|devise|prepare|plan|relate|inspect|investigate|prove|test|validate|generalize|"
        "generalise|restate|express|model|combine|categorize|categorise|group|argue|review|"
-       "synthesize|synthesise")
+       "synthesize|synthesise|provide|support|divide")
 TASK_RE=re.compile(rf"\b(?:{TASKS})\b",re.I)
 LEVEL_VERBS={
  "Remember":("define","list","name","state","identify","recall","recognize","label","mention","specify","recite","restate"),
@@ -59,6 +59,27 @@ def sentences(s): return [x.strip() for x in re.split(r"(?<=[.!?])\s+",s) if x.s
 def nominalize(s):
  s=clean(COUNT_RE.sub(lambda m:m.group(1).lower(),s)).rstrip(" .,:;?")
  pats=[
+
+  (r"^how\s+would\s+you\s+(relate|link|connect)\s+(.+?)\s+(?:with|to)\s+(.+)$",lambda m:f"the relationship between {m.group(2)} and {m.group(3)}"),
+  (r"^how\s+would\s+you\s+(differentiate|distinguish)\s+(?:between\s+)?(.+?)\s+(?:and|from)\s+(.+)$",lambda m:f"the distinction between {m.group(2)} and {m.group(3)}"),
+  (r"^how\s+would\s+you\s+classify\s+(.+)$",lambda m:f"the classification of {m.group(1)}"),
+  (r"^how\s+(?:would|could|can|should|do|does|did)\s+you\s+(.+)$",lambda m:f"the process used to {m.group(1)}"),
+  (r"^how\s+to\s+(.+)$",lambda m:f"the process used to {m.group(1)}"),
+  (r"^how\s+far\s+(.+)$",lambda m:f"the extent to which {m.group(1)}"),
+  (r"^in\s+what\s+ways\s+(.+)$",lambda m:f"the ways in which {m.group(1)}"),
+  (r"^in\s+which\s+(.+?)\s+(?:does|do|did|is|are)\s+(.+)$",lambda m:f"the {m.group(1)} in which {m.group(2)}"),
+  (r"^who\s+(?:was|is|were|are)\s+(.+)$",lambda m:m.group(1)),
+  (r"^where\s+(?:is|are|was|were)\s+(.+)$",lambda m:m.group(1)),
+  (r"^how\s+much\s+time\s+(?:did|does|do)\s+(.+?)\s+(?:take|takes|took)\s+to\s+(.+)$",lambda m:f"the time taken by {m.group(1)} to {m.group(2)}"),
+  (r"^how\s+much\s+(.+?)\s+is\s+(.+)$",lambda m:m.group(2)),
+  (r"^how\s+many\s+(.+?)\s+(?:does|do|did|can|could|would)\s+(.+)$",lambda m:f"the number of {m.group(1)} that {m.group(2)}"),
+  (r"^what\s+goes\s+in\s+(.+)$",lambda m:f"the contents of {m.group(1)}"),
+  (r"^what\s+(.+?)\s+means?$",lambda m:f"the meaning of {m.group(1)}"),
+  (r"^what\s+does\s+(.+?)\s+(.+)$",lambda m:f"the {m.group(2)} of {m.group(1)}"),
+  (r"^what\s+(?:is|are)\s+(.+)$",lambda m:m.group(1)),
+  (r"^what\s+(.+)$",lambda m:m.group(1)),
+  (r"^if\s+(.+)$",lambda m:f"the question of whether {m.group(1)}"),
+  (r"^whether\s+(.+)$",lambda m:f"the question of whether {m.group(1)}"),
   (r"^how\s+(?:does|do|did)\s+(.+?)\s+affect\s+(.+)$",lambda m:f"the effect of {m.group(1)} on {m.group(2)}"),
   (r"^how\s+(?:does|do|did)\s+(.+?)\s+compare\s+(?:with|to)\s+(.+)$",lambda m:f"the comparison between {m.group(1)} and {m.group(2)}"),
   (r"^how\s+(?:does|do|did)\s+(.+?)\s+differ\s+from\s+(.+)$",lambda m:f"the difference between {m.group(1)} and {m.group(2)}"),
@@ -86,7 +107,7 @@ def extract_topic(q,level):
    chosen=s; break
  if chosen is None:
   for s in ss:
-   if TASK_RE.search(s) or "?" in s: chosen=s; break
+   if TASK_RE.search(s) or "?" in s or re.match(r"^(?:what|who|where|when|why|how|which|in what ways)\b",s,re.I): chosen=s; break
  if chosen is None: return None
  body=clean(COUNT_RE.sub(lambda m:m.group(1).lower(),chosen))
  body=FORMAT_RE.sub("",body).strip()
@@ -106,7 +127,7 @@ def extract_topic(q,level):
  body=re.sub(r"\s+(?:show|provide|support|justify|defend|comment)\s+(?:your|the|each|one|two|three|four|five|six|seven|eight|nine|ten|an?|a|relevant|appropriate)\b.*$","",body,flags=re.I).strip()
  body=re.sub(r"\s+(?:to|in order to|so that|so as to)\s+(?:help|allow|enable|make it possible)\b.*$","",body,flags=re.I).strip()
  body=re.sub(r"\s+(?:and|or|with|of|in|on|for|to)\s*$","",body,flags=re.I)
- if GENERIC_RE.match(body):
+ if not body or GENERIC_RE.fullmatch(body) or re.match(r"^(?:evidence|arguments?|justifications?|your views?|your answer|your position)\b",body,re.I):
   try: idx=ss.index(chosen)
   except ValueError: idx=0
   if idx>0:
@@ -115,7 +136,7 @@ def extract_topic(q,level):
    body=SECONDARY_RE.sub("",body).strip()
  body=nominalize(body)
  body=clean(body).rstrip(" .,:;?")
- if not toks(body) or PLACEHOLDER_RE.search(body) or GENERIC_RE.match(body): return None
+ if not toks(body) or PLACEHOLDER_RE.search(body) or GENERIC_RE.fullmatch(body): return None
  if re.match(r"^(?:how|why|what|which|whether|if|can|could|would|should)\b",body,re.I): return None
  return body
 
