@@ -1,16 +1,15 @@
 {
-  "dataset_version": "multitask_corrected_v1",
+  "dataset_version": "multitask_corrected_v5",
   "seed": 42,
   "base_model_target": "Qwen2.5-1.5B-Instruct",
-  "mix_preset": "A",
-  "requested_mix": {
+  "requested_train_mix": {
     "bloom_rewrite": 0.4,
     "qa": 0.3,
     "summarization": 0.3
   },
   "sources": {
-    "bloom_rewrite": "data/rewrite_dataset/bloom_rewrite_*.jsonl",
-    "qa_and_summarization": "data/multitask_bloom_rewrite/{train,validation,test}.jsonl"
+    "bloom_rewrite": "data/rewrite_dataset/bloom_rewrite_{train,validation,test}.jsonl",
+    "qa_summarization": "data/multitask_bloom_rewrite/{train,validation,test}.jsonl"
   },
   "train": {
     "total": 17434,
@@ -18,31 +17,43 @@
       "bloom_rewrite": 6972,
       "summarization": 5231,
       "qa": 5231
+    },
+    "proportions": {
+      "bloom_rewrite": 0.399908,
+      "summarization": 0.300046,
+      "qa": 0.300046
     }
   },
   "validation": {
-    "total": 8423,
+    "total": 8345,
     "by_task": {
+      "bloom_rewrite": 1560,
       "qa": 5285,
-      "bloom_rewrite": 1638,
       "summarization": 1500
+    },
+    "proportions": {
+      "bloom_rewrite": 0.186938,
+      "qa": 0.633313,
+      "summarization": 0.179748
     }
   },
   "test": {
-    "total": 8483,
+    "total": 8363,
     "by_task": {
-      "summarization": 1500,
       "qa": 5285,
-      "bloom_rewrite": 1698
+      "summarization": 1500,
+      "bloom_rewrite": 1578
+    },
+    "proportions": {
+      "qa": 0.63195,
+      "summarization": 0.179361,
+      "bloom_rewrite": 0.188688
     }
   },
-  "bloom_train_sources_selected": 1162,
+  "bloom_train_source_groups_selected": 1162,
   "bloom_train_rows_selected": 6972,
-  "bloom_train_source_all_six_targets": true,
-  "notes": [
-    "Old Bloom rewrite rows from data/multitask_bloom_rewrite are not reused.",
-    "QA and summarization rows are unchanged from the locked baseline.",
-    "Bloom train selection is source-grouped to preserve six target levels together.",
-    "Test is never sampled or tuned against; Bloom test comes from Figshare test."
-  ]
+  "bloom_train_complete_groups": true,
+  "old_bloom_rows_excluded": true,
+  "qa_summarization_unchanged": true,
+  "test_not_tuned": true
 }

@@ -1,1967 +1,3292 @@
 [
   {
     "split": "train",
-    "question": "Besides silicon and germanium, name ONE (1) other material that can be used as the substrate of a transistor.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_8a64b182cb8e06d7",
     "question": "Revises and process to improve the outcome.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_66d9a487d79851ac",
     "question": "How was this similar to . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d8dc913fc5b53e5e",
     "question": "Can you explain what is happening . . . what is meant . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_566947e1eb344b88",
     "question": "How can you differentiate between...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_753d37b2dedcccbc",
     "question": "By using appropriate diagrams, explain how a decreasing cost industry affects the long-run supply curve in a perfectly competitive market.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Based on your understanding, highlight THREE (3) differences between vector graphics and bitmap images.",
-    "reason": "invalid_source_form"
+    "source_id": "src_cf96ce1352f6fa1e",
+    "question": "Compare how different children come to school.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Eukaryotic genome is mostly repetitive DNA and non-coding sequences. Elaborate the statement.",
-    "reason": "unextractable_topic"
-  },
-  {
-    "split": "train",
-    "question": "Based on the above dataType class, list all the function members",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_097b4a987d38dbc9",
     "question": "Divide the story into initiating event, rising action, climax, and falling action",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Search engines are key means of attracting traffic to websites. As a new marketing executive with Munchy's Malaysia, recommend THREE (3) tactics used in search engine marketing (SEM).",
-    "reason": "invalid_source_form"
+    "source_id": "src_49c519c1e6d03fff",
+    "question": "Describe how hypotheses are combined in boosting.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_721c212165d5949c",
     "question": "Support your views with ONE (1) example for each strategy.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Assuming the elitism selection method where the best chromosomes are selected for pairing, apply the crossover and mutation for the selected pair of chromosomes using the encoding scheme proposed in (b)(i).",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_54de2c2cac574435",
     "question": "Can you discriminate the difference parts . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_0fb19fe5d490139c",
     "question": "Provide the objectives of building maintenance.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_aea4a42941716b19",
     "question": "How does...compare/contrast with...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Listen to two classmates conversing on tape and critique their performance on the basis of the skills covered this semester.",
-    "reason": "invalid_source_form"
+    "source_id": "src_198cc5ee4d147b60",
+    "question": "Identify any TWO (2) product design strategies you have learned. Explain how both strategies could be useful for instant respond to customer demand.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Assume that there is one dominant firm in the industry that sets the price and then all the other firms in the industry behave like perfectly competitive price­ taking firms\". By using appropriate diagrams, explain the underlying assumptions of the model stated in the statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_96eeedb809b71620",
+    "question": "How would you relate position concept with position strategy",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Synthesize the need for ventilation as an engineering control.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "In a table form, state the advantages and disadvantages of X-ray crystallography and nuclear magnetic resonance in elucidating the three dimensional structure of proteins.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_0136bc0cf845e4b2",
     "question": "MVC (Model View Controller) leads to low coupling\". Justify.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2fcde2fa7227ecaa",
     "question": "By using an appropriate diagram, explain how the open market operation (OMO) can put an upward pressure on the federal fund rate (FFR).",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_9e852db21037f940",
+    "question": "Explain what the author means by the statement \"our intellectual powers are geared to master static relations.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_563ad06e0c5aabff",
     "question": "Decide which course of action was most effective",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Besides silicon and germanium, name ONE (1) other material which could be used to fabricate transistors.",
-    "reason": "invalid_source_form"
+    "source_id": "src_f486ca4a6c72005b",
+    "question": "Solve the following optimization problem by using the golden section search method and terminate the computation when the length of the interval.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In a table form, differentiate between RefSeq and GenBank DNA sequences.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e3a4c3228e20fcd0",
+    "question": "Discuss how far you agree with this statement with emphasis on circulation management of a newspaper company.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Japan is operating above the potential output level. As a committee member of central bank, suggest a policy that should be implemented in order to restore Japan's potential output level. Using appropriate diagram(s), explain the effect of the policy on price and unemployment level in short run and long run.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e6e10bba7774cf56",
+    "question": "Critically explain how our statuses, educational qualification and occupation affect our social stratification, social mobility and life chances.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_5a6602043197d722",
     "question": "Given a graph of production trends in automobiles, describe what the graph represents in a memo to your boss.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "From a blueprint to describe the article depicted.",
-    "reason": "invalid_source_form"
+    "source_id": "src_436707c6f061274c",
+    "question": "Judge whether Olympic Ideals are realistic or unrealistic for the contemporary elite athlete.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using a farm animal species of your choice, sketch a graph and describe the scenario that demonstrate a strong genotype by environmental interaction that could influence breeding objectives.",
-    "reason": "invalid_source_form"
+    "source_id": "src_cac466bf60551c13",
+    "question": "Justify if DHT`s supply chain performance is better than PLI.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d7e22c1418fcc5e2",
     "question": "In about 70 words, explain how the different components function in language learning.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In a table, list EIGHT differences between GenBank and RefSeq DNA sequences.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_7a07ef3d7fa53374",
     "question": "Support your answers with ONE (1) example in everyday life for each strategy.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_3f92fd0d8169c099",
     "question": "In what ways do female offenders differ from male offenders",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_51f8a232513bd953",
+    "question": "Do you think . . . is a good or a bad thing?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_338a038cc87248f0",
     "question": "Express the following percentages as fractions in simplest form",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ca55d117977eebcd",
     "question": "What do you recall ...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_b38d5d1beeb6ca4b",
     "question": "What questions would you ask if . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_81673ecab955edcf",
     "question": "Currently the product life cycle for Apple iPod is in the 'growth stage'. Provide evidence to support your answer.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e4665a9b642aba5e",
+    "question": "Justify the following statement: “The value of a putable bond is never greater than the value of an otherwise comparable option-free bond.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_ff6d436f89dbc76d",
+    "question": "What can I do to investigate this problem further",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_05146f5a43c72813",
+    "question": "Justify the concept of inheritance and give the sample of code to illustrate your answer.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_5866610d655b0766",
     "question": "Judge the value of . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_9b573207206082f3",
     "question": "Predict what would happen if ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "The impact of using JSTL in software development can significantly reduce its development time. Prove that there is some truth in the statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_ec4bc83589a98e70",
+    "question": "Predict whether Phillip will ever go back to visit the Cay after several years of recovery. Assuming he gets his sight back.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you distinguish aged rums from unaged rums by smell",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_cf16b4ed3ba3eef4",
     "question": "Support your answers with ONE (1) example for each factor.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Autoclave aerated concrete block is gaining popular in high rise construction. Briefly illustrate what are the unique features of the autoclave aerated concrete block.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d555a6130201079c",
+    "question": "Determine which country enjoys comparative advantage in the production of cotton and silk respectively. Support your answer by calculating the opportunity costs of each.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e3ecee0f2561d1b1",
+    "question": "Briefly describe how riparian forests help in reducing nitrate contamination in rivers reducing nitrate and streams.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_b26744ab9bf1f528",
     "question": "How would you express ________________?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_6b8d5c524cfaa2a9",
     "question": "With the aid of diagrams, describe how the soil structure influences the rate of water leaching.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "A manager of a small company makes the following statement - \"We need to keep hiring additional workers up to the point where the marginal productivity of the last worker we hire is at its maximum. This way we can maximize the total productivity of the firm.\" Critically evaluate this statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d325c031a919345b",
+    "question": "How would you differentiate between heterodox and mainstream",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using straight value depreciation, decide between two copper-nickel alloys for the design of a heat exchanger.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "After examining the videotape of a play in a football game, determine the degree to which the defensive team performed effectively and",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_2c467177ca5d6f56",
     "question": "Can you propose an alternative plan to . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Optimization of medium and culture conditions of a fermentation process can be conducted by using multifactor experimental design or response surface optimization. With aid of a flow chart, compare and contrast these two methods.",
-    "reason": "invalid_source_form"
+    "source_id": "src_bf681cf37e07868a",
+    "question": "who was the first man on the moon",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_565cc3694662112d",
+    "question": "Discuss what world-class producers do in regards to product or service design and process design.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_28339021f0368290",
+    "question": "Explain the process of ideas generation.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_86ce8291f992c627",
+    "question": "Explain the concept of price leadership observed under the condition of oligopoly, by using graphs.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_f602cd408bcc80eb",
     "question": "What criteria would you use to assess...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "With the aid of a flow chart, briefly describe the steps involved in developing a successful animal breeding programme.",
-    "reason": "invalid_source_form"
+    "source_id": "src_294a0e9f2a6806fe",
+    "question": "Justify whether the enzyme after step 'Size-exclusion chromatography' is pure. Suggest a method to estimate the purity of the enzyme preparation.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Restate main idea of story in own words.",
-    "reason": "invalid_source_form"
+    "source_id": "src_cd0aa6a7b24d64f7",
+    "question": "Explain the concept for the nature of building characteristics.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e41ec4398c0918db",
     "question": "Provide justifications as to why integrity and reliability is important in a company's annual report and accounts (ARAS) from corporate governance point of view.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2fca3223b298111f",
     "question": "In your own words, how would you summarize the story up",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_b151839728dc5b3d",
     "question": "In Which part of the world does he live",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Investigate innovations that can enhance future Olympics.",
-    "reason": "invalid_source_form"
+    "source_id": "src_2d54daed0f47a481",
+    "question": "Explain how auction is related to dynamic pricing.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "FinFET technology is developed to minimize some of the shortcomings in planar MOSFETs. With the aid of diagrams, show the differences between these TWO (2) transistors.",
-    "reason": "invalid_source_form"
+    "source_id": "src_c14d37091fe4f4fd",
+    "question": "Describe what goes in each of the four areas on the first page of notes",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Break down the main actions of the story.",
-    "reason": "invalid_source_form"
+    "source_id": "src_0f828128518243b0",
+    "question": "Discuss how data mining operations which are classification, association, clustering and anomaly detection can be deployed in a variety of industries.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_8b28c958ac347b05",
+    "question": "How would you investigate this abnormality",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_1c3efbf6e483a187",
+    "question": "How much time did he took to build a house",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_5659b6117a9c7617",
+    "question": "How does public health reporting differ today from reporting two years before",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_a9e87e73a2dad575",
+    "question": "Differentiate the following functions using the quotient rule",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_a286e1508af509d4",
     "question": "How many ways can you . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Annealing is a thermal process typically performed after ion implantation. With the aid of diagrams, briefly discuss the purpose of this process.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e96ebcb87fb5ad52",
+    "question": "Identify which country has an absolute advantage in the production of sugar cane and blue agave.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d7913b97058a84ca",
+    "question": "Class Facility is an abstract class. Explain what this means",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_790d07f3d367b710",
     "question": "Banks act as an important institution in the financial system. Briefly explain what a bank run is and provide THREE (3) causes that lead to its occurrence.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Local oxidation of silicon or LOCOS is a type of application which involves wet oxidation. With the aid of diagrams, briefly illustrate this process.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_6a2a86466e047c27",
     "question": "Can you explain what must have happened when . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_0311f882683cce8f",
     "question": "Can you defend your position about . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Categorize FIVE (5) advantages of multimedia in primary school education.",
-    "reason": "invalid_source_form"
+    "source_id": "src_3a13370ecc1900bd",
+    "question": "Explain what a poem means.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "“Goods and services design could help manufacturers to gain competitive advantages.\" Justify the statement with any THREE (3) strategies.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_e7d2f11eaad9d20e",
     "question": "What evidence can you list for...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_1e7f3adcb01fe97a",
     "question": "Draw a diagram to show the memory configuration after the following statements ....",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e1dd425daf31284d",
     "question": "From your opinion, explain which one of the methods mentioned earlier is better for the given token stream.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_4687fd62035bb905",
     "question": "Provide arguments on how these investment strategies help in maintaining market efficiency.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_7fc161d9f1e035b0",
+    "question": "Inflation is one of the major concerns of all countries in the world. Discuss how the Bank Negara Malaysia (BNM) would fight against inflation problem and by using appropriate diagrams, show how the BNM actions affect the investment level and equilibrium output level.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_421ff4a9fa632b2f",
+    "question": "Explain how competitive and uncompetitive inhibitors will affect enzymatic reactions.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_e565422b3df21170",
     "question": "Critically review how a shift in the mental model with a different set of assumptions could change Yahoo.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Video got its start on cathode ray tube television systems, but has moved on to be used in many more applications. Relate the video transmission on television sets and computer monitors with interlacing and progressive scan techniques",
-    "reason": "invalid_source_form"
+    "source_id": "src_d339f863b2b48321",
+    "question": "Examine how conventional newspaper can continue to maintain its circulation with the easy access to alternative information on the web.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using Marginal approach, explain and identify how many unit of CD players should the firm producer per day if its goal is to maximize its profit.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_fc3c26c602e95b08",
     "question": "What do you think about . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "As opposed other curves, justify with explanation why Average Fixed Costs (AFC) is negatively sloped.",
-    "reason": "invalid_source_form"
+    "source_id": "src_5f1bf2c1c8035f66",
+    "question": "Which of the two algorithms, bubblesort or quicksort, is more efficient? Justify your answer.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Model an Olympic Village for the new Millenium.",
-    "reason": "invalid_source_form"
+    "source_id": "src_01b93a850d157a5b",
+    "question": "Sleep is a local phenomenon. Explain how this is possible. Provide TWO (2) examples to illustrate this.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using Nyquist Theorem, calculate the maximum sampling frequency.",
-    "reason": "invalid_source_form"
+    "source_id": "src_06a59790bb4e8ccc",
+    "question": "How would you investigate this patient",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_a4f449ac9845ebe8",
     "question": "Can you design a . . . to . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_b1da308956938645",
+    "question": "What are major facts about particular cultures and societies",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_c4bdebe81a1f4615",
     "question": "Using an appropriate example, explain how session listeners can be used in a web application.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you please analyze modern contemporary culture and tell me how your work plays a significant part in the remains of our post-modernist culture ?",
-    "reason": "unextractable_topic"
+    "source_id": "src_07073a1e62f9dfbc",
+    "question": "Describe how Phillip and Timothy survived on the Cay.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_6efc9a1cb8c78db1",
     "question": "Discriminate the pros and cons of ____.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_162794883499a474",
+    "question": "Compare this piece of music with the music recorded in CD quality.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_cf4b19bf1b073601",
     "question": "In what ways are foxes similar to wolves and dogs",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you find four different feelings Pa Lia had during the story?",
-    "reason": "unextractable_topic"
+    "source_id": "src_6f5b065c9ed3dd65",
+    "question": "Describe what multimedia is.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "By drawing appropriate diagrams, differentiate between flat file model and database model.",
-    "reason": "invalid_source_form"
+    "source_id": "src_89911795ba58d03b",
+    "question": "Who is the first president of USA",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Inspect the pattern of GPS positions relative to the “known” published value",
-    "reason": "invalid_source_form"
+    "source_id": "src_9632fa683fbdc1d7",
+    "question": "What are the representational symbols on maps and charts",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In your opinion, identify the relationship between factors of and a country's economic system.",
-    "reason": "invalid_source_form"
+    "source_id": "src_9cfb47739a603ee3",
+    "question": "Apply how semaphores and shared memory methods can be deployed to execute a particular task.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "As a supervisor for the brickworks, List FOUR (4) aspects of brick quality control in order to produce good architectural work.",
-    "reason": "invalid_source_form"
+    "source_id": "src_5cdf9babae55f2dd",
+    "question": "How to specify the impact energy and impact test temperature of the material in the Code",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_a1b0d3ea63d62cdb",
     "question": "Can you solve the following problem",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "A bond fund manager decided to allocate certain percentage of the portfolio in foreign bond market to improve the reward-to-risk ratio. Briefly explain THREE (3) specific risks related to investing in international bond market.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_63e2bc66be31a62a",
     "question": "In your opinion, discuss how modern supply chain management systems facilitate a pull-based model.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Your advice has been sought to settle the following dispute in Company X. Referring to appropriate legal principles, write a short report advising the company on the best course of action to adopt.",
-    "reason": "invalid_source_form"
+    "source_id": "src_54e107ea8c4a5853",
+    "question": "Recommend how our classroom or playground could be improved.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "With the aid of a diagram, explain LOCOS.",
-    "reason": "invalid_source_form"
+    "source_id": "src_c95d5f51b0cab6b5",
+    "question": "Illustrate this caption: \"Olympic as a Media Event in the Information Society",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Combine any two sports to develop a new Olympic sport.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d5cfd84144f46ddd",
+    "question": "How much is your weight",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using the process approach in writing composition, describe the activities you would carry out to write a composition entitled 'A visit to a zoo in a Form 1 class.",
-    "reason": "invalid_source_form"
+    "source_id": "src_73757bc2c2882d48",
+    "question": "Explain how the increment or decrement operators affect the result of p.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_c05ac76863258a97",
+    "question": "How would you restructure the school day to reflect children's developmental needs?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_dd71945e1e09e217",
     "question": "Do you think that this statement conveys the idea that i am trying to portray",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_abcb787fa024817c",
     "question": "Can you group by characteristics such as . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In maintaining concrete quality, identify SEVEN (7) good practices on site.",
-    "reason": "invalid_source_form"
+    "source_id": "src_8ef3dd16ff3f932b",
+    "question": "How does an endorsement differ from a teaching certificate",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using transmission-gates, design and sketch a 4-to-1 multiplexer.",
-    "reason": "invalid_source_form"
+    "source_id": "src_ab52fe984fed2bf4",
+    "question": "Justify whether tRNA or mRNA would be more extensively hydrogen bonded.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you write a new recipe for a tasty dish?",
-    "reason": "unextractable_topic"
+    "source_id": "src_1e9252263717b256",
+    "question": "Explain how GST approach can be deployed in the context of Accounting Information System.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_6c25a4cc4db5e496",
     "question": "Rewrite the sentence in your head, following the direction given below",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "An increase in the money supply will lead to an increase in the market equilibrium interest rate.” Comment and justify the above statement with an appropriate diagram.",
-    "reason": "invalid_source_form"
+    "source_id": "src_5845c2c91c951b9c",
+    "question": "How does autonomy differ with age",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_4891b39efd94e0a7",
     "question": "Provide each of Market Economy and Planned Economy with an example.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Rewrite the principles of test writing.",
-    "reason": "invalid_source_form"
+    "source_id": "src_11b322c68c0d9905",
+    "question": "Draw a pH denaturation profile for an enzyme. Explain what happens to the enzyme during pH denaturation.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Express your opinion of 'Drugs in Sport' through poetry.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d402c14105bf8ceb",
+    "question": "Explain how Referral Networks approach can be used as a tool to increase number of customers.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_7b0e61439ff28e57",
     "question": "Provide (with explanations) THREE (3) differences Programming and System Programming.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_52f0c5a853af17cc",
     "question": "Media planners want both effective and efficient media buys. In your role as a new media planner of a digital marketing agency, explain how would you know you have made an effective advertising buy over the internet.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "As a spokesperson that is handling the crisis, identify TWO (2) potential trick questions that might be asked by the reporters during the press conference. Provide your answer with explanation and an example for each trick question identified.",
-    "reason": "invalid_source_form"
+    "source_id": "src_bae52054dd1012f7",
+    "question": "Stock market serves as an important predictor of economic activities. Explain how the stock market values can predict real economic activity.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_4936b5939ed723eb",
+    "question": "How many instructions in the instruction set of RISC computer?",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_c7a5c628edf6c42d",
+    "question": "Compare how the Net Present Value (NPV), IRR method and modified Internal Rate of Return (MIRR) method is different.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_9f8091ab6147fc17",
+    "question": "Describe how the hexokinase enzymatic activity could be determined using the coupled assay method.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_4254801b159f5084",
+    "question": "Determine which Angus bull would produce the heaviest offspring (on average). Justify your answer.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_36d7ccff0075087b",
     "question": "Tell in your own words the beginning of the book.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Relate topographic map to field features",
-    "reason": "invalid_source_form"
+    "source_id": "src_f5038c0f8d3d51ee",
+    "question": "How are the adolescents with ASD similar of different from each other in their sources of communication breakdowns ?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Treating emotion as a useful concept is challenging. Critically discuss why treating emotion as a useful concept is challenging. Provide TWO (2) points.",
-    "reason": "invalid_source_form"
+    "source_id": "src_9ad4b94161ca25ba",
+    "question": "How would you classify the geographic location of your school",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2252aabd4322ead7",
+    "question": "when did saudi arabia start using internet",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_bb783449530960f5",
+    "question": "Demonstrate how this could work in an industry setting?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_cdd47afcc517a6c0",
+    "question": "Explain how human capital can lead to economic growth.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_9195e4f649ef46cb",
+    "question": "Briefly compare this way of testing the satisfiability of to the more standard way using SLD Resolution, as in Prolog",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_907ed178e798112e",
+    "question": "when did the first saudi radio station open",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_d4c7f05cdf61ad96",
+    "question": "Explain how RFID provides value to businesses.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_10729afa4d90a9d8",
+    "question": "Describe how accurate mass spectrometry could be applied to determine if a small protein contains a pair of disulfide-bonded cysteine residue or two reduced cysteine residues. Explain how you can confirm your finding.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_810a4dd16e97a7c4",
     "question": "What would happen if . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_cf8e7a45a0b4032e",
+    "question": "Explain the concept of Customer Relationship Management (CRM).",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_525507a54e7a4325",
+    "question": "Judge how well a project meets the criteria of a rubric.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_3c68fef7a18fce4a",
     "question": "Provide TWO (2) possible reasons why AirAsia decide to offer this new online service.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_12d6f184a2407598",
     "question": "If your story occurred long ago, compare that time with today in a good paragraph. If it was a modern story, compare it with a long time ago and tell what would be different.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d661d325240f5413",
+    "question": "Cyrus claimed that placentomes could be observed using a transabdominal probe to scan both pregnant sow and doe on day-20 of gestation. Justify whether his claim is true or false.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_e72dfaa7631cf1eb",
+    "question": "What evidence can you find to suggest that people should be regarded as the most important resource of an organisation?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_bf8fbc275133658f",
     "question": "Rate the following recommendations and set the priority _____.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d0c137759b9b9c99",
+    "question": "When did the second world war happen",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_59c8ce1f606c94e1",
     "question": "How would you create/design a new...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_a1fd11b871aa8c88",
+    "question": "How does Tdap differ from Td vaccine",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_c3d585cb3a5a2971",
+    "question": "What approach would you use to prove the truth of the below statement",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_162ed2863c41abc1",
+    "question": "Illustrate how the Variable Length Encoding algorithm can be used to encode symbols 'SOOOSAY T '.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_6c0ba38ef911a005",
     "question": "Make a scrapbook about the areas of study.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Conduct an investigation to produce information to support a view.",
-    "reason": "invalid_source_form"
+    "source_id": "src_4f21200dc16e69b7",
+    "question": "Who was the writer of the Hamilton",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Technology has been used in most schools since the 90s, but it still has some interruptions. Validate the top FOUR (4) problematic issues with technology in education today.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_1f8e5c74ed182716",
     "question": "How is . . . similar to . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "in which continent does the state of suriname fall",
-    "reason": "invalid_source_form"
+    "source_id": "src_58485a3d980e92d8",
+    "question": "Briefly explain how the aggregation processes could improve the water quality in a water treatment plant.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e131c6b68c3e0ef6",
     "question": "in which countries is arabic language spoken",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_cdec2eb36d20ca15",
+    "question": "Suppose Phillip wasn't rescued shortly after Timothy's death. How long could he have survived?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_5b3158fad6fe2959",
     "question": "Make up a puzzle game using the ideas from the study area.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In a given clinical situation, select the most reasonable intervention and predict the main effects and possible side effects.",
-    "reason": "invalid_source_form"
+    "source_id": "src_7381737503e33085",
+    "question": "Determine if a character’s actions were heroic",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Do you devise a systematic approach in order to get larger progressions",
-    "reason": "invalid_source_form"
+    "source_id": "src_150b70537c71acc4",
+    "question": "Examine what helps to make a good Olympics? Think about money, schedules, sports and people.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Portfolio management strategies are different based on the investor's risk preferences and expected return\". Based on above statement, explain TWO (2) major portfolio management strategies.",
-    "reason": "invalid_source_form"
+    "source_id": "src_46dca1304f0352ad",
+    "question": "Briefly explain how clay particles and soil organisms influence soil structure.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Argue the case for conducting experimental research involving humans and propose guidelines to ensure that the dignity and welfare of the subjects are maintained.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e0be3ef6d451aae8",
+    "question": "Describe how the linear polarization method can yield corrosion rates",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Given three possible approaches to implement the defined system, discuss the possible advantages and disadvantages of each approach.",
-    "reason": "invalid_source_form"
+    "source_id": "src_11e78597e5e7a107",
+    "question": "How could you re-write this story with a city setting?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2ee429f3c94f1766",
     "question": "Can you compare your . . . with that presented in . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Critically review the strengths, weaknesses, opportunities and threats of Associated Meats Sdn Bhd in light of the forecast trends and developments.",
-    "reason": "invalid_source_form"
+    "source_id": "src_7ae74a856f66eee1",
+    "question": "Explain how the affinity of hemoglobin for oxygen is regulated.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "would you classify the zener diode in this circuit as a series voltage regulator or a shunt voltage regulator",
-    "reason": "invalid_source_form"
+    "source_id": "src_6eb3b8f5ce68ac04",
+    "question": "Briefly explain if restriction mapping is useful in determining the presence of minisatellite.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Restate the Olympic motto in your own words.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b9e9bb5ad87600a0",
+    "question": "State how to find a word in a dictionary",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Companies must take reasonable steps to ensure that their investors enjoy equal access to material information. Briefly describe SIX (6) corporate disclosure policies under Main Market Listing Requirements (MMLR).",
-    "reason": "invalid_source_form"
+    "source_id": "src_9679087ca2a42058",
+    "question": "Classify the following substances as particle, atom, element, molecule, compound",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Generalize FIVE (5) ways to use digital photography in classroom teaching and learning.",
-    "reason": "invalid_source_form"
+    "source_id": "src_420640d301399c1f",
+    "question": "Are you a . . . person?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_dcaab38a6572d858",
     "question": "Can you assess the value or importance of . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Comparing to the reference sequence, identify the functional elements to represent S2 and S3, respectively.",
-    "reason": "invalid_source_form"
+    "source_id": "src_0192b256a04034f7",
+    "question": "Describe what happens during the negative feedback loop of thermoregulation.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using the multiplier approach, suppose government increases spending to 2200 and decreases tax by 500, calculate the new equilibrium output level and the new balance of trade.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_1ad5c46a3f4acee1",
     "question": "Igneous rock can be formed either underground or above ground. Elaborate.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_0f00e466b4a327ac",
     "question": "Given these five corrosion inhibitors, V, W, X, Y, Z, identify which are passivators",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using the basic principles of socialism discussed in this course, evaluate the US economic system by providing key arguments to support your judgment.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_e8f146fb1ff6c4c2",
     "question": "Prove that the wave function of a free electron is a plane wave by using Schrodinger's equation.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Referring to the given poster design, explain in details the usage of elements and principles of arts.",
-    "reason": "invalid_source_form"
+    "source_id": "src_bbf4ac79a4469e1c",
+    "question": "How would you change the story to create a different ending?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "HTTP POST method is better suited to send confidential information compared to HTTP GET method in web applications.\" Justify the statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d99715043bfa5be9",
+    "question": "What would result if …",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Express the rule in function notation",
-    "reason": "invalid_source_form"
+    "source_id": "src_eac68338592a23df",
+    "question": "Evaluate whether their model is a true representation of the local environment.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Provide a guideline for effective use of photography of display materials\" in teaching of English language.",
-    "reason": "invalid_source_form"
+    "source_id": "src_8e05fb5b6d8da1f8",
+    "question": "What do you think is the best thing about coming to Viestal?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_8278296da99680eb",
+    "question": "Explain what a junk bond is and its role in the financial market.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_1b975d45f41b1752",
+    "question": "How many kilometers from your home to the university",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_da8c10a0072b71ea",
+    "question": "How effectively did students analyze course content on race, class, and privilege through autobiographical reflection",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_abed6ed3a2ac157b",
     "question": "Soil algae and protozoa are usually restricted at the uppermost soil layers and smaller than their aquatic counterparts. Justify.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using appropriate examples, discuss a situation in which custom tags would be appropriate to use.",
-    "reason": "invalid_source_form"
+    "source_id": "src_de507daa8e6e2360",
+    "question": "What criteria would you use to assess the validity of a business contract?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "With suitable examples, briefly discuss the importance of soil aeration.",
-    "reason": "invalid_source_form"
+    "source_id": "src_556b86f284c8928d",
+    "question": "How was life different in your town 100 years ago?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Organize this book into three or more sections and give your own subtitle for each section.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_04a83f72e56ecf8a",
     "question": "Design a record, book or magazine cover for...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_df89eaf16a71a6e1",
+    "question": "How Do You Think One Should Reason in Making Ethical Decisions in Business",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_32a18e3bb59ad50b",
+    "question": "Explain the process of consumer perception and provide ONE (1) example to support your explanation.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_677db471435b5d54",
+    "question": "Which technology is used by laser printer",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_5cbc1db0e3b5594e",
     "question": "Translate a written text aloud from L2 to English.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Microsatellite tandem repeats are abundant in human promoters and are associated with regulatory activity (Sawaya et al., 2013).” Discuss the statement and support your views with examples.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Based on your knowledge on the physics of semiconductors, evaluate the limit for the minimum feature size of silicon MOSFET.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_18705e6ffbcae14f",
     "question": "How would you decide about...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Relate the principle of reinforcement to classroom interactions.",
-    "reason": "invalid_source_form"
+    "source_id": "src_3fe069cd87ae51de",
+    "question": "Briefly describe how poultry sexing is commonly carried out in a hatchery.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Integrate training from several sources to solve a problem.",
-    "reason": "invalid_source_form"
+    "source_id": "src_40395b4a67e3bbf4",
+    "question": "State the conditions necessary for the formation of enzyme's quaternary structure. Explain how quaternary structure could contribute to enzyme stability.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Malaysian Code on Corporate Governance (MCCG 2017) encourages Board of Directors to improve shareholders' participations in decision making. Provide recommendations that will lead to more constructive use of Annual General Meeting (AGM).",
-    "reason": "invalid_source_form"
+    "source_id": "src_91a878eb5868a3c0",
+    "question": "How to combine virtual symmetry and symbolic model checking effectively",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_6251dd8a21d7a77d",
+    "question": "Examine how e-commerce facilitates Value Chain and Supply Chain.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_8293ab781b96cab3",
     "question": "Provide THREE (3) examples of input devices.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2ae38685e31f187a",
+    "question": "Determine if the winery is providing an amplifying or smoothing effect.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_6fda8433f7908449",
     "question": "How would you justify . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "With an appropriate example, discuss the effectiveness of using message queue compared to pipes in communication between processes.",
-    "reason": "invalid_source_form"
+    "source_id": "src_30d1c7bf38010048",
+    "question": "How would you distinguish between polymyositis and viral myositis in a 42-year-old man with weakness and a rash?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In one sentence explain the main idea of a written passage.",
-    "reason": "invalid_source_form"
+    "source_id": "src_1bb06665125298d0",
+    "question": "Briefly explain how aggregation processes could improve the water quality in a water treatment plant.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_11d28dff0227a5b5",
+    "question": "How much did he pay for his car",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_8592dfa9ad7a81ce",
     "question": "Prepare a list of criteria to judge ... Evaluate expressions",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_02561e85e632502e",
     "question": "How would you feel if . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ecf7428aee23b96c",
     "question": "Weeds reduce the quality of crops and livestock. Explain.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "After designing an experiment, examining the results, and drawing conclusions, determines in what ways the experiment could be conducted more effectively in order to draw more productive conclusions in the future.",
-    "reason": "invalid_source_form"
+    "source_id": "src_82e0956593a02667",
+    "question": "How would you show your understanding of the ABC process",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_91310758e254dc20",
+    "question": "How could we develop a coherent measure of success for organisations engaged in this type of activity with young people?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_8aa2b9ec0bc10982",
+    "question": "Explain how changes in amino acid ionization states could affect the catalytic activity of an enzyme.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_0642c020699f8077",
+    "question": "Justify which digital video file format you would use for your movie.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_516e01e17dc307bc",
     "question": "Translate the following algorithm into Java code",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_b021bb3faf9afaaf",
     "question": "Tell how Phillip kept himself alive after Timothy died.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_4933949db7a06355",
     "question": "Translate an equation into a computer spreadsheet.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Cost benefit analysis is a process that helps management determine whether (and by how much) the benefits exceed costs. Briefly explain FOUR (4) intangible benefits.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e656569495bab63e",
+    "question": "What season are we in right now?",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Based on your knowledge, describe TWO (2) foreign bonds that are well known in the market.",
-    "reason": "invalid_source_form"
+    "source_id": "src_dbc61d1759f2edaf",
+    "question": "Determine which Angus bull is the heaviest. Justify your answer.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_dec9d59a0afc81d7",
+    "question": "How might lifestyles in the United States be modified if a more socialistic system were adopted?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_acd1a17e3b35ed01",
+    "question": "PEST and SWOT are popular strategy tools. Discuss how the TWO(2) tools can be applied in manufacturing business environment.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_645c2df71a217b99",
     "question": "Provide a real life example on conflict of interest situation.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ac688dd9f356d459",
+    "question": "Show that the wavefunction of a free particle is a plane wave.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_054c31b75e452f03",
+    "question": "who is the founder of the kingdom of saudi Arabia",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_ba40f2bf0d677ead",
+    "question": "Explain how Porter's concept can be used in education domain.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_db9bbee994a9ce57",
+    "question": "Describe how SPATIAL Compression and TEMPORAL Compression are used in video compression.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_e34642684f3c69d8",
     "question": "Using information from the book about one of the main characters, rewrite the ending of the book.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Make a list of the main events of the story.",
-    "reason": "invalid_source_form"
+    "source_id": "src_538ed75f14281164",
+    "question": "Butanol is found to be an efficient carbon source for the cultivation of this microorganism. Suggest how this carbon source can be sterilised and used in this fermentation process.",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_8fcff05a8a5a1b45",
+    "question": "The oil palm (Elaeis guineensis) is an erect monoecious plant. Describe how its inflorescences develop into fruit and relate this to the pest control practice that could affect the productivity of the oil palm.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_161d1fca5b3e2d1d",
     "question": "HTTP is a stateless protocol. Justify.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_dee103d59378dcd3",
+    "question": "How do psychologists differ in their general attitudes toward third party presence",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_30ee446efe967eba",
     "question": "Provide FOUR (4) reasons of using aggregate in concrete production.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Barbie Dolls have been banned in some of countries. Provide FOUR (4) countries and evaluate the reason behind the ban.",
-    "reason": "invalid_source_form"
+    "source_id": "src_bce4c9dfe12c71a2",
+    "question": "What hypotheses can you develop based on the data ? Why ?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In a teaching simulation with your peers role-playing 6th grade students, demonstrate the principle of reinforcement in classroom interactions and prepare a half page description of what happened during the simulation that validated the principle.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Using Tom Duncan's levels of brand relationship intensity, explain the relationship between Apple iPhone and its customers.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_03534e6b6bbc3727",
     "question": "What would you predict/infer from...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_dcf3efec4d456d46",
     "question": "Support your views with TWO (2) examples from everyday life for each origins.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you invent another character for the story?",
-    "reason": "unextractable_topic"
+    "source_id": "src_08e081f72dcd0a9f",
+    "question": "Justify the choice of supplier. From your choice, determine the optimal order quantity and total annual cost of ordering, purchasing and holding the component.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Steel is the most widely used reinforcing materials in concrete structure. Briefly explain the general properties of steel.",
-    "reason": "invalid_source_form"
+    "source_id": "src_efa4bc7805b37ef6",
+    "question": "Revise how to complete a complex task in order to improve the outcome.",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_1ba5a4f041f7a3eb",
     "question": "In your own words, tell what the story is about.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_d54c32cc46c4f291",
+    "question": "If notes are available on the professor’s website, how should those notes be used?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_7ca366332649de9a",
+    "question": "What has the author used to create this effect",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_a67c46729a19dd3b",
     "question": "As an editor-in-chief, suggest how you can motivate your experienced journalists to remain with your paper.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_a904b0dbe09b1f42",
     "question": "If you had access to all resources how would you deal with . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_160975a30f1a523c",
     "question": "Given the data we've looked at on this topic, evaluate how appropriate this conclusion is and defend your answer.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In your own words, describe Supply Chain Management (SCM).",
-    "reason": "invalid_source_form"
+    "source_id": "src_a9c01af3212affb5",
+    "question": "Explain how the Utilize technology, media and materials stage in ASSURE model can help creating a more effective teaching and learning environment.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Categorize the story into parts and think of a good title for each of the parts.",
-    "reason": "invalid_source_form"
+    "source_id": "src_cd5068060a64f4f9",
+    "question": "Compare how the internal rate of return (IRR) method, Net Present Value (NPV) and modified internal rate of return (MIRR) method is different.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_e100d88bd82e5b0c",
     "question": "Rewrite the following program so that it is formatted properly.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using Nyquist Theorem, calculate the maximum sampling rate to avoid aliasing.",
-    "reason": "invalid_source_form"
+    "source_id": "src_680edb6728972387",
+    "question": "Paraphrase what Hamlet is saying in his soliloquy.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ab3221d5ed20214d",
     "question": "What might happen if you combined...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Establish criteria for making this choice and defend your final selection.",
-    "reason": "invalid_source_form"
+    "source_id": "src_0233b87424fc25ad",
+    "question": "What do you think is the mass and why",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_f19df134da827c5a",
+    "question": "Contrast the following basic BLAST programs: PSI-BLAST, PHI-BLAST and tBLASTX.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_664dc256fa0f52e2",
     "question": "Using the data shown in Table 1, generate some frequent item sets.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ad19bb33d69f3efd",
     "question": "Why not compose a song about . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_2586c8decd0ac56b",
     "question": "Rewrite the markov matrix to account for this slight change.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Break down the components of a standard film camera and explain how they interact to make the machine work.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Suppose milk and yogurt are within Sophie's budget and she views yogurt as an inferior good. Using indifference curve and budget line, explain the substitution, income and total effects when the price of yogurt falls.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_8ade3249ec3d732f",
     "question": "Explain what is happening...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_310ad3fab04d2c42",
     "question": "Reason why a pornographic viewer's mind is likened to an addict's mind. Provide TWO (2) points.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "For any points which fall outside the curve, explain the combination of production for steel and bricks.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b877706c33ab388f",
+    "question": "How can we construct H given I, B and E?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Synthesize any FIVE (5) factors that should be considered when devising a safe system to undertake a task in an organization.",
-    "reason": "invalid_source_form"
+    "source_id": "src_7ef5b4580eee9676",
+    "question": "How is scientific progress similar to Darwinian evolution according to Kuhn",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_bddffaffb5a70eeb",
+    "question": "Discuss how curing can maintain quality and minimize decay of potato tubers in the postharvest stage.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_a01edf684361dc12",
     "question": "in what ways is oxyperoxidase similar to other oxygenated heme proteins, and how does it differ",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Can you distinguish for me between what is reasonably achievable and what are exaggerations",
-    "reason": "invalid_source_form"
+    "source_id": "src_0e692c1aede089f6",
+    "question": "Predict what happens to X if Y increases.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Suppose prices of two goods are constant, explain what will happen to the budget line if there is an increase in consumer's income. Support your answer with an appropriate diagram.",
-    "reason": "invalid_source_form"
+    "source_id": "src_01d4c598f2b70c66",
+    "question": "Explain how MIDI file format will be more useful than other audio file formats in a certain scenario.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Besides LOCOS, name TWO (2) other applications which require thermal processes.",
-    "reason": "invalid_source_form"
+    "source_id": "src_1ded7aeaafa8800c",
+    "question": "How do you think the community should grow or change",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Given two opposing theories design an experiment to compare them.",
-    "reason": "invalid_source_form"
+    "source_id": "src_9d9bce87074d0c6f",
+    "question": "Determine which sub-stage that the deal is currently in for the following cases.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "With respect to the data processing cycle of an organisation, explain the \"garbage in, garbage out\". Briefly discuss on the measures to be taken by the companies to avoid “garbage in\" data input errors.",
-    "reason": "invalid_source_form"
+    "source_id": "src_a3901413360313a8",
+    "question": "Money growth is always interrelated with inflation phenomenon. Explain how the growth of money will affect the economy when the economy is operating at the full capacity. Illustrate by using an appropriate diagram.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Take a collection of photographs to demonstrate a particular point.",
-    "reason": "invalid_source_form"
+    "source_id": "src_48bdbd2c2c387e81",
+    "question": "MLPs are frequently used to approximate functions. However, the quality of the approximation depends on the parameters of the MLP used. Discuss how this quality is affected by the number of hidden layers used in the MLP.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "“China has been practicing low exchange rate for previous decades.” Clarify the pros and cons under this practice.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Provide FIVE (5) examples on how HP can use text mining in other areas.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_1df59eefc89ccaa7",
     "question": "Investigate whether or not the system can be solved for x; y; z",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_69bf345193881361",
+    "question": "when was the first airport in the yemen built",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_bbe8f4a98abe3330",
+    "question": "How much water does an elephant drink",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_d2a9d575600c4a36",
     "question": "Rewrite you predicted equation for the ideal gas law",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_264bc0260c4687ae",
+    "question": "Suggest how multimedia applications may be used for each of the scenarios below. (i) IT Avenue will be organising a road show at various shopping malls to promote a new model of mobile phone from Nokia.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_c49cb90c197bbcd7",
+    "question": "How many loop statement available in c++?",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_269f5aa2daf8368f",
     "question": "Construct an alternative way to ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_c091ebd4383208a0",
+    "question": "Explain how you would implement delete schedule functionality in effective manner.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_ccd5c7c7235f3a3c",
+    "question": "Briefly explain which characteristics of alluvial soils make them ideal for agriculture.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_116c9d29d15f71ac",
+    "question": "Show how NLP techniques can be deployed in business.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_a315d87867638f8f",
     "question": "Identify whether the firm is in the short-run or long-run equilibrium. Explain.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In a two-column table, list FIVE (5) tools used in the technology-integrated instruction and the traditional instruction respectively.",
-    "reason": "invalid_source_form"
+    "source_id": "src_bd17cfc67b8f9d59",
+    "question": "Explain whether using women as sexual objects can grab the viewer's attention and lend to interest to a product or service.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Based on your opinion, discuss critically, how far you agree that race relations have become unhealthy in our country.",
-    "reason": "invalid_source_form"
+    "source_id": "src_3f83437a19a94b46",
+    "question": "The 'creators' and critics' are the most desired social segments. Explain how social media marketers are able to increase these segments' level of involvement in the social media.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_658dcff740c43d68",
+    "question": "which part of a data packet is used by a router to determine the destination network",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_dfc57b51f0dd4d1c",
+    "question": "If the value of the bond is RM900 and coupon are paid semi-annually, compute the yield to maturity (YTM) and the current yield of the bond. Interpret your answers.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_f8a4dc950550f92b",
     "question": "How would you have handled . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_3e2080a2a263e712",
     "question": "Independent Non-Executive Directors (INEDs) play crucial roles in the assurance of effective corporate governance of public listed companies. Provide an assessment on the contributions of INEDs in promoting effective corporate governance.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In soil pH, define buffering and explain why it is important in soils.",
-    "reason": "invalid_source_form"
+    "source_id": "src_9b2e97bfe45340d1",
+    "question": "How would you differentiate a project from a program",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "After solving a problem, determine the degree to which the problem was solved as efficiently as possible",
-    "reason": "invalid_source_form"
+    "source_id": "src_a18fa4c440cd6177",
+    "question": "How would you differentiate obstructive apneas from central apneas",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_0e4da0d799763075",
     "question": "Complete an analogy (analogy tasks are inference tasks)",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_78c090abc788a344",
     "question": "Would this information be useful if you had a . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_8eb1ffbb245f68c3",
     "question": "Decide which candidate would best fill the position of principal.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Trading strategies used by investors of futures and forwards markets help to maintain market efficiency\". Based on the above statement, Differentiate between all THREE (3) main trading strategy used by futures and forward markets' investors..",
-    "reason": "invalid_source_form"
+    "source_id": "src_ead8ce63862b4c7d",
+    "question": "Discuss how inverse kinematics helps in simplifying the task of animating jointed structures.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Correctly label the brain lobes indicated on the diagram below",
-    "reason": "invalid_source_form"
+    "source_id": "src_daaaf02423e906ad",
+    "question": "Illustrate what you think the main idea was.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_f40364cafd7f8711",
+    "question": "Describe how interest rates affect the economy",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_c7a643655f060019",
     "question": "How effective are . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_7b2c10defe4cffd9",
     "question": "Write about your feelings in relation to...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Imagine that you are a relative of an older adult who is initially diagnosed to be living with Parkinson's disease, suggest FOUR (4) strategies to further promote the wellbeing of the individual.",
-    "reason": "invalid_source_form"
+    "source_id": "src_ee226fcf8a1af3f9",
+    "question": "Briefly explain what a Repo is.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_ee9521988879c215",
     "question": "Using an appropriate example, discuss how MVC can lead to a good design of a particular web application.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Using appropriate examples, differentiate between agglomerative and divisive in the context of agglomerative hierarchical clustering.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Bernard has successfully determined the sequence of Protein X which consists of 110 amino acid residues. He is interested to predict the protein struc using the available homology modelling software. Based on your knowledge of the mechanism of protein folding, comment on the reliability and accuracy of the prediction.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_67441f5f606d1b1e",
     "question": "Can you develop method to handle the following case . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "“The efficient market hypothesis (EMH) states it is impossible to consistently outperform an efficient market and the only way an investor can possibly obtain higher returns is by purchasing riskier investments.\" Justify the statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_096043364cdb1fce",
+    "question": "Describe how the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "In one sentence illustrate the main point of a written passage.",
-    "reason": "invalid_source_form"
+    "source_id": "src_5efdb27bb29e4e7f",
+    "question": "Discuss how Resource Based View can be implemented in organizations to reinforce financial standing.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_29516a1b1f80c258",
+    "question": "Critically discuss how demographic characteristics would affect a product development in a foreign market.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_0619ecc7f9d902f5",
+    "question": "Identify which word begins with the same sound as the s in sun (Knowledge of letter s)",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_8390615cee768b21",
+    "question": "Explain how SWOT and Porter's techniques is applied in the manufacturing industries.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_57198928f14e37a8",
+    "question": "State what does the symbol “+” represents.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "train",
+    "source_id": "src_dfbd9c23ec4324ef",
     "question": "Do you agree...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Foundation design is required the study and examination of multiple components which is a highly specialized the function and usually is performed by a structural engineer. Inspect the components which have to include in the designing of a building foundation.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d74e62a2c2f1fe2b",
+    "question": "Explain the method of monitoring inventory levels in retails stores.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_a63b0ee8ad6529b6",
     "question": "Rewrite the story briefly, but change someone or something in it. (For example, substitute a dog for a wolf in The Three Little Pigs).",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "CRM technology helps companies to collect information about consumer behaviour, conversations and characteristics. As a new digital marketing manager with an online retailer, suggest FIVE (5) ways how you can collect data and push customised information to customers.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Using the open economy multiplier approach, calculate the new equilibrium output level and new balance of trade if the government decreases spending to RM 1200 million and increases tax by RM 300 million.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Make a list of facts you learned from the story.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_6bd113fe916a8743",
     "question": "With the aid of a diagram, briefly show how the width of a FinFET is estimated.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_4a139753083c6fbc",
     "question": "What data was used to evaluate ____________?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_64346587a3ce0f45",
     "question": "Being outside directors, Independent Non-Executive Directors (INEDs) do not work in the company on a daily basis. Their hands are tied due to the nature of their positions. Provide an assessment on the limitations of INEDs in the context of corporate governance",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Base on the case study given, summarize THREE (3) ISM security problems.",
-    "reason": "invalid_source_form"
+    "source_id": "src_62d34e0d31396488",
+    "question": "Briefly explain how tillage will influence the density of soil.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_067c67b4e78107cf",
     "question": "Rewrite the story from an animal’s point of view.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "IBS components can be divided into five broad categories. Briefly describe with examples all FIVE (5) categories.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
-    "question": "Oxidation is one of the most important thermal processes. Briefly discuss the characteristics of dry oxidation.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "train",
+    "source_id": "src_22bcebc39f8d96d2",
     "question": "Name the authors of...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
-    "question": "Categorize the basic concepts of multimedia with an example for each.",
-    "reason": "invalid_source_form"
+    "source_id": "src_c4885f6fe1ba4136",
+    "question": "Briefly discuss how TQM could be applied in the management of the newspapers' editorials.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "train",
+    "source_id": "src_24d3628d45d42765",
     "question": "Translate the following passage from The Iliad into English.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_632a218b1bc02f80",
     "question": "Make a paper-mache map to include relevant information about an event.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Suppose the two countries wish to specialize and trade. Specifically determine and explain which country enjoys comparative advantage in the production of sugar cane and blue agave.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_f129205d0c2ccb63",
     "question": "Summarise the challenges of global advertising.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "“Technology has aided manufacturing and service companies in inventory management.' Justify the statement.",
-    "reason": "invalid_source_form"
+    "source_id": "src_acf2aa4ada711a80",
+    "question": "Explain how the heart is like a pump.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_99bcd3e3a4d5022f",
     "question": "Provide TWO (2) suggestions on how a Web presence help Columbiana's government.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_7af63e720edd87e0",
+    "question": "when was the UN formed",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_8926679b4edd8827",
     "question": "In your own words, how would you define transferable skills",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_43d96e972e2f180a",
     "question": "Fertilizer that is extremely high in phosphorus content is essential for flowering. Justify.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_8d5f265b32235b55",
     "question": "Can you develop a proposal which would . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_21579aa457e1e64d",
+    "question": "Justify whether the dam and sire are inbred or outbred.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_af8e7e8c58ce5939",
     "question": "List the __________________ in descending order",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_0eb60f2bb211acbb",
     "question": "How can you categorize ____ according to...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_af06934b38fe0748",
     "question": "In their efforts to achieve their macroeconomic objectives, all governments, regardless of political persuasion, employ the same types of policy instrument. Discuss.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Using the Luedeking-Piret equation for growth associated product formation, calculate the pullulan concentration in 30h of fermentation.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d5b4dfa8aadc4d88",
+    "question": "Determine how to minimize the total cost of operating and purchasing a telephone for the next six years.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_756814630d613a86",
+    "question": "Evaluate if the contact is ohmic or rectifying (Schottky diode) in nature. Provide the analysis and support your answer with calculation",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_9db4fb81d8d1bb32",
     "question": "What is the most important...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Alavi and Leidner (2001) examine how information technology (IT) can be a key enabler in supporting four organizational knowledge management (KM) processes. Critically assess the role of IT in supporting the four KM processes.",
-    "reason": "invalid_source_form"
+    "source_id": "src_55a7420cf12b775a",
+    "question": "Defend the following claim: The Cornell method works so well that it could turn even a poor lecture into a valuable learning experience.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_8e0345d668a168f7",
+    "question": "Solve the following problem using genetic algorithm.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_ed45cf1cf512df63",
+    "question": "Explain how currency depreciation will affect export, import and the balance of trade of the country.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_98530d50b0b987e2",
     "question": "Can you create new and unusual uses for . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Jason spends all his income on meat and bread. Assume bread as a giffen good, draw Jason's price consumption curve and demand curve for bread when the price of bread falls. Support your answer with explanation for 3 consumption bundles.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_4c5aa5ea05d24c61",
     "question": "Describe what happened at...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_5dcd33fe58b5e535",
     "question": "How can you explain what is meant ...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_2632a0ca49471376",
     "question": "Prepare a case to present, and evaluate your view about ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Memorize and recall the periodic table",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_c50134fa213274c0",
     "question": "What are the parts or features of...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_437e9a321d7ed084",
     "question": "Trace the contents of matrix from the following statements int matrix[3][2];int j, k;for (j = 0; j < 3; j++)for (k =h 0; k < 2; k++)matrik[j][k] = j + k;",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Imagine that you are a relative of an older adult who survives stroke, suggest FOUR (4) strategies to further promote the wellbeing of the individual.",
-    "reason": "invalid_source_form"
+    "source_id": "src_1862e87d1cbda48b",
+    "question": "How could we determine the number of pennies in a jar without counting them?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_eca0477b3b43ded6",
+    "question": "Describe how the increase of soil organic matter level may immobilize some nutrients in soil.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_59972f14be76a6d2",
     "question": "In your own words, tell what is meant by the definition of an isosceles triangle.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_69588d8eba06bf1f",
+    "question": "What do you think are the strengths of using integrated math in your program?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_ebbf4c313b714f7c",
     "question": "Would you solve these two problems using similar approaches",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_941397b33e335d1c",
     "question": "Rewrite a part in the poem using a different speaker",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Given a frequency filter specification as H(u;v), derive a procedure to generate the convolution result of its corresponding spatial filter with an image f(x,y).",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_2be3256cacee4ed9",
     "question": "Support your answers with ONE (1) example in everyday life for each theory.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_075da9f54590a6b9",
     "question": "Nancy intends to include text for her multimedia presentation. As a multimedia specialist, provide TWO (2) guidelines to Nancy when working with text.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Given the two solutions to the stated programming problem, rate the solutions in terms of efficiency and readability.",
-    "reason": "invalid_source_form"
+    "source_id": "src_f02cacc29be153b6",
+    "question": "Identify what types of brickwork defects that require rejection from the supervisor.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_ac2a09adf05178c6",
     "question": "Can you distinguish between . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Argue critically with relevant examples.",
-    "reason": "invalid_source_form"
+    "source_id": "src_31b687430a0bd44c",
+    "question": "Explain how RequestDispatcher mechanism in the context of Servlet and JSP technology has the ability to facilitate updating and maintaining information on job advertisements across several dynamic web pages.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_1b26d5f9f414efd7",
+    "question": "Classify the following protocols: IP, TCP, HTTP according to the ISO OSI classification",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_23b4032f0fa95d55",
+    "question": "Show that the Fermi-Dirac function is a step function at T = 0 K.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_ce6d431016ef672d",
+    "question": "Explain how a Close method behaves differently for a modelessform (using the show method) compared to a modal form (using the showdialog method).",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_450d4934f889e5a9",
+    "question": "Describe what took place as the Hato was sinking.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_51da73febf5df736",
     "question": "How can you describe _____________?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Relate your most powerful story where your use of technology in the classroom has yielded a significant outcome with a student or students",
-    "reason": "invalid_source_form"
+    "source_id": "src_04e6a52a0a3451be",
+    "question": "Describe how soils are involved in the greenhouse effects.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_ab1aabdc513cc1f8",
     "question": "Can you see a possible solution to . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_ffe31eca843c02be",
     "question": "Support your views with ONE (1) example for each disadvantage.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Starting from a point of equilibrium, explain the case of a decreasing - cost industry in a perfectly competitive market with the aid of diagram(s).",
-    "reason": "invalid_source_form"
+    "source_id": "src_074d73ac595b2fed",
+    "question": "How many states are there in USA",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "The internet has been considered as a low cost option for selling products and services. From a firm's perspective, explain FOUR (4) factors that add to the cost of doing business on the internet.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b780bbc7d9ef8a68",
+    "question": "If interest were compounded monthly instead of daily, what would the difference in interest be?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Can you analyze the fractures and determine which should be repaired surgically",
-    "reason": "invalid_source_form"
+    "source_id": "src_9339a5715733852d",
+    "question": "Which of the two liquids is hypotonic",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Suppose firms in industry Y are having an increase in demand. By using appropriate diagrams, explain the effect of an increase in demand and how industry Y achieves the long-run equilibrium in perfect competition.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_0fc66fb79f92d360",
     "question": "State in your own words ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Rearrange it to design the correct schema that is suitable for the system implementation.",
-    "reason": "invalid_source_form"
+    "source_id": "src_810df101c90c50ec",
+    "question": "Describe whether the soil is contaminated or polluted.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_e2fa69d64076f479",
+    "question": "Analyze a distinction. State the point of view of . . .",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_0b59fd26fdab044f",
     "question": "Using an appropriate example, prove that listeners are able to manage resources effectively in web applications.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Can you distinguish pot still rums from column still rums by taste",
-    "reason": "invalid_source_form"
+    "source_id": "src_b6c28e62e1bf0ff8",
+    "question": "Explain how mutation technique can be implemented in Genetic Algorithm (GA).",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Oxidation is one of the most important thermal processes. Briefly explain the TWO (2) types of oxidation process.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
-    "question": "For any points which fall under the curve, explain the combination of production for steel and bricks.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_e8787c015847edab",
     "question": "Invent a machine to do a specific task.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Make a diorama to illustrate an important event.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_96c6364bab77da33",
     "question": "Reason why hunger cannot be simplified as yet another homeostatic process. Provide TWO (2) points.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_726f38cf5c32b590",
     "question": "Discriminate the different parts of the story (introduction, development, climax, resolution.)",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Based on your observation of the local newspaper industry, discuss and state your stance on whether gender affects professional news selection.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
-    "question": "Can you differentiate between ethnic Chinese and ethnic Koreans",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
-    "question": "With reference to the case, evaluate the similarities and differences between open mindedness and mental models.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
-    "question": "Briefly provide any TWO (2) real life situations to illustrate on ethical dilemma.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
-    "question": "As a manager in an Information Technology firm, suggest and elaborate any THREE (3) actions that organizations can take as part of the responsibility towards the society.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_8160c51365672e8e",
     "question": "Rewrite the following if statement using a switch statement.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_3d3da3c1b07b8a3a",
     "question": "Can you defend the idea that Simon's incident with the pig's head is the most mystical in the story?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_4ca2e476b7ef0ed2",
+    "question": "How many years does this animal live?",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_e86ea6b384c1ccd5",
     "question": "Judge the value of... What do you think about...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_ce204aaf58dcaf41",
+    "question": "Explain the process (paraphrase) for finding the perimeter of a rectangular garden",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_696244e9c1a19cc7",
+    "question": "Recall the following pictoral example of an implementation of some queue operations",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_077b536ee14b5bf7",
     "question": "Decide which method of solving a problem was most effective",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_db06dd46f77fa2e8",
     "question": "Support your answers with ONE (1) example from everyday life for ANY TWO factor.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_9cfe0da448a7d65d",
     "question": "Express the following systems in matrix form",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_9f47404de0a00aeb",
+    "question": "Compare this book to the last book you read.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_347005efbe71f907",
+    "question": "Explain how the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness.",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_ce3d13422090533b",
+    "question": "Describe how pore size can affect water retention in soil.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_6317d247a1081a29",
+    "question": "Explain how the ionic, metallic, covalent, and mixed states solids are formed. Give an example of each solid and compare the electrical conductivity of the four types of solid.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_acf7325d3f46a8af",
+    "question": "Define profit. Briefly explain how accounting profit is different from economic profit.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_a47ee4e361819c61",
     "question": "Support your answers with TWO (2) examples in everyday life for each strategy.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_459a091cfba71b88",
     "question": "Support your answers with ONE (1) example in everyday life for EACH perspective.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Investigate (pointwise) convergence and absolute convergence of the given series of functions",
-    "reason": "invalid_source_form"
+    "source_id": "src_a1930f7f7a79ae56",
+    "question": "Demonstrate how the seasons occur.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_708b06377fba26bc",
     "question": "Trace the value of alpha after the following code executes. int alpha[5];int j;alpha[0] = 5;for (j = 1; j < 5; j++){if(j % 2 == 0)alpha[j] = alpha[j – 1] + 2;else alpha[j] = alpha[j – 1] + 3;}",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_43f79b9d8502af75",
     "question": "Fill in the detail of typeface properties base on the following illustration.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Make up a new language code and write material using it.",
-    "reason": "invalid_source_form"
+    "source_id": "src_4db362eb7b6e4567",
+    "question": "Explain how Timothy saved Phillip's life.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_9062a6785f72d5fb",
     "question": "Provide the suitable commands to help her to compile and run her Java program.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_fcb7f6e1ad1e3417",
+    "question": "What would happen if the rainfall doubled in your state next year",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_1d37f72c7a34165a",
     "question": "If your story happened in a foreign land, compare that land to the United States.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_28e07fb998ac36e0",
     "question": "Melting temperature (Tm) is an important criteria to consider when designing primers for PCR amplification. Comment.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_dc9bb737b0a1a1b6",
+    "question": "Assume that an economy is initially below the natural rate of output, due to the stock market crash in 2008. Explain what policy the government can implement in order to return the output to the natural level by using appropriate diagram.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_513357f6eafa1d75",
     "question": "What ideas can you add to...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Portfolio management strategies are different based on investor's risk preferences and expected return”. Based on above statement, briefly discuss TWO (2) major portfolio management strategies.",
-    "reason": "invalid_source_form"
+    "source_id": "src_7ea59a5a31c128cf",
+    "question": "Show how E-CRM can be used to improve marketing positioning as explained in the article",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "can you devise an explicit formula for",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "validation",
+    "source_id": "src_629c277a30f9c300",
     "question": "In your opinion, provide any TWO (2) reasons why the actions of one firm can significantly affect the sales of the other firms in an oligopoly market.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
+    "source_id": "src_0b13b0453e71fa6e",
+    "question": "Explain how transactions are audited in an electronic data interchange environment.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_ca7bea1c8da4c18a",
     "question": "How can you distinguish the different parts of_____?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "validation",
-    "question": "Provide three (3) situations whereby it will be useful to use reference variables as parameters.",
-    "reason": "invalid_source_form"
+    "source_id": "src_ed44aad07a0b0188",
+    "question": "Identify which country has an absolute advantage and comparative advantage in the production of pizza and cloth.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_c925dc2af3cdac25",
+    "question": "How would this story be different if it had happened in a different country?",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_a7168e9ec23e5f3b",
+    "question": "Outline how class ArrayList could be implemented using an array",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_aca864728435c242",
+    "question": "How much data can be stored in the cach memory",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "validation",
+    "source_id": "src_70083850fd31ae4b",
+    "question": "Briefly discuss how the use of manure, organic by-products and commercial fertilizers have changed over time.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_171a02d6ca4e255a",
+    "question": "What are the major products and exports of countries",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_bc87a7c953ae8455",
     "question": "Indicate the variables that are important in each of the canonical variates.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "For any points which fall exactly on the curve, explain the combination of production for steel and bricks.",
-    "reason": "invalid_source_form"
+    "source_id": "src_d7d763bd0de60af2",
+    "question": "How to inspect and maintain fresh water plumbing systems properly",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_e573685a6d9bddff",
+    "question": "Provide the equations for the Eadie-Hofstee and Hanes-Woolf plot. Explain how these equations could be derived from the Michaelis-Menten equation.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_87e23c25e528c15d",
     "question": "If an electron in a hydrogen atom jumps from the first excited state to ground state, find the wavelength of the photon emitted.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "There are two approaches to solve a problem, namely X and Y. Approach X uses a lot of synchronizations compared to approach Y. Briefly explain why the approach Y should be chosen to solve the problem.",
-    "reason": "invalid_source_form"
+    "source_id": "src_93c59cf2a85e481c",
+    "question": "Explain how e-mail agents work.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Referring to the advertisement design below, evaluate the usage of Dominance and Unity in principles of design.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_e58e6d6c5f9b6715",
     "question": "Is there a better solution to . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_c127d7d57513ec0f",
+    "question": "Name two super secondary structures found within enzymes which involved formation of a-helices. Describe how the a-helices could be maintained in an enzyme.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_f144947e88bb1d3e",
+    "question": "What is the title of the first movie you saw",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_176d370a3ebe2681",
     "question": "From the information given, can you develop a set of instructions about . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "The monetary policy is always useful in stimulating the economic growth by increasing the money supply in the market.\" Comment on this statement. Support your answer with an appropriate diagram.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b709ac24309c5820",
+    "question": "Describe the concept or purpose of Qlassic and CIS (Construction Industry Standards) documents.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "The technology of VLSI is defined by the feature size. With the aid of a diagram, explain the feature size.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
-    "question": "Can you justify the decisions you have made ?",
-    "reason": "unextractable_topic"
-  },
-  {
-    "split": "test",
+    "source_id": "src_2e0330c88f57acda",
     "question": "Internal control system is among the most prominent monitoring mechanisms in promoting effective corporate governance. Assuming you are the manager of purchasing department, provide TWELVE (12) recommendations on how to prevent staffs from making personal gains from their positions.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_0ce43c2047e844fd",
+    "question": "Show how they have used creative writing strategies appropriate to the format",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_335da2dc2ba367b0",
     "question": "Support your answers with ONE (1) example in everyday life for EACH theory.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_d990423f3347e4fe",
+    "question": "Justify the following statement. \"It is possible for a firm to experience diminishing marginal return and diseconomies of scale at the same time”.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_31c7d7a0b2dd4f1e",
     "question": "Given an argument on any position, enumerate the logical fallacies in that argument.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Managing and engaging stakeholders have gained important grounds in corporate decision making. Provide your justifications for companies to adopt stakeholder model.",
-    "reason": "invalid_source_form"
+    "source_id": "src_e30164fde2f1010a",
+    "question": "Analyze the following questionnaire.",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Make a diagnosis or analyze a case study.",
-    "reason": "invalid_source_form"
+    "source_id": "src_8c0f72f6deaa4f90",
+    "question": "How would you compare SAS with the Visual Basic Application and SPSS for the processing and analysis of mainframe data",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Considering linear multimedia and interactive multimedia, suggest the best solution to the shopping mall's management.",
-    "reason": "invalid_source_form"
+    "source_id": "src_128fe47f402f997a",
+    "question": "Write what you might have done.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Categorise the pictures and add them to the wall display.",
-    "reason": "invalid_source_form"
+    "source_id": "src_634ed1797cbd54e1",
+    "question": "Explain the concept of narrowing conversion. Indicate in code how the conversion is done.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_83f2a3d2c753cd59",
+    "question": "how the investigation was undertaken",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_842b029fff88398b",
+    "question": "Just-in-time (JIT) attempts to remove delays, which do not add value. Explain how JIT copes with weather and its impact on crop harvest and transportation times.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_4a128949cf6732f3",
     "question": "Can you apply the method used to some experience of your own . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "As an educator, evaluate FIVE (5) advantages and FIVE (5) disadvantages of using technology in education.",
-    "reason": "invalid_source_form"
+    "source_id": "src_a30983128da466db",
+    "question": "Briefly discuss how TQM could be applied m the management of the newspapers' editorials.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_2f0520e64de224c0",
     "question": "Advise the five steps, as recommended by Porter and Millar, that can be applied by business managers in taking advantage of information technology.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Inspect each of these Boolean expressions, and determine whether each one is a sum of products, or a product of sums",
-    "reason": "invalid_source_form"
+    "source_id": "src_b89317e6bcf9dcfd",
+    "question": "Describe what hydraulic engineering is in your own words showing concrete examples.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "You are appointed to identify building defects for a new building. Briefly identify SIX (6) common construction problems you would expect for modern buildings.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_a6fe6e663045583c",
     "question": "Advise Smith on any FIVE (5) types of information which should be included in the website.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_c92113b4a29ec05c",
     "question": "Decide whether you learned enough about electricity from this book.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Investment strategies used by the investors of futures and forward markets help to maintain market efficiency\". Based on the above statement, differentiate THREE (3) main investment strategies used by futures and forward markets' investors.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_9759f9cd721ca26a",
     "question": "Provide some justifications for the data warehouse architecture that you have chosen in Q2 (a).",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Using transmission-gates, design and sketch an 8-to-1 multiplexer.",
-    "reason": "invalid_source_form"
+    "source_id": "src_85ba71b6397d3138",
+    "question": "Demonstrate how your unit’s specific student learning outcomes are linked to the mission of UAM.",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_4bf281f05298233e",
     "question": "Discover FOUR (4) characteristic of IT infrastructure to be considered.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "There are TWO (2) common methods used in the semiconductor industry to fabricate single crystal silicon. With the aid of diagrams, name and explain the methods.",
-    "reason": "invalid_source_form"
+    "source_id": "src_564d7384c47c2bfb",
+    "question": "In a building there is always concern with fire safety. List what aspects you would assess in order to achieve strict compliance in the building design.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_7ca564b6f61120e3",
     "question": "What factors would you change if . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_52142b5550b858ad",
     "question": "Can you propose a model that would change . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_601a5573fd441b11",
     "question": "Can you defend your position about ... ?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_9e5132b6bd874232",
+    "question": "Name the following conserved amino acids with their corresponding single letter codes: WMEADK.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_41c658c227309aad",
+    "question": "What is a textual index",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_ba8827fb50eca8a3",
     "question": "State in one word ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_63cd2fe9f56b0e09",
+    "question": "Predict what will happen next in.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_21a433bd612d5b54",
     "question": "Given the data available on a research question, take a position and defend it.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_69e8e8fb45994a77",
     "question": "How would you classify the type of ...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_403a6cab85878c4f",
     "question": "Place the following in order of priority...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "structure, sorts the list in ascending order, displays the list on the screen and stores the list",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_ce9b207e2c839eaa",
     "question": "What changes to . . . would you recommend?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_9aec59a6c429426d",
     "question": "Support your views with TWO (2) examples in everyday life for each tactic.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Besides Field Programmable Gate Array (FPGA), name one other type of programmable logic device.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_102de07a67eaad9b",
     "question": "What solutions would you suggest for...?",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_8492f438d77579fe",
+    "question": "Show how to modify Fitch's algorithm given in class today to accommodate non-binary",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_25c61e066409035a",
+    "question": "What does ICT stands for.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_bfdb7cead451912e",
     "question": "Support your answers with ONE (1) example from everyday life for each type of personality.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_041e6306aca4c77b",
+    "question": "How to construct the selected information system",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_a14ef3a4c0fd3f59",
+    "question": "Summarize this magazine article.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_6687c02b4c271393",
+    "question": "As a defence strategy, most plant secondary metabolites exert adverse effects on herbivores. Discuss how plants avoid poisoning themselves with these metabolites.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_f3d9d11655c3ce81",
     "question": "Tell in your own words how the setting of the story made it more interesting.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_f9b75d8d9048c0a2",
+    "question": "How to Construct the Optimal Maintenance Problem",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_d4c631aa3ae0a986",
     "question": "Using an appropriate example, describe how competitive ELISA works.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Suppose the two countries wish to specialize and trade. Specifically determine and explain which country enjoys comparative advantage in the production of jade and diamond.",
-    "reason": "invalid_source_form"
+    "source_id": "src_5cd4ad5557f7e9c9",
+    "question": "Explain how instructional materials can facilitate the teaching and learning process. Give ONE (1) example.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_238a9c040cff7419",
+    "question": "What are the structure or functions of Congress",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_f64bbc71f8be2c77",
     "question": "Based on the aspartate protease mechanism, explain the concept of using \"Crixivan\" to treat HIV patients.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Decide whether you are in favor of building on a floodplain; defend your position in a debate.",
-    "reason": "invalid_source_form"
+    "source_id": "src_768615d24e1fbf9a",
+    "question": "Paraphrase this poem about Sheik Schubli, explaining what he was saying about the characteristics of a friend",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "PERCEPTION STUDIES based on SURVEY METHOD are useful and common in both academic and market research. Critically evaluate the strategies used in data collection that can increase the response rate when conducting a survey.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
+    "source_id": "src_3772075bc6f60b1a",
     "question": "Using an appropriate example, explain how static data can be shared effectively among several web resources.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_72f58ff3135a1bad",
+    "question": "Name the following conserved amino acids for their corresponding single letter codes: SQYKRECP.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_a43b44f2010e6782",
+    "question": "Explain the idea of MIDI file format in storing and playback of audio data.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_226b12846ecde79d",
+    "question": "Judge whether it would be possible to survive on an island alone and blinded. Write about it.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_e3a7b2129fd833fb",
+    "question": "Explain the concept of Java Bean with an appropriate example and code snippets in the context of Servlet and JSP technology.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_9bafb28b457cd2f8",
     "question": "Simplify the return statement in the max method using the ternary operator",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_66c72f8729beccb5",
     "question": "in what ways trajectory patterns differ according to ABC",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Relate FIVE (5) examples on how video often make new connections and discoveries between curriculum topics and the world outside the classroom.",
-    "reason": "invalid_source_form"
+    "source_id": "src_2f780ad86019ca34",
+    "question": "How could someone modify the Cornell Method to make it effective for researching a topic for a paper?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Relate FOUR (4) disadvantages of Web-based learning as an emerging digital technology used in teaching and learning.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b892ff7f1b6176a8",
+    "question": "What would you do if a heavy growth of bacteria had occurred",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_4bbfbe540d6be066",
+    "question": "Evaluate how the increase of the transconductance affects the operation of the transistor.",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_093e88ae8e9c30f1",
     "question": "Why don’t you devise your own way to deal with . . .?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_b6e9091b64d8bf2d",
+    "question": "How would you rank the items given the criteria ?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_8195a6e96a366111",
     "question": "There is a relationship between the level of construction activity and a country's stage of development. Discuss.",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_ebfdb1e9ceefb73e",
+    "question": "How to construct simple solutions when problems are complex?",
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_9d85de368cdcaeec",
     "question": "What would you cite to defend the actions . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Combine elements of drama, music, and dance into a stage presentation.",
-    "reason": "invalid_source_form"
-  },
-  {
-    "split": "test",
-    "question": "Soil organic matter content will differ depending on environmental conditions. Justify with TWO examples.",
-    "reason": "unextractable_topic"
-  },
-  {
-    "split": "test",
+    "source_id": "src_bdbc83c474e2cb43",
     "question": "Translate an equation into a spreadsheet formula.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_9b78bdb0edfd6d01",
+    "question": "How did Chinese newspapers differ from US",
+    "source_bloom_level": "Analyze",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_663739df060004f0",
+    "question": "Briefly discuss how spatial compression is different from temporal compression.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_1585a162de278144",
     "question": "Develop a proof ... and justify each step ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_80862b04099ad058",
+    "question": "What criteria would you use to evaluate if your answer is correct?",
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_a7cea76edb3c153a",
     "question": "Choose the best statements that apply ...",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Apply",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Provide THREE (3) justification on how would the university community be encouraged to place orders and become loyal customers.",
-    "reason": "invalid_source_form"
+    "source_id": "src_b93f58eeeb9caae2",
+    "question": "Explain the concept of clicks-and-bricks model in e-commerce.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "Can you state in your own words what the problem is asking you to do",
-    "reason": "invalid_source_form"
+    "source_id": "src_d5b06a0977335af2",
+    "question": "Explain how the future of social media can be explained by Web 3.0.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "The construction industry comprises a wide diversity of firms that it is impossible to categorise them all within one type of market structure. Discuss.",
-    "reason": "unextractable_topic"
+    "source_id": "src_9a7db80a18ab7904",
+    "question": "Concisely define what SWOT analysis is and state why it is frequently producing conflicting views.",
+    "source_bloom_level": "Understand",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_4825c82747592b3a",
+    "question": "How can we combine and abstract facts about a software system to create new knowledge?",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_3c6a94abf84c9de4",
     "question": "Can you think of an original way for collect and develop the . . . ?",
-    "reason": "unextractable_topic"
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
+    "source_id": "src_95879c5b41075291",
     "question": "Conclude and support which economic system leads to a higher standard of living.",
-    "reason": "invalid_source_form"
+    "source_bloom_level": "Evaluate",
+    "reason": "unusable_source_or_topic"
   },
   {
     "split": "test",
-    "question": "With the aid of pseudocode or source codes, assess the usage of fork, exec and wait functions in working together in inter process communication.",
-    "reason": "invalid_source_form"
+    "source_id": "src_70ed21e3f691c0b6",
+    "question": "how do the clauses and expressions given in the article which replace GOTO statements, lead to the three traditional control statements",
+    "source_bloom_level": "Create",
+    "reason": "unusable_source_or_topic"
+  },
+  {
+    "split": "test",
+    "source_id": "src_510fba751be0a14d",
+    "question": "Describe the Concept of Culture.",
+    "source_bloom_level": "Remember",
+    "reason": "unusable_source_or_topic"
   }
 ]

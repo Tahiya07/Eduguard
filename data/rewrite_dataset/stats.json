@@ -4,63 +4,33 @@
     "validation": "data/figshare_bloom_v1_val.csv",
     "test": "data/figshare_bloom_v1_test.csv"
   },
-  "source_rows": {
-    "train": 1381,
-    "validation": 273,
-    "test": 283
+  "figshare_source_rows": {
+    "train": 1631,
+    "validation": 349,
+    "test": 350
+  },
+  "accepted_source_rows": {
+    "train": 1337,
+    "validation": 260,
+    "test": 263
   },
   "rewrite_rows": {
-    "train": 8286,
-    "validation": 1638,
-    "test": 1698
+    "train": 8022,
+    "validation": 1560,
+    "test": 1578
   },
   "targets_per_source": 6,
-  "target_levels": [
-    "Remember",
-    "Understand",
-    "Apply",
-    "Analyze",
-    "Evaluate",
-    "Create"
-  ],
   "target_counts": {
-    "Remember": 1937,
-    "Understand": 1937,
-    "Apply": 1937,
-    "Analyze": 1937,
-    "Evaluate": 1937,
-    "Create": 1937
+    "Remember": 1860,
+    "Understand": 1860,
+    "Apply": 1860,
+    "Analyze": 1860,
+    "Evaluate": 1860,
+    "Create": 1860
   },
-  "splits": {
-    "train": {
-      "Remember": 1381,
-      "Understand": 1381,
-      "Apply": 1381,
-      "Analyze": 1381,
-      "Evaluate": 1381,
-      "Create": 1381
-    },
-    "validation": {
-      "Remember": 273,
-      "Understand": 273,
-      "Apply": 273,
-      "Analyze": 273,
-      "Evaluate": 273,
-      "Create": 273
-    },
-    "test": {
-      "Remember": 283,
-      "Understand": 283,
-      "Apply": 283,
-      "Analyze": 283,
-      "Evaluate": 283,
-      "Create": 283
-    }
-  },
-  "rejected_source_rows": 393,
+  "rejected_source_rows": 470,
   "rejection_reasons": {
-    "invalid_source_form": 337,
-    "unextractable_topic": 56
+    "unusable_source_or_topic": 470
   },
   "source_split_overlap": {
     "train_validation": 0,
@@ -68,5 +38,6 @@
     "validation_test": 0
   },
   "incomplete_source_groups": 0,
-  "duplicate_example_ids": 0
+  "duplicate_example_ids": 0,
+  "jsonl_revalidated": true
 }
