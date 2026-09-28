@@ -141,12 +141,12 @@ def extract_topic(q,level):
  return body
 
 TEMPLATES={
- "Remember":("What key facts about {topic} should be recalled?","State the main characteristics of {topic}.","Identify the essential components or terms associated with {topic}.","Which key facts about {topic} should a student be able to recall?","Name the principal elements of {topic}.","List the essential facts associated with {topic}."),
- "Understand":("Explain {topic}.","Describe the main idea and purpose of {topic}.","Summarize what {topic} means in its academic context.","How would you explain {topic} to a learner unfamiliar with it?","Describe the role and significance of {topic}.","Explain the relationship or meaning expressed by {topic}."),
- "Apply":("How would you apply knowledge related to {topic} to a concrete case?","Given a concrete case involving {topic}, determine the appropriate result or action.","Demonstrate how knowledge of {topic} would be used in a practical situation.","Use the relevant knowledge about {topic} to solve a concrete problem.","Apply knowledge related to {topic} in a specified case and determine the outcome.","In a practical scenario involving {topic}, determine the appropriate result or action."),
- "Analyze":("Analyze {topic} by examining its components, relationships, causes, or patterns.","Examine the structure of {topic} and identify the relationships among its parts.","Compare relevant aspects of {topic} and explain how they relate.","Break down {topic} into components and analyze how those components interact.","What relationships, contrasts, or patterns can be identified within {topic}?","Examine the causes and underlying structure of {topic}."),
- "Evaluate":("Evaluate {topic} using explicit criteria and supporting evidence, and justify your judgment.","Assess the strengths and limitations of {topic} against relevant criteria.","Critique {topic} by considering its validity, suitability, and trade-offs.","How effective is {topic} according to stated criteria, and why?","Judge the quality or suitability of {topic} using evidence and clear standards.","Defend a reasoned judgment about {topic} based on explicit criteria."),
- "Create":("Design a new solution or plan related to {topic} for a defined problem.","Develop an original approach incorporating {topic} under stated requirements.","Propose a new strategy or artifact based on {topic} for a specified need.","Formulate a new solution involving {topic} under given constraints.","How would you construct an original solution using {topic}?","Create a new plan or artifact that incorporates {topic} for a clearly defined purpose.")
+ "Remember":("What key facts, terms, formulas, or steps are associated with {topic}?","State the key facts or characteristics associated with {topic}.","Identify the essential terms, components, or facts related to {topic}.","Which key facts about {topic} should a student be able to recall?","Name the principal elements or terms associated with {topic}.","List the essential facts or steps associated with {topic}."),
+ "Understand":("Explain the meaning, purpose, or process involved in {topic}.","Describe the main idea, meaning, and purpose of {topic}.","Summarize what {topic} means and how it works.","How would you explain {topic} to a learner unfamiliar with it?","Describe the role and significance of {topic}.","Explain the relationship or meaning expressed by {topic}."),
+ "Apply":("Apply relevant knowledge about {topic} in a new concrete case and determine the appropriate result or action.","Given a new concrete case involving {topic}, determine the appropriate result or action.","Demonstrate how knowledge of {topic} would be used in a practical situation.","Use the relevant knowledge or procedure for {topic} to solve a new concrete problem.","Apply the relevant procedure for {topic} to a specified case and determine the outcome.","In a practical scenario involving {topic}, apply the relevant knowledge or procedure and determine the result."),
+ "Analyze":("Analyze the components, relationships, causes, or patterns involved in {topic}.","Examine the structure of {topic} and identify how its parts are related.","Compare relevant aspects of {topic} and analyze how they relate.","Break down {topic} into components and analyze their relationships.","What relationships, contrasts, or patterns can be identified within {topic}?","Examine the causes, structure, or dependencies involved in {topic}."),
+ "Evaluate":("Assess the significance, validity, or effectiveness of {topic} using explicit criteria and evidence.","Evaluate the quality or suitability of {topic} against relevant criteria and supporting evidence.","Critique {topic} by weighing its strengths, limitations, and trade-offs.","How effective or suitable is {topic} according to stated criteria and evidence?","Judge the significance or validity of {topic} using clear standards and evidence.","Defend a reasoned judgment about {topic} based on explicit criteria and evidence."),
+ "Create":("Design a new solution, procedure, or plan that uses {topic} to address a defined need.","Develop an original approach that incorporates {topic} under stated requirements.","Propose a new strategy or artifact that uses {topic} for a specified purpose.","Formulate a new solution involving {topic} under given constraints.","How would you construct an original solution that uses {topic}?","Create a new plan, procedure, or artifact that incorporates {topic} for a clearly defined purpose.")
 }
 CUES={
  "Remember":("recall","state","identify","name","list","facts","characteristics"),
@@ -189,8 +189,11 @@ def main():
     rejected.append({"split":split,"source_id":s,"question":q,"reason":"duplicate_source"}); continue
    group=[]; fail=None
    for target in LEVELS:
-    try: rewrite,idx=build_rewrite(topic,target,q,s)
-    except Exception as e: fail={"split":split,"source_id":s,"question":q,"source_bloom_level":level,"reason":"generation_failed","target":target,"detail":str(e),"topic":topic}; break
+    if target==level:
+     rewrite,idx=q,-1
+    else:
+     try: rewrite,idx=build_rewrite(topic,target,q,s)
+     except Exception as e: fail={"split":split,"source_id":s,"question":q,"source_bloom_level":level,"reason":"generation_failed","target":target,"detail":str(e),"topic":topic}; break
     rn=norm(rewrite)
     if target!=level and rn==norm(q): fail={"split":split,"source_id":s,"question":q,"reason":"cross_level_identity","target":target,"topic":topic}; break
     prompt=f"<|im_start|>system\n{SYSTEM}<|im_end|>\n<|im_start|>user\nOriginal question:\n{q}\n\nTarget Bloom level:\n{target}<|im_end|>"
@@ -201,9 +204,9 @@ def main():
       "source_question":q,"source_bloom_level":level,"target_bloom_level":target,
       "target_rewrite":rewrite,"source_topic":topic,"synthetic":target!=level,
       "transformation_type":f"{level}->{target}",
-      "construction_method":"deterministic_source_anchored_cognitive_operation_template",
-      "construction_template_index":idx,"dataset_version":"figshare_target_rewrite_v5",
-      "policy_version":"figshare_bloom_target_policy_v5",
+      "construction_method":"source_identity_copy" if target==level else "deterministic_source_anchored_cognitive_operation_template",
+      "construction_template_index":idx,"dataset_version":"figshare_target_rewrite_v6",
+      "policy_version":"figshare_bloom_target_policy_v6",
       "source_file":str(p.relative_to(ROOT)).replace("\\","/"),
       "quality_status":"pass","prompt_text":prompt,"sft_text":sft
     })
@@ -236,7 +239,7 @@ def main():
  (OUT/"stats.json").write_text(json.dumps(stats,indent=2,ensure_ascii=False),encoding="utf-8")
  (OUT/"rejected_sources.json").write_text(json.dumps(rejected,indent=2,ensure_ascii=False),encoding="utf-8")
  (OUT/"dataset_manifest.json").write_text(json.dumps({
-  "dataset_version":"figshare_target_rewrite_v5","policy_version":"figshare_bloom_target_policy_v5",
+  "dataset_version":"figshare_target_rewrite_v6","policy_version":"figshare_bloom_target_policy_v6",
   "source_of_truth":"Figshare split files in data/figshare_bloom_v1_{train,val,test}.csv",
   "target_levels":list(LEVELS),"same_level_behavior":"identity copy",
   "cross_level_behavior":"source-anchored cognitive-operation transformation; not verb substitution",
