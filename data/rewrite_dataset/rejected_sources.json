@@ -1,0 +1,1967 @@
+[
+  {
+    "split": "train",
+    "question": "Besides silicon and germanium, name ONE (1) other material that can be used as the substrate of a transistor.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Revises and process to improve the outcome.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How was this similar to . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Can you explain what is happening . . . what is meant . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "How can you differentiate between...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "By using appropriate diagrams, explain how a decreasing cost industry affects the long-run supply curve in a perfectly competitive market.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Based on your understanding, highlight THREE (3) differences between vector graphics and bitmap images.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Eukaryotic genome is mostly repetitive DNA and non-coding sequences. Elaborate the statement.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Based on the above dataType class, list all the function members",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Divide the story into initiating event, rising action, climax, and falling action",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Search engines are key means of attracting traffic to websites. As a new marketing executive with Munchy's Malaysia, recommend THREE (3) tactics used in search engine marketing (SEM).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Support your views with ONE (1) example for each strategy.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Assuming the elitism selection method where the best chromosomes are selected for pairing, apply the crossover and mutation for the selected pair of chromosomes using the encoding scheme proposed in (b)(i).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you discriminate the difference parts . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Provide the objectives of building maintenance.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How does...compare/contrast with...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Listen to two classmates conversing on tape and critique their performance on the basis of the skills covered this semester.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Assume that there is one dominant firm in the industry that sets the price and then all the other firms in the industry behave like perfectly competitive price­ taking firms\". By using appropriate diagrams, explain the underlying assumptions of the model stated in the statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Synthesize the need for ventilation as an engineering control.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In a table form, state the advantages and disadvantages of X-ray crystallography and nuclear magnetic resonance in elucidating the three dimensional structure of proteins.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "MVC (Model View Controller) leads to low coupling\". Justify.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "By using an appropriate diagram, explain how the open market operation (OMO) can put an upward pressure on the federal fund rate (FFR).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Decide which course of action was most effective",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Besides silicon and germanium, name ONE (1) other material which could be used to fabricate transistors.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In a table form, differentiate between RefSeq and GenBank DNA sequences.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Japan is operating above the potential output level. As a committee member of central bank, suggest a policy that should be implemented in order to restore Japan's potential output level. Using appropriate diagram(s), explain the effect of the policy on price and unemployment level in short run and long run.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Given a graph of production trends in automobiles, describe what the graph represents in a memo to your boss.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "From a blueprint to describe the article depicted.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using a farm animal species of your choice, sketch a graph and describe the scenario that demonstrate a strong genotype by environmental interaction that could influence breeding objectives.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In about 70 words, explain how the different components function in language learning.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In a table, list EIGHT differences between GenBank and RefSeq DNA sequences.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Support your answers with ONE (1) example in everyday life for each strategy.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In what ways do female offenders differ from male offenders",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Express the following percentages as fractions in simplest form",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What do you recall ...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What questions would you ask if . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Currently the product life cycle for Apple iPod is in the 'growth stage'. Provide evidence to support your answer.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Judge the value of . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Predict what would happen if ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "The impact of using JSTL in software development can significantly reduce its development time. Prove that there is some truth in the statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you distinguish aged rums from unaged rums by smell",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Support your answers with ONE (1) example for each factor.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Autoclave aerated concrete block is gaining popular in high rise construction. Briefly illustrate what are the unique features of the autoclave aerated concrete block.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you express ________________?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With the aid of diagrams, describe how the soil structure influences the rate of water leaching.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "A manager of a small company makes the following statement - \"We need to keep hiring additional workers up to the point where the marginal productivity of the last worker we hire is at its maximum. This way we can maximize the total productivity of the firm.\" Critically evaluate this statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using straight value depreciation, decide between two copper-nickel alloys for the design of a heat exchanger.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "After examining the videotape of a play in a football game, determine the degree to which the defensive team performed effectively and",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you propose an alternative plan to . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Optimization of medium and culture conditions of a fermentation process can be conducted by using multifactor experimental design or response surface optimization. With aid of a flow chart, compare and contrast these two methods.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What criteria would you use to assess...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With the aid of a flow chart, briefly describe the steps involved in developing a successful animal breeding programme.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Restate main idea of story in own words.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide justifications as to why integrity and reliability is important in a company's annual report and accounts (ARAS) from corporate governance point of view.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In your own words, how would you summarize the story up",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In Which part of the world does he live",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Investigate innovations that can enhance future Olympics.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "FinFET technology is developed to minimize some of the shortcomings in planar MOSFETs. With the aid of diagrams, show the differences between these TWO (2) transistors.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Break down the main actions of the story.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How many ways can you . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Annealing is a thermal process typically performed after ion implantation. With the aid of diagrams, briefly discuss the purpose of this process.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Banks act as an important institution in the financial system. Briefly explain what a bank run is and provide THREE (3) causes that lead to its occurrence.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Local oxidation of silicon or LOCOS is a type of application which involves wet oxidation. With the aid of diagrams, briefly illustrate this process.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you explain what must have happened when . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Can you defend your position about . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Categorize FIVE (5) advantages of multimedia in primary school education.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "“Goods and services design could help manufacturers to gain competitive advantages.\" Justify the statement with any THREE (3) strategies.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What evidence can you list for...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Draw a diagram to show the memory configuration after the following statements ....",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "From your opinion, explain which one of the methods mentioned earlier is better for the given token stream.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide arguments on how these investment strategies help in maintaining market efficiency.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Critically review how a shift in the mental model with a different set of assumptions could change Yahoo.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Video got its start on cathode ray tube television systems, but has moved on to be used in many more applications. Relate the video transmission on television sets and computer monitors with interlacing and progressive scan techniques",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using Marginal approach, explain and identify how many unit of CD players should the firm producer per day if its goal is to maximize its profit.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What do you think about . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "As opposed other curves, justify with explanation why Average Fixed Costs (AFC) is negatively sloped.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Model an Olympic Village for the new Millenium.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using Nyquist Theorem, calculate the maximum sampling frequency.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you design a . . . to . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Using an appropriate example, explain how session listeners can be used in a web application.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you please analyze modern contemporary culture and tell me how your work plays a significant part in the remains of our post-modernist culture ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Discriminate the pros and cons of ____.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In what ways are foxes similar to wolves and dogs",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you find four different feelings Pa Lia had during the story?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "By drawing appropriate diagrams, differentiate between flat file model and database model.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Inspect the pattern of GPS positions relative to the “known” published value",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In your opinion, identify the relationship between factors of and a country's economic system.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "As a supervisor for the brickworks, List FOUR (4) aspects of brick quality control in order to produce good architectural work.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you solve the following problem",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "A bond fund manager decided to allocate certain percentage of the portfolio in foreign bond market to improve the reward-to-risk ratio. Briefly explain THREE (3) specific risks related to investing in international bond market.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In your opinion, discuss how modern supply chain management systems facilitate a pull-based model.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Your advice has been sought to settle the following dispute in Company X. Referring to appropriate legal principles, write a short report advising the company on the best course of action to adopt.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With the aid of a diagram, explain LOCOS.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Combine any two sports to develop a new Olympic sport.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using the process approach in writing composition, describe the activities you would carry out to write a composition entitled 'A visit to a zoo in a Form 1 class.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Do you think that this statement conveys the idea that i am trying to portray",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you group by characteristics such as . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "In maintaining concrete quality, identify SEVEN (7) good practices on site.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using transmission-gates, design and sketch a 4-to-1 multiplexer.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you write a new recipe for a tasty dish?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the sentence in your head, following the direction given below",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "An increase in the money supply will lead to an increase in the market equilibrium interest rate.” Comment and justify the above statement with an appropriate diagram.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide each of Market Economy and Planned Economy with an example.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the principles of test writing.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Express your opinion of 'Drugs in Sport' through poetry.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide (with explanations) THREE (3) differences Programming and System Programming.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Media planners want both effective and efficient media buys. In your role as a new media planner of a digital marketing agency, explain how would you know you have made an effective advertising buy over the internet.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "As a spokesperson that is handling the crisis, identify TWO (2) potential trick questions that might be asked by the reporters during the press conference. Provide your answer with explanation and an example for each trick question identified.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Tell in your own words the beginning of the book.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Relate topographic map to field features",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Treating emotion as a useful concept is challenging. Critically discuss why treating emotion as a useful concept is challenging. Provide TWO (2) points.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What would happen if . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Provide TWO (2) possible reasons why AirAsia decide to offer this new online service.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "If your story occurred long ago, compare that time with today in a good paragraph. If it was a modern story, compare it with a long time ago and tell what would be different.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rate the following recommendations and set the priority _____.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you create/design a new...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Make a scrapbook about the areas of study.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Conduct an investigation to produce information to support a view.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Technology has been used in most schools since the 90s, but it still has some interruptions. Validate the top FOUR (4) problematic issues with technology in education today.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How is . . . similar to . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "in which continent does the state of suriname fall",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "in which countries is arabic language spoken",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Make up a puzzle game using the ideas from the study area.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In a given clinical situation, select the most reasonable intervention and predict the main effects and possible side effects.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Do you devise a systematic approach in order to get larger progressions",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Portfolio management strategies are different based on the investor's risk preferences and expected return\". Based on above statement, explain TWO (2) major portfolio management strategies.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Argue the case for conducting experimental research involving humans and propose guidelines to ensure that the dignity and welfare of the subjects are maintained.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Given three possible approaches to implement the defined system, discuss the possible advantages and disadvantages of each approach.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you compare your . . . with that presented in . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Critically review the strengths, weaknesses, opportunities and threats of Associated Meats Sdn Bhd in light of the forecast trends and developments.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "would you classify the zener diode in this circuit as a series voltage regulator or a shunt voltage regulator",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Restate the Olympic motto in your own words.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Companies must take reasonable steps to ensure that their investors enjoy equal access to material information. Briefly describe SIX (6) corporate disclosure policies under Main Market Listing Requirements (MMLR).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Generalize FIVE (5) ways to use digital photography in classroom teaching and learning.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you assess the value or importance of . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Comparing to the reference sequence, identify the functional elements to represent S2 and S3, respectively.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using the multiplier approach, suppose government increases spending to 2200 and decreases tax by 500, calculate the new equilibrium output level and the new balance of trade.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Igneous rock can be formed either underground or above ground. Elaborate.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Given these five corrosion inhibitors, V, W, X, Y, Z, identify which are passivators",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using the basic principles of socialism discussed in this course, evaluate the US economic system by providing key arguments to support your judgment.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Prove that the wave function of a free electron is a plane wave by using Schrodinger's equation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Referring to the given poster design, explain in details the usage of elements and principles of arts.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "HTTP POST method is better suited to send confidential information compared to HTTP GET method in web applications.\" Justify the statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Express the rule in function notation",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide a guideline for effective use of photography of display materials\" in teaching of English language.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Soil algae and protozoa are usually restricted at the uppermost soil layers and smaller than their aquatic counterparts. Justify.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Using appropriate examples, discuss a situation in which custom tags would be appropriate to use.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With suitable examples, briefly discuss the importance of soil aeration.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Organize this book into three or more sections and give your own subtitle for each section.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Design a record, book or magazine cover for...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Translate a written text aloud from L2 to English.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Microsatellite tandem repeats are abundant in human promoters and are associated with regulatory activity (Sawaya et al., 2013).” Discuss the statement and support your views with examples.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Based on your knowledge on the physics of semiconductors, evaluate the limit for the minimum feature size of silicon MOSFET.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you decide about...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Relate the principle of reinforcement to classroom interactions.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Integrate training from several sources to solve a problem.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Malaysian Code on Corporate Governance (MCCG 2017) encourages Board of Directors to improve shareholders' participations in decision making. Provide recommendations that will lead to more constructive use of Annual General Meeting (AGM).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide THREE (3) examples of input devices.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you justify . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "With an appropriate example, discuss the effectiveness of using message queue compared to pipes in communication between processes.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In one sentence explain the main idea of a written passage.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Prepare a list of criteria to judge ... Evaluate expressions",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you feel if . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Weeds reduce the quality of crops and livestock. Explain.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "After designing an experiment, examining the results, and drawing conclusions, determines in what ways the experiment could be conducted more effectively in order to draw more productive conclusions in the future.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Translate the following algorithm into Java code",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Tell how Phillip kept himself alive after Timothy died.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Translate an equation into a computer spreadsheet.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Cost benefit analysis is a process that helps management determine whether (and by how much) the benefits exceed costs. Briefly explain FOUR (4) intangible benefits.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Based on your knowledge, describe TWO (2) foreign bonds that are well known in the market.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide a real life example on conflict of interest situation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using information from the book about one of the main characters, rewrite the ending of the book.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Make a list of the main events of the story.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "HTTP is a stateless protocol. Justify.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Provide FOUR (4) reasons of using aggregate in concrete production.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Barbie Dolls have been banned in some of countries. Provide FOUR (4) countries and evaluate the reason behind the ban.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In a teaching simulation with your peers role-playing 6th grade students, demonstrate the principle of reinforcement in classroom interactions and prepare a half page description of what happened during the simulation that validated the principle.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using Tom Duncan's levels of brand relationship intensity, explain the relationship between Apple iPhone and its customers.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What would you predict/infer from...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Support your views with TWO (2) examples from everyday life for each origins.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you invent another character for the story?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Steel is the most widely used reinforcing materials in concrete structure. Briefly explain the general properties of steel.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In your own words, tell what the story is about.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "As an editor-in-chief, suggest how you can motivate your experienced journalists to remain with your paper.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "If you had access to all resources how would you deal with . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Given the data we've looked at on this topic, evaluate how appropriate this conclusion is and defend your answer.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In your own words, describe Supply Chain Management (SCM).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Categorize the story into parts and think of a good title for each of the parts.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the following program so that it is formatted properly.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using Nyquist Theorem, calculate the maximum sampling rate to avoid aliasing.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What might happen if you combined...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Establish criteria for making this choice and defend your final selection.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using the data shown in Table 1, generate some frequent item sets.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Why not compose a song about . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the markov matrix to account for this slight change.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Break down the components of a standard film camera and explain how they interact to make the machine work.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Suppose milk and yogurt are within Sophie's budget and she views yogurt as an inferior good. Using indifference curve and budget line, explain the substitution, income and total effects when the price of yogurt falls.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Explain what is happening...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Reason why a pornographic viewer's mind is likened to an addict's mind. Provide TWO (2) points.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "For any points which fall outside the curve, explain the combination of production for steel and bricks.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Synthesize any FIVE (5) factors that should be considered when devising a safe system to undertake a task in an organization.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "in what ways is oxyperoxidase similar to other oxygenated heme proteins, and how does it differ",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you distinguish for me between what is reasonably achievable and what are exaggerations",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Suppose prices of two goods are constant, explain what will happen to the budget line if there is an increase in consumer's income. Support your answer with an appropriate diagram.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Besides LOCOS, name TWO (2) other applications which require thermal processes.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Given two opposing theories design an experiment to compare them.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With respect to the data processing cycle of an organisation, explain the \"garbage in, garbage out\". Briefly discuss on the measures to be taken by the companies to avoid “garbage in\" data input errors.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Take a collection of photographs to demonstrate a particular point.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "“China has been practicing low exchange rate for previous decades.” Clarify the pros and cons under this practice.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Provide FIVE (5) examples on how HP can use text mining in other areas.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Investigate whether or not the system can be solved for x; y; z",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite you predicted equation for the ideal gas law",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Construct an alternative way to ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Identify whether the firm is in the short-run or long-run equilibrium. Explain.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "In a two-column table, list FIVE (5) tools used in the technology-integrated instruction and the traditional instruction respectively.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Based on your opinion, discuss critically, how far you agree that race relations have become unhealthy in our country.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How would you have handled . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Independent Non-Executive Directors (INEDs) play crucial roles in the assurance of effective corporate governance of public listed companies. Provide an assessment on the contributions of INEDs in promoting effective corporate governance.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In soil pH, define buffering and explain why it is important in soils.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "After solving a problem, determine the degree to which the problem was solved as efficiently as possible",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Complete an analogy (analogy tasks are inference tasks)",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Would this information be useful if you had a . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Decide which candidate would best fill the position of principal.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Trading strategies used by investors of futures and forwards markets help to maintain market efficiency\". Based on the above statement, Differentiate between all THREE (3) main trading strategy used by futures and forward markets' investors..",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Correctly label the brain lobes indicated on the diagram below",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "How effective are . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "Write about your feelings in relation to...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Imagine that you are a relative of an older adult who is initially diagnosed to be living with Parkinson's disease, suggest FOUR (4) strategies to further promote the wellbeing of the individual.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using an appropriate example, discuss how MVC can lead to a good design of a particular web application.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using appropriate examples, differentiate between agglomerative and divisive in the context of agglomerative hierarchical clustering.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Bernard has successfully determined the sequence of Protein X which consists of 110 amino acid residues. He is interested to predict the protein struc using the available homology modelling software. Based on your knowledge of the mechanism of protein folding, comment on the reliability and accuracy of the prediction.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Can you develop method to handle the following case . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "train",
+    "question": "“The efficient market hypothesis (EMH) states it is impossible to consistently outperform an efficient market and the only way an investor can possibly obtain higher returns is by purchasing riskier investments.\" Justify the statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "In one sentence illustrate the main point of a written passage.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Do you agree...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Foundation design is required the study and examination of multiple components which is a highly specialized the function and usually is performed by a structural engineer. Inspect the components which have to include in the designing of a building foundation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the story briefly, but change someone or something in it. (For example, substitute a dog for a wolf in The Three Little Pigs).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "CRM technology helps companies to collect information about consumer behaviour, conversations and characteristics. As a new digital marketing manager with an online retailer, suggest FIVE (5) ways how you can collect data and push customised information to customers.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Using the open economy multiplier approach, calculate the new equilibrium output level and new balance of trade if the government decreases spending to RM 1200 million and increases tax by RM 300 million.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Make a list of facts you learned from the story.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "With the aid of a diagram, briefly show how the width of a FinFET is estimated.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "What data was used to evaluate ____________?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Being outside directors, Independent Non-Executive Directors (INEDs) do not work in the company on a daily basis. Their hands are tied due to the nature of their positions. Provide an assessment on the limitations of INEDs in the context of corporate governance",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Base on the case study given, summarize THREE (3) ISM security problems.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Rewrite the story from an animal’s point of view.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "IBS components can be divided into five broad categories. Briefly describe with examples all FIVE (5) categories.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Oxidation is one of the most important thermal processes. Briefly discuss the characteristics of dry oxidation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Name the authors of...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Categorize the basic concepts of multimedia with an example for each.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "train",
+    "question": "Translate the following passage from The Iliad into English.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Make a paper-mache map to include relevant information about an event.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Suppose the two countries wish to specialize and trade. Specifically determine and explain which country enjoys comparative advantage in the production of sugar cane and blue agave.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Summarise the challenges of global advertising.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "“Technology has aided manufacturing and service companies in inventory management.' Justify the statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Provide TWO (2) suggestions on how a Web presence help Columbiana's government.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "In your own words, how would you define transferable skills",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Fertilizer that is extremely high in phosphorus content is essential for flowering. Justify.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Can you develop a proposal which would . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "List the __________________ in descending order",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "How can you categorize ____ according to...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "In their efforts to achieve their macroeconomic objectives, all governments, regardless of political persuasion, employ the same types of policy instrument. Discuss.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Using the Luedeking-Piret equation for growth associated product formation, calculate the pullulan concentration in 30h of fermentation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "What is the most important...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Alavi and Leidner (2001) examine how information technology (IT) can be a key enabler in supporting four organizational knowledge management (KM) processes. Critically assess the role of IT in supporting the four KM processes.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you create new and unusual uses for . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Jason spends all his income on meat and bread. Assume bread as a giffen good, draw Jason's price consumption curve and demand curve for bread when the price of bread falls. Support your answer with explanation for 3 consumption bundles.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Describe what happened at...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "How can you explain what is meant ...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Prepare a case to present, and evaluate your view about ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Memorize and recall the periodic table",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "What are the parts or features of...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Trace the contents of matrix from the following statements int matrix[3][2];int j, k;for (j = 0; j < 3; j++)for (k =h 0; k < 2; k++)matrik[j][k] = j + k;",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Imagine that you are a relative of an older adult who survives stroke, suggest FOUR (4) strategies to further promote the wellbeing of the individual.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "In your own words, tell what is meant by the definition of an isosceles triangle.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Would you solve these two problems using similar approaches",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Rewrite a part in the poem using a different speaker",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Given a frequency filter specification as H(u;v), derive a procedure to generate the convolution result of its corresponding spatial filter with an image f(x,y).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Support your answers with ONE (1) example in everyday life for each theory.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Nancy intends to include text for her multimedia presentation. As a multimedia specialist, provide TWO (2) guidelines to Nancy when working with text.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Given the two solutions to the stated programming problem, rate the solutions in terms of efficiency and readability.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you distinguish between . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Argue critically with relevant examples.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "How can you describe _____________?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Relate your most powerful story where your use of technology in the classroom has yielded a significant outcome with a student or students",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you see a possible solution to . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Support your views with ONE (1) example for each disadvantage.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Starting from a point of equilibrium, explain the case of a decreasing - cost industry in a perfectly competitive market with the aid of diagram(s).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "The internet has been considered as a low cost option for selling products and services. From a firm's perspective, explain FOUR (4) factors that add to the cost of doing business on the internet.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you analyze the fractures and determine which should be repaired surgically",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Suppose firms in industry Y are having an increase in demand. By using appropriate diagrams, explain the effect of an increase in demand and how industry Y achieves the long-run equilibrium in perfect competition.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "State in your own words ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Rearrange it to design the correct schema that is suitable for the system implementation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Using an appropriate example, prove that listeners are able to manage resources effectively in web applications.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you distinguish pot still rums from column still rums by taste",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Oxidation is one of the most important thermal processes. Briefly explain the TWO (2) types of oxidation process.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "For any points which fall under the curve, explain the combination of production for steel and bricks.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Invent a machine to do a specific task.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Make a diorama to illustrate an important event.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Reason why hunger cannot be simplified as yet another homeostatic process. Provide TWO (2) points.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Discriminate the different parts of the story (introduction, development, climax, resolution.)",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Based on your observation of the local newspaper industry, discuss and state your stance on whether gender affects professional news selection.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you differentiate between ethnic Chinese and ethnic Koreans",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "With reference to the case, evaluate the similarities and differences between open mindedness and mental models.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Briefly provide any TWO (2) real life situations to illustrate on ethical dilemma.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "As a manager in an Information Technology firm, suggest and elaborate any THREE (3) actions that organizations can take as part of the responsibility towards the society.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Rewrite the following if statement using a switch statement.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Can you defend the idea that Simon's incident with the pig's head is the most mystical in the story?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "Judge the value of... What do you think about...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Decide which method of solving a problem was most effective",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Support your answers with ONE (1) example from everyday life for ANY TWO factor.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Express the following systems in matrix form",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Support your answers with TWO (2) examples in everyday life for each strategy.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Support your answers with ONE (1) example in everyday life for EACH perspective.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Investigate (pointwise) convergence and absolute convergence of the given series of functions",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Trace the value of alpha after the following code executes. int alpha[5];int j;alpha[0] = 5;for (j = 1; j < 5; j++){if(j % 2 == 0)alpha[j] = alpha[j – 1] + 2;else alpha[j] = alpha[j – 1] + 3;}",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Fill in the detail of typeface properties base on the following illustration.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Make up a new language code and write material using it.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Provide the suitable commands to help her to compile and run her Java program.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "If your story happened in a foreign land, compare that land to the United States.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Melting temperature (Tm) is an important criteria to consider when designing primers for PCR amplification. Comment.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "validation",
+    "question": "What ideas can you add to...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Portfolio management strategies are different based on investor's risk preferences and expected return”. Based on above statement, briefly discuss TWO (2) major portfolio management strategies.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "can you devise an explicit formula for",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "In your opinion, provide any TWO (2) reasons why the actions of one firm can significantly affect the sales of the other firms in an oligopoly market.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "How can you distinguish the different parts of_____?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "validation",
+    "question": "Provide three (3) situations whereby it will be useful to use reference variables as parameters.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Indicate the variables that are important in each of the canonical variates.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "For any points which fall exactly on the curve, explain the combination of production for steel and bricks.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "If an electron in a hydrogen atom jumps from the first excited state to ground state, find the wavelength of the photon emitted.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "There are two approaches to solve a problem, namely X and Y. Approach X uses a lot of synchronizations compared to approach Y. Briefly explain why the approach Y should be chosen to solve the problem.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Referring to the advertisement design below, evaluate the usage of Dominance and Unity in principles of design.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Is there a better solution to . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "From the information given, can you develop a set of instructions about . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "The monetary policy is always useful in stimulating the economic growth by increasing the money supply in the market.\" Comment on this statement. Support your answer with an appropriate diagram.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "The technology of VLSI is defined by the feature size. With the aid of a diagram, explain the feature size.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Can you justify the decisions you have made ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Internal control system is among the most prominent monitoring mechanisms in promoting effective corporate governance. Assuming you are the manager of purchasing department, provide TWELVE (12) recommendations on how to prevent staffs from making personal gains from their positions.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Support your answers with ONE (1) example in everyday life for EACH theory.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Given an argument on any position, enumerate the logical fallacies in that argument.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Managing and engaging stakeholders have gained important grounds in corporate decision making. Provide your justifications for companies to adopt stakeholder model.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Make a diagnosis or analyze a case study.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Considering linear multimedia and interactive multimedia, suggest the best solution to the shopping mall's management.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Categorise the pictures and add them to the wall display.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Can you apply the method used to some experience of your own . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "As an educator, evaluate FIVE (5) advantages and FIVE (5) disadvantages of using technology in education.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Advise the five steps, as recommended by Porter and Millar, that can be applied by business managers in taking advantage of information technology.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Inspect each of these Boolean expressions, and determine whether each one is a sum of products, or a product of sums",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "You are appointed to identify building defects for a new building. Briefly identify SIX (6) common construction problems you would expect for modern buildings.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Advise Smith on any FIVE (5) types of information which should be included in the website.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Decide whether you learned enough about electricity from this book.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Investment strategies used by the investors of futures and forward markets help to maintain market efficiency\". Based on the above statement, differentiate THREE (3) main investment strategies used by futures and forward markets' investors.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Provide some justifications for the data warehouse architecture that you have chosen in Q2 (a).",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Using transmission-gates, design and sketch an 8-to-1 multiplexer.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Discover FOUR (4) characteristic of IT infrastructure to be considered.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "There are TWO (2) common methods used in the semiconductor industry to fabricate single crystal silicon. With the aid of diagrams, name and explain the methods.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "What factors would you change if . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Can you propose a model that would change . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Can you defend your position about ... ?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "State in one word ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Given the data available on a research question, take a position and defend it.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "How would you classify the type of ...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Place the following in order of priority...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "structure, sorts the list in ascending order, displays the list on the screen and stores the list",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "What changes to . . . would you recommend?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Support your views with TWO (2) examples in everyday life for each tactic.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Besides Field Programmable Gate Array (FPGA), name one other type of programmable logic device.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "What solutions would you suggest for...?",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Support your answers with ONE (1) example from everyday life for each type of personality.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Tell in your own words how the setting of the story made it more interesting.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Using an appropriate example, describe how competitive ELISA works.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Suppose the two countries wish to specialize and trade. Specifically determine and explain which country enjoys comparative advantage in the production of jade and diamond.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Based on the aspartate protease mechanism, explain the concept of using \"Crixivan\" to treat HIV patients.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Decide whether you are in favor of building on a floodplain; defend your position in a debate.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "PERCEPTION STUDIES based on SURVEY METHOD are useful and common in both academic and market research. Critically evaluate the strategies used in data collection that can increase the response rate when conducting a survey.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Using an appropriate example, explain how static data can be shared effectively among several web resources.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Simplify the return statement in the max method using the ternary operator",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "in what ways trajectory patterns differ according to ABC",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Relate FIVE (5) examples on how video often make new connections and discoveries between curriculum topics and the world outside the classroom.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Relate FOUR (4) disadvantages of Web-based learning as an emerging digital technology used in teaching and learning.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Why don’t you devise your own way to deal with . . .?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "There is a relationship between the level of construction activity and a country's stage of development. Discuss.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "What would you cite to defend the actions . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Combine elements of drama, music, and dance into a stage presentation.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Soil organic matter content will differ depending on environmental conditions. Justify with TWO examples.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Translate an equation into a spreadsheet formula.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Develop a proof ... and justify each step ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Choose the best statements that apply ...",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Provide THREE (3) justification on how would the university community be encouraged to place orders and become loyal customers.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "Can you state in your own words what the problem is asking you to do",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "The construction industry comprises a wide diversity of firms that it is impossible to categorise them all within one type of market structure. Discuss.",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Can you think of an original way for collect and develop the . . . ?",
+    "reason": "unextractable_topic"
+  },
+  {
+    "split": "test",
+    "question": "Conclude and support which economic system leads to a higher standard of living.",
+    "reason": "invalid_source_form"
+  },
+  {
+    "split": "test",
+    "question": "With the aid of pseudocode or source codes, assess the usage of fork, exec and wait functions in working together in inter process communication.",
+    "reason": "invalid_source_form"
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "dataset_version": "multitask_corrected_v1",
+  "seed": 42,
+  "base_model_target": "Qwen2.5-1.5B-Instruct",
+  "mix_preset": "A",
+  "requested_mix": {
+    "bloom_rewrite": 0.4,
+    "qa": 0.3,
+    "summarization": 0.3
+  },
+  "sources": {
+    "bloom_rewrite": "data/rewrite_dataset/bloom_rewrite_*.jsonl",
+    "qa_and_summarization": "data/multitask_bloom_rewrite/{train,validation,test}.jsonl"
+  },
+  "train": {
+    "total": 17434,
+    "by_task": {
+      "bloom_rewrite": 6972,
+      "summarization": 5231,
+      "qa": 5231
+    }
+  },
+  "validation": {
+    "total": 8423,
+    "by_task": {
+      "qa": 5285,
+      "bloom_rewrite": 1638,
+      "summarization": 1500
+    }
+  },
+  "test": {
+    "total": 8483,
+    "by_task": {
+      "summarization": 1500,
+      "qa": 5285,
+      "bloom_rewrite": 1698
+    }
+  },
+  "bloom_train_sources_selected": 1162,
+  "bloom_train_rows_selected": 6972,
+  "bloom_train_source_all_six_targets": true,
+  "notes": [
+    "Old Bloom rewrite rows from data/multitask_bloom_rewrite are not reused.",
+    "QA and summarization rows are unchanged from the locked baseline.",
+    "Bloom train selection is source-grouped to preserve six target levels together.",
+    "Test is never sampled or tuned against; Bloom test comes from Figshare test."
+  ]
+}
