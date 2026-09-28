@@ -1,0 +1,41 @@
+name: build-corrected-datasets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/figshare_bloom_v1_train.csv"
+      - "data/figshare_bloom_v1_val.csv"
+      - "data/figshare_bloom_v1_test.csv"
+      - "data/multitask_bloom_rewrite/**"
+      - "data/rewrite_dataset/build_bloom_rewrite_dataset.py"
+      - "data/rewrite_dataset/build_multitask_corrected.py"
+      - ".github/workflows/build-corrected-datasets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build Bloom target-rewrite dataset
+        run: python data/rewrite_dataset/build_bloom_rewrite_dataset.py
+      - name: Build corrected multitask corpus
+        run: python data/rewrite_dataset/build_multitask_corrected.py
+      - name: Commit generated datasets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/rewrite_dataset data/multitask_corrected
+          if git diff --cached --quiet; then
+            echo "No generated dataset changes."
+            exit 0
+          fi
+          git commit -m "build corrected Figshare Bloom rewrite and multitask datasets"
+          git push origin HEAD:main
