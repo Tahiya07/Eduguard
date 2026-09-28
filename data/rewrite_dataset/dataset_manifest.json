@@ -1,6 +1,6 @@
 {
-  "dataset_version": "figshare_target_rewrite_v5",
-  "policy_version": "figshare_bloom_target_policy_v5",
+  "dataset_version": "figshare_target_rewrite_v6",
+  "policy_version": "figshare_bloom_target_policy_v6",
   "source_of_truth": "Figshare split files in data/figshare_bloom_v1_{train,val,test}.csv",
   "target_levels": [
     "Remember",
@@ -35,27 +35,27 @@
       "test": 350
     },
     "accepted_source_rows": {
-      "train": 1337,
-      "validation": 260,
-      "test": 263
+      "train": 1455,
+      "validation": 296,
+      "test": 308
     },
     "rewrite_rows": {
-      "train": 8022,
-      "validation": 1560,
-      "test": 1578
+      "train": 8730,
+      "validation": 1776,
+      "test": 1848
     },
     "targets_per_source": 6,
     "target_counts": {
-      "Remember": 1860,
-      "Understand": 1860,
-      "Apply": 1860,
-      "Analyze": 1860,
-      "Evaluate": 1860,
-      "Create": 1860
+      "Remember": 2059,
+      "Understand": 2059,
+      "Apply": 2059,
+      "Analyze": 2059,
+      "Evaluate": 2059,
+      "Create": 2059
     },
-    "rejected_source_rows": 470,
+    "rejected_source_rows": 271,
     "rejection_reasons": {
-      "unusable_source_or_topic": 470
+      "unusable_source_or_topic": 271
     },
     "source_split_overlap": {
       "train_validation": 0,

@@ -25,29 +25,29 @@
     }
   },
   "validation": {
-    "total": 8345,
+    "total": 8561,
     "by_task": {
-      "bloom_rewrite": 1560,
       "qa": 5285,
+      "bloom_rewrite": 1776,
       "summarization": 1500
     },
     "proportions": {
-      "bloom_rewrite": 0.186938,
-      "qa": 0.633313,
-      "summarization": 0.179748
+      "qa": 0.617334,
+      "bloom_rewrite": 0.207452,
+      "summarization": 0.175213
     }
   },
   "test": {
-    "total": 8363,
+    "total": 8633,
     "by_task": {
       "qa": 5285,
-      "summarization": 1500,
-      "bloom_rewrite": 1578
+      "bloom_rewrite": 1848,
+      "summarization": 1500
     },
     "proportions": {
-      "qa": 0.63195,
-      "summarization": 0.179361,
-      "bloom_rewrite": 0.188688
+      "qa": 0.612186,
+      "bloom_rewrite": 0.214062,
+      "summarization": 0.173752
     }
   },
   "bloom_train_source_groups_selected": 1162,
