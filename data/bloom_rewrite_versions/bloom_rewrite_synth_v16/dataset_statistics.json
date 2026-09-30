@@ -1,0 +1,155 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v16",
+  "policy_version": "bloom_target_policy_v16_explicit_patterns",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 1112,
+  "rejected_source_count": 1218,
+  "rejected_sources_by_reason": {
+    "multiple_actions": 144,
+    "topic_parse": 717,
+    "thin_content": 249,
+    "placeholder": 28,
+    "length": 68,
+    "missing_context": 11,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 781,
+    "validation": 166,
+    "test": 165
+  },
+  "counts": {
+    "train": {
+      "total": 890,
+      "by_target": {
+        "Remember": 213,
+        "Understand": 247,
+        "Apply": 94,
+        "Analyze": 129,
+        "Evaluate": 103,
+        "Create": 104
+      },
+      "cross_level": 399,
+      "identity": 491,
+      "by_source_target": {
+        "Understand->Remember": 81,
+        "Analyze->Remember": 32,
+        "Remember->Remember": 100,
+        "Create->Understand": 44,
+        "Remember->Understand": 45,
+        "Analyze->Understand": 33,
+        "Evaluate->Understand": 13,
+        "Apply->Understand": 12,
+        "Understand->Understand": 100,
+        "Create->Apply": 3,
+        "Understand->Apply": 7,
+        "Analyze->Apply": 5,
+        "Evaluate->Apply": 1,
+        "Apply->Apply": 78,
+        "Understand->Analyze": 37,
+        "Remember->Analyze": 8,
+        "Evaluate->Analyze": 6,
+        "Apply->Analyze": 5,
+        "Create->Analyze": 3,
+        "Analyze->Analyze": 70,
+        "Create->Evaluate": 3,
+        "Understand->Evaluate": 40,
+        "Remember->Evaluate": 13,
+        "Analyze->Evaluate": 4,
+        "Evaluate->Evaluate": 43,
+        "Remember->Create": 1,
+        "Understand->Create": 3,
+        "Create->Create": 100
+      }
+    },
+    "validation": {
+      "total": 260,
+      "by_target": {
+        "Remember": 54,
+        "Understand": 103,
+        "Apply": 11,
+        "Analyze": 31,
+        "Evaluate": 22,
+        "Create": 39
+      },
+      "cross_level": 94,
+      "identity": 166,
+      "by_source_target": {
+        "Understand->Remember": 17,
+        "Analyze->Remember": 11,
+        "Remember->Remember": 26,
+        "Remember->Understand": 9,
+        "Create->Understand": 16,
+        "Evaluate->Understand": 3,
+        "Analyze->Understand": 12,
+        "Apply->Understand": 1,
+        "Understand->Understand": 62,
+        "Analyze->Apply": 1,
+        "Understand->Apply": 1,
+        "Apply->Apply": 9,
+        "Remember->Analyze": 2,
+        "Create->Analyze": 2,
+        "Understand->Analyze": 3,
+        "Analyze->Analyze": 24,
+        "Understand->Evaluate": 8,
+        "Analyze->Evaluate": 3,
+        "Remember->Evaluate": 1,
+        "Create->Evaluate": 3,
+        "Evaluate->Evaluate": 7,
+        "Evaluate->Create": 1,
+        "Create->Create": 38
+      }
+    },
+    "test": {
+      "total": 231,
+      "by_target": {
+        "Remember": 53,
+        "Understand": 99,
+        "Apply": 11,
+        "Analyze": 19,
+        "Evaluate": 27,
+        "Create": 22
+      },
+      "cross_level": 69,
+      "identity": 162,
+      "by_source_target": {
+        "Analyze->Remember": 4,
+        "Understand->Remember": 12,
+        "Remember->Remember": 37,
+        "Evaluate->Understand": 4,
+        "Create->Understand": 8,
+        "Remember->Understand": 10,
+        "Analyze->Understand": 4,
+        "Understand->Understand": 73,
+        "Create->Apply": 2,
+        "Understand->Apply": 1,
+        "Evaluate->Apply": 1,
+        "Apply->Apply": 7,
+        "Understand->Analyze": 6,
+        "Create->Analyze": 3,
+        "Analyze->Analyze": 10,
+        "Understand->Evaluate": 8,
+        "Create->Evaluate": 2,
+        "Remember->Evaluate": 2,
+        "Analyze->Evaluate": 2,
+        "Evaluate->Evaluate": 13,
+        "Create->Create": 22
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "identity_cap": 100,
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "Cross-level rows use explicit whole-question transformation patterns.",
+    "Unsupported transformations are excluded rather than invented.",
+    "Same-detected-target source questions are retained as identity supervision, capped per target/split."
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v9",
+  "policy_version": "bloom_target_policy_v9_conservative",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 540,
+  "rejected_source_count": 1790,
+  "rejected_sources_by_reason": {
+    "thin_content": 700,
+    "multiple_sentences": 463,
+    "unrecognized_form": 288,
+    "multiple_actions": 90,
+    "length": 131,
+    "placeholder": 22,
+    "missing_context": 10,
+    "cognitive_residue": 79,
+    "prefix_residue": 7
+  },
+  "source_split_sizes": {
+    "train": 378,
+    "validation": 78,
+    "test": 84
+  },
+  "counts": {
+    "train": {
+      "total": 673,
+      "by_target": {
+        "Remember": 84,
+        "Understand": 224,
+        "Apply": 100,
+        "Analyze": 131,
+        "Evaluate": 83,
+        "Create": 51
+      },
+      "cross_level_rows": 295,
+      "identity_rows": 378
+    },
+    "validation": {
+      "total": 145,
+      "by_target": {
+        "Remember": 14,
+        "Understand": 58,
+        "Apply": 17,
+        "Analyze": 30,
+        "Evaluate": 17,
+        "Create": 9
+      },
+      "cross_level_rows": 67,
+      "identity_rows": 78
+    },
+    "test": {
+      "total": 160,
+      "by_target": {
+        "Remember": 18,
+        "Understand": 55,
+        "Apply": 23,
+        "Analyze": 29,
+        "Evaluate": 24,
+        "Create": 11
+      },
+      "cross_level_rows": 76,
+      "identity_rows": 84
+    }
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "total": 84,
+        "cross_level": 43,
+        "identity": 41
+      },
+      "Understand": {
+        "total": 224,
+        "cross_level": 33,
+        "identity": 191
+      },
+      "Apply": {
+        "total": 100,
+        "cross_level": 51,
+        "identity": 49
+      },
+      "Analyze": {
+        "total": 131,
+        "cross_level": 93,
+        "identity": 38
+      },
+      "Evaluate": {
+        "total": 83,
+        "cross_level": 56,
+        "identity": 27
+      },
+      "Create": {
+        "total": 51,
+        "cross_level": 19,
+        "identity": 32
+      }
+    },
+    "validation": {
+      "Remember": {
+        "total": 14,
+        "cross_level": 7,
+        "identity": 7
+      },
+      "Understand": {
+        "total": 58,
+        "cross_level": 9,
+        "identity": 49
+      },
+      "Apply": {
+        "total": 17,
+        "cross_level": 9,
+        "identity": 8
+      },
+      "Analyze": {
+        "total": 30,
+        "cross_level": 21,
+        "identity": 9
+      },
+      "Evaluate": {
+        "total": 17,
+        "cross_level": 15,
+        "identity": 2
+      },
+      "Create": {
+        "total": 9,
+        "cross_level": 6,
+        "identity": 3
+      }
+    },
+    "test": {
+      "Remember": {
+        "total": 18,
+        "cross_level": 7,
+        "identity": 11
+      },
+      "Understand": {
+        "total": 55,
+        "cross_level": 11,
+        "identity": 44
+      },
+      "Apply": {
+        "total": 23,
+        "cross_level": 14,
+        "identity": 9
+      },
+      "Analyze": {
+        "total": 29,
+        "cross_level": 22,
+        "identity": 7
+      },
+      "Evaluate": {
+        "total": 24,
+        "cross_level": 15,
+        "identity": 9
+      },
+      "Create": {
+        "total": 11,
+        "cross_level": 7,
+        "identity": 4
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Only coherent single-task source questions are admitted.",
+    "Cross-level transformations require target-specific source capability.",
+    "Same-level source questions are retained as identity supervision.",
+    "No artificial target padding is used."
+  ]
+}

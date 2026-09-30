@@ -1,0 +1,175 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v11",
+  "policy_version": "bloom_target_policy_v11_minimal_source_preserving",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 620,
+  "rejected_source_count": 1710,
+  "rejected_sources_by_reason": {
+    "thin_content": 702,
+    "multiple_sentences": 462,
+    "unrecognized_form": 297,
+    "multiple_actions": 84,
+    "length": 131,
+    "placeholder": 24,
+    "missing_context": 10
+  },
+  "source_split_sizes": {
+    "train": 435,
+    "validation": 92,
+    "test": 93
+  },
+  "counts": {
+    "train": {
+      "total": 1210,
+      "by_target": {
+        "Remember": 340,
+        "Understand": 430,
+        "Apply": 151,
+        "Analyze": 85,
+        "Evaluate": 79,
+        "Create": 125
+      },
+      "cross_level_rows": 775,
+      "identity_rows": 435
+    },
+    "validation": {
+      "total": 253,
+      "by_target": {
+        "Remember": 72,
+        "Understand": 90,
+        "Apply": 29,
+        "Analyze": 22,
+        "Evaluate": 15,
+        "Create": 25
+      },
+      "cross_level_rows": 161,
+      "identity_rows": 92
+    },
+    "test": {
+      "total": 271,
+      "by_target": {
+        "Remember": 81,
+        "Understand": 93,
+        "Apply": 29,
+        "Analyze": 17,
+        "Evaluate": 25,
+        "Create": 26
+      },
+      "cross_level_rows": 178,
+      "identity_rows": 93
+    }
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "total": 340,
+        "cross_level": 293,
+        "identity": 47
+      },
+      "Understand": {
+        "total": 430,
+        "cross_level": 216,
+        "identity": 214
+      },
+      "Apply": {
+        "total": 151,
+        "cross_level": 86,
+        "identity": 65
+      },
+      "Analyze": {
+        "total": 85,
+        "cross_level": 40,
+        "identity": 45
+      },
+      "Evaluate": {
+        "total": 79,
+        "cross_level": 49,
+        "identity": 30
+      },
+      "Create": {
+        "total": 125,
+        "cross_level": 91,
+        "identity": 34
+      }
+    },
+    "validation": {
+      "Remember": {
+        "total": 72,
+        "cross_level": 64,
+        "identity": 8
+      },
+      "Understand": {
+        "total": 90,
+        "cross_level": 35,
+        "identity": 55
+      },
+      "Apply": {
+        "total": 29,
+        "cross_level": 19,
+        "identity": 10
+      },
+      "Analyze": {
+        "total": 22,
+        "cross_level": 11,
+        "identity": 11
+      },
+      "Evaluate": {
+        "total": 15,
+        "cross_level": 13,
+        "identity": 2
+      },
+      "Create": {
+        "total": 25,
+        "cross_level": 19,
+        "identity": 6
+      }
+    },
+    "test": {
+      "Remember": {
+        "total": 81,
+        "cross_level": 69,
+        "identity": 12
+      },
+      "Understand": {
+        "total": 93,
+        "cross_level": 47,
+        "identity": 46
+      },
+      "Apply": {
+        "total": 29,
+        "cross_level": 19,
+        "identity": 10
+      },
+      "Analyze": {
+        "total": 17,
+        "cross_level": 9,
+        "identity": 8
+      },
+      "Evaluate": {
+        "total": 25,
+        "cross_level": 13,
+        "identity": 12
+      },
+      "Create": {
+        "total": 26,
+        "cross_level": 21,
+        "identity": 5
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Source topic wording is preserved; cross-level rows change only the task frame.",
+    "Unsupported target transformations are excluded rather than invented.",
+    "Same-level source questions are retained as identity supervision."
+  ]
+}

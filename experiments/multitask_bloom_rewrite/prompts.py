@@ -17,6 +17,15 @@ FORBIDDEN_SOURCE_LEVEL_MARKERS = (
     "original bloom level:",
 )
 
+BLOOM_GUIDANCE = {
+    "Remember": "Recall facts, definitions, terminology, syntax, or basic information.",
+    "Understand": "Explain, describe, summarize, interpret, or classify a concept.",
+    "Apply": "Use a known rule, concept, method, or procedure to solve or carry out a concrete task.",
+    "Analyze": "Break a problem or program into parts and examine relationships, interactions, causes, structure, patterns, or effects.",
+    "Evaluate": "Make a justified judgment about correctness, quality, efficiency, validity, effectiveness, or suitability using criteria or evidence.",
+    "Create": "Design, construct, formulate, develop, or propose a new solution, program, procedure, model, plan, or artifact.",
+}
+
 BLOOM_SYSTEM = (
     "You are an expert academic assessment editor. "
     "Rewrite the question so that the student's required cognitive task matches "
@@ -66,9 +75,12 @@ def bloom_messages(
     target_level: str,
     target_rewrite: str | None = None,
 ) -> list[dict[str, str]]:
+    target_level = target_level.strip()
+    guidance = BLOOM_GUIDANCE.get(target_level, "")
     user = (
         f"Original question:\n{question.strip()}\n\n"
-        f"Target Bloom level:\n{target_level}"
+        f"Target Bloom level:\n{target_level}\n\n"
+        f"Target-level guidance:\n{guidance}"
     )
     messages = [
         {"role": "system", "content": BLOOM_SYSTEM},

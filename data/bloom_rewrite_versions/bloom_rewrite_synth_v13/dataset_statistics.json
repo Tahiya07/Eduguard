@@ -1,0 +1,177 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v13",
+  "policy_version": "bloom_target_policy_v13_source_form_strict",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 759,
+  "rejected_source_count": 1571,
+  "rejected_sources_by_reason": {
+    "multiple_actions": 116,
+    "unrecognized": 599,
+    "thin_content": 506,
+    "multiple_sentences": 56,
+    "placeholder": 28,
+    "length": 68,
+    "missing_context": 11,
+    "cognitive_residue": 186,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 523,
+    "validation": 107,
+    "test": 129
+  },
+  "counts": {
+    "train": {
+      "total": 706,
+      "by_target": {
+        "Remember": 124,
+        "Understand": 286,
+        "Apply": 96,
+        "Analyze": 64,
+        "Evaluate": 89,
+        "Create": 47
+      },
+      "cross_level_rows": 183,
+      "identity_rows": 523
+    },
+    "validation": {
+      "total": 150,
+      "by_target": {
+        "Remember": 22,
+        "Understand": 69,
+        "Apply": 13,
+        "Analyze": 15,
+        "Evaluate": 21,
+        "Create": 10
+      },
+      "cross_level_rows": 43,
+      "identity_rows": 107
+    },
+    "test": {
+      "total": 172,
+      "by_target": {
+        "Remember": 30,
+        "Understand": 76,
+        "Apply": 19,
+        "Analyze": 10,
+        "Evaluate": 27,
+        "Create": 10
+      },
+      "cross_level_rows": 43,
+      "identity_rows": 129
+    }
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "total": 124,
+        "cross_level": 54,
+        "identity": 70
+      },
+      "Understand": {
+        "total": 286,
+        "cross_level": 32,
+        "identity": 254
+      },
+      "Apply": {
+        "total": 96,
+        "cross_level": 32,
+        "identity": 64
+      },
+      "Analyze": {
+        "total": 64,
+        "cross_level": 6,
+        "identity": 58
+      },
+      "Evaluate": {
+        "total": 89,
+        "cross_level": 49,
+        "identity": 40
+      },
+      "Create": {
+        "total": 47,
+        "cross_level": 10,
+        "identity": 37
+      }
+    },
+    "validation": {
+      "Remember": {
+        "total": 22,
+        "cross_level": 10,
+        "identity": 12
+      },
+      "Understand": {
+        "total": 69,
+        "cross_level": 9,
+        "identity": 60
+      },
+      "Apply": {
+        "total": 13,
+        "cross_level": 5,
+        "identity": 8
+      },
+      "Analyze": {
+        "total": 15,
+        "cross_level": 3,
+        "identity": 12
+      },
+      "Evaluate": {
+        "total": 21,
+        "cross_level": 12,
+        "identity": 9
+      },
+      "Create": {
+        "total": 10,
+        "cross_level": 4,
+        "identity": 6
+      }
+    },
+    "test": {
+      "Remember": {
+        "total": 30,
+        "cross_level": 11,
+        "identity": 19
+      },
+      "Understand": {
+        "total": 76,
+        "cross_level": 10,
+        "identity": 66
+      },
+      "Apply": {
+        "total": 19,
+        "cross_level": 7,
+        "identity": 12
+      },
+      "Analyze": {
+        "total": 10,
+        "cross_level": 0,
+        "identity": 10
+      },
+      "Evaluate": {
+        "total": 27,
+        "cross_level": 12,
+        "identity": 15
+      },
+      "Create": {
+        "total": 10,
+        "cross_level": 3,
+        "identity": 7
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Cross-level rows use a minimal task-frame transformation only when the source form supports the target.",
+    "Unsupported transformations are excluded rather than invented.",
+    "Same-level source questions are retained as identity supervision."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v14",
+  "policy_version": "bloom_target_policy_v14_strict_source_supported",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "counts": {
+    "train": 755,
+    "validation": 162,
+    "test": 166
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  }
+}

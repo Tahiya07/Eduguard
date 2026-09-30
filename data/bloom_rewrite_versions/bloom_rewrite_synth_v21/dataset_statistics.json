@@ -1,0 +1,74 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v21",
+  "policy_version": "bloom_target_policy_v21_controlled",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 958,
+  "rejected_source_count": 1372,
+  "rejected_cross_level_rows": 3,
+  "rejected_sources_by_reason": {
+    "multiple_actions": 134,
+    "multiple_sentences": 419,
+    "topic_parse": 486,
+    "thin_topic": 169,
+    "length": 91,
+    "placeholder": 61,
+    "missing_context": 11,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 671,
+    "validation": 139,
+    "test": 148
+  },
+  "counts": {
+    "train": {
+      "total": 4023,
+      "by_target": {
+        "Remember": 671,
+        "Understand": 671,
+        "Apply": 670,
+        "Analyze": 670,
+        "Evaluate": 670,
+        "Create": 671
+      }
+    },
+    "validation": {
+      "total": 834,
+      "by_target": {
+        "Remember": 139,
+        "Understand": 139,
+        "Apply": 139,
+        "Analyze": 139,
+        "Evaluate": 139,
+        "Create": 139
+      }
+    },
+    "test": {
+      "total": 888,
+      "by_target": {
+        "Remember": 148,
+        "Understand": 148,
+        "Apply": 148,
+        "Analyze": 148,
+        "Evaluate": 148,
+        "Create": 148
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic controlled supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "Each clean source question is assigned to exactly one split.",
+    "Each retained source receives one rewrite for each of the six target Bloom levels.",
+    "Cross-level rewrites add only generic cognitive-task wording, not new subject-matter facts.",
+    "Source numeric and technical anchors are required to be preserved.",
+    "No LLM generation or LLM judging is used."
+  ]
+}

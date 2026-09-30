@@ -1,0 +1,117 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v19",
+  "policy_version": "bloom_target_policy_v19_clean_single_task_safe_patterns",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 689,
+  "rejected_source_count": 1641,
+  "rejected_sources_by_reason": {
+    "instruction_residue": 332,
+    "topic_parse": 307,
+    "thin_content": 484,
+    "multiple_actions": 183,
+    "multiple_sentences": 253,
+    "placeholder": 32,
+    "length": 38,
+    "missing_context": 11,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 484,
+    "validation": 97,
+    "test": 108
+  },
+  "counts": {
+    "train": {
+      "total": 774,
+      "by_target": {
+        "Remember": 245,
+        "Understand": 290,
+        "Apply": 53,
+        "Analyze": 76,
+        "Evaluate": 32,
+        "Create": 78
+      },
+      "cross_level_rows": 290,
+      "identity_rows": 484,
+      "by_source_target": {
+        "Remember->Remember": 86,
+        "Understand->Remember": 159,
+        "Understand->Understand": 207,
+        "Remember->Understand": 83,
+        "Apply->Apply": 53,
+        "Analyze->Analyze": 45,
+        "Understand->Analyze": 31,
+        "Evaluate->Evaluate": 15,
+        "Understand->Evaluate": 17,
+        "Create->Create": 78
+      }
+    },
+    "validation": {
+      "total": 155,
+      "by_target": {
+        "Remember": 47,
+        "Understand": 60,
+        "Apply": 7,
+        "Analyze": 17,
+        "Evaluate": 7,
+        "Create": 17
+      },
+      "cross_level_rows": 58,
+      "identity_rows": 97,
+      "by_source_target": {
+        "Remember->Remember": 17,
+        "Understand->Remember": 30,
+        "Understand->Understand": 43,
+        "Remember->Understand": 17,
+        "Apply->Apply": 7,
+        "Analyze->Analyze": 10,
+        "Understand->Analyze": 7,
+        "Evaluate->Evaluate": 3,
+        "Understand->Evaluate": 4,
+        "Create->Create": 17
+      }
+    },
+    "test": {
+      "total": 183,
+      "by_target": {
+        "Remember": 59,
+        "Understand": 77,
+        "Apply": 4,
+        "Analyze": 22,
+        "Evaluate": 10,
+        "Create": 11
+      },
+      "cross_level_rows": 75,
+      "identity_rows": 108,
+      "by_source_target": {
+        "Remember->Remember": 22,
+        "Understand->Remember": 37,
+        "Understand->Understand": 56,
+        "Remember->Understand": 21,
+        "Apply->Apply": 4,
+        "Analyze->Analyze": 8,
+        "Understand->Analyze": 14,
+        "Evaluate->Evaluate": 7,
+        "Understand->Evaluate": 3,
+        "Create->Create": 11
+      }
+    }
+  },
+  "identity_cap": 220,
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "Source task form is detected from wording, independently of the CSV label.",
+    "Clean same-task source questions are retained unchanged.",
+    "Cross-level transformations are limited to explicit safe patterns.",
+    "Unsupported transformations are excluded rather than invented.",
+    "No LLM generation or LLM judging is used."
+  ]
+}

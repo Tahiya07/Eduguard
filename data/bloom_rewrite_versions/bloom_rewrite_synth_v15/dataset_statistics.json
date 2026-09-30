@@ -1,0 +1,175 @@
+{
+  "dataset_version": "bloom_rewrite_synth_v15",
+  "policy_version": "bloom_target_policy_v15_task_form_guarded",
+  "seed": 42,
+  "source_figshare": "data/figshare_bloom_v1.csv",
+  "source_figshare_sha256": "0073b74a15341e68abf0153f48958c0249618cafac0541b3ec774da14c264826",
+  "eligible_source_count": 1062,
+  "rejected_source_count": 1268,
+  "rejected_sources_by_reason": {
+    "unparseable_or_multiple_action": 699,
+    "multiple_sentences": 461,
+    "placeholder": 28,
+    "length": 68,
+    "missing_context": 11,
+    "multiple_questions": 1
+  },
+  "source_split_sizes": {
+    "train": 742,
+    "validation": 152,
+    "test": 168
+  },
+  "counts": {
+    "train": {
+      "total": 1000,
+      "by_target": {
+        "Remember": 215,
+        "Understand": 406,
+        "Apply": 83,
+        "Analyze": 85,
+        "Evaluate": 92,
+        "Create": 119
+      },
+      "cross_level_rows": 258,
+      "identity_rows": 742
+    },
+    "validation": {
+      "total": 209,
+      "by_target": {
+        "Remember": 46,
+        "Understand": 84,
+        "Apply": 10,
+        "Analyze": 21,
+        "Evaluate": 16,
+        "Create": 32
+      },
+      "cross_level_rows": 57,
+      "identity_rows": 152
+    },
+    "test": {
+      "total": 220,
+      "by_target": {
+        "Remember": 49,
+        "Understand": 91,
+        "Apply": 9,
+        "Analyze": 15,
+        "Evaluate": 32,
+        "Create": 24
+      },
+      "cross_level_rows": 52,
+      "identity_rows": 168
+    }
+  },
+  "candidate_statistics": {
+    "train": {
+      "Remember": {
+        "total": 215,
+        "cross_level": 78,
+        "identity": 137
+      },
+      "Understand": {
+        "total": 406,
+        "cross_level": 90,
+        "identity": 316
+      },
+      "Apply": {
+        "total": 83,
+        "cross_level": 6,
+        "identity": 77
+      },
+      "Analyze": {
+        "total": 85,
+        "cross_level": 17,
+        "identity": 68
+      },
+      "Evaluate": {
+        "total": 92,
+        "cross_level": 56,
+        "identity": 36
+      },
+      "Create": {
+        "total": 119,
+        "cross_level": 11,
+        "identity": 108
+      }
+    },
+    "validation": {
+      "Remember": {
+        "total": 46,
+        "cross_level": 15,
+        "identity": 31
+      },
+      "Understand": {
+        "total": 84,
+        "cross_level": 24,
+        "identity": 60
+      },
+      "Apply": {
+        "total": 10,
+        "cross_level": 1,
+        "identity": 9
+      },
+      "Analyze": {
+        "total": 21,
+        "cross_level": 2,
+        "identity": 19
+      },
+      "Evaluate": {
+        "total": 16,
+        "cross_level": 11,
+        "identity": 5
+      },
+      "Create": {
+        "total": 32,
+        "cross_level": 4,
+        "identity": 28
+      }
+    },
+    "test": {
+      "Remember": {
+        "total": 49,
+        "cross_level": 11,
+        "identity": 38
+      },
+      "Understand": {
+        "total": 91,
+        "cross_level": 17,
+        "identity": 74
+      },
+      "Apply": {
+        "total": 9,
+        "cross_level": 1,
+        "identity": 8
+      },
+      "Analyze": {
+        "total": 15,
+        "cross_level": 3,
+        "identity": 12
+      },
+      "Evaluate": {
+        "total": 32,
+        "cross_level": 16,
+        "identity": 16
+      },
+      "Create": {
+        "total": 24,
+        "cross_level": 4,
+        "identity": 20
+      }
+    }
+  },
+  "source_leakage_check": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "notes": [
+    "Synthetic supervision; not human gold.",
+    "Built directly from data/figshare_bloom_v1.csv.",
+    "No LLM generation or LLM judging is used.",
+    "Actual source task form is detected independently of the original dataset label.",
+    "If the source already performs the requested target operation, the original question is retained unchanged.",
+    "Cross-level rewrites use only narrow source-supported transformations.",
+    "Unsupported transformations are excluded rather than invented."
+  ]
+}
