@@ -1,15 +1,17 @@
 {
   "status": "passed",
-  "dataset_version": "figshare_target_rewrite_final_v3",
+  "dataset_version": "figshare_target_rewrite_final_v3_corrected",
   "checks": {
     "train_rows": 3768,
     "validation_rows": 756,
     "test_rows": 834,
+    "source_groups_total": 893,
     "target_balance": true,
     "one_record_per_source_target": true,
     "duplicate_source_target_rewrites": 0,
     "empty_target_rewrites": 0,
     "legacy_generic_wrapper_hits": 0,
+    "wrong_domain_terms": 0,
     "train_validation_source_overlap": 0,
     "train_test_source_overlap": 0,
     "validation_test_source_overlap": 0
@@ -17,10 +19,11 @@
   "identity_rows": 893,
   "synthetic_rows": 4465,
   "notes": [
-    "Rebuilt from the original 893 usable source questions.",
-    "Train has 628 examples for each target Bloom level.",
-    "Validation has 126 examples for each target Bloom level.",
-    "Test has 139 examples for each target Bloom level.",
-    "JSONL files are synchronized from the final JSON contents."
+    "Rebuilt from the locked 893 usable source questions already assigned to train, validation, and test.",
+    "Each source group contributes exactly one record for each of the six target Bloom levels.",
+    "Same-level targets preserve the original source question.",
+    "Cross-level targets use source-anchored, family-specific cognitive transformations.",
+    "Non-programming subjects are not assigned programming-specific transformation language.",
+    "No missing quantities, entities, examples, or scenario facts were invented."
   ]
 }

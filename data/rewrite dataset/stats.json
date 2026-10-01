@@ -59,7 +59,7 @@
     "validation": 630,
     "test": 695
   },
-  "dataset_version": "figshare_target_rewrite_final_v3",
-  "policy_version": "figshare_target_rewrite_policy_v3",
+  "dataset_version": "figshare_target_rewrite_final_v3_corrected",
+  "policy_version": "figshare_target_rewrite_policy_v3_corrected",
   "canonical_format": "compact JSON/JSONL"
 }

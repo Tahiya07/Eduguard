@@ -1,6 +1,6 @@
 {
   "name": "EduGuard Figshare Target-Bloom Rewrite Dataset",
-  "version": "v3-final",
+  "version": "v3-final-corrected",
   "source": "data/figshare_bloom_v1.csv",
   "total_rows": 5358,
   "source_questions": {
@@ -59,7 +59,8 @@
       "preserve topic and technical concepts",
       "preserve named entities, quantities, and stated constraints",
       "do not invent missing content",
-      "avoid generic wrapper templates"
+      "avoid legacy generic wrapper templates",
+      "keep train/validation/test source groups disjoint"
     ]
   },
   "files": [
