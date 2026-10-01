@@ -2,6 +2,7 @@
   "dataset_version": "figshare_target_rewrite_balanced_v3",
   "rows": 3768,
   "source_groups": 628,
+  "rows_per_source_group": 6,
   "target_counts": {
     "Remember": 628,
     "Understand": 628,
@@ -10,11 +11,10 @@
     "Evaluate": 628,
     "Create": 628
   },
-  "principles": [
-    "balanced at source-group level",
-    "source-anchored cognitive transformations",
-    "no generic higher-order placeholder rows",
-    "no invented numerical/entity/output details",
-    "identity retained only when target equals source Bloom level"
-  ]
+  "balance_ok": true,
+  "identity_rows": 628,
+  "synthetic_rows": 3140,
+  "source_split_preserved": true,
+  "source_anchored": true,
+  "generic_higher_order_rows_restored": false
 }
