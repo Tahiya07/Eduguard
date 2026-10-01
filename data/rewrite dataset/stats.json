@@ -58,5 +58,21 @@
   "row_rejections": 0,
   "no_source_group_leakage": true,
   "source_splits_from_uploaded_package": true,
-  "identity_rows": 893
+  "identity_rows": 893,
+  "cleaning_v2": {
+    "original_train_rows": 3768,
+    "cleaned_train_rows": 1521,
+    "removed_generic_higher_order_rows": 2247,
+    "retained_by_target": {
+      "Remember": 628,
+      "Understand": 628,
+      "Apply": 95,
+      "Analyze": 73,
+      "Evaluate": 43,
+      "Create": 54
+    },
+    "source_groups_retained": 628,
+    "source_groups_flagged_missing_context": 2,
+    "malformed_rows_fixed": 6
+  }
 }
