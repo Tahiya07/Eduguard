@@ -4,7 +4,7 @@
 The baseline multitask corpus remains untouched. The exact locked TEST split is still frozen
 (data/multitask_bloom_rewrite/test.jsonl) for fair 1.5B comparison.
 
-Train Bloom rows come from bloom_rewrite_synth_v3 (leakage-checked).
+Train/validation Bloom rows come from the canonical v3-final-corrected rewrite corpus (leakage-checked).
 QA / summarization rows are reused from the locked multitask corpus.
 """
 from __future__ import annotations
@@ -225,7 +225,7 @@ def main() -> None:
             TASK_QA: args.mix_qa,
             TASK_SUMMARIZATION: args.mix_sum,
         },
-        "bloom_dataset_version": "bloom_rewrite_synth_v3",
+        "bloom_dataset_version": "figshare_target_rewrite_final_v3_corrected",
         "locked_baseline_multitask_dir": str(locked.relative_to(REPO_ROOT)).replace("\\", "/"),
         "locked_test_sha256": locked_test_hash,
         "test_frozen": True,

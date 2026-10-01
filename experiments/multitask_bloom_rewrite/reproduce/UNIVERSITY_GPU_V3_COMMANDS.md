@@ -15,9 +15,8 @@ cd D:\Eduguard
 # 0) Sanity
 .\.venv\Scripts\python.exe -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
 
-# STEP 1 — Audit the canonical corrected Bloom rewrite corpus
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/audit_datasets.py `
-  --data-dir "data/rewrite dataset"
+# STEP 1 — Verify the canonical corrected Bloom rewrite corpus
+.\.venv\Scripts\python.exe -c "import json; from pathlib import Path; p=Path('data/rewrite dataset'); m=json.loads((p/'dataset_manifest.json').read_text(encoding='utf-8')); assert m['version']=='v3-final-corrected'; assert m['splits']=={'train':3768,'validation':756,'test':834}; print('Bloom rewrite dataset:',m['version']); print('Splits:',m['splits'])"
 
 # STEP 2 — Validate/hash/report final corrected dataset vs v2
 .\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/compare_bloom_diversity_v2_v3.py `
