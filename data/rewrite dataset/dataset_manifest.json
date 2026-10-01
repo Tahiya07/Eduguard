@@ -59,8 +59,17 @@
   "no_source_group_leakage": true,
   "source_splits_from_uploaded_package": true,
   "identity_rows": 893,
-  "dataset_version": "figshare_target_rewrite_final_v2",
-  "policy_version": "figshare_bloom_target_policy_final_v2",
+  "dataset_version": "figshare_target_rewrite_balanced_v5",
+  "policy_version": "figshare_bloom_target_policy_v5",
+  "cleaning": {
+    "previous_train_rows": 3768,
+    "previous_cleaned_train_rows": 1521,
+    "repaired_train_rows": 3768,
+    "repair_scope": "All six target levels rebuilt from the original 628 train source groups; validation and test rebuilt from their locked source groups.",
+    "generic_higher_order_wrappers_replaced": true,
+    "source_specific_transformations": true,
+    "source_group_leakage": false
+  },
   "target_levels": [
     "Remember",
     "Understand",
@@ -69,56 +78,25 @@
     "Evaluate",
     "Create"
   ],
-  "train_compatible_fields": [
-    "prompt_text",
-    "sft_text"
-  ],
-  "notes": [
-    "Main source is data/figshare_bloom_v1.csv.",
-    "One source contributes one record for each of the six revised Bloom target levels.",
-    "Source-level split is preserved from the supplied source package; no source_id appears in more than one split.",
-    "Unusable/truncated Figshare source questions are excluded rather than repaired by inventing missing content.",
-    "Same-level examples retain the original source question; cross-level examples are controlled synthetic rewrites."
-  ],
   "canonical_files": {
     "train": {
-      "jsonl": "train.jsonl",
       "json": "train.json",
-      "jsonl_sha256": "b5968a3c71bfcac5f653b9aebe6e0df7df688a13e25be1ff417ce362f89307eb",
-      "cleaned_v2": {
-        "json_commit": "f64c86bf51931055898bf8b9442c1d1da5bb198d",
-        "jsonl_commit": "4898797c9efa324f7caec12c00e2f418fdca923e"
-      }
+      "jsonl": "train.jsonl"
     },
     "validation": {
-      "jsonl": "validation.jsonl",
       "json": "validation.json",
-      "jsonl_sha256": "ca7d13697c1c491c663d97098946b5ad8f185c1f3c88f6e0ee2ff7c78a5f6ada"
+      "jsonl": "validation.jsonl"
     },
     "test": {
-      "jsonl": "test.jsonl",
       "json": "test.json",
-      "jsonl_sha256": "76a15a37b455a6d09f1148c3f145a73a3ee1c2a58162da6bb6d88c98b2d687bb"
+      "jsonl": "test.jsonl"
     }
   },
-  "cleaning_v2": {
-    "applied_to": "train",
-    "original_train_rows": 3768,
-    "cleaned_train_rows": 1521,
-    "removed_generic_higher_order_rows": 2247,
-    "retained_by_target": {
-      "Remember": 628,
-      "Understand": 628,
-      "Apply": 95,
-      "Analyze": 73,
-      "Evaluate": 43,
-      "Create": 54
-    },
-    "source_groups_retained": 628,
-    "source_groups_flagged_missing_context": 1,
-    "malformed_rows_fixed": 18,
-    "split_policy": "Existing source/group-level split preserved",
-    "training_policy": "Quality-first filtering; generic higher-order transformations removed rather than replaced with invented subject matter.",
-    "malformed_groups_fixed": 6
-  }
+  "notes": [
+    "Each source group contributes exactly one row for each of the six revised Bloom target levels.",
+    "Train/validation/test source groups remain disjoint.",
+    "Same-level rows retain the original source question.",
+    "Cross-level rows are source-anchored transformations; they do not invent missing quantities, entities, or context.",
+    "Validation and test were rebuilt with the same transformation policy as train."
+  ]
 }
