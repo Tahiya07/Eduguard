@@ -18,8 +18,10 @@
     "Create": 574
   },
   "source_groups_retained": 628,
-  "source_groups_flagged_missing_context": 2,
-  "malformed_rows_fixed": 6,
+  "source_groups_flagged_missing_context": [
+    "1708078468"
+  ],
+  "malformed_rows_fixed": 18,
   "malformed_fix_scope": [
     "mismatched quotation marks in source questions",
     "stray space before question mark",
@@ -35,5 +37,7 @@
   ],
   "source_context_status": "Rows whose source still depends on absent material are flagged as missing_contextual_material rather than inventing the missing content.",
   "split_policy": "The existing source/group-level train/validation/test split was preserved; no source group was reassigned.",
-  "training_policy": "Quality-first v2: retain original identity and valid source-anchored examples; filter generic higher-order transformations instead of fabricating subject matter."
+  "training_policy": "Quality-first v2: retain original identity and valid source-anchored examples; filter generic higher-order transformations instead of fabricating subject matter.",
+  "source_groups_flagged_missing_context_count": 1,
+  "malformed_groups_fixed": 6
 }
