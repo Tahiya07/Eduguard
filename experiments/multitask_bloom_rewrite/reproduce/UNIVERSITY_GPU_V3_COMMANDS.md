@@ -15,25 +15,22 @@ cd D:\Eduguard
 # 0) Sanity
 .\.venv\Scripts\python.exe -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
 
-# STEP 1 — Generate bloom_rewrite_synth_v3
-.\.venv\Scripts\python.exe experiments/bloom_rewrite/scripts/prepare_bloom_rewrite_synth_v3.py `
-  --figshare data/figshare_bloom_v1.csv `
-  --output-dir data/bloom_rewrite_versions/bloom_rewrite_synth_v3 `
-  --seed 42 `
-  --freeze-test-from data/bloom_rewrite/test.jsonl
+# STEP 1 — Audit the canonical corrected Bloom rewrite corpus
+.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/audit_datasets.py `
+  --data-dir "data/rewrite dataset"
 
-# STEP 2 — Validate/hash/report v3 + diversity vs v2
+# STEP 2 — Validate/hash/report final corrected dataset vs v2
 .\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/compare_bloom_diversity_v2_v3.py `
   --v2 data/bloom_rewrite/train.jsonl `
-  --v3 data/bloom_rewrite_versions/bloom_rewrite_synth_v3/train.jsonl `
+  --v3 "data/rewrite dataset/train.jsonl" `
   --output experiments/multitask_bloom_rewrite/reports/diversity_v2_vs_v3.json
 
 .\.venv\Scripts\python.exe -m unittest experiments.multitask_bloom_rewrite.tests.test_question_answer_detector -v
 
-# STEP 3 — Build multitask Mix-A v3 (FREEZES exact baseline test.jsonl)
+# STEP 3 — Build multitask Mix-A v3 from the corrected Bloom corpus (FREEZES exact baseline test.jsonl)
 .\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_v3.py `
   --locked-multitask-dir data/multitask_bloom_rewrite `
-  --bloom-v3-dir data/bloom_rewrite_versions/bloom_rewrite_synth_v3 `
+  --bloom-v3-dir "data/rewrite dataset" `
   --output-dir data/multitask_bloom_rewrite_v3 `
   --seed 42
 

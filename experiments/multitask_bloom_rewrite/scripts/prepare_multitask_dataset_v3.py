@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Build multitask Mix-A corpus v3 WITHOUT overwriting data/multitask_bloom_rewrite.
+"""Build multitask Mix-A corpus v3 from the canonical corrected Bloom rewrite corpus.
 
-Critical: FREEZES the exact locked TEST split from the current baseline
+The baseline multitask corpus remains untouched. The exact locked TEST split is still frozen
 (data/multitask_bloom_rewrite/test.jsonl) for fair 1.5B comparison.
 
 Train Bloom rows come from bloom_rewrite_synth_v3 (leakage-checked).
@@ -37,7 +37,7 @@ from paths import (  # noqa: E402
 from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text  # noqa: E402
 
 LOCKED_MULTITASK = REPO_ROOT / "data" / "multitask_bloom_rewrite"
-V3_BLOOM_DIR = REPO_ROOT / "data" / "bloom_rewrite_versions" / "bloom_rewrite_synth_v3"
+CANONICAL_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset"
 OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_v3"
 
 
@@ -90,7 +90,7 @@ def enrich_bloom(row: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Prepare multitask Mix-A corpus v3 (frozen test)")
     parser.add_argument("--locked-multitask-dir", default=str(LOCKED_MULTITASK))
-    parser.add_argument("--bloom-v3-dir", default=str(V3_BLOOM_DIR))
+    parser.add_argument("--bloom-v3-dir", default=str(CANONICAL_BLOOM_DIR))
     parser.add_argument("--output-dir", default=str(OUT_DIR))
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--mix-bloom", type=float, default=DEFAULT_TRAIN_MIX[TASK_BLOOM])
@@ -120,6 +120,13 @@ def main() -> None:
     train_bloom_keys = {bloom_key(r) for r in locked_train if r["task"] == TASK_BLOOM}
     val_bloom_keys = {bloom_key(r) for r in locked_val if r["task"] == TASK_BLOOM}
 
+    manifest_path = bloom_v3 / "dataset_manifest.json"
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if manifest.get("version") != "v3-final-corrected":
+            raise SystemExit(
+                f"Bloom rewrite dataset must be v3-final-corrected; found {manifest.get('version')!r}"
+            )
     v3_train = read_jsonl(bloom_v3 / "train.jsonl")
     v3_val = read_jsonl(bloom_v3 / "validation.jsonl")
     if not v3_train:
