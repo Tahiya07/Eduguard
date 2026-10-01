@@ -40,39 +40,8 @@ class FrameworkService:
         root = Path(__file__).resolve().parents[1]
         if settings.bloom_model_dir:
             path = Path(settings.bloom_model_dir)
-            preferred = path if path.is_absolute() else (root / path).resolve()
-        else:
-            preferred = (root / "models" / "qwen_bloom_fedprox_r20").resolve()
-            artifact = (
-                root
-                / "artifacts"
-                / "federated"
-                / "global"
-                / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
-            ).resolve()
-            if self._checkpoint_has_weights(preferred):
-                return preferred
-            if self._checkpoint_has_weights(artifact):
-                return artifact
-            return preferred
-        if settings.bloom_use_quantized:
-            return preferred
-        # Final deploy is FedProx r20 only. Do not silently fall back to the
-        # centralized merge — that is a different checkpoint.
-        if self._checkpoint_has_weights(preferred):
-            return preferred
-        packaged = (root / "models" / "qwen_bloom_fedprox_r20").resolve()
-        artifact = (
-            root
-            / "artifacts"
-            / "federated"
-            / "global"
-            / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
-        ).resolve()
-        for candidate in (packaged, artifact):
-            if candidate != preferred and self._checkpoint_has_weights(candidate):
-                return candidate
-        return preferred
+            return path if path.is_absolute() else (root / path).resolve()
+        return (root / "models" / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged").resolve()
 
     @staticmethod
     def _checkpoint_has_weights(path: Path) -> bool:
@@ -92,10 +61,9 @@ class FrameworkService:
                 ok, path = self.bloom_ready()
                 if not ok:
                     raise RuntimeError(
-                        "Final FedProx r20 Bloom checkpoint is not ready. "
-                        "Set BLOOM_MODEL_DIR to the merged FedProx folder containing "
-                        "model.safetensors (artifacts/.../qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged "
-                        "or models/qwen_bloom_fedprox_r20)."
+                        "Teacher Bloom classifier is not ready. Set BLOOM_MODEL_DIR to "
+                        "models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged "
+                        "containing config.json and model.safetensors."
                     )
                 self._bloom = QwenBloomPredictor(model_dir=path, model_size=settings.bloom_model_size, quantized=settings.bloom_use_quantized, prefer_quantized=settings.bloom_use_quantized)
             return self._bloom
@@ -148,7 +116,8 @@ class FrameworkService:
                 if not model_path.is_file():
                     raise RuntimeError(
                         "The local Qwen GGUF generator is not ready. Set GENERATOR_MODEL_PATH in .env "
-                        "to an existing GGUF file, for example models/qwen.gguf."
+                        "to the deployed multitask GGUF, for example "
+                        "models/qwen15b_multitask_v3_q4_k_m.gguf."
                     )
                 self._generator = RAGGenerator(
                     retriever=retriever,
@@ -202,7 +171,14 @@ class FrameworkService:
         if role == "student":
             privacy = assess_student_query_against_protected_corpus(question, protected)
             if not privacy.allowed: return {"answer": STUDENT_REFUSAL, "refused": True, "privacy_status": "blocked", "sources": []}
-        bloom = self.classify(question)
+        # The Bloom model is deliberately teacher-only. Student RAG remains
+        # fully local but uses the fixed Understand instruction rather than
+        # loading or invoking the teacher classifier.
+        bloom = (
+            self.classify(question)
+            if role == "teacher"
+            else {"effective_level": "Understand"}
+        )
         pool = retriever.retrieve(question, top_k=max(8, top_k), candidate_pool=max(8, top_k), rank_by="relevance" if role == "student" else "privacy")
         chunks, _ = _apply_retrieval_governor(pool, "summary" if summary else "qa", question, top_k, retriever)
         instruction = policy_instruction(role, scope) + "\n" + compose_instruction(bloom["effective_level"], task="summarization" if summary else "question answering")
@@ -219,7 +195,10 @@ class FrameworkService:
         )
         screened = screen_generation_output(role, question, result.answer, protected)
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
-        return {"answer": result.answer, "refused": False, "privacy_status": "safe", "bloom": bloom, "sources": self._sources(result.chunks), "metadata": {"elapsed_s": result.metadata.get("elapsed_s"), "context_chunks": len(result.chunks)}}
+        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": {"elapsed_s": result.metadata.get("elapsed_s"), "context_chunks": len(result.chunks)}}
+        if role == "teacher":
+            response["bloom"] = bloom
+        return response
 
     def moderate_exam_question(self, sid: str, question: str) -> dict[str, Any]:
         """Teacher-only Bloom moderation using one shared local GGUF instance."""
@@ -335,10 +314,7 @@ class FrameworkService:
         return response
 
     def warmup(self) -> dict[str, Any]:
-        """Warm only the two inference models: 1.5B GGUF + 0.5B Bloom.
-
-        BGE stays lazy until a corpus is indexed or searched.
-        """
+        """Warm the shared GGUF without loading teacher-only Bloom or BGE."""
         report: dict[str, Any] = {"generator": False, "bloom": False, "bge_loaded": False}
         try:
             # Empty public retriever does not load BGE until .model is touched.
@@ -354,13 +330,6 @@ class FrameworkService:
             report["generator_path"] = Path(str(generator.model_path)).name
         except Exception as exc:
             report["generator_error"] = str(exc)
-        try:
-            predictor = self.bloom()
-            predictor.predict("Define photosynthesis.")
-            report["bloom"] = True
-            report["bloom_checkpoint"] = Path(predictor.model_dir).name
-        except Exception as exc:
-            report["bloom_error"] = str(exc)
         # Confirm retrieval encoder was not pulled in during warmup.
         try:
             ws = self._workspaces.get("_warmup")
@@ -383,6 +352,7 @@ class FrameworkService:
         return {
             "bloom": {
                 "selected_model": profile.display_name,
+                "teacher_only": True,
                 "checkpoint_configured": bool(ready),
                 "checkpoint": Path(path).name,
                 "quantized": settings.bloom_use_quantized,
@@ -392,6 +362,7 @@ class FrameworkService:
                 "configured": bool(gguf and gguf.is_file()),
                 "loaded": self._generator is not None,
                 "local_only": True,
+                "roles": ["student_rag", "teacher_qa", "teacher_summarization", "teacher_rewrite"],
                 "threads": settings.generator_threads,
                 "context_tokens": settings.generator_context_tokens,
                 "rewrite_tokens": settings.generator_rewrite_tokens,

@@ -2,45 +2,10 @@
 
 Main source: `data/figshare_bloom_v1.csv`.
 
-Each usable Figshare source question contributes six target-level records: Remember, Understand, Apply, Analyze, Evaluate, and Create. Same-level records retain the source question; cross-level records use controlled source-anchored cognitive transformations.
+This dataset is built at the **source-question level**. Each usable Figshare question contributes six records, one for each revised Bloom target level: Remember, Understand, Apply, Analyze, Evaluate, and Create. The original Figshare question and original Bloom label are retained.
 
-## Dataset
+Cross-level records use source-anchored cognitive transformations. The construction is deliberately conservative: topic/technical content is retained while the student operation is changed. Same-level records preserve the original question rather than fabricating a needless paraphrase.
 
-- 893 usable source questions
-- 5,358 total rewrite records
-- Train: 3,768
-- Validation: 756
-- Test: 834
-- Six target levels are balanced within every split.
-- No source group is shared across splits.
-- Four incomplete/placeholder FigShare rows are excluded and listed in `rejected_sources.json`.
+The JSONL files include `prompt_text` and `sft_text`, so they are compatible with the existing assistant-only-loss multitask SFT format.
 
-The JSONL records contain `prompt_text` and `sft_text` for the existing assistant-only-loss SFT pipeline.
-
-## GitHub shard layout
-
-The JSONL files are stored as ordered shards:
-
-```
-train/train_0001.jsonl ... train/train_0034.jsonl
-validation/validation_0001.jsonl ... validation/validation_0004.jsonl
-test/test_0001.jsonl ... test/test_0004.jsonl
-```
-
-The shards are contiguous pieces of the canonical files and must be concatenated in lexical order.
-
-After cloning, run:
-
-```bash
-python "data/rewrite dataset/join_dataset.py"
-```
-
-or in PowerShell:
-
-```powershell
-& ".\data\rewrite dataset\JOIN_DATASETS.ps1"
-```
-
-This creates `train.jsonl`, `validation.jsonl`, and `test.jsonl` in this folder.
-
-See `dataset_manifest.json` for exact counts and SHA-256 hashes.
+The included `rejected_sources.json` records source questions that were incomplete or contained unresolved placeholders; these are not silently repaired with invented content.

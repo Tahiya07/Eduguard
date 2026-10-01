@@ -12,7 +12,7 @@ $env:TRANSFORMERS_OFFLINE = "1"
 $env:HF_DATASETS_OFFLINE = "1"
 $env:OFFLINE_MODE = "true"
 
-$env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen.gguf"
+$env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen15b_multitask_v3_q4_k_m.gguf"
 if (-not $env:GENERATOR_THREADS) { $env:GENERATOR_THREADS = "8" }
 if (-not $env:GENERATOR_CONTEXT_TOKENS) { $env:GENERATOR_CONTEXT_TOKENS = "512" }
 if (-not $env:GENERATOR_ANSWER_TOKENS) { $env:GENERATOR_ANSWER_TOKENS = "64" }
@@ -21,13 +21,7 @@ if (-not $env:GENERATOR_MODERATION_TOKENS) { $env:GENERATOR_MODERATION_TOKENS = 
 if (-not $env:GENERATOR_REWRITE_TOKENS) { $env:GENERATOR_REWRITE_TOKENS = "64" }
 
 # Final Bloom classifier: FedProx IID r20 best (Qwen2.5-0.5B).
-$packagedBloom = Join-Path $root "models\qwen_bloom_fedprox_r20"
-$artifactBloom = Join-Path $root "artifacts\federated\global\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
-if (Test-Path (Join-Path $packagedBloom "model.safetensors")) {
-    $env:BLOOM_MODEL_DIR = $packagedBloom
-} else {
-    $env:BLOOM_MODEL_DIR = $artifactBloom
-}
+$env:BLOOM_MODEL_DIR = Join-Path $root "models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
 $env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
 
 $env:CORS_ORIGINS = "http://127.0.0.1:3000,http://localhost:3000"
@@ -37,7 +31,7 @@ if (-not (Test-Path $python)) {
     throw "Python runtime missing: $python"
 }
 
-if (-not (Test-Path (Join-Path $root "models\qwen.gguf"))) {
+if (-not (Test-Path $env:GENERATOR_MODEL_PATH)) {
     throw "Qwen model missing."
 }
 

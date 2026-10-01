@@ -191,10 +191,7 @@ def main():
     # TOKENIZER
     # ========================================================
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        args.model_name,
-        trust_remote_code=True
-    )
+    tokenizer = AutoTokenizer.from_pretrained(`n    args.model_name,`n    trust_remote_code=True,`n    use_fast=False`n)
 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token

@@ -38,9 +38,9 @@ echo.
 echo Step 4: Refreshing portable .env...
 (
     echo BLOOM_MODEL_SIZE=0.5b
-    echo BLOOM_MODEL_DIR=models/qwen_bloom_fedprox_r20
+    echo BLOOM_MODEL_DIR=models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged
     echo BLOOM_USE_QUANTIZED=false
-    echo GENERATOR_MODEL_PATH=models/qwen.gguf
+    echo GENERATOR_MODEL_PATH=models/qwen15b_multitask_v3_q4_k_m.gguf
     echo RETRIEVAL_ENCODER=bge-small
     echo OFFLINE_MODE=true
     echo GENERATOR_THREADS=8

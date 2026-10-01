@@ -47,27 +47,10 @@ frontend_process = None
 backend_process = None
 
 
-def _has_bloom_weights(path: Path) -> bool:
-    return (path / "config.json").is_file() and (
-        (path / "model.safetensors").is_file() or (path / "pytorch_model.bin").is_file()
-    )
-
-
 def resolve_runtime_bloom_dir(root: Path) -> Path:
     """Final Bloom classifier: FedProx IID r20 best merged Qwen2.5-0.5B only."""
-    packaged = root / "models" / "qwen_bloom_fedprox_r20"
-    artifact = (
-        root
-        / "artifacts"
-        / "federated"
-        / "global"
-        / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
-    )
-    for candidate in (packaged, artifact):
-        if _has_bloom_weights(candidate):
-            return candidate
-    # Prefer the portable final path so missing-weight errors are explicit.
-    return packaged if packaged.parent.is_dir() else artifact
+    configured = root / "models" / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
+    return configured
 
 
 def build_environment():
@@ -79,7 +62,7 @@ def build_environment():
     env["OFFLINE_MODE"] = "true"
 
     # Final generator: multitask v3 Q4_K_M GGUF
-    env["GENERATOR_MODEL_PATH"] = str(ROOT / "models" / "qwen.gguf")
+    env["GENERATOR_MODEL_PATH"] = str(ROOT / "models" / "qwen15b_multitask_v3_q4_k_m.gguf")
     env["GENERATOR_THREADS"] = env.get("GENERATOR_THREADS") or "8"
     env["GENERATOR_CONTEXT_TOKENS"] = env.get("GENERATOR_CONTEXT_TOKENS") or "512"
     env["GENERATOR_ANSWER_TOKENS"] = env.get("GENERATOR_ANSWER_TOKENS") or "64"
@@ -343,8 +326,6 @@ if __name__ == "__main__":
         input("\nPress Enter to exit...")
     finally:
         shutdown()
-
-
 
 
 

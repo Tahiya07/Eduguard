@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 """Bloom taxonomy inference for trained Qwen LoRA / merged / deploy checkpoints.
 
 Batch evaluation lives in ``evaluate_bloom.py`` (writes ``results/``).
@@ -64,33 +64,29 @@ DEFAULT_MODEL_DIR = DEFAULT_MERGED_DIR
 
 
 def _load_tokenizer(model_path: str, *, fallback_path: str | None = None):
-    kwargs = {"trust_remote_code": True}
+    kwargs = {
+        "trust_remote_code": True,
+        "use_fast": False,
+    }
     candidates = [model_path]
     if fallback_path and fallback_path != model_path:
         candidates.append(fallback_path)
 
     last_err: Exception | None = None
+
     for path in candidates:
         try:
-            try:
-                return AutoTokenizer.from_pretrained(path, fix_mistral_regex=True, **kwargs)
-            except TypeError:
-                return AutoTokenizer.from_pretrained(path, **kwargs)
-        except Exception as exc:  # noqa: BLE001 — fall back to base tokenizer if merge copy is corrupt
+            return AutoTokenizer.from_pretrained(path, **kwargs)
+        except Exception as exc:  # noqa: BLE001
             last_err = exc
             print(f"[warn] tokenizer load failed for {path}: {exc}")
-            # Use local vocab/merges when tokenizer.json is malformed. This
-            # avoids a remote fallback in offline Railway deployments.
-            try:
-                return AutoTokenizer.from_pretrained(path, use_fast=False, **kwargs)
-            except Exception as slow_exc:  # noqa: BLE001
-                last_err = slow_exc
-                print(f"[warn] slow tokenizer load failed for {path}: {slow_exc}")
-    raise RuntimeError(f"Could not load tokenizer from {candidates}") from last_err
 
+    raise RuntimeError(
+        f"Could not load tokenizer from {candidates}"
+    ) from last_err
 
 def build_prompt(question: str) -> str:
-    """Canonical Bloom classifier prompt — MUST match train_qwen_bloom exactly.
+    """Canonical Bloom classifier prompt â€” MUST match train_qwen_bloom exactly.
 
     Train/val metrics (~84%) were produced with this template. Using a shorter
     ``Answer:`` variant at inference collapses held-out accuracy (~49%).
@@ -362,3 +358,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

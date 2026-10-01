@@ -53,7 +53,7 @@ class StableTextEncoder:
 
     def __init__(
         self,
-        model_name: str = "BAAI/bge-small-en-v1.5",
+        model_name: str = "models/bge-small",
         device: str = "cpu",
         local_files_only: bool = True,
         n_features: int = 384,

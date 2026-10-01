@@ -12,8 +12,8 @@ from .service import service
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # Load GGUF (and Bloom when weights exist) in the background so the first
-    # teacher rewrite is not paying cold-start cost.
+    # The shared GGUF can warm in the background. Bloom remains lazy so it is
+    # loaded only by a teacher-side classification or rewrite request.
     threading.Thread(target=service.warmup, name="eduguard-warmup", daemon=True).start()
     yield
 
@@ -49,8 +49,10 @@ def index_text(body: IndexTextRequest, session: dict = Depends(current_session))
 async def upload(file: UploadFile = File(...), scope: str = Form("public"), content_type: str = Form("study_material"), session: dict = Depends(current_session)):
     payload = await file.read()
     return run(lambda: service.ingest_file(session["sid"], session["role"], payload, file.filename or "upload", scope, content_type))
+# Bloom inference is a teacher-side capability. Keep the legacy route but
+# protect it identically to the explicit teacher endpoint.
 @app.post("/bloom/classify")
-def classify(body: BloomRequest, session: dict = Depends(current_session)): return run(lambda: service.classify(body.question))
+def classify(body: BloomRequest, session: dict = Depends(require_teacher)): return run(lambda: service.classify(body.question))
 @app.post("/teacher/exam/classify")
 def classify_exam(body: BloomRequest, session: dict = Depends(require_teacher)): return run(lambda: service.classify(body.question))
 @app.post("/teacher/exam/moderate")

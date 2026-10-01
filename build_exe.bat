@@ -7,7 +7,7 @@ echo ========================================
 echo.
 echo FINAL deployed models only:
 echo   1^) FedProx IID r20 best Bloom classifier ^(Qwen2.5-0.5B^)
-echo   2^) Multitask v3 Q4_K_M generator GGUF ^(models\qwen.gguf^)
+echo   2^) Multitask v3 Q4_K_M generator GGUF ^(models\qwen15b_multitask_v3_q4_k_m.gguf^)
 echo   +) lean BGE-small ^(lazy retrieval encoder^)
 echo Centralized bloom merge / zips / onnx duplicates are NOT packaged.
 echo.
@@ -85,9 +85,9 @@ echo.
 echo Step 8: Writing portable runtime env...
 (
     echo BLOOM_MODEL_SIZE=0.5b
-    echo BLOOM_MODEL_DIR=models/qwen_bloom_fedprox_r20
+    echo BLOOM_MODEL_DIR=models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged
     echo BLOOM_USE_QUANTIZED=false
-    echo GENERATOR_MODEL_PATH=models/qwen.gguf
+    echo GENERATOR_MODEL_PATH=models/qwen15b_multitask_v3_q4_k_m.gguf
     echo RETRIEVAL_ENCODER=bge-small
     echo OFFLINE_MODE=true
     echo GENERATOR_THREADS=8
@@ -116,11 +116,11 @@ if not exist "dist\EduGuard\frontend\.next\standalone\server.js" (
     echo ERROR: Next.js server.js missing.
     exit /b 1
 )
-if not exist "dist\EduGuard\models\qwen.gguf" (
+if not exist "dist\EduGuard\models\qwen15b_multitask_v3_q4_k_m.gguf" (
     echo ERROR: Multitask v3 GGUF missing.
     exit /b 1
 )
-if not exist "dist\EduGuard\models\qwen_bloom_fedprox_r20\model.safetensors" (
+if not exist "dist\EduGuard\models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged\model.safetensors" (
     echo ERROR: FedProx r20 Bloom weights missing from package.
     exit /b 1
 )
@@ -148,8 +148,8 @@ echo ========================================
 echo.
 echo Package: dist\EduGuard\
 echo Final models:
-echo   Bloom classifier = FedProx r20  -^> models\qwen_bloom_fedprox_r20
-echo   Generator GGUF   = multitask v3 -^> models\qwen.gguf
+echo   Bloom classifier = FedProx r20  -^> models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged
+echo   Generator GGUF   = multitask v3 -^> models\qwen15b_multitask_v3_q4_k_m.gguf
 echo.
 echo Start with: dist\EduGuard\EduGuard.exe
 echo.

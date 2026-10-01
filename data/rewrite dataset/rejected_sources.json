@@ -1,6 +1,38 @@
 [
-  {"source_id":"src_022dd867d1ebb06c","group_id":333669702,"split":"train","reason":"ellipsis_or_placeholder"},
-  {"source_id":"src_84d466a7de7dcfb4","group_id":1470352588,"split":"train","reason":"ellipsis_or_placeholder"},
-  {"source_id":"src_ca7bea1c8da4c18a","group_id":3991959278,"split":"train","reason":"ellipsis_or_placeholder"},
-  {"source_id":"src_94763320b6e86191","group_id":4106458924,"split":"test","reason":"ellipsis_or_placeholder"}
+  {
+    "source_id": "src_022dd867d1ebb06c",
+    "group_id": 333669702,
+    "split": "train",
+    "source_question": "Assess the strengths and weaknesses of the current Olympics and recommend action that should be taken in future Olympics: What can be",
+    "source_bloom_level": "Evaluate",
+    "reason": "ellipsis_or_placeholder",
+    "topic": null
+  },
+  {
+    "source_id": "src_84d466a7de7dcfb4",
+    "group_id": 1470352588,
+    "split": "train",
+    "source_question": "State in your own words what the author means when he says",
+    "source_bloom_level": "Understand",
+    "reason": "ellipsis_or_placeholder",
+    "topic": null
+  },
+  {
+    "source_id": "src_ca7bea1c8da4c18a",
+    "group_id": 3991959278,
+    "split": "train",
+    "source_question": "How can you distinguish the different parts of_____?",
+    "source_bloom_level": "Analyze",
+    "reason": "ellipsis_or_placeholder",
+    "topic": "how can you distinguish the different parts of_____"
+  },
+  {
+    "source_id": "src_94763320b6e86191",
+    "group_id": 4106458924,
+    "split": "test",
+    "source_question": "Sketch a typical absorption process in a packed column with regeneration in form of",
+    "source_bloom_level": "Apply",
+    "reason": "ellipsis_or_placeholder",
+    "topic": null
+  }
 ]

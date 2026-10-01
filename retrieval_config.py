@@ -27,7 +27,7 @@ BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 RETRIEVAL_ENCODER_PROFILES: dict[str, RetrievalEncoderProfile] = {
     "bge-small": RetrievalEncoderProfile(
         key="bge-small",
-        model_name="BAAI/bge-small-en-v1.5",
+        model_name="models/bge-small",
         embed_dim=384,
         query_prefix=BGE_QUERY_PREFIX,
         passage_prefix="",
