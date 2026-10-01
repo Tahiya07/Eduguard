@@ -12,18 +12,25 @@
     "empty_target_rewrites": 0,
     "legacy_generic_wrapper_hits": 0,
     "wrong_domain_terms": 0,
+    "grammar_edge_cases": 0,
     "train_validation_source_overlap": 0,
     "train_test_source_overlap": 0,
     "validation_test_source_overlap": 0
   },
   "identity_rows": 893,
   "synthetic_rows": 4465,
+  "stem_repair_rows": {
+    "train": 470,
+    "validation": 115,
+    "test": 90
+  },
   "notes": [
     "Rebuilt from the locked 893 usable source questions already assigned to train, validation, and test.",
     "Each source group contributes exactly one record for each of the six target Bloom levels.",
     "Same-level targets preserve the original source question.",
     "Cross-level targets use source-anchored, family-specific cognitive transformations.",
     "Non-programming subjects are not assigned programming-specific transformation language.",
+    "Leading task verbs in source questions are normalized before cross-level transformations to avoid malformed target questions.",
     "No missing quantities, entities, examples, or scenario facts were invented."
   ]
 }
