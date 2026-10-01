@@ -72,7 +72,8 @@
       "Create": 54
     },
     "source_groups_retained": 628,
-    "source_groups_flagged_missing_context": 2,
-    "malformed_rows_fixed": 6
+    "source_groups_flagged_missing_context": 1,
+    "malformed_rows_fixed": 18,
+    "malformed_groups_fixed": 6
   }
 }
