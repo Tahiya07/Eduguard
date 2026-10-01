@@ -2053,7 +2053,7 @@
     "source_bloom_level": "Understand",
     "example_id": "dbb46474c3a7f6d3",
     "target_bloom_level": "Remember",
-    "target_rewrite": "State the key facts, terms, or components needed to address: Describe briefly how an image can be represented by chain coding and moments.",
+    "target_rewrite": "Name the programming constructs, components, or steps required to address: Describe briefly how an image can be represented by chain coding and moments.",
     "transformation_type": "Understand->Remember"
   },
   {
@@ -2075,7 +2075,7 @@
     "source_bloom_level": "Understand",
     "example_id": "854722b2c5793ae9",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the relevant concept or procedure to carry out the task described in: Describe briefly how an image can be represented by chain coding and moments.",
+    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: Describe briefly how an image can be represented by chain coding and moments.",
     "transformation_type": "Understand->Apply"
   },
   {
@@ -2086,7 +2086,7 @@
     "source_bloom_level": "Understand",
     "example_id": "8e91d5ae06bc69be",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the main components, relationships, causes, or effects involved in: Describe briefly how an image can be represented by chain coding and moments.",
+    "target_rewrite": "Analyze the components, control flow, or relationships involved in: Describe briefly how an image can be represented by chain coding and moments.",
     "transformation_type": "Understand->Analyze"
   },
   {
@@ -2097,7 +2097,7 @@
     "source_bloom_level": "Understand",
     "example_id": "aa80eb98482a9319",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the approach, explanation, or conclusion required by the following question using relevant criteria and justify your assessment: Describe briefly how an image can be represented by chain coding and moments.",
+    "target_rewrite": "Evaluate the proposed approach for the task in Describe briefly how an image can be represented by chain coding and moments, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
     "transformation_type": "Understand->Evaluate"
   },
   {
@@ -2108,7 +2108,7 @@
     "source_bloom_level": "Understand",
     "example_id": "156f5909b825c0fa",
     "target_bloom_level": "Create",
-    "target_rewrite": "Formulate an original explanation, model, procedure, or framework that addresses: Describe briefly how an image can be represented by chain coding and moments.",
+    "target_rewrite": "Design an original program, algorithm, or technical solution that satisfies the requirements in: Describe briefly how an image can be represented by chain coding and moments.",
     "transformation_type": "Understand->Create"
   },
   {
@@ -5683,7 +5683,7 @@
     "source_bloom_level": "Create",
     "example_id": "ed5b8cbfa51e001f",
     "target_bloom_level": "Remember",
-    "target_rewrite": "State the key facts, terms, or components needed to address: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
+    "target_rewrite": "Name the programming constructs, components, or steps required to address: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
     "transformation_type": "Create->Remember"
   },
   {
@@ -5694,7 +5694,7 @@
     "source_bloom_level": "Create",
     "example_id": "1ae1c3459541b81d",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain in your own words the concept, process, or relationship involved in: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
+    "target_rewrite": "Explain how the concepts or components in the following task work together: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
     "transformation_type": "Create->Understand"
   },
   {
@@ -5705,7 +5705,7 @@
     "source_bloom_level": "Create",
     "example_id": "dd18b5a3709022fa",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the stated principles or requirements to carry out the task described in: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
+    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
     "transformation_type": "Create->Apply"
   },
   {
@@ -5716,7 +5716,7 @@
     "source_bloom_level": "Create",
     "example_id": "2f008e9a71acc853",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the requirements, components, and relationships that must be considered for: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
+    "target_rewrite": "Analyze the components, control flow, or relationships involved in: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
     "transformation_type": "Create->Analyze"
   },
   {
@@ -5727,7 +5727,7 @@
     "source_bloom_level": "Create",
     "example_id": "ee0b7b31336292dc",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the proposed design or plan against its stated requirements, and justify your assessment: Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document.",
+    "target_rewrite": "Evaluate the proposed approach for the task in Design the architecture of the software system based on the requirements defined in the Software Requirement Specification document, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
     "transformation_type": "Create->Evaluate"
   },
   {
@@ -8070,7 +8070,7 @@
     "source_bloom_level": "Remember",
     "example_id": "6f5239744fe1cc5c",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain how the concepts or components in the following task work together: List two local variables in the main function.",
+    "target_rewrite": "Explain in your own words the concept, process, or relationship involved in: List two local variables in the main function.",
     "transformation_type": "Remember->Understand"
   },
   {
@@ -8081,7 +8081,7 @@
     "source_bloom_level": "Remember",
     "example_id": "8f5139f894f05d94",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: List two local variables in the main function.",
+    "target_rewrite": "Apply the relevant concept or procedure to carry out the task described in: List two local variables in the main function.",
     "transformation_type": "Remember->Apply"
   },
   {
@@ -8092,7 +8092,7 @@
     "source_bloom_level": "Remember",
     "example_id": "8164f880867fbadf",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the components, control flow, or relationships involved in: List two local variables in the main function.",
+    "target_rewrite": "Analyze the main components, relationships, causes, or effects involved in: List two local variables in the main function.",
     "transformation_type": "Remember->Analyze"
   },
   {
@@ -8103,7 +8103,7 @@
     "source_bloom_level": "Remember",
     "example_id": "e16519c63cd52f65",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the proposed approach for the task in List two local variables in the main function, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
+    "target_rewrite": "Evaluate the approach, explanation, or conclusion required by the following question using relevant criteria and justify your assessment: List two local variables in the main function.",
     "transformation_type": "Remember->Evaluate"
   },
   {
@@ -8114,7 +8114,7 @@
     "source_bloom_level": "Remember",
     "example_id": "556c2d5b930216d9",
     "target_bloom_level": "Create",
-    "target_rewrite": "Design an original program, algorithm, or technical solution that satisfies the requirements in: List two local variables in the main function.",
+    "target_rewrite": "Formulate an original explanation, model, procedure, or framework that addresses: List two local variables in the main function.",
     "transformation_type": "Remember->Create"
   },
   {
@@ -8719,7 +8719,7 @@
     "source_bloom_level": "Apply",
     "example_id": "e1e447217e793204",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Name the programming constructs, components, or steps required to address: Calculate the fitness function for all chromosomes in the population.",
+    "target_rewrite": "State the formulae, quantities, or known values required to address: Calculate the fitness function for all chromosomes in the population.",
     "transformation_type": "Apply->Remember"
   },
   {
@@ -8730,7 +8730,7 @@
     "source_bloom_level": "Apply",
     "example_id": "9f2f66a765fa9699",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain how the concepts or components in the following task work together: Calculate the fitness function for all chromosomes in the population.",
+    "target_rewrite": "Explain what the calculation in the following question represents and how its result should be interpreted: Calculate the fitness function for all chromosomes in the population.",
     "transformation_type": "Apply->Understand"
   },
   {
@@ -8752,7 +8752,7 @@
     "source_bloom_level": "Apply",
     "example_id": "89e00314dccd4725",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the components, control flow, or relationships involved in: Calculate the fitness function for all chromosomes in the population.",
+    "target_rewrite": "Analyze the quantities, relationships, and steps involved in solving: Calculate the fitness function for all chromosomes in the population.",
     "transformation_type": "Apply->Analyze"
   },
   {
@@ -8763,7 +8763,7 @@
     "source_bloom_level": "Apply",
     "example_id": "fa99b742cb681613",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the proposed approach for the task in Calculate the fitness function for all chromosomes in the population, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
+    "target_rewrite": "Evaluate the solution to the following problem by checking the calculation steps and consistency of the result with the stated requirements: Calculate the fitness function for all chromosomes in the population.",
     "transformation_type": "Apply->Evaluate"
   },
   {
@@ -8774,7 +8774,7 @@
     "source_bloom_level": "Apply",
     "example_id": "fc464cf712a1bb93",
     "target_bloom_level": "Create",
-    "target_rewrite": "Design an original program, algorithm, or technical solution that satisfies the requirements in: Calculate the fitness function for all chromosomes in the population.",
+    "target_rewrite": "Develop a complete solution procedure for Calculate the fitness function for all chromosomes in the population, including how the required quantities are obtained and how the final result is checked.",
     "transformation_type": "Apply->Create"
   },
   {
@@ -15858,7 +15858,7 @@
     "source_bloom_level": "Remember",
     "example_id": "49f356681de9ab0f",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain how the concepts or components in the following task work together: List two reference parameters in the setHour function.",
+    "target_rewrite": "Explain in your own words the concept, process, or relationship involved in: List two reference parameters in the setHour function.",
     "transformation_type": "Remember->Understand"
   },
   {
@@ -15869,7 +15869,7 @@
     "source_bloom_level": "Remember",
     "example_id": "15e017b45914c1e2",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: List two reference parameters in the setHour function.",
+    "target_rewrite": "Apply the relevant concept or procedure to carry out the task described in: List two reference parameters in the setHour function.",
     "transformation_type": "Remember->Apply"
   },
   {
@@ -15880,7 +15880,7 @@
     "source_bloom_level": "Remember",
     "example_id": "0689aed0c7bf5ab8",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the components, control flow, or relationships involved in: List two reference parameters in the setHour function.",
+    "target_rewrite": "Analyze the main components, relationships, causes, or effects involved in: List two reference parameters in the setHour function.",
     "transformation_type": "Remember->Analyze"
   },
   {
@@ -15891,7 +15891,7 @@
     "source_bloom_level": "Remember",
     "example_id": "e9c615786ba4f99c",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the proposed approach for the task in List two reference parameters in the setHour function, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
+    "target_rewrite": "Evaluate the approach, explanation, or conclusion required by the following question using relevant criteria and justify your assessment: List two reference parameters in the setHour function.",
     "transformation_type": "Remember->Evaluate"
   },
   {
@@ -15902,7 +15902,7 @@
     "source_bloom_level": "Remember",
     "example_id": "ed2243a88233ec74",
     "target_bloom_level": "Create",
-    "target_rewrite": "Design an original program, algorithm, or technical solution that satisfies the requirements in: List two reference parameters in the setHour function.",
+    "target_rewrite": "Formulate an original explanation, model, procedure, or framework that addresses: List two reference parameters in the setHour function.",
     "transformation_type": "Remember->Create"
   },
   {
@@ -22392,7 +22392,7 @@
     "source_bloom_level": "Remember",
     "example_id": "fa5f5e88e8a90053",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain in your own words the concept, process, or relationship involved in: State four attributes of well engineered software.",
+    "target_rewrite": "Explain how the concepts or components in the following task work together: State four attributes of well engineered software.",
     "transformation_type": "Remember->Understand"
   },
   {
@@ -22403,7 +22403,7 @@
     "source_bloom_level": "Remember",
     "example_id": "5ffba03450437e6a",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the relevant concept or procedure to carry out the task described in: State four attributes of well engineered software.",
+    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: State four attributes of well engineered software.",
     "transformation_type": "Remember->Apply"
   },
   {
@@ -22414,7 +22414,7 @@
     "source_bloom_level": "Remember",
     "example_id": "7c4c668db94513d0",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the main components, relationships, causes, or effects involved in: State four attributes of well engineered software.",
+    "target_rewrite": "Analyze the components, control flow, or relationships involved in: State four attributes of well engineered software.",
     "transformation_type": "Remember->Analyze"
   },
   {
@@ -22425,7 +22425,7 @@
     "source_bloom_level": "Remember",
     "example_id": "79f6a5912139a22e",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the approach, explanation, or conclusion required by the following question using relevant criteria and justify your assessment: State four attributes of well engineered software.",
+    "target_rewrite": "Evaluate the proposed approach for the task in State four attributes of well engineered software, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
     "transformation_type": "Remember->Evaluate"
   },
   {
@@ -22436,7 +22436,7 @@
     "source_bloom_level": "Remember",
     "example_id": "8d1a6ffd258ed7af",
     "target_bloom_level": "Create",
-    "target_rewrite": "Formulate an original explanation, model, procedure, or framework that addresses: State four attributes of well engineered software.",
+    "target_rewrite": "Design an original program, algorithm, or technical solution that satisfies the requirements in: State four attributes of well engineered software.",
     "transformation_type": "Remember->Create"
   },
   {
@@ -39607,7 +39607,7 @@
     "source_bloom_level": "Create",
     "example_id": "9e7dc17e46086d38",
     "target_bloom_level": "Remember",
-    "target_rewrite": "State the key facts, terms, or components needed to address: Develop a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Name the programming constructs, components, or steps required to address: Develop a SQA Plan for a software development project which is defined in the attached document.",
     "transformation_type": "Create->Remember"
   },
   {
@@ -39618,7 +39618,7 @@
     "source_bloom_level": "Create",
     "example_id": "a45da2ecf97121b3",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain in your own words the concept, process, or relationship involved in: Develop a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Explain how the concepts or components in the following task work together: Develop a SQA Plan for a software development project which is defined in the attached document.",
     "transformation_type": "Create->Understand"
   },
   {
@@ -39629,7 +39629,7 @@
     "source_bloom_level": "Create",
     "example_id": "a8ed1fa6fd6ce220",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the stated principles or requirements to carry out the task described in: Develop a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Apply the relevant programming method or technical procedure to carry out: Develop a SQA Plan for a software development project which is defined in the attached document.",
     "transformation_type": "Create->Apply"
   },
   {
@@ -39640,7 +39640,7 @@
     "source_bloom_level": "Create",
     "example_id": "86ed6e66747b6b55",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the requirements, components, and relationships that must be considered for: Develop a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Analyze the components, control flow, or relationships involved in: Develop a SQA Plan for a software development project which is defined in the attached document.",
     "transformation_type": "Create->Analyze"
   },
   {
@@ -39651,7 +39651,7 @@
     "source_bloom_level": "Create",
     "example_id": "ff9073f1d4e1bc38",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate the proposed design or plan against its stated requirements, and justify your assessment: Develop a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Evaluate the proposed approach for the task in Develop a SQA Plan for a software development project which is defined in the attached document, using correctness, suitability, and efficiency as criteria, and justify your assessment.",
     "transformation_type": "Create->Evaluate"
   },
   {
