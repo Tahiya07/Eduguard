@@ -44,30 +44,22 @@
       "Create": 139
     }
   },
-  "source_level_counts": {
-    "Create": 77,
-    "Understand": 383,
-    "Apply": 121,
-    "Remember": 144,
-    "Analyze": 107,
-    "Evaluate": 61
+  "source_groups_by_split": {
+    "train": 628,
+    "validation": 126,
+    "test": 139
   },
-  "rejected_sources_reasons": {
-    "ellipsis_or_placeholder": 4
+  "identity_rows_by_split": {
+    "train": 628,
+    "validation": 126,
+    "test": 139
   },
-  "row_rejections": 0,
-  "no_source_group_leakage": true,
-  "source_splits_from_uploaded_package": true,
-  "identity_rows": 893,
-  "dataset_version": "figshare_target_rewrite_balanced_v6",
-  "policy_version": "figshare_bloom_target_policy_v6",
-  "cleaning": {
-    "previous_train_rows": 3768,
-    "previous_cleaned_train_rows": 1521,
-    "repaired_train_rows": 3768,
-    "repair_scope": "All six target levels rebuilt from the original 628 train source groups; validation and test rebuilt from their locked source groups.",
-    "generic_higher_order_wrappers_replaced": true,
-    "source_specific_transformations": true,
-    "source_group_leakage": false
-  }
+  "synthetic_rows_by_split": {
+    "train": 3140,
+    "validation": 630,
+    "test": 695
+  },
+  "dataset_version": "figshare_target_rewrite_final_v3",
+  "policy_version": "figshare_target_rewrite_policy_v3",
+  "canonical_format": "compact JSON/JSONL"
 }
