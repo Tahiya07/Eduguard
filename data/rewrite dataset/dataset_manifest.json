@@ -115,9 +115,10 @@
       "Create": 54
     },
     "source_groups_retained": 628,
-    "source_groups_flagged_missing_context": 2,
-    "malformed_rows_fixed": 6,
+    "source_groups_flagged_missing_context": 1,
+    "malformed_rows_fixed": 18,
     "split_policy": "Existing source/group-level split preserved",
-    "training_policy": "Quality-first filtering; generic higher-order transformations removed rather than replaced with invented subject matter."
+    "training_policy": "Quality-first filtering; generic higher-order transformations removed rather than replaced with invented subject matter.",
+    "malformed_groups_fixed": 6
   }
 }
