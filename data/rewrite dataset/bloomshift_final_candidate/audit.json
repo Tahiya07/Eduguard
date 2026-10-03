@@ -1,0 +1,55 @@
+{
+  "dataset_version": "EduGuard-BloomShift-final-candidate",
+  "status": "curated_silver_candidate_pending_human_validation",
+  "rows_by_split": {
+    "train": 660,
+    "validation": 114,
+    "test": 114
+  },
+  "target_counts_by_split": {
+    "train": {
+      "Remember": 110,
+      "Understand": 110,
+      "Apply": 110,
+      "Analyze": 110,
+      "Evaluate": 110,
+      "Create": 110
+    },
+    "validation": {
+      "Remember": 19,
+      "Understand": 19,
+      "Apply": 19,
+      "Analyze": 19,
+      "Evaluate": 19,
+      "Create": 19
+    },
+    "test": {
+      "Remember": 19,
+      "Understand": 19,
+      "Apply": 19,
+      "Analyze": 19,
+      "Evaluate": 19,
+      "Create": 19
+    }
+  },
+  "total_rows": 888,
+  "source_questions_used": 238,
+  "identity_rows": 0,
+  "duplicate_source_target": 0,
+  "duplicate_target_rewrites": 0,
+  "source_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "families": {
+    "Remember": 148,
+    "Understand": 148,
+    "Apply": 148,
+    "Analyze": 148,
+    "Evaluate": 148,
+    "Create": 148
+  },
+  "legacy_wrapper_hits": 0,
+  "human_validation_required": true
+}
