@@ -1,0 +1,38 @@
+{
+  "dataset_version": "EduGuard-BloomShift-v4",
+  "purpose": "source-anchored, content-preserving transformation of educational questions between Revised Bloom cognitive levels",
+  "status": "silver_training_candidate_pending_human_validation",
+  "source_dataset": "data/figshare_bloom_v1.csv via EduGuard locked source questions",
+  "source_questions_used": 237,
+  "rows_by_split": {
+    "train": 1476,
+    "validation": 138,
+    "test": 138,
+    "total": 1752
+  },
+  "target_counts": {
+    "Remember": 292,
+    "Understand": 292,
+    "Apply": 292,
+    "Analyze": 292,
+    "Evaluate": 292,
+    "Create": 292
+  },
+  "identity_rows": 0,
+  "unique_source_target_pairs": 1021,
+  "duplicate_target_rewrites": 0,
+  "split_source_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "legacy_wrapper_hits": 0,
+  "families": {
+    "calculation": 306,
+    "comparison": 327,
+    "design": 328,
+    "evaluation": 288,
+    "process": 348,
+    "programming": 155
+  }
+}
