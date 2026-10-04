@@ -42,7 +42,9 @@
     "train_test": 0,
     "validation_test": 0
   },
-  "families": {
+  "legacy_wrapper_hits": 0,
+  "human_validation_required": true,
+  "target_counts_total": {
     "Remember": 148,
     "Understand": 148,
     "Apply": 148,
@@ -50,6 +52,56 @@
     "Evaluate": 148,
     "Create": 148
   },
-  "legacy_wrapper_hits": 0,
-  "human_validation_required": true
+  "question_family_counts": {
+    "programming": 25,
+    "calculation": 148,
+    "process": 220,
+    "comparison": 200,
+    "design": 176,
+    "evaluation": 119
+  },
+  "source_bloom_counts": {
+    "Create": 160,
+    "Apply": 215,
+    "Analyze": 209,
+    "Evaluate": 136,
+    "Understand": 162,
+    "Remember": 6
+  },
+  "source_target_transition_counts": {
+    "Create->Analyze": 32,
+    "Create->Apply": 36,
+    "Create->Evaluate": 34,
+    "Create->Remember": 27,
+    "Create->Understand": 31,
+    "Apply->Analyze": 43,
+    "Apply->Create": 46,
+    "Apply->Evaluate": 46,
+    "Apply->Remember": 37,
+    "Apply->Understand": 43,
+    "Analyze->Apply": 60,
+    "Analyze->Create": 37,
+    "Analyze->Evaluate": 39,
+    "Analyze->Remember": 33,
+    "Analyze->Understand": 40,
+    "Evaluate->Analyze": 36,
+    "Evaluate->Apply": 4,
+    "Evaluate->Create": 35,
+    "Evaluate->Remember": 30,
+    "Evaluate->Understand": 31,
+    "Understand->Analyze": 35,
+    "Understand->Apply": 47,
+    "Understand->Create": 30,
+    "Understand->Evaluate": 29,
+    "Understand->Remember": 21,
+    "Remember->Analyze": 2,
+    "Remember->Understand": 3,
+    "Remember->Apply": 1
+  },
+  "notes": [
+    "Target Bloom levels are balanced within each split; source Bloom levels are not.",
+    "Source groups are disjoint across train, validation, and test.",
+    "Validation and test examples require human review before the dataset is treated as gold.",
+    "Question-family counts describe the actual question_family field and are separate from target Bloom counts."
+  ]
 }
