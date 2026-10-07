@@ -102,6 +102,22 @@
     "Target Bloom levels are balanced within each split; source Bloom levels are not.",
     "Source groups are disjoint across train, validation, and test.",
     "Validation and test examples require human review before the dataset is treated as gold.",
-    "Question-family counts describe the actual question_family field and are separate from target Bloom counts."
-  ]
+    "Question-family counts describe the actual question_family field and are separate from target Bloom counts.",
+    "Rewrite openings were diversified across interrogative and action-verb forms; this is a surface-form diversification step, not evidence by itself of cognitive-level validity."
+  ],
+  "question_form_counts": {
+    "train": {
+      "WH_question_starts": 345,
+      "action_or_non_WH_starts": 315
+    },
+    "validation": {
+      "WH_question_starts": 60,
+      "action_or_non_WH_starts": 54
+    },
+    "test": {
+      "WH_question_starts": 55,
+      "action_or_non_WH_starts": 59
+    },
+    "note": "Rewrite forms were diversified so that Bloom transformations are not uniformly expressed through WH-question openings. This changes wording form only; Bloom alignment and content preservation still require human validation."
+  }
 }
