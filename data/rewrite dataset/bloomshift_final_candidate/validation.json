@@ -1336,7 +1336,7 @@
     "process_form": "why",
     "source_anchor": "mycorrhizal fungi are important for phosphorus availability in soil",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that make mycorrhizal fungi are important for phosphorus availability in soil the case?",
+    "target_rewrite": "What evidence or criteria would you use to assess why mycorrhizal fungi are important for phosphorus availability in soil?",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
     "transformation_strategy": "criteria_based_evaluation",
