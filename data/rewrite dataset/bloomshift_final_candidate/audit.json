@@ -119,5 +119,18 @@
       "action_or_non_WH_starts": 59
     },
     "note": "Rewrite forms were diversified so that Bloom transformations are not uniformly expressed through WH-question openings. This changes wording form only; Bloom alignment and content preservation still require human validation."
+  },
+  "template_bias_audit": {
+    "method": "Normalized target-rewrite templates were counted after replacing the source_anchor with §SOURCE§ and collapsing whitespace. Exact normalized-template overlap was also checked across splits.",
+    "train_unique_templates": 93,
+    "train_max_single_template_count": 15,
+    "train_max_single_template_share": 0.0227,
+    "cross_split_template_overlap": {
+      "train_validation": 10,
+      "train_test": 16,
+      "validation_test": 32
+    },
+    "finding": "Surface-form diversification reduced concentration of any single template, but normalized templates remain coupled to individual target Bloom levels in the current candidate and some templates recur across held-out splits. This can create a superficial template-to-target shortcut for benchmark models.",
+    "decision": "Do not blindly paraphrase the remaining templates because that could change cognitive demand or content preservation. The candidate remains silver pending human validation. A stronger next revision should use independently authored or reviewed alternative templates and, where feasible, report a template-disjoint or template-held-out evaluation."
   }
 }
