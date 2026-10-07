@@ -14,3 +14,5 @@ The dataset was rebuilt from the original EduGuard source questions. Previous ge
 This is a silver candidate, not a human-certified gold dataset. Use supervisor_annotation.csv to review every validation/test example before freezing the dataset.
 
 A small set of mechanically malformed held-out rewrites identified during the final audit was corrected without regenerating the candidate dataset. The supervisor annotation file was updated to remain synchronized with those corrections. Semantic, Bloom-level, and pedagogical validity of the held-out examples still requires human review.
+
+The rewrite forms were also diversified to reduce dependence on repeated WH-question openings. Action-oriented forms such as *analyze*, *apply*, *assess*, *design*, *construct*, *identify*, and *state* are now used alongside interrogative forms. This is intended to reduce superficial wording regularity; it does not establish Bloom-level validity, which remains subject to supervisor review.
