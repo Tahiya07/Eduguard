@@ -20,3 +20,20 @@ The rewrite forms were also diversified to reduce dependence on repeated WH-ques
 ## Supervisor annotation protocol
 
 The held-out validation and test examples are intended for human review. The annotation schema separates content preservation from context preservation so reviewers can assess whether the original subject matter, entities, conditions, constraints, and task setting remain intact while cognitive demand changes. Reviewers should also record Bloom alignment, their independently judged Bloom level, meaningful transformation, pedagogical validity, language quality, and a final decision. Blank annotation fields are intentional until human review is performed.
+
+### Recommended controlled annotation values
+
+For reproducible human annotation, use the following controlled values:
+
+- `bloom_aligned`: Yes / No
+- `reviewer_bloom_level`: Remember / Understand / Apply / Analyze / Evaluate / Create / Unclear
+- `content_preserved`: Yes / No / Partial
+- `context_preserved`: Yes / No / Partial
+- `meaningful_transformation`: Yes / No / Partial
+- `pedagogically_valid`: Yes / No / Partial
+- `clear_and_grammatical`: Yes / No / Partial
+- `final_decision`: Accept / Revise / Reject
+- `corrected_question`: enter only when revision is needed; otherwise leave blank
+- `reason`: brief evidence-based justification for No/Partial/Revise/Reject decisions
+
+These are annotation instructions, not pre-filled labels. Reviewers should independently judge each held-out rewrite before the dataset is treated as human-validated.
