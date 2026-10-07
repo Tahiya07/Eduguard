@@ -104,7 +104,8 @@
     "Validation and test examples require human review before the dataset is treated as gold.",
     "Question-family counts describe the actual question_family field and are separate from target Bloom counts.",
     "Rewrite openings were diversified across interrogative and action-verb forms; this is a surface-form diversification step, not evidence by itself of cognitive-level validity.",
-    "Content-preservation audit found no dropped source numerals, quoted material, or explicit negation cues; two held-out rewrites with source-specific product/model context omissions were corrected and annotation targets synchronized."
+    "Content-preservation audit found no dropped source numerals, quoted material, or explicit negation cues; two held-out rewrites with source-specific product/model context omissions were corrected and annotation targets synchronized.",
+    "Language-quality audit completed across all 888 target rewrites; mechanically malformed phrasing was corrected and held-out annotation targets synchronized. Human review remains required for semantic, Bloom-level, and pedagogical validity."
   ],
   "question_form_counts": {
     "train": {
@@ -164,5 +165,13 @@
     ],
     "finding": "Most target rewrites retain the source anchor directly or with a semantically equivalent paraphrase. Two held-out marketing-strategy rewrites omitted the source-specific product/model context and were corrected to restore it. The remaining low-anchor cases were manually judged as paraphrastic or intentionally reframed for the target cognitive operation rather than automatic content loss. Human review is still required for fine-grained content and context preservation.",
     "limitation": "Anchor overlap is a screening heuristic, not a semantic-preservation proof. Human annotation and, where feasible, embedding-based semantic analysis should be used before release as a gold benchmark."
+  },
+  "language_quality_audit": {
+    "method": "Deterministic pattern scan over all target rewrites for duplicated words, malformed source-imperative insertion, repeated distinction verbs, incorrect 'in term of', incorrect possessive template phrasing, and malformed evaluation-template endings; flagged records were manually inspected and only mechanically safe wording corrections were applied.",
+    "rows_checked": 888,
+    "corrections_applied": 64,
+    "remaining_flagged_mechanical_patterns": 0,
+    "annotation_synchronization": "All affected validation/test annotation target_rewrite cells were synchronized after corrections.",
+    "finding": "The audit identified mechanically malformed template phrasing in a limited subset of rewrites, including duplicated words, source imperatives inserted after transformation verbs, duplicated distinction verbs, and malformed evaluation endings. These were corrected without changing the intended source topic or target Bloom operation. This is a language-quality cleanup, not evidence that the rewrites are human-validated for Bloom alignment or pedagogy."
   }
 }
