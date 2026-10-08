@@ -60,7 +60,7 @@ jobs:
         run: |
           python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py \
             --data-dir data/multitask_bloom_rewrite_final \
-            --max-length 4096 \
+            --max-length 8192 \
             --model-id Qwen/Qwen2.5-1.5B-Instruct
 
       - name: Upload generated corpus and reports
