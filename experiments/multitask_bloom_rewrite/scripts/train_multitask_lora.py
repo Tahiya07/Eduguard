@@ -247,7 +247,16 @@ def main() -> None:
             )
         ],
     )
-    train_result = trainer.train(resume_from_checkpoint=True if (output_dir / "checkpoint-0").exists() else None)
+    # Resume only from a real Hugging Face checkpoint directory.
+    # Trainer writes checkpoint-<global_step>, not checkpoint-0.
+    last_checkpoint = None
+    try:
+        from transformers.trainer_utils import get_last_checkpoint
+        last_checkpoint = get_last_checkpoint(str(output_dir))
+    except Exception:
+        last_checkpoint = None
+
+    train_result = trainer.train(resume_from_checkpoint=last_checkpoint)
     trainer.save_model(str(output_dir / "best_adapter"))
     tokenizer.save_pretrained(str(output_dir / "best_adapter"))
     meta = {
