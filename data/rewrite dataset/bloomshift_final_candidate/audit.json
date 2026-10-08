@@ -192,5 +192,22 @@
       "obvious_source_clause_residue": 0
     },
     "finding": "Bloom validity cannot be established from trigger verbs alone. Several valid transformations express the intended cognitive operation structurally without a target-specific verb, while some target-specific verbs occur in mixed contexts. The cleaned candidate therefore still requires human Bloom-level annotation, especially for cases where the target operation depends on reasoning rather than a lexical cue."
+  },
+  "content_preservation_semantic_screen": {
+    "method": "Deterministic content-bearing preservation screen over all source_question/target_rewrite pairs. Content-token overlap was used only as a risk flag because Bloom transformation necessarily introduces cognitive-operation language. Source numerals, uppercase technical identifiers, and quoted material were separately checked. The screen does not establish semantic equivalence and is not a substitute for human annotation.",
+    "rows_checked": 888,
+    "low_content_overlap_threshold": 0.55,
+    "low_content_overlap_cases": 32,
+    "low_content_overlap_by_split": {
+      "train": 16,
+      "validation": 6,
+      "test": 10
+    },
+    "source_numeral_mismatches": 0,
+    "quoted_material_mismatches": 0,
+    "high_priority_manual_review_cases": 32,
+    "corrections_applied": 0,
+    "finding": "No objective source-content loss was established by the deterministic screen. The flagged low-overlap cases are largely caused by legitimate Bloom-level operation substitutions, inflectional differences, or generic transformation language. No automatic semantic rewrites were applied to avoid changing the intended content or cognitive demand.",
+    "next_action": "Human review should verify content and context preservation, especially for the 32 low-overlap cases, before the dataset is promoted from silver candidate to human-validated gold data."
   }
 }
