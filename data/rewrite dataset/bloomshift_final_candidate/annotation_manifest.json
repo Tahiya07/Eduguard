@@ -36,6 +36,7 @@
     "calibration": "annotation_calibration.csv",
     "reviewer_1": "reviewer_1.csv",
     "reviewer_2": "reviewer_2.csv",
-    "agreement": "annotation_agreement_template.csv"
+    "agreement": "annotation_agreement_template.csv",
+    "agreement_analysis_script": "../../../scripts/analyze_annotation_agreement.py"
   }
 }
