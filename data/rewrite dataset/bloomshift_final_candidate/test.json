@@ -1710,7 +1710,7 @@
     "process_form": null,
     "source_anchor": "this book to the last book you read",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Use the distinction between this book to the last book you read in a practical situation.",
+    "target_rewrite": "Apply the comparison between this book and the last book you read to a practical situation.",
     "synthetic": true,
     "transformation_type": "Analyze->Apply",
     "transformation_strategy": "contextual_application",
