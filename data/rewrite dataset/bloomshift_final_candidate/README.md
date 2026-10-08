@@ -84,3 +84,10 @@ The calibration set contains two validation and one test example per target leve
 BloomShift should not be called a human-validated gold dataset until: (1) all 228 validation/test examples have completed independent review; (2) every example has a resolved final decision; (3) examples marked Reject are excluded from the released gold split; (4) Revise cases are corrected and re-reviewed; (5) agreement statistics are reported for the main annotation pass; (6) the 32 cases flagged by the semantic/content-preservation screen receive explicit review; and (7) the final released files, annotation table, and audit record are synchronized. Any threshold for acceptable agreement should be declared in the paper before results are interpreted rather than selected after seeing the outcomes.
 
 Until these conditions are met, the repository should continue to describe the dataset as a silver candidate.
+
+
+### Source-to-target transition coverage
+
+The candidate contains 28 of the 30 possible non-identity source-to-target Bloom transitions. The two absent directions are **Remember → Evaluate** and **Remember → Create**, reflecting the very small number of Remember-level source questions in the underlying source dataset. Target levels are balanced within each split, but the source-to-target transition matrix is therefore not fully balanced.
+
+These missing transitions should not be filled by synthetic source questions solely to improve matrix balance, because doing so would alter source provenance and require a new curation cycle. Benchmark reporting should therefore describe target-level balance and explicitly disclose the incomplete source-to-target transition coverage.
