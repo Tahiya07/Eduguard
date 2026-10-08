@@ -1,0 +1,41 @@
+{
+  "annotation_version": "v1",
+  "dataset_status": "curated_silver_candidate_pending_human_validation",
+  "main_annotation_rows": 228,
+  "calibration_size": 20,
+  "calibration_ids": [
+    "bloomshift_final_validation_0005",
+    "bloomshift_final_validation_0009",
+    "bloomshift_final_test_0003",
+    "bloomshift_final_validation_0010",
+    "bloomshift_final_validation_0012",
+    "bloomshift_final_test_0004",
+    "bloomshift_final_validation_0002",
+    "bloomshift_final_validation_0014",
+    "bloomshift_final_test_0014",
+    "bloomshift_final_validation_0001",
+    "bloomshift_final_validation_0006",
+    "bloomshift_final_test_0001",
+    "bloomshift_final_validation_0004",
+    "bloomshift_final_validation_0008",
+    "bloomshift_final_test_0007",
+    "bloomshift_final_validation_0003",
+    "bloomshift_final_validation_0007",
+    "bloomshift_final_test_0002",
+    "bloomshift_final_test_0089",
+    "bloomshift_final_test_0092"
+  ],
+  "calibration_design": "Two validation and one test example per target Bloom level, plus two previously corrected held-out examples.",
+  "calibration_excluded_from_agreement": true,
+  "reviewers_required": 2,
+  "independent_main_review": true,
+  "gold_release_requires_adjudication": true,
+  "priority_manual_review_cases": 32,
+  "files": {
+    "supervisor_annotation": "supervisor_annotation.csv",
+    "calibration": "annotation_calibration.csv",
+    "reviewer_1": "reviewer_1.csv",
+    "reviewer_2": "reviewer_2.csv",
+    "agreement": "annotation_agreement_template.csv"
+  }
+}
