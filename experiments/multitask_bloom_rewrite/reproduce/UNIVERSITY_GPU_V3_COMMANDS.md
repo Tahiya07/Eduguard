@@ -1,99 +1,35 @@
-# UNIVERSITY GPU — RUN THESE COMMANDS
+# UNIVERSITY GPU — FINAL 1.5B MULTITASK PIPELINE
 
-Preparation-only code is already in the repo. Run the following **serially** on the university machine.
+Use this document only for the finalized generator dataset and training stack.
+Historical v3 commands/results are retained elsewhere for provenance and are not part of the final run.
 
 Assume:
-
-- `D:\Eduguard`
-- venv already exists
-- RTX 4090 available
-- packages already installed
+- D:\\Eduguard
+- Python 3.10 environment
+- RTX 4090 or another machine that passes the resource gate
 
 ```powershell
-cd D:\Eduguard
+cd D:\\Eduguard
 
-# 0) Sanity
-.\.venv\Scripts\python.exe -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
+# 0) GPU sanity
+.\\.venv\\Scripts\\python.exe -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
 
-# STEP 1 — Verify the canonical corrected Bloom rewrite corpus
-.\.venv\Scripts\python.exe -c "import json; from pathlib import Path; p=Path('data/rewrite dataset'); m=json.loads((p/'dataset_manifest.json').read_text(encoding='utf-8')); assert m['version']=='v3-final-corrected'; assert m['splits']=={'train':3768,'validation':756,'test':834}; print('Bloom rewrite dataset:',m['version']); print('Splits:',m['splits'])"
+# 1) Generate final corpus from BloomShift + SQuAD + BillSum
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --bloom-dir "data/rewrite dataset/bloomshift_final_candidate" --output-dir data/multitask_bloom_rewrite_final --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-seq-length 8192 --seed 42
 
-# STEP 2 — Validate/hash/report final corrected dataset vs v2
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/compare_bloom_diversity_v2_v3.py `
-  --v2 data/bloom_rewrite/train.jsonl `
-  --v3 "data/rewrite dataset/train.jsonl" `
-  --output experiments/multitask_bloom_rewrite/reports/diversity_v2_vs_v3.json
+# 2) Strict dataset QC
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_final --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
 
-.\.venv\Scripts\python.exe -m unittest experiments.multitask_bloom_rewrite.tests.test_question_answer_detector -v
+# 3) One-task-per-task 1.5B sanity check; add --backward on GPU for gradient validation
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_final
 
-# STEP 3 — Build multitask Mix-A v3 from the corrected Bloom corpus (FREEZES exact baseline test.jsonl)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_v3.py `
-  --locked-multitask-dir data/multitask_bloom_rewrite `
-  --bloom-v3-dir "data/rewrite dataset" `
-  --output-dir data/multitask_bloom_rewrite_v3 `
-  --seed 42
+# 4) Resource gate
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --model-id "Qwen/Qwen2.5-1.5B-Instruct"
 
-# STEP 3b — Error analysis on EXISTING 1.5B baseline predictions (no training)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/analyze_bloom_prediction_errors.py `
-  --predictions experiments/multitask_bloom_rewrite/results/qwen15b_lora/predictions.jsonl `
-  --output experiments/multitask_bloom_rewrite/results/qwen15b_lora/error_analysis_v3.json
-
-# STEP 3c — Summarization length audit (no inference)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/audit_summarization_lengths.py `
-  --dataset data/multitask_bloom_rewrite/train.jsonl `
-  --predictions experiments/multitask_bloom_rewrite/results/qwen15b_lora/predictions.jsonl `
-  --max-seq-length 512 `
-  --max-new-tokens 128 `
-  --output experiments/multitask_bloom_rewrite/reports/summarization_length_audit.json
-
-# STEP 4 — Train 1.5B LoRA v3 (same hypers as baseline; new output dir)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py `
-  --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_v3.json
-
-# STEP 5 — Evaluate 1.5B LoRA v3 on frozen test
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
-  --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_v3.json `
-  --condition lora
-
-# STEP 6 — Compare baseline vs v3
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/compare_baseline_vs_v3.py `
-  --baseline-metrics experiments/multitask_bloom_rewrite/results/qwen15b_lora/metrics.json `
-  --improved-metrics experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/metrics.json `
-  --output experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/baseline_vs_v3_comparison.json
-
-# STEP 7 — Export blinded human-eval sample
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/export_human_eval_baseline_vs_v3.py `
-  --baseline-predictions experiments/multitask_bloom_rewrite/results/qwen15b_lora/predictions.jsonl `
-  --improved-predictions experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/predictions.jsonl `
-  --sample-size 100 `
-  --seed 42 `
-  --output experiments/multitask_bloom_rewrite/human_eval/blinded_baseline_vs_v3.jsonl
-
-# OPTIONAL — second-pass rewrite stats (separate from primary metrics)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/second_pass_rewrite.py `
-  --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_v3.json `
-  --condition lora `
-  --output-dir experiments/multitask_bloom_rewrite/results/qwen15b_second_pass_v3
-
-# OPTIONAL later — LoRA r=32 controlled experiment (NOT primary)
-# .\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py `
-#   --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_v3_r32.json
-
-# OPTIONAL later — summarization length follow-up (only if audit recommends)
-# .\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py `
-#   --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_sumfix.json
-
-# PAPER FIGURES / TABLES — final deployed model only (after choosing final metrics.json)
-.\.venv\Scripts\python.exe experiments/multitask_bloom_rewrite/scripts/generate_paper_figures.py `
-  --metrics experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/metrics.json `
-  --confusion experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/confusion_matrix.json `
-  --failure-analysis experiments/multitask_bloom_rewrite/results/qwen15b_lora_v3/failure_analysis.json `
-  --output-dir experiments/multitask_bloom_rewrite/paper_figures
+# 5) Final 1.5B LoRA training
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
 ```
 
-## Do not overwrite
+The final corpus uses 40% Bloom transformation, 30% QA, and 30% summarization in training. Validation/test remain task-wise held-out splits. Checkpoint selection uses validation loss only.
 
-- `experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora/`
-- `experiments/multitask_bloom_rewrite/results/qwen15b_lora/`
-- `data/bloom_rewrite/` (v2)
-- production `models/qwen.gguf`
+Do not use the old qwen15b v3/sumfix configs or data/multitask_bloom_rewrite_v3 for the final run.

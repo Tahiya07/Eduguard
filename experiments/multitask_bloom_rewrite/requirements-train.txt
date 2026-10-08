@@ -1,18 +1,13 @@
-# Separate training/eval environment — do not upgrade production blindly.
-
-torch>=2.1.0
-transformers>=4.41.0
-peft>=0.14.0
-accelerate>=0.33.0
-datasets>=2.19.0
-huggingface_hub>=0.23.0
-safetensors>=0.4.3
-sentencepiece>=0.2.0
-protobuf>=4.25.0
-evaluate>=0.4.0
-rouge-score>=0.1.2
+# Pinned final training environment
+# Compatible with the final Qwen2.5-1.5B SFT stack.
+torch==2.3.1
+transformers==4.41.0
+tokenizers==0.19.1
+peft==0.11.1
+accelerate==0.33.0
+datasets==2.20.0
+huggingface_hub<1.0
+safetensors==0.4.3
+sentencepiece==0.2.0
+protobuf>=4.25.0,<6
 psutil>=5.9.0
-# optional:
-# bert-score>=0.3.13
-# llama-cpp-python>=0.2.0
-tokenizers>=0.21.0
