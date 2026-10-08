@@ -256,5 +256,85 @@
     "finding": "The candidate represents most non-identity Bloom transitions, but Remember-source questions are sparse in the underlying source data, so Remember->Evaluate and Remember->Create are absent. Target levels remain balanced, but source-target transition coverage is not fully balanced.",
     "decision": "Do not synthesize or import additional Remember-source transformations merely to fill the matrix. Adding new source questions would change provenance and require the same curation pipeline. Report transition coverage explicitly as a dataset limitation.",
     "implication_for_benchmark": "Claims should focus on balanced target-level evaluation and content-preserving transformation, not on a fully balanced source-target transition matrix."
-  }
+  },
+  "provenance_integrity_audit": {
+    "method": "Deterministic verification of example IDs, source IDs, group IDs, split membership, and source-to-target expansion.",
+    "rows_checked": 888,
+    "unique_example_ids": 888,
+    "unique_source_ids": 238,
+    "source_group_size_distribution": {
+      "1": 37,
+      "2": 26,
+      "3": 20,
+      "4": 36,
+      "5": 119
+    },
+    "split_group_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "identity_rows": 0,
+    "finding": "All example IDs are unique and source groups are disjoint across splits. Source expansion is not uniform: 119 source questions have five target transformations, while 119 source questions have fewer than five. This reflects the curated candidate's incomplete transition coverage and should not be described as five transformations per source."
+  },
+  "near_duplicate_source_audit": {
+    "method": "Normalized token-set Jaccard screening across distinct source IDs.",
+    "threshold": 0.92,
+    "flagged_pairs": 2,
+    "cases": [
+      {
+        "similarity": 1,
+        "source_ids": [
+          "src_c7a5c628edf6c42d",
+          "src_cd5068060a64f4f9"
+        ],
+        "splits": [
+          "train",
+          "train"
+        ],
+        "action": "retain; distinct source records but duplicate wording"
+      },
+      {
+        "similarity": 0.9286,
+        "source_ids": [
+          "src_9d7f71d6abb888a7",
+          "src_9f41bf5c0f4d8a5d"
+        ],
+        "splits": [
+          "train",
+          "validation"
+        ],
+        "action": "flag for provenance review; do not automatically remove"
+      }
+    ],
+    "finding": "The exact-duplicate wording pair occurs within training, while one near-duplicate pair crosses train/validation. These are source-level provenance risks rather than automatic rewrite defects. No deletion was made without source-level provenance evidence."
+  },
+  "template_shortcut_audit": {
+    "method": "Normalized target-rewrite template screening after source-anchor replacement.",
+    "normalized_template_count": 175,
+    "cross_split_template_count": 35,
+    "cross_split_single_target_template_count": 34,
+    "finding": "A substantial number of normalized templates recur across splits and most cross-split recurring templates map to a single target Bloom level. This is a benchmark shortcut risk. The candidate should not claim template-disjoint evaluation; future experiments should report this limitation or use a template-held-out evaluation.",
+    "decision": "Do not blindly rewrite templates before human validation. Template changes can alter cognitive demand or content preservation."
+  },
+  "residual_quality_audit": {
+    "method": "Deterministic post-fix scan for malformed punctuation and transformation constructions.",
+    "corrections_applied": [
+      "bloomshift_final_test_0113",
+      "bloomshift_final_test_0057",
+      "bloomshift_final_train_0645"
+    ],
+    "remaining_confirmed_mechanical_flags": 0,
+    "finding": "Three mechanically safe wording artifacts were corrected and the held-out annotation worksheets were regenerated from the synchronized validation/test JSON. No human labels were inserted."
+  },
+  "reproducibility_audit": {
+    "scripts": [
+      "scripts/audit_bloomshift_candidate.py",
+      "scripts/analyze_annotation_agreement.py"
+    ],
+    "human_labels_present": false,
+    "reviewer_worksheets_synchronized": true,
+    "finding": "Structural audits and agreement analysis are reproducible; agreement calculation remains blocked until both reviewers submit labels."
+  },
+  "next_action": "Human calibration and independent annotation remain the only unresolved validation stage. Near-duplicate and template-shortcut findings should be disclosed in the dataset limitations and benchmark protocol."
 }
