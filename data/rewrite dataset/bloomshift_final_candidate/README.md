@@ -44,3 +44,8 @@ These are annotation instructions, not pre-filled labels. Reviewers should indep
 A deterministic content-preservation audit was performed across all 888 records. It screened source-anchor coverage and checked preservation of source numerals, quoted material, and explicit negation cues. Two held-out marketing-strategy rewrites were corrected to restore source-specific product/model context, and the annotation file was synchronized.
 
 A separate language-quality audit screened all 888 target rewrites for mechanically malformed template phrasing. A limited set of duplicated words, source-imperative insertion errors, duplicated distinction verbs, and malformed evaluation endings was corrected without intentionally changing the source topic or target cognitive operation. These automated checks are screening controls only; they do not establish semantic equivalence, Bloom alignment, or pedagogical validity. Human review remains required before gold release.
+
+
+### Bloom cognitive-validity audit
+
+A Bloom-level screening was performed across all 888 target rewrites using action-verb cues together with structural inspection of repeated transformation templates. This confirmed that lexical cues alone are not sufficient to certify Bloom level: valid transformations may express the intended operation structurally, while action verbs can occur in mixed cognitive contexts. Clearly weak or malformed transformations were corrected, including evaluation-derived Understand rewrites that asked the reader to identify what was being judged rather than understand or explain the underlying content. The corrected candidate still requires human Bloom-level annotation before it can be treated as a gold benchmark.
