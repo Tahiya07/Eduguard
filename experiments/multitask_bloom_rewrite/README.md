@@ -1,40 +1,41 @@
-# Multi-task Bloom Rewrite Experiment (Qwen 0.5B vs 1.5B)
+# EduGuard Final 1.5B Multitask Generator Experiment
 
-Isolated under `experiments/multitask_bloom_rewrite/`.  
-**Does not modify** production app code or `models/qwen.gguf`.
+This directory contains the final training/evaluation pipeline for the shared Qwen2.5-1.5B-Instruct generator.
 
-## Current machine policy
+Architecture:
+- Qwen2.5-0.5B-Instruct — Bloom classification only; trained separately.
+- Qwen2.5-1.5B-Instruct — one shared LoRA generator for Bloom transformation, SQuAD 1.1 QA, and BillSum summarization.
 
-Implement + audit + prepare + test + resource gate.  
-**Do not train** if the resource gate fails.
+The 0.5B classification dataset is not part of the 1.5B generator corpus.
 
-## Quick start (safe steps)
+## Final dataset contract
 
-See `reproduce/`.
+Generator inputs:
+- data/rewrite dataset/bloomshift_final_candidate/
+- rajpurkar/squad
+- FiscalNote/billsum
 
-## Training (only on a machine that passes the gate)
+Generated corpus: data/multitask_bloom_rewrite_final/
 
-```powershell
-python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen05b_multitask.json
-python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask.json
-```
+Training sampling: 40% Bloom / 30% QA / 30% summarization. Validation and test retain task-specific held-out splits.
 
-Use a separate env from `requirements-train.txt` so production packages are not upgraded blindly.
+SFT context limit: 8192 tokens. SQuAD oversized contexts are windowed while preserving the answer span. BillSum examples whose complete article+summary SFT sequence exceeds the fixed budget are excluded deterministically rather than silently truncating the article.
 
-## Evaluation (after training)
+## Safe workflow
 
-```powershell
-python -m unittest experiments.multitask_bloom_rewrite.tests.test_evaluate_rewrite -v
+1. Generate the final corpus.
+2. Run strict dataset QC with max length 8192.
+3. Run sanity_check_multitask_training.py for Bloom, QA, and summarization; use --backward on a suitable GPU machine.
+4. Run the resource gate.
+5. Train using configs/qwen15b_multitask_final.json.
 
-python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
-  --config experiments/multitask_bloom_rewrite/configs/qwen05b_multitask.json `
-  --condition lora
+Example commands:
 
-python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py `
-  --config experiments/multitask_bloom_rewrite/configs/qwen05b_multitask.json `
-  --condition base
-```
+    python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192
+    python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_final --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
+    python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_final
+    python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
 
-Results: `experiments/multitask_bloom_rewrite/results/qwen05b_lora/` (or `qwen05b_base/`).
+Training selects the best checkpoint using validation loss only. The test split must not be used for hyperparameter tuning or checkpoint selection.
 
-Uses **only** `data/multitask_bloom_rewrite/test.jsonl` (8321 examples). Requires `models/qwen05b_multitask_lora/best_adapter/` on disk.
+Historical v2/v3 comparison scripts and old result directories are retained only as provenance; they are not inputs to the final generator training run.

@@ -1,9 +1,19 @@
-# Multi-task experiment reproducibility
+# Final multitask reproducibility
 
-Use Python 3.10+ with packages from `../requirements-train.txt` for HF dataset downloads and training.
+Use Python 3.10+ with the packages in requirements-train.txt.
 
-Preferred interpreter on the authoring machine when available:
+The final generator pipeline is:
 
-```text
-C:\Users\tahiy\AppData\Local\Programs\Python\Python310\python.exe
-```
+1. BloomShift bloomshift_final_candidate
+2. SQuAD 1.1
+3. FiscalNote BillSum
+4. 40/30/30 task sampling for training
+5. 8192-token SFT context limit
+6. strict dataset QC
+7. 1.5B training sanity check
+8. resource gate
+9. final 1.5B LoRA training
+
+Run run_training.ps1 for the complete sequence.
+
+The script intentionally does not invoke the 0.5B Bloom classifier dataset.
