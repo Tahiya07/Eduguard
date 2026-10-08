@@ -91,6 +91,23 @@ Until these conditions are met, the repository should continue to describe the d
 The candidate contains 28 of the 30 possible non-identity source-to-target Bloom transitions. The two absent directions are **Remember → Evaluate** and **Remember → Create**, reflecting the very small number of Remember-level source questions in the underlying source dataset. Target levels are balanced within each split, but the source-to-target transition matrix is therefore not fully balanced.
 
 These missing transitions should not be filled by synthetic source questions solely to improve matrix balance, because doing so would alter source provenance and require a new curation cycle. Benchmark reporting should therefore describe target-level balance and explicitly disclose the incomplete source-to-target transition coverage.
+### Controlled annotation values
+
+Use the following values exactly; do not invent alternative spellings or scales.
+
+- `bloom_aligned`: `Yes` or `No`.
+- `reviewer_bloom_level`: `Remember`, `Understand`, `Apply`, `Analyze`, `Evaluate`, or `Create`.
+- `content_preserved`: `Yes`, `Partial`, or `No`.
+- `context_preserved`: `Yes`, `Partial`, or `No`.
+- `meaningful_transformation`: `Yes`, `Partial`, or `No`.
+- `pedagogically_valid`: `Yes`, `Partial`, or `No`.
+- `clear_and_grammatical`: `Yes`, `Partial`, or `No`.
+- `final_decision`: `Accept`, `Revise`, or `Reject`.
+- `corrected_question`: leave blank unless the reviewer proposes a specific correction.
+- `reason`: concise evidence-based rationale; required for any `No`, `Partial`, `Revise`, or `Reject` judgment.
+
+Do not use `Partial` as a substitute for uncertainty. If a reviewer cannot determine a judgment from the source and target alone, record the closest defensible decision and explain the evidence in `reason`; unresolved disagreements are handled during adjudication.
+
 ### Agreement analysis
 
 After both reviewers complete the 228-example main annotation pass, run the reproducible agreement checker from the repository root:
