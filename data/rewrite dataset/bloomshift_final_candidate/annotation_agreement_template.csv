@@ -1,0 +1,11 @@
+field,measurement,annotator_count,pre_adjudication,post_adjudication,notes
+bloom_aligned,Cohen's kappa (2 annotators),2,,,,
+reviewer_bloom_level,Cohen's kappa (2 annotators),2,,,,
+content_preserved,Cohen's kappa (2 annotators),2,,,,
+context_preserved,Cohen's kappa (2 annotators),2,,,,
+meaningful_transformation,Cohen's kappa (2 annotators),2,,,,
+pedagogically_valid,Cohen's kappa (2 annotators),2,,,,
+clear_and_grammatical,Cohen's kappa (2 annotators),2,,,,
+final_decision,Cohen's kappa (2 annotators),2,,,,
+agreement_method_note,Use Krippendorff's alpha instead if more than two annotators contribute labels,,,,
+calibration_note,Exclude the 20-example calibration batch from the reported agreement estimate,,,,
