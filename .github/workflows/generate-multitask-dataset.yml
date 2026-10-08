@@ -50,7 +50,9 @@ jobs:
             --seed 42 \
             --mix-bloom 0.40 \
             --mix-qa 0.30 \
-            --mix-sum 0.30
+            --mix-sum 0.30 \
+            --model-id Qwen/Qwen2.5-1.5B-Instruct \
+            --max-seq-length 8192
 
       - name: Validate generated corpus
         env:
