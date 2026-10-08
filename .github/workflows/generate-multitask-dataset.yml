@@ -34,7 +34,11 @@ jobs:
       - name: Install dataset-generation dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install             "datasets==2.20.0"             "transformers==4.41.0"             "tokenizers==0.19.1"             "huggingface_hub<1.0"
+          python -m pip install \
+            "datasets==2.20.0" \
+            "transformers==4.41.0" \
+            "tokenizers==0.19.1" \
+            "huggingface_hub<1.0"
 
       - name: Generate final combined corpus
         env:
@@ -42,7 +46,11 @@ jobs:
           HF_DATASETS_CACHE: ${{ runner.temp }}/huggingface/datasets
           TOKENIZERS_PARALLELISM: "false"
         run: |
-          python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py             --seed 42             --mix-bloom 0.40             --mix-qa 0.30             --mix-sum 0.30
+          python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py \
+            --seed 42 \
+            --mix-bloom 0.40 \
+            --mix-qa 0.30 \
+            --mix-sum 0.30
 
       - name: Validate generated corpus
         env:
@@ -50,7 +58,10 @@ jobs:
           HF_DATASETS_CACHE: ${{ runner.temp }}/huggingface/datasets
           TOKENIZERS_PARALLELISM: "false"
         run: |
-          python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py             --data-dir data/multitask_bloom_rewrite_final             --max-length 1024             --model-id Qwen/Qwen2.5-1.5B-Instruct
+          python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py \
+            --data-dir data/multitask_bloom_rewrite_final \
+            --max-length 4096 \
+            --model-id Qwen/Qwen2.5-1.5B-Instruct
 
       - name: Upload generated corpus and reports
         uses: actions/upload-artifact@v4
