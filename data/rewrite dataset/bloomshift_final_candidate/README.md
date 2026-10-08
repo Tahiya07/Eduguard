@@ -120,3 +120,11 @@ python scripts/analyze_annotation_agreement.py \\
 ```
 
 The script refuses to compute agreement while any controlled human-label field is blank, checks reviewer alignment and duplicate IDs, excludes the separate calibration batch, and reports Cohen's kappa separately for each annotation dimension. It does not generate or alter reviewer labels.
+### Additional pre-annotation audits
+
+A deterministic pre-annotation audit now checks example-ID uniqueness, source/group provenance, split isolation, source-to-target expansion, normalized-template recurrence, and residual mechanical wording artifacts. The current candidate has 888 unique examples from 238 source records, with zero group overlap across train/validation/test and zero identity transformations. Source expansion is intentionally non-uniform: 119 source records have all five available non-identity target transformations, while the remaining source records have fewer; this follows the curated transition coverage and should not be described as five transformations per source.
+
+Two highly similar source-question pairs were detected by a token-overlap screen. One is duplicate wording within training and one near-duplicate pair crosses train/validation. These are retained as provenance-review flags rather than automatically deleted. The audit also found 35 normalized target templates recurring across splits, of which 34 are associated with a single target Bloom level. This creates a potential template-to-target shortcut; the benchmark should therefore not be described as template-disjoint. A template-held-out evaluation is preferable when reporting model generalization.
+
+Three residual mechanical wording artifacts were safely corrected (bloomshift_final_train_0645, bloomshift_final_test_0057, and bloomshift_final_test_0113), and the validation/test annotation worksheets were regenerated from the synchronized candidate files. No human annotation values were inserted. These audits are implemented in scripts/audit_bloomshift_candidate.py.
+
