@@ -106,7 +106,8 @@
     "Rewrite openings were diversified across interrogative and action-verb forms; this is a surface-form diversification step, not evidence by itself of cognitive-level validity.",
     "Content-preservation audit found no dropped source numerals, quoted material, or explicit negation cues; two held-out rewrites with source-specific product/model context omissions were corrected and annotation targets synchronized.",
     "Language-quality audit completed across all 888 target rewrites; mechanically malformed phrasing was corrected and held-out annotation targets synchronized. Human review remains required for semantic, Bloom-level, and pedagogical validity.",
-    "Bloom cognitive-validity screening completed across all 888 records. Forty-two clearly weak or malformed transformations were corrected; the lexical cue-only diagnostic remains insufficient for automatic Bloom certification, so human annotation is still required."
+    "Bloom cognitive-validity screening completed across all 888 records. Forty-two clearly weak or malformed transformations were corrected; the lexical cue-only diagnostic remains insufficient for automatic Bloom certification, so human annotation is still required.",
+    "A post-audit residual-artifact scan found seven additional mechanically defective transformations; these were corrected and held-out annotation targets synchronized. This does not replace human semantic or Bloom-level validation."
   ],
   "question_form_counts": {
     "train": {
@@ -226,5 +227,22 @@
       "manifest": "annotation_manifest.json"
     },
     "finding": "Annotation infrastructure is now reproducible and contains no prefilled human judgments. The dataset remains a silver candidate until independent review, agreement analysis, adjudication, and release synchronization are completed."
+  },
+  "residual_transformation_artifact_audit": {
+    "method": "Deterministic post-audit scan for source imperative leakage and malformed comparison scaffolds, followed by manual inspection of flagged examples.",
+    "rows_checked": 888,
+    "corrections_applied": 7,
+    "corrected_example_ids": [
+      "bloomshift_final_train_0117",
+      "bloomshift_final_train_0225",
+      "bloomshift_final_train_0267",
+      "bloomshift_final_train_0324",
+      "bloomshift_final_validation_0062",
+      "bloomshift_final_validation_0081",
+      "bloomshift_final_test_0101"
+    ],
+    "correction_scope": "Removed embedded source imperative commands from comparison-framework rewrites and corrected one malformed comparison construction ('between ... to ...'). Source topics and intended target Bloom operations were retained.",
+    "finding": "Residual mechanical transformation artifacts remained after the earlier language and Bloom audits. They were corrected without preassigning human quality labels.",
+    "post_correction_status": "All specifically identified source-command and comparison artifacts were corrected; broader semantic and Bloom validity still require independent human review."
   }
 }
