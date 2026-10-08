@@ -41,7 +41,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Optional second-pass Bloom rewrite eval")
     parser.add_argument(
         "--config",
-        default=str(CONFIG_DIR / "qwen15b_multitask_v3.json"),
+        default=str(CONFIG_DIR / "qwen15b_multitask_final.json"),
     )
     parser.add_argument("--condition", choices=["base", "lora"], default="lora")
     parser.add_argument("--limit", type=int, default=0)
@@ -68,14 +68,14 @@ def main() -> None:
         "max_new_tokens": int(cfg.get("generation", {}).get("max_new_tokens", 128)),
     }
     set_seed(SEED)
-    data_dir = Path(cfg.get("dataset_dir", REPO_ROOT / "data" / "multitask_bloom_rewrite_v3"))
+    data_dir = Path(cfg.get("dataset_dir", REPO_ROOT / "data" / "multitask_bloom_rewrite_final"))
     rows, meta = load_test_split(data_dir)
     bloom_rows = [r for r in rows if r["task"] == TASK_BLOOM]
     if args.limit:
         bloom_rows = bloom_rows[: args.limit]
 
     ckpt = resolve_checkpoint(cfg, args.condition)
-    validate_checkpoint(ckpt, int(cfg.get("max_seq_length", 512)), gen_cfg)
+    validate_checkpoint(ckpt, int(cfg.get("max_seq_length", 8192)), gen_cfg)
     classify_fn, clf_meta = load_classifier(None, repo_root=REPO_ROOT, require_smoke=True)
     generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
 

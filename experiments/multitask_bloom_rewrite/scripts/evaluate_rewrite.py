@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """Evaluate multi-task Qwen models on the locked held-out TEST split.
 
-Evaluates Bloom rewrite, SQuAD-style QA, and PubMed summarization.
+Evaluates Bloom rewrite, SQuAD-style QA, and BillSum summarization.
 Does not modify production code or models/qwen.gguf.
 
 Usage:
-  python evaluate_rewrite.py --config configs/qwen05b_multitask.json --condition lora
+  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition lora
   python evaluate_rewrite.py --config configs/qwen05b_multitask.json --condition base
 """
 from __future__ import annotations
@@ -58,7 +58,7 @@ from eval_model import (  # noqa: E402
 from paths import (  # noqa: E402
     CONFIG_DIR,
     HUMAN_EVAL_DIR,
-    MULTITASK_DATA_DIR,
+    MULTITASK_FINAL_DATA_DIR,
     SEED,
     TASK_BLOOM,
     TASK_QA,
@@ -215,7 +215,7 @@ def evaluate_bloom_row(
     )
 
     rec = {
-        "id": row.get("example_id"),
+        "id": row.get("id", row.get("example_id")),
         "task": TASK_BLOOM,
         "source_question": row["source_question"],
         "source_bloom_level": row.get("source_bloom_level"),
@@ -360,7 +360,7 @@ def write_report(
         f"- Exact Match: {q.get('exact_match')}",
         f"- Token F1: {q.get('f1')}",
         "",
-        "## Summarization (PubMed test)",
+        "## Summarization (BillSum test)",
         "",
         f"- N: {s.get('n')}",
         f"- ROUGE-1: {s.get('rouge1')}",
@@ -390,12 +390,12 @@ def write_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate multi-task Qwen on locked TEST split (8321 examples)."
+        description="Evaluate the final multi-task Qwen generator on the locked TEST split (13952 examples)."
     )
     parser.add_argument(
         "--config",
-        default=str(CONFIG_DIR / "qwen05b_multitask.json"),
-        help="Training JSON config (default: qwen05b_multitask.json)",
+        default=str(CONFIG_DIR / "qwen15b_multitask_final.json"),
+        help="Training JSON config (default: qwen15b_multitask_final.json)",
     )
     parser.add_argument(
         "--condition",
@@ -405,7 +405,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--dataset-dir",
-        default=str(MULTITASK_DATA_DIR),
+        default=str(MULTITASK_FINAL_DATA_DIR),
         help="Multi-task dataset directory (must contain test.jsonl)",
     )
     parser.add_argument(
@@ -506,7 +506,7 @@ def main() -> None:
 
     try:
         smoke = validate_checkpoint(
-            ckpt, int(cfg.get("max_seq_length", 512)), gen_cfg
+            ckpt, int(cfg.get("max_seq_length", 8192)), gen_cfg
         )
     except Exception as exc:
         print("EVALUATION NOT STARTED — checkpoint validation failed:", exc)

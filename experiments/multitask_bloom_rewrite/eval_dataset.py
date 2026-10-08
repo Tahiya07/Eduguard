@@ -7,13 +7,13 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from paths import MULTITASK_DATA_DIR, TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION
+from paths import MULTITASK_FINAL_DATA_DIR, TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION
 
-EXPECTED_TEST_TOTAL = 8321
+EXPECTED_TEST_TOTAL = 13952
 EXPECTED_TEST_BY_TASK = {
     TASK_BLOOM: 1536,
-    TASK_QA: 5285,
-    TASK_SUMMARIZATION: 1500,
+    TASK_QA: 10570,
+    TASK_SUMMARIZATION: 3268,
 }
 
 
@@ -36,7 +36,7 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def load_manifest(data_dir: Path | None = None) -> dict[str, Any]:
-    data_dir = data_dir or MULTITASK_DATA_DIR
+    data_dir = data_dir or MULTITASK_FINAL_DATA_DIR
     path = data_dir / "dataset_manifest.json"
     if not path.exists():
         raise FileNotFoundError(f"Missing dataset manifest: {path}")
@@ -48,7 +48,7 @@ def _leakage_key(row: dict[str, Any]) -> tuple[str, str]:
     if task == TASK_BLOOM:
         key = str(row.get("group_id") or row.get("source_id") or row["source_question"]).lower()
     else:
-        key = str(row.get("source_id") or row["example_id"])
+        key = str(row.get("source_id") or row.get("id") or row.get("example_id"))
     return task, key
 
 
