@@ -244,5 +244,17 @@
     "correction_scope": "Removed embedded source imperative commands from comparison-framework rewrites and corrected one malformed comparison construction ('between ... to ...'). Source topics and intended target Bloom operations were retained.",
     "finding": "Residual mechanical transformation artifacts remained after the earlier language and Bloom audits. They were corrected without preassigning human quality labels.",
     "post_correction_status": "All specifically identified source-command and comparison artifacts were corrected; broader semantic and Bloom validity still require independent human review."
+  },
+  "source_target_coverage_audit": {
+    "method": "Enumerate all non-identity source-Bloom to target-Bloom transition pairs represented in the candidate.",
+    "possible_non_identity_transitions": 30,
+    "represented_transitions": 28,
+    "missing_transitions": [
+      "Remember->Evaluate",
+      "Remember->Create"
+    ],
+    "finding": "The candidate represents most non-identity Bloom transitions, but Remember-source questions are sparse in the underlying source data, so Remember->Evaluate and Remember->Create are absent. Target levels remain balanced, but source-target transition coverage is not fully balanced.",
+    "decision": "Do not synthesize or import additional Remember-source transformations merely to fill the matrix. Adding new source questions would change provenance and require the same curation pipeline. Report transition coverage explicitly as a dataset limitation.",
+    "implication_for_benchmark": "Claims should focus on balanced target-level evaluation and content-preserving transformation, not on a fully balanced source-target transition matrix."
   }
 }
