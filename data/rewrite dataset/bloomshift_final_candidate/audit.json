@@ -105,7 +105,8 @@
     "Question-family counts describe the actual question_family field and are separate from target Bloom counts.",
     "Rewrite openings were diversified across interrogative and action-verb forms; this is a surface-form diversification step, not evidence by itself of cognitive-level validity.",
     "Content-preservation audit found no dropped source numerals, quoted material, or explicit negation cues; two held-out rewrites with source-specific product/model context omissions were corrected and annotation targets synchronized.",
-    "Language-quality audit completed across all 888 target rewrites; mechanically malformed phrasing was corrected and held-out annotation targets synchronized. Human review remains required for semantic, Bloom-level, and pedagogical validity."
+    "Language-quality audit completed across all 888 target rewrites; mechanically malformed phrasing was corrected and held-out annotation targets synchronized. Human review remains required for semantic, Bloom-level, and pedagogical validity.",
+    "Bloom cognitive-validity screening completed across all 888 records. Forty-two clearly weak or malformed transformations were corrected; the lexical cue-only diagnostic remains insufficient for automatic Bloom certification, so human annotation is still required."
   ],
   "question_form_counts": {
     "train": {
@@ -173,5 +174,23 @@
     "remaining_flagged_mechanical_patterns": 0,
     "annotation_synchronization": "All affected validation/test annotation target_rewrite cells were synchronized after corrections.",
     "finding": "The audit identified mechanically malformed template phrasing in a limited subset of rewrites, including duplicated words, source imperatives inserted after transformation verbs, duplicated distinction verbs, and malformed evaluation endings. These were corrected without changing the intended source topic or target Bloom operation. This is a language-quality cleanup, not evidence that the rewrites are human-validated for Bloom alignment or pedagogy."
+  },
+  "bloom_validity_audit": {
+    "method": "Heuristic cognitive-operation screening using target-level action-verb cues, structural question forms, and manual inspection of repeated transformation templates. The heuristic is diagnostic only and is not used as a gold Bloom label.",
+    "rows_checked": 888,
+    "heuristic": {
+      "cue_detected": 641,
+      "zero_cue": 247,
+      "accuracy_among_cue_detected": 0.6958,
+      "decisive_single_cue_winner_rate": 0.7816
+    },
+    "corrections_applied": 42,
+    "correction_scope": "Only clearly weak or malformed transformations were revised: evaluation-derived Understand templates that described judging rather than explaining, source-command residue in target wording, and a small number of structurally misleading target questions.",
+    "post_correction_screen": {
+      "understand_evaluation_residue": 0,
+      "targeted_malformed_patterns": 0,
+      "obvious_source_clause_residue": 0
+    },
+    "finding": "Bloom validity cannot be established from trigger verbs alone. Several valid transformations express the intended cognitive operation structurally without a target-specific verb, while some target-specific verbs occur in mixed contexts. The cleaned candidate therefore still requires human Bloom-level annotation, especially for cases where the target operation depends on reasoning rather than a lexical cue."
   }
 }
