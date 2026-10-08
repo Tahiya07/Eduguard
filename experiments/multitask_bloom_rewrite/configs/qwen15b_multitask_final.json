@@ -8,7 +8,7 @@
   "seed": 42,
   "epochs": 3,
   "learning_rate": 0.0002,
-  "max_seq_length": 1024,
+  "max_seq_length": 4096,
   "lora_r": 16,
   "lora_alpha": 32,
   "lora_dropout": 0.05,
@@ -44,7 +44,8 @@
     "Final 1.5B shared generator: Bloom transformation + QA + summarization.",
     "Bloom transformation uses data/rewrite dataset/bloomshift_final_candidate only.",
     "The 0.5B Bloom classification dataset is excluded.",
-    "1024 tokens are used because summarization inputs are substantially longer than Bloom questions.",
+    "4096 tokens are used because empirical tokenization showed 1024 would truncate many QA/summarization prompts before any assistant target remained.",
+    "Qwen2.5-1.5B-Instruct supports a 32768-token context window; 4096 is the selected SFT limit for this experiment.",
     "Do not tune hyperparameters after inspecting the held-out test split."
   ]
 }
