@@ -24,6 +24,8 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXPERIMENT_DIR = REPO_ROOT / "experiments" / "multitask_bloom_rewrite"
+if str(EXPERIMENT_DIR) not in __import__("sys").path:
+    __import__("sys").path.insert(0, str(EXPERIMENT_DIR))
 DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_final_candidate"
 DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_final"
 
@@ -251,6 +253,11 @@ def main() -> None:
 
     qa_train, qa_val, qa_test = load_squad(args.seed)
     sum_train, sum_val, sum_test = load_billsum(args.seed)
+
+    if not qa_train or not qa_val or not qa_test:
+        raise SystemExit("SQuAD preparation produced an empty split.")
+    if not sum_train or not sum_val or not sum_test:
+        raise SystemExit("BillSum preparation produced an empty split.")
 
     train_rows = sample_for_mix(
         bloom_train, qa_train, sum_train, args.seed,
