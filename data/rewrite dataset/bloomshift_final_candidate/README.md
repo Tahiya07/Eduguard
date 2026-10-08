@@ -49,3 +49,9 @@ A separate language-quality audit screened all 888 target rewrites for mechanica
 ### Bloom cognitive-validity audit
 
 A Bloom-level screening was performed across all 888 target rewrites using action-verb cues together with structural inspection of repeated transformation templates. This confirmed that lexical cues alone are not sufficient to certify Bloom level: valid transformations may express the intended operation structurally, while action verbs can occur in mixed cognitive contexts. Clearly weak or malformed transformations were corrected, including evaluation-derived Understand rewrites that asked the reader to identify what was being judged rather than understand or explain the underlying content. The corrected candidate still requires human Bloom-level annotation before it can be treated as a gold benchmark.
+
+### Semantic/content-preservation audit
+
+A deterministic content-preservation screen was run across all 888 source/target pairs. It checked content-bearing lexical overlap as a risk indicator and separately checked source numerals, quoted material, and explicit source identifiers. The overlap screen flagged 32 cases (16 train, 6 validation, 10 test) for manual review, but this is not evidence of semantic failure: Bloom transformation necessarily introduces cognitive-operation language and inflectional changes. No source numerals or quoted material were lost in the screen, and no automatic corrections were applied because semantic similarity cannot be established safely from lexical overlap alone.
+
+The 32 flagged cases should receive priority during human validation. This audit is therefore a screening step, not a claim of semantic equivalence or human certification.
