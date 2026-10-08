@@ -11,8 +11,16 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+
+# Running a file directly puts only its scripts/ directory on sys.path.
+# Add the repository root explicitly so experiment modules can be imported
+# without requiring the repository to be installed as a Python package.
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 TASKS = {"bloom_rewrite", "qa", "summarization"}
 REQUIRED = {
