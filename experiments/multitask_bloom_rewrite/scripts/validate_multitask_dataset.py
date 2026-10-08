@@ -3,7 +3,7 @@
 
 This validates the generated JSONL without modifying it. It checks schema,
 split/task isolation, duplicate leakage, prompt construction, and Qwen
-tokenization against the configured 1024-token training limit.
+tokenization against the configured SFT context limit.
 """
 from __future__ import annotations
 
