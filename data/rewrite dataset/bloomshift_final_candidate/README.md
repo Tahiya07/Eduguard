@@ -91,3 +91,15 @@ Until these conditions are met, the repository should continue to describe the d
 The candidate contains 28 of the 30 possible non-identity source-to-target Bloom transitions. The two absent directions are **Remember → Evaluate** and **Remember → Create**, reflecting the very small number of Remember-level source questions in the underlying source dataset. Target levels are balanced within each split, but the source-to-target transition matrix is therefore not fully balanced.
 
 These missing transitions should not be filled by synthetic source questions solely to improve matrix balance, because doing so would alter source provenance and require a new curation cycle. Benchmark reporting should therefore describe target-level balance and explicitly disclose the incomplete source-to-target transition coverage.
+### Agreement analysis
+
+After both reviewers complete the 228-example main annotation pass, run the reproducible agreement checker from the repository root:
+
+```bash
+python scripts/analyze_annotation_agreement.py \\
+  --reviewer1 "data/rewrite dataset/bloomshift_final_candidate/reviewer_1.csv" \\
+  --reviewer2 "data/rewrite dataset/bloomshift_final_candidate/reviewer_2.csv" \\
+  --output "data/rewrite dataset/bloomshift_final_candidate/annotation_agreement.json"
+```
+
+The script refuses to compute agreement while any controlled human-label field is blank, checks reviewer alignment and duplicate IDs, excludes the separate calibration batch, and reports Cohen's kappa separately for each annotation dimension. It does not generate or alter reviewer labels.
