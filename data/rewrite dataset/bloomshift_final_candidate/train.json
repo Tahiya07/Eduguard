@@ -10958,7 +10958,7 @@
     "process_form": null,
     "source_anchor": ".call by value and call by reference",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the distinction between .call by value and call by reference to a practical situation.",
+    "target_rewrite": "Apply the distinction between call by value and call by reference to a practical situation.",
     "synthetic": true,
     "transformation_type": "Analyze->Apply",
     "transformation_strategy": "contextual_application",
