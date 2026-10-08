@@ -227,10 +227,13 @@ def load_squad(
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
 
 
-def load_billsum(seed: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct", max_seq_length: int = 8192) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
     from datasets import load_dataset
+    from transformers import AutoTokenizer
+    from prompts import build_sft_text
 
     ds = load_dataset("FiscalNote/billsum")
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     official_train = list(ds["train"])
     official_test = list(ds["test"])
 
@@ -255,10 +258,31 @@ def load_billsum(seed: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]],
                 "abstract": summary,
                 "title": str(row.get("title", "")).strip(),
             }
+
+            # BillSum contains a very small number of unusually long articles.
+            # Do not silently truncate a summarization target: truncation would
+            # change the conditioning document while retaining a summary written
+            # for the full document. Apply the same predeclared token-budget rule
+            # to every split and exclude only examples whose complete SFT sequence
+            # cannot fit within the selected training context.
+            full_len = len(
+                tokenizer(
+                    build_sft_text(TASK_SUM, record),
+                    add_special_tokens=False,
+                )["input_ids"]
+            )
+            if full_len > max_seq_length:
+                excluded[split] += 1
+                continue
+
             out.append(record)
         return out
 
-    return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_test, "test")
+    excluded = {"train": 0, "validation": 0, "test": 0}
+    train_rows = convert(train_raw, "train")
+    val_rows = convert(val_raw, "validation")
+    test_rows = convert(official_test, "test")
+    return train_rows, val_rows, test_rows, excluded
 
 
 def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -356,7 +380,9 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test = load_billsum(args.seed)
+    sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
+        args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
+    )
 
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
@@ -424,6 +450,11 @@ def main() -> None:
             "dataset": "FiscalNote/billsum",
             "train_fraction_after_deterministic_split": 0.95,
             "official_test_used_as_test": True,
+            "long_context_policy": {
+                "max_seq_length": args.max_seq_length,
+                "over_budget_examples_excluded": billsum_excluded,
+                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries",
+            },
         },
         "train_mix": {
             TASK_BLOOM: args.mix_bloom,
