@@ -66,6 +66,19 @@ For agreement reporting, calculate Cohen's kappa for categorical fields when exa
 
 Disagreements should be adjudicated by a senior reviewer or supervisor using the original source question, target question, and both rationales. The adjudicator may Accept, Revise, or Reject the example and should record the corrected question and reason where applicable. Adjudication changes must be applied to the dataset and annotation file together. The adjudicated result is the release label; raw independent labels should be retained separately for agreement analysis.
 
+
+### Annotation infrastructure
+
+The repository now includes a reproducible annotation workspace:
+
+- `annotation_calibration.csv`: 20-example calibration batch covering all six target Bloom levels. It contains no reviewer labels and is excluded from reported agreement.
+- `reviewer_1.csv` and `reviewer_2.csv`: identical blank worksheets for independent annotation of all 228 validation/test examples. Human fields are intentionally empty.
+- `annotation_agreement_template.csv`: pre-adjudication agreement-reporting template for each annotation field.
+- `annotation_manifest.json`: records the annotation version, calibration IDs, reviewer count, priority-review count, and file roles.
+
+The calibration set contains two validation and one test example per target level, plus the two previously corrected held-out marketing-strategy examples. The latter are included to ensure the calibration process explicitly exercises examples that previously required content-preservation correction. No reviewer decision is prefilled.
+
+
 ### Proposed gold-release criteria
 
 BloomShift should not be called a human-validated gold dataset until: (1) all 228 validation/test examples have completed independent review; (2) every example has a resolved final decision; (3) examples marked Reject are excluded from the released gold split; (4) Revise cases are corrected and re-reviewed; (5) agreement statistics are reported for the main annotation pass; (6) the 32 cases flagged by the semantic/content-preservation screen receive explicit review; and (7) the final released files, annotation table, and audit record are synchronized. Any threshold for acceptable agreement should be declared in the paper before results are interpreted rather than selected after seeing the outcomes.
