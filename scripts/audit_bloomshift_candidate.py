@@ -59,7 +59,7 @@ def main():
 
     quality_flags=[]
     checks=[
-        ("comma_and_meets", re.compile(r"whether[^?]{0,250},\s*and\s+[^?]{0,150}\s+meets\b",re.I)),
+        ("comma_and_meets", re.compile(r"whether[^?]{0,250},\s*and\s+(?:suggest|use|apply|design|construct|assess)\b[^?]{0,150}\s+meets\b",re.I)),
         ("double_space", re.compile(r"\s{2,}")),
         ("space_before_punctuation", re.compile(r"\s+[,.?]")),
         ("double_terminal_question", re.compile(r"\?\s*[.?]$")),
