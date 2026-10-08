@@ -221,7 +221,7 @@ def main() -> None:
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
-        eval_strategy="epoch",
+        evaluation_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
         metric_for_best_model=cfg.get("metric_for_best_model", "eval_loss"),
