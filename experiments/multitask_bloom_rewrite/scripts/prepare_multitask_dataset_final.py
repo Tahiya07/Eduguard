@@ -92,10 +92,16 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
     return out
 
 
-def load_squad(seed: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+def load_squad(
+    seed: int,
+    tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
+    max_seq_length: int = 8192,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     from datasets import load_dataset
+    from transformers import AutoTokenizer
 
     ds = load_dataset("rajpurkar/squad")
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     official_train = list(ds["train"])
     official_dev = list(ds["validation"])
 
@@ -122,19 +128,100 @@ def load_squad(seed: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]], l
             answers = row.get("answers", {})
             texts = answers.get("text", [])
             starts = answers.get("answer_start", [])
-            if not row.get("context") or not row.get("question") or not texts:
+            context = str(row.get("context", ""))
+            question = str(row.get("question", ""))
+            answer = str(texts[0]) if texts else ""
+            answer_start = starts[0] if starts else None
+            if not context or not question or not answer:
                 continue
-            record = {
-                "task": TASK_QA,
-                "split": split,
-                "id": str(row["id"]),
-                "context": row["context"],
-                "question": row["question"],
-                "answer": texts[0],
-                "answer_start": starts[0] if starts else None,
-                "title": row.get("title"),
-            }
-            out.append(record)
+
+            # Keep every QA example answerable while making pathological
+            # contexts fit the fixed SFT budget. Only contexts that would
+            # exceed the budget are windowed; the answer span is retained.
+            # This is deterministic and applies equally to train/validation/test.
+            if split in {"train", "validation", "test"}:
+                base_record = {
+                    "task": TASK_QA,
+                    "split": split,
+                    "id": str(row["id"]),
+                    "context": context,
+                    "question": question,
+                    "answer": answer,
+                    "answer_start": answer_start,
+                    "title": row.get("title"),
+                }
+                from prompts import build_sft_text
+
+                if len(tokenizer(build_sft_text(TASK_QA, base_record), add_special_tokens=False)["input_ids"]) > max_seq_length:
+                    if answer_start is None or context[answer_start:answer_start + len(answer)] != answer:
+                        raise ValueError(
+                            f"SQuAD answer span mismatch for {row['id']}; cannot safely window context."
+                        )
+
+                    # Estimate the available context-token budget from the
+                    # fixed system/question/answer portions, then keep a
+                    # token window centered on the answer span.
+                    context_ids = tokenizer(context, add_special_tokens=False)["input_ids"]
+                    answer_prefix_ids = tokenizer(
+                        context[:answer_start], add_special_tokens=False
+                    )["input_ids"]
+                    answer_ids = tokenizer(
+                        answer, add_special_tokens=False
+                    )["input_ids"]
+                    answer_token_start = len(answer_prefix_ids)
+                    answer_token_end = answer_token_start + len(answer_ids)
+
+                    fixed_record = dict(base_record)
+                    fixed_record["context"] = ""
+                    fixed_tokens = len(
+                        tokenizer(
+                            build_sft_text(TASK_QA, fixed_record),
+                            add_special_tokens=False,
+                        )["input_ids"]
+                    )
+                    available_context_tokens = max_seq_length - fixed_tokens
+                    if available_context_tokens <= len(answer_ids):
+                        raise ValueError(
+                            f"SQuAD answer alone exceeds the available context budget for {row['id']}."
+                        )
+
+                    window_tokens = min(len(context_ids), available_context_tokens)
+                    extra = window_tokens - len(answer_ids)
+                    left = min(answer_token_start, extra // 2)
+                    right = extra - left
+                    if answer_token_start + right > len(context_ids):
+                        right = len(context_ids) - answer_token_start
+                        left = min(answer_token_start, extra - right)
+                    start_tok = max(0, answer_token_start - left)
+                    end_tok = min(len(context_ids), answer_token_end + right)
+
+                    context = tokenizer.decode(
+                        context_ids[start_tok:end_tok],
+                        skip_special_tokens=True,
+                    ).strip()
+
+                    if answer not in context:
+                        raise ValueError(
+                            f"Answer was lost while windowing SQuAD context for {row['id']}."
+                        )
+                    answer_start = context.find(answer)
+
+                    base_record["context"] = context
+                    base_record["answer_start"] = answer_start
+
+                    final_len = len(
+                        tokenizer(
+                            build_sft_text(TASK_QA, base_record),
+                            add_special_tokens=False,
+                        )["input_ids"]
+                    )
+                    if final_len > max_seq_length:
+                        raise ValueError(
+                            f"SQuAD context window still exceeds max_seq_length for {row['id']}: "
+                            f"{final_len} > {max_seq_length}."
+                        )
+
+                out.append(base_record)
         return out
 
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
@@ -233,6 +320,8 @@ def main() -> None:
     parser.add_argument("--mix-bloom", type=float, default=0.40)
     parser.add_argument("--mix-qa", type=float, default=0.30)
     parser.add_argument("--mix-sum", type=float, default=0.30)
+    parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
+    parser.add_argument("--max-seq-length", type=int, default=8192)
     args = parser.parse_args()
 
     bloom_dir = Path(args.bloom_dir)
@@ -262,7 +351,11 @@ def main() -> None:
     if group_set(bloom_val) & group_set(bloom_test):
         raise SystemExit("BloomShift validation/test group leakage detected.")
 
-    qa_train, qa_val, qa_test = load_squad(args.seed)
+    qa_train, qa_val, qa_test = load_squad(
+        args.seed,
+        tokenizer_model_id=args.model_id,
+        max_seq_length=args.max_seq_length,
+    )
     sum_train, sum_val, sum_test = load_billsum(args.seed)
 
     if not qa_train or not qa_val or not qa_test:
@@ -322,6 +415,10 @@ def main() -> None:
             "dataset": "rajpurkar/squad",
             "train_fraction_after_deterministic_split": 0.95,
             "official_validation_used_as_test": True,
+            "long_context_policy": {
+                "max_seq_length": args.max_seq_length,
+                "answer_preserving_context_window": True,
+            },
         },
         "summarization_source": {
             "dataset": "FiscalNote/billsum",
