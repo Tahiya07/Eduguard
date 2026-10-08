@@ -6,7 +6,7 @@ Does not modify production code or models/qwen.gguf.
 
 Usage:
   python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition lora
-  python evaluate_rewrite.py --config configs/qwen05b_multitask.json --condition base
+  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition base
 """
 from __future__ import annotations
 
