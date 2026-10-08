@@ -99,11 +99,22 @@ def load_squad(seed: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]], l
     official_train = list(ds["train"])
     official_dev = list(ds["validation"])
 
-    rng = random.Random(seed)
-    rng.shuffle(official_train)
-    cut = max(1, int(len(official_train) * 0.95))
-    train_raw = official_train[:cut]
-    val_raw = official_train[cut:]
+    # SQuAD contains multiple questions for the same paragraph. Split by
+    # exact context so questions from one paragraph cannot cross train/validation.
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for row in official_train:
+        groups.setdefault(str(row.get("context", "")), []).append(row)
+
+    group_items = list(groups.items())
+    random.Random(seed).shuffle(group_items)
+    target_train = int(len(official_train) * 0.95)
+    train_raw: list[dict[str, Any]] = []
+    val_raw: list[dict[str, Any]] = []
+    for _, group_rows in group_items:
+        if len(train_raw) < target_train:
+            train_raw.extend(group_rows)
+        else:
+            val_raw.extend(group_rows)
 
     def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
         out = []
