@@ -53,11 +53,35 @@ def load_jsonl(path: Path) -> list[dict]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default="data/multitask_bloom_rewrite_final")
-    ap.add_argument("--max-length", type=int, default=1024)
-    ap.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
+    ap.add_argument(
+        "--config",
+        default="experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json",
+        help="Training config used to resolve the default model and sequence length.",
+    )
+    ap.add_argument(
+        "--max-length",
+        type=int,
+        default=None,
+        help="Override max_seq_length from --config; omit to use the training setting.",
+    )
+    ap.add_argument("--model-id", default=None, help="Override model_id from --config.")
     args = ap.parse_args()
 
+    config_path = Path(args.config)
+    if not config_path.is_absolute():
+        config_path = REPO_ROOT / config_path
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"Cannot load training config {config_path}: {exc}") from exc
+    if args.max_length is None:
+        args.max_length = int(config.get("max_seq_length", 8192))
+    if args.model_id is None:
+        args.model_id = str(config.get("model_id", "Qwen/Qwen2.5-1.5B-Instruct"))
+
     root = Path(args.data_dir)
+    if not root.is_absolute():
+        root = REPO_ROOT / root
     splits = {s: load_jsonl(root / f"{s}.jsonl") for s in ("train", "validation", "test")}
     all_rows = [r for rows in splits.values() for r in rows]
 
@@ -173,6 +197,30 @@ def main() -> None:
         }
 
     counts = {s: dict(Counter(r["task"] for r in rows)) for s, rows in splits.items()}
+
+    # Validate metadata as well as JSONL content; stale manifests are dataset QC errors.
+    dataset_manifest_path = root / "dataset_manifest.json"
+    if not dataset_manifest_path.exists():
+        errors.append(f"missing canonical dataset manifest: {dataset_manifest_path}")
+    else:
+        try:
+            dataset_manifest = json.loads(dataset_manifest_path.read_text(encoding="utf-8"))
+            manifest_counts = dataset_manifest.get("counts", {})
+            for split in ("train", "validation", "test"):
+                expected_counts = manifest_counts.get(split)
+                if not isinstance(expected_counts, dict):
+                    errors.append(f"manifest missing counts.{split}")
+                    continue
+                expected_counts = {str(k): int(v) for k, v in expected_counts.items()}
+                observed_counts = counts[split]
+                if expected_counts != observed_counts:
+                    errors.append(
+                        f"manifest counts.{split} mismatch: "
+                        f"manifest={expected_counts}, observed={observed_counts}"
+                    )
+        except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+            errors.append(f"cannot validate dataset manifest: {exc}")
+
     train_total = len(splits["train"])
     train_mix = {k: round(v / train_total, 6) for k, v in counts["train"].items()}
 

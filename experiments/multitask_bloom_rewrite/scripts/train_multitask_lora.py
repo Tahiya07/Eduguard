@@ -10,8 +10,10 @@ If the resource gate fails:
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import os
+from collections import Counter
 import random
 import subprocess
 import sys
@@ -129,6 +131,20 @@ def main() -> None:
 
     train_rows = read_jsonl(data_dir / "train.jsonl")
     val_rows = read_jsonl(data_dir / "validation.jsonl")
+    validation_task_counts = Counter(row.get("task") for row in val_rows)
+    expected_validation_tasks = {"bloom_rewrite", "qa", "summarization"}
+    if (
+        set(validation_task_counts) != expected_validation_tasks
+        or len(set(validation_task_counts.values())) != 1
+    ):
+        raise SystemExit(
+            "TRAINING NOT STARTED: validation.jsonl must be row-balanced across "
+            "bloom_rewrite, qa, and summarization. Run "
+            "experiments/multitask_bloom_rewrite/scripts/"
+            "balance_multitask_validation.py first. "
+            f"Observed counts: {dict(validation_task_counts)}"
+        )
+    print("VALIDATION TASK COUNTS:", dict(validation_task_counts))
     print("DATASET DIR:", data_dir.resolve())
     print("TRAIN FILE:", (data_dir / "train.jsonl").resolve())
     print("TRAIN ROWS:", len(train_rows))
@@ -190,6 +206,7 @@ def main() -> None:
         trust_remote_code=True,
         torch_dtype=torch.float32 if device == "cpu" else torch.float16,
     )
+    model.config.use_cache = False
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
         lora_alpha=int(cfg["lora_alpha"]),
@@ -211,7 +228,14 @@ def main() -> None:
     total_steps = steps_per_epoch * int(cfg["epochs"])
     warmup_steps = int(total_steps * float(cfg["warmup_ratio"]))
 
+    # Transformers renamed evaluation_strategy to eval_strategy in newer releases.
+    eval_strategy_key = (
+        "eval_strategy"
+        if "eval_strategy" in inspect.signature(TrainingArguments).parameters
+        else "evaluation_strategy"
+    )
     args_tr = TrainingArguments(
+        gradient_checkpointing=True,
         output_dir=str(output_dir),
         num_train_epochs=float(cfg["epochs"]),
         learning_rate=float(cfg["learning_rate"]),
@@ -221,7 +245,7 @@ def main() -> None:
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
-        evaluation_strategy="epoch",
+        **{eval_strategy_key: "epoch"},
         save_strategy="epoch",
         load_best_model_at_end=True,
         metric_for_best_model=cfg.get("metric_for_best_model", "eval_loss"),
@@ -269,7 +293,8 @@ def main() -> None:
         "train_samples": len(train_rows),
         "validation_samples": len(val_rows),
         "metrics": train_result.metrics if train_result else None,
-        "checkpoint_selection": "validation_loss_only",
+        "checkpoint_selection": "balanced_validation_eval_loss",
+        "validation_task_counts": dict(validation_task_counts),
         "assistant_only_loss": True,
     }
     (results_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")

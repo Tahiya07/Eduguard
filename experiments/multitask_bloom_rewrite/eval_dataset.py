@@ -9,12 +9,7 @@ from typing import Any
 
 from paths import MULTITASK_FINAL_DATA_DIR, TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION
 
-EXPECTED_TEST_TOTAL = 13952
-EXPECTED_TEST_BY_TASK = {
-    TASK_BLOOM: 1536,
-    TASK_QA: 10570,
-    TASK_SUMMARIZATION: 3268,
-}
+EXPECTED_TASKS = {TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION}
 
 
 def sha256_file(path: Path) -> str:
@@ -62,33 +57,47 @@ def assert_split_is_test(rows: list[dict[str, Any]], *, path: Path) -> None:
             f"Evaluator must use held-out TEST split; got file {path.name}. "
             "Do not evaluate on validation.jsonl."
         )
-    non_test = [r for r in rows if r.get("split") not in (None, "test")]
+    non_test = [r for r in rows if r.get("split") != "test"]
     if non_test:
         raise AssertionError(
-            f"{len(non_test)} records are not tagged split=test in {path}"
+            f"{len(non_test)} records are missing split=test tag in {path}"
         )
 
 
 def assert_test_counts(rows: list[dict[str, Any]], manifest: dict[str, Any] | None = None) -> dict[str, Any]:
-    n = len(rows)
-    if n != EXPECTED_TEST_TOTAL:
+    if manifest is None:
+        raise AssertionError("Dataset manifest is required to validate test counts.")
+
+    by_task = Counter(r.get("task") for r in rows)
+    unknown = set(by_task) - EXPECTED_TASKS
+    if unknown:
+        raise AssertionError(f"Unexpected test tasks: {sorted(map(str, unknown))}")
+
+    reported = manifest.get("counts", {}).get("test", {})
+    if not isinstance(reported, dict) or not reported:
+        raise AssertionError("Manifest is missing counts.test.")
+
+    expected = {task: int(count) for task, count in reported.items()}
+    if set(expected) != EXPECTED_TASKS:
         raise AssertionError(
-            f"test examples == {EXPECTED_TEST_TOTAL} expected; got {n}"
+            f"Manifest test tasks do not match expected task set: {sorted(expected)}"
         )
-    by_task = Counter(r["task"] for r in rows)
-    for task, expected in EXPECTED_TEST_BY_TASK.items():
+
+    expected_total = sum(expected.values())
+    if expected_total != len(rows):
+        raise AssertionError(
+            f"Manifest test task counts sum to {expected_total}, "
+            f"but test.jsonl contains {len(rows)} rows."
+        )
+
+    for task in sorted(EXPECTED_TASKS):
         got = by_task.get(task, 0)
-        if got != expected:
+        if got != expected[task]:
             raise AssertionError(
-                f"test task {task}: expected {expected}, got {got}"
+                f"test task {task}: manifest expects {expected[task]}, got {got}"
             )
-    if manifest:
-        reported = manifest.get("counts", {}).get("test", {})
-        if reported.get("total") and reported["total"] != n:
-            raise AssertionError(
-                f"manifest test total {reported['total']} != loaded {n}"
-            )
-    return {"test_count": n, "by_task": dict(by_task)}
+
+    return {"test_count": len(rows), "by_task": dict(by_task)}
 
 
 def assert_no_split_leakage(data_dir: Path) -> dict[str, Any]:
@@ -130,7 +139,7 @@ def assert_no_split_leakage(data_dir: Path) -> dict[str, Any]:
 
 
 def load_test_split(data_dir: Path | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    data_dir = data_dir or MULTITASK_DATA_DIR
+    data_dir = data_dir or MULTITASK_FINAL_DATA_DIR
     test_path = data_dir / "test.jsonl"
     if not test_path.exists():
         raise FileNotFoundError(f"Missing test split: {test_path}")

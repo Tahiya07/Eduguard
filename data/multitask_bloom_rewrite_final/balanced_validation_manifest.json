@@ -1,0 +1,30 @@
+{
+  "created_at_utc": "2026-10-11T05:12:43.840995+00:00",
+  "method": "retain_all_bloom_rewrite; deterministic_sample_without_replacement_for_qa_and_summarization",
+  "seed": 20261011,
+  "source_validation_file": "validation_full.jsonl",
+  "source_rows": 5437,
+  "source_task_counts": {
+    "bloom_rewrite": 114,
+    "qa": 4375,
+    "summarization": 948
+  },
+  "balanced_validation_file": "validation.jsonl",
+  "balanced_rows": 342,
+  "balanced_task_counts": {
+    "bloom_rewrite": 114,
+    "qa": 114,
+    "summarization": 114
+  },
+  "sampling_unit": "examples/rows",
+  "bloom_rewrite_rows_all_retained": 114,
+  "qa_sampled_without_replacement": 114,
+  "summarization_sampled_without_replacement": 114,
+  "source_sha256": "c96fd2f1df19d3bb8b3ba181b24b0517722c5eb9212f80ea44ee048d4e01d2c6",
+  "balanced_sha256": "82a6dd6bd1aaf452350bdfd29240bf5a5492894058a480c49719f4475caae1a6",
+  "limitations": [
+    "Row counts are balanced, but sequence lengths differ by task; standard eval_loss is not guaranteed to weight task losses equally.",
+    "The balanced validation split is for checkpoint selection only. Keep test.jsonl untouched and report test metrics separately by task.",
+    "This procedure does not validate Bloom rewrite semantic preservation or cognitive-level correctness."
+  ]
+}

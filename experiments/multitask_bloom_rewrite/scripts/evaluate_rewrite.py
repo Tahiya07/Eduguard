@@ -17,6 +17,7 @@ import subprocess
 import sys
 import time
 from collections import Counter
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -431,7 +432,18 @@ def main() -> None:
         "--limit",
         type=int,
         default=0,
-        help="Debug cap per task (0 = full test set)",
+        help="Debug cap per task; overrides --evaluation-per-task when > 0",
+    )
+    parser.add_argument(
+        "--evaluation-per-task",
+        type=int,
+        default=114,
+        help="Deterministic evaluation sample size per selected task (default: 114)",
+    )
+    parser.add_argument(
+        "--full-test-set",
+        action="store_true",
+        help="Explicitly evaluate every example in the selected tasks",
     )
     parser.add_argument(
         "--tasks",
@@ -446,6 +458,10 @@ def main() -> None:
         help="Only validate checkpoint and dataset assertions; no full eval",
     )
     args = parser.parse_args()
+    if args.evaluation_per_task < 1:
+        parser.error("--evaluation-per-task must be >= 1")
+    if args.limit < 0:
+        parser.error("--limit must be >= 0")
 
     cfg_path = Path(args.config)
     if not cfg_path.is_absolute():
@@ -542,18 +558,55 @@ def main() -> None:
             json.dumps({k: v for k, v in clf_meta.items() if k != "smoke_traceback"}, indent=2),
         )
 
-    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
-
     bloom_rows = [r for r in test_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
     qa_rows = [r for r in test_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
     sum_rows = [
         r for r in test_rows if r["task"] == TASK_SUMMARIZATION and TASK_SUMMARIZATION in task_filter
     ]
-    if args.limit:
-        bloom_rows = bloom_rows[: args.limit]
-        qa_rows = qa_rows[: args.limit]
-        sum_rows = sum_rows[: args.limit]
 
+    original_counts = {
+        TASK_BLOOM: len(bloom_rows),
+        TASK_QA: len(qa_rows),
+        TASK_SUMMARIZATION: len(sum_rows),
+    }
+    sample_mode = "full_test_set" if args.full_test_set else (
+        "debug_limit" if args.limit > 0 else "balanced_deterministic_sample"
+    )
+    requested_per_task = args.limit if args.limit > 0 else args.evaluation_per_task
+
+    def deterministic_sample(rows: list[dict[str, Any]], task: str) -> list[dict[str, Any]]:
+        if args.full_test_set:
+            return rows
+        cap = requested_per_task
+        if len(rows) <= cap:
+            return rows
+        offset = {TASK_BLOOM: 101, TASK_QA: 202, TASK_SUMMARIZATION: 303}[task]
+        chosen_indices = sorted(random.Random(SEED + offset).sample(range(len(rows)), cap))
+        return [rows[i] for i in chosen_indices]
+
+    bloom_rows = deterministic_sample(bloom_rows, TASK_BLOOM)
+    qa_rows = deterministic_sample(qa_rows, TASK_QA)
+    sum_rows = deterministic_sample(sum_rows, TASK_SUMMARIZATION)
+    selected_rows = {
+        TASK_BLOOM: bloom_rows,
+        TASK_QA: qa_rows,
+        TASK_SUMMARIZATION: sum_rows,
+    }
+    subset_manifest = {
+        "mode": sample_mode,
+        "seed": SEED,
+        "requested_per_task": None if args.full_test_set else requested_per_task,
+        "original_counts": original_counts,
+        "selected_counts": {task: len(rows) for task, rows in selected_rows.items()},
+        "selected_ids": {
+            task: [row.get("id", row.get("example_id")) for row in rows]
+            for task, rows in selected_rows.items()
+        },
+    }
+    print("Examples selected for evaluation:")
+    print(json.dumps({k: v for k, v in subset_manifest.items() if k != "selected_ids"}, indent=2))
+
+    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
     predictions: list[dict[str, Any]] = []
     latencies: list[float] = []
 
@@ -617,6 +670,7 @@ def main() -> None:
         "model_key": cfg.get("model_key"),
         "checkpoint": ckpt_info,
         "dataset": dataset_meta,
+        "evaluation_subset": {k: v for k, v in subset_manifest.items() if k != "selected_ids"},
         "generation": gen_cfg,
         "classifier_error": None,
         "classifier_meta": clf_meta,
@@ -652,6 +706,9 @@ def main() -> None:
         encoding="utf-8",
     )
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (out_dir / "evaluation_subset_manifest.json").write_text(
+        json.dumps(subset_manifest, indent=2), encoding="utf-8"
+    )
     (out_dir / "confusion_matrix.json").write_text(
         json.dumps(bloom_class.get("confusion_matrix", {}), indent=2), encoding="utf-8"
     )

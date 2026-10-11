@@ -128,3 +128,4 @@ scripts/fydp/
 # Deployment tooling
 # ===========================
 .railway/
+/data/multitask_bloom_rewrite_final/test.jsonl

@@ -1,0 +1,133 @@
+{
+  "timestamp_utc": "2026-10-11T13:38:08.612191+00:00",
+  "config": {
+    "experiment_name": "multitask_qwen15b_final",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "model_key": "15b",
+    "dataset_dir": "data/multitask_bloom_rewrite_final",
+    "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_final",
+    "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_final",
+    "seed": 42,
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "max_seq_length": 8192,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "per_device_train_batch_size": 2,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "early_stopping_patience": 2,
+    "metric_for_best_model": "eval_loss",
+    "logging_steps": 20,
+    "save_total_limit": 3,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "repeat_penalty": 1,
+      "max_new_tokens": 128,
+      "decoding": "greedy"
+    },
+    "notes": [
+      "Final 1.5B shared generator: Bloom transformation + QA + summarization.",
+      "Bloom transformation uses data/rewrite dataset/bloomshift_final_candidate only.",
+      "The 0.5B Bloom classification dataset is excluded.",
+      "8192 tokens are used because empirical tokenization showed that 4096 still leaves a small number of long QA/summarization prompts without an assistant target after truncation.",
+      "Qwen2.5-1.5B-Instruct supports a 32768-token context window; 8192 is the selected SFT limit for this experiment.",
+      "Do not tune hyperparameters after inspecting the held-out test split."
+    ]
+  },
+  "git_commit": "d9be12b1c342d9ba45d5d5885ff4764e2fbe18c7",
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "datasets": "5.0.1",
+    "numpy": "2.2.6"
+  },
+  "resources": {
+    "cpu_count": 32,
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_vram_gb": 23.99,
+    "ram_total_gb": 63.84,
+    "ram_available_gb": 54.34,
+    "disk_free_gb": 748.95,
+    "torch_version": "2.13.0+cu126",
+    "psutil": true,
+    "cpu_physical": 24,
+    "disk_total_gb": 931.5
+  },
+  "feasibility": {
+    "timestamp_utc": "2026-10-11T13:05:05.519848+00:00",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "resources": {
+      "cpu_count": 32,
+      "cuda_available": true,
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_vram_gb": 23.99,
+      "ram_total_gb": 63.84,
+      "ram_available_gb": 54.34,
+      "disk_free_gb": 748.95,
+      "torch_version": "2.13.0+cu126",
+      "psutil": true,
+      "cpu_physical": 24,
+      "disk_total_gb": 931.5
+    },
+    "estimates": {
+      "approx_params_b": 1.54,
+      "fp16_weights_gb": 3.1,
+      "fp32_weights_gb": 6.2,
+      "optimizer_adamw_gb_est": 12.0,
+      "activation_gb_est": 4.0,
+      "estimated_cpu_lora_gb": 28.0,
+      "estimated_gpu_lora_gb": 12.0,
+      "min_available_ram_gb": 22.0,
+      "hf_download_gb_est": 3.5
+    },
+    "estimated_footprint_gb": 12.0,
+    "feasible": true,
+    "reasons": [
+      "Resource estimates indicate training may proceed."
+    ],
+    "verdict": "TRAINING MAY PROCEED",
+    "memory_breakdown_est_gb": {
+      "parameter_memory": 6.2,
+      "optimizer_memory": 12.0,
+      "activation_memory": 4.0,
+      "expected_training_footprint": 12.0
+    }
+  },
+  "train_samples": 1650,
+  "validation_samples": 342,
+  "metrics": {
+    "train_runtime": 1973.647,
+    "train_samples_per_second": 2.508,
+    "train_steps_per_second": 0.158,
+    "total_flos": 5.321159137942118e+16,
+    "train_loss": 0.6129889748035333,
+    "epoch": 3.0
+  },
+  "checkpoint_selection": "balanced_validation_eval_loss",
+  "validation_task_counts": {
+    "bloom_rewrite": 114,
+    "summarization": 114,
+    "qa": 114
+  },
+  "assistant_only_loss": true
+}
