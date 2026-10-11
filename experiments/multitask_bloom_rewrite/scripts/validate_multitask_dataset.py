@@ -197,6 +197,30 @@ def main() -> None:
         }
 
     counts = {s: dict(Counter(r["task"] for r in rows)) for s, rows in splits.items()}
+
+    # Validate metadata as well as JSONL content; stale manifests are dataset QC errors.
+    dataset_manifest_path = root / "dataset_manifest.json"
+    if not dataset_manifest_path.exists():
+        errors.append(f"missing canonical dataset manifest: {dataset_manifest_path}")
+    else:
+        try:
+            dataset_manifest = json.loads(dataset_manifest_path.read_text(encoding="utf-8"))
+            manifest_counts = dataset_manifest.get("counts", {})
+            for split in ("train", "validation", "test"):
+                expected_counts = manifest_counts.get(split)
+                if not isinstance(expected_counts, dict):
+                    errors.append(f"manifest missing counts.{split}")
+                    continue
+                expected_counts = {str(k): int(v) for k, v in expected_counts.items()}
+                observed_counts = counts[split]
+                if expected_counts != observed_counts:
+                    errors.append(
+                        f"manifest counts.{split} mismatch: "
+                        f"manifest={expected_counts}, observed={observed_counts}"
+                    )
+        except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+            errors.append(f"cannot validate dataset manifest: {exc}")
+
     train_total = len(splits["train"])
     train_mix = {k: round(v / train_total, 6) for k, v in counts["train"].items()}
 
