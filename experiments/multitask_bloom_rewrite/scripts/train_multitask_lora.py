@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from collections import Counter
 import random
 import subprocess
 import sys
@@ -129,6 +130,20 @@ def main() -> None:
 
     train_rows = read_jsonl(data_dir / "train.jsonl")
     val_rows = read_jsonl(data_dir / "validation.jsonl")
+    validation_task_counts = Counter(row.get("task") for row in val_rows)
+    expected_validation_tasks = {"bloom_rewrite", "qa", "summarization"}
+    if (
+        set(validation_task_counts) != expected_validation_tasks
+        or len(set(validation_task_counts.values())) != 1
+    ):
+        raise SystemExit(
+            "TRAINING NOT STARTED: validation.jsonl must be row-balanced across "
+            "bloom_rewrite, qa, and summarization. Run "
+            "experiments/multitask_bloom_rewrite/scripts/"
+            "balance_multitask_validation.py first. "
+            f"Observed counts: {dict(validation_task_counts)}"
+        )
+    print("VALIDATION TASK COUNTS:", dict(validation_task_counts))
     print("DATASET DIR:", data_dir.resolve())
     print("TRAIN FILE:", (data_dir / "train.jsonl").resolve())
     print("TRAIN ROWS:", len(train_rows))
@@ -269,7 +284,8 @@ def main() -> None:
         "train_samples": len(train_rows),
         "validation_samples": len(val_rows),
         "metrics": train_result.metrics if train_result else None,
-        "checkpoint_selection": "validation_loss_only",
+        "checkpoint_selection": "balanced_validation_eval_loss",
+        "validation_task_counts": dict(validation_task_counts),
         "assistant_only_loss": True,
     }
     (results_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
