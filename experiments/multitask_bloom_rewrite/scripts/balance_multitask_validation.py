@@ -82,6 +82,18 @@ def main() -> None:
     if not backup_path.exists():
         if not active_path.exists():
             raise SystemExit(f"Missing source validation file: {active_path}")
+        # Do not mislabel an already-balanced active file as the full source split.
+        active_rows = read_jsonl(active_path)
+        manifest_validation_counts = dataset_manifest.get("counts", {}).get("validation", {})
+        if manifest_validation_counts and counts(active_rows) != {
+            task: int(manifest_validation_counts.get(task, 0)) for task in TASKS
+        }:
+            raise SystemExit(
+                "validation_full.jsonl is missing, and validation.jsonl task counts "
+                "do not match the canonical manifest's pre-balance validation counts. "
+                "Refusing to create a misleading backup; restore the original full "
+                "validation split before rebalancing."
+            )
         # Preserve the exact original bytes; never overwrite an existing backup.
         backup_path.write_bytes(active_path.read_bytes())
 
