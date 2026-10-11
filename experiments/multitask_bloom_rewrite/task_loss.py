@@ -47,23 +47,42 @@ def task_weighted_causal_lm_loss(
     if not task_weights or any(float(weight) <= 0 for weight in task_weights.values()):
         raise ValueError("task_weights must contain positive weights")
 
-    shift_logits = logits[:, :-1, :].contiguous()
-    shift_labels = labels[:, 1:].contiguous()
+    # Do not materialize a contiguous copy of the full [batch, sequence,
+    # vocabulary] logits tensor. With Qwen's large vocabulary and long contexts,
+    # that copy plus full-size token-loss tensors can consume several GB.
+    shift_logits = logits[:, :-1, :]
+    shift_labels = labels[:, 1:]
     if shift_logits.shape[1] == 0:
         raise ValueError("Each sequence must contain at least two tokens")
 
-    token_losses = F.cross_entropy(
-        shift_logits.view(-1, shift_logits.shape[-1]),
-        shift_labels.reshape(-1),
-        ignore_index=-100,
-        reduction="none",
-    ).view(shift_labels.shape)
     supervised = shift_labels.ne(-100)
     token_counts = supervised.sum(dim=1)
     if torch.any(token_counts == 0):
         raise ValueError("Every example must contain at least one supervised target token")
 
-    per_example_loss = (token_losses * supervised).sum(dim=1) / token_counts
+    # Chunk cross entropy over sequence positions. Gradients remain connected
+    # to the original logits, while the temporary flattened tensors are bounded.
+    per_example_loss_sum = torch.zeros(
+        labels.shape[0], device=logits.device, dtype=torch.float32
+    )
+    chunk_size = 128
+    vocab_size = shift_logits.shape[-1]
+    for start in range(0, shift_logits.shape[1], chunk_size):
+        end = min(start + chunk_size, shift_logits.shape[1])
+        chunk_logits = shift_logits[:, start:end, :].reshape(-1, vocab_size)
+        chunk_labels = shift_labels[:, start:end].reshape(-1)
+        chunk_losses = F.cross_entropy(
+            chunk_logits,
+            chunk_labels,
+            ignore_index=-100,
+            reduction="none",
+        ).view(labels.shape[0], end - start)
+        chunk_mask = supervised[:, start:end]
+        per_example_loss_sum = per_example_loss_sum + (
+            chunk_losses.float() * chunk_mask
+        ).sum(dim=1)
+
+    per_example_loss = per_example_loss_sum / token_counts.to(torch.float32)
     weights = []
     for task_id in task_ids.detach().cpu().tolist():
         if int(task_id) not in task_weights:
