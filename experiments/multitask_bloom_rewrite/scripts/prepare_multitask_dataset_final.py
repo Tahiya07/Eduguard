@@ -308,12 +308,18 @@ def load_arxiv(
     excluded = {"train": 0, "validation": 0, "test": 0}
     empty = {"train": 0, "validation": 0, "test": 0}
     selected: dict[str, list[dict[str, Any]]] = {}
+    selected_length_stats: dict[str, dict[str, Any]] = {}
 
-    for split, target in (("train", train_limit), ("validation", eval_limit), ("test", eval_limit)):
-        candidates = list(ds[split])
-        rng.shuffle(candidates)
+    # Streaming avoids materializing the multi-gigabyte corpus in RAM. Hugging
+    # Face shuffles a bounded buffer deterministically; only selected rows are kept.
+    for split_index, (split, target) in enumerate((("train", train_limit), ("validation", eval_limit), ("test", eval_limit))):
+        candidates = ds[split].shuffle(seed=seed + split_index, buffer_size=10_000)
         rows: list[dict[str, Any]] = []
         seen_ids: set[str] = set()
+        article_word_counts: list[int] = []
+        abstract_word_counts: list[int] = []
+        sft_token_counts: list[int] = []
+        identical_pairs = 0
         for row in candidates:
             article = str(row.get("article", "")).strip()
             abstract = str(row.get("abstract", "")).strip()
@@ -323,6 +329,8 @@ def load_arxiv(
                 continue
             if paper_id in seen_ids:
                 continue
+            if article.casefold() == abstract.casefold():
+                identical_pairs += 1
             record = {
                 "task": TASK_SUM,
                 "split": split,
@@ -342,6 +350,9 @@ def load_arxiv(
                 continue
             rows.append(record)
             seen_ids.add(paper_id)
+            article_word_counts.append(len(article.split()))
+            abstract_word_counts.append(len(abstract.split()))
+            sft_token_counts.append(full_len)
             if len(rows) >= target:
                 break
         if len(rows) < target:
@@ -349,6 +360,20 @@ def load_arxiv(
                 f"Only {len(rows)} valid in-budget arXiv {split} rows found; required {target}."
             )
         selected[split] = rows
+        def length_summary(values: list[int]) -> dict[str, int]:
+            ordered = sorted(values)
+            return {
+                "min": ordered[0],
+                "median": ordered[len(ordered) // 2],
+                "p95": ordered[min(len(ordered) - 1, int(0.95 * (len(ordered) - 1)))],
+                "max": ordered[-1],
+            }
+        selected_length_stats[split] = {
+            "article_words": length_summary(article_word_counts),
+            "abstract_words": length_summary(abstract_word_counts),
+            "complete_sft_tokens": length_summary(sft_token_counts),
+            "identical_article_abstract_pairs": identical_pairs,
+        }
 
     id_sets = {split: {r["source_id"] for r in rows} for split, rows in selected.items()}
     for a, b in (("train", "validation"), ("train", "test"), ("validation", "test")):
@@ -365,7 +390,10 @@ def load_arxiv(
         "selected_rows": {split: len(rows) for split, rows in selected.items()},
         "skipped_empty_or_missing_id": empty,
         "skipped_over_token_budget": excluded,
+        "selected_length_stats": selected_length_stats,
         "max_seq_length": max_seq_length,
+        "streaming": True,
+        "shuffle_buffer_size": 10000,
         "source_split_ids_disjoint": True,
         "license_status": "REVIEW_REQUIRED: dataset card does not establish one blanket license for every underlying paper",
         "source_url": "https://huggingface.co/datasets/ccdv/arxiv-summarization",
