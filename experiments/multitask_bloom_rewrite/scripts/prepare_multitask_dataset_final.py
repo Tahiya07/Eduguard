@@ -302,7 +302,7 @@ def load_arxiv(
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
-    ds = load_dataset("ccdv/arxiv-summarization", "document", streaming=True)
+    ds = load_dataset("ccdv/arxiv-summarization", "document", revision="543fb5494865723b6c472cbc72bae63f85146cf6", streaming=True)
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     rng = random.Random(seed)
     excluded = {"train": 0, "validation": 0, "test": 0}
@@ -384,6 +384,7 @@ def load_arxiv(
     audit = {
         "dataset": "ccdv/arxiv-summarization",
         "configuration": "document",
+        "revision": "543fb5494865723b6c472cbc72bae63f85146cf6",
         "selection_seed": seed,
         "selection_method": "deterministic shuffled scan; no replacement; retain complete article and abstract only when complete SFT sequence fits",
         "requested_rows": {"train": train_limit, "validation": eval_limit, "test": eval_limit},
