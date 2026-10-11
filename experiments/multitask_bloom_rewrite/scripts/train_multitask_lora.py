@@ -205,6 +205,7 @@ def main() -> None:
         trust_remote_code=True,
         torch_dtype=torch.float32 if device == "cpu" else torch.float16,
     )
+    model.config.use_cache = False
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
         lora_alpha=int(cfg["lora_alpha"]),
@@ -227,6 +228,7 @@ def main() -> None:
     warmup_steps = int(total_steps * float(cfg["warmup_ratio"]))
 
     args_tr = TrainingArguments(
+        gradient_checkpointing=True,
         output_dir=str(output_dir),
         num_train_epochs=float(cfg["epochs"]),
         learning_rate=float(cfg["learning_rate"]),
