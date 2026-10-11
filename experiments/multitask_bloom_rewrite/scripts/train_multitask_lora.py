@@ -31,6 +31,7 @@ if str(SCRIPT_DIR) not in sys.path:
 from check_resources import assess, collect_resources  # noqa: E402
 from loss_masking import tokenize_with_assistant_only_loss  # noqa: E402
 from paths import MULTITASK_DATA_DIR, SEED  # noqa: E402
+from task_loss import TASK_TO_ID, task_weighted_causal_lm_loss  # noqa: E402
 
 
 def load_json(path: Path) -> dict:
@@ -189,12 +190,17 @@ def main() -> None:
 
         def __getitem__(self, idx: int) -> dict:
             row = self.rows[idx]
-            return tokenize_with_assistant_only_loss(
+            encoded = tokenize_with_assistant_only_loss(
                 tokenizer,
                 row["sft_text"],
                 row["prompt_text"],
                 self.max_len,
             )
+            task = str(row.get("task", ""))
+            if task not in TASK_TO_ID:
+                raise ValueError(f"Unknown task label in training data: {task!r}")
+            encoded["task_id"] = TASK_TO_ID[task]
+            return encoded
 
     # Prefer official chat template when available to locate assistant boundary.
     # We still use stored prompt_text / sft_text which already follow ChatML.
@@ -258,13 +264,54 @@ def main() -> None:
         report_to=[],
         remove_unused_columns=False,
     )
-    collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True)
-    trainer = Trainer(
+    base_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True)
+
+    def collate_with_task_ids(features: list[dict]) -> dict:
+        task_ids = torch.tensor(
+            [int(feature["task_id"]) for feature in features], dtype=torch.long
+        )
+        model_features = [
+            {key: value for key, value in feature.items() if key != "task_id"}
+            for feature in features
+        ]
+        batch = base_collator(model_features)
+        batch["task_ids"] = task_ids
+        return batch
+
+    configured_task_weights = cfg.get(
+        "task_loss_weights",
+        {"bloom_rewrite": 1.5, "qa": 1.0, "summarization": 1.0},
+    )
+    if set(configured_task_weights) != set(TASK_TO_ID):
+        raise SystemExit(
+            "task_loss_weights must define exactly: "
+            + ", ".join(sorted(TASK_TO_ID))
+        )
+    task_weights = {
+        TASK_TO_ID[task]: float(weight)
+        for task, weight in configured_task_weights.items()
+    }
+    if any(weight <= 0 for weight in task_weights.values()):
+        raise SystemExit("All task_loss_weights must be positive.")
+
+    class TaskWeightedTrainer(Trainer):
+        def compute_loss(
+            self, model, inputs, return_outputs=False, num_items_in_batch=None
+        ):
+            task_ids = inputs.pop("task_ids")
+            labels = inputs.pop("labels")
+            outputs = model(**inputs)
+            loss = task_weighted_causal_lm_loss(
+                outputs.logits, labels, task_ids, task_weights
+            )
+            return (loss, outputs) if return_outputs else loss
+
+    trainer = TaskWeightedTrainer(
         model=model,
         args=args_tr,
         train_dataset=train_ds,
         eval_dataset=val_ds,
-        data_collator=collator,
+        data_collator=collate_with_task_ids,
         callbacks=[
             EarlyStoppingCallback(
                 early_stopping_patience=int(cfg.get("early_stopping_patience", 2))
@@ -293,7 +340,9 @@ def main() -> None:
         "train_samples": len(train_rows),
         "validation_samples": len(val_rows),
         "metrics": train_result.metrics if train_result else None,
-        "checkpoint_selection": "balanced_validation_eval_loss",
+        "checkpoint_selection": "bloom_weighted_sequence_normalized_eval_loss",
+        "task_loss_weights": configured_task_weights,
+        "loss_definition": "per-example mean assistant-token cross entropy, weighted by task; prompt tokens remain masked",
         "validation_task_counts": dict(validation_task_counts),
         "assistant_only_loss": True,
     }
