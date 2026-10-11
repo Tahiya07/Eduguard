@@ -232,6 +232,64 @@ def load_squad(
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
 
 
+def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct", max_seq_length: int = 8192) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+    from datasets import load_dataset
+    from transformers import AutoTokenizer
+    from prompts import build_sft_text
+
+    ds = load_dataset("FiscalNote/billsum")
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
+    official_train = list(ds["train"])
+    official_test = list(ds["test"])
+
+    rng = random.Random(seed)
+    rng.shuffle(official_train)
+    cut = max(1, int(len(official_train) * 0.95))
+    train_raw = official_train[:cut]
+    val_raw = official_train[cut:]
+
+    def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
+        out = []
+        for i, row in enumerate(rows):
+            text = str(row.get("text", "")).strip()
+            summary = str(row.get("summary", "")).strip()
+            if not text or not summary:
+                continue
+            record = {
+                "task": TASK_SUM,
+                "split": split,
+                "id": str(row.get("id") or f"billsum_{split}_{i:06d}"),
+                "article": text,
+                "abstract": summary,
+                "title": str(row.get("title", "")).strip(),
+            }
+
+            # BillSum contains a very small number of unusually long articles.
+            # Do not silently truncate a summarization target: truncation would
+            # change the conditioning document while retaining a summary written
+            # for the full document. Apply the same predeclared token-budget rule
+            # to every split and exclude only examples whose complete SFT sequence
+            # cannot fit within the selected training context.
+            full_len = len(
+                tokenizer(
+                    build_sft_text(TASK_SUM, record),
+                    add_special_tokens=False,
+                )["input_ids"]
+            )
+            if full_len > max_seq_length:
+                excluded[split] += 1
+                continue
+
+            out.append(record)
+        return out
+
+    excluded = {"train": 0, "validation": 0, "test": 0}
+    train_rows = convert(train_raw, "train")
+    val_rows = convert(val_raw, "validation")
+    test_rows = convert(official_test, "test")
+    return train_rows, val_rows, test_rows, excluded
+
+
 def load_arxiv(
     seed: int,
     tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
