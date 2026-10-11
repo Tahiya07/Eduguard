@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 """Prepare the final 1.5B multitask generator corpus.
 
-Final generator tasks:
+Candidate generator tasks:
   1. Bloom transformation from the canonical BloomShift final candidate corpus.
   2. Extractive/grounded QA from SQuAD 1.1.
-  3. Summarization from BillSum.
+  3. Summarization from scientific-paper articles and abstracts (arXiv dataset).
+
+This candidate uses a separate output directory; it does not overwrite the
+previous BillSum corpus. The arXiv dataset card does not clearly declare a
+single blanket license for all underlying papers. This script records that
+rights review is required before redistribution or publication.
 
 The 0.5B Bloom-classification dataset is deliberately excluded.
 
@@ -27,7 +32,7 @@ EXPERIMENT_DIR = REPO_ROOT / "experiments" / "multitask_bloom_rewrite"
 if str(EXPERIMENT_DIR) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(EXPERIMENT_DIR))
 DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_final_candidate"
-DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_final"
+DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_arxiv_candidate"
 
 TASK_BLOOM = "bloom_rewrite"
 TASK_QA = "qa"
@@ -227,62 +232,88 @@ def load_squad(
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
 
 
-def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct", max_seq_length: int = 8192) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+def load_arxiv(
+    seed: int,
+    tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
+    max_seq_length: int = 8192,
+    train_limit: int = 495,
+    eval_limit: int = 114,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    """Build a bounded, deterministic scientific-summarization candidate."""
     from datasets import load_dataset
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
-    ds = load_dataset("FiscalNote/billsum")
+    ds = load_dataset("ccdv/arxiv-summarization", "document")
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
-    official_train = list(ds["train"])
-    official_test = list(ds["test"])
-
     rng = random.Random(seed)
-    rng.shuffle(official_train)
-    cut = max(1, int(len(official_train) * 0.95))
-    train_raw = official_train[:cut]
-    val_raw = official_train[cut:]
+    excluded = {"train": 0, "validation": 0, "test": 0}
+    empty = {"train": 0, "validation": 0, "test": 0}
+    selected: dict[str, list[dict[str, Any]]] = {}
 
-    def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
-        out = []
-        for i, row in enumerate(rows):
-            text = str(row.get("text", "")).strip()
-            summary = str(row.get("summary", "")).strip()
-            if not text or not summary:
+    for split, target in (("train", train_limit), ("validation", eval_limit), ("test", eval_limit)):
+        candidates = list(ds[split])
+        rng.shuffle(candidates)
+        rows: list[dict[str, Any]] = []
+        seen_ids: set[str] = set()
+        for row in candidates:
+            article = str(row.get("article", "")).strip()
+            abstract = str(row.get("abstract", "")).strip()
+            paper_id = str(row.get("id", "")).strip()
+            if not article or not abstract or not paper_id:
+                empty[split] += 1
+                continue
+            if paper_id in seen_ids:
                 continue
             record = {
                 "task": TASK_SUM,
                 "split": split,
-                "id": str(row.get("id") or f"billsum_{split}_{i:06d}"),
-                "article": text,
-                "abstract": summary,
-                "title": str(row.get("title", "")).strip(),
+                "id": "arxiv_" + paper_id,
+                "source_id": paper_id,
+                "article": article,
+                "abstract": abstract,
+                "title": "",
             }
-
-            # BillSum contains a very small number of unusually long articles.
-            # Do not silently truncate a summarization target: truncation would
-            # change the conditioning document while retaining a summary written
-            # for the full document. Apply the same predeclared token-budget rule
-            # to every split and exclude only examples whose complete SFT sequence
-            # cannot fit within the selected training context.
-            full_len = len(
-                tokenizer(
-                    build_sft_text(TASK_SUM, record),
-                    add_special_tokens=False,
-                )["input_ids"]
-            )
+            full_len = len(tokenizer(
+                build_sft_text(TASK_SUM, record),
+                add_special_tokens=False,
+                truncation=False,
+            )["input_ids"])
             if full_len > max_seq_length:
                 excluded[split] += 1
                 continue
+            rows.append(record)
+            seen_ids.add(paper_id)
+            if len(rows) >= target:
+                break
+        if len(rows) < target:
+            raise ValueError(
+                f"Only {len(rows)} valid in-budget arXiv {split} rows found; required {target}."
+            )
+        selected[split] = rows
 
-            out.append(record)
-        return out
+    id_sets = {split: {r["source_id"] for r in rows} for split, rows in selected.items()}
+    for a, b in (("train", "validation"), ("train", "test"), ("validation", "test")):
+        overlap = id_sets[a] & id_sets[b]
+        if overlap:
+            raise ValueError(f"arXiv paper-ID leakage {a}<->{b}: {len(overlap)} IDs")
 
-    excluded = {"train": 0, "validation": 0, "test": 0}
-    train_rows = convert(train_raw, "train")
-    val_rows = convert(val_raw, "validation")
-    test_rows = convert(official_test, "test")
-    return train_rows, val_rows, test_rows, excluded
+    audit = {
+        "dataset": "ccdv/arxiv-summarization",
+        "configuration": "document",
+        "selection_seed": seed,
+        "selection_method": "deterministic shuffled scan; no replacement; retain complete article and abstract only when complete SFT sequence fits",
+        "requested_rows": {"train": train_limit, "validation": eval_limit, "test": eval_limit},
+        "selected_rows": {split: len(rows) for split, rows in selected.items()},
+        "skipped_empty_or_missing_id": empty,
+        "skipped_over_token_budget": excluded,
+        "max_seq_length": max_seq_length,
+        "source_split_ids_disjoint": True,
+        "license_status": "REVIEW_REQUIRED: dataset card does not establish one blanket license for every underlying paper",
+        "source_url": "https://huggingface.co/datasets/ccdv/arxiv-summarization",
+        "citation": "Cohan et al. (2018), Discourse-Aware Attention Model for Abstractive Summarization of Long Documents, NAACL-HLT",
+    }
+    return selected["train"], selected["validation"], selected["test"], audit
 
 
 def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -340,6 +371,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--bloom-dir", default=str(DEFAULT_BLOOM_DIR))
     parser.add_argument("--output-dir", default=str(DEFAULT_OUT_DIR))
+    parser.add_argument("--summary-source", choices=("arxiv", "billsum"), default="arxiv",
+                        help="Use arXiv by default; BillSum remains available for baseline reproduction.")
+    parser.add_argument("--evaluation-per-task", type=int, default=114,
+                        help="Number of QA/Bloom/summarization validation/test examples.")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--mix-bloom", type=float, default=0.40)
     parser.add_argument("--mix-qa", type=float, default=0.30)
@@ -380,14 +415,44 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
-        args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
-    )
+    if args.summary_source == "arxiv":
+        sum_train, sum_val, sum_test, summary_source_audit = load_arxiv(
+            args.seed,
+            tokenizer_model_id=args.model_id,
+            max_seq_length=args.max_seq_length,
+            train_limit=round(len(bloom_train) / args.mix_bloom * args.mix_sum),
+            eval_limit=args.evaluation_per_task,
+        )
+    else:
+        sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
+            args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
+        )
+        summary_source_audit = {
+            "dataset": "FiscalNote/billsum",
+            "license_status": "Review source dataset terms before redistribution.",
+            "skipped_over_token_budget": billsum_excluded,
+        }
+
+    if args.evaluation_per_task != len(bloom_test):
+        raise SystemExit(
+            f"--evaluation-per-task must equal the frozen Bloom test count ({len(bloom_test)}) "
+            "so the held-out test is balanced without dropping Bloom examples."
+        )
+    rng_eval = random.Random(args.seed + 1009)
+    if len(qa_val) < args.evaluation_per_task or len(qa_test) < args.evaluation_per_task:
+        raise SystemExit("Insufficient QA validation/test examples for requested sample.")
+    qa_val = rng_eval.sample(qa_val, args.evaluation_per_task)
+    qa_test = rng_eval.sample(qa_test, args.evaluation_per_task)
+    if args.summary_source == "billsum":
+        if len(sum_val) < args.evaluation_per_task or len(sum_test) < args.evaluation_per_task:
+            raise SystemExit("Insufficient BillSum validation/test examples for requested sample.")
+        sum_val = rng_eval.sample(sum_val, args.evaluation_per_task)
+        sum_test = rng_eval.sample(sum_test, args.evaluation_per_task)
 
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
     if not sum_train or not sum_val or not sum_test:
-        raise SystemExit("BillSum preparation produced an empty split.")
+        raise SystemExit(f"{args.summary_source} preparation produced an empty split.")
 
     train_rows = sample_for_mix(
         bloom_train, qa_train, sum_train, args.seed,
@@ -423,7 +488,7 @@ def main() -> None:
         for p in required_bloom
     }
     manifest = {
-        "version": "multitask_bloom_rewrite_final_v1",
+        "version": "multitask_bloom_rewrite_arxiv_candidate_v1" if args.summary_source == "arxiv" else "multitask_bloom_rewrite_billsum_baseline_v1",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "seed": args.seed,
         "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
@@ -446,15 +511,13 @@ def main() -> None:
                 "answer_preserving_context_window": True,
             },
         },
-        "summarization_source": {
-            "dataset": "FiscalNote/billsum",
-            "train_fraction_after_deterministic_split": 0.95,
-            "official_test_used_as_test": True,
-            "long_context_policy": {
-                "max_seq_length": args.max_seq_length,
-                "over_budget_examples_excluded": billsum_excluded,
-                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries",
-            },
+        "summarization_source": summary_source_audit,
+        "evaluation_sampling": {
+            "method": "deterministic sampling without replacement from held-out source partitions",
+            "seed": args.seed + 1009,
+            "requested_examples_per_task": args.evaluation_per_task,
+            "all_bloom_test_examples_retained": True,
+            "test_task_counts": counts(test_rows),
         },
         "train_mix": {
             TASK_BLOOM: args.mix_bloom,
@@ -470,6 +533,9 @@ def main() -> None:
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
+            "QA and summarization evaluation examples are sampled without replacement from held-out source partitions.",
+            "ArXiv candidate uses a bounded training subset and equal-sized validation/test samples; full source data are not copied into the project.",
+            "ArXiv dataset card does not establish a blanket license for all source papers; rights review is required before redistribution or publication.",
             "BloomShift group isolation is checked before writing the corpus.",
             "Do not tune hyperparameters on the held-out test split.",
         ],
