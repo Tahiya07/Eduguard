@@ -1,0 +1,76 @@
+{
+  "version": "multitask_bloom_rewrite_final_v1",
+  "timestamp_utc": "2026-10-11T05:00:34.581134+00:00",
+  "seed": 42,
+  "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
+  "classifier_dataset_excluded": true,
+  "tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "bloom_source": {
+    "path": "data/rewrite dataset/bloomshift_final_candidate",
+    "version": "bloomshift_final_candidate",
+    "files_sha256": {
+      "train.json": "71ddaaffaf17ec8dee387d7e35a3dc782eaeb1b23adcf84c0bc0f765f4e90345",
+      "validation.json": "f49fdb7afbfa5f2603d139be79bd7888b8309b14fc666ebb83c73747f4bdef45",
+      "test.json": "c99e22236acfad5aeba54a6641aeb0adf2cf9d0ccdfc68a777cbe3b260207a42"
+    },
+    "train_rows": 660,
+    "validation_rows": 114,
+    "test_rows": 114
+  },
+  "qa_source": {
+    "dataset": "rajpurkar/squad",
+    "train_fraction_after_deterministic_split": 0.95,
+    "official_validation_used_as_test": true,
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "answer_preserving_context_window": true
+    }
+  },
+  "summarization_source": {
+    "dataset": "FiscalNote/billsum",
+    "train_fraction_after_deterministic_split": 0.95,
+    "official_test_used_as_test": true,
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "over_budget_examples_excluded": {
+        "train": 0,
+        "validation": 0,
+        "test": 1
+      },
+      "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries"
+    }
+  },
+  "train_mix": {
+    "bloom_rewrite": 0.4,
+    "qa": 0.3,
+    "summarization": 0.3
+  },
+  "counts": {
+    "train": {
+      "qa": 495,
+      "summarization": 495,
+      "bloom_rewrite": 660
+    },
+    "validation": {
+      "bloom_rewrite": 114,
+      "qa": 4375,
+      "summarization": 948
+    },
+    "test": {
+      "bloom_rewrite": 114,
+      "qa": 10570,
+      "summarization": 3268
+    }
+  },
+  "notes": [
+    "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
+    "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
+    "Train/validation/test are kept task-aware and prompt-conditioned.",
+    "BloomShift group isolation is checked before writing the corpus.",
+    "Do not tune hyperparameters on the held-out test split."
+  ]
+}
