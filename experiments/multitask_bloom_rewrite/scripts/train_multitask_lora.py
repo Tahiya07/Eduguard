@@ -10,6 +10,7 @@ If the resource gate fails:
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import os
 from collections import Counter
@@ -227,6 +228,12 @@ def main() -> None:
     total_steps = steps_per_epoch * int(cfg["epochs"])
     warmup_steps = int(total_steps * float(cfg["warmup_ratio"]))
 
+    # Transformers renamed evaluation_strategy to eval_strategy in newer releases.
+    eval_strategy_key = (
+        "eval_strategy"
+        if "eval_strategy" in inspect.signature(TrainingArguments).parameters
+        else "evaluation_strategy"
+    )
     args_tr = TrainingArguments(
         gradient_checkpointing=True,
         output_dir=str(output_dir),
@@ -238,7 +245,7 @@ def main() -> None:
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
-        evaluation_strategy="epoch",
+        **{eval_strategy_key: "epoch"},
         save_strategy="epoch",
         load_best_model_at_end=True,
         metric_for_best_model=cfg.get("metric_for_best_model", "eval_loss"),
