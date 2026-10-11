@@ -15,7 +15,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
+
+# Support direct execution from the repository root without installing the package.
+EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
+if str(EXPERIMENT_DIR) not in sys.path:
+    sys.path.insert(0, str(EXPERIMENT_DIR))
 
 from loss_masking import tokenize_with_assistant_only_loss
 
