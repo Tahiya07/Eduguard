@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import re
 import statistics
 import sys
@@ -526,7 +527,30 @@ def main() -> None:
         "--limit",
         type=int,
         default=0,
-        help="Debug limit per task; 0 = full test set",
+        help=(
+            "Optional explicit per-task debug limit. "
+            "When omitted or 0, the default balanced sample size is used."
+        ),
+    )
+
+    parser.add_argument(
+        "--evaluation-per-task",
+        type=int,
+        default=114,
+        help=(
+            "Number of test examples per task, sampled deterministically "
+            "without replacement (default: 114). Bloom uses all available "
+            "examples when fewer than this number exist."
+        ),
+    )
+
+    parser.add_argument(
+        "--full-test-set",
+        action="store_true",
+        help=(
+            "Evaluate every example in the locked test split instead of "
+            "using the default balanced subset."
+        ),
     )
 
     parser.add_argument(
@@ -658,13 +682,80 @@ def main() -> None:
         and TASK_SUMMARIZATION in task_filter
     ]
 
-    if args.limit:
-        bloom_rows = bloom_rows[:args.limit]
-        qa_rows = qa_rows[:args.limit]
-        sum_rows = sum_rows[:args.limit]
+    if args.evaluation_per_task < 1:
+        print("STOP: --evaluation-per-task must be >= 1")
+        raise SystemExit(2)
+
+    original_task_counts = {
+        TASK_BLOOM: len(bloom_rows),
+        TASK_QA: len(qa_rows),
+        TASK_SUMMARIZATION: len(sum_rows),
+    }
+
+    if args.full_test_set:
+        sampling_mode = "full_test_set"
+        requested_per_task = None
+    else:
+        # Keep --limit as an explicit debug override for existing workflows.
+        requested_per_task = (
+            args.limit if args.limit > 0 else args.evaluation_per_task
+        )
+        sampling_mode = (
+            "explicit_limit" if args.limit > 0 else "balanced_deterministic_sample"
+        )
+
+        def deterministic_sample(
+            rows: list[dict[str, Any]],
+            target: int,
+            seed_offset: int,
+        ) -> list[dict[str, Any]]:
+            """Sample without replacement; retain source-file order for reproducibility."""
+            k = min(target, len(rows))
+            if k == len(rows):
+                return list(rows)
+            rng = random.Random(SEED + seed_offset)
+            selected_indices = sorted(rng.sample(range(len(rows)), k=k))
+            return [rows[index] for index in selected_indices]
+
+        bloom_rows = deterministic_sample(
+            bloom_rows, requested_per_task, seed_offset=101
+        )
+        qa_rows = deterministic_sample(
+            qa_rows, requested_per_task, seed_offset=202
+        )
+        sum_rows = deterministic_sample(
+            sum_rows, requested_per_task, seed_offset=303
+        )
+
+    evaluation_subset = {
+        "mode": sampling_mode,
+        "seed": SEED,
+        "sampling": (
+            "No sampling; all locked test examples evaluated."
+            if args.full_test_set
+            else (
+                "Deterministic random sample without replacement per task; "
+                "selected rows retained in original test-file order."
+            )
+        ),
+        "requested_per_task": requested_per_task,
+        "original_task_counts": original_task_counts,
+        "evaluated_task_counts": {
+            TASK_BLOOM: len(bloom_rows),
+            TASK_QA: len(qa_rows),
+            TASK_SUMMARIZATION: len(sum_rows),
+        },
+        "selected_example_ids": {
+            TASK_BLOOM: [r.get("example_id") for r in bloom_rows],
+            TASK_QA: [r.get("example_id") for r in qa_rows],
+            TASK_SUMMARIZATION: [r.get("example_id") for r in sum_rows],
+        },
+    }
 
     print()
-    print("Examples:")
+    print("Examples selected for evaluation:")
+    print(f"  Mode: {sampling_mode}")
+    print(f"  Original counts: {json.dumps(original_task_counts)}")
     print(f"  Bloom: {len(bloom_rows)}")
     print(f"  QA: {len(qa_rows)}")
     print(f"  Summarization: {len(sum_rows)}")
@@ -940,6 +1031,9 @@ def main() -> None:
         "dataset":
             dataset_meta,
 
+        "evaluation_subset":
+            evaluation_subset,
+
         "generation": {
             "temperature": 0.0,
             "top_p": 1.0,
@@ -1043,6 +1137,11 @@ def main() -> None:
     out_dir.mkdir(
         parents=True,
         exist_ok=True,
+    )
+
+    (out_dir / "evaluation_subset_manifest.json").write_text(
+        json.dumps(evaluation_subset, indent=2, ensure_ascii=False),
+        encoding="utf-8",
     )
 
     pred_path = (
