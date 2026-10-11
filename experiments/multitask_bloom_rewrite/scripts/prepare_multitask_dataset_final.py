@@ -569,6 +569,25 @@ def main() -> None:
     write_jsonl(out_dir / "validation.jsonl", val_rows)
     write_jsonl(out_dir / "test.jsonl", test_rows)
 
+    # Save a small human-inspection artifact. It is not used for training or scoring.
+    if args.summary_source == "arxiv":
+        quality_sample = []
+        for split_name, rows in (("train", sum_train), ("validation", sum_val), ("test", sum_test)):
+            for row in rows[:10]:
+                quality_sample.append({
+                    "split": split_name,
+                    "id": row.get("id"),
+                    "source_id": row.get("source_id"),
+                    "article_word_count": len(str(row.get("article", "")).split()),
+                    "abstract_word_count": len(str(row.get("abstract", "")).split()),
+                    "article_preview": str(row.get("article", ""))[:1200],
+                    "abstract_preview": str(row.get("abstract", ""))[:1000],
+                })
+        (out_dir / "summarization_quality_sample.json").write_text(
+            json.dumps(quality_sample, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
     source_hashes = {
         p.name: sha256_file(p)
         for p in required_bloom
@@ -621,6 +640,7 @@ def main() -> None:
             "Train/validation/test are kept task-aware and prompt-conditioned.",
             "QA and summarization evaluation examples are sampled without replacement from held-out source partitions.",
             "ArXiv candidate uses a bounded training subset and equal-sized validation/test samples; full source data are not copied into the project.",
+            "summarization_quality_sample.json contains previews of 10 selected article/abstract pairs per split for manual quality inspection; it is not used for training or evaluation.",
             "ArXiv dataset card does not establish a blanket license for all source papers; rights review is required before redistribution or publication.",
             "BloomShift group isolation is checked before writing the corpus.",
             "Do not tune hyperparameters on the held-out test split.",
