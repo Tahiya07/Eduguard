@@ -47,5 +47,11 @@
     "8192 tokens are used because empirical tokenization showed that 4096 still leaves a small number of long QA/summarization prompts without an assistant target after truncation.",
     "Qwen2.5-1.5B-Instruct supports a 32768-token context window; 8192 is the selected SFT limit for this experiment.",
     "Do not tune hyperparameters after inspecting the held-out test split."
-  ]
+  ],
+  "task_loss_weights": {
+    "bloom_rewrite": 1.5,
+    "qa": 1,
+    "summarization": 1
+  },
+  "loss_objective": "Per-example mean assistant-token cross entropy, with Bloom rewrite weighted 1.5x; prompts remain masked."
 }
