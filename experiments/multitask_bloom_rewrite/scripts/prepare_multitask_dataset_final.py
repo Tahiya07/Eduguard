@@ -302,7 +302,7 @@ def load_arxiv(
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
-    ds = load_dataset("ccdv/arxiv-summarization", "document")
+    ds = load_dataset("ccdv/arxiv-summarization", "document", streaming=True)
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     rng = random.Random(seed)
     excluded = {"train": 0, "validation": 0, "test": 0}
