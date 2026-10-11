@@ -36,7 +36,7 @@ Review the generated `qc_report.json` and `dataset_manifest.json`. Do not procee
 ## Candidate training (only after preparation and QC pass)
 
 ```powershell
-python experiments/multitask_bloom_rewrite/scripts/train_multitask.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_arxiv_candidate.json
+python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_arxiv_candidate.json
 ```
 
 Use the repository's actual trainer entry point if its CLI differs; verify `--help` before starting a long run. This candidate config uses separate output and results directories so it cannot overwrite the BillSum baseline. Do not train from the candidate until the data build and QC are complete.
