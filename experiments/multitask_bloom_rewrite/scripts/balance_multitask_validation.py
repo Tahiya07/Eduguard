@@ -64,6 +64,18 @@ def main() -> None:
     active_path = data_dir / "validation.jsonl"
     backup_path = data_dir / "validation_full.jsonl"
     manifest_path = data_dir / "balanced_validation_manifest.json"
+    dataset_manifest_path = data_dir / "dataset_manifest.json"
+    if not dataset_manifest_path.exists():
+        raise SystemExit(
+            f"Missing canonical dataset manifest: {dataset_manifest_path}; "
+            "refusing to rebalance without updating dataset metadata."
+        )
+    try:
+        dataset_manifest = json.loads(dataset_manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"Cannot read canonical dataset manifest: {exc}") from exc
+    if not isinstance(dataset_manifest.get("counts"), dict):
+        raise SystemExit("Canonical dataset manifest is missing a valid 'counts' object.")
 
     if not active_path.exists() and not backup_path.exists():
         raise SystemExit(f"Neither {active_path} nor {backup_path} exists.")
@@ -136,12 +148,37 @@ def main() -> None:
             "This procedure does not validate Bloom rewrite semantic preservation or cognitive-level correctness."
         ]
     }
+    # Keep the canonical dataset manifest aligned with the active files.
+    # Preserve the full, pre-balanced validation split metadata separately.
+    dataset_manifest["validation_full"] = {
+        "file": backup_path.name,
+        "rows": len(source_rows),
+        "task_counts": counts(source_rows),
+        "sha256": sha256(backup_path),
+    }
+    dataset_manifest["active_validation"] = {
+        "file": active_path.name,
+        "rows": len(selected),
+        "task_counts": counts(selected),
+        "sha256": sha256(active_path),
+        "selection_manifest": manifest_path.name,
+    }
+    dataset_manifest["counts"]["validation"] = counts(selected)
+    dataset_manifest_path.write_text(
+        json.dumps(dataset_manifest, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
     manifest_path.write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8"
     )
 
     print(json.dumps(manifest, indent=2, ensure_ascii=False))
+    print(
+        "Updated canonical dataset manifest validation counts:",
+        json.dumps(dataset_manifest["counts"]["validation"], sort_keys=True),
+    )
 
 
 if __name__ == "__main__":
