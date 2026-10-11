@@ -1,4 +1,10 @@
+import sys
 import unittest
+from pathlib import Path
+
+EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
+if str(EXPERIMENT_DIR) not in sys.path:
+    sys.path.insert(0, str(EXPERIMENT_DIR))
 
 import torch
 import torch.nn.functional as F
@@ -17,7 +23,7 @@ class TestTaskWeightedCausalLMLoss(unittest.TestCase):
         )
         labels = torch.tensor(
             [
-                [-100, 1, 0, 0],
+                [-100, 1, 0, -100],
                 [-100, 1, 1, 1],
             ]
         )
