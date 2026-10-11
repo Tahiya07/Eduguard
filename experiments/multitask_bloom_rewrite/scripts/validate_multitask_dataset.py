@@ -198,28 +198,77 @@ def main() -> None:
 
     counts = {s: dict(Counter(r["task"] for r in rows)) for s, rows in splits.items()}
 
-    # Validate metadata as well as JSONL content; stale manifests are dataset QC errors.
+    # Validate the full canonical source counts separately from the balanced
+    # validation subset used for checkpoint selection. dataset_manifest.json
+    # describes the full source validation split; balanced_validation_manifest.json
+    # describes the actual validation.jsonl consumed by training.
     dataset_manifest_path = root / "dataset_manifest.json"
+    balanced_manifest_path = root / "balanced_validation_manifest.json"
+    dataset_manifest = None
     if not dataset_manifest_path.exists():
         errors.append(f"missing canonical dataset manifest: {dataset_manifest_path}")
     else:
         try:
             dataset_manifest = json.loads(dataset_manifest_path.read_text(encoding="utf-8"))
             manifest_counts = dataset_manifest.get("counts", {})
-            for split in ("train", "validation", "test"):
+            for split in ("train", "test"):
                 expected_counts = manifest_counts.get(split)
                 if not isinstance(expected_counts, dict):
-                    errors.append(f"manifest missing counts.{split}")
+                    errors.append(f"canonical manifest missing counts.{split}")
                     continue
                 expected_counts = {str(k): int(v) for k, v in expected_counts.items()}
                 observed_counts = counts[split]
                 if expected_counts != observed_counts:
                     errors.append(
-                        f"manifest counts.{split} mismatch: "
+                        f"canonical manifest counts.{split} mismatch: "
                         f"manifest={expected_counts}, observed={observed_counts}"
                     )
+            full_validation = manifest_counts.get("validation")
+            if not isinstance(full_validation, dict):
+                errors.append("canonical manifest missing counts.validation")
         except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
-            errors.append(f"cannot validate dataset manifest: {exc}")
+            errors.append(f"cannot validate canonical dataset manifest: {exc}")
+
+    if not balanced_manifest_path.exists():
+        errors.append(
+            f"missing balanced validation manifest: {balanced_manifest_path}"
+        )
+    else:
+        try:
+            balanced_manifest = json.loads(
+                balanced_manifest_path.read_text(encoding="utf-8")
+            )
+            expected_counts = balanced_manifest.get("balanced_task_counts")
+            if not isinstance(expected_counts, dict):
+                errors.append("balanced validation manifest missing balanced_task_counts")
+            else:
+                expected_counts = {str(k): int(v) for k, v in expected_counts.items()}
+                if expected_counts != counts["validation"]:
+                    errors.append(
+                        "balanced validation manifest task counts mismatch: "
+                        f"manifest={expected_counts}, observed={counts['validation']}"
+                    )
+            expected_rows = balanced_manifest.get("balanced_rows")
+            if expected_rows is not None and int(expected_rows) != len(splits["validation"]):
+                errors.append(
+                    "balanced validation manifest row count mismatch: "
+                    f"manifest={expected_rows}, observed={len(splits['validation'])}"
+                )
+            if dataset_manifest is not None:
+                source_counts = balanced_manifest.get("source_task_counts")
+                canonical_validation = dataset_manifest.get("counts", {}).get("validation")
+                if isinstance(source_counts, dict) and isinstance(canonical_validation, dict):
+                    source_counts = {str(k): int(v) for k, v in source_counts.items()}
+                    canonical_validation = {
+                        str(k): int(v) for k, v in canonical_validation.items()
+                    }
+                    if source_counts != canonical_validation:
+                        errors.append(
+                            "balanced validation source counts disagree with canonical manifest: "
+                            f"balanced_source={source_counts}, canonical={canonical_validation}"
+                        )
+        except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+            errors.append(f"cannot validate balanced validation manifest: {exc}")
 
     train_total = len(splits["train"])
     train_mix = {k: round(v / train_total, 6) for k, v in counts["train"].items()}
