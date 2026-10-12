@@ -407,8 +407,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--dataset-dir",
-        default=str(MULTITASK_FINAL_DATA_DIR),
-        help="Multi-task dataset directory (must contain test.jsonl)",
+        default=None,
+        help="Dataset directory override; defaults to dataset_dir in the selected config",
     )
     parser.add_argument(
         "--adapter-path",
@@ -490,7 +490,8 @@ def main() -> None:
     gen_cfg.update({k: v for k, v in gen_frozen.items() if k != "notes"})
     set_seed(int(gen_cfg.get("seed", SEED)))
 
-    data_dir = Path(args.dataset_dir)
+    dataset_dir_value = args.dataset_dir or cfg.get("dataset_dir") or str(MULTITASK_FINAL_DATA_DIR)
+    data_dir = Path(dataset_dir_value)
     if not data_dir.is_absolute():
         data_dir = REPO_ROOT / data_dir
 
