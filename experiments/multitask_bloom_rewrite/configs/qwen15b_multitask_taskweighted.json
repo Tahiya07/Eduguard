@@ -2,7 +2,7 @@
   "experiment_name": "multitask_qwen15b_arxiv_taskweighted",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
   "model_key": "15b",
-  "dataset_dir": "data/multitask_bloom_rewrite_final",
+  "dataset_dir": "data/multitask_bloom_rewrite_arxiv",
   "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_arxiv_taskweighted",
   "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_arxiv_taskweighted",
   "seed": 42,
