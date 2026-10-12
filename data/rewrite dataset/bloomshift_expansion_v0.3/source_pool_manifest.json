@@ -42,5 +42,12 @@
     "flagged_rows": 120,
     "review_status": "human review pending",
     "note": "Flags do not imply invalidity; unflagged questions still require source review."
+  },
+  "broad_candidate_list": {
+    "path": "data/rewrite dataset/bloomshift_expansion_v0.3/source_candidates_for_rewrite.csv",
+    "rows": 2007,
+    "held_aside_for_obvious_incomplete_or_context_dependent_stems": 60,
+    "selection_rule": "Exclude heuristic flags for ellipsis/placeholders, possible truncation, or generic/context-dependent stems; retain short but complete questions.",
+    "status": "source candidates only; human approval pending; not training data"
   }
 }
