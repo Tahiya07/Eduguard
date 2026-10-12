@@ -1,0 +1,31 @@
+{
+  "version": "bloomshift_pending_expansion_combined_0.3.6",
+  "source_batches": [
+    "candidate_batch_0.3.1.jsonl",
+    "candidate_batch_0.3.2.jsonl",
+    "candidate_batch_0.3.3.jsonl",
+    "candidate_batch_0.3.4.jsonl",
+    "candidate_batch_0.3.5.jsonl"
+  ],
+  "record_count": 136,
+  "unique_candidate_ids": 136,
+  "unique_source_ids": 136,
+  "pending_human_validation": 136,
+  "training_eligible": 0,
+  "target_level_counts": {
+    "Analyze": 29,
+    "Remember": 18,
+    "Understand": 27,
+    "Evaluate": 18,
+    "Apply": 18,
+    "Create": 26
+  },
+  "original_split_counts": {
+    "train": 660,
+    "validation": 114,
+    "test": 114
+  },
+  "existing_split_files_modified": false,
+  "exact_normalized_source_question_overlap_with_existing_splits": 0,
+  "validation_note": "Structural audit only; semantic fidelity and Bloom alignment remain unvalidated."
+}
