@@ -4,7 +4,7 @@
 Final generator tasks:
   1. Bloom transformation from the canonical BloomShift final candidate corpus.
   2. Extractive/grounded QA from SQuAD 1.1.
-  3. Summarization from BillSum.
+  3. Summarization from arXiv paper/abstract pairs (ccdv/arxiv-summarization).
 
 The 0.5B Bloom-classification dataset is deliberately excluded.
 
@@ -227,44 +227,46 @@ def load_squad(
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
 
 
-def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct", max_seq_length: int = 8192) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+def load_arxiv(
+    seed: int,
+    tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
+    max_seq_length: int = 8192,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+    """Load arXiv paper/abstract pairs and preserve the dataset's official splits.
+
+    Complete SFT sequences above max_seq_length are excluded consistently in
+    every split; papers are not silently truncated while retaining full-paper
+    abstracts as targets.
+    """
     from datasets import load_dataset
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
-    ds = load_dataset("FiscalNote/billsum")
+    dataset = load_dataset("ccdv/arxiv-summarization")
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
-    official_train = list(ds["train"])
-    official_test = list(ds["test"])
-
-    rng = random.Random(seed)
-    rng.shuffle(official_train)
-    cut = max(1, int(len(official_train) * 0.95))
-    train_raw = official_train[:cut]
-    val_raw = official_train[cut:]
+    excluded = {"train": 0, "validation": 0, "test": 0}
 
     def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
         out = []
         for i, row in enumerate(rows):
-            text = str(row.get("text", "")).strip()
-            summary = str(row.get("summary", "")).strip()
-            if not text or not summary:
+            article = str(row.get("article", "")).strip()
+            abstract = str(row.get("abstract", "")).strip()
+            if not article or not abstract:
                 continue
+
+            # IDs are namespaced by split because this dataset may not expose a
+            # stable document ID. Split-level namespace prevents accidental
+            # train/validation/test ID collisions in the generated corpus.
+            source_id = str(row.get("id") or row.get("paper_id") or f"arxiv_{split}_{i:07d}")
             record = {
                 "task": TASK_SUM,
                 "split": split,
-                "id": str(row.get("id") or f"billsum_{split}_{i:06d}"),
-                "article": text,
-                "abstract": summary,
+                "id": f"arxiv_{split}_{source_id}",
+                "article": article,
+                "abstract": abstract,
                 "title": str(row.get("title", "")).strip(),
+                "source_dataset": "ccdv/arxiv-summarization",
             }
-
-            # BillSum contains a very small number of unusually long articles.
-            # Do not silently truncate a summarization target: truncation would
-            # change the conditioning document while retaining a summary written
-            # for the full document. Apply the same predeclared token-budget rule
-            # to every split and exclude only examples whose complete SFT sequence
-            # cannot fit within the selected training context.
             full_len = len(
                 tokenizer(
                     build_sft_text(TASK_SUM, record),
@@ -274,16 +276,22 @@ def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruc
             if full_len > max_seq_length:
                 excluded[split] += 1
                 continue
-
             out.append(record)
         return out
 
-    excluded = {"train": 0, "validation": 0, "test": 0}
-    train_rows = convert(train_raw, "train")
-    val_rows = convert(val_raw, "validation")
-    test_rows = convert(official_test, "test")
+    # Preserve the publisher-provided split assignments; do not reshuffle
+    # papers across official splits.
+    required_splits = {"train", "validation", "test"}
+    missing_splits = required_splits - set(dataset.keys())
+    if missing_splits:
+        raise ValueError(
+            "ccdv/arxiv-summarization is missing expected official splits: "
+            + ", ".join(sorted(missing_splits))
+        )
+    train_rows = convert(list(dataset["train"]), "train")
+    val_rows = convert(list(dataset["validation"]), "validation")
+    test_rows = convert(list(dataset["test"]), "test")
     return train_rows, val_rows, test_rows, excluded
-
 
 def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
@@ -380,14 +388,14 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
+    sum_train, sum_val, sum_test, arxiv_excluded = load_arxiv(
         args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
     )
 
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
     if not sum_train or not sum_val or not sum_test:
-        raise SystemExit("BillSum preparation produced an empty split.")
+        raise SystemExit("arXiv preparation produced an empty split.")
 
     train_rows = sample_for_mix(
         bloom_train, qa_train, sum_train, args.seed,
@@ -447,12 +455,12 @@ def main() -> None:
             },
         },
         "summarization_source": {
-            "dataset": "FiscalNote/billsum",
+            "dataset": "ccdv/arxiv-summarization",
             "train_fraction_after_deterministic_split": 0.95,
             "official_test_used_as_test": True,
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
-                "over_budget_examples_excluded": billsum_excluded,
+                "over_budget_examples_excluded": arxiv_excluded,
                 "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries",
             },
         },
