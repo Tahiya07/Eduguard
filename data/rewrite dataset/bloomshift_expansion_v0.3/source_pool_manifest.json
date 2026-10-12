@@ -36,5 +36,11 @@
     "unique_source_rows_flagged_for_human_review": 51,
     "human_adjudication": "pending",
     "exact_normalized_overlap_with_v02_and_final_candidate": 0
+  },
+  "source_quality_screen": {
+    "method": "heuristic flags for ellipses/placeholders, generic/context-dependent stems, possible truncated endings, and fewer than five tokens",
+    "flagged_rows": 120,
+    "review_status": "human review pending",
+    "note": "Flags do not imply invalidity; unflagged questions still require source review."
   }
 }
