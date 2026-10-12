@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Generate raw candidate rewrites from a reviewed JSONL prompt queue using a local HF model.
+"""Generate raw, unvalidated BloomShift candidates from a JSONL queue using a local HF model.
 
-Outputs are unvalidated model candidates. This script preserves raw generations and
-records model/runtime metadata; it does not certify semantics or Bloom alignment.
+This script never certifies meaning preservation or Bloom alignment. It retains the raw
+model output, parsed output, generation metadata, and human-review status. Use --resume
+for long runs so already-written generation IDs are not overwritten or regenerated.
 """
 import argparse
 import json
@@ -14,30 +15,42 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
+def read_existing_ids(path):
+    ids = set()
+    if not path.exists():
+        return ids
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+                if row.get("generation_id"):
+                    ids.add(row["generation_id"])
+            except json.JSONDecodeError:
+                continue
+    return ids
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--queue", required=True, help="JSONL from build_generation_queue.py")
+    ap.add_argument("--queue", required=True, help="JSONL from build_candidate_generation_queue.py or build_generation_queue.py")
     ap.add_argument("--model", required=True, help="Local model directory or Hugging Face model ID")
     ap.add_argument("--output", required=True, help="Raw candidate JSONL output")
     ap.add_argument("--max-new-tokens", type=int, default=256)
-    ap.add_argument("--temperature", type=float, default=0.2)
+    ap.add_argument("--temperature", type=float, default=0.15)
     ap.add_argument("--top-p", type=float, default=0.9)
-    ap.add_argument("--limit", type=int, default=0, help="Optional limit for smoke tests; 0 means all")
+    ap.add_argument("--limit", type=int, default=0, help="Optional generation limit for smoke tests; 0 means all remaining")
     ap.add_argument("--local-files-only", action="store_true")
+    ap.add_argument("--resume", action="store_true", help="Append and skip generation IDs already in output")
+    ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
 
     if args.max_new_tokens < 1:
         ap.error("--max-new-tokens must be positive")
-    tokenizer = AutoTokenizer.from_pretrained(args.model, local_files_only=args.local_files_only)
-    model = AutoModelForCausalLM.from_pretrained(
-        args.model,
-        torch_dtype="auto",
-        device_map="auto",
-        local_files_only=args.local_files_only,
-    )
-    model.eval()
-    if tokenizer.pad_token_id is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    if args.temperature < 0:
+        ap.error("--temperature cannot be negative")
+    torch.manual_seed(args.seed)
 
     jobs = []
     with open(args.queue, encoding="utf-8") as f:
@@ -51,24 +64,42 @@ def main():
             if job.get("status") != "pending_generation":
                 continue
             jobs.append(job)
-            if args.limit and len(jobs) >= args.limit:
-                break
 
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
+    already = read_existing_ids(out) if args.resume else set()
+    jobs = [j for j in jobs if j.get("generation_id") not in already]
+    if args.limit:
+        jobs = jobs[:args.limit]
+    if not jobs:
+        print(json.dumps({"jobs_generated": 0, "output": str(out), "status": "no pending jobs (or all IDs already present)"}, indent=2))
+        return
+
+    tokenizer = AutoTokenizer.from_pretrained(args.model, local_files_only=args.local_files_only)
+    model = AutoModelForCausalLM.from_pretrained(
+        args.model,
+        torch_dtype="auto",
+        device_map="auto",
+        local_files_only=args.local_files_only,
+    )
+    model.eval()
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
     started = time.time()
-    with out.open("w", encoding="utf-8") as f:
+    mode = "a" if args.resume else "w"
+    with out.open(mode, encoding="utf-8") as f:
         for idx, job in enumerate(jobs, 1):
             user_prompt = (
                 f'{job.get("prompt", "")}\n\n'
                 f'Source question: {job.get("source_question", "")}\n'
                 f'Source Bloom level: {job.get("source_bloom_level", "unknown")}\n'
                 f'Target Bloom level: {job.get("target_bloom_level", "")}\n'
-                f'Preferred opening verbs: {job.get("preferred_opening_verbs", "")}\n'
+                f'Preferred opening verbs (ordered for diversity; choose only if semantically appropriate): {job.get("preferred_opening_verbs", "")}\n'
                 "Return one JSON object only. Do not answer the question."
             )
             messages = [
-                {"role": "system", "content": "You are an educational assessment item editor. Preserve source meaning and context; never invent missing facts."},
+                {"role": "system", "content": "You edit educational assessment questions. Preserve the source meaning and all supplied context; never invent missing facts. Choose a verb that fits the cognitive operation, not just the label."},
                 {"role": "user", "content": user_prompt},
             ]
             if hasattr(tokenizer, "apply_chat_template"):
@@ -106,6 +137,7 @@ def main():
                     "temperature": args.temperature,
                     "top_p": args.top_p,
                     "do_sample": args.temperature > 0,
+                    "seed": args.seed,
                 },
                 "raw_model_output": raw,
                 "parsed_candidate": parsed,
