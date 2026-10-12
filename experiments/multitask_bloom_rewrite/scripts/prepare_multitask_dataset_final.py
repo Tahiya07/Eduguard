@@ -26,7 +26,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 EXPERIMENT_DIR = REPO_ROOT / "experiments" / "multitask_bloom_rewrite"
 if str(EXPERIMENT_DIR) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(EXPERIMENT_DIR))
-DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_final_candidate"
+DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_actionverb_v02"
 DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_arxiv"
 
 TASK_BLOOM = "bloom_rewrite"
