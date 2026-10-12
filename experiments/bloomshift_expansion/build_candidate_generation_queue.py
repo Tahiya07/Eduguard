@@ -80,7 +80,7 @@ def main():
                     "source_question": question,
                     "source_bloom_level": source_level,
                     "target_bloom_level": level,
-                    "preferred_opening_verbs": ", ".join(OPENERS[level]),
+                    "preferred_opening_verbs": ", ".join(OPENERS[level][(int(hashlib.sha256(sid.encode("utf-8")).hexdigest()[:8], 16) % len(OPENERS[level])):] + OPENERS[level][:(int(hashlib.sha256(sid.encode("utf-8")).hexdigest()[:8], 16) % len(OPENERS[level]))]),
                     "prompt_version": "bloomshift-expansion-v1.1",
                     "prompt": PROMPT,
                     "source_review_status": row.get("review_status", "pending"),
