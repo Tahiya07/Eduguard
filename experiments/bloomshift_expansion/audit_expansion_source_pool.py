@@ -68,7 +68,7 @@ def main():
         with (out/name).open("w",encoding="utf-8-sig",newline="") as f:
             w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
     summary={"pool_rows":len(pool),"pool_unique_normalized":len({r["norm"] for r in pool}),"existing_rows":len(existing),"exact_pool_matches_to_existing":sum(r["norm"] in exact_existing for r in pool),"internal_near_duplicate_pairs":len(internal),"near_matches_to_existing":len(cross),"threshold":args.threshold,"limitation":"near-match flags require human adjudication; all historical inventories must be supplied"}
-    (out/"audit_summary.json").write_text(json.dumps(summary,indent=2)+"\\n",encoding="utf-8")
+    (out/"audit_summary.json").write_text(json.dumps(summary,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(summary,indent=2))
 
 if __name__ == "__main__": main()
