@@ -29,11 +29,11 @@ Expected queue size is at most 10,035 jobs (2,007 × 5), before missing/duplicat
 Example from repository root (first test only; use a locally available model path):
 ```bash
 python experiments/bloomshift_expansion/build_candidate_generation_queue.py --source-csv "data/rewrite dataset/bloomshift_expansion_v0.3/source_candidates_for_rewrite.csv" --output "data/rewrite dataset/bloomshift_expansion_v0.3/generation_queue.jsonl" --limit-sources 2
-python experiments/bloomshift_expansion/generate_rewrite_candidates.py --queue "data/rewrite dataset/bloomshift_expansion_v0.3/generation_queue.jsonl" --model "PATH_TO_LOCAL_CAUSAL_MODEL" --output "data/rewrite dataset/bloomshift_expansion_v0.3/raw_candidates_smoke.jsonl" --limit 10 --local-files-only
+python experiments/bloomshift_expansion/generate_rewrite_candidates.py --queue "data/rewrite dataset/bloomshift_expansion_v0.3/generation_queue.jsonl" --model "models/qwen.gguf" --output "data/rewrite dataset/bloomshift_expansion_v0.3/raw_candidates_smoke.jsonl" --limit 10
 python experiments/bloomshift_expansion/audit_raw_generation_candidates.py --input "data/rewrite dataset/bloomshift_expansion_v0.3/raw_candidates_smoke.jsonl" --report "reports/bloomshift_expansion/raw_candidates_smoke_audit.json"
 ```
 
-After the smoke test, build the full queue without `--limit-sources`, generate in resumable batches, inspect failures, and review candidates before any dataset split or training.
+The generator supports `.gguf` via `llama-cpp-python` and local Hugging Face causal-LM checkpoints via `transformers`. Use the actual local checkpoint path; the GGUF file must be a question-generation-capable instruction model. If `models/qwen.gguf` is the deployed runtime model, verify its model card/configuration and run the smoke test before the full queue. For a Hugging Face checkpoint, add `--local-files-only` to prohibit downloads.\n\nAfter the smoke test, build the full queue without `--limit-sources`, generate in resumable batches (use `--resume` on continuation), inspect failures, and review candidates before any dataset split or training.
 
 ## Required workflow
 
