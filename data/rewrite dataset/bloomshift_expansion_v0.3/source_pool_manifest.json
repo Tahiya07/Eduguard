@@ -6,7 +6,10 @@
   "compared_against": [
     "data/rewrite dataset/bloomshift_actionverb_v02/train.json",
     "data/rewrite dataset/bloomshift_actionverb_v02/validation.json",
-    "data/rewrite dataset/bloomshift_actionverb_v02/test.json"
+    "data/rewrite dataset/bloomshift_actionverb_v02/test.json",
+    "data/rewrite dataset/bloomshift_final_candidate/train.json",
+    "data/rewrite dataset/bloomshift_final_candidate/validation.json",
+    "data/rewrite dataset/bloomshift_final_candidate/test.json"
   ],
   "source_csv_rows": 2330,
   "unique_normalized_source_questions": 2325,
@@ -19,10 +22,19 @@
     "part_03": 667
   },
   "review_status": "all pending",
-  "near_duplicate_status": "not checked",
+  "near_duplicate_status": "heuristic screen completed; flagged rows require human adjudication",
   "source_target_feasibility": "not assessed",
   "generation_status": "none",
   "split_status": "not assigned",
-  "limitation": "Count reflects exact normalized-text comparison only against the three current actionverb_v02 splits. Reconcile historical source inventories and review near duplicates before calling all rows unused. Source quality, licensing/provenance, target feasibility, generation, human validation, and train/validation/test split remain outstanding.",
-  "created_on_branch": "fix/arxiv-multitask-training"
+  "limitation": "Exact overlap and heuristic near-duplicate screening cover only the three current v0.2 splits and three final-candidate splits. Historical/cleaned inventories outside these files still need to be enumerated and supplied to audit_expansion_source_pool.py. Near-match flags are not adjudicated; provenance/license, source approval, target feasibility, rewrite generation, semantic/Bloom human validation, and final split remain outstanding.",
+  "created_on_branch": "fix/arxiv-multitask-training",
+  "near_duplicate_screen": {
+    "method": "Unicode NFKC + lowercase + alphanumeric token set Jaccard similarity",
+    "threshold": 0.8,
+    "pool_internal_candidate_pairs": 31,
+    "matches_against_v02_and_final_candidate_sources": 10,
+    "unique_source_rows_flagged_for_human_review": 51,
+    "human_adjudication": "pending",
+    "exact_normalized_overlap_with_v02_and_final_candidate": 0
+  }
 }
