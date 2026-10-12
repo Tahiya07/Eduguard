@@ -51,3 +51,6 @@ Example commands:
 Training uses learning rate 1e-4, LoRA r=32/alpha=64/dropout=0.1, and up to 12 epochs with early stopping; it selects the best checkpoint using task-weighted loss on balanced validation rows. Output is written to a new adapter directory so the previous checkpoint is preserved. Balancing is by example count, not by token count, so it reduces row-count dominance but does not mathematically guarantee equal task-loss weighting. The manifest records the seed, original/active counts, and SHA-256 hashes. The test split must not be used for hyperparameter tuning or checkpoint selection; report metrics separately by task.
 
 Historical v2/v3 comparison scripts and old result directories are retained only as provenance; they are not inputs to the final generator training run.
+
+
+Expansion candidate list: [`source_candidates_for_rewrite.csv`](../../data/rewrite%20dataset/bloomshift_expansion_v0.3/source_candidates_for_rewrite.csv) contains 2,007 source-question candidates after a conservative incomplete-stem filter. They are not yet approved or rewritten and are not used for training.
