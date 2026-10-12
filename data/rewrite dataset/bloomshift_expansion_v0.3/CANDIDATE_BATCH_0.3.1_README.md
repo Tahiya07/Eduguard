@@ -2,7 +2,7 @@
 
 This file contains a manually drafted candidate batch based on source questions already present in `source_candidates_for_rewrite.csv`.
 
-- Candidate records: 23
+- Candidate records: 25
 - Human validation: pending for every record
 - Training eligibility: false for every record
 - Some transformations are marked `conditional` and carry explicit semantic/context risks.
