@@ -11,7 +11,7 @@ The 0.5B classification dataset is not part of the 1.5B generator corpus.
 ## Final dataset contract
 
 Generator inputs:
-- data/rewrite dataset/bloomshift_final_candidate/
+- data/rewrite dataset/bloomshift_actionverb_v02/ (v0.2.0 action-verb candidate: 691 train / 138 validation / 138 test; held-out annotation worksheet synchronized)
 - rajpurkar/squad
 - ccdv/arxiv-summarization
 
