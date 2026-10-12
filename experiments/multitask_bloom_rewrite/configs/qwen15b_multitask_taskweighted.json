@@ -43,7 +43,7 @@
   "notes": [
     "Shared 1.5B generator: Bloom transformation + SQuAD QA + arXiv paper summarization.",
     "Summarization source is ccdv/arxiv-summarization using its official train/validation/test splits.",
-    "Bloom transformation uses the canonical BloomShift final candidate; source-group separation is checked.",
+    "Bloom transformation uses the versioned BloomShift v0.2.0 action-verb candidate at data/rewrite dataset/bloomshift_actionverb_v02; source-group separation and target-level action openings are checked.",
     "The 0.5B Bloom classification dataset is excluded from generator SFT.",
     "Maximum sequence length is 8192; complete summarization examples over the budget are excluded rather than mismatching a full-document summary to a truncated article.",
     "12 epochs is a maximum; early stopping and best-validation-checkpoint selection remain enabled.",
