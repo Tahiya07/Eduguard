@@ -456,13 +456,24 @@ def main() -> None:
         },
         "summarization_source": {
             "dataset": "ccdv/arxiv-summarization",
-            "train_fraction_after_deterministic_split": 0.95,
-            "official_test_used_as_test": True,
+            "official_splits_preserved": True,
+            "split_names": {
+                "train": "train",
+                "validation": "validation",
+                "test": "test",
+            },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "over_budget_examples_excluded": arxiv_excluded,
-                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries",
+                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
             },
+        },
+        "split_policy": {
+            "bloom_rewrite": "canonical BloomShift source-group-disjoint split; counts are inherited from the audited candidate dataset",
+            "qa": "SQuAD train is split by context group into 95% train and 5% validation; official SQuAD validation is held out as test",
+            "summarization": "preserve ccdv/arxiv-summarization official train/validation/test splits",
+            "train_sampling": "balanced training subset uses the configured 40/30/30 task mix; validation and test remain held out and are not sampled into training",
+            "note": "A single global 80/10/10 ratio is not imposed across different benchmark datasets because that would discard or leak their official/group-safe split assignments.",
         },
         "train_mix": {
             TASK_BLOOM: args.mix_bloom,
