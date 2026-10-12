@@ -10,7 +10,7 @@ import argparse, csv, json, re, unicodedata
 from pathlib import Path
 
 TEXT_KEYS = ("source_question", "question", "original_question", "question_text", "prompt")
-TEXT_COLUMNS = ("question", "question_text", "Question", "text", "prompt", "Question Text")
+TEXT_COLUMNS = ("source_question", "question", "question_text", "Question", "text", "prompt", "Question Text")
 TOKEN = re.compile(r"[a-z0-9]+", re.I)
 FIELDS = ["source_id", "source_group_id", "source_question", "source_bloom_level",
           "original_label", "source_row", "review_status", "eligibility_status",
