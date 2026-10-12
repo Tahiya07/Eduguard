@@ -23,7 +23,7 @@ SFT context limit: 8192 tokens. SQuAD oversized contexts are windowed while pres
 
 ## Pending BloomShift v0.3 expansion — not yet a training input
 
-The new candidate source pool is stored at `data/rewrite dataset/bloomshift_expansion_v0.3/` as three CSV parts (700 + 700 + 667 = 2,067 source questions) plus a manifest and protocol. These are source questions only; no new rewrites have been generated or human-validated. The count reflects exact normalized-text comparison against the current v0.2 action-verb train/validation/test files only, not every historical inventory. All sources remain pending review and near-duplicate checking.
+The new candidate source pool is stored at `data/rewrite dataset/bloomshift_expansion_v0.3/` as three CSV parts (700 + 700 + 667 = 2,067 source questions) plus a manifest and protocol. These are source questions only; no new rewrites have been generated or human-validated. The count reflects exact normalized-text comparison against the current v0.2 action-verb train/validation/test files only, not every historical inventory. All sources remain pending review. Heuristic screening has flagged 31 within-pool near-duplicate pairs, 10 near-match cases against current rewrite inventories, and 120 potentially incomplete or underspecified sources; these flags require human adjudication and do not automatically reject rows.
 
 To regenerate a pool locally, provide the complete set of known source inventories; do not omit historical/cleaned datasets:
 
