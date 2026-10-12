@@ -356,13 +356,13 @@ def write_report(
         f"- Cognitive validity rate: {b.get('rates', {}).get('cognitive_valid_rate')}",
         f"- Trivial transform rate: {b.get('rates', {}).get('trivial_transform_rate')}",
         "",
-        "## QA (SQuAD held-out test half)",
+        "## QA (SQuAD held-out test split)",
         "",
         f"- N: {q.get('n')}",
         f"- Exact Match: {q.get('exact_match')}",
         f"- Token F1: {q.get('f1')}",
         "",
-        "## Summarization (BillSum test)",
+        "## Summarization (arXiv paper/abstract test split)",
         "",
         f"- N: {s.get('n')}",
         f"- ROUGE-1: {s.get('rouge1')}",
@@ -392,7 +392,7 @@ def write_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate the final multi-task Qwen generator on the locked TEST split (13952 examples)."
+        description="Evaluate the multi-task Qwen generator on the held-out test split; default to up to 500 examples per task."
     )
     parser.add_argument(
         "--config",
@@ -438,8 +438,8 @@ def main() -> None:
     parser.add_argument(
         "--evaluation-per-task",
         type=int,
-        default=114,
-        help="Deterministic evaluation sample size per selected task (default: 114)",
+        default=500,
+        help="Deterministic evaluation sample size per task (default: 500; uses all available rows if a task has fewer)",
     )
     parser.add_argument(
         "--full-test-set",
