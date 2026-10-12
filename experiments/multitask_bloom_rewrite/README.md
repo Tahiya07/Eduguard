@@ -21,6 +21,16 @@ Training sampling: 40% Bloom / 30% QA / 30% summarization. The raw validation sp
 
 SFT context limit: 8192 tokens. SQuAD oversized contexts are windowed while preserving the answer span. arXiv examples whose complete paper+abstract SFT sequence exceeds the fixed budget are excluded deterministically rather than silently truncating the paper. The arXiv dataset's official train/validation/test assignments are preserved.
 
+## Pending BloomShift v0.3 expansion — not yet a training input
+
+The new candidate source pool is stored at `data/rewrite dataset/bloomshift_expansion_v0.3/` as three CSV parts (700 + 700 + 667 = 2,067 source questions) plus a manifest and protocol. These are source questions only; no new rewrites have been generated or human-validated. The count reflects exact normalized-text comparison against the current v0.2 action-verb train/validation/test files only, not every historical inventory. All sources remain pending review and near-duplicate checking.
+
+To regenerate a pool locally, provide the complete set of known source inventories; do not omit historical/cleaned datasets:
+
+    python experiments/bloomshift_expansion/prepare_expansion_source_pool.py --input "data/figshare_bloom_v1.csv" --existing "data/rewrite dataset/bloomshift_actionverb_v02/train.json" --existing "data/rewrite dataset/bloomshift_actionverb_v02/validation.json" --existing "data/rewrite dataset/bloomshift_actionverb_v02/test.json" --output-dir "data/rewrite dataset/bloomshift_expansion_v0.3"
+
+The generator-queue script only accepts source rows marked `approved` and source-target pairs explicitly marked feasible by a reviewer. It creates prompts, not rewrites. The v0.2 dataset remains the active training input until v0.3 has been reconciled against all inventories, reviewed for provenance and near duplicates, generated, human-checked, split by source group, structurally audited, and added to a new manifest. Do not train on the pending source pool.
+
 ## Safe workflow
 
 1. Generate the final corpus.
