@@ -2208,8 +2208,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_159_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "034"
@@ -2230,8 +2230,8 @@
     "transformation_type": "Understand->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_414_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Historical/legal effects need accurate course materials and careful treatment of the acts' provisions."
@@ -2254,8 +2254,8 @@
     "transformation_type": "Understand->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_11_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Assumes the learner has access to the relevant course definitions; no external context added."
@@ -2278,8 +2278,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_100_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "036"
@@ -2300,8 +2300,8 @@
     "transformation_type": "Remember->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_33_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The source label says Remember although 'describe' can require understanding; source Bloom label should be reviewed."
@@ -2324,8 +2324,8 @@
     "transformation_type": "Remember->Remember",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_122_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "036"
@@ -2346,8 +2346,8 @@
     "transformation_type": "Remember->Remember",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_170_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "034"
@@ -2368,8 +2368,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp033_figshare_row_256_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Use the economic model and assumptions taught in the course."
@@ -2392,8 +2392,8 @@
     "transformation_type": "Apply->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_9_apply",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The original says actual circles but supplies no radii or diagrams; the rewrite explains the method rather than calculating a specific area."
@@ -2416,8 +2416,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_107_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The actions and case evidence are absent from this source row and must be supplied."
@@ -2457,8 +2457,8 @@
     "transformation_type": "Understand->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_31_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The source supplies no inspection evidence, so candidate causes cannot be determined from this text alone."
@@ -2481,8 +2481,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_589_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The problem and solutions are absent from the source row; criteria must be grounded in the omitted case."
@@ -2522,8 +2522,8 @@
     "transformation_type": "Analyze->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_419_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The three options are not named in the source row and need course context."
@@ -2546,8 +2546,8 @@
     "transformation_type": "Analyze->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_503_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The general case-study method explanation is reduced; this is a target-level transformation rather than a full paraphrase."
@@ -2570,8 +2570,8 @@
     "transformation_type": "Evaluate->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_119_evaluate",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The statement being evaluated is missing from this source row."
@@ -2594,8 +2594,8 @@
     "transformation_type": "Create->Create",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_587_create",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Expected logic conventions and drawing format depend on course context."
@@ -2618,8 +2618,8 @@
     "transformation_type": "Remember->Remember",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_109_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The specific testing types depend on the course materials."
@@ -2642,8 +2642,8 @@
     "transformation_type": "Remember->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_13_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The exact boundary between defining and explaining depends on rubric expectations."
@@ -2700,8 +2700,8 @@
     "transformation_type": "Understand->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp033_figshare_row_116_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "033"
@@ -2742,8 +2742,8 @@
     "candidate_id": "exp037_figshare_row_130_remember",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 19,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The specific mechanisms are not named in the source and depend on course content."
@@ -2779,8 +2779,8 @@
     "candidate_id": "exp037_figshare_row_130_analyze",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 20,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The selected three mechanisms should be grounded in the course content."
@@ -2816,8 +2816,8 @@
     "candidate_id": "exp038_figshare_row_146_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 6,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The phrase “today's construction” is broad; avoid unsupported claims about every project."
@@ -2853,8 +2853,8 @@
     "candidate_id": "exp038_figshare_row_146_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 7,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The phrase “today's construction” is broad; avoid unsupported claims about every project."
@@ -2890,8 +2890,8 @@
     "candidate_id": "exp038_figshare_row_146_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 8,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The phrase “today's construction” is broad; avoid unsupported claims about every project."
@@ -2927,8 +2927,8 @@
     "candidate_id": "exp038_figshare_row_146_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 9,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The phrase “today's construction” is broad; avoid unsupported claims about every project."
@@ -2964,8 +2964,8 @@
     "candidate_id": "exp038_figshare_row_146_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 10,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The phrase “today's construction” is broad; avoid unsupported claims about every project."
@@ -3001,8 +3001,8 @@
     "candidate_id": "exp038_figshare_row_232_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 81,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The objectives and approaches are broad; examples should be checked against the course scope."
@@ -3038,8 +3038,8 @@
     "candidate_id": "exp038_figshare_row_232_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 82,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The objectives and approaches are broad; examples should be checked against the course scope."
@@ -3075,8 +3075,8 @@
     "candidate_id": "exp038_figshare_row_232_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 83,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The objectives and approaches are broad; examples should be checked against the course scope."
@@ -3112,8 +3112,8 @@
     "candidate_id": "exp038_figshare_row_232_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 84,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The objectives and approaches are broad; examples should be checked against the course scope."
@@ -3149,8 +3149,8 @@
     "candidate_id": "exp038_figshare_row_232_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 85,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The objectives and approaches are broad; examples should be checked against the course scope."
@@ -3186,8 +3186,8 @@
     "candidate_id": "exp038_figshare_row_257_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 121,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Symptoms can overlap across causes; examples should be framed as look-alike symptoms, not definitive diagnosis."
@@ -3223,8 +3223,8 @@
     "candidate_id": "exp038_figshare_row_257_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 122,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Symptoms can overlap across causes; examples should be framed as look-alike symptoms, not definitive diagnosis."
@@ -3260,8 +3260,8 @@
     "candidate_id": "exp038_figshare_row_257_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 123,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Symptoms can overlap across causes; examples should be framed as look-alike symptoms, not definitive diagnosis."
@@ -3297,8 +3297,8 @@
     "candidate_id": "exp038_figshare_row_257_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 124,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Symptoms can overlap across causes; examples should be framed as look-alike symptoms, not definitive diagnosis."
@@ -3334,8 +3334,8 @@
     "candidate_id": "exp038_figshare_row_257_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 125,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Symptoms can overlap across causes; examples should be framed as look-alike symptoms, not definitive diagnosis."
@@ -3371,8 +3371,8 @@
     "candidate_id": "exp038_figshare_row_260_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 126,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Cultural categories are broad generalizations; avoid presenting them as fixed traits of every individual or society."
@@ -3408,8 +3408,8 @@
     "candidate_id": "exp038_figshare_row_260_understand",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 127,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Cultural categories are broad generalizations; avoid presenting them as fixed traits of every individual or society."
@@ -3445,8 +3445,8 @@
     "candidate_id": "exp038_figshare_row_260_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 128,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Cultural categories are broad generalizations; avoid presenting them as fixed traits of every individual or society."
@@ -3482,8 +3482,8 @@
     "candidate_id": "exp038_figshare_row_260_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 129,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Cultural categories are broad generalizations; avoid presenting them as fixed traits of every individual or society."
@@ -3519,8 +3519,8 @@
     "candidate_id": "exp038_figshare_row_260_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 130,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Cultural categories are broad generalizations; avoid presenting them as fixed traits of every individual or society."
@@ -3556,8 +3556,8 @@
     "candidate_id": "exp038_figshare_row_286_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 151,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Benefits depend on ecosystem and social context; avoid claiming all services occur in every ecosystem."
@@ -3593,8 +3593,8 @@
     "candidate_id": "exp038_figshare_row_286_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 152,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Benefits depend on ecosystem and social context; avoid claiming all services occur in every ecosystem."
@@ -3630,8 +3630,8 @@
     "candidate_id": "exp038_figshare_row_286_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 153,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Benefits depend on ecosystem and social context; avoid claiming all services occur in every ecosystem."
@@ -3667,8 +3667,8 @@
     "candidate_id": "exp038_figshare_row_286_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 154,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Benefits depend on ecosystem and social context; avoid claiming all services occur in every ecosystem."
@@ -3704,8 +3704,8 @@
     "candidate_id": "exp038_figshare_row_286_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 155,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Benefits depend on ecosystem and social context; avoid claiming all services occur in every ecosystem."
@@ -3741,8 +3741,8 @@
     "candidate_id": "exp039_figshare_row_229_remember",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 41,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
@@ -3779,8 +3779,8 @@
     "candidate_id": "exp039_figshare_row_229_understand",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 42,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
@@ -3817,8 +3817,8 @@
     "candidate_id": "exp039_figshare_row_229_apply",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 43,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
@@ -3855,8 +3855,8 @@
     "candidate_id": "exp039_figshare_row_229_analyze",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 44,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
@@ -3893,8 +3893,8 @@
     "candidate_id": "exp039_figshare_row_229_evaluate",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 45,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
@@ -3931,8 +3931,8 @@
     "candidate_id": "exp0310_figshare_row_356_understand",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
     "candidate_source_line": 6,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; absence of an automated source-quality flag is not approval.",
@@ -3970,8 +3970,8 @@
     "candidate_id": "exp0310_figshare_row_356_apply",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
     "candidate_source_line": 7,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; absence of an automated source-quality flag is not approval.",
@@ -4009,8 +4009,8 @@
     "candidate_id": "exp0310_figshare_row_356_analyze",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
     "candidate_source_line": 8,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; absence of an automated source-quality flag is not approval.",
@@ -4048,8 +4048,8 @@
     "candidate_id": "exp0310_figshare_row_356_evaluate",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
     "candidate_source_line": 9,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; absence of an automated source-quality flag is not approval.",
@@ -4087,8 +4087,8 @@
     "candidate_id": "exp0310_figshare_row_356_create",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
     "candidate_source_line": 10,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; absence of an automated source-quality flag is not approval.",
@@ -4126,8 +4126,8 @@
     "candidate_id": "exp0311_figshare_row_243_remember",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 16,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4166,8 +4166,8 @@
     "candidate_id": "exp0311_figshare_row_243_understand",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 17,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4206,8 +4206,8 @@
     "candidate_id": "exp0311_figshare_row_243_apply",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 18,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4246,8 +4246,8 @@
     "candidate_id": "exp0311_figshare_row_243_analyze",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 19,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4286,8 +4286,8 @@
     "candidate_id": "exp0311_figshare_row_243_create",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 20,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4326,8 +4326,8 @@
     "candidate_id": "exp0311_figshare_row_252_remember",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 21,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4366,8 +4366,8 @@
     "candidate_id": "exp0311_figshare_row_252_apply",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 22,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4406,8 +4406,8 @@
     "candidate_id": "exp0311_figshare_row_252_analyze",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 23,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4446,8 +4446,8 @@
     "candidate_id": "exp0311_figshare_row_252_evaluate",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 24,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4486,8 +4486,8 @@
     "candidate_id": "exp0311_figshare_row_252_create",
     "candidate_source_file": "candidate_batch_0.3.11_assistant_curated.jsonl",
     "candidate_source_line": 25,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Source eligibility has not been independently adjudicated; no automatic flag is not approval.",
@@ -4526,8 +4526,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_23_figshare_row_31_remember",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 23,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Retains age and defect context; reduces the explanation task to recall."
@@ -4563,8 +4563,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_24_figshare_row_31_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 24,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Categorization adds an analytical operation; actual defect evidence is not supplied."
@@ -4600,8 +4600,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_25_figshare_row_33_understand",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 25,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Preserves the count and topic while raising the demand from listing/recall to explanation."
@@ -4637,8 +4637,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_26_figshare_row_33_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 26,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Adds grouping/analysis; the seven items must be supported by the course content."
@@ -4674,8 +4674,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_23_figshare_row_9_understand",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 23,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Clarifies 'actual circles' as geometric circles; source wording is ambiguous."
@@ -4711,8 +4711,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_24_figshare_row_9_analyze",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 24,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Adds parameter analysis; source is too underspecified to assert strict preservation."
@@ -4748,8 +4748,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_28_figshare_row_11_remember",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 28,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Requires a supplied diagram; added condition must be documented."
@@ -4785,8 +4785,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_29_figshare_row_11_apply",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 29,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Action-verb opening; retains the drawing component and adds labeling."
@@ -4822,8 +4822,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_30_figshare_row_11_analyze",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 30,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Analytical contrast; source's drawing component remains relevant."
@@ -4859,8 +4859,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_35_figshare_row_13_understand",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 35,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Preserves number and topic while shifting from definition to explanation."
@@ -4896,8 +4896,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_36_figshare_row_13_analyze",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 36,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Adds comparison among roles; verify if this is intended transformation."
@@ -4933,8 +4933,8 @@
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_37_figshare_row_13_create",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 37,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "New synthesis task; potential semantic/task shift noted."
