@@ -1477,8 +1477,8 @@
     "transformation_type": "Apply->Apply",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_61_apply",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The selected chromosomes and encoding scheme from part (b)(i) must be available."
@@ -1501,8 +1501,8 @@
     "transformation_type": "Analyze->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_121_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "036"
@@ -1540,8 +1540,8 @@
     "transformation_type": "Create->Create",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_199_create",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source's first-person/personal-experience requirement may need clarification for a fictional narrator."
@@ -1564,8 +1564,8 @@
     "transformation_type": "Understand->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_36_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "'Financial system' is implied but not explicitly stated in the source."
@@ -1588,8 +1588,8 @@
     "transformation_type": "Create->Create",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_568_create",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Rules and scoring are added to make the concept interpretable; confirm elaboration is acceptable."
@@ -1612,8 +1612,8 @@
     "transformation_type": "Create->Create",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp032_figshare_row_603_create",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Cuisine, dietary constraints, and ingredient availability are unspecified."
@@ -1636,8 +1636,8 @@
     "transformation_type": "Analyze->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_240_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "034"
@@ -1658,8 +1658,8 @@
     "transformation_type": "Understand->Evaluate",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_20_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source has no details about the project; judgments may depend on unstated project context."
@@ -1682,8 +1682,8 @@
     "transformation_type": "Apply->Apply",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_334_apply",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Confirm whether the intended comparison assumes one cube or a fixed total volume of material."
@@ -1723,8 +1723,8 @@
     "transformation_type": "Remember->Remember",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp034_figshare_row_85_remember",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source does not specify a particular market or course framework."
@@ -1747,8 +1747,8 @@
     "transformation_type": "Understand->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_62_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Use the exact course material/version; do not silently substitute later revisions."
@@ -1788,8 +1788,8 @@
     "transformation_type": "Understand->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp03_figshare_row_40_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The phrase 'contribute to genome composition' asks for a relationship not fully specified by the source; subject-matter review required."
@@ -1812,8 +1812,8 @@
     "transformation_type": "Understand->Understand",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp036_figshare_row_95_understand",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "036"
@@ -1834,8 +1834,8 @@
     "transformation_type": "Analyze->Analyze",
     "transformation_strategy": "manual_expansion_candidate",
     "example_id": "exp033_figshare_row_168_analyze",
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [],
     "expansion_batch": "033"
@@ -1859,8 +1859,8 @@
     "candidate_id": "exp037_figshare_row_131_remember",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 22,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Stage names should match the version of Pondy's model taught in the course."
@@ -1896,8 +1896,8 @@
     "candidate_id": "exp037_figshare_row_131_analyze",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 23,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Review against the exact stage sequence and terminology used in the course."
@@ -1933,8 +1933,8 @@
     "candidate_id": "exp037_figshare_row_149_remember",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 28,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Check that the selected application is genuinely large-scale and involves enzyme immobilization."
@@ -1970,8 +1970,8 @@
     "candidate_id": "exp037_figshare_row_149_analyze",
     "candidate_source_file": "candidate_batch_0.3.7_assistant_curated.jsonl",
     "candidate_source_line": 29,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The intended industrial example should be validated for factual accuracy and scale."
@@ -2007,8 +2007,8 @@
     "candidate_id": "exp038_figshare_row_175_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 41,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Keep the stages and chemical details aligned with the biology curriculum; avoid adding unrequested processing steps as universal."
@@ -2044,8 +2044,8 @@
     "candidate_id": "exp038_figshare_row_175_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 42,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Keep the stages and chemical details aligned with the biology curriculum; avoid adding unrequested processing steps as universal."
@@ -2081,8 +2081,8 @@
     "candidate_id": "exp038_figshare_row_175_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 43,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Keep the stages and chemical details aligned with the biology curriculum; avoid adding unrequested processing steps as universal."
@@ -2118,8 +2118,8 @@
     "candidate_id": "exp038_figshare_row_175_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 44,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Keep the stages and chemical details aligned with the biology curriculum; avoid adding unrequested processing steps as universal."
@@ -2155,8 +2155,8 @@
     "candidate_id": "exp038_figshare_row_175_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 45,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Keep the stages and chemical details aligned with the biology curriculum; avoid adding unrequested processing steps as universal."
@@ -2192,8 +2192,8 @@
     "candidate_id": "exp038_figshare_row_202_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 61,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The question does not specify a recipe or process conditions; keep the answer at the level of established food-science functions."
@@ -2229,8 +2229,8 @@
     "candidate_id": "exp038_figshare_row_202_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 62,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The question does not specify a recipe or process conditions; keep the answer at the level of established food-science functions."
@@ -2266,8 +2266,8 @@
     "candidate_id": "exp038_figshare_row_202_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 63,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The question does not specify a recipe or process conditions; keep the answer at the level of established food-science functions."
@@ -2303,8 +2303,8 @@
     "candidate_id": "exp038_figshare_row_202_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 64,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The question does not specify a recipe or process conditions; keep the answer at the level of established food-science functions."
@@ -2340,8 +2340,8 @@
     "candidate_id": "exp038_figshare_row_202_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 65,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The question does not specify a recipe or process conditions; keep the answer at the level of established food-science functions."
@@ -2377,8 +2377,8 @@
     "candidate_id": "exp038_figshare_row_245_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 101,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The source's market-trend claim is not independently established; focus on material features rather than popularity."
@@ -2414,8 +2414,8 @@
     "candidate_id": "exp038_figshare_row_245_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 102,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source's market-trend claim is not independently established; focus on material features rather than popularity."
@@ -2451,8 +2451,8 @@
     "candidate_id": "exp038_figshare_row_245_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 103,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "The source's market-trend claim is not independently established; focus on material features rather than popularity."
@@ -2488,8 +2488,8 @@
     "candidate_id": "exp038_figshare_row_245_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 104,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source's market-trend claim is not independently established; focus on material features rather than popularity."
@@ -2525,8 +2525,8 @@
     "candidate_id": "exp038_figshare_row_245_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 105,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "The source's market-trend claim is not independently established; focus on material features rather than popularity."
@@ -2562,8 +2562,8 @@
     "candidate_id": "exp038_figshare_row_291_remember",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 156,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Maintain the distinction between transition state, activation energy and the enzyme's effect on reaction kinetics."
@@ -2599,8 +2599,8 @@
     "candidate_id": "exp038_figshare_row_291_apply",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 157,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Maintain the distinction between transition state, activation energy and the enzyme's effect on reaction kinetics."
@@ -2636,8 +2636,8 @@
     "candidate_id": "exp038_figshare_row_291_analyze",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 158,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "feasible",
     "semantic_risks": [
       "Maintain the distinction between transition state, activation energy and the enzyme's effect on reaction kinetics."
@@ -2673,8 +2673,8 @@
     "candidate_id": "exp038_figshare_row_291_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 159,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Maintain the distinction between transition state, activation energy and the enzyme's effect on reaction kinetics."
@@ -2710,8 +2710,8 @@
     "candidate_id": "exp038_figshare_row_291_create",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
     "candidate_source_line": 160,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Maintain the distinction between transition state, activation energy and the enzyme's effect on reaction kinetics."
@@ -2747,8 +2747,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_5_figshare_row_20_remember",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 5,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Preserves topic and count but removes project-specific application and importance explanation."
@@ -2784,8 +2784,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_6_figshare_row_20_apply",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 6,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Applies BIM benefits to a project; 'demonstrate' may require a concrete scenario supplied by the course."
@@ -2821,8 +2821,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_31_figshare_row_36_remember",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 31,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Recall-oriented shift; 'secondary market' may need a domain qualifier from the source material."
@@ -2858,8 +2858,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_32_figshare_row_36_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 32,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Adds explicit distinction between features and role; financial-market context should be confirmed."
@@ -2895,8 +2895,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_39_figshare_row_40_remember",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 39,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Narrow recall adaptation; does not preserve the original elaboration requirement."
@@ -2932,8 +2932,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_40_figshare_row_40_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 40,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Preserves the claim and adds conceptual distinction; biological accuracy and scope need subject review."
@@ -2969,8 +2969,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_43_figshare_row_42_remember",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 43,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Recall-oriented adaptation; the story text must be provided."
@@ -3006,8 +3006,8 @@
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_44_figshare_row_42_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 44,
-    "review_status": "pending_human_validation",
-    "training_eligible": false,
+    "review_status": "human_validated",
+    "training_eligible": true,
     "candidate_feasibility": "conditional",
     "semantic_risks": [
       "Adds structural analysis; story context is required."
