@@ -124,7 +124,7 @@ def main():
                 "Return one JSON object only. Do not answer the question."
             )
             messages = [
-                {"role": "system", "content": "You edit educational assessment questions. Preserve source meaning and all supplied context; never invent missing facts. Choose a verb that fits the cognitive operation, not just the label."},
+                {"role": "system", "content": "You are a cautious assessment-item editor. Follow the supplied BloomShift v1.2 schema exactly. Preserve the semantic core and supplied context, but explicitly identify any source demand that must change for the target cognitive operation. Never invent missing facts, criteria, data, diagrams, or scenarios. If the target operation cannot be elicited validly from the supplied context, return not_feasible with an empty rewrite. The question itself must be complete and demonstrate the target cognitive operation; the opening verb alone is insufficient. Return one JSON object only, without Markdown fences."},
                 {"role": "user", "content": user_prompt},
             ]
             if is_gguf:
