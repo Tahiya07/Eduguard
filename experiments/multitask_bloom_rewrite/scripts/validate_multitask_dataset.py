@@ -53,7 +53,7 @@ def load_jsonl(path: Path) -> list[dict]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default="data/multitask_bloom_rewrite_final")
-    ap.add_argument("--max-length", type=int, default=1024)
+    ap.add_argument("--max-length", type=int, default=8192)
     ap.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     args = ap.parse_args()
 
@@ -65,6 +65,25 @@ def main() -> None:
         raise SystemExit("QC FAILED: generated corpus is empty.")
 
     errors: list[str] = []
+
+    # Detect stale manifests instead of reporting a misleading PASS when JSONL
+    # files were regenerated but sidecar metadata was not.
+    manifest_path = root / "dataset_manifest.json"
+    if manifest_path.exists():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            expected_counts = manifest.get("counts", {})
+            for split_name, rows_for_split in splits.items():
+                actual = dict(Counter(r.get("task") for r in rows_for_split))
+                expected = expected_counts.get(split_name)
+                if expected is not None and actual != expected:
+                    errors.append(
+                        f"stale dataset_manifest.json: {split_name} task counts "
+                        f"manifest={expected}, JSONL={actual}"
+                    )
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"cannot read dataset_manifest.json: {exc}")
+
     task_counts = {}
     ids_by_split = {}
     group_by_split = defaultdict(set)
