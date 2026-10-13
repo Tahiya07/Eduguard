@@ -26,7 +26,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 EXPERIMENT_DIR = REPO_ROOT / "experiments" / "multitask_bloom_rewrite"
 if str(EXPERIMENT_DIR) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(EXPERIMENT_DIR))
-DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_actionverb_v02"
+DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_final_candidate"
 DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_arxiv"
 
 TASK_BLOOM = "bloom_rewrite"
@@ -63,6 +63,12 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
 
     out = []
     for row in rows:
+        # Expansion candidates remain in the canonical split files for review,
+        # but must not enter SFT/evaluation corpora until explicitly approved.
+        if row.get("training_eligible") is False:
+            continue
+        if row.get("review_status") == "pending_human_validation":
+            continue
         required = (
             "source_id", "group_id", "source_question",
             "target_bloom_level", "target_rewrite", "example_id"
@@ -487,6 +493,7 @@ def main() -> None:
         },
         "notes": [
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
+            "Rows marked training_eligible=false or review_status=pending_human_validation are retained in source split files for review but excluded from the generated SFT/evaluation corpus.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
             "BloomShift group isolation is checked before writing the corpus.",
