@@ -3,14 +3,14 @@ name: Generate Final Multitask Dataset
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, fix/arxiv-multitask-training]
     paths:
       - ".github/workflows/generate-multitask-dataset.yml"
       - "experiments/multitask_bloom_rewrite/**"
       - "data/rewrite dataset/bloomshift_final_candidate/**"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: final-multitask-dataset
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   generate-and-validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 180
 
     steps:
       - name: Checkout repository
@@ -64,6 +64,23 @@ jobs:
             --data-dir data/multitask_bloom_rewrite_final \
             --max-length 8192 \
             --model-id Qwen/Qwen2.5-1.5B-Instruct
+
+      - name: Commit regenerated dataset and QC reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/multitask_bloom_rewrite_final/train.jsonl \
+                  data/multitask_bloom_rewrite_final/validation.jsonl \
+                  data/multitask_bloom_rewrite_final/test.jsonl \
+                  data/multitask_bloom_rewrite_final/dataset_manifest.json \
+                  data/multitask_bloom_rewrite_final/qc_report.json \
+                  experiments/multitask_bloom_rewrite/reports/multitask_final_prepare_report.json
+          if git diff --cached --quiet; then
+            echo "Generated dataset is unchanged; nothing to commit."
+          else
+            git commit -m "Regenerate multitask dataset from approved BloomShift rows"
+            git push
+          fi
 
       - name: Upload generated corpus and reports
         uses: actions/upload-artifact@v4
