@@ -24,6 +24,7 @@ if str(EXPERIMENT_DIR) not in sys.path:
     sys.path.insert(0, str(EXPERIMENT_DIR))
 
 from loss_masking import tokenize_with_assistant_only_loss
+from task_loss import TASK_TO_ID, task_weighted_causal_lm_loss
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -112,7 +113,27 @@ def main() -> None:
     )
     model = get_peft_model(model, lora)
     model.to(device)
-    model.eval()
+    model.config.use_cache = False
+    if args.backward:
+        # Match the training path: checkpoint transformer activations and avoid
+        # the built-in causal-LM loss, which upcasts the entire logits tensor.
+        model.gradient_checkpointing_enable()
+        if hasattr(model, "enable_input_require_grads"):
+            model.enable_input_require_grads()
+        model.train()
+    else:
+        model.eval()
+
+    configured_task_weights = cfg.get(
+        "task_loss_weights",
+        {"bloom_rewrite": 1.5, "qa": 1.0, "summarization": 1.0},
+    )
+    if set(configured_task_weights) != set(TASK_TO_ID):
+        raise ValueError("task_loss_weights must define exactly the three known tasks")
+    task_weights = {
+        TASK_TO_ID[name]: float(weight)
+        for name, weight in configured_task_weights.items()
+    }
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
@@ -133,11 +154,23 @@ def main() -> None:
         inputs = {
             k: torch.tensor([v], dtype=torch.long, device=device)
             for k, v in tokenized.items()
-            if k in {"input_ids", "attention_mask", "labels"}
+            if k in {"input_ids", "attention_mask"}
         }
+        labels = torch.tensor(
+            [tokenized["labels"]], dtype=torch.long, device=device
+        )
+        task_ids = torch.tensor([TASK_TO_ID[task]], dtype=torch.long, device=device)
+
+        if args.backward:
+            model.zero_grad(set_to_none=True)
         with torch.set_grad_enabled(args.backward):
-            out = model(**inputs)
-            loss = out.loss
+            out = model(**inputs, use_cache=False)
+            # Use the same per-example, task-weighted, chunked loss as training.
+            # Passing labels to model.forward() would invoke the default loss,
+            # which upcasts the full [batch, sequence, vocab] logits tensor.
+            loss = task_weighted_causal_lm_loss(
+                out.logits, labels, task_ids, task_weights
+            )
 
         if not torch.isfinite(loss).item():
             raise RuntimeError(f"{task}: non-finite loss: {loss.item()}")
@@ -145,11 +178,10 @@ def main() -> None:
         task_result = {
             "sequence_tokens": len(tokenized["input_ids"]),
             "supervised_tokens": supervised,
-            "loss": float(loss.detach().cpu()),
+            "weighted_loss": float(loss.detach().cpu()),
         }
 
         if args.backward:
-            model.zero_grad(set_to_none=True)
             loss.backward()
             finite_grads = 0
             for p in model.parameters():
@@ -162,6 +194,9 @@ def main() -> None:
             task_result["gradient_tensors"] = finite_grads
 
         results["tasks_checked"][task] = task_result
+        del out, loss, labels, inputs, task_ids
+        if device == "cuda":
+            torch.cuda.empty_cache()
 
     print(json.dumps(results, indent=2))
     print("TRAINING SANITY CHECK: PASS")
