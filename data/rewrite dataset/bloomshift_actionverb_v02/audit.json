@@ -1,0 +1,70 @@
+{
+  "dataset_version": "BloomShift-v0.2.0-action-verb-revision",
+  "status": "revised_silver_candidate_pending_human_validation",
+  "source_dataset": "EduGuard locked source questions and source-group-held-out BloomShift v4 validation/test partitions",
+  "rows_by_split": {
+    "train": 691,
+    "validation": 138,
+    "test": 138,
+    "total": 967
+  },
+  "unique_source_questions": 258,
+  "unique_groups_by_split": {
+    "train": 190,
+    "validation": 35,
+    "test": 33
+  },
+  "target_counts_by_split": {
+    "train": {
+      "Remember": 114,
+      "Understand": 112,
+      "Apply": 119,
+      "Analyze": 117,
+      "Evaluate": 115,
+      "Create": 114
+    },
+    "validation": {
+      "Remember": 23,
+      "Understand": 23,
+      "Apply": 23,
+      "Analyze": 23,
+      "Evaluate": 23,
+      "Create": 23
+    },
+    "test": {
+      "Remember": 23,
+      "Understand": 23,
+      "Apply": 23,
+      "Analyze": 23,
+      "Evaluate": 23,
+      "Create": 23
+    }
+  },
+  "identity_rows": 0,
+  "duplicate_source_target": false,
+  "duplicate_target_rewrites": 0,
+  "source_group_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "action_verb_revision": {
+    "wh_question_starts_remaining": 0,
+    "changed_rows": 610,
+    "note": "All target rewrites begin with an action verb selected for the target Bloom level; previously WH-led rewrites and mismatched action openings were revised. Existing target-level-aligned action openings were preserved. The supervisor worksheet is synchronized. Fresh human review is required.",
+    "changed_rows_by_split": {
+      "train": 344,
+      "validation": 133,
+      "test": 133
+    },
+    "level_aligned_openings": true
+  },
+  "human_validation_required": true,
+  "notes": [
+    "v0.1.0 is preserved as the immutable original candidate release.",
+    "Validation and test were expanded using the larger, separately source-group-held-out BloomShift v4 partitions: 138 rows each (23 per target Bloom level).",
+    "Train rows from the original candidate pool were retained only when their group_id did not occur in either held-out partition.",
+    "Target rewrites remain silver synthetic data. Human review is required for semantic preservation, context preservation, Bloom alignment, grammaticality, and pedagogical validity.",
+    "The original source question itself may contain malformed or incomplete phrasing; action-verb conversion does not repair the source or certify the rewrite."
+  ]
+}

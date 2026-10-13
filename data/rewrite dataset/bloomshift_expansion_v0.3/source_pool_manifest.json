@@ -1,0 +1,53 @@
+{
+  "dataset_name": "BloomShift expansion source pool v0.3.0",
+  "status": "source pool only; no new rewrites generated",
+  "source_file": "data/figshare_bloom_v1.csv",
+  "source_file_blob_sha": "3ba050587c453ea9cdb3a9d18a422e2d6733e8c1",
+  "compared_against": [
+    "data/rewrite dataset/bloomshift_actionverb_v02/train.json",
+    "data/rewrite dataset/bloomshift_actionverb_v02/validation.json",
+    "data/rewrite dataset/bloomshift_actionverb_v02/test.json",
+    "data/rewrite dataset/bloomshift_final_candidate/train.json",
+    "data/rewrite dataset/bloomshift_final_candidate/validation.json",
+    "data/rewrite dataset/bloomshift_final_candidate/test.json"
+  ],
+  "source_csv_rows": 2330,
+  "unique_normalized_source_questions": 2325,
+  "existing_rewrite_records_compared": 967,
+  "existing_unique_normalized_source_questions": 258,
+  "unique_source_questions_not_found_by_exact_match": 2067,
+  "pool_parts": {
+    "part_01": 700,
+    "part_02": 700,
+    "part_03": 667
+  },
+  "review_status": "all pending",
+  "near_duplicate_status": "heuristic screen completed; flagged rows require human adjudication",
+  "source_target_feasibility": "not assessed",
+  "generation_status": "none",
+  "split_status": "not assigned",
+  "limitation": "Exact overlap and heuristic near-duplicate screening cover only the three current v0.2 splits and three final-candidate splits. Historical/cleaned inventories outside these files still need to be enumerated and supplied to audit_expansion_source_pool.py. Near-match flags are not adjudicated; provenance/license, source approval, target feasibility, rewrite generation, semantic/Bloom human validation, and final split remain outstanding.",
+  "created_on_branch": "fix/arxiv-multitask-training",
+  "near_duplicate_screen": {
+    "method": "Unicode NFKC + lowercase + alphanumeric token set Jaccard similarity",
+    "threshold": 0.8,
+    "pool_internal_candidate_pairs": 31,
+    "matches_against_v02_and_final_candidate_sources": 10,
+    "unique_source_rows_flagged_for_human_review": 51,
+    "human_adjudication": "pending",
+    "exact_normalized_overlap_with_v02_and_final_candidate": 0
+  },
+  "source_quality_screen": {
+    "method": "heuristic flags for ellipses/placeholders, generic/context-dependent stems, possible truncated endings, and fewer than five tokens",
+    "flagged_rows": 120,
+    "review_status": "human review pending",
+    "note": "Flags do not imply invalidity; unflagged questions still require source review."
+  },
+  "broad_candidate_list": {
+    "path": "data/rewrite dataset/bloomshift_expansion_v0.3/source_candidates_for_rewrite.csv",
+    "rows": 2007,
+    "held_aside_for_obvious_incomplete_or_context_dependent_stems": 60,
+    "selection_rule": "Exclude heuristic flags for ellipsis/placeholders, possible truncation, or generic/context-dependent stems; retain short but complete questions.",
+    "status": "source candidates only; human approval pending; not training data"
+  }
+}

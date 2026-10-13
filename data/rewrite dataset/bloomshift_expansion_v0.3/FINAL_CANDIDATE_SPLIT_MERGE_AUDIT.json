@@ -1,0 +1,45 @@
+{
+  "title": "BloomShift final-candidate expansion merge audit",
+  "branch": "fix/arxiv-multitask-training",
+  "merge_status": "committed",
+  "input_records": 543,
+  "input_files": [
+    "candidate_batch_0.3.1.jsonl",
+    "candidate_batch_0.3.2.jsonl",
+    "candidate_batch_0.3.3.jsonl",
+    "candidate_batch_0.3.4.jsonl",
+    "candidate_batch_0.3.5.jsonl",
+    "candidate_batch_0.3.7_assistant_curated.jsonl",
+    "candidate_batch_0.3.8_assistant_curated.jsonl",
+    "candidate_batch_0.3.9_assistant_curated.jsonl",
+    "candidate_batch_0.3.10_assistant_curated.jsonl",
+    "candidate_batch_0.3.11_assistant_curated.jsonl",
+    "user_approved_candidates.jsonl",
+    "action_verb_rewrite_batch_001_30_sources.csv",
+    "action_verb_rewrite_pilot_001.csv"
+  ],
+  "added_records": 398,
+  "added_by_split": {
+    "train": 307,
+    "validation": 59,
+    "test": 32
+  },
+  "final_split_rows": {
+    "train": 1075,
+    "validation": 212,
+    "test": 135
+  },
+  "exact_duplicates_skipped": 136,
+  "empty_or_infeasible_rewrites_skipped": 9,
+  "all_added_rows": {
+    "review_status": "pending_human_validation",
+    "training_eligible": false
+  },
+  "source_group_split_check": {
+    "cross_split_source_id_overlap": 0,
+    "policy": "Existing source IDs stay in their original split; previously unseen source IDs are assigned deterministically by source ID using 75/15/10 thresholds."
+  },
+  "candidate_id_policy": "Preserve original candidate IDs when unique; append deterministic collision suffixes or generated IDs where source records did not have candidate IDs.",
+  "training_safety": "Updated prepare_multitask_dataset_final.py to default to bloomshift_final_candidate and exclude training_eligible=false or review_status=pending_human_validation rows from generated SFT/evaluation corpora.",
+  "caveat": "These are unvalidated draft candidates. They are present in the split files for review, but must not be reported as human-validated or used as training/evaluation examples until approved."
+}

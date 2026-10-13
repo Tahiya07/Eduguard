@@ -4,7 +4,7 @@
 Final generator tasks:
   1. Bloom transformation from the canonical BloomShift final candidate corpus.
   2. Extractive/grounded QA from SQuAD 1.1.
-  3. Summarization from BillSum.
+  3. Summarization from arXiv paper/abstract pairs (ccdv/arxiv-summarization).
 
 The 0.5B Bloom-classification dataset is deliberately excluded.
 
@@ -63,6 +63,12 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
 
     out = []
     for row in rows:
+        # Expansion candidates remain in the canonical split files for review,
+        # but must not enter SFT/evaluation corpora until explicitly approved.
+        if row.get("training_eligible") is False:
+            continue
+        if row.get("review_status") == "pending_human_validation":
+            continue
         required = (
             "source_id", "group_id", "source_question",
             "target_bloom_level", "target_rewrite", "example_id"
@@ -227,63 +233,77 @@ def load_squad(
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
 
 
-def load_billsum(seed: int, tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct", max_seq_length: int = 8192) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+def load_arxiv(
+    seed: int,
+    tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
+    max_seq_length: int = 8192,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+    """Load arXiv paper/abstract pairs and preserve the dataset's official splits.
+
+    Complete SFT sequences above max_seq_length are excluded consistently in
+    every split; papers are not silently truncated while retaining full-paper
+    abstracts as targets.
+    """
     from datasets import load_dataset
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
-    ds = load_dataset("FiscalNote/billsum")
+    dataset = load_dataset("ccdv/arxiv-summarization")
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
-    official_train = list(ds["train"])
-    official_test = list(ds["test"])
-
-    rng = random.Random(seed)
-    rng.shuffle(official_train)
-    cut = max(1, int(len(official_train) * 0.95))
-    train_raw = official_train[:cut]
-    val_raw = official_train[cut:]
+    excluded = {"train": 0, "validation": 0, "test": 0}
 
     def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
         out = []
         for i, row in enumerate(rows):
-            text = str(row.get("text", "")).strip()
-            summary = str(row.get("summary", "")).strip()
-            if not text or not summary:
+            article = str(row.get("article", "")).strip()
+            abstract = str(row.get("abstract", "")).strip()
+            if not article or not abstract:
                 continue
+
+            # IDs are namespaced by split because this dataset may not expose a
+            # stable document ID. Split-level namespace prevents accidental
+            # train/validation/test ID collisions in the generated corpus.
+            source_id = str(row.get("id") or row.get("paper_id") or f"arxiv_{split}_{i:07d}")
             record = {
                 "task": TASK_SUM,
                 "split": split,
-                "id": str(row.get("id") or f"billsum_{split}_{i:06d}"),
-                "article": text,
-                "abstract": summary,
+                "id": f"arxiv_{split}_{source_id}",
+                "article": article,
+                "abstract": abstract,
                 "title": str(row.get("title", "")).strip(),
+                "source_dataset": "ccdv/arxiv-summarization",
             }
-
-            # BillSum contains a very small number of unusually long articles.
-            # Do not silently truncate a summarization target: truncation would
-            # change the conditioning document while retaining a summary written
-            # for the full document. Apply the same predeclared token-budget rule
-            # to every split and exclude only examples whose complete SFT sequence
-            # cannot fit within the selected training context.
+            # We only need to know whether the complete SFT sequence exceeds
+            # the budget. Count at most max_seq_length + 1 tokens so a pathological
+            # full paper cannot trigger tokenizer/model-length warnings or consume
+            # excessive memory merely to decide that it must be excluded.
             full_len = len(
                 tokenizer(
                     build_sft_text(TASK_SUM, record),
                     add_special_tokens=False,
+                    truncation=True,
+                    max_length=max_seq_length + 1,
                 )["input_ids"]
             )
             if full_len > max_seq_length:
                 excluded[split] += 1
                 continue
-
             out.append(record)
         return out
 
-    excluded = {"train": 0, "validation": 0, "test": 0}
-    train_rows = convert(train_raw, "train")
-    val_rows = convert(val_raw, "validation")
-    test_rows = convert(official_test, "test")
+    # Preserve the publisher-provided split assignments; do not reshuffle
+    # papers across official splits.
+    required_splits = {"train", "validation", "test"}
+    missing_splits = required_splits - set(dataset.keys())
+    if missing_splits:
+        raise ValueError(
+            "ccdv/arxiv-summarization is missing expected official splits: "
+            + ", ".join(sorted(missing_splits))
+        )
+    train_rows = convert(list(dataset["train"]), "train")
+    val_rows = convert(list(dataset["validation"]), "validation")
+    test_rows = convert(list(dataset["test"]), "test")
     return train_rows, val_rows, test_rows, excluded
-
 
 def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
@@ -336,6 +356,25 @@ def counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(row["task"] for row in rows))
 
 
+def cap_evaluation_auxiliary(
+    rows: list[dict[str, Any]],
+    seed: int,
+    split: str,
+    max_per_task: int,
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    """Keep all Bloom rows and reproducibly cap QA/summarization per evaluation split."""
+    kept = [row for row in rows if row["task"] == TASK_BLOOM]
+    source_counts = counts(rows)
+    for task in (TASK_QA, TASK_SUM):
+        candidates = [row for row in rows if row["task"] == task]
+        rng = random.Random(f"{seed}:{split}:{task}")
+        rng.shuffle(candidates)
+        kept.extend(candidates[:max_per_task])
+    rng = random.Random(f"{seed}:{split}:final-order")
+    rng.shuffle(kept)
+    return kept, source_counts
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--bloom-dir", default=str(DEFAULT_BLOOM_DIR))
@@ -346,7 +385,16 @@ def main() -> None:
     parser.add_argument("--mix-sum", type=float, default=0.30)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     parser.add_argument("--max-seq-length", type=int, default=8192)
+    parser.add_argument(
+        "--max-eval-rows-per-aux-task",
+        type=int,
+        default=300,
+        help="Maximum QA and summarization rows in each validation/test split; Bloom rows are never capped.",
+    )
     args = parser.parse_args()
+
+    if args.max_eval_rows_per_aux_task < 1:
+        raise SystemExit("--max-eval-rows-per-aux-task must be >= 1")
 
     bloom_dir = Path(args.bloom_dir)
     if not bloom_dir.is_absolute():
@@ -380,21 +428,32 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
+    sum_train, sum_val, sum_test, arxiv_excluded = load_arxiv(
         args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
     )
 
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
     if not sum_train or not sum_val or not sum_test:
-        raise SystemExit("BillSum preparation produced an empty split.")
+        raise SystemExit("arXiv preparation produced an empty split.")
 
     train_rows = sample_for_mix(
         bloom_train, qa_train, sum_train, args.seed,
         args.mix_bloom, args.mix_qa, args.mix_sum
     )
-    val_rows = enrich_prompts(bloom_val + qa_val + sum_val)
-    test_rows = enrich_prompts(bloom_test + qa_test + sum_test)
+    # Keep every eligible BloomShift example in validation/test, while limiting
+    # each auxiliary task to a reproducible maximum of 300 rows per split.
+    # This cap does not affect the 40/30/30 training mixture.
+    val_full = bloom_val + qa_val + sum_val
+    test_full = bloom_test + qa_test + sum_test
+    val_rows, val_source_task_counts = cap_evaluation_auxiliary(
+        val_full, args.seed, "validation", args.max_eval_rows_per_aux_task
+    )
+    test_rows, test_source_task_counts = cap_evaluation_auxiliary(
+        test_full, args.seed, "test", args.max_eval_rows_per_aux_task
+    )
+    val_rows = enrich_prompts(val_rows)
+    test_rows = enrich_prompts(test_rows)
 
     # The canonical BloomShift rows are already prompt-enriched above.
     train_rows = enrich_prompts(train_rows)
@@ -445,16 +504,38 @@ def main() -> None:
                 "max_seq_length": args.max_seq_length,
                 "answer_preserving_context_window": True,
             },
+            "evaluation_sampling": {
+                "policy": "deterministic cap per validation/test split",
+                "max_rows_per_split": args.max_eval_rows_per_aux_task,
+                "applies_to": ["qa"],
+            },
         },
         "summarization_source": {
-            "dataset": "FiscalNote/billsum",
-            "train_fraction_after_deterministic_split": 0.95,
-            "official_test_used_as_test": True,
+            "dataset": "ccdv/arxiv-summarization",
+            "official_splits_preserved": True,
+            "split_names": {
+                "train": "train",
+                "validation": "validation",
+                "test": "test",
+            },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
-                "over_budget_examples_excluded": billsum_excluded,
-                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-document summaries",
+                "over_budget_examples_excluded": arxiv_excluded,
+                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
             },
+            "evaluation_sampling": {
+                "policy": "deterministic cap per validation/test split",
+                "max_rows_per_split": args.max_eval_rows_per_aux_task,
+                "applies_to": ["summarization"],
+            },
+        },
+        "split_policy": {
+            "bloom_rewrite": "canonical BloomShift source-group-disjoint split; counts are inherited from the audited candidate dataset",
+            "qa": "SQuAD train is split by context group into 95% train and 5% validation; official SQuAD validation is held out as test",
+            "summarization": "preserve ccdv/arxiv-summarization official train/validation/test splits",
+            "train_sampling": "balanced training subset uses the configured 40/30/30 task mix; validation and test remain held out and are not sampled into training",
+            "evaluation_sampling": "keep all eligible BloomShift validation/test rows; independently sample at most max_eval_rows_per_aux_task QA and summarization rows per split using seed/split/task-specific RNG",
+            "note": "A single global 80/10/10 ratio is not imposed across different benchmark datasets because that would discard or leak their official/group-safe split assignments.",
         },
         "train_mix": {
             TASK_BLOOM: args.mix_bloom,
@@ -466,11 +547,22 @@ def main() -> None:
             "validation": counts(val_rows),
             "test": counts(test_rows),
         },
+        "evaluation_sampling": {
+            "seed": args.seed,
+            "max_rows_per_auxiliary_task_per_split": args.max_eval_rows_per_aux_task,
+            "validation_source_counts_before_sampling": val_source_task_counts,
+            "test_source_counts_before_sampling": test_source_task_counts,
+            "validation_final_counts": counts(val_rows),
+            "test_final_counts": counts(test_rows),
+            "bloom_rows_capped": False,
+        },
         "notes": [
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
+            "Rows marked training_eligible=false or review_status=pending_human_validation are retained in source split files for review but excluded from the generated SFT/evaluation corpus.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
             "BloomShift group isolation is checked before writing the corpus.",
+            "Evaluation retains all eligible BloomShift rows and caps QA and summarization at the configured maximum per split with deterministic sampling.",
             "Do not tune hyperparameters on the held-out test split.",
         ],
     }
