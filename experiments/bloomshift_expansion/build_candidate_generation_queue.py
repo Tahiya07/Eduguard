@@ -21,29 +21,44 @@ OPENERS = {
     "Evaluate": ["Evaluate", "Justify", "Critique", "Assess", "Defend", "Validate", "Appraise", "Rank", "Recommend", "Judge", "Verify", "Prioritize", "Argue", "Rate", "Support", "Select", "Challenge", "Weigh"],
     "Create": ["Design", "Construct", "Develop", "Formulate", "Propose", "Compose", "Devise", "Generate", "Invent", "Plan", "Synthesize", "Engineer", "Produce", "Assemble", "Draft", "Build", "Create", "Model"],
 }
-PROMPT = """Produce one candidate question rewritten for the specified Revised Bloom target level.
-Start the rewritten question with a suitable action verb from the preferred verb bank, but do
-not treat the verb alone as proof of alignment. The actual cognitive operation must fit the
-target level. Preserve the source's topic, intended object, named entities, technical terms,
-numbers, quantities, count requirements, constraints, negation, and supplied context. Do not
-answer the question, add unsupported facts, assume missing diagrams/data, or silently remove
-requirements. Do not turn a question into a generic learning objective. Keep it answerable.
-If a meaning-preserving, context-preserving transformation that genuinely elicits the target
-operation is not feasible, return feasibility="not_feasible" and explain the obstacle; do not
-invent a scenario to make it possible.
+PROMPT = """Rewrite the source assessment task for the specified Revised Bloom target level.
+The rewritten item must be a complete, clear, answerable assessment question/task and begin
+with a suitable imperative action verb. A verb or label alone is never evidence of alignment.
 
-Return exactly one JSON object with these keys:
-{"target_rewrite":"... or empty if not feasible",
- "target_bloom_level":"one of the six levels",
- "opening_verb":"first imperative/action verb or empty",
- "feasibility":"feasible or not_feasible",
- "cognitive_operation":"what the learner must actually do",
- "preserved_elements":["specific source elements retained"],
- "semantic_risks":["possible meaning/context changes, if any"],
- "rationale":"brief reason the task fits the target level"}
-Do not claim human validation or certainty about semantic equivalence.
+Use these operational criteria:
+- Remember: retrieve or recognize information already supplied or taught; no explanation or judgment required.
+- Understand: explain, interpret, classify, summarize, or infer meaning.
+- Apply: use a known method, rule, procedure, or concept in a concrete task.
+- Analyze: distinguish components, relationships, causes, evidence, or structure.
+- Evaluate: make and support a judgment using explicit or clearly inferable criteria.
+- Create: develop or combine elements into a coherent new product, plan, design, or solution.
+
+Preserve the source's semantic core: topic, intended object, named entities, technical terms,
+numbers, quantities, count constraints, negation, and context that is actually supplied.
+However, do NOT preserve a source cognitive demand when it conflicts with the target operation.
+Instead, explicitly record any original demand that must be changed or removed. Do not invent
+a new scenario, data, diagram, criteria, facts, or context to force feasibility.
+
+If the target task cannot be made valid using only the supplied context and semantic core,
+return feasibility="not_feasible", an empty target_rewrite, and explain why. Do not force all
+six levels to be feasible. If the source is vague, malformed, or context-dependent, flag it.
+
+Return exactly one JSON object, with no Markdown fences, using these keys:
+{
+ "target_rewrite": "complete question/task, or empty when not feasible",
+ "target_bloom_level": "Remember|Understand|Apply|Analyze|Evaluate|Create",
+ "opening_verb": "first imperative verb, or empty when not feasible",
+ "feasibility": "feasible|not_feasible",
+ "cognitive_operation": "specific mental operation actually required",
+ "target_operation_evidence": "what in the wording requires that operation",
+ "preserved_elements": ["specific semantic-core elements retained"],
+ "changed_or_removed_demands": ["source demands changed/removed to reach target; empty if none"],
+ "semantic_risks": ["specific unresolved risks; do not write None unless justified"],
+ "rationale": "brief, level-specific explanation",
+ "feasibility_reason": "why feasible or why not_feasible"
+}
+Do not answer the assessment task. Do not claim human validation or certainty about semantic equivalence.
 """
-
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--source-csv", required=True)
