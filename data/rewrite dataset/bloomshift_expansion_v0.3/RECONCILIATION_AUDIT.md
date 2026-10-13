@@ -38,11 +38,12 @@ This update supersedes the earlier statement that candidate inventories had not 
 | `candidate_batch_0.3.4.jsonl` | 30 | 30 | All pending human validation; training_eligible=false |
 | `candidate_batch_0.3.5.jsonl` | 30 | 30 | All pending human validation; training_eligible=false |
 | `candidate_batch_0.3.7_assistant_curated.jsonl` | 30 | 10 | All pending human validation; training_eligible=false; multiple target rewrites per source |
+| `candidate_batch_0.3.8_assistant_curated.jsonl` | 160 | 32 | Newly added; all pending human validation; training_eligible=false |
 | `user_approved_candidates.jsonl` | 10 | 2 | Marked user-approved candidate, explicitly not human-validated |
 | `action_verb_rewrite_batch_001_30_sources.csv` | 60 | 30 | Candidate-only; semantic/Bloom and human review pending |
 | `action_verb_rewrite_pilot_001.csv` | 37 parsed data records | 12 | Candidate-only; semantic/Bloom and human review pending |
 
-The first five JSONL batches contain 136 records across 136 distinct source IDs. The curated 0.3.7 batch adds 30 records over 10 sources, and the user-approved-candidate JSONL contains 10 records over two sources. The two action-verb CSVs are additional overlapping drafts, not additional unique source inventory. Across the nine files above, the direct inventory scan found 273 candidate rows/records and 154 unique source IDs; some records repeat the same source across different candidate files or target levels. CSV counts should be confirmed with a standards-compliant parser before being used as paper statistics.
+The first five JSONL batches contain 136 records across 136 distinct source IDs. The curated 0.3.7 batch adds 30 records over 10 sources; the new 0.3.8 batch adds 160 records across 32 previously unused source IDs; and the user-approved-candidate JSONL contains 10 records over two sources. The two action-verb CSVs are additional overlapping drafts, not additional unique source inventory. Across the ten files above, the direct inventory scan found 433 raw candidate records and 186 unique source IDs. The 160 records in batch 0.3.8 were checked against the source pool for exact source-text matches and against the other candidate files for source-ID overlap; all 32 source IDs are present in the pool and absent from those other candidate files. These are draft-count statistics, not validated-example counts.
 
 ### Published split files actually present
 
@@ -56,7 +57,8 @@ The 273 candidate records checked here had no exact source-ID or normalized sour
 - Do not claim the 1,024-record split exists until its exact tracked paths and commit are identified.
 - Do not run training on any of the new candidate files: the rewrite candidates are not human-validated, and the CSVs explicitly mark their semantic/Bloom statuses as pending.
 - Before making a new split, adjudicate source eligibility and candidate feasibility, remove/resolve duplicates, validate semantic preservation and target Bloom operations, then split by source group (75/15/10) and record a reproducible split manifest. Hold out human-reviewed evaluation examples to avoid evaluating on synthetic drafts.
-- Treat the 273 figure as a raw-file reconciliation count only, not a count of valid examples, independent source questions, or training-eligible rows.
+- Treat the 433 figure as a raw-file reconciliation count only, not a count of valid examples, independent source questions, or training-eligible rows.
+- Batch 0.3.8 is a new assistant-curated draft set of 160 transformations from 32 additional source questions. Its records are all pending human validation and must not be treated as gold labels or training-ready examples.
 
 ## Release decision
 
