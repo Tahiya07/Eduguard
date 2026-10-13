@@ -350,6 +350,25 @@ def counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(row["task"] for row in rows))
 
 
+def cap_evaluation_auxiliary(
+    rows: list[dict[str, Any]],
+    seed: int,
+    split: str,
+    max_per_task: int,
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    """Keep all Bloom rows and reproducibly cap QA/summarization per evaluation split."""
+    kept = [row for row in rows if row["task"] == TASK_BLOOM]
+    source_counts = counts(rows)
+    for task in (TASK_QA, TASK_SUM):
+        candidates = [row for row in rows if row["task"] == task]
+        rng = random.Random(f"{seed}:{split}:{task}")
+        rng.shuffle(candidates)
+        kept.extend(candidates[:max_per_task])
+    rng = random.Random(f"{seed}:{split}:final-order")
+    rng.shuffle(kept)
+    return kept, source_counts
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--bloom-dir", default=str(DEFAULT_BLOOM_DIR))
@@ -360,7 +379,16 @@ def main() -> None:
     parser.add_argument("--mix-sum", type=float, default=0.30)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     parser.add_argument("--max-seq-length", type=int, default=8192)
+    parser.add_argument(
+        "--max-eval-rows-per-aux-task",
+        type=int,
+        default=300,
+        help="Maximum QA and summarization rows in each validation/test split; Bloom rows are never capped.",
+    )
     args = parser.parse_args()
+
+    if args.max_eval_rows_per_aux_task < 1:
+        raise SystemExit("--max-eval-rows-per-aux-task must be >= 1")
 
     bloom_dir = Path(args.bloom_dir)
     if not bloom_dir.is_absolute():
@@ -407,8 +435,19 @@ def main() -> None:
         bloom_train, qa_train, sum_train, args.seed,
         args.mix_bloom, args.mix_qa, args.mix_sum
     )
-    val_rows = enrich_prompts(bloom_val + qa_val + sum_val)
-    test_rows = enrich_prompts(bloom_test + qa_test + sum_test)
+    # Keep every eligible BloomShift example in validation/test, while limiting
+    # each auxiliary task to a reproducible maximum of 300 rows per split.
+    # This cap does not affect the 40/30/30 training mixture.
+    val_full = bloom_val + qa_val + sum_val
+    test_full = bloom_test + qa_test + sum_test
+    val_rows, val_source_task_counts = cap_evaluation_auxiliary(
+        val_full, args.seed, "validation", args.max_eval_rows_per_aux_task
+    )
+    test_rows, test_source_task_counts = cap_evaluation_auxiliary(
+        test_full, args.seed, "test", args.max_eval_rows_per_aux_task
+    )
+    val_rows = enrich_prompts(val_rows)
+    test_rows = enrich_prompts(test_rows)
 
     # The canonical BloomShift rows are already prompt-enriched above.
     train_rows = enrich_prompts(train_rows)
@@ -459,6 +498,11 @@ def main() -> None:
                 "max_seq_length": args.max_seq_length,
                 "answer_preserving_context_window": True,
             },
+            "evaluation_sampling": {
+                "policy": "deterministic cap per validation/test split",
+                "max_rows_per_split": args.max_eval_rows_per_aux_task,
+                "applies_to": ["qa"],
+            },
         },
         "summarization_source": {
             "dataset": "ccdv/arxiv-summarization",
@@ -473,12 +517,18 @@ def main() -> None:
                 "over_budget_examples_excluded": arxiv_excluded,
                 "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
             },
+            "evaluation_sampling": {
+                "policy": "deterministic cap per validation/test split",
+                "max_rows_per_split": args.max_eval_rows_per_aux_task,
+                "applies_to": ["summarization"],
+            },
         },
         "split_policy": {
             "bloom_rewrite": "canonical BloomShift source-group-disjoint split; counts are inherited from the audited candidate dataset",
             "qa": "SQuAD train is split by context group into 95% train and 5% validation; official SQuAD validation is held out as test",
             "summarization": "preserve ccdv/arxiv-summarization official train/validation/test splits",
             "train_sampling": "balanced training subset uses the configured 40/30/30 task mix; validation and test remain held out and are not sampled into training",
+            "evaluation_sampling": "keep all eligible BloomShift validation/test rows; independently sample at most max_eval_rows_per_aux_task QA and summarization rows per split using seed/split/task-specific RNG",
             "note": "A single global 80/10/10 ratio is not imposed across different benchmark datasets because that would discard or leak their official/group-safe split assignments.",
         },
         "train_mix": {
@@ -491,12 +541,22 @@ def main() -> None:
             "validation": counts(val_rows),
             "test": counts(test_rows),
         },
+        "evaluation_sampling": {
+            "seed": args.seed,
+            "max_rows_per_auxiliary_task_per_split": args.max_eval_rows_per_aux_task,
+            "validation_source_counts_before_sampling": val_source_task_counts,
+            "test_source_counts_before_sampling": test_source_task_counts,
+            "validation_final_counts": counts(val_rows),
+            "test_final_counts": counts(test_rows),
+            "bloom_rows_capped": False,
+        },
         "notes": [
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
             "Rows marked training_eligible=false or review_status=pending_human_validation are retained in source split files for review but excluded from the generated SFT/evaluation corpus.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
             "BloomShift group isolation is checked before writing the corpus.",
+            "Evaluation retains all eligible BloomShift rows and caps QA and summarization at the configured maximum per split with deterministic sampling.",
             "Do not tune hyperparameters on the held-out test split.",
         ],
     }
