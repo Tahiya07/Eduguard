@@ -384,8 +384,8 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test, billsum_excluded = load_billsum(
-        args.seed, tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
+    sum_train, sum_val, sum_test, arxiv_excluded = load_arxiv_summarization(
+        tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
     )
 
     if not qa_train or not qa_val or not qa_test:
@@ -451,9 +451,9 @@ def main() -> None:
             },
         },
         "summarization_source": {
-            "dataset": "FiscalNote/billsum",
-            "train_fraction_after_deterministic_split": 0.95,
-            "official_test_used_as_test": True,
+            "dataset": "ccdv/arxiv-summarization",
+            "official_splits_preserved": True,
+            "split_names": {"train": "train", "validation": "validation", "test": "test"},
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "over_budget_examples_excluded": arxiv_excluded,
