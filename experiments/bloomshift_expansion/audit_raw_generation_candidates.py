@@ -48,12 +48,24 @@ def main():
                     issues.append({"line":line_no,"issue":"opening_word_not_in_target_verb_bank","value":first_word,"target":level})
                 if verb and first_word != verb:
                     issues.append({"line":line_no,"issue":"opening_verb_field_mismatch","value":{"text_first_word":first_word,"field":verb}})
+                if len(text.split()) < 5:
+                    issues.append({"line":line_no,"issue":"rewrite_too_short_to_be_complete","word_count":len(text.split())})
                 if not candidate.get("cognitive_operation"):
                     issues.append({"line":line_no,"issue":"missing_cognitive_operation"})
+                if not candidate.get("target_operation_evidence"):
+                    issues.append({"line":line_no,"issue":"missing_target_operation_evidence"})
+                if not candidate.get("feasibility_reason"):
+                    issues.append({"line":line_no,"issue":"missing_feasibility_reason"})
+                if not isinstance(candidate.get("changed_or_removed_demands"), list):
+                    issues.append({"line":line_no,"issue":"missing_changed_or_removed_demands"})
                 if not candidate.get("preserved_elements"):
                     issues.append({"line":line_no,"issue":"missing_preserved_elements"})
             elif feasible=="not_feasible":
                 counts["not_feasible"]+=1
+                if text:
+                    issues.append({"line":line_no,"issue":"not_feasible_candidate_has_nonempty_rewrite"})
+                if candidate.get("opening_verb"):
+                    issues.append({"line":line_no,"issue":"not_feasible_candidate_has_opening_verb"})
             if r.get("human_review_status") not in {"approved","rejected","needs_revision","not_reviewed"}:
                 issues.append({"line":line_no,"issue":"unexpected_human_review_status","value":r.get("human_review_status")})
     report={"input":a.input,"counts":dict(counts),"unique_source_target_pairs":len(seen),"issue_count":len(issues),"issues":issues,
