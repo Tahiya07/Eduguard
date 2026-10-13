@@ -273,10 +273,16 @@ def load_arxiv(
                 "title": str(row.get("title", "")).strip(),
                 "source_dataset": "ccdv/arxiv-summarization",
             }
+            # We only need to know whether the complete SFT sequence exceeds
+            # the budget. Count at most max_seq_length + 1 tokens so a pathological
+            # full paper cannot trigger tokenizer/model-length warnings or consume
+            # excessive memory merely to decide that it must be excluded.
             full_len = len(
                 tokenizer(
                     build_sft_text(TASK_SUM, record),
                     add_special_tokens=False,
+                    truncation=True,
+                    max_length=max_seq_length + 1,
                 )["input_ids"]
             )
             if full_len > max_seq_length:
