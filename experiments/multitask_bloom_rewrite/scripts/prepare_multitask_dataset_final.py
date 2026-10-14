@@ -33,6 +33,7 @@ TASK_BLOOM = "bloom_rewrite"
 TASK_QA = "qa"
 TASK_SUM = "summarization"
 ALLOWED_TASKS = {TASK_BLOOM, TASK_QA, TASK_SUM}
+UPSTREAM_DATASET_INFO: dict[str, Any] = {}
 
 
 def sha256_file(path: Path) -> str:
@@ -121,6 +122,15 @@ def load_squad(
     from prompts import build_sft_text
 
     ds = load_dataset("rajpurkar/squad")
+    UPSTREAM_DATASET_INFO[TASK_QA] = {
+        "dataset": "rajpurkar/squad",
+        "split_fingerprints": {
+            name: getattr(ds[name], "_fingerprint", None)
+            for name in ("train", "validation")
+        },
+        "raw_split_rows": {name: len(ds[name]) for name in ("train", "validation")},
+        "revision_pinned": False,
+    }
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     official_train = list(ds["train"])
     official_dev = list(ds["validation"])
@@ -246,6 +256,15 @@ def load_arxiv_summarization(
             + ", ".join(missing_splits)
         )
 
+    UPSTREAM_DATASET_INFO[TASK_SUM] = {
+        "dataset": "ccdv/arxiv-summarization",
+        "split_fingerprints": {
+            name: getattr(ds[name], "_fingerprint", None)
+            for name in required_splits
+        },
+        "raw_split_rows": {name: len(ds[name]) for name in required_splits},
+        "revision_pinned": False,
+    }
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
 
     def convert(split_rows: Any, split: str) -> list[dict[str, Any]]:
@@ -509,6 +528,7 @@ def main() -> None:
             "bounded_token_count_check": True,
             "checked_sequences": token_counts,
         },
+        "upstream_datasets": UPSTREAM_DATASET_INFO,
         "generated_files_sha256": generated_hashes,
         "train_mix": {
             "requested": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
@@ -520,7 +540,7 @@ def main() -> None:
             "test": counts(test_rows),
         },
         "notes": [
-            "Dataset upstream fingerprints are not guaranteed to identify a pinned Hub revision; preserve the manifest and generated file hashes with the experiment.",
+            "Upstream Hugging Face split fingerprints are recorded; dataset revisions are not pinned by this script, so preserve the manifest and generated file hashes with the experiment.",
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
