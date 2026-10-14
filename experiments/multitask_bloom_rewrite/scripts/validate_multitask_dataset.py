@@ -35,6 +35,13 @@ def norm(s: str) -> str:
 def sha(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
 def load_jsonl(path: Path) -> list[dict]:
     rows = []
     with path.open(encoding="utf-8") as f:
@@ -58,6 +65,8 @@ def main() -> None:
     args = ap.parse_args()
 
     root = Path(args.data_dir)
+    if args.max_length < 1:
+        raise SystemExit("--max-length must be positive.")
     splits = {s: load_jsonl(root / f"{s}.jsonl") for s in ("train", "validation", "test")}
     all_rows = [r for rows in splits.values() for r in rows]
 
@@ -66,10 +75,13 @@ def main() -> None:
 
     errors: list[str] = []
 
-    # Detect stale manifests instead of reporting a misleading PASS when JSONL
-    # files were regenerated but sidecar metadata was not.
+    # A final corpus is not reproducible without a valid manifest and matching
+    # JSONL hashes. Missing/stale metadata is a QC failure, not a warning.
     manifest_path = root / "dataset_manifest.json"
-    if manifest_path.exists():
+    manifest = {}
+    if not manifest_path.is_file():
+        errors.append("missing dataset_manifest.json")
+    else:
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             expected_counts = manifest.get("counts", {})
@@ -81,6 +93,19 @@ def main() -> None:
                         f"stale dataset_manifest.json: {split_name} task counts "
                         f"manifest={expected}, JSONL={actual}"
                     )
+            expected_hashes = manifest.get("generated_files_sha256", {})
+            for split_name in ("train", "validation", "test"):
+                file_path = root / f"{split_name}.jsonl"
+                expected_hash = expected_hashes.get(file_path.name)
+                if not expected_hash:
+                    errors.append(f"manifest missing SHA-256 for {file_path.name}")
+                elif sha256_file(file_path) != expected_hash:
+                    errors.append(f"manifest SHA-256 mismatch for {file_path.name}")
+            declared_limit = manifest.get("tokenizer", {}).get("max_seq_length")
+            if declared_limit is not None and declared_limit != args.max_length:
+                errors.append(
+                    f"max-length mismatch: manifest={declared_limit}, validator={args.max_length}"
+                )
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"cannot read dataset_manifest.json: {exc}")
 
@@ -110,10 +135,26 @@ def main() -> None:
             if not r.get("sft_text") or not r.get("prompt_text") or not r.get("generation_prompt"):
                 errors.append(f"{split}:{i}: missing prompt text")
             if task == "bloom_rewrite":
-                group_by_split[split].add(str(r.get("group_id")))
-                for marker in ("Original Bloom level:", "Source Bloom level:"):
+                group_id = str(r.get("group_id", "")).strip()
+                if not group_id or group_id.lower() == "none":
+                    errors.append(f"{split}:{i}: empty Bloom source group_id")
+                else:
+                    group_by_split[split].add(group_id)
+                if not str(r.get("source_question", "")).strip():
+                    errors.append(f"{split}:{i}: empty Bloom source question")
+                if not str(r.get("target_rewrite", "")).strip():
+                    errors.append(f"{split}:{i}: empty Bloom target rewrite")
+                if not str(r.get("target_bloom_level", "")).strip():
+                    errors.append(f"{split}:{i}: empty Bloom target level")
+                for marker in ("Original Bloom level:", "Source Bloom level:", "source bloom level", "original bloom level:"):
                     if marker.lower() in str(r.get("generation_prompt", "")).lower():
                         errors.append(f"{split}:{i}: forbidden source-level marker in Bloom prompt")
+            elif task == "qa":
+                if not str(r.get("context", "")).strip() or not str(r.get("question", "")).strip() or not str(r.get("answer", "")).strip():
+                    errors.append(f"{split}:{i}: empty QA context/question/answer")
+            elif task == "summarization":
+                if not str(r.get("article", "")).strip() or not str(r.get("abstract", "")).strip():
+                    errors.append(f"{split}:{i}: empty summarization article/abstract")
         ids_by_split[split] = ids
 
     # IDs must be globally disjoint across held-out boundaries.
@@ -154,22 +195,51 @@ def main() -> None:
     prompt_overflow = Counter()
     masked_checks = 0
 
+    def bounded_length(text: str) -> int:
+        # max_length + 1 is enough to detect overflow and avoids full tokenization
+        # of very long articles/prompts just to measure their length.
+        return len(tokenizer(
+            text,
+            add_special_tokens=False,
+            truncation=True,
+            max_length=args.max_length + 1,
+        )["input_ids"])
+
     for split, rows in splits.items():
         lengths = []
         for i, r in enumerate(rows, 1):
-            full = str(r["sft_text"])
-            prompt = str(r["prompt_text"])
-            full_ids = tokenizer(full, add_special_tokens=False, truncation=False)["input_ids"]
-            prompt_ids = tokenizer(prompt, add_special_tokens=False, truncation=False)["input_ids"]
-            lengths.append(len(full_ids))
-            if len(prompt_ids) >= args.max_length:
+            full = str(r.get("sft_text", ""))
+            prompt = str(r.get("prompt_text", ""))
+            if not full.strip() or not prompt.strip():
+                continue
+            full_len = bounded_length(full)
+            prompt_len = bounded_length(prompt)
+            lengths.append(full_len)
+            if prompt_len >= args.max_length:
                 prompt_overflow[split] += 1
-            if len(full_ids) > args.max_length:
+                errors.append(
+                    f"{split}:{i}: prompt leaves no assistant target within max_length={args.max_length}"
+                )
+            if full_len > args.max_length:
                 overflow_counts[split] += 1
+                errors.append(
+                    f"{split}:{i}: complete SFT sequence exceeds max_length={args.max_length}"
+                )
+                # Do not invoke loss masking on overlength records: that helper
+                # otherwise tokenizes the prompt without truncation.
+                continue
+            if prompt_len >= full_len:
+                errors.append(f"{split}:{i}: prompt is not shorter than complete SFT sequence")
+                continue
             try:
                 tok = tokenize_with_assistant_only_loss(tokenizer, full, prompt, args.max_length)
                 labels = tok["labels"]
-                p = len(prompt_ids)
+                if len(labels) != full_len:
+                    errors.append(
+                        f"{split}:{i}: trainer tokenization length {len(labels)} != validated length {full_len}"
+                    )
+                    continue
+                p = len(tokenizer(prompt, add_special_tokens=False, truncation=False)["input_ids"])
                 if p >= len(labels) or any(x != -100 for x in labels[:p]) or all(x == -100 for x in labels[p:]):
                     errors.append(f"{split}:{i}: invalid assistant-only loss mask")
                 masked_checks += 1
