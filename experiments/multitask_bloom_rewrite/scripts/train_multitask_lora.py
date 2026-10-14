@@ -119,7 +119,7 @@ def validate_prepared_dataset(data_dir: Path, repo_root: Path) -> dict:
     }
 
 
-def set_seed(seed: int) -> None
+def set_seed(seed: int) -> None:
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     try:
