@@ -102,6 +102,23 @@ def _looks_like_question(text: str) -> bool:
         "interpret ",
         "illustrate ",
         "distinguish ",
+        "differentiate ",
+        "break down ",
+        "categorize ",
+        "classify ",
+        "infer ",
+        "predict ",
+        "outline ",
+        "rank ",
+        "prioritize ",
+        "organize ",
+        "investigate ",
+        "inspect ",
+        "derive ",
+        "select ",
+        "support ",
+        "defend ",
+        "recommend ",
         "compare ",
         "contrast ",
         "evaluate ",
@@ -174,8 +191,9 @@ def _trivial_verb_swap(source: str, rewrite: str) -> bool:
         """
         define explain describe discuss list name state identify recall
         summarize interpret classify apply calculate compute solve analyze
-        analyse compare contrast examine evaluate assess justify critique
+        analyse compare contrast differentiate examine evaluate assess justify critique
         design develop create propose formulate construct suggest recommend
+        categorize infer predict outline rank prioritize organize investigate inspect derive select
         """.split()
     )
     src = _tokens(source) - bloom_verbs
