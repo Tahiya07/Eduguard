@@ -166,9 +166,9 @@ def load_squad(
             starts = answers.get("answer_start", [])
             context = str(row.get("context", ""))
             question = str(row.get("question", "")).strip()
-            answer = str(texts[0]).strip() if texts else ""
+            answer = str(texts[0]) if texts else ""
             answer_start = int(starts[0]) if starts else None
-            if not context.strip() or not question or not answer:
+            if not context.strip() or not question or not answer.strip():
                 continue
             if answer_start is None or context[answer_start:answer_start + len(answer)] != answer:
                 raise ValueError(
@@ -484,7 +484,7 @@ def main() -> None:
         for name in ("train.jsonl", "validation.jsonl", "test.jsonl")
     }
     manifest = {
-        "version": "multitask_bloom_rewrite_final_v1",
+        "version": "multitask_bloom_rewrite_final_v2",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "seed": args.seed,
         "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
