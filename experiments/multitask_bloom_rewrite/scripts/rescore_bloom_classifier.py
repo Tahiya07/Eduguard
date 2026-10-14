@@ -25,7 +25,11 @@ if str(EXPERIMENT_DIR) not in sys.path:
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from bloom_validation import validate_bloom_example  # noqa: E402
+from bloom_validation import (  # noqa: E402
+    is_valid_imperative_exam,
+    is_valid_interrogative,
+    validate_bloom_example,
+)
 from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
 from eval_metrics import (  # noqa: E402
     CLASSIFIER_CONFIDENCE_MIN,
@@ -78,15 +82,28 @@ def rescore_record(rec: dict[str, Any], classify_fn, stats: ClassifierCallStats)
     target = canonical_bloom(rec.get("target_bloom_level"))
     target_match = bool(clf_pred and canonical_bloom(clf_pred) == target)
 
-    # Recompute validation fields if missing (older files should already have them).
-    if "format_valid" not in rec and prediction and rec.get("source_question"):
+    # Always recompute validation fields so rescoring reflects the current
+    # validator implementation instead of preserving stale fields from the
+    # original evaluation run.
+    if prediction and rec.get("source_question"):
         validation = validate_bloom_example(
             rec["source_question"], rec["target_bloom_level"], prediction
         )
+        reason = validation.rejection_reason or ""
         rec["format_valid"] = validation.format_valid
         rec["semantic_valid"] = validation.semantic_valid
         rec["cognitive_valid"] = validation.cognitive_valid
         rec["trivial_transform"] = validation.trivial_transform
+        rec["topic_preserved"] = validation.topic_preserved
+        rec["semantic_similarity"] = validation.semantic_similarity
+        rec["meta_response"] = "meta_response" in reason
+        rec["answer_output"] = "answer_or_declarative" in reason
+        rec["empty_output"] = not prediction.strip()
+        rec["interrogative_valid"] = is_valid_interrogative(prediction)
+        rec["imperative_valid"] = is_valid_imperative_exam(prediction)
+        rec["question_form_valid"] = (
+            rec["interrogative_valid"] or rec["imperative_valid"]
+        )
 
     fully_validated = (
         bool(rec.get("format_valid"))
