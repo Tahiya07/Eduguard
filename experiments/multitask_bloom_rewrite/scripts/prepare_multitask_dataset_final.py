@@ -152,7 +152,12 @@ def load_squad(
                 }
                 from prompts import build_sft_text
 
-                if len(tokenizer(build_sft_text(TASK_QA, base_record), add_special_tokens=False)["input_ids"]) > max_seq_length:
+                if len(tokenizer(
+                    build_sft_text(TASK_QA, base_record),
+                    add_special_tokens=False,
+                    truncation=True,
+                    max_length=max_seq_length + 1,
+                )["input_ids"]) > max_seq_length:
                     if answer_start is None or context[answer_start:answer_start + len(answer)] != answer:
                         raise ValueError(
                             f"SQuAD answer span mismatch for {row['id']}; cannot safely window context."
@@ -269,11 +274,15 @@ def load_arxiv_summarization(
                 "abstract": abstract,
                 "title": str(row.get("title", "")).strip(),
             }
+            # Probe only max_seq_length + 1 tokens. This is sufficient to decide
+            # whether the full SFT sequence exceeds the budget and avoids asking
+            # the tokenizer to process pathological, extremely long articles.
             full_len = len(
                 tokenizer(
                     build_sft_text(TASK_SUM, record),
                     add_special_tokens=False,
-                    truncation=False,
+                    truncation=True,
+                    max_length=max_seq_length + 1,
                 )["input_ids"]
             )
             if full_len > max_seq_length:
