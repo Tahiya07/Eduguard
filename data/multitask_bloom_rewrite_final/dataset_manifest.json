@@ -1,0 +1,145 @@
+{
+  "version": "multitask_bloom_rewrite_final_v2",
+  "timestamp_utc": "2026-10-14T21:36:31.448168+00:00",
+  "seed": 42,
+  "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
+  "classifier_dataset_excluded": true,
+  "tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "bloom_source": {
+    "path": "data/rewrite dataset/bloomshift_final_candidate",
+    "version": "bloomshift_final_candidate",
+    "files_sha256": {
+      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd"
+    },
+    "train_rows": 1075,
+    "validation_rows": 212,
+    "test_rows": 135
+  },
+  "qa_source": {
+    "dataset": "rajpurkar/squad",
+    "requested_train_fraction": 0.95,
+    "actual_train_fraction_of_official_train": 0.950057,
+    "train_rows_after_group_split": 83224,
+    "validation_rows_after_group_split": 4375,
+    "official_validation_rows_used_as_test": 10570,
+    "official_validation_used_as_test": true,
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "answer_preserving_context_window": true
+    }
+  },
+  "summarization_source": {
+    "dataset": "ccdv/arxiv-summarization",
+    "official_splits_preserved": true,
+    "split_names": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "over_budget_examples_excluded": {
+        "train": 93505,
+        "validation": 2794,
+        "test": 2816
+      },
+      "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts"
+    }
+  },
+  "tokenizer": {
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "max_seq_length": 8192,
+    "sequence_policy": "all emitted complete SFT sequences must fit; builder fails rather than relying on trainer truncation",
+    "bounded_token_count_check": true,
+    "checked_sequences": {
+      "train": {
+        "rows": 2687,
+        "overlength": 0
+      },
+      "validation": {
+        "rows": 8229,
+        "overlength": 0
+      },
+      "test": {
+        "rows": 14329,
+        "overlength": 0
+      }
+    }
+  },
+  "upstream_datasets": {
+    "qa": {
+      "dataset": "rajpurkar/squad",
+      "split_fingerprints": {
+        "train": "f1987d620e8fac37",
+        "validation": "6614e223193ae5a9"
+      },
+      "raw_split_rows": {
+        "train": 87599,
+        "validation": 10570
+      },
+      "revision_pinned": false
+    },
+    "summarization": {
+      "dataset": "ccdv/arxiv-summarization",
+      "split_fingerprints": {
+        "train": "190f362d32df1e81",
+        "validation": "e65f45e95eb5349c",
+        "test": "bff55a358744237d"
+      },
+      "raw_split_rows": {
+        "train": 203037,
+        "validation": 6436,
+        "test": 6440
+      },
+      "revision_pinned": false
+    }
+  },
+  "generated_files_sha256": {
+    "train.jsonl": "6b55bf05cc8988bad394bc5afc5ad965928ba832cec08130a373f4ebafbee3eb",
+    "validation.jsonl": "819e35c03ef7285100e0faeccfe039925b8ce046acdbf58e72b1c901eb9df212",
+    "test.jsonl": "fcc1bff44e85b5278fe39b044b7507bcb55c64c48bc1840f17672f19a14aac67"
+  },
+  "train_mix": {
+    "requested": {
+      "bloom_rewrite": 0.4,
+      "qa": 0.3,
+      "summarization": 0.3
+    },
+    "actual": {
+      "bloom_rewrite": 0.400074,
+      "summarization": 0.299963,
+      "qa": 0.299963
+    }
+  },
+  "counts": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "summarization": 806,
+      "qa": 806
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 4375,
+      "summarization": 3642
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 10570,
+      "summarization": 3624
+    }
+  },
+  "notes": [
+    "Upstream Hugging Face split fingerprints are recorded; dataset revisions are not pinned by this script, so preserve the manifest and generated file hashes with the experiment.",
+    "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
+    "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
+    "Train/validation/test are kept task-aware and prompt-conditioned.",
+    "BloomShift group isolation is checked before writing the corpus.",
+    "Do not tune hyperparameters on the held-out test split."
+  ]
+}

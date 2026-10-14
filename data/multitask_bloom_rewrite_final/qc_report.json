@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "max_seq_length": 8192,
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "rows": {
+    "train": 2687,
+    "validation": 8229,
+    "test": 14329
+  },
+  "task_counts": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "summarization": 806,
+      "qa": 806
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 4375,
+      "summarization": 3642
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 10570,
+      "summarization": 3624
+    }
+  },
+  "train_mix": {
+    "bloom_rewrite": 0.400074,
+    "summarization": 0.299963,
+    "qa": 0.299963
+  },
+  "token_length_stats": {
+    "train": {
+      "count": 2687,
+      "min": 90,
+      "p50": 193,
+      "p95": 7066,
+      "p99": 7919,
+      "max": 8191,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "validation": {
+      "count": 8229,
+      "min": 83,
+      "p50": 307,
+      "p95": 7501,
+      "p99": 8033,
+      "max": 8189,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "test": {
+      "count": 14329,
+      "min": 82,
+      "p50": 240,
+      "p95": 6889,
+      "p99": 7917,
+      "max": 8190,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    }
+  },
+  "loss_mask_checks": 25245,
+  "errors": [],
+  "error_count": 0
+}

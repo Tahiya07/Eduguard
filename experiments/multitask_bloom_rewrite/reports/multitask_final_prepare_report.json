@@ -1,0 +1,23 @@
+{
+  "train_rows": 2687,
+  "validation_rows": 8229,
+  "test_rows": 14329,
+  "by_task": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "summarization": 806,
+      "qa": 806
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 4375,
+      "summarization": 3642
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 10570,
+      "summarization": 3624
+    }
+  },
+  "output_dir": "data/multitask_bloom_rewrite_final"
+}

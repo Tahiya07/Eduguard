@@ -128,3 +128,6 @@ scripts/fydp/
 # Deployment tooling
 # ===========================
 .railway/
+
+# Generated multitask dataset artifacts
+data/multitask_bloom_rewrite_final/*.jsonl
