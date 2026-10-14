@@ -1,0 +1,76 @@
+{
+  "dataset_version": "bloomshift_final_candidate_expanded_v3",
+  "canonical_files": {
+    "train": "train.json",
+    "validation": "validation.json",
+    "test": "test.json"
+  },
+  "total_records": 1422,
+  "records_by_split": {
+    "train.json": 1075,
+    "validation.json": 212,
+    "test.json": 135
+  },
+  "source_group_counts": {
+    "train.json": 336,
+    "validation.json": 65,
+    "test.json": 44
+  },
+  "cross_split_source_group_overlap": {
+    "train.json/validation.json": 0,
+    "train.json/test.json": 0,
+    "validation.json/test.json": 0
+  },
+  "review_status_counts": {
+    "train.json": {
+      "unmarked": 665,
+      "human_validated": 410
+    },
+    "validation.json": {
+      "unmarked": 134,
+      "human_validated": 78
+    },
+    "test.json": {
+      "unmarked": 89,
+      "human_validated": 46
+    }
+  },
+  "target_bloom_counts": {
+    "train.json": {
+      "Analyze": 199,
+      "Apply": 174,
+      "Create": 177,
+      "Evaluate": 157,
+      "Remember": 189,
+      "Understand": 179
+    },
+    "validation.json": {
+      "Analyze": 41,
+      "Create": 34,
+      "Evaluate": 40,
+      "Remember": 36,
+      "Understand": 29,
+      "Apply": 32
+    },
+    "test.json": {
+      "Analyze": 29,
+      "Apply": 22,
+      "Create": 22,
+      "Evaluate": 19,
+      "Remember": 26,
+      "Understand": 17
+    }
+  },
+  "training_eligible_counts": {
+    "train.json": 410,
+    "validation.json": 78,
+    "test.json": 46
+  },
+  "notes": [
+    "This audit was generated from the expanded split files on fix/arxiv-multitask-training and transferred to main.",
+    "Records with review_status=human_validated and training_eligible=true are marked accordingly in the source files.",
+    "Records with unmarked review status must not be presumed human-validated.",
+    "Verify downstream training and evaluation scripts filter on training_eligible; merely storing the flag does not guarantee the pipeline enforces it.",
+    "This expanded split differs from the prior 888-record split, so prior metrics are not directly comparable without re-evaluation."
+  ]
+}
