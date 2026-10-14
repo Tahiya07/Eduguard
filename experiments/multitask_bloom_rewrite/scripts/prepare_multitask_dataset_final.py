@@ -426,6 +426,10 @@ def main() -> None:
         p.name: sha256_file(p)
         for p in required_bloom
     }
+    generated_hashes = {
+        name: sha256_file(out_dir / name)
+        for name in ("train.jsonl", "validation.jsonl", "test.jsonl")
+    }
     manifest = {
         "version": "multitask_bloom_rewrite_final_v1",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -460,6 +464,7 @@ def main() -> None:
                 "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
             },
         },
+        "generated_files_sha256": generated_hashes,
         "train_mix": {
             TASK_BLOOM: args.mix_bloom,
             TASK_QA: args.mix_qa,
