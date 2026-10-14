@@ -10,6 +10,7 @@ If the resource gate fails:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import random
@@ -38,14 +39,87 @@ def load_json(path: Path) -> dict:
 def read_jsonl(path: Path) -> list[dict]:
     rows = []
     with path.open(encoding="utf-8") as handle:
-        for line in handle:
+        for line_number, line in enumerate(handle, 1):
             line = line.strip()
-            if line:
-                rows.append(json.loads(line))
+            if not line:
+                raise ValueError(f"Blank JSONL line in {path} at line {line_number}")
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid JSON in {path} at line {line_number}: {exc}") from exc
+            if not isinstance(row, dict):
+                raise ValueError(f"Expected JSON object in {path} at line {line_number}")
+            rows.append(row)
     return rows
 
 
-def set_seed(seed: int) -> None:
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def validate_prepared_dataset(data_dir: Path, repo_root: Path) -> dict:
+    manifest_path = data_dir / "dataset_manifest.json"
+    if not manifest_path.is_file():
+        raise SystemExit(
+            f"Missing dataset manifest: {manifest_path}. Regenerate the dataset before training."
+        )
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"Cannot read dataset manifest {manifest_path}: {exc}") from exc
+
+    generated_hashes = manifest.get("generated_files_sha256")
+    if not isinstance(generated_hashes, dict):
+        raise SystemExit(
+            "Dataset manifest has no generated_files_sha256 fingerprints. "
+            "Rerun prepare_multitask_dataset_final.py before training."
+        )
+
+    for name in ("train.jsonl", "validation.jsonl", "test.jsonl"):
+        path = data_dir / name
+        if not path.is_file():
+            raise SystemExit(f"Missing prepared split {path}. Regenerate the dataset.")
+        expected_hash = generated_hashes.get(name)
+        if not expected_hash or sha256_file(path) != expected_hash:
+            raise SystemExit(
+                f"Prepared split fingerprint mismatch: {path}. "
+                "The corpus may be stale or edited; rerun preparation and QC."
+            )
+
+    bloom_source = manifest.get("bloom_source", {})
+    source_dir_rel = bloom_source.get("path")
+    source_hashes = bloom_source.get("files_sha256", {})
+    if not source_dir_rel or not source_hashes:
+        raise SystemExit("Dataset manifest lacks canonical BloomShift source fingerprints.")
+    source_dir = (repo_root / source_dir_rel).resolve()
+    for name in ("train.json", "validation.json", "test.json"):
+        source_path = source_dir / name
+        expected_hash = source_hashes.get(name)
+        if not source_path.is_file():
+            raise SystemExit(
+                f"Canonical BloomShift source is missing: {source_path}. "
+                "Cannot verify that the prepared dataset matches the current source."
+            )
+        if not expected_hash or sha256_file(source_path) != expected_hash:
+            raise SystemExit(
+                f"Canonical BloomShift source changed since preparation: {source_path}. "
+                "Regenerate the multitask dataset before training."
+            )
+
+    return {
+        "manifest_path": str(manifest_path.resolve()),
+        "manifest_version": manifest.get("version"),
+        "bloom_source": str(source_dir),
+        "generated_files_sha256": generated_hashes,
+        "bloom_source_sha256": source_hashes,
+    }
+
+
+def set_seed(seed: int) -> None
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     try:
@@ -92,6 +166,11 @@ def main() -> None:
         action="store_true",
         help="Override resource gate (only on a known-suitable machine).",
     )
+    parser.add_argument(
+        "--resume-from-checkpoint",
+        default=None,
+        help="Explicit Hugging Face checkpoint directory to resume. Default is a fresh run.",
+    )
     args = parser.parse_args()
     cfg_path = Path(args.config)
     if not cfg_path.is_absolute():
@@ -127,8 +206,19 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     results_dir.mkdir(parents=True, exist_ok=True)
 
+    dataset_fingerprint = validate_prepared_dataset(data_dir, REPO_ROOT)
     train_rows = read_jsonl(data_dir / "train.jsonl")
     val_rows = read_jsonl(data_dir / "validation.jsonl")
+    if not train_rows or not val_rows:
+        raise SystemExit("Prepared training and validation splits must both be non-empty.")
+    for split_name, rows in (("train", train_rows), ("validation", val_rows)):
+        for row_number, row in enumerate(rows, 1):
+            for key in ("task", "sft_text", "prompt_text"):
+                if not row.get(key):
+                    raise SystemExit(
+                        f"{split_name}.jsonl row {row_number} has a missing/empty {key!r}."
+                    )
+    print("DATASET FINGERPRINT CHECK: PASS")
     print("DATASET DIR:", data_dir.resolve())
     print("TRAIN FILE:", (data_dir / "train.jsonl").resolve())
     print("TRAIN ROWS:", len(train_rows))
@@ -247,16 +337,31 @@ def main() -> None:
             )
         ],
     )
-    # Resume only from a real Hugging Face checkpoint directory.
-    # Trainer writes checkpoint-<global_step>, not checkpoint-0.
-    last_checkpoint = None
-    try:
-        from transformers.trainer_utils import get_last_checkpoint
-        last_checkpoint = get_last_checkpoint(str(output_dir))
-    except Exception:
-        last_checkpoint = None
+    # Never resume implicitly: a refreshed dataset must not silently continue
+    # optimizer/scheduler state from an older run. Resumption is explicit.
+    from transformers.trainer_utils import get_last_checkpoint
+    existing_checkpoint = get_last_checkpoint(str(output_dir))
+    if args.resume_from_checkpoint:
+        resume_path = Path(args.resume_from_checkpoint).resolve()
+        if not resume_path.is_dir() or not (resume_path / "trainer_state.json").is_file():
+            raise SystemExit(
+                f"Not a valid Hugging Face Trainer checkpoint: {resume_path}"
+            )
+        if existing_checkpoint and resume_path != Path(existing_checkpoint).resolve():
+            print(
+                "WARNING: explicit resume checkpoint differs from the latest checkpoint "
+                "in the configured output directory."
+            )
+    else:
+        if existing_checkpoint:
+            raise SystemExit(
+                f"Existing checkpoint found at {existing_checkpoint}. "
+                "Use a new output_dir for a clean run, or pass "
+                "--resume-from-checkpoint with the exact checkpoint to resume intentionally."
+            )
+        resume_path = None
 
-    train_result = trainer.train(resume_from_checkpoint=last_checkpoint)
+    train_result = trainer.train(resume_from_checkpoint=str(resume_path) if resume_path else None)
     trainer.save_model(str(output_dir / "best_adapter"))
     tokenizer.save_pretrained(str(output_dir / "best_adapter"))
     meta = {
@@ -271,6 +376,8 @@ def main() -> None:
         "metrics": train_result.metrics if train_result else None,
         "checkpoint_selection": "validation_loss_only",
         "assistant_only_loss": True,
+        "dataset_fingerprint": dataset_fingerprint,
+        "resume_from_checkpoint": str(resume_path) if resume_path else None,
     }
     (results_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     (output_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
