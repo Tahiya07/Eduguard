@@ -92,24 +92,43 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
     return out
 
 
+def bounded_token_count(tokenizer: Any, text: str, max_tokens: int) -> int:
+    """Count up to max_tokens + 1 tokens without unbounded overlength tokenization."""
+    if max_tokens < 1:
+        raise ValueError("max_tokens must be positive")
+    return len(tokenizer(
+        text,
+        add_special_tokens=False,
+        truncation=True,
+        max_length=max_tokens + 1,
+    )["input_ids"])
+
+
 def load_squad(
     seed: int,
     tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
     max_seq_length: int = 8192,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Prepare SQuAD with context-group isolation and answer-preserving windows.
+
+    The official SQuAD validation split is held out as the QA test split. A
+    validation split is carved out of official train by exact context group.
+    Windowing is character-based so the gold answer text and its character span
+    remain exact; each candidate is checked against the complete SFT token budget.
+    """
     from datasets import load_dataset
     from transformers import AutoTokenizer
+    from prompts import build_sft_text
 
     ds = load_dataset("rajpurkar/squad")
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
     official_train = list(ds["train"])
     official_dev = list(ds["validation"])
 
-    # SQuAD contains multiple questions for the same paragraph. Split by
-    # exact context so questions from one paragraph cannot cross train/validation.
     groups: dict[str, list[dict[str, Any]]] = {}
     for row in official_train:
-        groups.setdefault(str(row.get("context", "")), []).append(row)
+        context_key = str(row.get("context", ""))
+        groups.setdefault(context_key, []).append(row)
 
     group_items = list(groups.items())
     random.Random(seed).shuffle(group_items)
@@ -122,115 +141,86 @@ def load_squad(
         else:
             val_raw.extend(group_rows)
 
+    # Group isolation is more important than an exact 95/5 row ratio. Record
+    # the realized ratio in the manifest rather than claiming it is exact.
+    if not train_raw or not val_raw:
+        raise ValueError(
+            f"SQuAD grouped split failed: train={len(train_raw)}, validation={len(val_raw)}"
+        )
+
     def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
-        out = []
+        out: list[dict[str, Any]] = []
         for row in rows:
             answers = row.get("answers", {})
             texts = answers.get("text", [])
             starts = answers.get("answer_start", [])
             context = str(row.get("context", ""))
-            question = str(row.get("question", ""))
-            answer = str(texts[0]) if texts else ""
-            answer_start = starts[0] if starts else None
-            if not context or not question or not answer:
+            question = str(row.get("question", "")).strip()
+            answer = str(texts[0]).strip() if texts else ""
+            answer_start = int(starts[0]) if starts else None
+            if not context.strip() or not question or not answer:
                 continue
+            if answer_start is None or context[answer_start:answer_start + len(answer)] != answer:
+                raise ValueError(
+                    f"SQuAD answer span mismatch for {row.get('id')}: "
+                    f"start={answer_start}, answer={answer!r}"
+                )
 
-            # Keep every QA example answerable while making pathological
-            # contexts fit the fixed SFT budget. Only contexts that would
-            # exceed the budget are windowed; the answer span is retained.
-            # This is deterministic and applies equally to train/validation/test.
-            if split in {"train", "validation", "test"}:
-                base_record = {
-                    "task": TASK_QA,
-                    "split": split,
-                    "id": str(row["id"]),
-                    "context": context,
-                    "question": question,
-                    "answer": answer,
-                    "answer_start": answer_start,
-                    "title": row.get("title"),
-                }
-                from prompts import build_sft_text
-
-                if len(tokenizer(
-                    build_sft_text(TASK_QA, base_record),
-                    add_special_tokens=False,
-                    truncation=True,
-                    max_length=max_seq_length + 1,
-                )["input_ids"]) > max_seq_length:
-                    if answer_start is None or context[answer_start:answer_start + len(answer)] != answer:
+            record = {
+                "task": TASK_QA,
+                "split": split,
+                "id": str(row["id"]),
+                "context": context,
+                "question": question,
+                "answer": answer,
+                "answer_start": answer_start,
+                "title": row.get("title"),
+            }
+            full_text = build_sft_text(TASK_QA, record)
+            if bounded_token_count(tokenizer, full_text, max_seq_length) > max_seq_length:
+                # Keep the exact answer substring and progressively shrink only
+                # surrounding context until the entire prompt + target fits.
+                answer_end = answer_start + len(answer)
+                left_radius = answer_start
+                right_radius = len(context) - answer_end
+                radius = max(left_radius, right_radius)
+                fitted = False
+                while True:
+                    left = max(0, answer_start - radius)
+                    right = min(len(context), answer_end + radius)
+                    candidate_context = context[left:right]
+                    candidate_start = answer_start - left
+                    if candidate_context[candidate_start:candidate_start + len(answer)] != answer:
                         raise ValueError(
-                            f"SQuAD answer span mismatch for {row['id']}; cannot safely window context."
+                            f"Answer text changed during SQuAD windowing for {row['id']}."
                         )
+                    record["context"] = candidate_context
+                    record["answer_start"] = candidate_start
+                    candidate_text = build_sft_text(TASK_QA, record)
+                    if bounded_token_count(tokenizer, candidate_text, max_seq_length) <= max_seq_length:
+                        fitted = True
+                        break
+                    if radius == 0:
+                        break
+                    radius = max(0, radius // 2)
 
-                    # Estimate the available context-token budget from the
-                    # fixed system/question/answer portions, then keep a
-                    # token window centered on the answer span.
-                    context_ids = tokenizer(context, add_special_tokens=False)["input_ids"]
-                    answer_prefix_ids = tokenizer(
-                        context[:answer_start], add_special_tokens=False
-                    )["input_ids"]
-                    answer_ids = tokenizer(
-                        answer, add_special_tokens=False
-                    )["input_ids"]
-                    answer_token_start = len(answer_prefix_ids)
-                    answer_token_end = answer_token_start + len(answer_ids)
-
-                    fixed_record = dict(base_record)
-                    fixed_record["context"] = ""
-                    fixed_tokens = len(
-                        tokenizer(
-                            build_sft_text(TASK_QA, fixed_record),
-                            add_special_tokens=False,
-                        )["input_ids"]
+                if not fitted:
+                    raise ValueError(
+                        f"SQuAD example {row['id']} cannot fit max_seq_length={max_seq_length} "
+                        "even with answer-only context. Increase the limit or explicitly revise "
+                        "the dataset policy; this example was not silently truncated."
                     )
-                    available_context_tokens = max_seq_length - fixed_tokens
-                    if available_context_tokens <= len(answer_ids):
-                        raise ValueError(
-                            f"SQuAD answer alone exceeds the available context budget for {row['id']}."
-                        )
 
-                    window_tokens = min(len(context_ids), available_context_tokens)
-                    extra = window_tokens - len(answer_ids)
-                    left = min(answer_token_start, extra // 2)
-                    right = extra - left
-                    if answer_token_start + right > len(context_ids):
-                        right = len(context_ids) - answer_token_start
-                        left = min(answer_token_start, extra - right)
-                    start_tok = max(0, answer_token_start - left)
-                    end_tok = min(len(context_ids), answer_token_end + right)
-
-                    context = tokenizer.decode(
-                        context_ids[start_tok:end_tok],
-                        skip_special_tokens=True,
-                    ).strip()
-
-                    if answer not in context:
-                        raise ValueError(
-                            f"Answer was lost while windowing SQuAD context for {row['id']}."
-                        )
-                    answer_start = context.find(answer)
-
-                    base_record["context"] = context
-                    base_record["answer_start"] = answer_start
-
-                    final_len = len(
-                        tokenizer(
-                            build_sft_text(TASK_QA, base_record),
-                            add_special_tokens=False,
-                        )["input_ids"]
-                    )
-                    if final_len > max_seq_length:
-                        raise ValueError(
-                            f"SQuAD context window still exceeds max_seq_length for {row['id']}: "
-                            f"{final_len} > {max_seq_length}."
-                        )
-
-                out.append(base_record)
+            final_text = build_sft_text(TASK_QA, record)
+            final_len = bounded_token_count(tokenizer, final_text, max_seq_length)
+            if final_len > max_seq_length:
+                raise AssertionError(f"Internal error: SQuAD row {row['id']} exceeds token budget.")
+            if record["context"][record["answer_start"]:record["answer_start"] + len(answer)] != answer:
+                raise AssertionError(f"Internal error: SQuAD answer span invalid for {row['id']}.")
+            out.append(record)
         return out
 
     return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
-
 
 def load_arxiv_summarization(
     tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
@@ -373,6 +363,16 @@ def main() -> None:
     if missing:
         raise SystemExit("Missing canonical BloomShift files:\n" + "\n".join(missing))
 
+    if args.max_seq_length < 16:
+        raise SystemExit("--max-seq-length must be at least 16.")
+    ratios = (args.mix_bloom, args.mix_qa, args.mix_sum)
+    if any(r < 0 for r in ratios) or not any(r > 0 for r in ratios):
+        raise SystemExit("Train mix ratios must be non-negative and at least one must be positive.")
+    if abs(sum(ratios) - 1.0) > 1e-9:
+        raise SystemExit("Train mix ratios must sum to 1.")
+    if args.mix_bloom <= 0:
+        raise SystemExit("--mix-bloom must be positive because the target train size is anchored to BloomShift.")
+
     bloom_train = normalize_bloom(load_json(required_bloom[0]), "train")
     bloom_val = normalize_bloom(load_json(required_bloom[1]), "validation")
     bloom_test = normalize_bloom(load_json(required_bloom[2]), "test")
@@ -411,6 +411,31 @@ def main() -> None:
 
     # The canonical BloomShift rows are already prompt-enriched above.
     train_rows = enrich_prompts(train_rows)
+
+    # Final hard gate: no task may reach training with a sequence that the
+    # trainer would silently truncate. Probe only max_seq_length + 1 tokens.
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id, use_fast=True)
+    token_counts: dict[str, dict[str, int]] = {}
+    for split_name, rows in (("train", train_rows), ("validation", val_rows), ("test", test_rows)):
+        overlength = []
+        for row in rows:
+            full_len = bounded_token_count(tokenizer, row["sft_text"], args.max_seq_length)
+            prompt_len = bounded_token_count(tokenizer, row["prompt_text"], args.max_seq_length)
+            if full_len > args.max_seq_length:
+                overlength.append(f"{row['task']}:{row['id']}")
+            if prompt_len >= args.max_seq_length:
+                raise SystemExit(
+                    f"{split_name} prompt leaves no assistant target tokens: "
+                    f"{row['task']}:{row['id']} (prompt token count exceeds the usable budget)."
+                )
+        if overlength:
+            raise SystemExit(
+                f"{split_name} contains {len(overlength)} overlength SFT sequence(s); "
+                f"the builder will not emit data the trainer silently truncates. "
+                f"First examples: {overlength[:10]}"
+            )
+        token_counts[split_name] = {"rows": len(rows), "overlength": len(overlength)}
 
     for name, rows in (("train", train_rows), ("validation", val_rows), ("test", test_rows)):
         tasks = {r["task"] for r in rows}
@@ -456,7 +481,11 @@ def main() -> None:
         },
         "qa_source": {
             "dataset": "rajpurkar/squad",
-            "train_fraction_after_deterministic_split": 0.95,
+            "requested_train_fraction": 0.95,
+            "actual_train_fraction_of_official_train": round(len(qa_train) / max(1, len(qa_train) + len(qa_val)), 6),
+            "train_rows_after_group_split": len(qa_train),
+            "validation_rows_after_group_split": len(qa_val),
+            "official_validation_rows_used_as_test": len(qa_test),
             "official_validation_used_as_test": True,
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
@@ -473,11 +502,20 @@ def main() -> None:
                 "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
             },
         },
+        "tokenizer": {
+            "model_id": args.model_id,
+            "max_seq_length": args.max_seq_length,
+            "sequence_policy": "all emitted complete SFT sequences must fit; builder fails rather than relying on trainer truncation",
+            "bounded_token_count_check": True,
+            "checked_sequences": token_counts,
+        },
+        "upstream_dataset_fingerprints": {
+            "squad": {name: getattr(split, "_fingerprint", None) for name, split in ds_splits_for_manifest.items()}
+        } if False else {},
         "generated_files_sha256": generated_hashes,
         "train_mix": {
-            TASK_BLOOM: args.mix_bloom,
-            TASK_QA: args.mix_qa,
-            TASK_SUM: args.mix_sum,
+            "requested": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
+            "actual": {k: round(v / max(1, len(train_rows)), 6) for k, v in counts(train_rows).items()},
         },
         "counts": {
             "train": counts(train_rows),
@@ -485,6 +523,7 @@ def main() -> None:
             "test": counts(test_rows),
         },
         "notes": [
+            "Dataset upstream fingerprints are not guaranteed to identify a pinned Hub revision; preserve the manifest and generated file hashes with the experiment.",
             "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
