@@ -1,130 +1,24 @@
-# EduGuard BloomShift — Final Candidate
+# EduGuard BloomShift — Expanded Candidate v3
 
-Recommended candidate for supervisor validation before the next multitask retraining run.
+The canonical split files contain the expanded dataset transferred from `fix/arxiv-multitask-training`.
 
-Train: 660 records
-Validation: 114 records
-Test: 114 records
-Total: 888 records
+| Split | Records |
+|---|---:|
+| Train | 1075 |
+| Validation | 212 |
+| Test | 135 |
+| **Total** | **1422** |
 
-Each split is target-balanced. Same-level identity copies are excluded. Source groups remain disjoint across train, validation, and test.
+The three split files are group-disjoint; see `expanded_split_audit_v3.json` for the computed overlap checks, target-level counts, and review-status counts.
 
-The dataset was rebuilt from the original EduGuard source questions. Previous generated target rewrites were not reused. Incomplete/self-referential source questions and source/task families that could not support a reasonable content-preserving transformation were excluded.
+## Human-review status
 
-This is a silver candidate, not a human-certified gold dataset. Use supervisor_annotation.csv to review every validation/test example before freezing the dataset.
+The source split files retain their per-record review metadata. Only records explicitly marked `review_status=human_validated` and `training_eligible=true` should be treated as human-validated and eligible for training. Missing or unmarked review status is **not** equivalent to validation.
 
-A small set of mechanically malformed held-out rewrites identified during the final audit was corrected without regenerating the candidate dataset. The supervisor annotation file was updated to remain synchronized with those corrections. Semantic, Bloom-level, and pedagogical validity of the held-out examples still requires human review.
+The prior `audit.json` documents the earlier 888-record candidate and its quality screens; it is retained as historical audit information, not as the count manifest for this expanded version. The older `expanded_split_audit_v2.json` also describes an earlier 1,024-record state and is retained for history. Use `expanded_split_audit_v3.json` for the current counts.
 
-The rewrite forms were also diversified to reduce dependence on repeated WH-question openings. Action-oriented forms such as *analyze*, *apply*, *assess*, *design*, *construct*, *identify*, and *state* are now used alongside interrogative forms. This is intended to reduce superficial wording regularity; it does not establish Bloom-level validity, which remains subject to supervisor review.
+## Research cautions
 
-## Supervisor annotation protocol
-
-The held-out validation and test examples are intended for human review. The annotation schema separates content preservation from context preservation so reviewers can assess whether the original subject matter, entities, conditions, constraints, and task setting remain intact while cognitive demand changes. Reviewers should also record Bloom alignment, their independently judged Bloom level, meaningful transformation, pedagogical validity, language quality, and a final decision. Blank annotation fields are intentional until human review is performed.
-
-### Recommended controlled annotation values
-
-For reproducible human annotation, use the following controlled values:
-
-- `bloom_aligned`: Yes / No
-- `reviewer_bloom_level`: Remember / Understand / Apply / Analyze / Evaluate / Create / Unclear
-- `content_preserved`: Yes / No / Partial
-- `context_preserved`: Yes / No / Partial
-- `meaningful_transformation`: Yes / No / Partial
-- `pedagogically_valid`: Yes / No / Partial
-- `clear_and_grammatical`: Yes / No / Partial
-- `final_decision`: Accept / Revise / Reject
-- `corrected_question`: enter only when revision is needed; otherwise leave blank
-- `reason`: brief evidence-based justification for No/Partial/Revise/Reject decisions
-
-These are annotation instructions, not pre-filled labels. Reviewers should independently judge each held-out rewrite before the dataset is treated as human-validated.
-
-
-## Quality audits
-
-A deterministic content-preservation audit was performed across all 888 records. It screened source-anchor coverage and checked preservation of source numerals, quoted material, and explicit negation cues. Two held-out marketing-strategy rewrites were corrected to restore source-specific product/model context, and the annotation file was synchronized.
-
-A separate language-quality audit screened all 888 target rewrites for mechanically malformed template phrasing. A limited set of duplicated words, source-imperative insertion errors, duplicated distinction verbs, and malformed evaluation endings was corrected without intentionally changing the source topic or target cognitive operation. These automated checks are screening controls only; they do not establish semantic equivalence, Bloom alignment, or pedagogical validity. Human review remains required before gold release.
-
-
-### Bloom cognitive-validity audit
-
-A Bloom-level screening was performed across all 888 target rewrites using action-verb cues together with structural inspection of repeated transformation templates. This confirmed that lexical cues alone are not sufficient to certify Bloom level: valid transformations may express the intended operation structurally, while action verbs can occur in mixed cognitive contexts. Clearly weak or malformed transformations were corrected, including evaluation-derived Understand rewrites that asked the reader to identify what was being judged rather than understand or explain the underlying content. The corrected candidate still requires human Bloom-level annotation before it can be treated as a gold benchmark.
-
-### Semantic/content-preservation audit
-
-A deterministic content-preservation screen was run across all 888 source/target pairs. It checked content-bearing lexical overlap as a risk indicator and separately checked source numerals, quoted material, and explicit source identifiers. The overlap screen flagged 32 cases (16 train, 6 validation, 10 test) for manual review, but this is not evidence of semantic failure: Bloom transformation necessarily introduces cognitive-operation language and inflectional changes. No source numerals or quoted material were lost in the screen, and no automatic corrections were applied because semantic similarity cannot be established safely from lexical overlap alone.
-
-The 32 flagged cases should receive priority during human validation. This audit is therefore a screening step, not a claim of semantic equivalence or human certification.
-
-### Human annotation and gold-release protocol
-
-The 228 validation/test examples should be reviewed independently by at least two annotators before any claim of human validation. Reviewers should not see another reviewer's labels before submitting their own decision. A short calibration batch of 20 examples should be annotated first and discussed to resolve interpretation differences; the calibration batch is for protocol alignment and should not be used as the reported agreement estimate.
-
-For the main annotation pass, each reviewer records all controlled fields independently. `reviewer_bloom_level` is the reviewer's own judgment, not an attempt to reproduce the target label. `content_preserved` assesses whether the substantive topic, entities, facts, and requested task content remain intact; `context_preserved` assesses conditions, scenario, constraints, audience, and other contextual qualifiers. `bloom_aligned` should be Yes only when the cognitive demand is consistent with the target level, not merely because a target-level verb appears. `meaningful_transformation` should be judged against the source task, and `pedagogically_valid` should consider whether the resulting question is answerable and educationally coherent. Reviewers should use `reason` to cite the specific evidence for any No/Partial/Revise/Reject judgment.
-
-For agreement reporting, calculate Cohen's kappa for categorical fields when exactly two annotators are used, and use a multi-rater agreement statistic such as Krippendorff's alpha if more than two annotators contribute labels. Report agreement separately for Bloom alignment, reviewer Bloom level, content preservation, context preservation, meaningful transformation, pedagogical validity, language quality, and final decision. Do not collapse these into a single unsupported quality score. Agreement should be reported before adjudication.
-
-Disagreements should be adjudicated by a senior reviewer or supervisor using the original source question, target question, and both rationales. The adjudicator may Accept, Revise, or Reject the example and should record the corrected question and reason where applicable. Adjudication changes must be applied to the dataset and annotation file together. The adjudicated result is the release label; raw independent labels should be retained separately for agreement analysis.
-
-
-### Annotation infrastructure
-
-The repository now includes a reproducible annotation workspace:
-
-- `annotation_calibration.csv`: 20-example calibration batch covering all six target Bloom levels. It contains no reviewer labels and is excluded from reported agreement.
-- `reviewer_1.csv` and `reviewer_2.csv`: identical blank worksheets for independent annotation of all 228 validation/test examples. Human fields are intentionally empty.
-- `annotation_agreement_template.csv`: pre-adjudication agreement-reporting template for each annotation field.
-- `annotation_manifest.json`: records the annotation version, calibration IDs, reviewer count, priority-review count, and file roles.
-
-The calibration set contains two validation and one test example per target level, plus the two previously corrected held-out marketing-strategy examples. The latter are included to ensure the calibration process explicitly exercises examples that previously required content-preservation correction. No reviewer decision is prefilled.
-
-
-### Proposed gold-release criteria
-
-BloomShift should not be called a human-validated gold dataset until: (1) all 228 validation/test examples have completed independent review; (2) every example has a resolved final decision; (3) examples marked Reject are excluded from the released gold split; (4) Revise cases are corrected and re-reviewed; (5) agreement statistics are reported for the main annotation pass; (6) the 32 cases flagged by the semantic/content-preservation screen receive explicit review; and (7) the final released files, annotation table, and audit record are synchronized. Any threshold for acceptable agreement should be declared in the paper before results are interpreted rather than selected after seeing the outcomes.
-
-Until these conditions are met, the repository should continue to describe the dataset as a silver candidate.
-
-
-### Source-to-target transition coverage
-
-The candidate contains 28 of the 30 possible non-identity source-to-target Bloom transitions. The two absent directions are **Remember → Evaluate** and **Remember → Create**, reflecting the very small number of Remember-level source questions in the underlying source dataset. Target levels are balanced within each split, but the source-to-target transition matrix is therefore not fully balanced.
-
-These missing transitions should not be filled by synthetic source questions solely to improve matrix balance, because doing so would alter source provenance and require a new curation cycle. Benchmark reporting should therefore describe target-level balance and explicitly disclose the incomplete source-to-target transition coverage.
-### Controlled annotation values
-
-Use the following values exactly; do not invent alternative spellings or scales.
-
-- `bloom_aligned`: `Yes` or `No`.
-- `reviewer_bloom_level`: `Remember`, `Understand`, `Apply`, `Analyze`, `Evaluate`, or `Create`.
-- `content_preserved`: `Yes`, `Partial`, or `No`.
-- `context_preserved`: `Yes`, `Partial`, or `No`.
-- `meaningful_transformation`: `Yes`, `Partial`, or `No`.
-- `pedagogically_valid`: `Yes`, `Partial`, or `No`.
-- `clear_and_grammatical`: `Yes`, `Partial`, or `No`.
-- `final_decision`: `Accept`, `Revise`, or `Reject`.
-- `corrected_question`: leave blank unless the reviewer proposes a specific correction.
-- `reason`: concise evidence-based rationale; required for any `No`, `Partial`, `Revise`, or `Reject` judgment.
-
-Do not use `Partial` as a substitute for uncertainty. If a reviewer cannot determine a judgment from the source and target alone, record the closest defensible decision and explain the evidence in `reason`; unresolved disagreements are handled during adjudication.
-
-### Agreement analysis
-
-After both reviewers complete the 228-example main annotation pass, run the reproducible agreement checker from the repository root:
-
-```bash
-python scripts/analyze_annotation_agreement.py \\
-  --reviewer1 "data/rewrite dataset/bloomshift_final_candidate/reviewer_1.csv" \\
-  --reviewer2 "data/rewrite dataset/bloomshift_final_candidate/reviewer_2.csv" \\
-  --output "data/rewrite dataset/bloomshift_final_candidate/annotation_agreement.json"
-```
-
-The script refuses to compute agreement while any controlled human-label field is blank, checks reviewer alignment and duplicate IDs, excludes the separate calibration batch, and reports Cohen's kappa separately for each annotation dimension. It does not generate or alter reviewer labels.
-### Additional pre-annotation audits
-
-A deterministic pre-annotation audit now checks example-ID uniqueness, source/group provenance, split isolation, source-to-target expansion, normalized-template recurrence, and residual mechanical wording artifacts. The current candidate has 888 unique examples from 238 source records, with zero group overlap across train/validation/test and zero identity transformations. Source expansion is intentionally non-uniform: 119 source records have all five available non-identity target transformations, while the remaining source records have fewer; this follows the curated transition coverage and should not be described as five transformations per source.
-
-Two highly similar source-question pairs were detected by a token-overlap screen. One is duplicate wording within training and one near-duplicate pair crosses train/validation. These are retained as provenance-review flags rather than automatically deleted. The audit also found 35 normalized target templates recurring across splits, of which 34 are associated with a single target Bloom level. This creates a potential template-to-target shortcut; the benchmark should therefore not be described as template-disjoint. A template-held-out evaluation is preferable when reporting model generalization.
-
-Three residual mechanical wording artifacts were safely corrected (bloomshift_final_train_0645, bloomshift_final_test_0057, and bloomshift_final_test_0113), and the validation/test annotation worksheets were regenerated from the synchronized candidate files. No human annotation values were inserted. These audits are implemented in scripts/audit_bloomshift_candidate.py.
-
+- Run the dataset validator and inspect review-status filtering before training or evaluation.
+- Because source groups were reassigned and the test set changed, previous metrics are not directly comparable to results on this version.
+- Automated source/content and language checks are screening aids; they do not independently establish semantic preservation, Bloom alignment, or pedagogical validity.
