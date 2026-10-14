@@ -509,9 +509,6 @@ def main() -> None:
             "bounded_token_count_check": True,
             "checked_sequences": token_counts,
         },
-        "upstream_dataset_fingerprints": {
-            "squad": {name: getattr(split, "_fingerprint", None) for name, split in ds_splits_for_manifest.items()}
-        } if False else {},
         "generated_files_sha256": generated_hashes,
         "train_mix": {
             "requested": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
