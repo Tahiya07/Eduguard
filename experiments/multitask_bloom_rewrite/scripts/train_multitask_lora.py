@@ -207,6 +207,26 @@ def main() -> None:
     results_dir.mkdir(parents=True, exist_ok=True)
 
     dataset_fingerprint = validate_prepared_dataset(data_dir, REPO_ROOT)
+
+    # Do not start optimization unless the same strict QC used for manual
+    # validation passes against the exact training config and all three splits.
+    qc_script = SCRIPT_DIR / "validate_multitask_dataset.py"
+    qc_command = [
+        sys.executable,
+        str(qc_script),
+        "--data-dir", str(data_dir.resolve()),
+        "--max-length", str(int(cfg["max_seq_length"])),
+        "--model-id", str(cfg["model_id"]),
+    ]
+    print("RUNNING DATASET QC:", " ".join(qc_command))
+    try:
+        subprocess.run(qc_command, cwd=REPO_ROOT, check=True)
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit(
+            f"Dataset QC failed (exit={exc.returncode}); training has not started. "
+            "Regenerate the final corpus and resolve every QC error."
+        ) from exc
+
     train_rows = read_jsonl(data_dir / "train.jsonl")
     val_rows = read_jsonl(data_dir / "validation.jsonl")
     if not train_rows or not val_rows:
