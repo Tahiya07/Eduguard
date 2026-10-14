@@ -84,6 +84,11 @@ def main() -> None:
     else:
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if manifest.get("version") != "multitask_bloom_rewrite_final_v2":
+                errors.append(
+                    "dataset manifest is not from the hardened v2 builder; rerun "
+                    "prepare_multitask_dataset_final.py"
+                )
             expected_counts = manifest.get("counts", {})
             for split_name, rows_for_split in splits.items():
                 actual = dict(Counter(r.get("task") for r in rows_for_split))
