@@ -557,12 +557,48 @@ def main() -> None:
     predictions: list[dict[str, Any]] = []
     latencies: list[float] = []
 
+    # Persist each prediction immediately. A failure during later metric computation
+    # must not discard hours of completed generation.
+    pred_path = out_dir / "predictions.jsonl"
+    progress_path = out_dir / "evaluation_progress.json"
+    completed = {TASK_BLOOM: 0, TASK_QA: 0, TASK_SUMMARIZATION: 0}
+    pred_file = pred_path.open("w", encoding="utf-8", newline="\n")
+
+    def persist_record(record: dict[str, Any]) -> None:
+        pred_file.write(json.dumps(record, ensure_ascii=False) + "\n")
+        pred_file.flush()
+        predictions.append(record)
+        completed[record["task"]] += 1
+        progress_path.write_text(
+            json.dumps(
+                {
+                    "status": "running",
+                    "updated_utc": datetime.now(timezone.utc).isoformat(),
+                    "output_dir": str(out_dir),
+                    "predictions_path": str(pred_path),
+                    "completed": completed,
+                    "expected": {
+                        TASK_BLOOM: len(bloom_rows),
+                        TASK_QA: len(qa_rows),
+                        TASK_SUMMARIZATION: len(sum_rows),
+                    },
+                    "total_completed": sum(completed.values()),
+                    "total_expected": len(bloom_rows) + len(qa_rows) + len(sum_rows),
+                    "checkpoint": ckpt_info,
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+
+    print(f"Incremental predictions file: {pred_path}")
+    print(f"Progress file: {progress_path}")
     print(f"Evaluating Bloom: {len(bloom_rows)} examples...")
     bloom_preds: list[dict[str, Any]] = []
     for i, row in enumerate(bloom_rows):
         rec = evaluate_bloom_row(row, generator, gen_cfg, classify_fn, clf_stats)
         bloom_preds.append(rec)
-        predictions.append(rec)
+        persist_record(rec)
         latencies.append(rec["latency_s"])
         if (i + 1) % 100 == 0:
             print(f"  Bloom {i + 1}/{len(bloom_rows)}")
@@ -580,7 +616,7 @@ def main() -> None:
     for i, row in enumerate(qa_rows):
         rec = evaluate_qa_row(row, generator, gen_cfg)
         qa_preds.append(rec)
-        predictions.append(rec)
+        persist_record(rec)
         latencies.append(rec["latency_s"])
         if (i + 1) % 500 == 0:
             print(f"  QA {i + 1}/{len(qa_rows)}")
@@ -590,11 +626,33 @@ def main() -> None:
     for i, row in enumerate(sum_rows):
         rec = evaluate_sum_row(row, generator, gen_cfg)
         sum_preds.append(rec)
-        predictions.append(rec)
+        persist_record(rec)
         latencies.append(rec["latency_s"])
         if (i + 1) % 200 == 0:
             print(f"  Sum {i + 1}/{len(sum_rows)}")
 
+    pred_file.close()
+    progress_path.write_text(
+        json.dumps(
+            {
+                "status": "generation_complete_metrics_pending",
+                "updated_utc": datetime.now(timezone.utc).isoformat(),
+                "output_dir": str(out_dir),
+                "predictions_path": str(pred_path),
+                "completed": completed,
+                "expected": {
+                    TASK_BLOOM: len(bloom_rows),
+                    TASK_QA: len(qa_rows),
+                    TASK_SUMMARIZATION: len(sum_rows),
+                },
+                "total_completed": sum(completed.values()),
+                "total_expected": len(bloom_rows) + len(qa_rows) + len(sum_rows),
+                "checkpoint": ckpt_info,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     resources = sample_resources()
 
     y_true = [r["target_bloom_level"] for r in bloom_preds]
@@ -608,7 +666,13 @@ def main() -> None:
     squad_qa = aggregate_qa_metrics(qa_pairs)
     sum_pairs = [(r["prediction"], r["reference"]) for r in sum_preds]
     sum_metrics = rouge_scores(sum_pairs)
-    bert = optional_bertscore(sum_pairs)
+    try:
+        bert = optional_bertscore(sum_pairs)
+    except Exception as exc:  # optional secondary metric must not discard core results
+        bert = {
+            "available": False,
+            "error": f"{type(exc).__name__}: {exc}",
+        }
 
     metrics: dict[str, Any] = {
         "evaluated_utc": datetime.now(timezone.utc).isoformat(),
@@ -646,11 +710,6 @@ def main() -> None:
         "deployment_recommendation": "INCONCLUSIVE",
     }
 
-    pred_path = out_dir / "predictions.jsonl"
-    pred_path.write_text(
-        "\n".join(json.dumps(p, ensure_ascii=False) for p in predictions) + ("\n" if predictions else ""),
-        encoding="utf-8",
-    )
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     (out_dir / "confusion_matrix.json").write_text(
         json.dumps(bloom_class.get("confusion_matrix", {}), indent=2), encoding="utf-8"
@@ -678,6 +737,29 @@ def main() -> None:
         metrics["human_eval_export"] = str(human_export)
 
     write_report(out_dir, metrics, dataset_meta, ckpt_info)
+    progress_path.write_text(
+        json.dumps(
+            {
+                "status": "complete",
+                "updated_utc": datetime.now(timezone.utc).isoformat(),
+                "output_dir": str(out_dir),
+                "predictions_path": str(pred_path),
+                "completed": completed,
+                "expected": {
+                    TASK_BLOOM: len(bloom_rows),
+                    TASK_QA: len(qa_rows),
+                    TASK_SUMMARIZATION: len(sum_rows),
+                },
+                "total_completed": sum(completed.values()),
+                "total_expected": len(bloom_rows) + len(qa_rows) + len(sum_rows),
+                "metrics_path": str(out_dir / "metrics.json"),
+                "report_path": str(out_dir / "evaluation_report.md"),
+                "checkpoint": ckpt_info,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print("=" * 72)
     print("EVALUATION COMPLETE")
     print("Results:", out_dir)
