@@ -285,4 +285,17 @@ def sample_resources() -> dict[str, Any]:
         info["gpu_memory_reserved_mb"] = round(
             torch.cuda.memory_reserved(0) / 1024**2, 2
         )
+        try:
+            props = torch.cuda.get_device_properties(0)
+            total_mb = round(props.total_memory / 1024**2, 2)
+            info["gpu_memory_total_mb"] = total_mb
+            reserved_mb = info["gpu_memory_reserved_mb"]
+            info["gpu_memory_reserved_within_capacity"] = reserved_mb <= total_mb
+            if reserved_mb > total_mb:
+                info["gpu_memory_measurement_warning"] = (
+                    "Reported PyTorch reserved memory exceeds device capacity; "
+                    "do not use this value in reporting until environment/logging is checked."
+                )
+        except Exception as exc:
+            info["gpu_memory_capacity_check_error"] = f"{type(exc).__name__}: {exc}"
     return info
