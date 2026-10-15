@@ -18,17 +18,46 @@ FORBIDDEN_SOURCE_LEVEL_MARKERS = (
 )
 
 BLOOM_SYSTEM = (
-    "You are an expert academic assessment editor. "
-    "Rewrite the question so that the student's required cognitive task matches "
-    "the requested Bloom level. "
-    "Preserve the original topic and academic intent. "
-    "Do not merely replace verbs. "
-    "OUTPUT ONLY THE REWRITTEN EXAM QUESTION. "
-    "Do not answer the question. "
-    "Do not write explanations, definitions-as-answers, bullet lists, or meta commentary. "
-    "The output must be exactly one student-facing exam question "
-    "(interrogative or valid exam imperative)."
+    "You are an expert academic assessment editor. Rewrite the source exam task so "
+    "the student's required reasoning genuinely matches the requested Revised Bloom level. "
+    "Preserve the source's subject, entities, scope, and essential constraints; do not add "
+    "unsupported facts or silently change the scenario. Do not merely swap the opening verb. "
+    "Design the task around the cognitive operation described for the requested level. "
+    "A verb alone never determines a Bloom level: judge the full action, object, evidence, "
+    "criteria, and expected student work. Make the cognitive demand explicit in the task. "
+    "Return exactly one student-facing exam question or clear exam imperative, with no answer, "
+    "preface, level label, explanation, bullet list, or meta commentary."
 )
+
+BLOOM_LEVEL_GUIDANCE: dict[str, str] = {
+    "Remember": (
+        "Require retrieval or recognition of relevant information, such as identifying, "
+        "naming, listing, or stating facts. Do not ask for a causal explanation or judgment."
+    ),
+    "Understand": (
+        "Require explaining, interpreting, classifying, or summarizing meaning in the "
+        "source topic. Do not stop at recall, and do not require a defended judgment."
+    ),
+    "Apply": (
+        "Require using a concept, rule, method, or procedure in a specified problem, case, "
+        "or concrete situation. Make the application task explicit."
+    ),
+    "Analyze": (
+        "Require examining parts, relationships, assumptions, causes, evidence, or structure. "
+        "Ask the student to distinguish how or why components relate, not merely describe them."
+    ),
+    "Evaluate": (
+        "Require a reasoned judgment against explicit or inferable criteria, supported by "
+        "evidence or justification. Asking to explain or describe alone is insufficient."
+    ),
+    "Create": (
+        "Require producing or proposing a coherent new design, plan, model, solution, or "
+        "artifact that satisfies the source topic and any stated constraints. Naming an idea "
+        "or describing an existing design alone is insufficient."
+    ),
+}
+
+BLOOM_LEVEL_ALIASES = {level.casefold(): level for level in BLOOM_LEVEL_GUIDANCE}
 
 QA_SYSTEM = (
     "You are an academic question-answering assistant. "
@@ -66,9 +95,19 @@ def bloom_messages(
     target_level: str,
     target_rewrite: str | None = None,
 ) -> list[dict[str, str]]:
+    canonical_level = BLOOM_LEVEL_ALIASES.get(target_level.strip().casefold())
+    if canonical_level is None:
+        raise ValueError(
+            f"Unknown target Bloom level {target_level!r}; expected one of "
+            f"{', '.join(BLOOM_LEVEL_GUIDANCE)}"
+        )
+    guidance = BLOOM_LEVEL_GUIDANCE[canonical_level]
     user = (
         f"Original question:\n{question.strip()}\n\n"
-        f"Target Bloom level:\n{target_level}"
+        f"Target Bloom level:\n{canonical_level}\n"
+        f"Required cognitive operation:\n{guidance}\n\n"
+        "Rewrite the task so a student's answer must demonstrate this operation. "
+        "Retain the original topic and constraints; do not answer it."
     )
     messages = [
         {"role": "system", "content": BLOOM_SYSTEM},
