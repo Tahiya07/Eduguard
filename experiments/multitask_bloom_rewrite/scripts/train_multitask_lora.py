@@ -335,6 +335,11 @@ def main() -> None:
         trust_remote_code=True,
         torch_dtype=torch.float32 if device == "cpu" else torch.float16,
     )
+    if bool(cfg.get("gradient_checkpointing", True)) and device == "cuda":
+        # Trade compute for activation memory so long-context LoRA training can fit.
+        model.config.use_cache = False
+        model.gradient_checkpointing_enable()
+
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
         lora_alpha=int(cfg["lora_alpha"]),
@@ -366,6 +371,7 @@ def main() -> None:
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
+        gradient_checkpointing=bool(cfg.get("gradient_checkpointing", True)),
         eval_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
