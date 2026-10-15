@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import re
 import subprocess
 import sys
@@ -431,7 +432,18 @@ def main() -> None:
         "--limit",
         type=int,
         default=0,
-        help="Debug cap per task (0 = full test set)",
+        help="Debug cap per task (0 = no additional debug cap)",
+    )
+    parser.add_argument(
+        "--evaluation-per-task",
+        type=int,
+        default=300,
+        help="Deterministic QA and summarization sample size (default: 300 each).",
+    )
+    parser.add_argument(
+        "--full-test-set",
+        action="store_true",
+        help="Evaluate all rows from the locked test split.",
     )
     parser.add_argument(
         "--tasks",
@@ -549,10 +561,35 @@ def main() -> None:
     sum_rows = [
         r for r in test_rows if r["task"] == TASK_SUMMARIZATION and TASK_SUMMARIZATION in task_filter
     ]
+    full_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
+    if not args.full_test_set:
+        rng = random.Random(SEED)
+        def sample_task(rows, cap):
+            if len(rows) <= cap:
+                return rows
+            chosen = set(rng.sample(range(len(rows)), cap))
+            return [row for i, row in enumerate(rows) if i in chosen]
+        qa_rows = sample_task(qa_rows, args.evaluation_per_task)
+        sum_rows = sample_task(sum_rows, args.evaluation_per_task)
     if args.limit:
         bloom_rows = bloom_rows[: args.limit]
         qa_rows = qa_rows[: args.limit]
         sum_rows = sum_rows[: args.limit]
+
+    evaluated_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
+    subset_manifest = {
+        "sampling_method": "deterministic_uniform_without_replacement",
+        "seed": SEED,
+        "full_test_split_unchanged": True,
+        "full_task_counts": full_counts,
+        "evaluated_task_counts": evaluated_counts,
+        "selected_ids": {
+            task: [str(row.get("example_id", row.get("id", ""))) for row in rows]
+            for task, rows in ((TASK_BLOOM, bloom_rows), (TASK_QA, qa_rows), (TASK_SUMMARIZATION, sum_rows))
+        },
+        "full_test_set_requested": args.full_test_set,
+    }
+    (out_dir / "evaluation_subset_manifest.json").write_text(json.dumps(subset_manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
     predictions: list[dict[str, Any]] = []
     latencies: list[float] = []
@@ -681,6 +718,7 @@ def main() -> None:
         "model_key": cfg.get("model_key"),
         "checkpoint": ckpt_info,
         "dataset": dataset_meta,
+        "evaluation_subset": {"full_task_counts": full_counts, "evaluated_task_counts": evaluated_counts, "evaluated_total": sum(evaluated_counts.values()), "manifest_path": str(out_dir / "evaluation_subset_manifest.json")},
         "generation": gen_cfg,
         "classifier_error": None,
         "classifier_meta": clf_meta,
