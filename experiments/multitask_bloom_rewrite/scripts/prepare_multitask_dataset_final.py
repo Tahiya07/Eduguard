@@ -14,6 +14,7 @@ dataset preparation. The resulting JSONL corpus is self-contained for training.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import random
@@ -57,6 +58,78 @@ def load_json(path: Path) -> list[dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError(f"Expected a JSON array: {path}")
     return data
+
+
+def validate_annotation_provenance(
+    bloom_dir: Path,
+    validation_rows: list[dict[str, Any]],
+    test_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Fail closed when held-out Bloom labels lack auditable independent ratings."""
+    reviewer_paths = [bloom_dir / "reviewer_1.csv", bloom_dir / "reviewer_2.csv"]
+    missing = [str(path) for path in reviewer_paths if not path.is_file()]
+    if missing:
+        raise ValueError(
+            "Cannot build a research-grade Bloom test split without both reviewer files: "
+            + ", ".join(missing)
+        )
+    hashes = [hashlib.sha256(path.read_bytes()).hexdigest() for path in reviewer_paths]
+    if hashes[0] == hashes[1]:
+        raise ValueError(
+            "reviewer_1.csv and reviewer_2.csv are byte-identical. Independent ratings "
+            "cannot be established; do not duplicate one review sheet to simulate two raters."
+        )
+
+    rating_fields = (
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision",
+    )
+    ratings_by_reviewer: list[dict[str, dict[str, str]]] = []
+    for path in reviewer_paths:
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        if not rows:
+            raise ValueError(f"Reviewer file has no data rows: {path}")
+        ratings_by_reviewer.append({
+            str(row.get("example_id") or "").strip(): row
+            for row in rows
+            if str(row.get("example_id") or "").strip()
+        })
+
+    required_rows = [
+        row for row in validation_rows + test_rows
+        if row.get("review_status") == "human_validated"
+        and row.get("training_eligible") is True
+    ]
+    missing_annotations: list[str] = []
+    for row in required_rows:
+        row_id = str(row.get("example_id") or row.get("id") or "").strip()
+        for reviewer_idx, reviewer_rows in enumerate(ratings_by_reviewer, start=1):
+            rating = reviewer_rows.get(row_id)
+            if not rating or any(not str(rating.get(field) or "").strip() for field in rating_fields):
+                missing_annotations.append(f"{row_id or '<missing-id>'}:reviewer_{reviewer_idx}")
+    if missing_annotations:
+        preview = ", ".join(missing_annotations[:12])
+        raise ValueError(
+            f"{len(missing_annotations)} held-out reviewer records are missing required ratings "
+            f"or adjudicable decisions (examples: {preview}). Complete independent annotations "
+            "before rebuilding the locked Bloom validation/test corpus."
+        )
+    return {
+        "reviewer_file_sha256": {
+            "reviewer_1.csv": hashes[0],
+            "reviewer_2.csv": hashes[1],
+        },
+        "independent_reviewer_files": True,
+        "heldout_eligible_rows_with_complete_dual_ratings": len(required_rows),
+        "required_rating_fields": list(rating_fields),
+    }
 
 
 def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
@@ -408,9 +481,15 @@ def main() -> None:
     if args.mix_bloom <= 0:
         raise SystemExit("--mix-bloom must be positive because the target train size is anchored to BloomShift.")
 
-    bloom_train = normalize_bloom(load_json(required_bloom[0]), "train")
-    bloom_val = normalize_bloom(load_json(required_bloom[1]), "validation")
-    bloom_test = normalize_bloom(load_json(required_bloom[2]), "test")
+    bloom_train_raw = load_json(required_bloom[0])
+    bloom_val_raw = load_json(required_bloom[1])
+    bloom_test_raw = load_json(required_bloom[2])
+    annotation_provenance = validate_annotation_provenance(
+        bloom_dir, bloom_val_raw, bloom_test_raw
+    )
+    bloom_train = normalize_bloom(bloom_train_raw, "train")
+    bloom_val = normalize_bloom(bloom_val_raw, "validation")
+    bloom_test = normalize_bloom(bloom_test_raw, "test")
 
     # Source-group isolation is already encoded by the canonical BloomShift split.
     def group_set(rows: list[dict[str, Any]]) -> set[Any]:
@@ -510,6 +589,11 @@ def main() -> None:
             "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
             "version": "bloomshift_final_candidate",
             "files_sha256": source_hashes,
+            "heldout_annotation_provenance": annotation_provenance,
+            "training_split_eligibility_policy": (
+                "Only rows explicitly marked human_validated and training_eligible=true are included; "
+                "the held-out split additionally requires distinct reviewer files with complete ratings."
+            ),
             "train_rows": len(bloom_train),
             "validation_rows": len(bloom_val),
             "test_rows": len(bloom_test),
