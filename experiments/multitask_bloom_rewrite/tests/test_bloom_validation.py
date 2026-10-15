@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -11,6 +12,7 @@ sys.path.insert(0, str(EXPERIMENT))
 
 from bloom_validation import _cognitive_valid, semantic_similarity  # noqa: E402
 from prompts import BLOOM_LEVEL_GUIDANCE, build_generation_prompt  # noqa: E402
+from scripts.prepare_multitask_dataset_final import validate_annotation_provenance  # noqa: E402
 
 
 class BloomPromptTests(unittest.TestCase):
@@ -78,6 +80,33 @@ class BloomHeuristicTests(unittest.TestCase):
             semantic_similarity("database indexing methods", "photosynthesis"),
             0.0,
         )
+
+    def test_identical_reviewer_files_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            header = (
+                "example_id,bloom_aligned,reviewer_bloom_level,content_preserved,"
+                "context_preserved,meaningful_transformation,pedagogically_valid,"
+                "clear_and_grammatical,final_decision\\n"
+            )
+            (root / "reviewer_1.csv").write_text(header, encoding="utf-8")
+            (root / "reviewer_2.csv").write_text(header, encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "byte-identical"):
+                validate_annotation_provenance(root, [], [])
+
+    def test_unmarked_rows_are_not_treated_as_human_validated(self):
+        from scripts.prepare_multitask_dataset_final import normalize_bloom
+
+        unreviewed = [{
+            "source_id": "s1",
+            "group_id": "g1",
+            "source_question": "Explain database indexing.",
+            "target_bloom_level": "Analyze",
+            "target_rewrite": "Analyze the relationship between indexing choices and query performance.",
+            "example_id": "e1",
+        }]
+        with self.assertRaisesRegex(ValueError, "No human-validated"):
+            normalize_bloom(unreviewed, "train")
 
 
 if __name__ == "__main__":
