@@ -9,11 +9,11 @@ from typing import Any
 
 from paths import MULTITASK_FINAL_DATA_DIR, TASK_BLOOM, TASK_QA, TASK_SUMMARIZATION
 
-EXPECTED_TEST_TOTAL = 13952
+EXPECTED_TEST_TOTAL = 14329
 EXPECTED_TEST_BY_TASK = {
-    TASK_BLOOM: 1536,
+    TASK_BLOOM: 135,
     TASK_QA: 10570,
-    TASK_SUMMARIZATION: 3268,
+    TASK_SUMMARIZATION: 3624,
 }
 
 
@@ -130,7 +130,7 @@ def assert_no_split_leakage(data_dir: Path) -> dict[str, Any]:
 
 
 def load_test_split(data_dir: Path | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    data_dir = data_dir or MULTITASK_DATA_DIR
+    data_dir = data_dir or MULTITASK_FINAL_DATA_DIR
     test_path = data_dir / "test.jsonl"
     if not test_path.exists():
         raise FileNotFoundError(f"Missing test split: {test_path}")
