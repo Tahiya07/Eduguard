@@ -60,7 +60,8 @@ def _tokens(text: str) -> frozenset[str]:
 
 
 def semantic_similarity(a: str, b: str) -> float:
-    """Jaccard overlap on content tokens (offline, no extra model required)."""
+    """Legacy name for lexical Jaccard overlap; this is NOT semantic similarity."""
+
     ta, tb = _tokens(a), _tokens(b)
     if not ta and not tb:
         return 1.0
@@ -220,19 +221,40 @@ COGNITIVE_HINTS: dict[str, tuple[str, ...]] = {
 
 
 def _cognitive_valid(rewrite: str, target_level: str) -> bool:
+    """Conservative lexical/structural screen, not a Bloom-level classifier.
+
+    This deliberately does not accept arbitrary long questions. It checks for a
+    level-relevant task cue and, for Evaluate/Create, evidence of judgment or
+    production. Human review remains necessary because verbs are context-dependent.
+    """
     level = target_level.strip().title()
-    if level not in COGNITIVE_HINTS:
+    if level not in COGNITIVE_HINTS or not _looks_like_question(rewrite):
         return False
-    n = _normalize(rewrite)
+    n = f" {_normalize(rewrite)} "
     hints = COGNITIVE_HINTS[level]
-    # Presence of a preferred cue helps but is not required; absence alone is not rejection.
-    # Require student-facing question form and non-empty content, then soft cue OR structural length.
-    if not _looks_like_question(rewrite):
+    has_level_cue = any(
+        re.search(r"(?<![a-z])" + re.escape(h) + r"(?![a-z])", n)
+        for h in hints
+    )
+    if not has_level_cue:
         return False
-    if any(h in n for h in hints):
-        return True
-    # Soft accept: enough content words for a non-trivial task statement
-    return len(_tokens(rewrite)) >= 4
+    if level == "Evaluate":
+        # Require some indication of a judgment basis, not just an "evaluate" verb.
+        judgment_basis = (
+            "criteria", "criterion", "evidence", "justify", "justification",
+            "strength", "weakness", "trade off", "trade-off", "most effective",
+            "better", "defend", "support your judgment", "recommend",
+        )
+        return any(term in n for term in judgment_basis)
+    if level == "Create":
+        # Require a product/solution or a design constraint in addition to a creation cue.
+        product_or_constraint = (
+            "design", "solution", "plan", "model", "system", "prototype", "proposal",
+            "framework", "construct", "develop", "produce", "create", "constraints",
+            "requirements", "using the following", "that satisfies",
+        )
+        return any(term in n for term in product_or_constraint)
+    return True
 
 
 @dataclass
@@ -245,6 +267,8 @@ class BloomValidationResult:
     accepted: bool
     rejection_reason: str | None
     semantic_similarity: float
+    lexical_overlap: float
+    cognitive_check_type: str = "heuristic_not_human_validation"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -293,5 +317,8 @@ def validate_bloom_example(
         topic_preserved=topic_ok,
         accepted=accepted,
         rejection_reason=None if accepted else ";".join(reasons) or "rejected",
+        # Backward-compatible field name; values are lexical Jaccard, not embeddings.
         semantic_similarity=round(sim, 4),
+        lexical_overlap=round(sim, 4),
+        cognitive_check_type="heuristic_not_human_validation",
     )
