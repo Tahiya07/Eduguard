@@ -63,7 +63,16 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
 
     out = []
+    ineligible = 0
     for row in rows:
+        # The canonical candidate includes unmarked rows. Missing review metadata
+        # is not equivalent to human validation, so exclude it from every split.
+        if (
+            row.get("review_status") != "human_validated"
+            or row.get("training_eligible") is not True
+        ):
+            ineligible += 1
+            continue
         required = (
             "source_id", "group_id", "source_question",
             "target_bloom_level", "target_rewrite", "example_id"
@@ -90,6 +99,13 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
         record["prompt_text"] = build_prompt_only_text(TASK_BLOOM, record)
         record["generation_prompt"] = build_generation_prompt(TASK_BLOOM, record)
         out.append(record)
+    if not out:
+        raise ValueError(
+            f"No human-validated, training-eligible BloomShift rows in {split!r}. "
+            f"Skipped {ineligible} rows. Check review metadata; do not mark rows "
+            "validated without independent review."
+        )
+    print(f"BloomShift {split}: eligible={len(out)}, excluded_unreviewed={ineligible}")
     return out
 
 
