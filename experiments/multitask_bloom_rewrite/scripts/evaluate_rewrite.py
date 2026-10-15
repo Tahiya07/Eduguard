@@ -373,8 +373,8 @@ def write_report(
         "## Bloom rewrite (held-out test)",
         "",
         f"- N: {b.get('classification', {}).get('n')}",
-        f"- Target accuracy: {b.get('classification', {}).get('accuracy')}",
-        f"- Macro-F1: {b.get('classification', {}).get('macro_f1')}",
+        f"- Auxiliary-classifier agreement accuracy (not human-verified target accuracy): {b.get('classification', {}).get('accuracy')}",
+        f"- Macro-F1 against requested target labels using auxiliary classifier (proxy only): {b.get('classification', {}).get('macro_f1')}",
         f"- Weighted-F1: {b.get('classification', {}).get('weighted_f1')}",
         f"- Automated acceptance proxy rate (legacy key: fully_validated_rewrite_rate): {b.get('rates', {}).get('automated_proxy_pass_rate')}",
         f"- Lexical-overlap gate pass rate (not semantic preservation): {b.get('rates', {}).get('semantic_valid_rate')}",
@@ -757,6 +757,11 @@ def main() -> None:
         "classifier_call_stats": clf_stats.as_dict(),
         "classifier_is_not_ground_truth": True,
         "bloom": {
+            "classification_interpretation": (
+                "The auxiliary Bloom classifier's predictions on generated rewrites are compared "
+                "with requested target labels. These are classifier-agreement proxies, not human "
+                "ground truth for cognitive-level alignment."
+            ),
             "classification": bloom_class,
             "rates": bloom_rate,
             "per_level": bloom_class.get("per_level"),
