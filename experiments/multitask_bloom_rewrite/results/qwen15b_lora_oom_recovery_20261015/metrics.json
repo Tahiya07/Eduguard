@@ -1,0 +1,288 @@
+{
+  "evaluated_utc": "2026-10-15T21:19:40.717418+00:00",
+  "condition": "lora",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_oom_recovery_20261015\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_oom_recovery_20261015\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  },
+  "dataset": {
+    "test_manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_final\\test.jsonl",
+    "dataset_hash": null,
+    "file_sha256": "fcc1bff44e85b5278fe39b044b7507bcb55c64c48bc1840f17672f19a14aac67",
+    "counts": {
+      "test_count": 14329,
+      "by_task": {
+        "bloom_rewrite": 135,
+        "qa": 10570,
+        "summarization": 3624
+      }
+    },
+    "leakage": {
+      "key_overlaps": {
+        "train\u2229test": 0,
+        "validation\u2229test": 0,
+        "train\u2229validation": 0
+      },
+      "bloom_group_overlaps": {
+        "train_groups\u2229test": 0,
+        "val_groups\u2229test": 0
+      }
+    }
+  },
+  "evaluation_subset": {
+    "full_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 10570,
+      "summarization": 3624
+    },
+    "evaluated_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 300,
+      "summarization": 300
+    },
+    "evaluated_total": 735,
+    "manifest_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_lora_oom_recovery_20261015\\evaluation_subset_manifest.json"
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "decoding": "greedy",
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9619
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 135,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 135,
+      "accuracy": 0.807407,
+      "macro_precision": 0.831349,
+      "macro_recall": 0.820879,
+      "macro_f1": 0.793853,
+      "weighted_f1": 0.797466,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.384615,
+          "f1": 0.555556,
+          "support": 26
+        },
+        "Understand": {
+          "precision": 0.535714,
+          "recall": 0.882353,
+          "f1": 0.666667,
+          "support": 17
+        },
+        "Apply": {
+          "precision": 0.791667,
+          "recall": 0.863636,
+          "f1": 0.826087,
+          "support": 22
+        },
+        "Analyze": {
+          "precision": 0.964286,
+          "recall": 0.931034,
+          "f1": 0.947368,
+          "support": 29
+        },
+        "Evaluate": {
+          "precision": 0.791667,
+          "recall": 1.0,
+          "f1": 0.883721,
+          "support": 19
+        },
+        "Create": {
+          "precision": 0.904762,
+          "recall": 0.863636,
+          "f1": 0.883721,
+          "support": 22
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 10,
+          "Understand": 11,
+          "Apply": 2,
+          "Analyze": 1,
+          "Evaluate": 2,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 15,
+          "Apply": 1,
+          "Analyze": 0,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 1,
+          "Apply": 19,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 2,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 1,
+          "Apply": 0,
+          "Analyze": 27,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 19,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 2,
+          "Analyze": 0,
+          "Evaluate": 1,
+          "Create": 19,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.962963,
+      "semantic_valid_rate": 0.948148,
+      "cognitive_valid_rate": 0.962963,
+      "classifier_match_rate": 0.807407,
+      "fully_validated_rewrite_rate": 0.681481,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.0,
+      "answer_output_rate": 0.037037,
+      "empty_output_rate": 0.0,
+      "interrogative_valid_rate": 0.422222,
+      "imperative_valid_rate": 0.540741,
+      "question_form_valid_rate": 0.962963,
+      "mean_output_chars": 123.67,
+      "mean_semantic_similarity": 0.436345,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.384615,
+        "f1": 0.555556,
+        "support": 26
+      },
+      "Understand": {
+        "precision": 0.535714,
+        "recall": 0.882353,
+        "f1": 0.666667,
+        "support": 17
+      },
+      "Apply": {
+        "precision": 0.791667,
+        "recall": 0.863636,
+        "f1": 0.826087,
+        "support": 22
+      },
+      "Analyze": {
+        "precision": 0.964286,
+        "recall": 0.931034,
+        "f1": 0.947368,
+        "support": 29
+      },
+      "Evaluate": {
+        "precision": 0.791667,
+        "recall": 1.0,
+        "f1": 0.883721,
+        "support": 19
+      },
+      "Create": {
+        "precision": 0.904762,
+        "recall": 0.863636,
+        "f1": 0.883721,
+        "support": 22
+      }
+    }
+  },
+  "qa": {
+    "squad": {
+      "n": 300,
+      "exact_match": 0.62,
+      "f1": 0.817665
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 300,
+    "rouge1": 0.441346,
+    "rouge2": 0.175111,
+    "rougeL": 0.271646
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 6.7493,
+    "per_example": {
+      "mean": 3.235895,
+      "p50": 1.067642,
+      "p95": 6.870985,
+      "min": 0.090104,
+      "max": 51.160131
+    }
+  },
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 14226.43,
+    "uss_mb": 13990.91,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_allocated_mb": 3977.11,
+    "gpu_memory_reserved_mb": 34962.0
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "5a6e217d6f87db68a18e28b031999c8e4f0cac44",
+  "deployment_recommendation": "INCONCLUSIVE"
+}

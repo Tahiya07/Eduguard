@@ -1,0 +1,149 @@
+{
+  "timestamp_utc": "2026-10-15T05:59:07.470179+00:00",
+  "config": {
+    "experiment_name": "multitask_qwen15b_oom_recovery",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "model_key": "15b",
+    "dataset_dir": "data/multitask_bloom_rewrite_final",
+    "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_oom_recovery_20261015",
+    "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_oom_recovery_20261015",
+    "seed": 42,
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "max_seq_length": 8192,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "early_stopping_patience": 2,
+    "metric_for_best_model": "eval_loss",
+    "logging_steps": 20,
+    "save_total_limit": 3,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "repeat_penalty": 1,
+      "max_new_tokens": 128,
+      "decoding": "greedy"
+    },
+    "notes": [
+      "OOM recovery run: preserve the canonical 8192-token sequence length and enable gradient checkpointing to reduce activation memory.",
+      "Per-device train/eval batch size is 1; gradient accumulation is 16 to preserve the previous effective training batch size of 16.",
+      "Uses a fresh output/results directory and does not resume the failed run's checkpoints.",
+      "Training-time validation is deterministically capped per task (Bloom rewrite 212, QA 300, summarization 300); canonical validation/test JSONL files remain unchanged.",
+      "The held-out test split is unchanged and must not be used for checkpoint selection."
+    ],
+    "validation_task_limits": {
+      "bloom_rewrite": 212,
+      "qa": 300,
+      "summarization": 300
+    },
+    "gradient_checkpointing": true
+  },
+  "git_commit": "df2ed592c76877eea3ca3244423a8a4ce1054e8d",
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "datasets": "5.0.1",
+    "numpy": "2.2.6"
+  },
+  "resources": {
+    "cpu_count": 32,
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_vram_gb": 23.99,
+    "ram_total_gb": 63.84,
+    "ram_available_gb": 50.89,
+    "disk_free_gb": 734.03,
+    "torch_version": "2.13.0+cu126",
+    "psutil": true,
+    "cpu_physical": 24,
+    "disk_total_gb": 931.5
+  },
+  "feasibility": {
+    "timestamp_utc": "2026-10-15T03:03:49.714268+00:00",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "resources": {
+      "cpu_count": 32,
+      "cuda_available": true,
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_vram_gb": 23.99,
+      "ram_total_gb": 63.84,
+      "ram_available_gb": 50.89,
+      "disk_free_gb": 734.03,
+      "torch_version": "2.13.0+cu126",
+      "psutil": true,
+      "cpu_physical": 24,
+      "disk_total_gb": 931.5
+    },
+    "estimates": {
+      "approx_params_b": 1.54,
+      "fp16_weights_gb": 3.1,
+      "fp32_weights_gb": 6.2,
+      "optimizer_adamw_gb_est": 12.0,
+      "activation_gb_est": 4.0,
+      "estimated_cpu_lora_gb": 28.0,
+      "estimated_gpu_lora_gb": 12.0,
+      "min_available_ram_gb": 22.0,
+      "hf_download_gb_est": 3.5
+    },
+    "estimated_footprint_gb": 12.0,
+    "feasible": true,
+    "reasons": [
+      "Resource estimates indicate training may proceed."
+    ],
+    "verdict": "TRAINING MAY PROCEED",
+    "memory_breakdown_est_gb": {
+      "parameter_memory": 6.2,
+      "optimizer_memory": 12.0,
+      "activation_memory": 4.0,
+      "expected_training_footprint": 12.0
+    }
+  },
+  "train_samples": 2687,
+  "validation_samples": 812,
+  "metrics": {
+    "train_runtime": 10228.6915,
+    "train_samples_per_second": 0.788,
+    "train_steps_per_second": 0.049,
+    "total_flos": 1.0634311957732762e+17,
+    "train_loss": 1.2798415545433286,
+    "epoch": 3.0
+  },
+  "checkpoint_selection": "validation_loss_only",
+  "assistant_only_loss": true,
+  "dataset_fingerprint": {
+    "manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_final\\dataset_manifest.json",
+    "manifest_version": "multitask_bloom_rewrite_final_v2",
+    "bloom_source": "D:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "generated_files_sha256": {
+      "train.jsonl": "6b55bf05cc8988bad394bc5afc5ad965928ba832cec08130a373f4ebafbee3eb",
+      "validation.jsonl": "819e35c03ef7285100e0faeccfe039925b8ce046acdbf58e72b1c901eb9df212",
+      "test.jsonl": "fcc1bff44e85b5278fe39b044b7507bcb55c64c48bc1840f17672f19a14aac67"
+    },
+    "bloom_source_sha256": {
+      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd"
+    }
+  },
+  "resume_from_checkpoint": null
+}
