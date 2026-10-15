@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 """Multi-task LoRA SFT for Qwen2.5 (QA + summarization + Bloom rewrite).
 
 Loss is computed ONLY on assistant tokens (prompt masked with -100).
@@ -231,6 +231,41 @@ def main() -> None:
     val_rows = read_jsonl(data_dir / "validation.jsonl")
     if not train_rows or not val_rows:
         raise SystemExit("Prepared training and validation splits must both be non-empty.")
+
+    # Validate/fingerprint the complete canonical splits above, then optionally
+    # cap validation rows per task in memory. This keeps full source data and
+    # test data untouched while avoiding thousands of expensive eval examples
+    # for tasks that dominate the original validation split.
+    validation_task_limits = cfg.get("validation_task_limits", {})
+    if validation_task_limits:
+        grouped_val: dict[str, list[dict]] = {}
+        for row in val_rows:
+            grouped_val.setdefault(str(row.get("task", "unknown")), []).append(row)
+        limited_val: list[dict] = []
+        before_counts = {task: len(rows) for task, rows in grouped_val.items()}
+        for task in sorted(grouped_val):
+            task_rows = grouped_val[task]
+            limit = validation_task_limits.get(task)
+            if limit is None or int(limit) <= 0 or len(task_rows) <= int(limit):
+                selected = task_rows
+            else:
+                # Stable, reproducible sample; no model-performance-based selection.
+                selected = random.Random(seed + sum(ord(ch) for ch in task)).sample(
+                    task_rows, int(limit)
+                )
+            limited_val.extend(selected)
+        val_rows = sorted(
+            limited_val,
+            key=lambda row: (str(row.get("task", "")), str(row.get("id", ""))),
+        )
+        after_counts: dict[str, int] = {}
+        for row in val_rows:
+            task = str(row.get("task", "unknown"))
+            after_counts[task] = after_counts.get(task, 0) + 1
+        print("VALIDATION TASK COUNTS BEFORE LIMIT:", json.dumps(before_counts, sort_keys=True))
+        print("VALIDATION TASK COUNTS AFTER LIMIT:", json.dumps(after_counts, sort_keys=True))
+        print("VALIDATION TASK LIMITS:", json.dumps(validation_task_limits, sort_keys=True))
+
     for split_name, rows in (("train", train_rows), ("validation", val_rows)):
         for row_number, row in enumerate(rows, 1):
             for key in ("task", "sft_text", "prompt_text"):
