@@ -266,7 +266,7 @@ def evaluate_bloom_row(
         rec["failure_flags"].append("COGNITIVE_HEURISTIC_NOT_SATISFIED")
     if rec["classifier_confidence"] < CLASSIFIER_CONFIDENCE_MIN:
         rec["failure_flags"].append("LOW_CLASSIFIER_CONFIDENCE")
-    if not rec["target_match"]:
+    if rec["classifier_prediction"] is not None and not rec["target_match"]:
         rec["failure_flags"].append("CLASSIFIER_DISAGREEMENT_NOT_GROUND_TRUTH")
     return rec
 
