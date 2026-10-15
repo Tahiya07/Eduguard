@@ -186,8 +186,11 @@ def source_target_matrix(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "source_level": src,
                 "target_level": tgt,
                 "n": n,
-                "target_accuracy": round(acc, 6) if acc is not None else None,
-                "fully_validated_rate": round(fvr, 6) if fvr is not None else None,
+                # This is agreement with the auxiliary classifier, not human accuracy.
+                "classifier_agreement_rate": round(acc, 6) if acc is not None else None,
+                "automated_proxy_pass_rate": round(fvr, 6) if fvr is not None else None,
+                "target_accuracy": None,
+                "interpretation": "Classifier agreement only; human judgment required for target-level correctness.",
             }
     return {"cells": cells, "topic_similarity_threshold": TOPIC_SIMILARITY_THRESHOLD}
 
