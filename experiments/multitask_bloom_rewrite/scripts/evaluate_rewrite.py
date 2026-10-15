@@ -74,7 +74,7 @@ from prompts import (  # noqa: E402
 )
 
 FAILURE_CATEGORIES = (
-    "WRONG_TARGET_LEVEL",
+    "CLASSIFIER_DISAGREEMENT",
     "DECLARATIVE_OUTPUT",
     "TOPIC_DRIFT",
     "MEANING_DRIFT",
@@ -142,10 +142,11 @@ def classify_failure(record: dict[str, Any]) -> str:
         return "INVALID_QUESTION"
     if not record.get("cognitive_valid"):
         return "INVALID_QUESTION"
-    if record.get("target_match") is False:
-        return "WRONG_TARGET_LEVEL"
+    # Classifier disagreement is diagnostic only, not proof of a wrong Bloom label.
     if record.get("classifier_confidence", 0.0) < CLASSIFIER_CONFIDENCE_MIN:
         return "LOW_CONFIDENCE"
+    if record.get("target_match") is False:
+        return "CLASSIFIER_DISAGREEMENT"
     return "OTHER"
 
 
@@ -228,7 +229,10 @@ def evaluate_bloom_row(
         "cognitive_valid": validation.cognitive_valid,
         "topic_preserved": validation.topic_preserved,
         "trivial_transform": validation.trivial_transform,
+        # Backward-compatible name; the validator's score is lexical Jaccard, not semantics.
         "semantic_similarity": validation.semantic_similarity,
+        "lexical_overlap": validation.lexical_overlap,
+        "cognitive_check_type": validation.cognitive_check_type,
         "meta_response": meta_response,
         "answer_output": answer_output,
         "empty_output": empty_output,
@@ -238,10 +242,32 @@ def evaluate_bloom_row(
         "classifier_prediction": clf_pred,
         "classifier_confidence": clf_conf,
         "target_match": target_match,
+        # Historical key retained for downstream compatibility; this is an automated proxy,
+        # not a human-validated result.
         "fully_validated": fully_validated,
+        "automated_proxy_pass": fully_validated,
         "latency_s": round(latency, 6),
     }
     rec["failure_category"] = classify_failure(rec) if not fully_validated else ""
+    rec["failure_flags"] = []
+    if rec["empty_output"]:
+        rec["failure_flags"].append("EMPTY_OUTPUT")
+    if rec["meta_response"]:
+        rec["failure_flags"].append("META_RESPONSE")
+    if rec["answer_output"]:
+        rec["failure_flags"].append("DECLARATIVE_OUTPUT")
+    if rec["trivial_transform"]:
+        rec["failure_flags"].append("TRIVIAL_VERB_SWAP")
+    if not rec["semantic_valid"]:
+        rec["failure_flags"].append("LOW_LEXICAL_OVERLAP_NOT_PROVEN_TOPIC_DRIFT")
+    if not rec["format_valid"]:
+        rec["failure_flags"].append("INVALID_QUESTION_FORMAT")
+    if not rec["cognitive_valid"]:
+        rec["failure_flags"].append("COGNITIVE_HEURISTIC_NOT_SATISFIED")
+    if rec["classifier_confidence"] < CLASSIFIER_CONFIDENCE_MIN:
+        rec["failure_flags"].append("LOW_CLASSIFIER_CONFIDENCE")
+    if not rec["target_match"]:
+        rec["failure_flags"].append("CLASSIFIER_DISAGREEMENT_NOT_GROUND_TRUTH")
     return rec
 
 
@@ -745,6 +771,14 @@ def main() -> None:
         "resources": resources,
         "package_versions": package_versions(),
         "git_commit": git_commit(),
+        "validation_semantics": {
+            "fully_validated_rewrite_rate_is_legacy_name": True,
+            "automated_proxy_is_human_validation": False,
+            "classifier_agreement_is_ground_truth": False,
+            "semantic_similarity_field_is_lexical_jaccard": True,
+            "cognitive_validity_is_heuristic": True,
+            "human_validation_required_for_research_claims": True
+        },
         "deployment_recommendation": "INCONCLUSIVE",
     }
 
