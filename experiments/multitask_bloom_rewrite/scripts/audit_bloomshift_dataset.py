@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import sys
 from collections import Counter
@@ -46,6 +47,7 @@ def audit(data_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         "missing_review_status_is_not_validation": True,
         "splits": {},
         "cross_split_source_group_overlap": {},
+        "annotation_provenance": {},
         "errors": errors,
     }
     group_sets: dict[str, set[str]] = {}
@@ -115,6 +117,56 @@ def audit(data_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             if overlap:
                 errors.append(f"source group overlap between {left} and {right}: {len(overlap)}")
 
+    # Verify that held-out "human_validated" status has independent, populated evidence.
+    reviewer_paths = [data_dir / "reviewer_1.csv", data_dir / "reviewer_2.csv"]
+    if not all(path.is_file() for path in reviewer_paths):
+        errors.append("missing reviewer_1.csv or reviewer_2.csv; held-out annotation provenance is not auditable")
+        summary["annotation_provenance"] = {"available": False}
+    else:
+        hashes = [hashlib.sha256(path.read_bytes()).hexdigest() for path in reviewer_paths]
+        reviewer_rows = []
+        for path in reviewer_paths:
+            with path.open("r", encoding="utf-8-sig", newline="") as handle:
+                reviewer_rows.append({
+                    str(row.get("example_id") or "").strip(): row
+                    for row in csv.DictReader(handle)
+                    if str(row.get("example_id") or "").strip()
+                })
+        rating_fields = (
+            "bloom_aligned", "reviewer_bloom_level", "content_preserved",
+            "context_preserved", "meaningful_transformation", "pedagogically_valid",
+            "clear_and_grammatical", "final_decision",
+        )
+        heldout_eligible = [
+            row for split in ("validation", "test") for row in split_rows[split]
+            if eligible(row)
+        ]
+        incomplete: list[str] = []
+        for row in heldout_eligible:
+            row_id = str(row.get("example_id") or row.get("id") or "").strip()
+            for reviewer_idx, by_id in enumerate(reviewer_rows, start=1):
+                rating = by_id.get(row_id)
+                if not rating or any(not str(rating.get(field) or "").strip() for field in rating_fields):
+                    incomplete.append(f"{row_id or '<missing-id>'}:reviewer_{reviewer_idx}")
+        summary["annotation_provenance"] = {
+            "reviewer_file_sha256": {
+                "reviewer_1.csv": hashes[0],
+                "reviewer_2.csv": hashes[1],
+            },
+            "reviewer_files_byte_identical": hashes[0] == hashes[1],
+            "heldout_eligible_rows": len(heldout_eligible),
+            "incomplete_reviewer_records": len(incomplete),
+            "incomplete_examples": incomplete[:20],
+            "required_rating_fields": list(rating_fields),
+        }
+        if hashes[0] == hashes[1]:
+            errors.append("reviewer_1.csv and reviewer_2.csv are byte-identical; independent ratings are not demonstrated")
+        if incomplete:
+            errors.append(
+                f"{len(incomplete)} held-out reviewer records lack complete ratings; "
+                "do not treat those rows as human-validated gold labels"
+            )
+
     for split, values in summary["splits"].items():
         if values["total"] == 0:
             errors.append(f"{split} split is empty")
@@ -126,7 +178,9 @@ def audit(data_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         "total": sum(len(rows) for rows in split_rows.values()),
         "eligible": sum(summary["splits"][s]["eligible"] for s in SPLITS),
         "excluded_not_explicitly_validated": len(review_queue),
-        "ready_for_training_and_evaluation": not errors,
+        "ready_for_training_and_evaluation": (
+            not errors and all(summary["splits"][s]["eligible"] > 0 for s in SPLITS)
+        ),
     }
     return summary, review_queue
 
