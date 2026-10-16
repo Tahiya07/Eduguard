@@ -287,6 +287,8 @@ class FrameworkService:
                 "validation_confidence": 0.0,
                 "needs_review": True,
                 "error": result.note or "Failed to generate a rewrite",
+                "attempts": result.attempts,
+                "validation_details": result.validation_details,
                 "privacy_status": "teacher_authorized",
                 "type": "target_level_rewrite_failed",
             }
@@ -299,6 +301,8 @@ class FrameworkService:
             "validation_match": result.validation_match,
             "validation_confidence": result.confidence,
             "needs_review": result.needs_review,
+            "attempts": result.attempts,
+            "validation_details": result.validation_details,
             "privacy_status": "teacher_authorized",
         }
         if result.validation_error:
