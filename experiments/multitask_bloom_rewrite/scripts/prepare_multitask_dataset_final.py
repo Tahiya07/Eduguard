@@ -234,13 +234,16 @@ def load_squad(
     seed: int,
     tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
     max_seq_length: int = 8192,
+    max_train_rows: int | None = None,
+    max_validation_rows: int | None = None,
+    max_test_rows: int | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     """Prepare SQuAD with context-group isolation and answer-preserving windows.
 
     The official SQuAD validation split is held out as the QA test split. A
     validation split is carved out of official train by exact context group.
-    Windowing is character-based so the gold answer text and its character span
-    remain exact; each candidate is checked against the complete SFT token budget.
+    Seed-shuffled candidates are converted only until each requested cap is met.
+    Windowing preserves the exact answer text and character span.
     """
     from datasets import load_dataset
     from transformers import AutoTokenizer
@@ -258,8 +261,8 @@ def load_squad(
         "revision_pinned": False,
     }
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
-    official_train = list(ds["train"])
-    official_dev = list(ds["validation"])
+    official_train = ds["train"]
+    official_dev = ds["validation"]
 
     groups: dict[str, list[dict[str, Any]]] = {}
     for row in official_train:
@@ -284,12 +287,30 @@ def load_squad(
             f"SQuAD grouped split failed: train={len(train_raw)}, validation={len(val_raw)}"
         )
 
-    def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
+    caps = {"train": max_train_rows, "validation": max_validation_rows, "test": max_test_rows}
+    split_offsets = {"train": 101, "validation": 303, "test": 505}
+
+    def convert(rows: Any, split: str) -> list[dict[str, Any]]:
         out: list[dict[str, Any]] = []
-        print(f"[SQuAD] Converting {split}: {len(rows):,} rows...", flush=True)
-        for row_index, row in enumerate(rows):
-            if (row_index + 1) % 1000 == 0 or row_index + 1 == len(rows):
-                print(f"[SQuAD] {split}: {row_index + 1:,}/{len(rows):,}", flush=True)
+        cap = caps[split]
+        total = len(rows)
+        indices = list(range(total))
+        random.Random(seed + split_offsets[split]).shuffle(indices)
+        print(
+            f"[SQuAD] Converting {split}: {total:,} candidates; "
+            f"target={'all' if cap is None else cap}",
+            flush=True,
+        )
+        for row_index, source_index in enumerate(indices):
+            if cap is not None and len(out) >= cap:
+                break
+            row = rows[int(source_index)]
+            if (row_index + 1) % 1000 == 0:
+                print(
+                    f"[SQuAD] {split}: examined {row_index + 1:,}/{total:,}; "
+                    f"retained={len(out):,}/{cap if cap is not None else 'all'}",
+                    flush=True,
+                )
             answers = row.get("answers", {})
             texts = answers.get("text", [])
             starts = answers.get("answer_start", [])
@@ -360,7 +381,18 @@ def load_squad(
         return out
 
     print(f"[SQuAD] Grouped source split: train={len(train_raw):,}, validation={len(val_raw):,}; official validation/test={len(official_dev):,}", flush=True)
-    result = convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
+    result = (
+        convert(train_raw, "train"),
+        convert(val_raw, "validation"),
+        convert(official_dev, "test"),
+    )
+    for split, rows in zip(("train", "validation", "test"), result):
+        cap = caps[split]
+        if cap is not None and len(rows) < cap:
+            raise ValueError(
+                f"SQuAD {split} produced {len(rows)} valid rows, below requested cap {cap}; "
+                "inspect source availability and token-budget filtering."
+            )
     print(f"[SQuAD] Conversion complete: train={len(result[0]):,}, validation={len(result[1]):,}, test={len(result[2]):,}", flush=True)
     return result
 
@@ -372,10 +404,10 @@ def load_arxiv_summarization(
     max_test_rows: int | None = None,
     seed: int = 42,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int], dict[str, int]]:
-    """Filter arXiv rows under the sequence budget without retaining the whole corpus.
+    """Select a deterministic capped subset of valid arXiv rows.
 
-    Deterministic reservoir sampling bounds memory when callers only need a capped
-    subset. Counts still reflect every row examined, including over-budget rows.
+    Seed-shuffle each official split and stop tokenizing once its requested number
+    of sequence-budget-compliant examples has been collected.
     """
     from datasets import load_dataset
     from transformers import AutoTokenizer
@@ -411,16 +443,23 @@ def load_arxiv_summarization(
 
     def convert(split_rows: Any, split: str) -> list[dict[str, Any]]:
         cap = caps[split]
-        rng = random.Random(seed + {"train": 202, "validation": 404, "test": 606}[split])
+        split_seed = seed + {"train": 202, "validation": 404, "test": 606}[split]
+        # Shuffle the Hugging Face Dataset index mapping, not the article text.
+        # This permits early stopping without materializing a Python copy of the corpus.
+        candidates = split_rows.shuffle(seed=split_seed) if cap is not None else split_rows
         retained: list[dict[str, Any]] = []
         eligible_seen = 0
+        examined = 0
         total = len(split_rows)
         print(
             f"[arXiv] Processing {split}: {total:,} source rows; "
-            f"retention cap={'none' if cap is None else cap}",
+            f"target={'all' if cap is None else cap}; seeded_order={cap is not None}",
             flush=True,
         )
-        for i, row in enumerate(split_rows):
+        for i, row in enumerate(candidates):
+            if cap is not None and len(retained) >= cap:
+                break
+            examined += 1
             article = str(row.get("article", "")).strip()
             abstract = str(row.get("abstract", "")).strip()
             if article and abstract:
@@ -432,43 +471,34 @@ def load_arxiv_summarization(
                     "abstract": abstract,
                     "title": str(row.get("title", "")).strip(),
                 }
-                full_len = len(
-                    tokenizer(
-                        build_sft_text(TASK_SUM, record),
-                        add_special_tokens=False,
-                        truncation=True,
-                        max_length=max_seq_length + 1,
-                    )["input_ids"]
+                full_len = bounded_token_count(
+                    tokenizer, build_sft_text(TASK_SUM, record), max_seq_length
                 )
                 if full_len > max_seq_length:
                     excluded[split] += 1
                 else:
                     eligible_seen += 1
-                    if cap is None or len(retained) < cap:
-                        retained.append(record)
-                    elif cap > 0:
-                        # Reservoir sampling yields a deterministic uniform sample
-                        # without keeping every long article in memory.
-                        slot = rng.randrange(eligible_seen)
-                        if slot < cap:
-                            retained[slot] = record
-
-            processed = i + 1
-            if processed % 1000 == 0 or processed == total:
+                    retained.append(record)
+            if examined % 1000 == 0:
                 print(
-                    f"[arXiv] {split}: {processed:,}/{total:,} processed; "
+                    f"[arXiv] {split}: examined={examined:,}/{total:,}; "
                     f"eligible={eligible_seen:,}; over_budget={excluded[split]:,}; "
-                    f"held_in_memory={len(retained):,}",
+                    f"retained={len(retained):,}/{cap if cap is not None else 'all'}",
                     flush=True,
                 )
-
         available[split] = eligible_seen
         retained.sort(key=lambda item: str(item.get("id", "")))
         print(
-            f"[arXiv] {split} complete: eligible={eligible_seen:,}, "
-            f"excluded_over_budget={excluded[split]:,}, retained={len(retained):,}",
+            f"[arXiv] {split} complete: examined={examined:,}/{total:,}, "
+            f"eligible_retained={eligible_seen:,}, excluded_over_budget={excluded[split]:,}, "
+            f"retained={len(retained):,}",
             flush=True,
         )
+        if cap is not None and len(retained) < cap:
+            raise ValueError(
+                f"arXiv {split} produced only {len(retained)} valid rows, below requested cap {cap}. "
+                "The source split may not contain enough examples within the sequence budget."
+            )
         return retained
 
     train_rows = convert(ds["train"], "train")
@@ -619,6 +649,9 @@ def main() -> None:
         args.seed,
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
+        max_train_rows=args.max_qa_train,
+        max_validation_rows=qa_val_target,
+        max_test_rows=qa_test_target,
     )
     print("[3/7] Preparing arXiv summarization data with bounded memory...", flush=True)
     arxiv_train, arxiv_val, arxiv_test, arxiv_excluded, arxiv_available = load_arxiv_summarization(
@@ -643,13 +676,11 @@ def main() -> None:
     arxiv_test_available = arxiv_available["test"]
 
     print("[4/7] Applying deterministic training caps and evaluation split sizes...", flush=True)
-    # Training caps remain optional and affect only training rows.
+    # Caps are applied during source iteration/tokenization, not after full conversion.
     if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
-        qa_train = random.Random(args.seed + 101).sample(qa_train, args.max_qa_train)
-        qa_train.sort(key=lambda row: str(row.get("id", "")))
+        raise AssertionError("QA training cap was not enforced during source selection.")
     if args.max_sum_train is not None and len(arxiv_train) > args.max_sum_train:
-        arxiv_train = random.Random(args.seed + 202).sample(arxiv_train, args.max_sum_train)
-        arxiv_train.sort(key=lambda row: str(row.get("id", "")))
+        raise AssertionError("Summarization training cap was not enforced during source selection."))
 
     # Match each auxiliary evaluation task's row count to BloomShift's held-out
     # count. Fixed, task-specific seeds make selection reproducible. Sorting after
@@ -798,18 +829,18 @@ def main() -> None:
         "qa_source": {
             "dataset": "rajpurkar/squad",
             "requested_train_fraction": 0.95,
-            "available_train_rows_after_group_split_before_cap": qa_train_available,
+            "retained_train_rows_after_early_stop": qa_train_available,
             "prepared_train_rows": len(task_splits[TASK_QA]["train"]),
-            "validation_rows_available_before_cap": qa_validation_available,
+            "retained_validation_rows_after_early_stop": qa_validation_available,
             "prepared_validation_rows": len(task_splits[TASK_QA]["validation"]),
-            "official_validation_rows_available_before_test_cap": qa_test_available,
+            "retained_test_rows_after_early_stop": qa_test_available,
             "prepared_test_rows": len(task_splits[TASK_QA]["test"]),
             "official_validation_used_as_test": True,
             "evaluation_sampling": {
                 "validation_target_rows": qa_val_target,
                 "test_target_rows": qa_test_target,
                 "seed_offsets": {"validation": 303, "test": 505},
-                "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
+                "policy": "Seed-shuffle source candidates and stop conversion at the requested count; train/validation context groups remain isolated.",
             },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
@@ -820,17 +851,17 @@ def main() -> None:
             "dataset": "ccdv/arxiv-summarization",
             "official_splits_preserved": True,
             "split_names": {"train": "train", "validation": "validation", "test": "test"},
-            "available_train_rows_after_length_filter_before_cap": arxiv_train_available,
+            "retained_train_rows_after_early_stop": arxiv_train_available,
             "prepared_train_rows": len(task_splits[TASK_SUM]["train"]),
-            "validation_rows_available_before_cap": arxiv_validation_available,
+            "retained_validation_rows_after_early_stop": arxiv_validation_available,
             "prepared_validation_rows": len(task_splits[TASK_SUM]["validation"]),
-            "test_rows_available_before_cap": arxiv_test_available,
+            "retained_test_rows_after_early_stop": arxiv_test_available,
             "prepared_test_rows": len(task_splits[TASK_SUM]["test"]),
             "evaluation_sampling": {
                 "validation_target_rows": sum_val_target,
                 "test_target_rows": sum_test_target,
                 "seed_offsets": {"validation": 404, "test": 606},
-                "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
+                "policy": "Seed-shuffle each official source split and stop tokenization at the requested count; over-budget rows are skipped.",
             },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
@@ -864,14 +895,15 @@ def main() -> None:
                 task: round(count / actual_train_total, 6)
                 for task, count in task_counts["train"].items()
             },
-            "note": "Training caps affect only training rows. Validation/test auxiliary tasks are deterministically capped to the matching BloomShift split counts; task files remain separate.",
+            "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate.",
         },
         "counts": task_counts,
         "notes": [
             "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
             "Each task's train/validation/test data is stored in its own directory.",
             "BloomShift training rows are retained; optional QA/summarization training caps are independent of evaluation caps.",
-            "QA and summarization validation/test splits are deterministically capped to BloomShift's corresponding held-out row counts.",
+            "QA and summarization caps are applied during seeded source iteration, stopping expensive conversion once each target count is reached.",
+            "QA train/validation group boundaries are established before row selection to prevent context leakage across those splits.");
             "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
             "BloomShift's fixed split boundaries and source-group isolation are preserved.",
             "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
