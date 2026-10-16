@@ -214,7 +214,7 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
         raise AssertionError(
             f"BloomShift {split}: retained {len(out)} of {len(rows)} source rows; no-drop policy violated."
         )
-    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under owner batch attestation")
+    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under owner batch attestation", flush=True)
     return out
 
 
