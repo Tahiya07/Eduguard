@@ -32,7 +32,7 @@ from dataset_io import (  # noqa: E402
     TASKS, filter_rows_to_tasks, load_manifest, load_split_rows, validate_separate_dataset,
 )
 from loss_masking import tokenize_with_assistant_only_loss  # noqa: E402
-from paths import MULTITASK_FINAL_DATA_DIR, SEED  # noqa: E402
+from paths import SEED, TASK_SEPARATED_DATA_DIR  # noqa: E402
 
 
 def load_json(path: Path) -> dict:
@@ -147,7 +147,7 @@ def main() -> None:
         )
         raise SystemExit(2)
 
-    data_dir = Path(cfg.get("dataset_dir", MULTITASK_FINAL_DATA_DIR))
+    data_dir = Path(cfg.get("dataset_dir", TASK_SEPARATED_DATA_DIR))
     if not data_dir.is_absolute():
         data_dir = REPO_ROOT / data_dir
     output_dir = Path(cfg["output_dir"])
