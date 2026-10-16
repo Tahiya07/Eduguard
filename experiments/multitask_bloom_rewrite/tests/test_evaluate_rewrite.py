@@ -105,11 +105,11 @@ class TestCheckpointResolution(unittest.TestCase):
             "r": 16,
             "lora_alpha": 32,
             "peft_type": "LORA",
-            "alora_invocation_tokens": None,
+            "__definitely_unknown_peft_config_key__": None,
         }
         sanitized, stripped = _sanitize_lora_adapter_config(raw)
-        self.assertIn("alora_invocation_tokens", stripped)
-        self.assertNotIn("alora_invocation_tokens", sanitized)
+        self.assertIn("__definitely_unknown_peft_config_key__", stripped)
+        self.assertNotIn("__definitely_unknown_peft_config_key__", sanitized)
         self.assertEqual(sanitized["r"], 16)
 
     def test_base_condition(self) -> None:
