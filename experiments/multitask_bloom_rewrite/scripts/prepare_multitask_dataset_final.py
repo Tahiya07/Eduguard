@@ -442,43 +442,6 @@ def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
-def sample_for_mix(
-    bloom: list[dict[str, Any]],
-    qa: list[dict[str, Any]],
-    summ: list[dict[str, Any]],
-    seed: int,
-    bloom_ratio: float,
-    qa_ratio: float,
-    sum_ratio: float,
-) -> list[dict[str, Any]]:
-    if abs((bloom_ratio + qa_ratio + sum_ratio) - 1.0) > 1e-9:
-        raise ValueError("Train mix ratios must sum to 1.")
-
-    if not bloom:
-        raise ValueError("BloomShift train split is empty.")
-
-    target_total = round(len(bloom) / bloom_ratio)
-    target_qa = round(target_total * qa_ratio)
-    target_sum = round(target_total * sum_ratio)
-
-    rng = random.Random(seed)
-    qa = list(qa)
-    summ = list(summ)
-    rng.shuffle(qa)
-    rng.shuffle(summ)
-
-    if len(qa) < target_qa or len(summ) < target_sum:
-        raise ValueError(
-            f"Insufficient auxiliary data for requested mix: "
-            f"need QA={target_qa}, Sum={target_sum}; "
-            f"available QA={len(qa)}, Sum={len(summ)}"
-        )
-
-    rows = list(bloom) + qa[:target_qa] + summ[:target_sum]
-    rng.shuffle(rows)
-    return rows
-
-
 def counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(row["task"] for row in rows))
 
@@ -492,9 +455,6 @@ def main() -> None:
     parser.add_argument("--bloom-dir", default=str(DEFAULT_BLOOM_DIR))
     parser.add_argument("--output-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--mix-bloom", type=float, default=0.40)
-    parser.add_argument("--mix-qa", type=float, default=0.30)
-    parser.add_argument("--mix-sum", type=float, default=0.30)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     parser.add_argument("--max-seq-length", type=int, default=8192)
     args = parser.parse_args()
@@ -529,10 +489,6 @@ def main() -> None:
         raise SystemExit("Missing canonical BloomShift files:\n" + "\n".join(missing))
     if args.max_seq_length < 16:
         raise SystemExit("--max-seq-length must be at least 16.")
-
-    ratios = (args.mix_bloom, args.mix_qa, args.mix_sum)
-    if any(ratio <= 0 for ratio in ratios) or abs(sum(ratios) - 1.0) > 1e-9:
-        raise SystemExit("Training mix ratios must each be positive and sum to 1.")
 
     bloom_train_raw = load_json(required_bloom[0])
     bloom_val_raw = load_json(required_bloom[1])
@@ -576,26 +532,22 @@ def main() -> None:
     if not arxiv_train or not arxiv_val or not arxiv_test:
         raise SystemExit("arXiv summarization preparation produced an empty split.")
 
-    # Select the baseline training examples once, then store each task in its own
-    # directory. C and D use these exact same per-task training files. B selects
-    # only the Bloom task at training time and never reads QA/arXiv for gradients.
-    sampled_train = enrich_prompts(sample_for_mix(
-        bloom_train, qa_train, arxiv_train, args.seed,
-        args.mix_bloom, args.mix_qa, args.mix_sum
-    ))
+    # Keep every prepared training example. Do not downsample or ratio-mix task
+    # datasets during preparation; each task remains in its own directory.
+    # A shared training run can load these independent files later.
     task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
         TASK_BLOOM: {
-            "train": [row for row in sampled_train if row["task"] == TASK_BLOOM],
+            "train": enrich_prompts(bloom_train),
             "validation": enrich_prompts(bloom_val),
             "test": enrich_prompts(bloom_test),
         },
         TASK_QA: {
-            "train": [row for row in sampled_train if row["task"] == TASK_QA],
+            "train": enrich_prompts(qa_train),
             "validation": enrich_prompts(qa_val),
             "test": enrich_prompts(qa_test),
         },
         TASK_SUM: {
-            "train": [row for row in sampled_train if row["task"] == TASK_SUM],
+            "train": enrich_prompts(arxiv_train),
             "validation": enrich_prompts(arxiv_val),
             "test": enrich_prompts(arxiv_test),
         },
@@ -694,7 +646,7 @@ def main() -> None:
             "dataset": "rajpurkar/squad",
             "requested_train_fraction": 0.95,
             "available_train_rows_after_group_split": len(qa_train),
-            "sampled_train_rows": len(task_splits[TASK_QA]["train"]),
+            "prepared_train_rows": len(task_splits[TASK_QA]["train"]),
             "validation_rows_after_group_split": len(qa_val),
             "official_validation_rows_used_as_test": len(qa_test),
             "official_validation_used_as_test": True,
@@ -708,7 +660,7 @@ def main() -> None:
             "official_splits_preserved": True,
             "split_names": {"train": "train", "validation": "validation", "test": "test"},
             "available_train_rows_after_length_filter": len(arxiv_train),
-            "sampled_train_rows": len(task_splits[TASK_SUM]["train"]),
+            "prepared_train_rows": len(task_splits[TASK_SUM]["train"]),
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "over_budget_examples_excluded": arxiv_excluded,
@@ -724,21 +676,21 @@ def main() -> None:
         },
         "upstream_datasets": UPSTREAM_DATASET_INFO,
         "generated_files_sha256": file_hashes,
-        "training_sample": {
-            "purpose": "Fixed reusable training sample for experiments C and D; source datasets remain physically separated.",
-            "seed": args.seed,
-            "requested_mix": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
-            "actual_counts": task_counts["train"],
-            "actual_mix": {task: round(count / actual_train_total, 6) for task, count in task_counts["train"].items()},
-            "bloom_is_anchor": True,
-            "selection_happens_once_during_preparation": True,
-            "d_and_c_must_use_same_generated_file_hashes": True,
+        "training_data_policy": {
+            "policy": "retain_all_prepared_training_examples",
+            "ratio_based_downsampling": False,
+            "task_train_counts": task_counts["train"],
+            "task_train_fractions_of_full_union": {
+                task: round(count / actual_train_total, 6)
+                for task, count in task_counts["train"].items()
+            },
+            "note": "Fractions describe the retained full dataset sizes; they are not target sampling ratios.",
         },
         "counts": task_counts,
         "notes": [
             "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
             "Each task's train/validation/test data is stored in its own directory.",
-            "The training subset is selected once at preparation time to keep C/D example IDs identical.",
+            "All prepared training examples are retained; no fixed-ratio downsampling occurs during preparation.",
             "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
             "BloomShift's fixed split boundaries and source-group isolation are preserved.",
             "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
