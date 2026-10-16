@@ -38,6 +38,38 @@ class TargetRewriteRuntimeTests(unittest.TestCase):
         )[0])
         self.assertFalse(check("Create a database indexing strategy.", "Create")[0])
 
+    def test_production_validator_rejects_weak_analyze_task_before_classifier(self):
+        class CountingPredictor:
+            calls = 0
+
+            def predict(self, text):
+                self.calls += 1
+                return {"prediction": "Analyze", "confidence": 0.95}
+
+        predictor = CountingPredictor()
+        result = bloom_prompt._validate_generated_candidate(
+            "Describe database indexes.",
+            "Analyze database indexing.",
+            "Analyze",
+            predictor,
+        )
+        self.assertFalse(result["final_validation"])
+        self.assertIn("Analyze task", result["failure_reason"])
+        self.assertEqual(predictor.calls, 0)
+
+    def test_production_validator_accepts_structured_candidate_only_after_checks(self):
+        predictor = _Predictor()
+        result = bloom_prompt._validate_generated_candidate(
+            "Describe database indexes.",
+            "Analyze how database index choices affect query performance.",
+            "Analyze",
+            predictor,
+        )
+        self.assertTrue(result["format_valid"])
+        self.assertIn("cognitive_operation_check", result)
+        self.assertTrue(result["final_validation"])
+        self.assertEqual(result["classifier_prediction"], "Analyze")
+
     def test_retry_prompt_adds_failure_correction_inside_user_turn(self):
         prompt = bloom_prompt.build_targeted_rewrite_prompt(
             "Describe database indexes.",
