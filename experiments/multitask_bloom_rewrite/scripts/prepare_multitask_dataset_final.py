@@ -506,6 +506,19 @@ def main() -> None:
     if not out_dir.is_absolute():
         out_dir = REPO_ROOT / out_dir
 
+    # Refuse a legacy merged corpus before downloading/tokenizing upstream datasets.
+    stale_merged = [
+        out_dir / name
+        for name in ("train.jsonl", "validation.jsonl", "test.jsonl")
+        if (out_dir / name).is_file()
+    ]
+    if stale_merged:
+        raise SystemExit(
+            "Refusing to use an output directory containing legacy merged split files: "
+            + ", ".join(str(path) for path in stale_merged)
+            + ". Choose an empty task-separated output directory or remove those old files explicitly."
+        )
+
     required_bloom = [
         bloom_dir / "train.json",
         bloom_dir / "validation.json",
@@ -632,13 +645,6 @@ def main() -> None:
                 "max_tokens": max(lengths),
             }
 
-    stale_merged = [out_dir / name for name in ("train.jsonl", "validation.jsonl", "test.jsonl") if (out_dir / name).exists()]
-    if stale_merged:
-        raise SystemExit(
-            "Refusing to leave stale merged split files in the task-separated output directory: "
-            + ", ".join(str(path) for path in stale_merged)
-            + ". Use a fresh output directory or remove those old merged files explicitly."
-        )
     out_dir.mkdir(parents=True, exist_ok=True)
     file_hashes: dict[str, str] = {}
     for task, splits in task_splits.items():
