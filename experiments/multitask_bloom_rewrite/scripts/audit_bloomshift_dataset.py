@@ -2,6 +2,7 @@
 """Audit BloomShift inclusion, source metadata, split integrity, and review evidence."""
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import json
