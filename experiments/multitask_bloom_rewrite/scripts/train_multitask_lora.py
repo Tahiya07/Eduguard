@@ -28,6 +28,9 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from check_resources import assess, collect_resources  # noqa: E402
+from dataset_io import (  # noqa: E402
+    TASKS, filter_rows_to_tasks, load_manifest, load_split_rows, validate_separate_dataset,
+)
 from loss_masking import tokenize_with_assistant_only_loss  # noqa: E402
 from paths import MULTITASK_DATA_DIR, SEED  # noqa: E402
 
@@ -62,61 +65,11 @@ def sha256_file(path: Path) -> str:
 
 
 def validate_prepared_dataset(data_dir: Path, repo_root: Path) -> dict:
-    manifest_path = data_dir / "dataset_manifest.json"
-    if not manifest_path.is_file():
-        raise SystemExit(
-            f"Missing dataset manifest: {manifest_path}. Regenerate the dataset before training."
-        )
+    """Validate task-separated files and their original BloomShift fingerprints."""
     try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise SystemExit(f"Cannot read dataset manifest {manifest_path}: {exc}") from exc
-
-    generated_hashes = manifest.get("generated_files_sha256")
-    if not isinstance(generated_hashes, dict):
-        raise SystemExit(
-            "Dataset manifest has no generated_files_sha256 fingerprints. "
-            "Rerun prepare_multitask_dataset_final.py before training."
-        )
-
-    for name in ("train.jsonl", "validation.jsonl", "test.jsonl"):
-        path = data_dir / name
-        if not path.is_file():
-            raise SystemExit(f"Missing prepared split {path}. Regenerate the dataset.")
-        expected_hash = generated_hashes.get(name)
-        if not expected_hash or sha256_file(path) != expected_hash:
-            raise SystemExit(
-                f"Prepared split fingerprint mismatch: {path}. "
-                "The corpus may be stale or edited; rerun preparation and QC."
-            )
-
-    bloom_source = manifest.get("bloom_source", {})
-    source_dir_rel = bloom_source.get("path")
-    source_hashes = bloom_source.get("files_sha256", {})
-    if not source_dir_rel or not source_hashes:
-        raise SystemExit("Dataset manifest lacks canonical BloomShift source fingerprints.")
-    source_dir = (repo_root / source_dir_rel).resolve()
-    for name in ("train.json", "validation.json", "test.json"):
-        source_path = source_dir / name
-        expected_hash = source_hashes.get(name)
-        if not source_path.is_file():
-            raise SystemExit(
-                f"Canonical BloomShift source is missing: {source_path}. "
-                "Cannot verify that the prepared dataset matches the current source."
-            )
-        if not expected_hash or sha256_file(source_path) != expected_hash:
-            raise SystemExit(
-                f"Canonical BloomShift source changed since preparation: {source_path}. "
-                "Regenerate the multitask dataset before training."
-            )
-
-    return {
-        "manifest_path": str(manifest_path.resolve()),
-        "manifest_version": manifest.get("version"),
-        "bloom_source": str(source_dir),
-        "generated_files_sha256": generated_hashes,
-        "bloom_source_sha256": source_hashes,
-    }
+        return validate_separate_dataset(data_dir, repo_root)
+    except Exception as exc:
+        raise SystemExit(f"Dataset fingerprint/isolation check failed: {exc}") from exc
 
 
 def set_seed(seed: int) -> None:
@@ -227,10 +180,35 @@ def main() -> None:
             "Regenerate the final corpus and resolve every QC error."
         ) from exc
 
-    train_rows = read_jsonl(data_dir / "train.jsonl")
-    val_rows = read_jsonl(data_dir / "validation.jsonl")
+    # Load each task from its own train/validation file. Rows are combined only
+    # in memory for the Trainer; no merged train.jsonl or validation.jsonl is written.
+    train_tasks = list(cfg.get("train_tasks", list(TASKS)))
+    if not train_tasks or set(train_tasks) - set(TASKS):
+        raise SystemExit(f"Invalid train_tasks={train_tasks!r}; expected a non-empty subset of {TASKS}.")
+    all_train_rows, train_load_meta = load_split_rows(data_dir, "train", validate=False)
+    all_val_rows, val_load_meta = load_split_rows(data_dir, "validation", validate=False)
+    train_rows = filter_rows_to_tasks(all_train_rows, train_tasks)
+    val_rows = filter_rows_to_tasks(all_val_rows, train_tasks)
     if not train_rows or not val_rows:
-        raise SystemExit("Prepared training and validation splits must both be non-empty.")
+        raise SystemExit(
+            f"Active training tasks {train_tasks} produced an empty split: "
+            f"train={len(train_rows)}, validation={len(val_rows)}."
+        )
+
+    # Full multitask conditions must consume the exact preselected sampling mix
+    # recorded by the data builder. Single-task condition B intentionally reads
+    # BloomShift only and does not load QA/arXiv examples for gradient updates.
+    configured_mix = cfg.get("train_mix")
+    manifest = load_manifest(data_dir)
+    if set(train_tasks) == set(TASKS) and configured_mix:
+        recorded_mix = manifest.get("training_sample", {}).get("requested_mix", {})
+        normalized_config = {task: float(configured_mix.get(task, 0.0)) for task in TASKS}
+        normalized_recorded = {task: float(recorded_mix.get(task, 0.0)) for task in TASKS}
+        if any(abs(normalized_config[task] - normalized_recorded[task]) > 1e-9 for task in TASKS):
+            raise SystemExit(
+                f"Configured train_mix {normalized_config} differs from prepared dataset mix "
+                f"{normalized_recorded}. Rebuild the separate task files or correct the config."
+            )
 
     # Validate/fingerprint the complete canonical splits above, then optionally
     # cap validation rows per task in memory. This keeps full source data and
@@ -266,6 +244,26 @@ def main() -> None:
         print("VALIDATION TASK COUNTS AFTER LIMIT:", json.dumps(after_counts, sort_keys=True))
         print("VALIDATION TASK LIMITS:", json.dumps(validation_task_limits, sort_keys=True))
 
+    training_selection = {
+        "layout": "task-separated",
+        "combined_in_memory_only": True,
+        "dataset_manifest_sha256": dataset_fingerprint.get("manifest_sha256"),
+        "active_tasks": train_tasks,
+        "train_counts": {task: sum(row.get("task") == task for row in train_rows) for task in TASKS},
+        "validation_counts": {task: sum(row.get("task") == task for row in val_rows) for task in TASKS},
+        "train_ids_by_task": {
+            task: [str(row.get("id", "")) for row in train_rows if row.get("task") == task]
+            for task in TASKS if task in train_tasks
+        },
+        "validation_ids_by_task": {
+            task: [str(row.get("id", "")) for row in val_rows if row.get("task") == task]
+            for task in TASKS if task in train_tasks
+        },
+        "validation_sampling": "stable per-task ID-sorted seed sample after loading separate validation files",
+    }
+    selection_path = results_dir / "training_selection_manifest.json"
+    selection_path.write_text(json.dumps(training_selection, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
     for split_name, rows in (("train", train_rows), ("validation", val_rows)):
         for row_number, row in enumerate(rows, 1):
             for key in ("task", "sft_text", "prompt_text"):
@@ -275,16 +273,18 @@ def main() -> None:
                     )
     print("DATASET FINGERPRINT CHECK: PASS")
     print("DATASET DIR:", data_dir.resolve())
-    print("TRAIN FILE:", (data_dir / "train.jsonl").resolve())
+    print("DATA LAYOUT: one directory per task; no merged split JSONL persisted")
+    print("ACTIVE TASKS:", json.dumps(train_tasks))
+    print("TRAIN FILES:", json.dumps([str((data_dir / task / "train.jsonl").resolve()) for task in train_tasks]))
     print("TRAIN ROWS:", len(train_rows))
     print("TRAIN MISSING SFT:", [i for i,r in enumerate(train_rows) if "sft_text" not in r][:20])
     print("TRAIN MISSING PROMPT:", [i for i,r in enumerate(train_rows) if "prompt_text" not in r][:20])
     print("VAL MISSING SFT:", [i for i,r in enumerate(val_rows) if "sft_text" not in r][:20])
     device = "cuda" if resources.get("cuda_available") else "cpu"
     print("=" * 72)
-    print("MULTI-TASK LORA TRAINING")
+    print("TASK-SELECTED LORA TRAINING")
     print("model:", cfg["model_id"])
-    print("train:", len(train_rows), "validation:", len(val_rows))
+    print("train:", len(train_rows), "validation:", len(val_rows), "tasks:", train_tasks)
     print("device:", device)
     print("=" * 72)
 
@@ -438,6 +438,12 @@ def main() -> None:
         "checkpoint_selection": "validation_loss_only",
         "assistant_only_loss": True,
         "dataset_fingerprint": dataset_fingerprint,
+        "dataset_layout": "task-separated; merged rows exist only in memory",
+        "active_training_tasks": train_tasks,
+        "training_selection_manifest": str(selection_path.resolve()),
+        "training_selection_manifest_sha256": sha256_file(selection_path),
+        "train_rows_by_task": training_selection["train_counts"],
+        "validation_rows_by_task": training_selection["validation_counts"],
         "resume_from_checkpoint": str(resume_path) if resume_path else None,
     }
     (results_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
