@@ -584,16 +584,16 @@ def build_targeted_rewrite_prompt(
 ) -> str:
     """Build the trained v3 prompt, optionally adding a bounded validation correction."""
     prompt = build_v3_target_rewrite_prompt(question, target_level)
-    failure = re.sub(r"\\s+", " ", (previous_failure or "").strip())[:400]
+    failure = re.sub(r"\s+", " ", (previous_failure or "").strip())[:400]
     if not failure:
         return prompt
 
     # Add the correction inside the user turn, before its end marker, so the
     # model continues in the same ChatML format it was trained to use.
-    marker = f"{IM_END}\\n{IM_START}assistant\\n"
+    marker = f"{IM_END}\n{IM_START}assistant\n"
     correction = (
-        "\\n\\nCorrection after validation failure:\\n"
-        f"{failure}\\n"
+        "\n\nCorrection after validation failure:\n"
+        f"{failure}\n"
         f"Produce a corrected {target_level} task. Preserve the original topic, "
         "scope, entities, and constraints. Do not explain the correction; output "
         "only the revised student-facing question."
