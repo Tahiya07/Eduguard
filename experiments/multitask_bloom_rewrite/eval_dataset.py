@@ -155,7 +155,10 @@ def assert_split_counts(
     total = sum(actual.values()) if manifest is not None else EXPECTED_TEST_TOTAL
     if len(rows) != total:
         raise AssertionError(f"{split} row total expected {total}, got {len(rows)}")
-    return {"row_count": len(rows), "by_task": actual}
+    result = {"row_count": len(rows), "by_task": actual}
+    # Compatibility fields for older tests/reports that used test_count.
+    result[f"{split}_count"] = len(rows)
+    return result
 
 
 def assert_no_split_leakage(data_dir: Path) -> dict[str, Any]:
