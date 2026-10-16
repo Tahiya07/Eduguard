@@ -819,7 +819,7 @@ def _target_cognitive_operation_check(rewrite: str, target_level: str) -> tuple[
     This is a heuristic gate, not a Bloom classifier or a substitute for human
     review. It focuses on the demanded task, not verbs mentioned as subject matter.
     """
-    text = re.sub(r"\\s+", " ", (rewrite or "").strip().lower())
+    text = re.sub(r"\s+", " ", (rewrite or "").strip().lower())
     words = text.split()
     if not words:
         return False, "Empty rewrite has no identifiable cognitive operation."
