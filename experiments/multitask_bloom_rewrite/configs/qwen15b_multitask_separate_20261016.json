@@ -1,0 +1,68 @@
+{
+  "experiment_name": "multitask_qwen15b_separate_20261016",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "dataset_dir": "data/multitask_bloom_rewrite_separate",
+  "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_separate_20261016",
+  "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_separate_20261016",
+  "seed": 42,
+  "epochs": 3,
+  "learning_rate": 0.0002,
+  "max_seq_length": 8192,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "warmup_ratio": 0.03,
+  "weight_decay": 0.01,
+  "lr_scheduler_type": "cosine",
+  "per_device_train_batch_size": 1,
+  "per_device_eval_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "gradient_checkpointing": true,
+  "early_stopping_patience": 2,
+  "metric_for_best_model": "eval_loss",
+  "logging_steps": 20,
+  "save_total_limit": 3,
+  "lora_target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "generation": {
+    "do_sample": false,
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 0,
+    "repeat_penalty": 1,
+    "max_new_tokens": 128,
+    "decoding": "greedy"
+  },
+  "notes": [
+    "New task-separated dataset training run created 2026-10-16.",
+    "Reads the nine canonical JSONL files under data/multitask_bloom_rewrite_separate; the trainer concatenates rows in memory only and does not write merged JSONL files.",
+    "Trains Bloom rewrite, QA, and summarization jointly, with 1,075 rows per task in train and 212 per task in validation.",
+    "The 135-per-task test split is held out and is not used for checkpoint selection.",
+    "Uses batch size 1, gradient accumulation 16, and gradient checkpointing to reduce memory pressure at the fixed 8,192-token sequence limit.",
+    "Fresh output and results directories prevent accidental overwrite or implicit resume from previous runs.",
+    "The 0.5B Bloom classifier dataset/model is separate and excluded from this generator training run."
+  ],
+  "validation_task_limits": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "test_task_limits": {
+    "bloom_rewrite": 135,
+    "qa": 135,
+    "summarization": 135
+  },
+  "train_tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ]
+}
