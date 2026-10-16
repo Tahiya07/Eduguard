@@ -27,7 +27,7 @@ class TargetRewriteRuntimeTests(unittest.TestCase):
         self.assertIn("Correction after validation failure:", prompt)
         self.assertIn("Classifier predicted Understand", prompt)
         self.assertIn("Produce a corrected Analyze task.", prompt)
-        self.assertTrue(prompt.endswith("<|im_start|>assistant\\n"))
+        self.assertTrue(prompt.endswith("<|im_start|>assistant\n"))
         self.assertNotIn("Source Bloom level:", prompt)
 
     def test_rewrite_retries_once_and_returns_validation_details(self):
