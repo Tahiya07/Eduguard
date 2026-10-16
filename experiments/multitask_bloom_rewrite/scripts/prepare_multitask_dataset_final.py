@@ -667,7 +667,8 @@ def main() -> None:
     if not arxiv_train or not arxiv_val or not arxiv_test:
         raise SystemExit("arXiv summarization preparation produced an empty split.")
 
-    # Record source availability before deterministic sampling.
+    # Record rows retained by the early-stopping source scans. These are not
+    # estimates of the full source splits' total eligible-example counts.
     qa_train_available = len(qa_train)
     arxiv_train_available = arxiv_available["train"]
     qa_validation_available = len(qa_val)
@@ -680,7 +681,7 @@ def main() -> None:
     if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
         raise AssertionError("QA training cap was not enforced during source selection.")
     if args.max_sum_train is not None and len(arxiv_train) > args.max_sum_train:
-        raise AssertionError("Summarization training cap was not enforced during source selection."))
+        raise AssertionError("Summarization training cap was not enforced during source selection.")
 
     # Match each auxiliary evaluation task's row count to BloomShift's held-out
     # count. Fixed, task-specific seeds make selection reproducible. Sorting after
