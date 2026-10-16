@@ -88,9 +88,23 @@ class BloomHeuristicTests(unittest.TestCase):
             0.0,
         )
 
-    def test_identical_reviewer_files_fail_closed(self):
+    def test_identical_reviewer_files_warn_but_do_not_drop_data(self):
+        import json
+
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            attestation = {
+                "scope": {
+                    "split_counts": {"train": 0, "validation": 0, "test": 0},
+                    "total_rows": 0,
+                    "include_every_canonical_record": True,
+                },
+                "processing_policy": {"exclusions": "No BloomShift rows dropped for review metadata."},
+                "dataset_owner_report": {"all_records_reported_human_reviewed": True},
+            }
+            (root / "batch_review_attestation.json").write_text(
+                json.dumps(attestation), encoding="utf-8"
+            )
             header = (
                 "example_id,bloom_aligned,reviewer_bloom_level,content_preserved,"
                 "context_preserved,meaningful_transformation,pedagogically_valid,"
@@ -98,22 +112,44 @@ class BloomHeuristicTests(unittest.TestCase):
             )
             (root / "reviewer_1.csv").write_text(header, encoding="utf-8")
             (root / "reviewer_2.csv").write_text(header, encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "byte-identical"):
-                validate_annotation_provenance(root, [], [])
+            result = validate_annotation_provenance(root, [], [], [])
+            self.assertFalse(result["independent_reviewer_files"])
+            self.assertFalse(result["independent_review_verified"])
+            self.assertTrue(any("byte-identical" in warning for warning in result["warnings"]))
 
-    def test_unmarked_rows_are_not_treated_as_human_validated(self):
+    def test_all_rows_are_retained_and_legacy_gaps_are_not_unmarked_in_derived_corpus(self):
         from scripts.prepare_multitask_dataset_final import normalize_bloom
 
-        unreviewed = [{
-            "source_id": "s1",
-            "group_id": "g1",
-            "source_question": "Explain database indexing.",
-            "target_bloom_level": "Analyze",
-            "target_rewrite": "Analyze the relationship between indexing choices and query performance.",
-            "example_id": "e1",
-        }]
-        with self.assertRaisesRegex(ValueError, "No human-validated"):
-            normalize_bloom(unreviewed, "train")
+        rows = [
+            {
+                "source_id": "s1",
+                "group_id": "g1",
+                "source_question": "Explain database indexing.",
+                "target_bloom_level": "Analyze",
+                "target_rewrite": "Analyze the relationship between indexing choices and query performance.",
+                "example_id": "e1",
+            },
+            {
+                "source_id": "s2",
+                "group_id": "g2",
+                "source_question": "Describe two database indexing methods.",
+                "target_bloom_level": "Create",
+                "target_rewrite": "Design a database indexing plan that meets storage and query-latency constraints.",
+                "example_id": "e2",
+                "review_status": "human_validated",
+                "training_eligible": True,
+            },
+        ]
+        normalized = normalize_bloom(rows, "train")
+        self.assertEqual(len(normalized), len(rows))
+        self.assertEqual(
+            {row["review_status"] for row in normalized},
+            {"owner_batch_attested"},
+        )
+        self.assertTrue(all(row["training_eligible"] is True for row in normalized))
+        self.assertEqual(normalized[0]["source_review_status"], "unmarked")
+        self.assertIsNone(normalized[0]["source_training_eligible"])
+        self.assertTrue(all(row["independent_review_verified"] is False for row in normalized))
 
 
 if __name__ == "__main__":
