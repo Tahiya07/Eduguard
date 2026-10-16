@@ -884,13 +884,13 @@ def main() -> None:
         "upstream_datasets": UPSTREAM_DATASET_INFO,
         "generated_files_sha256": file_hashes,
         "training_data_policy": {
-            "policy": "retain_bloom_all_and_apply_optional_independent_auxiliary_caps",
+            "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
             "ratio_based_downsampling": False,
             "requested_caps": {
                 TASK_QA: args.max_qa_train,
                 TASK_SUM: args.max_sum_train,
             },
-            "available_training_rows_before_caps": {
+            "rows_retained_during_capped_source_scan": {
                 TASK_BLOOM: len(bloom_train),
                 TASK_QA: qa_train_available,
                 TASK_SUM: arxiv_train_available,
@@ -908,7 +908,7 @@ def main() -> None:
             "Each task's train/validation/test data is stored in its own directory.",
             "BloomShift training rows are retained; optional QA/summarization training caps are independent of evaluation caps.",
             "QA and summarization caps are applied during seeded source iteration, stopping expensive conversion once each target count is reached.",
-            "QA train/validation group boundaries are established before row selection to prevent context leakage across those splits.");
+            "QA train/validation group boundaries are established before row selection to prevent context leakage across those splits.",
             "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
             "BloomShift's fixed split boundaries and source-group isolation are preserved.",
             "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
