@@ -632,6 +632,13 @@ def main() -> None:
                 "max_tokens": max(lengths),
             }
 
+    stale_merged = [out_dir / name for name in ("train.jsonl", "validation.jsonl", "test.jsonl") if (out_dir / name).exists()]
+    if stale_merged:
+        raise SystemExit(
+            "Refusing to leave stale merged split files in the task-separated output directory: "
+            + ", ".join(str(path) for path in stale_merged)
+            + ". Use a fresh output directory or remove those old merged files explicitly."
+        )
     out_dir.mkdir(parents=True, exist_ok=True)
     file_hashes: dict[str, str] = {}
     for task, splits in task_splits.items():
