@@ -20,7 +20,7 @@ The sources remain independent:
 Prepared data is stored in **task-specific directories**, not as one merged JSONL corpus:
 
 ```text
-data/multitask_bloom_rewrite_separate/
+data/multitask_bloom_rewrite_capped/
 ├── dataset_manifest.json
 ├── bloom_rewrite/
 │   ├── train.jsonl
@@ -42,7 +42,7 @@ There must be no root-level `train.jsonl`, `validation.jsonl`, or `test.jsonl` i
 
 BloomShift uses the canonical split exactly as audited: 1,075 training rows, 212 validation rows, and 135 test rows. The owner batch attestation permits all records to be included despite missing legacy row-level flags. It does **not** establish independent double annotation or inter-rater reliability.
 
-The data preparation step selects the baseline SFT training examples once, using seed 42 and a requested sampling mix of 40% BloomShift, 30% SQuAD, and 30% arXiv. All 1,075 BloomShift training rows are retained; the QA and arXiv training lists are sampled from their source training splits to approximate the requested mix. Those three per-task training files are frozen inputs for both experiments C and D. Do not regenerate them between C and D: their manifest hashes and selected IDs must match.
+The capped baseline retains all 1,075 BloomShift training rows and uses deterministic, independently sampled subsets of 806 QA and 806 summarization training rows (seed 42). This yields approximately 40% BloomShift, 30% QA, and 30% summarization by example count. The builder fails if either auxiliary task has fewer eligible rows than its requested cap, rather than silently producing a different mixture. This is example-count balancing, not token-count balancing: summarization may contribute more supervised tokens per row. The trainer shuffles the loaded rows together in memory; it does not enforce a fixed task ratio in every batch. Keep the per-task files separate on disk. Freeze the generated files for the experiment and preserve their hashes.
 
 The complete prepared validation and test splits for each task stay in their respective task directory. The evaluation script defaults to validation and deterministically samples up to 300 QA rows and 300 summarization rows while evaluating all BloomShift rows. Keep every test file locked until strategy selection is complete.
 
@@ -61,14 +61,14 @@ python experiments/multitask_bloom_rewrite/scripts/audit_bloomshift_dataset.py
 2. Prepare the separate task directories. Do not pass a combined corpus path:
 
 ```powershell
-python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --mix-bloom 0.40 --mix-qa 0.30 --mix-sum 0.30
+python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --output-dir data/multitask_bloom_rewrite_capped --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --seed 42 --max-qa-train 806 --max-sum-train 806
 ```
 
 3. Run strict integrity, split isolation, token length, and assistant-only mask QC:
 
 ```powershell
-python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
-python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_separate
+python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_capped --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
+python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_capped
 ```
 
 4. Run the experiments sequentially, using fresh output directories:
@@ -86,7 +86,7 @@ python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --con
 
 After B and C finish, evaluate each using the same validation split and generation settings. The evaluator requires a fixed auxiliary Bloom classifier; use `--classifier-dir` to select one explicit checkpoint if auto-detection does not select the same classifier in every condition. Classifier agreement is a diagnostic proxy, not human ground truth for Bloom-level alignment.
 
-The task-balanced D loss implementation remains a separate method change after A/B/C results are available. D must use the exact same prepared per-task train files and validation row IDs as C, and vary only the response-normalized task-loss weights. Do not label an unweighted run as D.
+A task-balanced-loss experiment may be added as a separate method after the capped example-mixture baseline is established. It must use exactly the same prepared per-task files and validation IDs as C, and change only the loss-weighting method. Do not describe example-count capping as token-balanced training.
 
 ## Reproducibility requirements
 
