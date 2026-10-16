@@ -29,7 +29,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from check_resources import assess, collect_resources  # noqa: E402
 from dataset_io import (  # noqa: E402
-    TASKS, filter_rows_to_tasks, load_manifest, load_split_rows, validate_separate_dataset,
+    TASKS, load_manifest, load_split_rows, validate_separate_dataset,
 )
 from loss_masking import tokenize_with_assistant_only_loss  # noqa: E402
 from paths import SEED, TASK_SEPARATED_DATA_DIR  # noqa: E402
@@ -180,15 +180,18 @@ def main() -> None:
             "Regenerate the final corpus and resolve every QC error."
         ) from exc
 
-    # Load each task from its own train/validation file. Rows are combined only
-    # in memory for the Trainer; no merged train.jsonl or validation.jsonl is written.
+    # Load only the configured task files. When several tasks are active,
+    # rows are combined in memory for the Trainer; no merged split JSONL is written.
+    # Condition B therefore reads BloomShift only, while C/D read all three tasks.
     train_tasks = list(cfg.get("train_tasks", list(TASKS)))
-    if not train_tasks or set(train_tasks) - set(TASKS):
-        raise SystemExit(f"Invalid train_tasks={train_tasks!r}; expected a non-empty subset of {TASKS}.")
-    all_train_rows, train_load_meta = load_split_rows(data_dir, "train", validate=False)
-    all_val_rows, val_load_meta = load_split_rows(data_dir, "validation", validate=False)
-    train_rows = filter_rows_to_tasks(all_train_rows, train_tasks)
-    val_rows = filter_rows_to_tasks(all_val_rows, train_tasks)
+    if not train_tasks or set(train_tasks) - set(TASKS) or len(set(train_tasks)) != len(train_tasks):
+        raise SystemExit(f"Invalid train_tasks={train_tasks!r}; expected a unique, non-empty subset of {TASKS}.")
+    train_rows, train_load_meta = load_split_rows(
+        data_dir, "train", tasks=train_tasks, validate=False
+    )
+    val_rows, val_load_meta = load_split_rows(
+        data_dir, "validation", tasks=train_tasks, validate=False
+    )
     if not train_rows or not val_rows:
         raise SystemExit(
             f"Active training tasks {train_tasks} produced an empty split: "
