@@ -254,7 +254,7 @@ def evaluate_qa_row(
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
-        "id": row.get("example_id"),
+        "id": row.get("id", row.get("example_id")),
         "task": TASK_QA,
         "context": row.get("context"),
         "question": row.get("question"),
@@ -273,7 +273,7 @@ def evaluate_sum_row(
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
-        "id": row.get("example_id"),
+        "id": row.get("id", row.get("example_id")),
         "task": TASK_SUMMARIZATION,
         "article": row.get("article"),
         "reference": row.get("abstract"),
