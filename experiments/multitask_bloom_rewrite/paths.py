@@ -18,7 +18,8 @@ BLOOMSHIFT_DIR = DATA_DIR / "rewrite dataset" / "bloomshift_final_candidate"
 # Historical corpora remain available for reproducibility; they are not final inputs.
 LEGACY_BLOOM_REWRITE_DIR = DATA_DIR / "bloom_rewrite"
 MULTITASK_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite"
-MULTITASK_FINAL_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite_final"
+MULTITASK_FINAL_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite_separate"
+TASK_SEPARATED_DATA_DIR = MULTITASK_FINAL_DATA_DIR
 FIGSHARE_V1 = DATA_DIR / "figshare_bloom_v1.csv"
 
 CONFIG_DIR = EXPERIMENT_DIR / "configs"
