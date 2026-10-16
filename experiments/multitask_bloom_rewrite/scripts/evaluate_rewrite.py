@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Evaluate multi-task Qwen models on the locked held-out TEST split.
+"""Evaluate multi-task Qwen models on a manifest-verified held-out split.
 
-Evaluates Bloom rewrite, SQuAD-style QA, and BillSum summarization.
+Evaluates Bloom rewrite, SQuAD-style QA, and arXiv summarization.
 Does not modify production code or models/qwen.gguf.
 
 Usage:
@@ -315,6 +315,22 @@ def results_dir_for(cfg: dict[str, Any], condition: str) -> Path:
     return Path(cfg.get("results_dir", EXPERIMENT_DIR / "results" / f"qwen{key}_lora"))
 
 
+def deterministic_task_sample(
+    rows: list[dict[str, Any]],
+    cap: int,
+    task: str,
+    *,
+    seed: int = SEED,
+) -> list[dict[str, Any]]:
+    """Stable per-task subset shared across experiments A/B/C/D."""
+    ordered = sorted(rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+    if cap <= 0 or len(ordered) <= cap:
+        return ordered
+    task_seed = seed + sum(ord(ch) for ch in task)
+    chosen = set(random.Random(task_seed).sample(range(len(ordered)), cap))
+    return [row for index, row in enumerate(ordered) if index in chosen]
+
+
 def write_human_eval_export(bloom_records: list[dict[str, Any]], out_dir: Path) -> Path | None:
     # Keep model-condition exports separate so A/B/C/D results cannot overwrite one another.
     export = out_dir / "human_eval_predictions.jsonl"
@@ -605,25 +621,12 @@ def main() -> None:
     ]
     full_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
 
-    def stable_sample_task(rows: list[dict[str, Any]], cap: int, task: str) -> list[dict[str, Any]]:
-        # Sort by stable record ID before sampling so the same benchmark is used
-        # across all model conditions even if JSONL ordering changes.
-        sorted_rows = sorted(
-            rows,
-            key=lambda row: str(row.get("id") or row.get("example_id") or ""),
-        )
-        if cap <= 0 or len(sorted_rows) <= cap:
-            return sorted_rows
-        task_seed = SEED + sum(ord(ch) for ch in task)
-        chosen = set(random.Random(task_seed).sample(range(len(sorted_rows)), cap))
-        return [row for index, row in enumerate(sorted_rows) if index in chosen]
-
     # Bloom is evaluated on every row of the selected held-out split. QA and
     # summarization use a deterministic fixed-size sample unless --full-split.
     bloom_rows = sorted(bloom_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
     if not args.full_split:
-        qa_rows = stable_sample_task(qa_rows, args.evaluation_per_task, TASK_QA)
-        sum_rows = stable_sample_task(sum_rows, args.evaluation_per_task, TASK_SUMMARIZATION)
+        qa_rows = deterministic_task_sample(qa_rows, args.evaluation_per_task, TASK_QA)
+        sum_rows = deterministic_task_sample(sum_rows, args.evaluation_per_task, TASK_SUMMARIZATION)
     else:
         qa_rows = sorted(qa_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
         sum_rows = sorted(sum_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
