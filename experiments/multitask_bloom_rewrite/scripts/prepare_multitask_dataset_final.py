@@ -406,15 +406,15 @@ def load_arxiv_summarization(
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int], dict[str, int]]:
     """Select a deterministic capped subset of valid arXiv rows.
 
-    Seed-shuffle each official split and stop tokenizing once its requested number
-    of sequence-budget-compliant examples has been collected.
+    Stream each official split, use a seeded bounded shuffle buffer when capped,
+    and stop tokenizing once the requested number of valid examples is collected.
     """
     from datasets import load_dataset
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
     print("[arXiv] Loading ccdv/arxiv-summarization...", flush=True)
-    ds = load_dataset("ccdv/arxiv-summarization")
+    ds = load_dataset("ccdv/arxiv-summarization", streaming=True)
     required_splits = ("train", "validation", "test")
     missing_splits = [name for name in required_splits if name not in ds]
     if missing_splits:
@@ -429,7 +429,8 @@ def load_arxiv_summarization(
             name: getattr(ds[name], "_fingerprint", None)
             for name in required_splits
         },
-        "raw_split_rows": {name: len(ds[name]) for name in required_splits},
+        "raw_split_rows": {name: None for name in required_splits},
+        "streaming": True,
         "revision_pinned": False,
     }
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
@@ -444,16 +445,19 @@ def load_arxiv_summarization(
     def convert(split_rows: Any, split: str) -> list[dict[str, Any]]:
         cap = caps[split]
         split_seed = seed + {"train": 202, "validation": 404, "test": 606}[split]
-        # Shuffle the Hugging Face Dataset index mapping, not the article text.
-        # This permits early stopping without materializing a Python copy of the corpus.
-        candidates = split_rows.shuffle(seed=split_seed) if cap is not None else split_rows
+        # Streaming shuffle uses a bounded buffer; it avoids downloading/materializing
+        # the full arXiv split. This is reproducible but not a globally uniform permutation.
+        candidates = (
+            split_rows.shuffle(seed=split_seed, buffer_size=10_000)
+            if cap is not None else split_rows
+        )
         retained: list[dict[str, Any]] = []
         eligible_seen = 0
         examined = 0
-        total = len(split_rows)
         print(
-            f"[arXiv] Processing {split}: {total:,} source rows; "
-            f"target={'all' if cap is None else cap}; seeded_order={cap is not None}",
+            f"[arXiv] Processing {split} as a stream; "
+            f"target={'all' if cap is None else cap}; "
+            f"seeded_buffer_shuffle={cap is not None}",
             flush=True,
         )
         for i, row in enumerate(candidates):
@@ -481,7 +485,7 @@ def load_arxiv_summarization(
                     retained.append(record)
             if examined % 1000 == 0:
                 print(
-                    f"[arXiv] {split}: examined={examined:,}/{total:,}; "
+                    f"[arXiv] {split}: examined={examined:,}; "
                     f"eligible={eligible_seen:,}; over_budget={excluded[split]:,}; "
                     f"retained={len(retained):,}/{cap if cap is not None else 'all'}",
                     flush=True,
@@ -489,7 +493,7 @@ def load_arxiv_summarization(
         available[split] = eligible_seen
         retained.sort(key=lambda item: str(item.get("id", "")))
         print(
-            f"[arXiv] {split} complete: examined={examined:,}/{total:,}, "
+            f"[arXiv] {split} complete: examined={examined:,}, "
             f"eligible_retained={eligible_seen:,}, excluded_over_budget={excluded[split]:,}, "
             f"retained={len(retained):,}",
             flush=True,
