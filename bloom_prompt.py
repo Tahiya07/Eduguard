@@ -582,9 +582,26 @@ def build_targeted_rewrite_prompt(
     target_level: str,
     previous_failure: str = "",
 ) -> str:
-    """v3 target-level prompt. Correction text is ignored so the trained contract stays intact."""
-    del previous_failure
-    return build_v3_target_rewrite_prompt(question, target_level)
+    """Build the trained v3 prompt, optionally adding a bounded validation correction."""
+    prompt = build_v3_target_rewrite_prompt(question, target_level)
+    failure = re.sub(r"\\s+", " ", (previous_failure or "").strip())[:400]
+    if not failure:
+        return prompt
+
+    # Add the correction inside the user turn, before its end marker, so the
+    # model continues in the same ChatML format it was trained to use.
+    marker = f"{IM_END}\\n{IM_START}assistant\\n"
+    correction = (
+        "\\n\\nCorrection after validation failure:\\n"
+        f"{failure}\\n"
+        f"Produce a corrected {target_level} task. Preserve the original topic, "
+        "scope, entities, and constraints. Do not explain the correction; output "
+        "only the revised student-facing question."
+    )
+    head, separator, tail = prompt.rpartition(marker)
+    if not separator:
+        raise ValueError("Unexpected v3 prompt format; cannot add correction safely.")
+    return head + correction + marker + tail
 
 def _validate_output_format(question: str) -> tuple[bool, str]:
     """
@@ -825,9 +842,12 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
     record["classifier_prediction"] = predicted
     record["classifier_confidence"] = confidence
     if predicted != _canonical_bloom_label(target_level):
-        record["failure_reason"] = f"Classified as {predicted}; generate a {target_level} task."
-    elif confidence < 0.6:
-        record["failure_reason"] = f"Classifier confidence {confidence:.0%} is below 60%."
+        record["failure_reason"] = f"Classifier predicted {predicted}; target is {target_level}."
+    elif confidence < V3_CLASSIFIER_CONFIDENCE_MIN:
+        record["failure_reason"] = (
+            f"Classifier confidence {confidence:.0%} is below the "
+            f"{V3_CLASSIFIER_CONFIDENCE_MIN:.0%} verification threshold."
+        )
     else:
         record["final_validation"] = True
         record["failure_reason"] = ""
@@ -843,6 +863,8 @@ class TargetRewriteResult:
     confidence: float = 0.0
     validation_match: bool = False
     validation_error: bool = False
+    attempts: int = 0
+    validation_details: dict | None = None
 
 
 def rewrite_to_target_level(
@@ -853,57 +875,98 @@ def rewrite_to_target_level(
     predictor=None,
     predictor_error: str = "",
     max_tokens: int | None = None,
+    max_attempts: int = 2,
 ) -> TargetRewriteResult:
-    """One greedy v3 GGUF rewrite. The classifier verifies; it does not replace the text."""
-    target_level = _canonical_bloom_label(target_level)
-    prompt = build_v3_target_rewrite_prompt(question, target_level)
-    model = llm if llm is not None else _get_llm()
-    try:
-        rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
-    except Exception as exc:
-        return TargetRewriteResult("", True, f"Generation error: {exc}", validation_error=True)
-    if not rewritten:
-        return TargetRewriteResult("", True, f"The v3 generator returned an empty {target_level} rewrite.")
+    """Generate, validate, and make at most one correction attempt.
 
-    if predictor is None and not predictor_error:
-        return TargetRewriteResult(
-            rewritten,
-            True,
-            "Rewrite generated. Classifier verification was not requested.",
-            validation_error=True,
-        )
+    Automated checks are conservative screens, not proof of Bloom alignment.
+    The classifier never changes the selected target or rewrites the question.
+    """
+    target_level = _canonical_bloom_label(target_level)
+    model = llm if llm is not None else _get_llm()
+    attempts_allowed = max(1, min(int(max_attempts), 2))
+
     if predictor is None:
+        reason = (
+            f"Classifier verification failed: {predictor_error}"
+            if predictor_error
+            else "Classifier verification was not requested."
+        )
+        try:
+            prompt = build_v3_target_rewrite_prompt(question, target_level)
+            rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+        except Exception as exc:
+            return TargetRewriteResult(
+                "", True, f"Generation error: {exc}", validation_error=True, attempts=1
+            )
         return TargetRewriteResult(
             rewritten,
             True,
-            f"Rewrite generated. Classifier verification failed: {predictor_error}",
+            f"Rewrite generated but requires human review. {reason}",
             validation_error=True,
+            attempts=1,
         )
-    try:
-        validation = predictor.predict(rewritten)
-        predicted = _canonical_bloom_label(validation["prediction"])
-        confidence = float(validation.get("confidence") or 0.0)
-    except Exception as exc:
-        return TargetRewriteResult(
-            rewritten,
-            True,
-            f"Rewrite generated. Classifier verification failed: {exc}",
-            validation_error=True,
+
+    last_rewrite = ""
+    last_validation: dict = {}
+    for attempt in range(1, attempts_allowed + 1):
+        failure = last_validation.get("failure_reason", "") if attempt > 1 else ""
+        prompt = (
+            build_targeted_rewrite_prompt(
+                question, target_level=target_level, previous_failure=failure
+            )
+            if attempt > 1
+            else build_v3_target_rewrite_prompt(question, target_level)
         )
-    match = predicted == target_level and confidence >= V3_CLASSIFIER_CONFIDENCE_MIN
-    if predicted != target_level:
-        note = f"Classifier predicted {predicted} ({confidence:.0%}) for target {target_level}."
-    elif not match:
-        note = f"Classifier predicted {predicted} at {confidence:.0%}, below the 50% verification threshold."
-    else:
-        note = ""
+        try:
+            last_rewrite = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+        except Exception as exc:
+            return TargetRewriteResult(
+                last_rewrite,
+                True,
+                f"Generation error on attempt {attempt}: {exc}",
+                validation_error=True,
+                attempts=attempt,
+                validation_details=last_validation or None,
+            )
+
+        if not last_rewrite:
+            last_validation = {
+                "cleaned_output": "",
+                "format_valid": False,
+                "final_validation": False,
+                "failure_reason": f"The generator returned an empty {target_level} rewrite.",
+            }
+        else:
+            last_validation = _validate_generated_candidate(
+                question, last_rewrite, target_level, predictor
+            )
+        if last_validation.get("final_validation"):
+            return TargetRewriteResult(
+                last_rewrite,
+                False,
+                "",
+                predicted_level=last_validation.get("classifier_prediction", ""),
+                confidence=float(last_validation.get("classifier_confidence") or 0.0),
+                validation_match=True,
+                validation_error=False,
+                attempts=attempt,
+                validation_details=last_validation,
+            )
+
+    reason = last_validation.get("failure_reason") or "Automated validation did not pass."
+    predicted = last_validation.get("classifier_prediction", "")
+    confidence = float(last_validation.get("classifier_confidence") or 0.0)
     return TargetRewriteResult(
-        rewritten,
-        not match,
-        note,
+        last_rewrite,
+        True,
+        f"Validation failed after {attempts_allowed} attempt(s): {reason}",
         predicted_level=predicted,
         confidence=confidence,
-        validation_match=match,
+        validation_match=False,
+        validation_error=False,
+        attempts=attempts_allowed,
+        validation_details=last_validation,
     )
 
 
