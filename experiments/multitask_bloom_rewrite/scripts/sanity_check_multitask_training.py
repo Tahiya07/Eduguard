@@ -17,6 +17,7 @@ import json
 import math
 from pathlib import Path
 
+from dataset_io import load_split_rows
 from loss_masking import tokenize_with_assistant_only_loss
 
 
@@ -51,7 +52,7 @@ def main() -> None:
     if not data_dir.is_absolute():
         data_dir = repo_root / data_dir
 
-    train_rows = read_jsonl(data_dir / "train.jsonl")
+    train_rows, _ = load_split_rows(data_dir, "train", validate=True)
     by_task = {}
     for row in train_rows:
         by_task.setdefault(row["task"], row)
