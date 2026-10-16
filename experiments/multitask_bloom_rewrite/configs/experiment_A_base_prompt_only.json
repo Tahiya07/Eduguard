@@ -1,0 +1,36 @@
+{
+  "experiment_name": "A_base_qwen25_15b_prompt_only",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "dataset_dir": "data/multitask_bloom_rewrite_final",
+  "output_dir": "experiments/multitask_bloom_rewrite/models/not_used_for_experiment_A_base",
+  "results_dir": "experiments/multitask_bloom_rewrite/results/experiment_A_base_prompt_only",
+  "max_seq_length": 8192,
+  "seed": 42,
+  "generation": {
+    "do_sample": false,
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 0,
+    "repeat_penalty": 1,
+    "max_new_tokens": 128,
+    "decoding": "greedy",
+    "seed": 42
+  },
+  "evaluation": {
+    "split": "validation",
+    "evaluation_per_task": 300,
+    "seed": 42,
+    "evaluate_all_bloom_validation_rows": true,
+    "fixed_ids_across_conditions": true,
+    "keep_test_split_locked": true
+  },
+  "notes": [
+    "Experiment A: base Qwen2.5-1.5B-Instruct with prompts only; no LoRA adapter or task fine-tuning.",
+    "Use this as the common baseline for experiments B, C, and D.",
+    "The evaluator defaults to validation and samples up to 300 QA and 300 summarization validation rows deterministically; all Bloom validation rows are evaluated.",
+    "Reuse the same prepared corpus, validation IDs, generation config, and auxiliary Bloom classifier for A/B/C/D.",
+    "Do not inspect the test split for experiment selection. Run a final test evaluation only after choosing a method.",
+    "This config output_dir is intentionally unused by condition=base; it prevents accidentally resolving a training checkpoint."
+  ]
+}
