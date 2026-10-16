@@ -246,6 +246,7 @@ def load_squad(
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
+    print("[SQuAD] Loading rajpurkar/squad...", flush=True)
     ds = load_dataset("rajpurkar/squad")
     UPSTREAM_DATASET_INFO[TASK_QA] = {
         "dataset": "rajpurkar/squad",
@@ -285,7 +286,10 @@ def load_squad(
 
     def convert(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
         out: list[dict[str, Any]] = []
-        for row in rows:
+        print(f"[SQuAD] Converting {split}: {len(rows):,} rows...", flush=True)
+        for row_index, row in enumerate(rows):
+            if (row_index + 1) % 1000 == 0 or row_index + 1 == len(rows):
+                print(f"[SQuAD] {split}: {row_index + 1:,}/{len(rows):,}", flush=True)
             answers = row.get("answers", {})
             texts = answers.get("text", [])
             starts = answers.get("answer_start", [])
@@ -355,23 +359,29 @@ def load_squad(
             out.append(record)
         return out
 
-    return convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
+    print(f"[SQuAD] Grouped source split: train={len(train_raw):,}, validation={len(val_raw):,}; official validation/test={len(official_dev):,}", flush=True)
+    result = convert(train_raw, "train"), convert(val_raw, "validation"), convert(official_dev, "test")
+    print(f"[SQuAD] Conversion complete: train={len(result[0]):,}, validation={len(result[1]):,}, test={len(result[2]):,}", flush=True)
+    return result
 
 def load_arxiv_summarization(
     tokenizer_model_id: str = "Qwen/Qwen2.5-1.5B-Instruct",
     max_seq_length: int = 8192,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
-    """Load arXiv summarization using its official splits.
+    max_train_rows: int | None = None,
+    max_validation_rows: int | None = None,
+    max_test_rows: int | None = None,
+    seed: int = 42,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, int], dict[str, int]]:
+    """Filter arXiv rows under the sequence budget without retaining the whole corpus.
 
-    Keep the dataset's existing train/validation/test boundaries. Exclude an
-    example only when its complete prompt+target SFT sequence exceeds the
-    declared token budget; never truncate an article while retaining its
-    full-paper abstract.
+    Deterministic reservoir sampling bounds memory when callers only need a capped
+    subset. Counts still reflect every row examined, including over-budget rows.
     """
     from datasets import load_dataset
     from transformers import AutoTokenizer
     from prompts import build_sft_text
 
+    print("[arXiv] Loading ccdv/arxiv-summarization...", flush=True)
     ds = load_dataset("ccdv/arxiv-summarization")
     required_splits = ("train", "validation", "test")
     missing_splits = [name for name in required_splits if name not in ds]
@@ -391,46 +401,80 @@ def load_arxiv_summarization(
         "revision_pinned": False,
     }
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_id, use_fast=True)
+    caps = {
+        "train": max_train_rows,
+        "validation": max_validation_rows,
+        "test": max_test_rows,
+    }
+    excluded = {"train": 0, "validation": 0, "test": 0}
+    available = {"train": 0, "validation": 0, "test": 0}
 
     def convert(split_rows: Any, split: str) -> list[dict[str, Any]]:
-        out: list[dict[str, Any]] = []
+        cap = caps[split]
+        rng = random.Random(seed + {"train": 202, "validation": 404, "test": 606}[split])
+        retained: list[dict[str, Any]] = []
+        eligible_seen = 0
+        total = len(split_rows)
+        print(
+            f"[arXiv] Processing {split}: {total:,} source rows; "
+            f"retention cap={'none' if cap is None else cap}",
+            flush=True,
+        )
         for i, row in enumerate(split_rows):
             article = str(row.get("article", "")).strip()
             abstract = str(row.get("abstract", "")).strip()
-            if not article or not abstract:
-                continue
+            if article and abstract:
+                record = {
+                    "task": TASK_SUM,
+                    "split": split,
+                    "id": str(row.get("id") or f"arxiv_{split}_{i:07d}"),
+                    "article": article,
+                    "abstract": abstract,
+                    "title": str(row.get("title", "")).strip(),
+                }
+                full_len = len(
+                    tokenizer(
+                        build_sft_text(TASK_SUM, record),
+                        add_special_tokens=False,
+                        truncation=True,
+                        max_length=max_seq_length + 1,
+                    )["input_ids"]
+                )
+                if full_len > max_seq_length:
+                    excluded[split] += 1
+                else:
+                    eligible_seen += 1
+                    if cap is None or len(retained) < cap:
+                        retained.append(record)
+                    elif cap > 0:
+                        # Reservoir sampling yields a deterministic uniform sample
+                        # without keeping every long article in memory.
+                        slot = rng.randrange(eligible_seen)
+                        if slot < cap:
+                            retained[slot] = record
 
-            record = {
-                "task": TASK_SUM,
-                "split": split,
-                "id": str(row.get("id") or f"arxiv_{split}_{i:07d}"),
-                "article": article,
-                "abstract": abstract,
-                "title": str(row.get("title", "")).strip(),
-            }
-            # Probe only max_seq_length + 1 tokens. This is sufficient to decide
-            # whether the full SFT sequence exceeds the budget and avoids asking
-            # the tokenizer to process pathological, extremely long articles.
-            full_len = len(
-                tokenizer(
-                    build_sft_text(TASK_SUM, record),
-                    add_special_tokens=False,
-                    truncation=True,
-                    max_length=max_seq_length + 1,
-                )["input_ids"]
-            )
-            if full_len > max_seq_length:
-                excluded[split] += 1
-                continue
-            out.append(record)
-        return out
+            processed = i + 1
+            if processed % 1000 == 0 or processed == total:
+                print(
+                    f"[arXiv] {split}: {processed:,}/{total:,} processed; "
+                    f"eligible={eligible_seen:,}; over_budget={excluded[split]:,}; "
+                    f"held_in_memory={len(retained):,}",
+                    flush=True,
+                )
 
-    excluded = {"train": 0, "validation": 0, "test": 0}
+        available[split] = eligible_seen
+        retained.sort(key=lambda item: str(item.get("id", "")))
+        print(
+            f"[arXiv] {split} complete: eligible={eligible_seen:,}, "
+            f"excluded_over_budget={excluded[split]:,}, retained={len(retained):,}",
+            flush=True,
+        )
+        return retained
+
     train_rows = convert(ds["train"], "train")
     val_rows = convert(ds["validation"], "validation")
     test_rows = convert(ds["test"], "test")
-    return train_rows, val_rows, test_rows, excluded
-
+    return train_rows, val_rows, test_rows, excluded, available
 
 def enrich_prompts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
@@ -506,6 +550,7 @@ def main() -> None:
     if args.max_sum_train is not None and args.max_sum_train < 1:
         raise SystemExit("--max-sum-train must be positive when supplied.")
 
+    print("[1/7] Loading and validating canonical BloomShift splits...", flush=True)
     bloom_train_raw = load_json(required_bloom[0])
     bloom_val_raw = load_json(required_bloom[1])
     bloom_test_raw = load_json(required_bloom[2])
@@ -534,14 +579,20 @@ def main() -> None:
     if bloom_groups["validation"] & bloom_groups["test"]:
         raise SystemExit("BloomShift validation/test group leakage detected.")
 
+    print("[2/7] Preparing SQuAD QA data...", flush=True)
     qa_train, qa_val, qa_test = load_squad(
         args.seed,
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    arxiv_train, arxiv_val, arxiv_test, arxiv_excluded = load_arxiv_summarization(
+    print("[3/7] Preparing arXiv summarization data with bounded memory...", flush=True)
+    arxiv_train, arxiv_val, arxiv_test, arxiv_excluded, arxiv_available = load_arxiv_summarization(
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
+        max_train_rows=args.max_sum_train,
+        max_validation_rows=len(bloom_val),
+        max_test_rows=len(bloom_test),
+        seed=args.seed,
     )
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
@@ -550,12 +601,13 @@ def main() -> None:
 
     # Record source availability before deterministic sampling.
     qa_train_available = len(qa_train)
-    arxiv_train_available = len(arxiv_train)
+    arxiv_train_available = arxiv_available["train"]
     qa_validation_available = len(qa_val)
-    arxiv_validation_available = len(arxiv_val)
+    arxiv_validation_available = arxiv_available["validation"]
     qa_test_available = len(qa_test)
-    arxiv_test_available = len(arxiv_test)
+    arxiv_test_available = arxiv_available["test"]
 
+    print("[4/7] Applying deterministic training caps and evaluation split sizes...", flush=True)
     # Training caps remain optional and affect only training rows.
     if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
         qa_train = random.Random(args.seed + 101).sample(qa_train, args.max_qa_train)
@@ -613,6 +665,7 @@ def main() -> None:
             if not all(row.get("sft_text") and row.get("prompt_text") and row.get("generation_prompt") for row in rows):
                 raise SystemExit(f"Missing SFT/prompt content in {task}/{split}.")
 
+    print("[5/7] Enriching prompts and checking token budgets...", flush=True)
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(args.model_id, use_fast=True)
     token_counts: dict[str, dict[str, dict[str, int]]] = {}
@@ -623,7 +676,10 @@ def main() -> None:
             overlength: list[str] = []
             prompt_overflow: list[str] = []
             lengths: list[int] = []
-            for row in rows:
+            print(f"[tokens] Checking {task}/{split}: {len(rows):,} examples...", flush=True)
+            for row_index, row in enumerate(rows):
+                if (row_index + 1) % 100 == 0 or row_index + 1 == len(rows):
+                    print(f"[tokens] {task}/{split}: {row_index + 1:,}/{len(rows):,}", flush=True)
                 full_len = bounded_token_count(tokenizer, row["sft_text"], args.max_seq_length)
                 prompt_len = bounded_token_count(tokenizer, row["prompt_text"], args.max_seq_length)
                 lengths.append(full_len)
@@ -648,6 +704,7 @@ def main() -> None:
                 "max_tokens": max(lengths),
             }
 
+    print("[6/7] Writing task-separated JSONL files...", flush=True)
     out_dir.mkdir(parents=True, exist_ok=True)
     file_hashes: dict[str, str] = {}
     for task, splits in task_splits.items():
@@ -777,6 +834,7 @@ def main() -> None:
             "Never tune model choices using the held-out test split.",
         ],
     }
+    print("[7/7] Writing manifest and preparation report...", flush=True)
     (out_dir / "dataset_manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
@@ -797,7 +855,8 @@ def main() -> None:
         json.dumps(report, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    print(json.dumps(report, indent=2, ensure_ascii=False))
+    print("[SUCCESS] Task-separated dataset preparation completed.", flush=True)
+    print(json.dumps(report, indent=2, ensure_ascii=False), flush=True)
 
 
 if __name__ == "__main__":
