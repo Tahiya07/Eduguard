@@ -526,9 +526,36 @@ def _load_v3_prompts():
     return _V3_PROMPTS
 
 
+def _canonical_target_level(raw: str) -> str:
+    """Accept only an explicit Bloom target; never silently default an invalid target."""
+    aliases = {
+        "remember": "Remember",
+        "remembering": "Remember",
+        "understand": "Understand",
+        "understanding": "Understand",
+        "apply": "Apply",
+        "applying": "Apply",
+        "analyze": "Analyze",
+        "analyzing": "Analyze",
+        "analyse": "Analyze",
+        "analysing": "Analyze",
+        "evaluate": "Evaluate",
+        "evaluating": "Evaluate",
+        "create": "Create",
+        "creating": "Create",
+    }
+    token = (raw or "").strip().casefold()
+    if token not in aliases:
+        raise ValueError(
+            f"Unknown target Bloom level {raw!r}; expected Remember, Understand, "
+            "Apply, Analyze, Evaluate, or Create."
+        )
+    return aliases[token]
+
+
 def build_v3_target_rewrite_prompt(question: str, target_level: str) -> str:
     """ChatML prompt the finalized v3 multitask model was trained to continue."""
-    target_level = _canonical_bloom_label(target_level)
+    target_level = _canonical_target_level(target_level)
     prompts = _load_v3_prompts()
     prompt = prompts.build_generation_prompt(
         "bloom_rewrite",
@@ -956,7 +983,7 @@ def rewrite_to_target_level(
     Automated checks are conservative screens, not proof of Bloom alignment.
     The classifier never changes the selected target or rewrites the question.
     """
-    target_level = _canonical_bloom_label(target_level)
+    target_level = _canonical_target_level(target_level)
     model = llm if llm is not None else _get_llm()
     attempts_allowed = max(1, min(int(max_attempts), 2))
 
