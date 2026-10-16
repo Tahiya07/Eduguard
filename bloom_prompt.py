@@ -645,7 +645,7 @@ def _validate_output_format(question: str) -> tuple[bool, str]:
     # Imperative exam prompts are valid questions even without a question mark.
     # This checks only grammatical prompt form, never Bloom classification.
     question_words = {"what", "how", "why", "which", "who", "when", "where", "given", "determine", "calculate", "show", "predict", "outline", "distinguish", "recommend", "propose"}
-    imperative_starters = {"define", "identify", "list", "name", "state", "explain", "describe", "summarize", "interpret", "classify", "use", "solve", "demonstrate", "analyze", "compare", "examine", "evaluate", "assess", "justify", "critique", "design", "develop", "construct", "create", "formulate"}
+    imperative_starters = {"define", "identify", "list", "name", "state", "recall", "explain", "describe", "summarize", "interpret", "classify", "apply", "use", "solve", "calculate", "demonstrate", "implement", "analyze", "analyse", "compare", "contrast", "differentiate", "examine", "investigate", "evaluate", "assess", "justify", "critique", "defend", "judge", "design", "develop", "construct", "create", "formulate", "propose", "recommend", "predict", "determine", "outline", "show", "label"}
     has_question_structure = (
         question.endswith("?")
         or bool(words and words[0].rstrip(":,.") in question_words)
