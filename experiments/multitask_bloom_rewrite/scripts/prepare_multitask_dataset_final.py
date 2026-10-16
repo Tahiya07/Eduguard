@@ -461,13 +461,13 @@ def main() -> None:
         "--max-qa-train",
         type=int,
         default=None,
-        help="Optional deterministic cap on QA training rows only; validation/test remain unchanged.",
+        help="Optional deterministic cap on QA training rows; evaluation QA splits are capped to the corresponding BloomShift split size.",
     )
     parser.add_argument(
         "--max-sum-train",
         type=int,
         default=None,
-        help="Optional deterministic cap on summarization training rows only; validation/test remain unchanged.",
+        help="Optional deterministic cap on summarization training rows; evaluation summarization splits are capped to the corresponding BloomShift split size.",
     )
     args = parser.parse_args()
 
@@ -548,10 +548,15 @@ def main() -> None:
     if not arxiv_train or not arxiv_val or not arxiv_test:
         raise SystemExit("arXiv summarization preparation produced an empty split.")
 
-    # Optional, deterministic per-task caps apply only to training rows. The
-    # held-out validation/test sets are never downsampled by these options.
+    # Record source availability before deterministic sampling.
     qa_train_available = len(qa_train)
     arxiv_train_available = len(arxiv_train)
+    qa_validation_available = len(qa_val)
+    arxiv_validation_available = len(arxiv_val)
+    qa_test_available = len(qa_test)
+    arxiv_test_available = len(arxiv_test)
+
+    # Training caps remain optional and affect only training rows.
     if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
         qa_train = random.Random(args.seed + 101).sample(qa_train, args.max_qa_train)
         qa_train.sort(key=lambda row: str(row.get("id", "")))
@@ -559,8 +564,28 @@ def main() -> None:
         arxiv_train = random.Random(args.seed + 202).sample(arxiv_train, args.max_sum_train)
         arxiv_train.sort(key=lambda row: str(row.get("id", "")))
 
-    # Task files stay physically separate. Optional caps are applied independently
-    # to QA and summarization training sets; no merged corpus or target ratio exists.
+    # Match each auxiliary evaluation task's row count to BloomShift's held-out
+    # count. Fixed, task-specific seeds make selection reproducible. Sorting after
+    # sampling gives stable file order. Source split boundaries are preserved.
+    qa_val_cap = min(len(qa_val), len(bloom_val))
+    sum_val_cap = min(len(arxiv_val), len(bloom_val))
+    qa_test_cap = min(len(qa_test), len(bloom_test))
+    sum_test_cap = min(len(arxiv_test), len(bloom_test))
+    if len(qa_val) > qa_val_cap:
+        qa_val = random.Random(args.seed + 303).sample(qa_val, qa_val_cap)
+        qa_val.sort(key=lambda row: str(row.get("id", "")))
+    if len(arxiv_val) > sum_val_cap:
+        arxiv_val = random.Random(args.seed + 404).sample(arxiv_val, sum_val_cap)
+        arxiv_val.sort(key=lambda row: str(row.get("id", "")))
+    if len(qa_test) > qa_test_cap:
+        qa_test = random.Random(args.seed + 505).sample(qa_test, qa_test_cap)
+        qa_test.sort(key=lambda row: str(row.get("id", "")))
+    if len(arxiv_test) > sum_test_cap:
+        arxiv_test = random.Random(args.seed + 606).sample(arxiv_test, sum_test_cap)
+        arxiv_test.sort(key=lambda row: str(row.get("id", "")))
+
+    # Task files stay physically separate. Evaluation caps make per-task example
+    # counts comparable to BloomShift while retaining independent source splits.
     task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
         TASK_BLOOM: {
             "train": enrich_prompts(bloom_train),
@@ -671,11 +696,19 @@ def main() -> None:
         "qa_source": {
             "dataset": "rajpurkar/squad",
             "requested_train_fraction": 0.95,
-            "available_train_rows_after_group_split": len(qa_train),
+            "available_train_rows_after_group_split_before_cap": qa_train_available,
             "prepared_train_rows": len(task_splits[TASK_QA]["train"]),
-            "validation_rows_after_group_split": len(qa_val),
-            "official_validation_rows_used_as_test": len(qa_test),
+            "validation_rows_available_before_cap": qa_validation_available,
+            "prepared_validation_rows": len(task_splits[TASK_QA]["validation"]),
+            "official_validation_rows_available_before_test_cap": qa_test_available,
+            "prepared_test_rows": len(task_splits[TASK_QA]["test"]),
             "official_validation_used_as_test": True,
+            "evaluation_sampling": {
+                "validation_target_rows": len(bloom_val),
+                "test_target_rows": len(bloom_test),
+                "seed_offsets": {"validation": 303, "test": 505},
+                "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
+            },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "answer_preserving_context_window": True,
@@ -685,8 +718,18 @@ def main() -> None:
             "dataset": "ccdv/arxiv-summarization",
             "official_splits_preserved": True,
             "split_names": {"train": "train", "validation": "validation", "test": "test"},
-            "available_train_rows_after_length_filter": len(arxiv_train),
+            "available_train_rows_after_length_filter_before_cap": arxiv_train_available,
             "prepared_train_rows": len(task_splits[TASK_SUM]["train"]),
+            "validation_rows_available_before_cap": arxiv_validation_available,
+            "prepared_validation_rows": len(task_splits[TASK_SUM]["validation"]),
+            "test_rows_available_before_cap": arxiv_test_available,
+            "prepared_test_rows": len(task_splits[TASK_SUM]["test"]),
+            "evaluation_sampling": {
+                "validation_target_rows": len(bloom_val),
+                "test_target_rows": len(bloom_test),
+                "seed_offsets": {"validation": 404, "test": 606},
+                "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
+            },
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "over_budget_examples_excluded": arxiv_excluded,
@@ -719,13 +762,14 @@ def main() -> None:
                 task: round(count / actual_train_total, 6)
                 for task, count in task_counts["train"].items()
             },
-            "note": "Caps affect training rows only. Validation/test remain unchanged and task files remain separate; fractions are descriptive, not enforced sampling ratios.",
+            "note": "Training caps affect only training rows. Validation/test auxiliary tasks are deterministically capped to the matching BloomShift split counts; task files remain separate.",
         },
         "counts": task_counts,
         "notes": [
             "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
             "Each task's train/validation/test data is stored in its own directory.",
-            "All prepared training examples are retained; no fixed-ratio downsampling occurs during preparation.",
+            "BloomShift training rows are retained; optional QA/summarization training caps are independent of evaluation caps.",
+            "QA and summarization validation/test splits are deterministically capped to BloomShift's corresponding held-out row counts.",
             "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
             "BloomShift's fixed split boundaries and source-group isolation are preserved.",
             "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
