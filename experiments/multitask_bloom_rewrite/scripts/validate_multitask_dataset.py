@@ -13,11 +13,11 @@ from collections import Counter
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+EXPERIMENT_DIR = SCRIPT_DIR.parent
 REPO_ROOT = Path(__file__).resolve().parents[3]
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+for search_path in (REPO_ROOT, EXPERIMENT_DIR, SCRIPT_DIR):
+    if str(search_path) not in sys.path:
+        sys.path.insert(0, str(search_path))
 
 from dataset_io import TASKS, SPLITS, load_manifest, read_jsonl, validate_separate_dataset
 from loss_masking import tokenize_with_assistant_only_loss
