@@ -152,5 +152,50 @@ class BloomHeuristicTests(unittest.TestCase):
         self.assertTrue(all(row["independent_review_verified"] is False for row in normalized))
 
 
+    def test_audit_counts_every_row_as_included_even_with_legacy_metadata_gaps(self):
+        import json
+        from scripts.audit_bloomshift_dataset import audit
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            row_template = {
+                "source_id": "src",
+                "group_id": "group",
+                "source_question": "Explain database indexing.",
+                "target_bloom_level": "Analyze",
+                "target_rewrite": "Analyze the relationship between indexing choices and query performance.",
+                "example_id": "example",
+            }
+            rows_by_split = {}
+            for split in ("train", "validation", "test"):
+                row = dict(row_template)
+                row["source_id"] = f"src_{split}"
+                row["group_id"] = f"group_{split}"
+                row["example_id"] = f"example_{split}"
+                rows_by_split[split] = [row]
+                (root / f"{split}.json").write_text(
+                    json.dumps(rows_by_split[split]), encoding="utf-8"
+                )
+            attestation = {
+                "scope": {
+                    "split_counts": {"train": 1, "validation": 1, "test": 1},
+                    "total_rows": 3,
+                    "include_every_canonical_record": True,
+                },
+                "dataset_owner_report": {"all_records_reported_human_reviewed": True},
+                "provenance_limits": {"qualifies_as_independently_annotated_gold": False},
+            }
+            (root / "batch_review_attestation.json").write_text(
+                json.dumps(attestation), encoding="utf-8"
+            )
+            report, gaps = audit(root)
+            self.assertEqual(report["overall"]["total"], 3)
+            self.assertEqual(report["overall"]["included_for_modeling_workflow"], 3)
+            self.assertEqual(report["overall"]["excluded_due_to_review_metadata"], 0)
+            self.assertTrue(report["overall"]["ready_for_training_and_provisional_evaluation"])
+            self.assertFalse(report["overall"]["ready_for_independent_gold_evaluation"])
+            self.assertEqual(len(gaps), 3)
+            self.assertTrue(all(gap["included_under_batch_attestation"] for gap in gaps))
+
 if __name__ == "__main__":
     unittest.main()
