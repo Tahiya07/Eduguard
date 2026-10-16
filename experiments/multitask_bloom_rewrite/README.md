@@ -47,3 +47,20 @@ python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --con
 ```
 
 The existing config uses validation loss for checkpoint selection; a follow-up training-method change should add task-aware evaluation and loss balancing as a separate experiment. Never use the test split for hyperparameter tuning or checkpoint selection. Use a new output directory for each experimental run so previous checkpoints cannot silently contaminate a fresh run.
+
+
+## Sequential model comparison (A → B → C → D)
+
+Use `EXPERIMENT_MATRIX_A_TO_D.md` as the experiment contract. Start with the untrained base Qwen2.5-1.5B-Instruct prompt-only baseline (A), then evaluate Bloom-only LoRA (B), the existing 40/30/30 multitask LoRA baseline (C), and only then implement the task-balanced 50/25/25 loss experiment (D).
+
+The evaluation script now supports `--split validation|test`, verifies the selected split against the manifest counts and SHA-256, and defaults to validation so A/B/C/D comparisons do not use the test split for model selection. It selects the same Bloom/QA/summarization validation IDs across conditions using stable ID ordering and task-specific seeds. The evaluator saves each run's selected IDs, predictions, metrics, environment metadata, and human-rating export in that run's output directory.
+
+Experiment A configuration: `configs/experiment_A_base_prompt_only.json`.
+
+Run A after the full BloomShift corpus has been rebuilt and passed QC:
+
+```powershell
+python experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py --config experiments/multitask_bloom_rewrite/configs/experiment_A_base_prompt_only.json --condition base --split validation --evaluation-per-task 300
+```
+
+Do not implement D's weighted loss until A/B/C provide baselines. D must keep the same 40/30/30 example sample mixture as C and change only the response-normalized task loss weights to 50/25/25.
