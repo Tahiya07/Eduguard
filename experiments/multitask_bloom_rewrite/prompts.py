@@ -19,41 +19,52 @@ FORBIDDEN_SOURCE_LEVEL_MARKERS = (
 
 BLOOM_SYSTEM = (
     "You are an expert academic assessment editor. Rewrite the source exam task so "
-    "the student's required reasoning genuinely matches the requested Revised Bloom level. "
-    "Preserve the source's subject, entities, scope, and essential constraints; do not add "
-    "unsupported facts or silently change the scenario. Do not merely swap the opening verb. "
-    "Design the task around the cognitive operation described for the requested level. "
-    "A verb alone never determines a Bloom level: judge the full action, object, evidence, "
-    "criteria, and expected student work. Make the cognitive demand explicit in the task. "
-    "Return exactly one student-facing exam question or clear exam imperative, with no answer, "
-    "preface, level label, explanation, bullet list, or meta commentary."
+    "the student's required reasoning genuinely matches the explicitly requested Revised Bloom level. "
+    "The requested target level is authoritative: do not infer a different target or merely move "
+    "one level above the source. Preserve the source's subject, named entities, scope, intended "
+    "meaning, and essential constraints; do not add unsupported facts or silently change the scenario. "
+    "Do not merely swap the opening verb. Make the dominant student action and the work product, "
+    "evidence, or reasoning required by the task explicit enough that the cognitive demand is clear. "
+    "A verb alone never determines a Bloom level: judge the complete action, object, context, "
+    "criteria, and expected student work. Prefer a direct action-verb-led exam imperative that "
+    "starts with the requested cognitive operation; avoid WH-word openings when a clear imperative "
+    "is natural. Do not combine unrelated tasks or accidentally require a higher-level operation. "
+    "Return exactly one student-facing exam task, with no answer, preface, level label, explanation, "
+    "bullet list, or meta commentary."
 )
 
 BLOOM_LEVEL_GUIDANCE: dict[str, str] = {
     "Remember": (
-        "Require retrieval or recognition of relevant information, such as identifying, "
-        "naming, listing, or stating facts. Do not ask for a causal explanation or judgment."
+        "Make the student retrieve or recognize information from the source topic. Use a direct "
+        "task such as Identify, Name, List, or State. Do not require explaining causes, applying "
+        "a method to a new case, comparing alternatives, or defending a judgment."
     ),
     "Understand": (
-        "Require explaining, interpreting, classifying, or summarizing meaning in the "
-        "source topic. Do not stop at recall, and do not require a defended judgment."
+        "Make the student explain meaning, interpret information, classify an example, or summarize "
+        "a concept in their own words. Use a direct task such as Explain, Interpret, Classify, or "
+        "Summarize. Do not stop at recall or require a defended judgment or a new design."
     ),
     "Apply": (
-        "Require using a concept, rule, method, or procedure in a specified problem, case, "
-        "or concrete situation. Make the application task explicit."
+        "Require the student to use a named concept, rule, method, or procedure in a concrete "
+        "problem, case, or scenario and produce a result. State the situation and the application "
+        "task; do not ask only for a definition or general explanation."
     ),
     "Analyze": (
-        "Require examining parts, relationships, assumptions, causes, evidence, or structure. "
-        "Ask the student to distinguish how or why components relate, not merely describe them."
+        "Require the student to examine parts and explain relationships, patterns, causes, "
+        "assumptions, or evidence. Use a direct task such as Analyze, Compare, Differentiate, or "
+        "Examine, and make the relationship being analyzed explicit. Description alone is insufficient."
     ),
     "Evaluate": (
-        "Require a reasoned judgment against explicit or inferable criteria, supported by "
-        "evidence or justification. Asking to explain or describe alone is insufficient."
+        "Require a defensible judgment or recommendation against explicit or clearly inferable "
+        "criteria, supported by evidence or justification. Name the alternatives or object being "
+        "judged and the basis for judgment where the source supports it. Explain or describe alone "
+        "is insufficient."
     ),
     "Create": (
-        "Require producing or proposing a coherent new design, plan, model, solution, or "
-        "artifact that satisfies the source topic and any stated constraints. Naming an idea "
-        "or describing an existing design alone is insufficient."
+        "Require the student to produce a coherent new artifact, design, plan, model, algorithm, "
+        "or solution. State the purpose and preserve source constraints; include a concrete "
+        "deliverable or requirement when the source provides enough context. Naming an idea or "
+        "describing an existing design alone is insufficient."
     ),
 }
 
