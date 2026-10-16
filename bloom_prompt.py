@@ -813,6 +813,74 @@ def _retry_instruction(target_level: str, failure: str) -> str:
     return failure
 
 
+def _target_cognitive_operation_check(rewrite: str, target_level: str) -> tuple[bool, str]:
+    """Conservative structural screen for the requested student operation.
+
+    This is a heuristic gate, not a Bloom classifier or a substitute for human
+    review. It focuses on the demanded task, not verbs mentioned as subject matter.
+    """
+    text = re.sub(r"\\s+", " ", (rewrite or "").strip().lower())
+    words = text.split()
+    if not words:
+        return False, "Empty rewrite has no identifiable cognitive operation."
+
+    level = _canonical_bloom_label(target_level)
+    starters = {
+        "Remember": {"identify", "list", "name", "define", "state", "recall", "recognize", "label"},
+        "Understand": {"explain", "describe", "summarize", "interpret", "classify", "discuss", "illustrate"},
+        "Apply": {"apply", "use", "solve", "calculate", "compute", "demonstrate", "implement"},
+        "Analyze": {"analyze", "analyse", "compare", "contrast", "differentiate", "examine", "investigate", "inspect"},
+        "Evaluate": {"evaluate", "assess", "justify", "critique", "defend", "judge", "recommend"},
+        "Create": {"design", "develop", "create", "propose", "formulate", "construct"},
+    }
+    first = re.sub(r"[^a-z]", "", words[0])
+    if first not in starters[level]:
+        return False, (
+            f"Start the exam task with a direct {level}-appropriate action verb; "
+            f"received {words[0]!r}."
+        )
+
+    if level == "Apply":
+        context_cues = (
+            "case", "scenario", "problem", "given", "using", "to solve",
+            "calculate", "compute", "apply", "implement", "demonstrate",
+        )
+        if not any(cue in text for cue in context_cues):
+            return False, "Apply task does not make concrete use of a method or concept explicit."
+    elif level == "Analyze":
+        relation_cues = (
+            "relationship", "relation", "difference", "similarity", "between",
+            "how", "why", "cause", "effect", "affect", "impact", "pattern",
+            "component", "part", "assumption", "evidence", "structure", "and",
+        )
+        if len(words) < 6 or not any(cue in text for cue in relation_cues):
+            return False, "Analyze task does not make a relationship, distinction, or structure explicit."
+    elif level == "Evaluate":
+        judgment_cues = (
+            "criteria", "criterion", "evidence", "justify", "justification",
+            "strength", "weakness", "trade-off", "trade off", "against",
+            "according to", "based on", "using", "recommend", "defend",
+            "support your judgment", "most effective",
+        )
+        if not any(cue in text for cue in judgment_cues):
+            return False, "Evaluate task lacks an explicit judgment basis, evidence, or justification."
+    elif level == "Create":
+        deliverables = (
+            "prototype", "proposal", "framework", "system", "model", "plan",
+            "algorithm", "workflow", "architecture", "blueprint", "implementation",
+            "procedure", "tool", "design specification", "working example",
+            "solution", "artifact", "application",
+        )
+        constraints = (
+            "constraint", "requirement", "that satisfies", "subject to",
+            "within a budget", "under a limit", "given the following",
+            "using the following", "must meet", "must support",
+        )
+        if not any(term in text for term in deliverables + constraints):
+            return False, "Create task lacks a concrete deliverable or stated constraint."
+    return True, f"{level} cognitive-operation screen passed."
+
+
 def _validate_generated_candidate(question: str, rewrite: str, target_level: str, predictor) -> dict:
     record = {"cleaned_output": rewrite, "format_valid": False, "semantic_similarity": 0.0,
               "deterministic_check": "not run", "classifier_prediction": "", "classifier_confidence": 0.0,
@@ -829,6 +897,11 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
         return record
     valid, reason = _semantic_cognitive_check_deterministic(rewrite, target_level)
     record["deterministic_check"] = reason
+    if not valid:
+        record["failure_reason"] = reason
+        return record
+    valid, reason = _target_cognitive_operation_check(rewrite, target_level)
+    record["cognitive_operation_check"] = reason
     if not valid:
         record["failure_reason"] = reason
         return record
