@@ -285,12 +285,15 @@ def evaluate_sum_row(
 def results_dir_for(cfg: dict[str, Any], condition: str) -> Path:
     key = cfg.get("model_key", "model")
     if condition == "base":
+        configured_results = cfg.get("results_dir")
+        if configured_results:
+            return Path(configured_results)
         return EXPERIMENT_DIR / "results" / f"qwen{key}_base"
     return Path(cfg.get("results_dir", EXPERIMENT_DIR / "results" / f"qwen{key}_lora"))
 
 
 def write_human_eval_export(bloom_records: list[dict[str, Any]], out_dir: Path) -> Path | None:
-    export = HUMAN_EVAL_DIR / "predictions_for_rating.jsonl"
+    export = out_dir / "human_eval_predictions.jsonl"
     if not bloom_records:
         return None
     lines = []
