@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Evaluate multi-task Qwen models on the locked held-out TEST split.
 
-Evaluates Bloom rewrite, SQuAD-style QA, and BillSum summarization.
+Evaluates Bloom rewrite, SQuAD-style QA, and arXiv summarization.
 Does not modify production code or models/qwen.gguf.
 
 Usage:
@@ -356,13 +356,13 @@ def write_report(
         f"- Cognitive validity rate: {b.get('rates', {}).get('cognitive_valid_rate')}",
         f"- Trivial transform rate: {b.get('rates', {}).get('trivial_transform_rate')}",
         "",
-        "## QA (SQuAD held-out test half)",
+        f"## QA (SQuAD {dataset_meta.get('split', 'held-out')})",
         "",
         f"- N: {q.get('n')}",
         f"- Exact Match: {q.get('exact_match')}",
         f"- Token F1: {q.get('f1')}",
         "",
-        "## Summarization (BillSum test)",
+        f"## Summarization (arXiv {dataset_meta.get('split', 'held-out')})",
         "",
         f"- N: {s.get('n')}",
         f"- ROUGE-1: {s.get('rouge1')}",
@@ -381,8 +381,8 @@ def write_report(
         "",
         "## Deployment recommendation",
         "",
-        "**INCONCLUSIVE** — 0.5B base, 0.5B LoRA, 1.5B base, and 1.5B LoRA must be "
-        "evaluated under the same protocol before model selection.",
+        "**INCONCLUSIVE** — compare prompt-only, Bloom-only LoRA, the existing multitask LoRA, "
+        "and task-balanced LoRA under identical split IDs, prompts, and decoding parameters.",
         "",
         f"Checkpoint: `{checkpoint_info.get('resolved_path')}`",
         "",
@@ -392,7 +392,7 @@ def write_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate the final multi-task Qwen generator on the locked TEST split (13952 examples)."
+        description="Evaluate the shared Qwen generator on a manifest-verified validation or test split stored as separate task files."
     )
     parser.add_argument(
         "--config",
@@ -408,7 +408,7 @@ def main() -> None:
     parser.add_argument(
         "--dataset-dir",
         default=str(MULTITASK_FINAL_DATA_DIR),
-        help="Multi-task dataset directory (must contain test.jsonl)",
+        help="Root of the task-separated dataset directory (contains one subdirectory per task plus dataset_manifest.json)",
     )
     parser.add_argument(
         "--adapter-path",
