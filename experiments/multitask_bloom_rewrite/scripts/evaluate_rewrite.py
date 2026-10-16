@@ -36,7 +36,7 @@ from bloom_validation import (  # noqa: E402
     validate_bloom_example,
 )
 from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
-from eval_dataset import load_test_split  # noqa: E402
+from eval_dataset import load_evaluation_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
     CLASSIFIER_CONFIDENCE_MIN,
     aggregate_qa_metrics,
@@ -340,11 +340,12 @@ def write_report(
         "",
         "## Dataset",
         "",
-        f"- Test count: **{dataset_meta['counts']['test_count']}**",
-        f"- Corpus hash: `{dataset_meta.get('dataset_hash')}`",
-        f"- Test file: `{dataset_meta.get('test_manifest_path')}`",
+        f"- Evaluated split: **{dataset_meta.get('split', 'unknown')}**",
+        f"- Evaluated records: **{dataset_meta.get('counts', {}).get('row_count')}**",
+        f"- Dataset manifest SHA-256: `{dataset_meta.get('dataset_hash')}`",
+        f"- Manifest: `{dataset_meta.get('manifest_path')}`",
         "",
-        "## Bloom rewrite (held-out test)",
+        f"## Bloom rewrite (held-out {dataset_meta.get('split', 'split')})",
         "",
         f"- N: {b.get('classification', {}).get('n')}",
         f"- Target accuracy: {b.get('classification', {}).get('accuracy')}",
@@ -441,9 +442,16 @@ def main() -> None:
         help="Deterministic QA and summarization sample size (default: 300 each).",
     )
     parser.add_argument(
-        "--full-test-set",
+        "--split",
+        choices=["validation", "test"],
+        default="validation",
+        help="Use validation for A/B/C/D selection; keep test locked until the final chosen-model evaluation.",
+    )
+    parser.add_argument(
+        "--full-test-set", "--full-split",
+        dest="full_test_set",
         action="store_true",
-        help="Evaluate all rows from the locked test split.",
+        help="Evaluate all QA and summarization rows from the selected split rather than the fixed task sample.",
     )
     parser.add_argument(
         "--tasks",
@@ -490,12 +498,12 @@ def main() -> None:
         data_dir = REPO_ROOT / data_dir
 
     print("=" * 72)
-    print("MULTI-TASK EVALUATION — LOCKED TEST SPLIT")
+    print(f"MULTI-TASK EVALUATION — {args.split.upper()} SPLIT")
     print("=" * 72)
 
     try:
-        test_rows, dataset_meta = load_test_split(data_dir)
-    except AssertionError as exc:
+        test_rows, dataset_meta = load_evaluation_split(data_dir, split=args.split)
+    except (AssertionError, FileNotFoundError, ValueError) as exc:
         print("EVALUATION NOT STARTED —", exc)
         raise SystemExit(2) from exc
 
@@ -580,14 +588,15 @@ def main() -> None:
     subset_manifest = {
         "sampling_method": "deterministic_uniform_without_replacement",
         "seed": SEED,
-        "full_test_split_unchanged": True,
+        "evaluation_split": args.split,
+        "full_source_split_unchanged": True,
         "full_task_counts": full_counts,
         "evaluated_task_counts": evaluated_counts,
         "selected_ids": {
             task: [str(row.get("example_id", row.get("id", ""))) for row in rows]
             for task, rows in ((TASK_BLOOM, bloom_rows), (TASK_QA, qa_rows), (TASK_SUMMARIZATION, sum_rows))
         },
-        "full_test_set_requested": args.full_test_set,
+        "full_split_requested": args.full_test_set,
     }
     (out_dir / "evaluation_subset_manifest.json").write_text(json.dumps(subset_manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
