@@ -69,6 +69,16 @@ def validate_separate_dataset(
     repo_root = (repo_root or REPO_ROOT).resolve()
     manifest_path = data_dir / "dataset_manifest.json"
     manifest = load_manifest(data_dir)
+    merged_split_files = [
+        data_dir / filename
+        for filename in ("train.jsonl", "validation.jsonl", "test.jsonl")
+        if (data_dir / filename).is_file()
+    ]
+    if merged_split_files:
+        raise ValueError(
+            "Task-separated layout forbids root-level merged split files: "
+            + ", ".join(str(path) for path in merged_split_files)
+        )
     if manifest.get("version") != MANIFEST_VERSION:
         raise ValueError(
             f"Unsupported dataset manifest version {manifest.get('version')!r}; "
@@ -131,6 +141,19 @@ def validate_separate_dataset(
                     raise ValueError(f"{rel}:{row_number} duplicates id {rid!r} within {task}.")
                 seen_ids.add(rid)
             observed_counts[split][task] = actual_count
+
+    # IDs must be disjoint across splits for each task.
+    for task in TASKS:
+        id_sets = {
+            split: {str(row.get("id") or "") for row in rows_by_task_split[task][split]}
+            for split in SPLITS
+        }
+        for left, right in (("train", "validation"), ("train", "test"), ("validation", "test")):
+            overlap = id_sets[left] & id_sets[right]
+            if overlap:
+                raise ValueError(
+                    f"{task} record-ID leakage between {left} and {right}: {len(overlap)} IDs."
+                )
 
     # Guard against cross-split duplication of Bloom source groups and exact
     # task inputs before a model is allowed to train or be evaluated.
