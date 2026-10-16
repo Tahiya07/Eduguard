@@ -247,13 +247,25 @@ def _cognitive_valid(rewrite: str, target_level: str) -> bool:
         )
         return any(term in n for term in judgment_basis)
     if level == "Create":
-        # Require a product/solution or a design constraint in addition to a creation cue.
-        product_or_constraint = (
-            "design", "solution", "plan", "model", "system", "prototype", "proposal",
-            "framework", "construct", "develop", "produce", "create", "constraints",
-            "requirements", "using the following", "that satisfies",
+        # A creation verb alone is insufficient. Require an explicit deliverable
+        # or a stated constraint; otherwise "Create a strategy" passes trivially.
+        deliverables = (
+            "prototype", "proposal", "framework", "system", "model", "plan",
+            "algorithm", "workflow", "architecture", "blueprint", "implementation",
+            "procedure", "tool", "design specification", "working example",
         )
-        return any(term in n for term in product_or_constraint)
+        constraint_markers = (
+            "constraint", "requirement", "that satisfies", "subject to",
+            "within a budget", "under a limit", "given the following",
+            "using the following", "must meet", "must support",
+        )
+        has_deliverable = any(
+            re.search(r"(?<![a-z])" + re.escape(term) + r"(?![a-z])", n)
+            for term in deliverables
+        )
+        has_constraint = any(term in n for term in constraint_markers)
+        # "strategy" by itself is deliberately not treated as enough evidence.
+        return has_deliverable or has_constraint
     return True
 
 
