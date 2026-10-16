@@ -18,6 +18,12 @@ class _Predictor:
 
 
 class TargetRewriteRuntimeTests(unittest.TestCase):
+    def test_invalid_target_is_rejected_instead_of_defaulting_to_understand(self):
+        with self.assertRaisesRegex(ValueError, "Unknown target Bloom level"):
+            bloom_prompt.build_v3_target_rewrite_prompt(
+                "Explain database indexes.", "Expert"
+            )
+
     def test_target_cognitive_screen_checks_task_not_only_classifier(self):
         check = bloom_prompt._target_cognitive_operation_check
 
