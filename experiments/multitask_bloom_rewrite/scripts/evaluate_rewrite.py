@@ -59,7 +59,7 @@ from eval_model import (  # noqa: E402
 from paths import (  # noqa: E402
     CONFIG_DIR,
     HUMAN_EVAL_DIR,
-    MULTITASK_FINAL_DATA_DIR,
+    TASK_SEPARATED_DATA_DIR,
     SEED,
     TASK_BLOOM,
     TASK_QA,
@@ -410,7 +410,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--dataset-dir",
-        default=str(MULTITASK_FINAL_DATA_DIR),
+        default=str(TASK_SEPARATED_DATA_DIR),
         help="Root of the task-separated dataset directory (contains one subdirectory per task plus dataset_manifest.json)",
     )
     parser.add_argument(
