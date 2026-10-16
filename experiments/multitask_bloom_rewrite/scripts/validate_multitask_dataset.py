@@ -39,7 +39,7 @@ REQUIRED = {
 
 
 def norm(value: str) -> str:
-    return re.sub(r"\\s+", " ", str(value).strip().lower())
+    return re.sub(r"\s+", " ", str(value).strip().lower())
 
 
 def main() -> None:
