@@ -15,7 +15,15 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+EXPERIMENT_DIR = SCRIPT_DIR.parent
+REPO_ROOT = Path(__file__).resolve().parents[3]
+for search_path in (REPO_ROOT, EXPERIMENT_DIR, SCRIPT_DIR):
+    if str(search_path) not in sys.path:
+        sys.path.insert(0, str(search_path))
 
 from dataset_io import load_split_rows
 from loss_masking import tokenize_with_assistant_only_loss
