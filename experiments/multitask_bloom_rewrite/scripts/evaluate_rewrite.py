@@ -573,15 +573,27 @@ def main() -> None:
         r for r in test_rows if r["task"] == TASK_SUMMARIZATION and TASK_SUMMARIZATION in task_filter
     ]
     full_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
+    # Mirror the trainer's validation_task_limits sampling exactly:
+    # sort each task by record ID, then sample with a task-specific seed.
+    # Thus C/D checkpoint selection and A/B/C/D reported validation metrics use
+    # the same underlying QA and arXiv IDs when caps are enabled.
+    validation_seed_by_task = {
+        TASK_QA: SEED + sum(ord(ch) for ch in TASK_QA),
+        TASK_SUMMARIZATION: SEED + sum(ord(ch) for ch in TASK_SUMMARIZATION),
+    }
+    def sample_task(rows, cap, task):
+        rows = sorted(rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+        if len(rows) <= cap:
+            return rows
+        chosen = set(random.Random(validation_seed_by_task[task]).sample(range(len(rows)), cap))
+        return [row for i, row in enumerate(rows) if i in chosen]
+
     if not args.full_test_set:
-        rng = random.Random(SEED)
-        def sample_task(rows, cap):
-            if len(rows) <= cap:
-                return rows
-            chosen = set(rng.sample(range(len(rows)), cap))
-            return [row for i, row in enumerate(rows) if i in chosen]
-        qa_rows = sample_task(qa_rows, args.evaluation_per_task)
-        sum_rows = sample_task(sum_rows, args.evaluation_per_task)
+        qa_rows = sample_task(qa_rows, args.evaluation_per_task, TASK_QA)
+        sum_rows = sample_task(sum_rows, args.evaluation_per_task, TASK_SUMMARIZATION)
+    else:
+        qa_rows = sorted(qa_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+        sum_rows = sorted(sum_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
     if args.limit:
         bloom_rows = bloom_rows[: args.limit]
         qa_rows = qa_rows[: args.limit]
@@ -589,8 +601,9 @@ def main() -> None:
 
     evaluated_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
     subset_manifest = {
-        "sampling_method": "stable task-file order plus uniform sampling without replacement",
+        "sampling_method": "sort each task by stable ID, then uniform sampling without replacement with task-specific seed; matches trainer validation_task_limits",
         "seed": SEED,
+        "seed_by_task": validation_seed_by_task,
         "evaluation_split": args.split,
         "dataset_manifest_path": dataset_meta.get("manifest_path"),
         "dataset_manifest_sha256": dataset_meta.get("manifest_sha256"),
