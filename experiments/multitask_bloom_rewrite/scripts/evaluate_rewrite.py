@@ -389,7 +389,7 @@ def write_report(
         f"- Split SHA-256: `{dataset_meta.get('file_sha256')}`",
         f"- Manifest SHA-256: `{dataset_meta.get('manifest_sha256')}`",
         "",
-        "## Bloom rewrite (held-out test)",
+        f"## Bloom rewrite (held-out {dataset_meta.get('split')} split)",
         "",
         f"- N: {b.get('classification', {}).get('n')}",
         f"- Auxiliary-classifier agreement accuracy (not human-verified target accuracy): {b.get('classification', {}).get('accuracy')}",
@@ -458,7 +458,7 @@ def main() -> None:
     parser.add_argument(
         "--dataset-dir",
         default=str(MULTITASK_FINAL_DATA_DIR),
-        help="Multi-task dataset directory (must contain test.jsonl)",
+        help="Multi-task dataset directory (must contain manifest, validation.jsonl, and test.jsonl)",
     )
     parser.add_argument(
         "--adapter-path",
