@@ -566,10 +566,10 @@ def main() -> None:
     # Select the baseline training examples once, then store each task in its own
     # directory. C and D use these exact same per-task training files. B selects
     # only the Bloom task at training time and never reads QA/arXiv for gradients.
-    sampled_train = sample_for_mix(
+    sampled_train = enrich_prompts(sample_for_mix(
         bloom_train, qa_train, arxiv_train, args.seed,
         args.mix_bloom, args.mix_qa, args.mix_sum
-    )
+    ))
     task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
         TASK_BLOOM: {
             "train": [row for row in sampled_train if row["task"] == TASK_BLOOM],
@@ -660,12 +660,12 @@ def main() -> None:
         "tasks": [TASK_BLOOM, TASK_QA, TASK_SUM],
         "persisted_merged_jsonl": False,
         "bloom_source": {
-            "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\\\", "/"),
+            "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
             "version": "bloomshift_final_candidate",
             "files_sha256": source_hashes,
             "heldout_annotation_provenance": annotation_provenance,
             "batch_review_attestation": {
-                "path": str(attestation_path.relative_to(REPO_ROOT)).replace("\\\\", "/"),
+                "path": str(attestation_path.relative_to(REPO_ROOT)).replace("\\", "/"),
                 "sha256": source_hashes[attestation_path.name],
             },
             "training_split_eligibility_policy": (
@@ -734,7 +734,7 @@ def main() -> None:
         ],
     }
     (out_dir / "dataset_manifest.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False) + "\\n",
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
 
@@ -745,12 +745,12 @@ def main() -> None:
         "validation_rows": sum(task_counts["validation"].values()),
         "test_rows": sum(task_counts["test"].values()),
         "by_task": task_counts,
-        "output_dir": str(out_dir.relative_to(REPO_ROOT)).replace("\\\\", "/"),
+        "output_dir": str(out_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
         "generated_files_sha256": file_hashes,
     }
     (EXPERIMENT_DIR / "reports").mkdir(parents=True, exist_ok=True)
     (EXPERIMENT_DIR / "reports" / "multitask_separate_prepare_report.json").write_text(
-        json.dumps(report, indent=2, ensure_ascii=False) + "\\n",
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     print(json.dumps(report, indent=2, ensure_ascii=False))
