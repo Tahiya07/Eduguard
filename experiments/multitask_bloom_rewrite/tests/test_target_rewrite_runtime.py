@@ -18,6 +18,26 @@ class _Predictor:
 
 
 class TargetRewriteRuntimeTests(unittest.TestCase):
+    def test_target_cognitive_screen_checks_task_not_only_classifier(self):
+        check = bloom_prompt._target_cognitive_operation_check
+
+        self.assertTrue(check(
+            "Analyze how database index choices affect query performance.", "Analyze"
+        )[0])
+        self.assertFalse(check(
+            "Analyze database indexing.", "Analyze"
+        )[0])
+        self.assertTrue(check(
+            "Evaluate two indexing methods against query speed and storage-cost criteria.", "Evaluate"
+        )[0])
+        self.assertFalse(check(
+            "Evaluate two indexing methods.", "Evaluate"
+        )[0])
+        self.assertTrue(check(
+            "Design a database indexing system that satisfies the stated latency constraints.", "Create"
+        )[0])
+        self.assertFalse(check("Create a database indexing strategy.", "Create")[0])
+
     def test_retry_prompt_adds_failure_correction_inside_user_turn(self):
         prompt = bloom_prompt.build_targeted_rewrite_prompt(
             "Describe database indexes.",
