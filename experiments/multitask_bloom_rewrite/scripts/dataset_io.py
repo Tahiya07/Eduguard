@@ -83,6 +83,7 @@ def validate_separate_dataset(
         raise ValueError("Manifest must contain per-split counts and generated file hashes.")
 
     observed_counts: dict[str, dict[str, int]] = {}
+    rows_by_task_split: dict[str, dict[str, list[dict[str, Any]]]] = {task: {} for task in TASKS}
     for split in SPLITS:
         if not isinstance(declared_counts.get(split), dict):
             raise ValueError(f"Manifest has no task counts for {split!r}.")
@@ -102,6 +103,7 @@ def validate_separate_dataset(
                     "Rebuild the task-separated datasets."
                 )
             rows = read_jsonl(path)
+            rows_by_task_split[task][split] = rows
             actual_count = len(rows)
             try:
                 expected_count = int(declared_counts[split][task])
@@ -129,6 +131,36 @@ def validate_separate_dataset(
                     raise ValueError(f"{rel}:{row_number} duplicates id {rid!r} within {task}.")
                 seen_ids.add(rid)
             observed_counts[split][task] = actual_count
+
+    # Guard against cross-split duplication of Bloom source groups and exact
+    # task inputs before a model is allowed to train or be evaluated.
+    group_sets: dict[str, set[str]] = {}
+    for split in SPLITS:
+        group_sets[split] = {
+            str(row.get("group_id") or row.get("source_id") or row.get("source_question") or "").strip().lower()
+            for row in rows_by_task_split["bloom_rewrite"][split]
+        }
+    for left, right in (("train", "validation"), ("train", "test"), ("validation", "test")):
+        overlap = group_sets[left] & group_sets[right]
+        if overlap:
+            raise ValueError(
+                f"BloomShift source-group leakage between {left} and {right}: {len(overlap)} groups."
+            )
+
+    input_fields = {"bloom_rewrite": "source_question", "qa": "context", "summarization": "article"}
+    for task, input_field in input_fields.items():
+        normalized_by_split: dict[str, set[str]] = {}
+        for split in SPLITS:
+            normalized_by_split[split] = {
+                " ".join(str(row.get(input_field) or "").lower().split())
+                for row in rows_by_task_split[task][split]
+            }
+        for left, right in (("train", "validation"), ("train", "test"), ("validation", "test")):
+            overlap = normalized_by_split[left] & normalized_by_split[right]
+            if overlap:
+                raise ValueError(
+                    f"{task} exact input leakage between {left} and {right}: {len(overlap)} inputs."
+                )
 
     # Verify BloomShift source and its all-row inclusion attestation have not
     # changed since preprocessing. These are source files, not merged corpora.
@@ -164,6 +196,7 @@ def validate_separate_dataset(
         "bloom_source": str(source_dir),
         "bloom_source_sha256": source_hashes,
         "bloom_annotation_provenance": bloom_source.get("heldout_annotation_provenance"),
+        "training_sample": manifest.get("training_sample"),
     }
 
 
