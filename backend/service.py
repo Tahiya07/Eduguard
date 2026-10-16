@@ -310,7 +310,11 @@ class FrameworkService:
             response["error"] = result.note
             response["review_reason"] = result.note
         elif not result.validation_match:
-            response["type"] = "target_level_rewrite_mismatch"
+            response["type"] = (
+                "target_level_rewrite_validation_failed"
+                if result.validation_details
+                else "target_level_rewrite_mismatch"
+            )
             response["error"] = result.note
             response["review_reason"] = result.note
         else:
