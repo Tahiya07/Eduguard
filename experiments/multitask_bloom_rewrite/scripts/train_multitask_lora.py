@@ -180,9 +180,9 @@ def main() -> None:
             "Regenerate the final corpus and resolve every QC error."
         ) from exc
 
-    # Load only the configured task files. When several tasks are active,
-    # rows are combined in memory for the Trainer; no merged split JSONL is written.
-    # Condition B therefore reads BloomShift only, while C/D read all three tasks.
+    # Load each configured task from its own JSONL files. All selected examples
+    # are retained; rows are combined in memory only because Hugging Face Trainer
+    # accepts one Dataset object. No merged split JSONL is written.
     train_tasks = list(cfg.get("train_tasks", list(TASKS)))
     if not train_tasks or set(train_tasks) - set(TASKS) or len(set(train_tasks)) != len(train_tasks):
         raise SystemExit(f"Invalid train_tasks={train_tasks!r}; expected a unique, non-empty subset of {TASKS}.")
@@ -198,20 +198,9 @@ def main() -> None:
             f"train={len(train_rows)}, validation={len(val_rows)}."
         )
 
-    # Full multitask conditions must consume the exact preselected sampling mix
-    # recorded by the data builder. Single-task condition B intentionally reads
-    # BloomShift only and does not load QA/arXiv examples for gradient updates.
-    configured_mix = cfg.get("train_mix")
-    manifest = load_manifest(data_dir)
-    if set(train_tasks) == set(TASKS) and configured_mix:
-        recorded_mix = manifest.get("training_sample", {}).get("requested_mix", {})
-        normalized_config = {task: float(configured_mix.get(task, 0.0)) for task in TASKS}
-        normalized_recorded = {task: float(recorded_mix.get(task, 0.0)) for task in TASKS}
-        if any(abs(normalized_config[task] - normalized_recorded[task]) > 1e-9 for task in TASKS):
-            raise SystemExit(
-                f"Configured train_mix {normalized_config} differs from prepared dataset mix "
-                f"{normalized_recorded}. Rebuild the separate task files or correct the config."
-            )
+    # Each task is read from its own verified JSONL files. The Trainer needs a
+    # single in-memory Dataset, so the full task rows are concatenated in memory
+    # only; there is no ratio-based downsampling or merged JSONL artifact.
 
     # Validate/fingerprint the complete canonical splits above, then optionally
     # cap validation rows per task in memory. This keeps full source data and
