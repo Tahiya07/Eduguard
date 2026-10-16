@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-"""Evaluate multi-task Qwen models on the locked held-out TEST split.
+"""Evaluate the shared Qwen model using task-separated validation or test files.
 
-Evaluates Bloom rewrite, SQuAD-style QA, and arXiv summarization.
-Does not modify production code or models/qwen.gguf.
+Defaults to validation for the A/B/C/D model-selection sequence. Only run the test
+split after selecting a strategy. Evaluates Bloom rewrite, SQuAD QA, and arXiv
+summarization. Does not modify production code or models/qwen.gguf.
 
 Usage:
-  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition lora
-  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition base
+  python evaluate_rewrite.py --config configs/experiment_A_base_prompt_only.json --condition base --split validation
+  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition lora --split validation
 """
 from __future__ import annotations
 
