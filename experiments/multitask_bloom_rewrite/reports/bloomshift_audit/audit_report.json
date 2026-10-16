@@ -1,0 +1,138 @@
+{
+  "dataset_dir": "D:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+  "policy": "Every canonical BloomShift row is included across the fixed train/validation/test workflow under batch_review_attestation.json. Legacy review flags are provenance fields, not row filters.",
+  "legacy_review_flags_are_not_exclusion_criteria": true,
+  "splits": {
+    "train": {
+      "total": 1075,
+      "included_for_modeling_workflow": 1075,
+      "excluded_due_to_review_metadata": 0,
+      "explicitly_marked_in_legacy_source": 410,
+      "included_via_batch_attestation_or_legacy_gap": 1075,
+      "legacy_source_review_status_counts": {
+        "unmarked": 665,
+        "human_validated": 410
+      },
+      "target_bloom_counts": {
+        "Analyze": 199,
+        "Apply": 174,
+        "Create": 177,
+        "Evaluate": 157,
+        "Remember": 189,
+        "Understand": 179
+      },
+      "missing_required_fields": 0,
+      "duplicate_ids": [],
+      "source_group_count": 336
+    },
+    "validation": {
+      "total": 212,
+      "included_for_modeling_workflow": 212,
+      "excluded_due_to_review_metadata": 0,
+      "explicitly_marked_in_legacy_source": 78,
+      "included_via_batch_attestation_or_legacy_gap": 212,
+      "legacy_source_review_status_counts": {
+        "unmarked": 134,
+        "human_validated": 78
+      },
+      "target_bloom_counts": {
+        "Analyze": 41,
+        "Create": 34,
+        "Evaluate": 40,
+        "Remember": 36,
+        "Understand": 29,
+        "Apply": 32
+      },
+      "missing_required_fields": 0,
+      "duplicate_ids": [],
+      "source_group_count": 65
+    },
+    "test": {
+      "total": 135,
+      "included_for_modeling_workflow": 135,
+      "excluded_due_to_review_metadata": 0,
+      "explicitly_marked_in_legacy_source": 46,
+      "included_via_batch_attestation_or_legacy_gap": 135,
+      "legacy_source_review_status_counts": {
+        "unmarked": 89,
+        "human_validated": 46
+      },
+      "target_bloom_counts": {
+        "Analyze": 29,
+        "Apply": 22,
+        "Create": 22,
+        "Evaluate": 19,
+        "Remember": 26,
+        "Understand": 17
+      },
+      "missing_required_fields": 0,
+      "duplicate_ids": [],
+      "source_group_count": 44
+    }
+  },
+  "cross_split_source_group_overlap": {
+    "train∩validation": 0,
+    "train∩test": 0,
+    "validation∩test": 0
+  },
+  "annotation_provenance": {
+    "inclusion_basis": "dataset_owner_batch_attestation",
+    "owner_reported_all_rows_human_reviewed": true,
+    "all_source_rows_included": true,
+    "reviewer_file_sha256": {
+      "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+      "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+    },
+    "reviewer_files_byte_identical": true,
+    "independent_reviewer_files": false,
+    "heldout_rows": 347,
+    "incomplete_reviewer_records": 694,
+    "incomplete_examples": [
+      "bloomshift_final_train_0141:reviewer_1",
+      "bloomshift_final_train_0141:reviewer_2",
+      "bloomshift_final_train_0142:reviewer_1",
+      "bloomshift_final_train_0142:reviewer_2",
+      "bloomshift_final_train_0143:reviewer_1",
+      "bloomshift_final_train_0143:reviewer_2",
+      "bloomshift_final_train_0144:reviewer_1",
+      "bloomshift_final_train_0144:reviewer_2",
+      "bloomshift_final_train_0145:reviewer_1",
+      "bloomshift_final_train_0145:reviewer_2",
+      "bloomshift_final_train_0343:reviewer_1",
+      "bloomshift_final_train_0343:reviewer_2",
+      "bloomshift_final_train_0344:reviewer_1",
+      "bloomshift_final_train_0344:reviewer_2",
+      "bloomshift_final_train_0345:reviewer_1",
+      "bloomshift_final_train_0345:reviewer_2",
+      "bloomshift_final_train_0346:reviewer_1",
+      "bloomshift_final_train_0346:reviewer_2",
+      "bloomshift_final_train_0347:reviewer_1",
+      "bloomshift_final_train_0347:reviewer_2"
+    ],
+    "required_rating_fields": [
+      "bloom_aligned",
+      "reviewer_bloom_level",
+      "content_preserved",
+      "context_preserved",
+      "meaningful_transformation",
+      "pedagogically_valid",
+      "clear_and_grammatical",
+      "final_decision"
+    ],
+    "independent_review_verified": false,
+    "inter_rater_reliability_established": false
+  },
+  "errors": [],
+  "warnings": [
+    "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+    "694 held-out reviewer records lack complete rubric ratings; do not present the held-out targets as an independently rated gold benchmark."
+  ],
+  "overall": {
+    "total": 1422,
+    "included_for_modeling_workflow": 1422,
+    "excluded_due_to_review_metadata": 0,
+    "legacy_source_rows_with_incomplete_review_metadata": 888,
+    "ready_for_training_and_provisional_evaluation": true,
+    "ready_for_independent_gold_evaluation": false
+  }
+}

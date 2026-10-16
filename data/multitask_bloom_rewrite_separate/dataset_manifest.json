@@ -1,0 +1,310 @@
+{
+  "version": "multitask_bloom_rewrite_separate_v1",
+  "storage_layout": "one_directory_per_task",
+  "timestamp_utc": "2026-10-16T17:35:01.703505+00:00",
+  "seed": 42,
+  "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
+  "classifier_dataset_excluded": true,
+  "tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "persisted_merged_jsonl": false,
+  "bloom_source": {
+    "path": "data/rewrite dataset/bloomshift_final_candidate",
+    "version": "bloomshift_final_candidate",
+    "files_sha256": {
+      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
+      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+    },
+    "heldout_annotation_provenance": {
+      "inclusion_basis": "dataset_owner_batch_attestation",
+      "owner_reported_all_rows_human_reviewed": true,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "batch_review_attestation": {
+      "path": "data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json",
+      "sha256": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+    },
+    "training_split_eligibility_policy": "All 1075 canonical BloomShift train rows are used; all 212 validation and 135 test rows remain held out. Legacy review flags are retained as provenance and never used as row filters. Owner batch attestation is not independent dual review or inter-rater reliability.",
+    "train_rows": 1075,
+    "validation_rows": 212,
+    "test_rows": 135
+  },
+  "qa_source": {
+    "dataset": "rajpurkar/squad",
+    "requested_train_fraction": 0.95,
+    "retained_train_rows_after_early_stop": 1075,
+    "prepared_train_rows": 1075,
+    "retained_validation_rows_after_early_stop": 212,
+    "prepared_validation_rows": 212,
+    "retained_test_rows_after_early_stop": 135,
+    "prepared_test_rows": 135,
+    "official_validation_used_as_test": true,
+    "evaluation_sampling": {
+      "validation_target_rows": 212,
+      "test_target_rows": 135,
+      "seed_offsets": {
+        "validation": 303,
+        "test": 505
+      },
+      "policy": "Seed-shuffle source candidates and stop conversion at the requested count; train/validation context groups remain isolated."
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "answer_preserving_context_window": true
+    }
+  },
+  "summarization_source": {
+    "dataset": "ccdv/arxiv-summarization",
+    "official_splits_preserved": true,
+    "split_names": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "retained_train_rows_after_early_stop": 1075,
+    "prepared_train_rows": 1075,
+    "retained_validation_rows_after_early_stop": 212,
+    "prepared_validation_rows": 212,
+    "retained_test_rows_after_early_stop": 135,
+    "prepared_test_rows": 135,
+    "evaluation_sampling": {
+      "validation_target_rows": 212,
+      "test_target_rows": 135,
+      "seed_offsets": {
+        "validation": 404,
+        "test": 606
+      },
+      "policy": "Seed-shuffle each official source split and stop tokenization at the requested count; over-budget rows are skipped."
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "over_budget_examples_excluded": {
+        "train": 940,
+        "validation": 145,
+        "test": 108
+      },
+      "policy": "Exclude complete SFT sequences above the fixed token budget rather than truncating article inputs while retaining full abstracts."
+    }
+  },
+  "tokenizer": {
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "max_seq_length": 8192,
+    "sequence_policy": "all persisted complete SFT sequences must fit; fail rather than rely on trainer truncation",
+    "bounded_token_count_check": true,
+    "checked_sequences": {
+      "train": {
+        "bloom_rewrite": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 128,
+          "p50_tokens": 152,
+          "p95_tokens": 184,
+          "p99_tokens": 199,
+          "max_tokens": 242
+        },
+        "qa": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 87,
+          "p50_tokens": 207,
+          "p95_tokens": 355,
+          "p99_tokens": 444,
+          "max_tokens": 606
+        },
+        "summarization": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 644,
+          "p50_tokens": 5240,
+          "p95_tokens": 7794,
+          "p99_tokens": 8095,
+          "max_tokens": 8188
+        }
+      },
+      "validation": {
+        "bloom_rewrite": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 135,
+          "p50_tokens": 149,
+          "p95_tokens": 188,
+          "p99_tokens": 215,
+          "max_tokens": 220
+        },
+        "qa": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 88,
+          "p50_tokens": 219,
+          "p95_tokens": 339,
+          "p99_tokens": 412,
+          "max_tokens": 493
+        },
+        "summarization": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 616,
+          "p50_tokens": 5191,
+          "p95_tokens": 7846,
+          "p99_tokens": 7981,
+          "max_tokens": 8161
+        }
+      },
+      "test": {
+        "bloom_rewrite": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 130,
+          "p50_tokens": 154,
+          "p95_tokens": 170,
+          "p99_tokens": 183,
+          "max_tokens": 219
+        },
+        "qa": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 96,
+          "p50_tokens": 208,
+          "p95_tokens": 389,
+          "p99_tokens": 523,
+          "max_tokens": 829
+        },
+        "summarization": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 1442,
+          "p50_tokens": 5149,
+          "p95_tokens": 7576,
+          "p99_tokens": 7898,
+          "max_tokens": 8085
+        }
+      }
+    }
+  },
+  "upstream_datasets": {
+    "qa": {
+      "dataset": "rajpurkar/squad",
+      "split_fingerprints": {
+        "train": "f1987d620e8fac37",
+        "validation": "6614e223193ae5a9"
+      },
+      "raw_split_rows": {
+        "train": 87599,
+        "validation": 10570
+      },
+      "revision_pinned": false
+    },
+    "summarization": {
+      "dataset": "ccdv/arxiv-summarization",
+      "split_fingerprints": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "raw_split_rows": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "streaming": true,
+      "revision_pinned": false
+    }
+  },
+  "generated_files_sha256": {
+    "bloom_rewrite/train.jsonl": "11dba4a9817b0bc540cabee06783c20409614ca845b07ed69b3be245fbb4d1a1",
+    "bloom_rewrite/validation.jsonl": "49332c17badbdd4aefeb9ce7292938b55ad911f9269f258b150b0bde2d3f2871",
+    "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+  },
+  "training_data_policy": {
+    "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+    "ratio_based_downsampling": false,
+    "requested_caps": {
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "rows_retained_during_capped_source_scan": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "retained_training_rows": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "task_train_fractions_of_retained_union": {
+      "bloom_rewrite": 0.333333,
+      "qa": 0.333333,
+      "summarization": 0.333333
+    },
+    "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+  },
+  "counts": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 212,
+      "summarization": 212
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    }
+  },
+  "notes": [
+    "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
+    "Each task's train/validation/test data is stored in its own directory.",
+    "BloomShift training rows are retained; optional QA/summarization training caps are independent of evaluation caps.",
+    "QA and summarization caps are applied during seeded source iteration, stopping expensive conversion once each target count is reached.",
+    "QA train/validation group boundaries are established before row selection to prevent context leakage across those splits.",
+    "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
+    "BloomShift's fixed split boundaries and source-group isolation are preserved.",
+    "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
+    "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
+    "Never tune model choices using the held-out test split."
+  ]
+}

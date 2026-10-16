@@ -1,0 +1,36 @@
+{
+  "layout": "task-separated",
+  "persisted_merged_jsonl": false,
+  "train_rows": 3225,
+  "validation_rows": 636,
+  "test_rows": 405,
+  "by_task": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 212,
+      "summarization": 212
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    }
+  },
+  "output_dir": "data/multitask_bloom_rewrite_separate",
+  "generated_files_sha256": {
+    "bloom_rewrite/train.jsonl": "11dba4a9817b0bc540cabee06783c20409614ca845b07ed69b3be245fbb4d1a1",
+    "bloom_rewrite/validation.jsonl": "49332c17badbdd4aefeb9ce7292938b55ad911f9269f258b150b0bde2d3f2871",
+    "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+  }
+}
