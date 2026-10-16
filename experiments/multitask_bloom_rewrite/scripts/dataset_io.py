@@ -219,7 +219,7 @@ def validate_separate_dataset(
         "bloom_source": str(source_dir),
         "bloom_source_sha256": source_hashes,
         "bloom_annotation_provenance": bloom_source.get("heldout_annotation_provenance"),
-        "training_sample": manifest.get("training_sample"),
+        "training_data_policy": manifest.get("training_data_policy"),
     }
 
 
