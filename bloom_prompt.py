@@ -883,7 +883,8 @@ def _target_cognitive_operation_check(rewrite: str, target_level: str) -> tuple[
 
 def _validate_generated_candidate(question: str, rewrite: str, target_level: str, predictor) -> dict:
     record = {"cleaned_output": rewrite, "format_valid": False, "semantic_similarity": 0.0,
-              "deterministic_check": "not run", "classifier_prediction": "", "classifier_confidence": 0.0,
+              "deterministic_check": "not run", "cognitive_operation_check": "not run",
+              "classifier_prediction": "", "classifier_confidence": 0.0,
               "final_validation": False, "failure_reason": ""}
     valid, reason = _validate_output_format(rewrite)
     record["format_valid"] = valid
