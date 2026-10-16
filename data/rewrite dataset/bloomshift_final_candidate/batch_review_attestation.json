@@ -1,0 +1,39 @@
+{
+  "attestation_version": "1.0",
+  "dataset_version": "bloomshift_final_candidate_expanded_v3",
+  "recorded_date": "2026-10-16",
+  "scope": {
+    "split_counts": {
+      "train": 1075,
+      "validation": 212,
+      "test": 135
+    },
+    "total_rows": 1422,
+    "include_every_canonical_record": true,
+    "preserve_existing_train_validation_test_boundaries": true
+  },
+  "dataset_owner_report": {
+    "all_records_reported_human_reviewed": true,
+    "inclusion_instruction": "Include every canonical BloomShift record in the training/evaluation workflow; do not exclude records solely because legacy row-level review_status or training_eligible fields are absent.",
+    "basis": "Dataset owner previously reported that all rewrites had been reviewed and considered good, and explicitly instructed that all records be used."
+  },
+  "provenance_limits": {
+    "row_level_rubric_ratings_complete": false,
+    "independent_second_reviewer_verified": false,
+    "reviewer_files_byte_identical_in_repository": true,
+    "inter_rater_agreement_computed": false,
+    "qualifies_as_independently_annotated_gold": false
+  },
+  "processing_policy": {
+    "train": "Use all 1075 rows for gradient updates.",
+    "validation": "Keep all 212 rows held out for model selection and diagnostic evaluation.",
+    "test": "Keep all 135 rows held out until final evaluation; never include them in gradient updates.",
+    "metadata": "Preserve original review metadata in separate source_review_status and source_training_eligible fields; assign a non-unmarked owner_batch_attested inclusion status in the derived corpus.",
+    "exclusions": "No BloomShift source record may be dropped because of review metadata. Malformed or missing required task fields must fail preparation visibly rather than silently dropping records."
+  },
+  "limitations": [
+    "This is a dataset-owner batch attestation for inclusion and reported review, not a substitute for row-level rubric ratings.",
+    "It does not establish independent annotation, adjudication, or inter-rater reliability.",
+    "For publication claims requiring a dual-annotated gold benchmark, the held-out items still need complete independent ratings and adjudication."
+  ]
+}

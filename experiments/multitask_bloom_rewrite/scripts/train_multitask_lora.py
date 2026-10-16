@@ -96,7 +96,7 @@ def validate_prepared_dataset(data_dir: Path, repo_root: Path) -> dict:
     if not source_dir_rel or not source_hashes:
         raise SystemExit("Dataset manifest lacks canonical BloomShift source fingerprints.")
     source_dir = (repo_root / source_dir_rel).resolve()
-    for name in ("train.json", "validation.json", "test.json"):
+    for name in ("train.json", "validation.json", "test.json", "batch_review_attestation.json"):
         source_path = source_dir / name
         expected_hash = source_hashes.get(name)
         if not source_path.is_file():
@@ -106,7 +106,7 @@ def validate_prepared_dataset(data_dir: Path, repo_root: Path) -> dict:
             )
         if not expected_hash or sha256_file(source_path) != expected_hash:
             raise SystemExit(
-                f"Canonical BloomShift source changed since preparation: {source_path}. "
+                f"Canonical BloomShift source or inclusion attestation changed since preparation: {source_path}. "
                 "Regenerate the multitask dataset before training."
             )
 

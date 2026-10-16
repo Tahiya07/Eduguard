@@ -12,8 +12,10 @@ if str(EXPERIMENT_DIR) not in sys.path:
 from bloom_validation import validate_bloom_example  # noqa: E402
 from eval_dataset import (  # noqa: E402
     EXPECTED_TEST_TOTAL,
+    assert_split_counts,
     assert_split_is_test,
     assert_test_counts,
+    load_evaluation_split,
     load_test_split,
 )
 from eval_metrics import (  # noqa: E402
@@ -25,6 +27,7 @@ from eval_metrics import (  # noqa: E402
 )
 from eval_classifier import resolve_classifier_dir  # noqa: E402
 from eval_model import resolve_checkpoint, _sanitize_lora_adapter_config  # noqa: E402
+from scripts.evaluate_rewrite import deterministic_task_sample  # noqa: E402
 from paths import MULTITASK_DATA_DIR, REPO_ROOT  # noqa: E402
 from prompts import assert_no_source_level_in_prompt, build_generation_prompt  # noqa: E402
 
@@ -42,9 +45,61 @@ class TestDatasetAssertions(unittest.TestCase):
         self.assertEqual(meta["counts"]["test_count"], EXPECTED_TEST_TOTAL)
         self.assertEqual(len(rows), EXPECTED_TEST_TOTAL)
 
+    def test_validation_counts_are_manifest_driven(self) -> None:
+        rows = (
+            [{"task": "bloom_rewrite", "split": "validation"}] * 2
+            + [{"task": "qa", "split": "validation"}] * 3
+            + [{"task": "summarization", "split": "validation"}] * 4
+        )
+        manifest = {
+            "counts": {
+                "validation": {"bloom_rewrite": 2, "qa": 3, "summarization": 4}
+            }
+        }
+        result = assert_split_counts(rows, manifest=manifest, split="validation")
+        self.assertEqual(result["row_count"], 9)
+        self.assertEqual(result["by_task"]["bloom_rewrite"], 2)
+        self.assertEqual(result["by_task"]["qa"], 3)
+        self.assertEqual(result["by_task"]["summarization"], 4)
+
+    def test_manifest_count_mismatch_fails(self) -> None:
+        rows = [{"task": "bloom_rewrite"}] * 2
+        manifest = {
+            "counts": {
+                "validation": {"bloom_rewrite": 1, "qa": 0, "summarization": 0}
+            }
+        }
+        with self.assertRaises(AssertionError):
+            assert_split_counts(rows, manifest=manifest, split="validation")
+
+    def test_wrong_validation_file_is_rejected(self) -> None:
+        rows = [{"task": "qa", "split": "validation"}]
+        with self.assertRaises(AssertionError):
+            from eval_dataset import assert_split_matches
+            assert_split_matches(
+                rows, path=MULTITASK_DATA_DIR / "test.jsonl", expected_split="validation"
+            )
+
     def test_wrong_count_fails(self) -> None:
         with self.assertRaises(AssertionError):
             assert_test_counts([{"task": "qa"}] * 10)
+
+
+class TestDeterministicEvaluationSampling(unittest.TestCase):
+    def test_same_ids_selected_independent_of_input_order(self) -> None:
+        rows = [{"id": f"id_{i:03d}"} for i in range(100)]
+        first = deterministic_task_sample(rows, 25, "qa", seed=42)
+        second = deterministic_task_sample(list(reversed(rows)), 25, "qa", seed=42)
+        self.assertEqual([r["id"] for r in first], [r["id"] for r in second])
+        self.assertEqual(len(first), 25)
+
+    def test_task_samples_are_reproducible_and_task_specific(self) -> None:
+        rows = [{"id": f"id_{i:03d}"} for i in range(100)]
+        qa = deterministic_task_sample(rows, 20, "qa", seed=42)
+        qa_again = deterministic_task_sample(rows, 20, "qa", seed=42)
+        summary = deterministic_task_sample(rows, 20, "summarization", seed=42)
+        self.assertEqual([r["id"] for r in qa], [r["id"] for r in qa_again])
+        self.assertNotEqual([r["id"] for r in qa], [r["id"] for r in summary])
 
 
 class TestPromptContract(unittest.TestCase):
@@ -105,11 +160,11 @@ class TestCheckpointResolution(unittest.TestCase):
             "r": 16,
             "lora_alpha": 32,
             "peft_type": "LORA",
-            "alora_invocation_tokens": None,
+            "__definitely_unknown_peft_config_key__": None,
         }
         sanitized, stripped = _sanitize_lora_adapter_config(raw)
-        self.assertIn("alora_invocation_tokens", stripped)
-        self.assertNotIn("alora_invocation_tokens", sanitized)
+        self.assertIn("__definitely_unknown_peft_config_key__", stripped)
+        self.assertNotIn("__definitely_unknown_peft_config_key__", sanitized)
         self.assertEqual(sanitized["r"], 16)
 
     def test_base_condition(self) -> None:

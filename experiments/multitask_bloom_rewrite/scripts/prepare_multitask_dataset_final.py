@@ -14,6 +14,7 @@ dataset preparation. The resulting JSONL corpus is self-contained for training.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import random
@@ -59,6 +60,111 @@ def load_json(path: Path) -> list[dict[str, Any]]:
     return data
 
 
+def validate_annotation_provenance(
+    bloom_dir: Path,
+    train_rows: list[dict[str, Any]],
+    validation_rows: list[dict[str, Any]],
+    test_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate the owner batch-attestation scope without inventing reviewer scores.
+
+    The batch attestation permits all source rows to be included in the modeling
+    workflow. Independent dual-review evidence remains a separate, explicit status.
+    """
+    attestation_path = bloom_dir / "batch_review_attestation.json"
+    if not attestation_path.is_file():
+        raise ValueError(
+            "Missing batch_review_attestation.json. Record the dataset owner's "
+            "all-row inclusion decision before rebuilding the corpus."
+        )
+    try:
+        attestation = json.loads(attestation_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Cannot read batch attestation {attestation_path}: {exc}") from exc
+
+    if attestation.get("processing_policy", {}).get("exclusions") is None:
+        raise ValueError("Batch attestation lacks an explicit all-record inclusion policy.")
+    scope = attestation.get("scope", {})
+    declared_counts = scope.get("split_counts", {})
+    actual_counts = {
+        "train": len(train_rows),
+        "validation": len(validation_rows),
+        "test": len(test_rows),
+    }
+    if not scope.get("include_every_canonical_record") or declared_counts != actual_counts:
+        raise ValueError(
+            "Canonical BloomShift rows do not match the all-row batch attestation: "
+            f"declared={declared_counts}, actual={actual_counts}"
+        )
+    if int(scope.get("total_rows", -1)) != sum(actual_counts.values()):
+        raise ValueError("Batch attestation total_rows does not match the canonical split totals.")
+
+    reviewer_paths = [bloom_dir / "reviewer_1.csv", bloom_dir / "reviewer_2.csv"]
+    reviewer_hashes: dict[str, str] = {}
+    ratings_by_reviewer: list[dict[str, dict[str, str]]] = []
+    for path in reviewer_paths:
+        if not path.is_file():
+            ratings_by_reviewer.append({})
+            continue
+        reviewer_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            csv_rows = list(csv.DictReader(handle))
+        ratings_by_reviewer.append({
+            str(row.get("example_id") or "").strip(): row
+            for row in csv_rows
+            if str(row.get("example_id") or "").strip()
+        })
+
+    rating_fields = (
+        "bloom_aligned", "reviewer_bloom_level", "content_preserved",
+        "context_preserved", "meaningful_transformation", "pedagogically_valid",
+        "clear_and_grammatical", "final_decision",
+    )
+    heldout_rows = validation_rows + test_rows
+    incomplete_annotations = 0
+    for row in heldout_rows:
+        row_id = str(row.get("example_id") or row.get("id") or "").strip()
+        for reviewer_rows in ratings_by_reviewer:
+            rating = reviewer_rows.get(row_id)
+            if not rating or any(not str(rating.get(field) or "").strip() for field in rating_fields):
+                incomplete_annotations += 1
+
+    independent_files = (
+        len(reviewer_hashes) == 2
+        and reviewer_hashes.get("reviewer_1.csv") != reviewer_hashes.get("reviewer_2.csv")
+    )
+    independent_verified = independent_files and incomplete_annotations == 0
+    warnings = []
+    if not independent_files:
+        warnings.append(
+            "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established."
+        )
+    if incomplete_annotations:
+        warnings.append(
+            f"{incomplete_annotations} held-out reviewer records lack all required ratings; "
+            "held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+        )
+
+    return {
+        "inclusion_basis": "dataset_owner_batch_attestation",
+        "owner_reported_all_rows_human_reviewed": bool(
+            attestation.get("dataset_owner_report", {}).get("all_records_reported_human_reviewed")
+        ),
+        "all_source_rows_included": True,
+        "source_split_counts": actual_counts,
+        "reviewer_file_sha256": reviewer_hashes,
+        "independent_reviewer_files": independent_files,
+        "heldout_rows": len(heldout_rows),
+        "incomplete_reviewer_records": incomplete_annotations,
+        "independent_review_verified": independent_verified,
+        "row_level_ratings_required_fields": list(rating_fields),
+        "warnings": warnings,
+        "research_claim_limit": (
+            "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+        ),
+    }
+
+
 def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
 
@@ -68,10 +174,16 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
             "source_id", "group_id", "source_question",
             "target_bloom_level", "target_rewrite", "example_id"
         )
-        missing = [k for k in required if k not in row]
+        missing = [k for k in required if k not in row or not str(row.get(k) or "").strip()]
         if missing:
-            raise ValueError(f"Bloom row missing {missing}: {row}")
+            raise ValueError(
+                f"Bloom row in {split!r} is structurally invalid and cannot be silently dropped; "
+                f"missing/empty fields {missing}: {row.get('example_id') or row.get('id') or '<unknown-id>'}"
+            )
 
+        # Do not expose source review gaps to the model as target labels. Every
+        # canonical row is retained under the explicit owner batch attestation.
+        # Preserve legacy fields separately so no evidence is fabricated.
         record = {
             "task": TASK_BLOOM,
             "split": split,
@@ -85,11 +197,24 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
             "question_family": row.get("question_family"),
             "transformation_type": row.get("transformation_type"),
             "transformation_strategy": row.get("transformation_strategy"),
+            "source_review_status": row.get("review_status") or "unmarked",
+            "source_training_eligible": row.get("training_eligible"),
+            "review_status": "owner_batch_attested",
+            "training_eligible": True,
+            "review_provenance_method": "dataset_owner_batch_attestation",
+            "independent_review_verified": False,
+            "dataset_inclusion_reason": "all canonical BloomShift rows retained; legacy review metadata is not an exclusion filter",
         }
         record["sft_text"] = build_sft_text(TASK_BLOOM, record)
         record["prompt_text"] = build_prompt_only_text(TASK_BLOOM, record)
         record["generation_prompt"] = build_generation_prompt(TASK_BLOOM, record)
         out.append(record)
+
+    if len(out) != len(rows):
+        raise AssertionError(
+            f"BloomShift {split}: retained {len(out)} of {len(rows)} source rows; no-drop policy violated."
+        )
+    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under owner batch attestation")
     return out
 
 
@@ -392,9 +517,19 @@ def main() -> None:
     if args.mix_bloom <= 0:
         raise SystemExit("--mix-bloom must be positive because the target train size is anchored to BloomShift.")
 
-    bloom_train = normalize_bloom(load_json(required_bloom[0]), "train")
-    bloom_val = normalize_bloom(load_json(required_bloom[1]), "validation")
-    bloom_test = normalize_bloom(load_json(required_bloom[2]), "test")
+    bloom_train_raw = load_json(required_bloom[0])
+    bloom_val_raw = load_json(required_bloom[1])
+    bloom_test_raw = load_json(required_bloom[2])
+    annotation_provenance = validate_annotation_provenance(
+        bloom_dir, bloom_train_raw, bloom_val_raw, bloom_test_raw
+    )
+    bloom_train = normalize_bloom(bloom_train_raw, "train")
+    bloom_val = normalize_bloom(bloom_val_raw, "validation")
+    bloom_test = normalize_bloom(bloom_test_raw, "test")
+    if (len(bloom_train), len(bloom_val), len(bloom_test)) != (
+        len(bloom_train_raw), len(bloom_val_raw), len(bloom_test_raw)
+    ):
+        raise SystemExit("No-drop policy violated: not every canonical BloomShift row was retained.")
 
     # Source-group isolation is already encoded by the canonical BloomShift split.
     def group_set(rows: list[dict[str, Any]]) -> set[Any]:
@@ -479,12 +614,14 @@ def main() -> None:
         p.name: sha256_file(p)
         for p in required_bloom
     }
+    attestation_path = bloom_dir / "batch_review_attestation.json"
+    source_hashes[attestation_path.name] = sha256_file(attestation_path)
     generated_hashes = {
         name: sha256_file(out_dir / name)
         for name in ("train.jsonl", "validation.jsonl", "test.jsonl")
     }
     manifest = {
-        "version": "multitask_bloom_rewrite_final_v2",
+        "version": "multitask_bloom_rewrite_final_v3_all_bloomshift_rows",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "seed": args.seed,
         "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
@@ -494,6 +631,16 @@ def main() -> None:
             "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
             "version": "bloomshift_final_candidate",
             "files_sha256": source_hashes,
+            "heldout_annotation_provenance": annotation_provenance,
+            "batch_review_attestation": {
+                "path": str(attestation_path.relative_to(REPO_ROOT)).replace("\\", "/"),
+                "sha256": source_hashes[attestation_path.name],
+            },
+            "training_split_eligibility_policy": (
+                "All canonical BloomShift rows are included under batch_review_attestation.json; "
+                "legacy review_status/training_eligible gaps are preserved as provenance and never used to drop rows. "
+                "Validation and test remain held out. This attestation does not establish independent dual review."
+            ),
             "train_rows": len(bloom_train),
             "validation_rows": len(bloom_val),
             "test_rows": len(bloom_test),
@@ -545,6 +692,8 @@ def main() -> None:
             "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
             "Train/validation/test are kept task-aware and prompt-conditioned.",
             "BloomShift group isolation is checked before writing the corpus.",
+            "Every canonical BloomShift row must be retained in its fixed split; preparation fails on a row-count mismatch.",
+            "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
             "Do not tune hyperparameters on the held-out test split.",
         ],
     }

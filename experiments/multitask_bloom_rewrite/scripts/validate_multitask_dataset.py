@@ -84,9 +84,9 @@ def main() -> None:
     else:
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            if manifest.get("version") != "multitask_bloom_rewrite_final_v2":
+            if manifest.get("version") != "multitask_bloom_rewrite_final_v3_all_bloomshift_rows":
                 errors.append(
-                    "dataset manifest is not from the hardened v2 builder; rerun "
+                    "dataset manifest is not from the all-BloomShift-rows v3 builder; rerun "
                     "prepare_multitask_dataset_final.py"
                 )
             expected_counts = manifest.get("counts", {})

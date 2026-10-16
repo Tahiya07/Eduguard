@@ -186,8 +186,11 @@ def source_target_matrix(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "source_level": src,
                 "target_level": tgt,
                 "n": n,
-                "target_accuracy": round(acc, 6) if acc is not None else None,
-                "fully_validated_rate": round(fvr, 6) if fvr is not None else None,
+                # This is agreement with the auxiliary classifier, not human accuracy.
+                "classifier_agreement_rate": round(acc, 6) if acc is not None else None,
+                "automated_proxy_pass_rate": round(fvr, 6) if fvr is not None else None,
+                "target_accuracy": None,
+                "interpretation": "Classifier agreement only; human judgment required for target-level correctness.",
             }
     return {"cells": cells, "topic_similarity_threshold": TOPIC_SIMILARITY_THRESHOLD}
 
@@ -199,9 +202,14 @@ def bloom_rates(records: list[dict[str, Any]]) -> dict[str, Any]:
         "semantic_valid_rate": round(sum(1 for r in records if r.get("semantic_valid")) / n, 6),
         "cognitive_valid_rate": round(sum(1 for r in records if r.get("cognitive_valid")) / n, 6),
         "classifier_match_rate": round(sum(1 for r in records if r.get("target_match")) / n, 6),
+        # Compatibility alias: this is an automated acceptance proxy, not human validation.
         "fully_validated_rewrite_rate": round(
-            sum(1 for r in records if r.get("fully_validated")) / n, 6
+            sum(1 for r in records if r.get("automated_proxy_pass", r.get("fully_validated"))) / n, 6
         ),
+        "automated_proxy_pass_rate": round(
+            sum(1 for r in records if r.get("automated_proxy_pass", r.get("fully_validated"))) / n, 6
+        ),
+        "automated_proxy_is_human_validation": False,
         "trivial_transform_rate": round(
             sum(1 for r in records if r.get("trivial_transform")) / n, 6
         ),
@@ -220,9 +228,14 @@ def bloom_rates(records: list[dict[str, Any]]) -> dict[str, Any]:
         "mean_output_chars": round(
             sum(len(str(r.get("prediction") or "")) for r in records) / n, 2
         ),
+        # This value is lexical Jaccard overlap. The old key is retained for compatibility.
         "mean_semantic_similarity": round(
-            sum(r.get("semantic_similarity", 0.0) for r in records) / n, 6
+            sum(r.get("lexical_overlap", r.get("semantic_similarity", 0.0)) for r in records) / n, 6
         ),
+        "mean_lexical_jaccard": round(
+            sum(r.get("lexical_overlap", r.get("semantic_similarity", 0.0)) for r in records) / n, 6
+        ),
+        "similarity_measure": "Jaccard overlap of normalized content-token sets; not semantic similarity",
         "classifier_confidence_min": CLASSIFIER_CONFIDENCE_MIN,
     }
 

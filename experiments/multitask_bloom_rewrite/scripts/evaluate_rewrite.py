@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Evaluate multi-task Qwen models on the locked held-out TEST split.
+"""Evaluate multi-task Qwen models on a manifest-verified held-out split.
 
-Evaluates Bloom rewrite, SQuAD-style QA, and BillSum summarization.
+Evaluates Bloom rewrite, SQuAD-style QA, and arXiv summarization.
 Does not modify production code or models/qwen.gguf.
 
 Usage:
@@ -36,7 +36,7 @@ from bloom_validation import (  # noqa: E402
     validate_bloom_example,
 )
 from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
-from eval_dataset import load_test_split  # noqa: E402
+from eval_dataset import load_evaluation_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
     CLASSIFIER_CONFIDENCE_MIN,
     aggregate_qa_metrics,
@@ -58,7 +58,6 @@ from eval_model import (  # noqa: E402
 )
 from paths import (  # noqa: E402
     CONFIG_DIR,
-    HUMAN_EVAL_DIR,
     MULTITASK_FINAL_DATA_DIR,
     SEED,
     TASK_BLOOM,
@@ -74,7 +73,7 @@ from prompts import (  # noqa: E402
 )
 
 FAILURE_CATEGORIES = (
-    "WRONG_TARGET_LEVEL",
+    "CLASSIFIER_DISAGREEMENT",
     "DECLARATIVE_OUTPUT",
     "TOPIC_DRIFT",
     "MEANING_DRIFT",
@@ -142,10 +141,11 @@ def classify_failure(record: dict[str, Any]) -> str:
         return "INVALID_QUESTION"
     if not record.get("cognitive_valid"):
         return "INVALID_QUESTION"
-    if record.get("target_match") is False:
-        return "WRONG_TARGET_LEVEL"
+    # Classifier disagreement is diagnostic only, not proof of a wrong Bloom label.
     if record.get("classifier_confidence", 0.0) < CLASSIFIER_CONFIDENCE_MIN:
         return "LOW_CONFIDENCE"
+    if record.get("target_match") is False:
+        return "CLASSIFIER_DISAGREEMENT"
     return "OTHER"
 
 
@@ -228,7 +228,10 @@ def evaluate_bloom_row(
         "cognitive_valid": validation.cognitive_valid,
         "topic_preserved": validation.topic_preserved,
         "trivial_transform": validation.trivial_transform,
+        # Backward-compatible name; the validator's score is lexical Jaccard, not semantics.
         "semantic_similarity": validation.semantic_similarity,
+        "lexical_overlap": validation.lexical_overlap,
+        "cognitive_check_type": validation.cognitive_check_type,
         "meta_response": meta_response,
         "answer_output": answer_output,
         "empty_output": empty_output,
@@ -238,10 +241,32 @@ def evaluate_bloom_row(
         "classifier_prediction": clf_pred,
         "classifier_confidence": clf_conf,
         "target_match": target_match,
+        # Historical key retained for downstream compatibility; this is an automated proxy,
+        # not a human-validated result.
         "fully_validated": fully_validated,
+        "automated_proxy_pass": fully_validated,
         "latency_s": round(latency, 6),
     }
     rec["failure_category"] = classify_failure(rec) if not fully_validated else ""
+    rec["failure_flags"] = []
+    if rec["empty_output"]:
+        rec["failure_flags"].append("EMPTY_OUTPUT")
+    if rec["meta_response"]:
+        rec["failure_flags"].append("META_RESPONSE")
+    if rec["answer_output"]:
+        rec["failure_flags"].append("DECLARATIVE_OUTPUT")
+    if rec["trivial_transform"]:
+        rec["failure_flags"].append("TRIVIAL_VERB_SWAP")
+    if not rec["semantic_valid"]:
+        rec["failure_flags"].append("LOW_LEXICAL_OVERLAP_NOT_PROVEN_TOPIC_DRIFT")
+    if not rec["format_valid"]:
+        rec["failure_flags"].append("INVALID_QUESTION_FORMAT")
+    if not rec["cognitive_valid"]:
+        rec["failure_flags"].append("COGNITIVE_HEURISTIC_NOT_SATISFIED")
+    if rec["classifier_confidence"] < CLASSIFIER_CONFIDENCE_MIN:
+        rec["failure_flags"].append("LOW_CLASSIFIER_CONFIDENCE")
+    if rec["classifier_prediction"] is not None and not rec["target_match"]:
+        rec["failure_flags"].append("CLASSIFIER_DISAGREEMENT_NOT_GROUND_TRUTH")
     return rec
 
 
@@ -254,7 +279,7 @@ def evaluate_qa_row(
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
-        "id": row.get("example_id"),
+        "id": row.get("id", row.get("example_id")),
         "task": TASK_QA,
         "context": row.get("context"),
         "question": row.get("question"),
@@ -273,7 +298,7 @@ def evaluate_sum_row(
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
-        "id": row.get("example_id"),
+        "id": row.get("id", row.get("example_id")),
         "task": TASK_SUMMARIZATION,
         "article": row.get("article"),
         "reference": row.get("abstract"),
@@ -285,12 +310,30 @@ def evaluate_sum_row(
 def results_dir_for(cfg: dict[str, Any], condition: str) -> Path:
     key = cfg.get("model_key", "model")
     if condition == "base":
-        return EXPERIMENT_DIR / "results" / f"qwen{key}_base"
+        configured = cfg.get("base_results_dir") or cfg.get("results_dir")
+        return Path(configured) if configured else EXPERIMENT_DIR / "results" / f"qwen{key}_base"
     return Path(cfg.get("results_dir", EXPERIMENT_DIR / "results" / f"qwen{key}_lora"))
 
 
+def deterministic_task_sample(
+    rows: list[dict[str, Any]],
+    cap: int,
+    task: str,
+    *,
+    seed: int = SEED,
+) -> list[dict[str, Any]]:
+    """Stable per-task subset shared across experiments A/B/C/D."""
+    ordered = sorted(rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+    if cap <= 0 or len(ordered) <= cap:
+        return ordered
+    task_seed = seed + sum(ord(ch) for ch in task)
+    chosen = set(random.Random(task_seed).sample(range(len(ordered)), cap))
+    return [row for index, row in enumerate(ordered) if index in chosen]
+
+
 def write_human_eval_export(bloom_records: list[dict[str, Any]], out_dir: Path) -> Path | None:
-    export = HUMAN_EVAL_DIR / "predictions_for_rating.jsonl"
+    # Keep model-condition exports separate so A/B/C/D results cannot overwrite one another.
+    export = out_dir / "human_eval_predictions.jsonl"
     if not bloom_records:
         return None
     lines = []
@@ -340,28 +383,32 @@ def write_report(
         "",
         "## Dataset",
         "",
-        f"- Test count: **{dataset_meta['counts']['test_count']}**",
-        f"- Corpus hash: `{dataset_meta.get('dataset_hash')}`",
-        f"- Test file: `{dataset_meta.get('test_manifest_path')}`",
+        f"- Evaluation split: **{dataset_meta.get('split')}**",
+        f"- Evaluation rows: **{dataset_meta.get('counts', {}).get('row_count')}**",
+        f"- Dataset version: `{dataset_meta.get('dataset_version')}`",
+        f"- Split SHA-256: `{dataset_meta.get('file_sha256')}`",
+        f"- Manifest SHA-256: `{dataset_meta.get('manifest_sha256')}`",
         "",
-        "## Bloom rewrite (held-out test)",
+        f"## Bloom rewrite (held-out {dataset_meta.get('split')} split)",
         "",
         f"- N: {b.get('classification', {}).get('n')}",
-        f"- Target accuracy: {b.get('classification', {}).get('accuracy')}",
-        f"- Macro-F1: {b.get('classification', {}).get('macro_f1')}",
+        f"- Auxiliary-classifier agreement accuracy (not human-verified target accuracy): {b.get('classification', {}).get('accuracy')}",
+        f"- Macro-F1 against requested target labels using auxiliary classifier (proxy only): {b.get('classification', {}).get('macro_f1')}",
         f"- Weighted-F1: {b.get('classification', {}).get('weighted_f1')}",
-        f"- Fully validated rate: {b.get('rates', {}).get('fully_validated_rewrite_rate')}",
-        f"- Semantic preservation rate: {b.get('rates', {}).get('semantic_valid_rate')}",
-        f"- Cognitive validity rate: {b.get('rates', {}).get('cognitive_valid_rate')}",
+        f"- Automated acceptance proxy rate (legacy key: fully_validated_rewrite_rate): {b.get('rates', {}).get('automated_proxy_pass_rate')}",
+        f"- Lexical-overlap gate pass rate (not semantic preservation): {b.get('rates', {}).get('semantic_valid_rate')}",
+        f"- Cognitive heuristic pass rate (not human validation): {b.get('rates', {}).get('cognitive_valid_rate')}",
+        "- Classifier agreement is diagnostic only; it is not ground truth.",
+        "- Human review is required for claims about cognitive alignment and semantic preservation.",
         f"- Trivial transform rate: {b.get('rates', {}).get('trivial_transform_rate')}",
         "",
-        "## QA (SQuAD held-out test half)",
+        f"## QA (SQuAD {dataset_meta.get('split')} split)",
         "",
         f"- N: {q.get('n')}",
         f"- Exact Match: {q.get('exact_match')}",
         f"- Token F1: {q.get('f1')}",
         "",
-        "## Summarization (BillSum test)",
+        f"## Summarization (arXiv {dataset_meta.get('split')} split)",
         "",
         f"- N: {s.get('n')}",
         f"- ROUGE-1: {s.get('rouge1')}",
@@ -377,11 +424,15 @@ def write_report(
         f"- RSS (MB): {res.get('rss_mb')}",
         f"- USS (MB): {res.get('uss_mb')}",
         f"- GPU memory allocated (MB): {res.get('gpu_memory_allocated_mb')}",
+        f"- GPU memory reserved (MB): {res.get('gpu_memory_reserved_mb')}",
+        f"- GPU memory total (MB): {res.get('gpu_memory_total_mb')}",
+        f"- GPU memory capacity check passed: {res.get('gpu_memory_reserved_within_capacity')}",
+        f"- GPU memory warning: {res.get('gpu_memory_measurement_warning')}",
         "",
         "## Deployment recommendation",
         "",
-        "**INCONCLUSIVE** — 0.5B base, 0.5B LoRA, 1.5B base, and 1.5B LoRA must be "
-        "evaluated under the same protocol before model selection.",
+        "**BASELINE / COMPARISON REQUIRED** — compare A, B, C, and D under the same "
+        "split, selected row IDs, prompts, decoding parameters, and auxiliary classifier.",
         "",
         f"Checkpoint: `{checkpoint_info.get('resolved_path')}`",
         "",
@@ -391,7 +442,7 @@ def write_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate the final multi-task Qwen generator on the locked TEST split (13952 examples)."
+        description="Evaluate the shared Qwen2.5-1.5B generator on a manifest-verified held-out split."
     )
     parser.add_argument(
         "--config",
@@ -407,7 +458,7 @@ def main() -> None:
     parser.add_argument(
         "--dataset-dir",
         default=str(MULTITASK_FINAL_DATA_DIR),
-        help="Multi-task dataset directory (must contain test.jsonl)",
+        help="Multi-task dataset directory (must contain manifest, validation.jsonl, and test.jsonl)",
     )
     parser.add_argument(
         "--adapter-path",
@@ -441,9 +492,16 @@ def main() -> None:
         help="Deterministic QA and summarization sample size (default: 300 each).",
     )
     parser.add_argument(
-        "--full-test-set",
+        "--split",
+        choices=["validation", "test"],
+        default="validation",
+        help="Held-out split to evaluate. Use validation for A/B/C/D comparisons; reserve test for final evaluation.",
+    )
+    parser.add_argument(
+        "--full-split", "--full-test-set",
+        dest="full_split",
         action="store_true",
-        help="Evaluate all rows from the locked test split.",
+        help="Evaluate all rows in the selected split rather than using the fixed per-task QA/summary sample.",
     )
     parser.add_argument(
         "--tasks",
@@ -490,12 +548,12 @@ def main() -> None:
         data_dir = REPO_ROOT / data_dir
 
     print("=" * 72)
-    print("MULTI-TASK EVALUATION — LOCKED TEST SPLIT")
+    print(f"MULTI-TASK EVALUATION — {args.split.upper()} SPLIT")
     print("=" * 72)
 
     try:
-        test_rows, dataset_meta = load_test_split(data_dir)
-    except AssertionError as exc:
+        evaluation_rows, dataset_meta = load_evaluation_split(data_dir, split=args.split)
+    except (AssertionError, FileNotFoundError, ValueError) as exc:
         print("EVALUATION NOT STARTED —", exc)
         raise SystemExit(2) from exc
 
@@ -556,21 +614,22 @@ def main() -> None:
 
     generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
 
-    bloom_rows = [r for r in test_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
-    qa_rows = [r for r in test_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
+    bloom_rows = [r for r in evaluation_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
+    qa_rows = [r for r in evaluation_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
     sum_rows = [
-        r for r in test_rows if r["task"] == TASK_SUMMARIZATION and TASK_SUMMARIZATION in task_filter
+        r for r in evaluation_rows if r["task"] == TASK_SUMMARIZATION and TASK_SUMMARIZATION in task_filter
     ]
     full_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
-    if not args.full_test_set:
-        rng = random.Random(SEED)
-        def sample_task(rows, cap):
-            if len(rows) <= cap:
-                return rows
-            chosen = set(rng.sample(range(len(rows)), cap))
-            return [row for i, row in enumerate(rows) if i in chosen]
-        qa_rows = sample_task(qa_rows, args.evaluation_per_task)
-        sum_rows = sample_task(sum_rows, args.evaluation_per_task)
+
+    # Bloom is evaluated on every row of the selected held-out split. QA and
+    # summarization use a deterministic fixed-size sample unless --full-split.
+    bloom_rows = sorted(bloom_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+    if not args.full_split:
+        qa_rows = deterministic_task_sample(qa_rows, args.evaluation_per_task, TASK_QA)
+        sum_rows = deterministic_task_sample(sum_rows, args.evaluation_per_task, TASK_SUMMARIZATION)
+    else:
+        qa_rows = sorted(qa_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
+        sum_rows = sorted(sum_rows, key=lambda row: str(row.get("id") or row.get("example_id") or ""))
     if args.limit:
         bloom_rows = bloom_rows[: args.limit]
         qa_rows = qa_rows[: args.limit]
@@ -578,16 +637,22 @@ def main() -> None:
 
     evaluated_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
     subset_manifest = {
-        "sampling_method": "deterministic_uniform_without_replacement",
+        "evaluation_split": args.split,
+        "sampling_method": "sort_by_stable_id_then_uniform_without_replacement_per_task",
         "seed": SEED,
-        "full_test_split_unchanged": True,
+        "seed_by_task": {
+            TASK_QA: SEED + sum(ord(ch) for ch in TASK_QA),
+            TASK_SUMMARIZATION: SEED + sum(ord(ch) for ch in TASK_SUMMARIZATION),
+        },
+        "full_source_split_unchanged": True,
+        "source_split_sha256": dataset_meta.get("file_sha256"),
         "full_task_counts": full_counts,
         "evaluated_task_counts": evaluated_counts,
         "selected_ids": {
-            task: [str(row.get("example_id", row.get("id", ""))) for row in rows]
+            task: [str(row.get("id") or row.get("example_id") or "") for row in rows]
             for task, rows in ((TASK_BLOOM, bloom_rows), (TASK_QA, qa_rows), (TASK_SUMMARIZATION, sum_rows))
         },
-        "full_test_set_requested": args.full_test_set,
+        "full_split_requested": args.full_split,
     }
     (out_dir / "evaluation_subset_manifest.json").write_text(json.dumps(subset_manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -718,13 +783,18 @@ def main() -> None:
         "model_key": cfg.get("model_key"),
         "checkpoint": ckpt_info,
         "dataset": dataset_meta,
-        "evaluation_subset": {"full_task_counts": full_counts, "evaluated_task_counts": evaluated_counts, "evaluated_total": sum(evaluated_counts.values()), "manifest_path": str(out_dir / "evaluation_subset_manifest.json")},
+        "evaluation_subset": {"split": args.split, "full_task_counts": full_counts, "evaluated_task_counts": evaluated_counts, "evaluated_total": sum(evaluated_counts.values()), "manifest_path": str(out_dir / "evaluation_subset_manifest.json")},
         "generation": gen_cfg,
         "classifier_error": None,
         "classifier_meta": clf_meta,
         "classifier_call_stats": clf_stats.as_dict(),
         "classifier_is_not_ground_truth": True,
         "bloom": {
+            "classification_interpretation": (
+                "The auxiliary Bloom classifier's predictions on generated rewrites are compared "
+                "with requested target labels. These are classifier-agreement proxies, not human "
+                "ground truth for cognitive-level alignment."
+            ),
             "classification": bloom_class,
             "rates": bloom_rate,
             "per_level": bloom_class.get("per_level"),
@@ -745,6 +815,14 @@ def main() -> None:
         "resources": resources,
         "package_versions": package_versions(),
         "git_commit": git_commit(),
+        "validation_semantics": {
+            "fully_validated_rewrite_rate_is_legacy_name": True,
+            "automated_proxy_is_human_validation": False,
+            "classifier_agreement_is_ground_truth": False,
+            "semantic_similarity_field_is_lexical_jaccard": True,
+            "cognitive_validity_is_heuristic": True,
+            "human_validation_required_for_research_claims": True
+        },
         "deployment_recommendation": "INCONCLUSIVE",
     }
 

@@ -1,0 +1,98 @@
+{
+  "dataset_version": "bloomshift_final_candidate_expanded_v4_all_rows_included",
+  "canonical_files": {
+    "train": "train.json",
+    "validation": "validation.json",
+    "test": "test.json"
+  },
+  "source_records_by_split": {
+    "train": 1075,
+    "validation": 212,
+    "test": 135
+  },
+  "total_source_records": 1422,
+  "modeling_workflow_inclusion": {
+    "train": {
+      "included": 1075,
+      "excluded_due_to_review_metadata": 0,
+      "role": "gradient_updates"
+    },
+    "validation": {
+      "included": 212,
+      "excluded_due_to_review_metadata": 0,
+      "role": "held_out_model_selection_and_diagnostics"
+    },
+    "test": {
+      "included": 135,
+      "excluded_due_to_review_metadata": 0,
+      "role": "held_out_final_evaluation"
+    }
+  },
+  "total_records_included_across_workflow": 1422,
+  "source_group_counts": {
+    "train": 336,
+    "validation": 65,
+    "test": 44
+  },
+  "cross_split_source_group_overlap": {
+    "train/validation": 0,
+    "train/test": 0,
+    "validation/test": 0
+  },
+  "legacy_source_review_status_counts": {
+    "train": {
+      "unmarked": 665,
+      "human_validated": 410
+    },
+    "validation": {
+      "unmarked": 134,
+      "human_validated": 78
+    },
+    "test": {
+      "unmarked": 89,
+      "human_validated": 46
+    }
+  },
+  "target_bloom_counts": {
+    "train": {
+      "Analyze": 199,
+      "Apply": 174,
+      "Create": 177,
+      "Evaluate": 157,
+      "Remember": 189,
+      "Understand": 179
+    },
+    "validation": {
+      "Analyze": 41,
+      "Create": 34,
+      "Evaluate": 40,
+      "Remember": 36,
+      "Understand": 29,
+      "Apply": 32
+    },
+    "test": {
+      "Analyze": 29,
+      "Apply": 22,
+      "Create": 22,
+      "Evaluate": 19,
+      "Remember": 26,
+      "Understand": 17
+    }
+  },
+  "batch_review_attestation": {
+    "path": "batch_review_attestation.json",
+    "inclusion_policy": "All records retained irrespective of legacy row-level review_status/training_eligible fields.",
+    "source_owner_reported_all_records_human_reviewed": true,
+    "row_level_rubric_ratings_complete": false,
+    "reviewer_files_byte_identical": true,
+    "independent_second_reviewer_verified": false,
+    "inter_rater_reliability_established": false
+  },
+  "notes": [
+    "Every one of the 1,422 canonical records is included across the modeling workflow; only the 1,075 train-split records update model weights.",
+    "Validation and test stay held out to prevent leakage.",
+    "Legacy source review flags are preserved as provenance and do not act as exclusion filters in the derived corpus.",
+    "The owner batch attestation records the dataset owner's reported review and inclusion decision but does not establish independent gold labels or inter-rater reliability.",
+    "All source-group split boundaries are retained and are disjoint."
+  ]
+}

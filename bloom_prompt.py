@@ -526,9 +526,36 @@ def _load_v3_prompts():
     return _V3_PROMPTS
 
 
+def _canonical_target_level(raw: str) -> str:
+    """Accept only an explicit Bloom target; never silently default an invalid target."""
+    aliases = {
+        "remember": "Remember",
+        "remembering": "Remember",
+        "understand": "Understand",
+        "understanding": "Understand",
+        "apply": "Apply",
+        "applying": "Apply",
+        "analyze": "Analyze",
+        "analyzing": "Analyze",
+        "analyse": "Analyze",
+        "analysing": "Analyze",
+        "evaluate": "Evaluate",
+        "evaluating": "Evaluate",
+        "create": "Create",
+        "creating": "Create",
+    }
+    token = (raw or "").strip().casefold()
+    if token not in aliases:
+        raise ValueError(
+            f"Unknown target Bloom level {raw!r}; expected Remember, Understand, "
+            "Apply, Analyze, Evaluate, or Create."
+        )
+    return aliases[token]
+
+
 def build_v3_target_rewrite_prompt(question: str, target_level: str) -> str:
     """ChatML prompt the finalized v3 multitask model was trained to continue."""
-    target_level = _canonical_bloom_label(target_level)
+    target_level = _canonical_target_level(target_level)
     prompts = _load_v3_prompts()
     prompt = prompts.build_generation_prompt(
         "bloom_rewrite",
@@ -582,9 +609,26 @@ def build_targeted_rewrite_prompt(
     target_level: str,
     previous_failure: str = "",
 ) -> str:
-    """v3 target-level prompt. Correction text is ignored so the trained contract stays intact."""
-    del previous_failure
-    return build_v3_target_rewrite_prompt(question, target_level)
+    """Build the trained v3 prompt, optionally adding a bounded validation correction."""
+    prompt = build_v3_target_rewrite_prompt(question, target_level)
+    failure = re.sub(r"\s+", " ", (previous_failure or "").strip())[:400]
+    if not failure:
+        return prompt
+
+    # Add the correction inside the user turn, before its end marker, so the
+    # model continues in the same ChatML format it was trained to use.
+    marker = f"{IM_END}\n{IM_START}assistant\n"
+    correction = (
+        "\n\nCorrection after validation failure:\n"
+        f"{failure}\n"
+        f"Produce a corrected {target_level} task. Preserve the original topic, "
+        "scope, entities, and constraints. Do not explain the correction; output "
+        "only the revised student-facing question."
+    )
+    head, separator, tail = prompt.rpartition(marker)
+    if not separator:
+        raise ValueError("Unexpected v3 prompt format; cannot add correction safely.")
+    return head + correction + marker + tail
 
 def _validate_output_format(question: str) -> tuple[bool, str]:
     """
@@ -628,7 +672,7 @@ def _validate_output_format(question: str) -> tuple[bool, str]:
     # Imperative exam prompts are valid questions even without a question mark.
     # This checks only grammatical prompt form, never Bloom classification.
     question_words = {"what", "how", "why", "which", "who", "when", "where", "given", "determine", "calculate", "show", "predict", "outline", "distinguish", "recommend", "propose"}
-    imperative_starters = {"define", "identify", "list", "name", "state", "explain", "describe", "summarize", "interpret", "classify", "use", "solve", "demonstrate", "analyze", "compare", "examine", "evaluate", "assess", "justify", "critique", "design", "develop", "construct", "create", "formulate"}
+    imperative_starters = {"define", "identify", "list", "name", "state", "recall", "explain", "describe", "summarize", "interpret", "classify", "apply", "use", "solve", "calculate", "demonstrate", "implement", "analyze", "analyse", "compare", "contrast", "differentiate", "examine", "investigate", "evaluate", "assess", "justify", "critique", "defend", "judge", "design", "develop", "construct", "create", "formulate", "propose", "recommend", "predict", "determine", "outline", "show", "label"}
     has_question_structure = (
         question.endswith("?")
         or bool(words and words[0].rstrip(":,.") in question_words)
@@ -796,9 +840,78 @@ def _retry_instruction(target_level: str, failure: str) -> str:
     return failure
 
 
+def _target_cognitive_operation_check(rewrite: str, target_level: str) -> tuple[bool, str]:
+    """Conservative structural screen for the requested student operation.
+
+    This is a heuristic gate, not a Bloom classifier or a substitute for human
+    review. It focuses on the demanded task, not verbs mentioned as subject matter.
+    """
+    text = re.sub(r"\s+", " ", (rewrite or "").strip().lower())
+    words = text.split()
+    if not words:
+        return False, "Empty rewrite has no identifiable cognitive operation."
+
+    level = _canonical_bloom_label(target_level)
+    starters = {
+        "Remember": {"identify", "list", "name", "define", "state", "recall", "recognize", "label"},
+        "Understand": {"explain", "describe", "summarize", "interpret", "classify", "discuss", "illustrate"},
+        "Apply": {"apply", "use", "solve", "calculate", "compute", "demonstrate", "implement"},
+        "Analyze": {"analyze", "analyse", "compare", "contrast", "differentiate", "examine", "investigate", "inspect"},
+        "Evaluate": {"evaluate", "assess", "justify", "critique", "defend", "judge", "recommend"},
+        "Create": {"design", "develop", "create", "propose", "formulate", "construct"},
+    }
+    first = re.sub(r"[^a-z]", "", words[0])
+    if first not in starters[level]:
+        return False, (
+            f"Start the exam task with a direct {level}-appropriate action verb; "
+            f"received {words[0]!r}."
+        )
+
+    if level == "Apply":
+        context_cues = (
+            "case", "scenario", "problem", "given", "using", "to solve",
+            "calculate", "compute", "apply", "implement", "demonstrate",
+        )
+        if not any(cue in text for cue in context_cues):
+            return False, "Apply task does not make concrete use of a method or concept explicit."
+    elif level == "Analyze":
+        relation_cues = (
+            "relationship", "relation", "difference", "similarity", "between",
+            "how", "why", "cause", "effect", "affect", "impact", "pattern",
+            "component", "part", "assumption", "evidence", "structure", "and",
+        )
+        if len(words) < 6 or not any(cue in text for cue in relation_cues):
+            return False, "Analyze task does not make a relationship, distinction, or structure explicit."
+    elif level == "Evaluate":
+        judgment_cues = (
+            "criteria", "criterion", "evidence", "justify", "justification",
+            "strength", "weakness", "trade-off", "trade off", "against",
+            "according to", "based on", "using", "recommend", "defend",
+            "support your judgment", "most effective",
+        )
+        if not any(cue in text for cue in judgment_cues):
+            return False, "Evaluate task lacks an explicit judgment basis, evidence, or justification."
+    elif level == "Create":
+        deliverables = (
+            "prototype", "proposal", "framework", "system", "model", "plan",
+            "algorithm", "workflow", "architecture", "blueprint", "implementation",
+            "procedure", "tool", "design specification", "working example",
+            "solution", "artifact", "application",
+        )
+        constraints = (
+            "constraint", "requirement", "that satisfies", "subject to",
+            "within a budget", "under a limit", "given the following",
+            "using the following", "must meet", "must support",
+        )
+        if not any(term in text for term in deliverables + constraints):
+            return False, "Create task lacks a concrete deliverable or stated constraint."
+    return True, f"{level} cognitive-operation screen passed."
+
+
 def _validate_generated_candidate(question: str, rewrite: str, target_level: str, predictor) -> dict:
     record = {"cleaned_output": rewrite, "format_valid": False, "semantic_similarity": 0.0,
-              "deterministic_check": "not run", "classifier_prediction": "", "classifier_confidence": 0.0,
+              "deterministic_check": "not run", "cognitive_operation_check": "not run",
+              "classifier_prediction": "", "classifier_confidence": 0.0,
               "final_validation": False, "failure_reason": ""}
     valid, reason = _validate_output_format(rewrite)
     record["format_valid"] = valid
@@ -815,6 +928,11 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
     if not valid:
         record["failure_reason"] = reason
         return record
+    valid, reason = _target_cognitive_operation_check(rewrite, target_level)
+    record["cognitive_operation_check"] = reason
+    if not valid:
+        record["failure_reason"] = reason
+        return record
     try:
         result = predictor.predict(rewrite)
         predicted = _canonical_bloom_label(result["prediction"])
@@ -825,9 +943,12 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
     record["classifier_prediction"] = predicted
     record["classifier_confidence"] = confidence
     if predicted != _canonical_bloom_label(target_level):
-        record["failure_reason"] = f"Classified as {predicted}; generate a {target_level} task."
-    elif confidence < 0.6:
-        record["failure_reason"] = f"Classifier confidence {confidence:.0%} is below 60%."
+        record["failure_reason"] = f"Classifier predicted {predicted}; target is {target_level}."
+    elif confidence < V3_CLASSIFIER_CONFIDENCE_MIN:
+        record["failure_reason"] = (
+            f"Classifier confidence {confidence:.0%} is below the "
+            f"{V3_CLASSIFIER_CONFIDENCE_MIN:.0%} verification threshold."
+        )
     else:
         record["final_validation"] = True
         record["failure_reason"] = ""
@@ -843,6 +964,8 @@ class TargetRewriteResult:
     confidence: float = 0.0
     validation_match: bool = False
     validation_error: bool = False
+    attempts: int = 0
+    validation_details: dict | None = None
 
 
 def rewrite_to_target_level(
@@ -853,57 +976,98 @@ def rewrite_to_target_level(
     predictor=None,
     predictor_error: str = "",
     max_tokens: int | None = None,
+    max_attempts: int = 2,
 ) -> TargetRewriteResult:
-    """One greedy v3 GGUF rewrite. The classifier verifies; it does not replace the text."""
-    target_level = _canonical_bloom_label(target_level)
-    prompt = build_v3_target_rewrite_prompt(question, target_level)
-    model = llm if llm is not None else _get_llm()
-    try:
-        rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
-    except Exception as exc:
-        return TargetRewriteResult("", True, f"Generation error: {exc}", validation_error=True)
-    if not rewritten:
-        return TargetRewriteResult("", True, f"The v3 generator returned an empty {target_level} rewrite.")
+    """Generate, validate, and make at most one correction attempt.
 
-    if predictor is None and not predictor_error:
-        return TargetRewriteResult(
-            rewritten,
-            True,
-            "Rewrite generated. Classifier verification was not requested.",
-            validation_error=True,
-        )
+    Automated checks are conservative screens, not proof of Bloom alignment.
+    The classifier never changes the selected target or rewrites the question.
+    """
+    target_level = _canonical_target_level(target_level)
+    model = llm if llm is not None else _get_llm()
+    attempts_allowed = max(1, min(int(max_attempts), 2))
+
     if predictor is None:
+        reason = (
+            f"Classifier verification failed: {predictor_error}"
+            if predictor_error
+            else "Classifier verification was not requested."
+        )
+        try:
+            prompt = build_v3_target_rewrite_prompt(question, target_level)
+            rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+        except Exception as exc:
+            return TargetRewriteResult(
+                "", True, f"Generation error: {exc}", validation_error=True, attempts=1
+            )
         return TargetRewriteResult(
             rewritten,
             True,
-            f"Rewrite generated. Classifier verification failed: {predictor_error}",
+            f"Rewrite generated but requires human review. {reason}",
             validation_error=True,
+            attempts=1,
         )
-    try:
-        validation = predictor.predict(rewritten)
-        predicted = _canonical_bloom_label(validation["prediction"])
-        confidence = float(validation.get("confidence") or 0.0)
-    except Exception as exc:
-        return TargetRewriteResult(
-            rewritten,
-            True,
-            f"Rewrite generated. Classifier verification failed: {exc}",
-            validation_error=True,
+
+    last_rewrite = ""
+    last_validation: dict = {}
+    for attempt in range(1, attempts_allowed + 1):
+        failure = last_validation.get("failure_reason", "") if attempt > 1 else ""
+        prompt = (
+            build_targeted_rewrite_prompt(
+                question, target_level=target_level, previous_failure=failure
+            )
+            if attempt > 1
+            else build_v3_target_rewrite_prompt(question, target_level)
         )
-    match = predicted == target_level and confidence >= V3_CLASSIFIER_CONFIDENCE_MIN
-    if predicted != target_level:
-        note = f"Classifier predicted {predicted} ({confidence:.0%}) for target {target_level}."
-    elif not match:
-        note = f"Classifier predicted {predicted} at {confidence:.0%}, below the 50% verification threshold."
-    else:
-        note = ""
+        try:
+            last_rewrite = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+        except Exception as exc:
+            return TargetRewriteResult(
+                last_rewrite,
+                True,
+                f"Generation error on attempt {attempt}: {exc}",
+                validation_error=True,
+                attempts=attempt,
+                validation_details=last_validation or None,
+            )
+
+        if not last_rewrite:
+            last_validation = {
+                "cleaned_output": "",
+                "format_valid": False,
+                "final_validation": False,
+                "failure_reason": f"The generator returned an empty {target_level} rewrite.",
+            }
+        else:
+            last_validation = _validate_generated_candidate(
+                question, last_rewrite, target_level, predictor
+            )
+        if last_validation.get("final_validation"):
+            return TargetRewriteResult(
+                last_rewrite,
+                False,
+                "",
+                predicted_level=last_validation.get("classifier_prediction", ""),
+                confidence=float(last_validation.get("classifier_confidence") or 0.0),
+                validation_match=True,
+                validation_error=False,
+                attempts=attempt,
+                validation_details=last_validation,
+            )
+
+    reason = last_validation.get("failure_reason") or "Automated validation did not pass."
+    predicted = last_validation.get("classifier_prediction", "")
+    confidence = float(last_validation.get("classifier_confidence") or 0.0)
     return TargetRewriteResult(
-        rewritten,
-        not match,
-        note,
+        last_rewrite,
+        True,
+        f"Validation failed after {attempts_allowed} attempt(s): {reason}",
         predicted_level=predicted,
         confidence=confidence,
-        validation_match=match,
+        validation_match=False,
+        validation_error=False,
+        attempts=attempts_allowed,
+        validation_details=last_validation,
     )
 
 
