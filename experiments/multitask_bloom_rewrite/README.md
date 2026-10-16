@@ -1,41 +1,49 @@
-# EduGuard Final 1.5B Multitask Generator Experiment
+# EduGuard Qwen2.5-1.5B Multitask Generator Experiment
 
-This directory contains the final training/evaluation pipeline for the shared Qwen2.5-1.5B-Instruct generator.
+This directory contains the training/evaluation pipeline for the shared Qwen2.5-1.5B-Instruct generator.
 
 Architecture:
 - Qwen2.5-0.5B-Instruct — Bloom classification only; trained separately.
-- Qwen2.5-1.5B-Instruct — one shared LoRA generator for Bloom transformation, SQuAD 1.1 QA, and BillSum summarization.
+- Qwen2.5-1.5B-Instruct — one shared LoRA generator for Bloom transformation, SQuAD 1.1 question answering, and arXiv summarization.
 
 The 0.5B classification dataset is not part of the 1.5B generator corpus.
 
-## Final dataset contract
+## BloomShift inclusion contract
 
-Generator inputs:
-- data/rewrite dataset/bloomshift_final_candidate/
-- rajpurkar/squad
-- FiscalNote/billsum
+Canonical BloomShift source split sizes are 1,075 train + 212 validation + 135 test = 1,422 records. All 1,422 rows must be retained across the modeling workflow. All 1,075 train rows update model weights; the 212 validation rows remain held out for checkpoint selection and diagnostics; and the 135 test rows remain held out for final evaluation. Never move validation/test examples into train to increase training volume.
 
-Generated corpus: data/multitask_bloom_rewrite_final/
+The batch attestation file `data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json` documents the dataset owner's report that all rows were reviewed and the instruction to include every row. The builder does not filter on legacy row-level `review_status` or `training_eligible` flags. It preserves the prior values in the derived corpus for provenance and assigns `review_status=owner_batch_attested` and `training_eligible=true` to included examples.
 
-Training sampling: 40% Bloom / 30% QA / 30% summarization. Validation and test retain task-specific held-out splits.
+The repository's reviewer files are byte-identical, and complete independent item-level rubric ratings are not available for the held-out split. Therefore, the batch attestation must not be reported as independent dual annotation, inter-rater reliability, or proof of gold-label status. Independent evaluation evidence remains a separate publication-readiness requirement.
 
-SFT context limit: 8192 tokens. SQuAD oversized contexts are windowed while preserving the answer span. BillSum examples whose complete article+summary SFT sequence exceeds the fixed budget are excluded deterministically rather than silently truncating the article.
+## Multitask corpus contract
+
+Generator sources:
+- `data/rewrite dataset/bloomshift_final_candidate/`
+- `rajpurkar/squad`
+- `ccdv/arxiv-summarization`
+
+Generated corpus: `data/multitask_bloom_rewrite_final/`
+
+The current baseline sampling mix is 40% Bloom / 30% QA / 30% summarization, with the Bloom training split acting as the anchor. SFT context limit: 8192 tokens. SQuAD contexts are windowed while preserving the answer span. arXiv examples whose complete article+abstract SFT sequence exceeds the fixed token budget are excluded and counted in the manifest; this length policy applies to the auxiliary summarization source, not the canonical BloomShift records.
 
 ## Safe workflow
 
-1. Generate the final corpus.
-2. Run strict dataset QC with max length 8192.
-3. Run sanity_check_multitask_training.py for Bloom, QA, and summarization; use --backward on a suitable GPU machine.
-4. Run the resource gate.
-5. Train using configs/qwen15b_multitask_final.json.
+1. Run the BloomShift inclusion/provenance audit.
+2. Generate the full multitask corpus with all BloomShift split rows retained.
+3. Run strict corpus QC with max length 8192.
+4. Run `sanity_check_multitask_training.py` for Bloom, QA, and summarization; use `--backward` on a suitable GPU machine.
+5. Run the resource gate.
+6. Train from a clean output directory using the intended configuration.
 
 Example commands:
 
-    python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192
-    python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_final --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
-    python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_final
-    python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
+```powershell
+python experiments/multitask_bloom_rewrite/scripts/audit_bloomshift_dataset.py
+python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --mix-bloom 0.40 --mix-qa 0.30 --mix-sum 0.30
+python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_final --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
+python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_final
+python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
+```
 
-Training selects the best checkpoint using validation loss only. The test split must not be used for hyperparameter tuning or checkpoint selection.
-
-Historical v2/v3 comparison scripts and old result directories are retained only as provenance; they are not inputs to the final generator training run.
+The existing config uses validation loss for checkpoint selection; a follow-up training-method change should add task-aware evaluation and loss balancing as a separate experiment. Never use the test split for hyperparameter tuning or checkpoint selection. Use a new output directory for each experimental run so previous checkpoints cannot silently contaminate a fresh run.
