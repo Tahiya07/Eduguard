@@ -1,6 +1,6 @@
 {
   "annotation_version": "v1",
-  "dataset_status": "curated_silver_candidate_pending_human_validation",
+  "dataset_status": "owner_batch_attested_for_model_use_independent_gold_review_not_verified",
   "main_annotation_rows": 228,
   "calibration_size": 20,
   "calibration_ids": [
@@ -28,8 +28,9 @@
   "calibration_design": "Two validation and one test example per target Bloom level, plus two previously corrected held-out examples.",
   "calibration_excluded_from_agreement": true,
   "reviewers_required": 2,
-  "independent_main_review": true,
+  "independent_main_review": false,
   "gold_release_requires_adjudication": true,
+  "independent_review_evidence_note": "Reviewer files currently byte-match and complete per-row rubric ratings are not present; independent main review is therefore not demonstrated.",
   "priority_manual_review_cases": 32,
   "files": {
     "supervisor_annotation": "supervisor_annotation.csv",
