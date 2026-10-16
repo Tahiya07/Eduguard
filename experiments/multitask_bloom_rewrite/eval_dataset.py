@@ -71,7 +71,7 @@ def collect_keys(rows: list[dict[str, Any]]) -> set[tuple[str, str]]:
 
 
 def assert_split_matches(
-    rows: list[dict[str, Any],],
+    rows: list[dict[str, Any]],
     *,
     path: Path,
     expected_split: str,
