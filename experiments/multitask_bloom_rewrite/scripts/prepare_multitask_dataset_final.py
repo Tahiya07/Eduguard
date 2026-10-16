@@ -552,6 +552,21 @@ def main() -> None:
     # held-out validation/test sets are never downsampled by these options.
     qa_train_available = len(qa_train)
     arxiv_train_available = len(arxiv_train)
+
+    # The capped baseline targets 1,075 Bloom / 806 QA / 806 summarization
+    # examples (approximately 40/30/30 by training-example count). Fail rather
+    # than silently produce a different mixture if an upstream filter leaves too
+    # few eligible examples for a requested cap.
+    if args.max_qa_train is not None and qa_train_available < args.max_qa_train:
+        raise SystemExit(
+            f"Requested QA training cap {args.max_qa_train}, but only "
+            f"{qa_train_available} eligible rows remain after preprocessing."
+        )
+    if args.max_sum_train is not None and arxiv_train_available < args.max_sum_train:
+        raise SystemExit(
+            f"Requested summarization training cap {args.max_sum_train}, but only "
+            f"{arxiv_train_available} eligible rows remain after preprocessing."
+        )
     if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
         qa_train = random.Random(args.seed + 101).sample(qa_train, args.max_qa_train)
         qa_train.sort(key=lambda row: str(row.get("id", "")))
@@ -559,8 +574,9 @@ def main() -> None:
         arxiv_train = random.Random(args.seed + 202).sample(arxiv_train, args.max_sum_train)
         arxiv_train.sort(key=lambda row: str(row.get("id", "")))
 
-    # Task files stay physically separate. Optional caps are applied independently
-    # to QA and summarization training sets; no merged corpus or target ratio exists.
+    # Task files remain physically separate. The training files are independently
+    # sampled with a fixed seed to establish the declared example-count mixture;
+    # no merged corpus is persisted.
     task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
         TASK_BLOOM: {
             "train": enrich_prompts(bloom_train),
@@ -671,7 +687,7 @@ def main() -> None:
         "qa_source": {
             "dataset": "rajpurkar/squad",
             "requested_train_fraction": 0.95,
-            "available_train_rows_after_group_split": len(qa_train),
+            "available_train_rows_after_group_split": qa_train_available,
             "prepared_train_rows": len(task_splits[TASK_QA]["train"]),
             "validation_rows_after_group_split": len(qa_val),
             "official_validation_rows_used_as_test": len(qa_test),
@@ -685,7 +701,7 @@ def main() -> None:
             "dataset": "ccdv/arxiv-summarization",
             "official_splits_preserved": True,
             "split_names": {"train": "train", "validation": "validation", "test": "test"},
-            "available_train_rows_after_length_filter": len(arxiv_train),
+            "available_train_rows_after_length_filter": arxiv_train_available,
             "prepared_train_rows": len(task_splits[TASK_SUM]["train"]),
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
@@ -703,8 +719,8 @@ def main() -> None:
         "upstream_datasets": UPSTREAM_DATASET_INFO,
         "generated_files_sha256": file_hashes,
         "training_data_policy": {
-            "policy": "retain_bloom_all_and_apply_optional_independent_auxiliary_caps",
-            "ratio_based_downsampling": False,
+            "policy": "retain_all_bloom_and_deterministically_cap_auxiliary_training_splits",
+            "ratio_based_downsampling": True,
             "requested_caps": {
                 TASK_QA: args.max_qa_train,
                 TASK_SUM: args.max_sum_train,
@@ -719,13 +735,13 @@ def main() -> None:
                 task: round(count / actual_train_total, 6)
                 for task, count in task_counts["train"].items()
             },
-            "note": "Caps affect training rows only. Validation/test remain unchanged and task files remain separate; fractions are descriptive, not enforced sampling ratios.",
+            "note": "When caps of 806 are requested, retain 1,075 Bloom, 806 QA, and 806 summarization train rows (approximately 40/30/30 by example count). Caps affect training only; validation/test remain unchanged and task files remain separate. Training examples are shuffled together in memory by the trainer; no per-batch task ratio is enforced.",
         },
         "counts": task_counts,
         "notes": [
             "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
             "Each task's train/validation/test data is stored in its own directory.",
-            "All prepared training examples are retained; no fixed-ratio downsampling occurs during preparation.",
+            "The capped baseline uses all BloomShift training rows and deterministic seeded QA/summarization subsets to target approximately 40/30/30 training-example proportions.",
             "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
             "BloomShift's fixed split boundaries and source-group isolation are preserved.",
             "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",

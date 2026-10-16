@@ -1,10 +1,10 @@
 {
-  "experiment_name": "multitask_qwen15b_capped",
+  "experiment_name": "multitask_qwen15b_capped_40_30_30",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
   "model_key": "15b",
   "dataset_dir": "data/multitask_bloom_rewrite_capped",
-  "output_dir": "experiments/multitask_bloom_rewrite/models/experiment_C_multitask_capped",
-  "results_dir": "experiments/multitask_bloom_rewrite/results/experiment_C_multitask_capped",
+  "output_dir": "experiments/multitask_bloom_rewrite/models/experiment_C_multitask_capped_40_30_30",
+  "results_dir": "experiments/multitask_bloom_rewrite/results/experiment_C_multitask_capped_40_30_30",
   "seed": 42,
   "epochs": 3,
   "learning_rate": 0.0002,
@@ -41,12 +41,14 @@
     "decoding": "greedy"
   },
   "notes": [
-    "Experiment C: three-task Qwen2.5-1.5B-Instruct LoRA baseline.",
-    "Reads task-separated files under data/multitask_bloom_rewrite_capped; no merged JSONL is persisted.",
-    "All BloomShift training rows are retained; QA and summarization training rows are independently capped at 806 each using seed 42. No fixed-ratio batch sampler is configured.",
-    "BloomShift uses all 1,075 train rows, with 212 validation and 135 test rows held out. All-row inclusion is documented by the owner batch attestation; independent gold-review evidence is not established.",
-    "SQuAD and arXiv validation/test splits remain separately stored. The evaluator uses validation by default and must not use test for model selection.",
-    "8192 tokens is the fixed SFT sequence limit. The builder refuses overlength records rather than relying on training-time truncation.",
+    "Primary three-task Qwen2.5-1.5B-Instruct shared-LoRA baseline with deterministic task-separated training files.",
+    "Training set target counts are 1,075 BloomShift, 806 QA, and 806 summarization rows, approximately 40/30/30 by example count.",
+    "QA and summarization subsets are sampled deterministically with seed 42; the dataset builder fails if requested caps cannot be met.",
+    "Task files remain separate on disk and are loaded into one in-memory training dataset; trainer shuffling does not enforce a fixed per-batch task ratio.",
+    "Example-count balance is not token-count balance. Record per-task supervised-token counts and task-specific validation metrics.",
+    "BloomShift uses all 1,075 train rows, with 212 validation and 135 test rows held out. Owner batch attestation does not establish independent gold-review evidence or inter-rater reliability.",
+    "SQuAD and arXiv validation/test splits remain separately stored. Use validation for model selection and test only for final evaluation.",
+    "8192 tokens is the fixed SFT sequence limit. The builder rejects overlength sequences rather than relying on trainer truncation.",
     "Use a fresh output directory per experiment. Do not resume checkpoints from a different dataset or training condition."
   ],
   "validation_task_limits": {
