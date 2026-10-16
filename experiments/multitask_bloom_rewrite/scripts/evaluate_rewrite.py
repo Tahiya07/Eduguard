@@ -589,14 +589,17 @@ def main() -> None:
 
     evaluated_counts = {TASK_BLOOM: len(bloom_rows), TASK_QA: len(qa_rows), TASK_SUMMARIZATION: len(sum_rows)}
     subset_manifest = {
-        "sampling_method": "deterministic_uniform_without_replacement",
+        "sampling_method": "stable task-file order plus uniform sampling without replacement",
         "seed": SEED,
         "evaluation_split": args.split,
+        "dataset_manifest_path": dataset_meta.get("manifest_path"),
+        "dataset_manifest_sha256": dataset_meta.get("manifest_sha256"),
+        "source_task_file_sha256": dataset_meta.get("split_file_sha256"),
         "full_source_split_unchanged": True,
         "full_task_counts": full_counts,
         "evaluated_task_counts": evaluated_counts,
         "selected_ids": {
-            task: [str(row.get("example_id", row.get("id", ""))) for row in rows]
+            task: [str(row.get("id", row.get("example_id", ""))) for row in rows]
             for task, rows in ((TASK_BLOOM, bloom_rows), (TASK_QA, qa_rows), (TASK_SUMMARIZATION, sum_rows))
         },
         "full_split_requested": args.full_test_set,
