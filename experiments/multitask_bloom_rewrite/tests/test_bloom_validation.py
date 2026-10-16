@@ -24,6 +24,13 @@ class BloomPromptTests(unittest.TestCase):
         for guidance in BLOOM_LEVEL_GUIDANCE.values():
             self.assertGreater(len(guidance), 50)
 
+    def test_shared_system_prompt_requires_action_led_target_task(self):
+        from prompts import BLOOM_SYSTEM
+
+        self.assertIn("requested target level is authoritative", BLOOM_SYSTEM)
+        self.assertIn("action-verb-led", BLOOM_SYSTEM)
+        self.assertIn("Do not merely swap the opening verb", BLOOM_SYSTEM)
+
     def test_generation_prompt_contains_target_operation_not_source_level(self):
         row = {
             "source_question": "Describe two database indexing methods.",
