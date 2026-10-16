@@ -649,7 +649,7 @@ def main() -> None:
         "full_task_counts": full_counts,
         "evaluated_task_counts": evaluated_counts,
         "selected_ids": {
-            task: [str(row.get("example_id", row.get("id", ""))) for row in rows]
+            task: [str(row.get("id") or row.get("example_id") or "") for row in rows]
             for task, rows in ((TASK_BLOOM, bloom_rows), (TASK_QA, qa_rows), (TASK_SUMMARIZATION, sum_rows))
         },
         "full_split_requested": args.full_split,
