@@ -115,6 +115,26 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument(
+        "--dataset-dir",
+        default=None,
+        help="Override dataset_dir from the config (supports task-separated datasets).",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default=None,
+        help="Override output_dir from the config; use a fresh directory for a new run.",
+    )
+    parser.add_argument(
+        "--results-dir",
+        default=None,
+        help="Override results_dir from the config.",
+    )
+    parser.add_argument(
+        "--model-id",
+        default=None,
+        help="Override model_id from the config, e.g. a different Hugging Face causal LM.",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Override resource gate (only on a known-suitable machine).",
@@ -129,6 +149,16 @@ def main() -> None:
     if not cfg_path.is_absolute():
         cfg_path = (REPO_ROOT / cfg_path).resolve()
     cfg = load_json(cfg_path)
+    # CLI overrides make it possible to reuse a validated training recipe with
+    # a different task-separated dataset, base model, or fresh artifact paths.
+    for argument, config_key in (
+        (args.dataset_dir, "dataset_dir"),
+        (args.output_dir, "output_dir"),
+        (args.results_dir, "results_dir"),
+        (args.model_id, "model_id"),
+    ):
+        if argument:
+            cfg[config_key] = argument
     seed = int(cfg.get("seed", SEED))
     set_seed(seed)
 
