@@ -513,6 +513,22 @@ def main() -> None:
         default=None,
         help="Optional deterministic cap on summarization training rows; evaluation summarization splits are capped to the corresponding BloomShift split size.",
     )
+    parser.add_argument(
+        "--max-qa-validation", type=int, default=None,
+        help="Optional QA validation cap; never exceeds BloomShift validation size.",
+    )
+    parser.add_argument(
+        "--max-qa-test", type=int, default=None,
+        help="Optional QA test cap; never exceeds BloomShift test size.",
+    )
+    parser.add_argument(
+        "--max-sum-validation", type=int, default=None,
+        help="Optional summarization validation cap; never exceeds BloomShift validation size.",
+    )
+    parser.add_argument(
+        "--max-sum-test", type=int, default=None,
+        help="Optional summarization test cap; never exceeds BloomShift test size.",
+    )
     args = parser.parse_args()
 
     bloom_dir = Path(args.bloom_dir)
@@ -549,6 +565,12 @@ def main() -> None:
         raise SystemExit("--max-qa-train must be positive when supplied.")
     if args.max_sum_train is not None and args.max_sum_train < 1:
         raise SystemExit("--max-sum-train must be positive when supplied.")
+    for arg_name in (
+        "max_qa_validation", "max_qa_test", "max_sum_validation", "max_sum_test"
+    ):
+        value = getattr(args, arg_name)
+        if value is not None and value < 1:
+            raise SystemExit(f"--{arg_name.replace('_', '-')} must be positive when supplied.")
 
     print("[1/7] Loading and validating canonical BloomShift splits...", flush=True)
     bloom_train_raw = load_json(required_bloom[0])
@@ -579,6 +601,19 @@ def main() -> None:
     if bloom_groups["validation"] & bloom_groups["test"]:
         raise SystemExit("BloomShift validation/test group leakage detected.")
 
+    # Evaluation splits follow BloomShift sizes by default. Explicit caps can
+    # reduce them, but cannot make public-dataset evaluation splits larger.
+    qa_val_target = min(len(bloom_val), args.max_qa_validation or len(bloom_val))
+    qa_test_target = min(len(bloom_test), args.max_qa_test or len(bloom_test))
+    sum_val_target = min(len(bloom_val), args.max_sum_validation or len(bloom_val))
+    sum_test_target = min(len(bloom_test), args.max_sum_test or len(bloom_test))
+    print(
+        "[EVAL CAPS] "
+        f"QA validation={qa_val_target}, QA test={qa_test_target}, "
+        f"summarization validation={sum_val_target}, summarization test={sum_test_target}",
+        flush=True,
+    )
+
     print("[2/7] Preparing SQuAD QA data...", flush=True)
     qa_train, qa_val, qa_test = load_squad(
         args.seed,
@@ -590,8 +625,8 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
         max_train_rows=args.max_sum_train,
-        max_validation_rows=len(bloom_val),
-        max_test_rows=len(bloom_test),
+        max_validation_rows=sum_val_target,
+        max_test_rows=sum_test_target,
         seed=args.seed,
     )
     if not qa_train or not qa_val or not qa_test:
@@ -619,10 +654,10 @@ def main() -> None:
     # Match each auxiliary evaluation task's row count to BloomShift's held-out
     # count. Fixed, task-specific seeds make selection reproducible. Sorting after
     # sampling gives stable file order. Source split boundaries are preserved.
-    qa_val_cap = min(len(qa_val), len(bloom_val))
-    sum_val_cap = min(len(arxiv_val), len(bloom_val))
-    qa_test_cap = min(len(qa_test), len(bloom_test))
-    sum_test_cap = min(len(arxiv_test), len(bloom_test))
+    qa_val_cap = min(len(qa_val), qa_val_target)
+    sum_val_cap = min(len(arxiv_val), sum_val_target)
+    qa_test_cap = min(len(qa_test), qa_test_target)
+    sum_test_cap = min(len(arxiv_test), sum_test_target)
     if len(qa_val) > qa_val_cap:
         qa_val = random.Random(args.seed + 303).sample(qa_val, qa_val_cap)
         qa_val.sort(key=lambda row: str(row.get("id", "")))
@@ -635,6 +670,16 @@ def main() -> None:
     if len(arxiv_test) > sum_test_cap:
         arxiv_test = random.Random(args.seed + 606).sample(arxiv_test, sum_test_cap)
         arxiv_test.sort(key=lambda row: str(row.get("id", "")))
+
+    # Fail closed if a future refactor accidentally allows oversized evaluation splits.
+    for task_name, rows, cap in (
+        ("QA validation", qa_val, qa_val_target),
+        ("QA test", qa_test, qa_test_target),
+        ("summarization validation", arxiv_val, sum_val_target),
+        ("summarization test", arxiv_test, sum_test_target),
+    ):
+        if len(rows) > cap:
+            raise AssertionError(f"{task_name} has {len(rows)} rows, exceeding cap {cap}.")
 
     # Task files stay physically separate. Evaluation caps make per-task example
     # counts comparable to BloomShift while retaining independent source splits.
@@ -761,8 +806,8 @@ def main() -> None:
             "prepared_test_rows": len(task_splits[TASK_QA]["test"]),
             "official_validation_used_as_test": True,
             "evaluation_sampling": {
-                "validation_target_rows": len(bloom_val),
-                "test_target_rows": len(bloom_test),
+                "validation_target_rows": qa_val_target,
+                "test_target_rows": qa_test_target,
                 "seed_offsets": {"validation": 303, "test": 505},
                 "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
             },
@@ -782,8 +827,8 @@ def main() -> None:
             "test_rows_available_before_cap": arxiv_test_available,
             "prepared_test_rows": len(task_splits[TASK_SUM]["test"]),
             "evaluation_sampling": {
-                "validation_target_rows": len(bloom_val),
-                "test_target_rows": len(bloom_test),
+                "validation_target_rows": sum_val_target,
+                "test_target_rows": sum_test_target,
                 "seed_offsets": {"validation": 404, "test": 606},
                 "policy": "Deterministically sample auxiliary evaluation rows up to the corresponding BloomShift split size.",
             },
