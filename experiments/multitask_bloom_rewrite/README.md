@@ -61,7 +61,7 @@ python experiments/multitask_bloom_rewrite/scripts/audit_bloomshift_dataset.py
 2. Prepare the separate task directories. Do not pass a combined corpus path:
 
 ```powershell
-python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --mix-bloom 0.40 --mix-qa 0.30 --mix-sum 0.30
+python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --output-dir data/multitask_bloom_rewrite_separate --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --seed 42 --max-qa-train 806 --max-sum-train 806
 ```
 
 3. Run strict integrity, split isolation, token length, and assistant-only mask QC:
