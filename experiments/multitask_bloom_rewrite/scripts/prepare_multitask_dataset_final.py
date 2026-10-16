@@ -457,6 +457,18 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     parser.add_argument("--max-seq-length", type=int, default=8192)
+    parser.add_argument(
+        "--max-qa-train",
+        type=int,
+        default=None,
+        help="Optional deterministic cap on QA training rows only; validation/test remain unchanged.",
+    )
+    parser.add_argument(
+        "--max-sum-train",
+        type=int,
+        default=None,
+        help="Optional deterministic cap on summarization training rows only; validation/test remain unchanged.",
+    )
     args = parser.parse_args()
 
     bloom_dir = Path(args.bloom_dir)
@@ -489,6 +501,10 @@ def main() -> None:
         raise SystemExit("Missing canonical BloomShift files:\n" + "\n".join(missing))
     if args.max_seq_length < 16:
         raise SystemExit("--max-seq-length must be at least 16.")
+    if args.max_qa_train is not None and args.max_qa_train < 1:
+        raise SystemExit("--max-qa-train must be positive when supplied.")
+    if args.max_sum_train is not None and args.max_sum_train < 1:
+        raise SystemExit("--max-sum-train must be positive when supplied.")
 
     bloom_train_raw = load_json(required_bloom[0])
     bloom_val_raw = load_json(required_bloom[1])
@@ -532,9 +548,19 @@ def main() -> None:
     if not arxiv_train or not arxiv_val or not arxiv_test:
         raise SystemExit("arXiv summarization preparation produced an empty split.")
 
-    # Keep every prepared training example. Do not downsample or ratio-mix task
-    # datasets during preparation; each task remains in its own directory.
-    # A shared training run can load these independent files later.
+    # Optional, deterministic per-task caps apply only to training rows. The
+    # held-out validation/test sets are never downsampled by these options.
+    qa_train_available = len(qa_train)
+    arxiv_train_available = len(arxiv_train)
+    if args.max_qa_train is not None and len(qa_train) > args.max_qa_train:
+        qa_train = random.Random(args.seed + 101).sample(qa_train, args.max_qa_train)
+        qa_train.sort(key=lambda row: str(row.get("id", "")))
+    if args.max_sum_train is not None and len(arxiv_train) > args.max_sum_train:
+        arxiv_train = random.Random(args.seed + 202).sample(arxiv_train, args.max_sum_train)
+        arxiv_train.sort(key=lambda row: str(row.get("id", "")))
+
+    # Task files stay physically separate. Optional caps are applied independently
+    # to QA and summarization training sets; no merged corpus or target ratio exists.
     task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
         TASK_BLOOM: {
             "train": enrich_prompts(bloom_train),
@@ -677,14 +703,23 @@ def main() -> None:
         "upstream_datasets": UPSTREAM_DATASET_INFO,
         "generated_files_sha256": file_hashes,
         "training_data_policy": {
-            "policy": "retain_all_prepared_training_examples",
+            "policy": "retain_bloom_all_and_apply_optional_independent_auxiliary_caps",
             "ratio_based_downsampling": False,
-            "task_train_counts": task_counts["train"],
-            "task_train_fractions_of_full_union": {
+            "requested_caps": {
+                TASK_QA: args.max_qa_train,
+                TASK_SUM: args.max_sum_train,
+            },
+            "available_training_rows_before_caps": {
+                TASK_BLOOM: len(bloom_train),
+                TASK_QA: qa_train_available,
+                TASK_SUM: arxiv_train_available,
+            },
+            "retained_training_rows": task_counts["train"],
+            "task_train_fractions_of_retained_union": {
                 task: round(count / actual_train_total, 6)
                 for task, count in task_counts["train"].items()
             },
-            "note": "Fractions describe the retained full dataset sizes; they are not target sampling ratios.",
+            "note": "Caps affect training rows only. Validation/test remain unchanged and task files remain separate; fractions are descriptive, not enforced sampling ratios.",
         },
         "counts": task_counts,
         "notes": [
