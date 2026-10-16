@@ -14,6 +14,7 @@ dataset preparation. The resulting JSONL corpus is self-contained for training.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import random
@@ -27,7 +28,7 @@ EXPERIMENT_DIR = REPO_ROOT / "experiments" / "multitask_bloom_rewrite"
 if str(EXPERIMENT_DIR) not in __import__("sys").path:
     __import__("sys").path.insert(0, str(EXPERIMENT_DIR))
 DEFAULT_BLOOM_DIR = REPO_ROOT / "data" / "rewrite dataset" / "bloomshift_final_candidate"
-DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_final"
+DEFAULT_OUT_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_separate"
 
 TASK_BLOOM = "bloom_rewrite"
 TASK_QA = "qa"
@@ -59,6 +60,111 @@ def load_json(path: Path) -> list[dict[str, Any]]:
     return data
 
 
+def validate_annotation_provenance(
+    bloom_dir: Path,
+    train_rows: list[dict[str, Any]],
+    validation_rows: list[dict[str, Any]],
+    test_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate the owner batch-attestation scope without inventing reviewer scores.
+
+    The batch attestation permits all source rows to be included in the modeling
+    workflow. Independent dual-review evidence remains a separate, explicit status.
+    """
+    attestation_path = bloom_dir / "batch_review_attestation.json"
+    if not attestation_path.is_file():
+        raise ValueError(
+            "Missing batch_review_attestation.json. Record the dataset owner's "
+            "all-row inclusion decision before rebuilding the corpus."
+        )
+    try:
+        attestation = json.loads(attestation_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Cannot read batch attestation {attestation_path}: {exc}") from exc
+
+    if attestation.get("processing_policy", {}).get("exclusions") is None:
+        raise ValueError("Batch attestation lacks an explicit all-record inclusion policy.")
+    scope = attestation.get("scope", {})
+    declared_counts = scope.get("split_counts", {})
+    actual_counts = {
+        "train": len(train_rows),
+        "validation": len(validation_rows),
+        "test": len(test_rows),
+    }
+    if not scope.get("include_every_canonical_record") or declared_counts != actual_counts:
+        raise ValueError(
+            "Canonical BloomShift rows do not match the all-row batch attestation: "
+            f"declared={declared_counts}, actual={actual_counts}"
+        )
+    if int(scope.get("total_rows", -1)) != sum(actual_counts.values()):
+        raise ValueError("Batch attestation total_rows does not match the canonical split totals.")
+
+    reviewer_paths = [bloom_dir / "reviewer_1.csv", bloom_dir / "reviewer_2.csv"]
+    reviewer_hashes: dict[str, str] = {}
+    ratings_by_reviewer: list[dict[str, dict[str, str]]] = []
+    for path in reviewer_paths:
+        if not path.is_file():
+            ratings_by_reviewer.append({})
+            continue
+        reviewer_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            csv_rows = list(csv.DictReader(handle))
+        ratings_by_reviewer.append({
+            str(row.get("example_id") or "").strip(): row
+            for row in csv_rows
+            if str(row.get("example_id") or "").strip()
+        })
+
+    rating_fields = (
+        "bloom_aligned", "reviewer_bloom_level", "content_preserved",
+        "context_preserved", "meaningful_transformation", "pedagogically_valid",
+        "clear_and_grammatical", "final_decision",
+    )
+    heldout_rows = validation_rows + test_rows
+    incomplete_annotations = 0
+    for row in heldout_rows:
+        row_id = str(row.get("example_id") or row.get("id") or "").strip()
+        for reviewer_rows in ratings_by_reviewer:
+            rating = reviewer_rows.get(row_id)
+            if not rating or any(not str(rating.get(field) or "").strip() for field in rating_fields):
+                incomplete_annotations += 1
+
+    independent_files = (
+        len(reviewer_hashes) == 2
+        and reviewer_hashes.get("reviewer_1.csv") != reviewer_hashes.get("reviewer_2.csv")
+    )
+    independent_verified = independent_files and incomplete_annotations == 0
+    warnings = []
+    if not independent_files:
+        warnings.append(
+            "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established."
+        )
+    if incomplete_annotations:
+        warnings.append(
+            f"{incomplete_annotations} held-out reviewer records lack all required ratings; "
+            "held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+        )
+
+    return {
+        "inclusion_basis": "dataset_owner_batch_attestation",
+        "owner_reported_all_rows_human_reviewed": bool(
+            attestation.get("dataset_owner_report", {}).get("all_records_reported_human_reviewed")
+        ),
+        "all_source_rows_included": True,
+        "source_split_counts": actual_counts,
+        "reviewer_file_sha256": reviewer_hashes,
+        "independent_reviewer_files": independent_files,
+        "heldout_rows": len(heldout_rows),
+        "incomplete_reviewer_records": incomplete_annotations,
+        "independent_review_verified": independent_verified,
+        "row_level_ratings_required_fields": list(rating_fields),
+        "warnings": warnings,
+        "research_claim_limit": (
+            "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+        ),
+    }
+
+
 def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, Any]]:
     from prompts import build_generation_prompt, build_prompt_only_text, build_sft_text
 
@@ -68,10 +174,16 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
             "source_id", "group_id", "source_question",
             "target_bloom_level", "target_rewrite", "example_id"
         )
-        missing = [k for k in required if k not in row]
+        missing = [k for k in required if k not in row or not str(row.get(k) or "").strip()]
         if missing:
-            raise ValueError(f"Bloom row missing {missing}: {row}")
+            raise ValueError(
+                f"Bloom row in {split!r} is structurally invalid and cannot be silently dropped; "
+                f"missing/empty fields {missing}: {row.get('example_id') or row.get('id') or '<unknown-id>'}"
+            )
 
+        # Do not expose source review gaps to the model as target labels. Every
+        # canonical row is retained under the explicit owner batch attestation.
+        # Preserve legacy fields separately so no evidence is fabricated.
         record = {
             "task": TASK_BLOOM,
             "split": split,
@@ -85,11 +197,24 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
             "question_family": row.get("question_family"),
             "transformation_type": row.get("transformation_type"),
             "transformation_strategy": row.get("transformation_strategy"),
+            "source_review_status": row.get("review_status") or "unmarked",
+            "source_training_eligible": row.get("training_eligible"),
+            "review_status": "owner_batch_attested",
+            "training_eligible": True,
+            "review_provenance_method": "dataset_owner_batch_attestation",
+            "independent_review_verified": False,
+            "dataset_inclusion_reason": "all canonical BloomShift rows retained; legacy review metadata is not an exclusion filter",
         }
         record["sft_text"] = build_sft_text(TASK_BLOOM, record)
         record["prompt_text"] = build_prompt_only_text(TASK_BLOOM, record)
         record["generation_prompt"] = build_generation_prompt(TASK_BLOOM, record)
         out.append(record)
+
+    if len(out) != len(rows):
+        raise AssertionError(
+            f"BloomShift {split}: retained {len(out)} of {len(rows)} source rows; no-drop policy violated."
+        )
+    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under owner batch attestation")
     return out
 
 
@@ -358,8 +483,12 @@ def counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(row["task"] for row in rows))
 
 
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Prepare BloomShift, SQuAD, and arXiv as separate task-specific JSONL files."
+    )
     parser.add_argument("--bloom-dir", default=str(DEFAULT_BLOOM_DIR))
     parser.add_argument("--output-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--seed", type=int, default=42)
@@ -377,34 +506,47 @@ def main() -> None:
     if not out_dir.is_absolute():
         out_dir = REPO_ROOT / out_dir
 
-    required_bloom = [bloom_dir / "train.json", bloom_dir / "validation.json", bloom_dir / "test.json"]
-    missing = [str(p) for p in required_bloom if not p.exists()]
+    required_bloom = [
+        bloom_dir / "train.json",
+        bloom_dir / "validation.json",
+        bloom_dir / "test.json",
+    ]
+    missing = [str(path) for path in required_bloom if not path.is_file()]
     if missing:
         raise SystemExit("Missing canonical BloomShift files:\n" + "\n".join(missing))
-
     if args.max_seq_length < 16:
         raise SystemExit("--max-seq-length must be at least 16.")
+
     ratios = (args.mix_bloom, args.mix_qa, args.mix_sum)
-    if any(r < 0 for r in ratios) or not any(r > 0 for r in ratios):
-        raise SystemExit("Train mix ratios must be non-negative and at least one must be positive.")
-    if abs(sum(ratios) - 1.0) > 1e-9:
-        raise SystemExit("Train mix ratios must sum to 1.")
-    if args.mix_bloom <= 0:
-        raise SystemExit("--mix-bloom must be positive because the target train size is anchored to BloomShift.")
+    if any(ratio <= 0 for ratio in ratios) or abs(sum(ratios) - 1.0) > 1e-9:
+        raise SystemExit("Training mix ratios must each be positive and sum to 1.")
 
-    bloom_train = normalize_bloom(load_json(required_bloom[0]), "train")
-    bloom_val = normalize_bloom(load_json(required_bloom[1]), "validation")
-    bloom_test = normalize_bloom(load_json(required_bloom[2]), "test")
+    bloom_train_raw = load_json(required_bloom[0])
+    bloom_val_raw = load_json(required_bloom[1])
+    bloom_test_raw = load_json(required_bloom[2])
+    annotation_provenance = validate_annotation_provenance(
+        bloom_dir, bloom_train_raw, bloom_val_raw, bloom_test_raw
+    )
 
-    # Source-group isolation is already encoded by the canonical BloomShift split.
+    bloom_train = normalize_bloom(bloom_train_raw, "train")
+    bloom_val = normalize_bloom(bloom_val_raw, "validation")
+    bloom_test = normalize_bloom(bloom_test_raw, "test")
+    if (len(bloom_train), len(bloom_val), len(bloom_test)) != (
+        len(bloom_train_raw), len(bloom_val_raw), len(bloom_test_raw)
+    ):
+        raise SystemExit("No-drop policy violated: not every canonical BloomShift row was retained.")
+
     def group_set(rows: list[dict[str, Any]]) -> set[Any]:
-        return {r["group_id"] for r in rows}
+        return {row["group_id"] for row in rows}
 
-    if group_set(bloom_train) & group_set(bloom_val):
+    bloom_groups = {split: group_set(rows) for split, rows in (
+        ("train", bloom_train), ("validation", bloom_val), ("test", bloom_test)
+    )}
+    if bloom_groups["train"] & bloom_groups["validation"]:
         raise SystemExit("BloomShift train/validation group leakage detected.")
-    if group_set(bloom_train) & group_set(bloom_test):
+    if bloom_groups["train"] & bloom_groups["test"]:
         raise SystemExit("BloomShift train/test group leakage detected.")
-    if group_set(bloom_val) & group_set(bloom_test):
+    if bloom_groups["validation"] & bloom_groups["test"]:
         raise SystemExit("BloomShift validation/test group leakage detected.")
 
     qa_train, qa_val, qa_test = load_squad(
@@ -412,88 +554,125 @@ def main() -> None:
         tokenizer_model_id=args.model_id,
         max_seq_length=args.max_seq_length,
     )
-    sum_train, sum_val, sum_test, arxiv_excluded = load_arxiv_summarization(
-        tokenizer_model_id=args.model_id, max_seq_length=args.max_seq_length
+    arxiv_train, arxiv_val, arxiv_test, arxiv_excluded = load_arxiv_summarization(
+        tokenizer_model_id=args.model_id,
+        max_seq_length=args.max_seq_length,
     )
-
     if not qa_train or not qa_val or not qa_test:
         raise SystemExit("SQuAD preparation produced an empty split.")
-    if not sum_train or not sum_val or not sum_test:
+    if not arxiv_train or not arxiv_val or not arxiv_test:
         raise SystemExit("arXiv summarization preparation produced an empty split.")
 
-    train_rows = sample_for_mix(
-        bloom_train, qa_train, sum_train, args.seed,
+    # Select the baseline training examples once, then store each task in its own
+    # directory. C and D use these exact same per-task training files. B selects
+    # only the Bloom task at training time and never reads QA/arXiv for gradients.
+    sampled_train = sample_for_mix(
+        bloom_train, qa_train, arxiv_train, args.seed,
         args.mix_bloom, args.mix_qa, args.mix_sum
     )
-    val_rows = enrich_prompts(bloom_val + qa_val + sum_val)
-    test_rows = enrich_prompts(bloom_test + qa_test + sum_test)
+    task_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
+        TASK_BLOOM: {
+            "train": [row for row in sampled_train if row["task"] == TASK_BLOOM],
+            "validation": enrich_prompts(bloom_val),
+            "test": enrich_prompts(bloom_test),
+        },
+        TASK_QA: {
+            "train": [row for row in sampled_train if row["task"] == TASK_QA],
+            "validation": enrich_prompts(qa_val),
+            "test": enrich_prompts(qa_test),
+        },
+        TASK_SUM: {
+            "train": [row for row in sampled_train if row["task"] == TASK_SUM],
+            "validation": enrich_prompts(arxiv_val),
+            "test": enrich_prompts(arxiv_test),
+        },
+    }
+    for task in ALLOWED_TASKS:
+        for split in ("train", "validation", "test"):
+            rows = task_splits[task][split]
+            if not rows:
+                raise SystemExit(f"Empty prepared task split: {task}/{split}")
+            if any(row.get("task") != task or row.get("split") != split for row in rows):
+                raise SystemExit(f"Incorrect task/split tags in {task}/{split}.")
+            if not all(row.get("sft_text") and row.get("prompt_text") and row.get("generation_prompt") for row in rows):
+                raise SystemExit(f"Missing SFT/prompt content in {task}/{split}.")
 
-    # The canonical BloomShift rows are already prompt-enriched above.
-    train_rows = enrich_prompts(train_rows)
-
-    # Final hard gate: no task may reach training with a sequence that the
-    # trainer would silently truncate. Probe only max_seq_length + 1 tokens.
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(args.model_id, use_fast=True)
-    token_counts: dict[str, dict[str, int]] = {}
-    for split_name, rows in (("train", train_rows), ("validation", val_rows), ("test", test_rows)):
-        overlength = []
-        for row in rows:
-            full_len = bounded_token_count(tokenizer, row["sft_text"], args.max_seq_length)
-            prompt_len = bounded_token_count(tokenizer, row["prompt_text"], args.max_seq_length)
-            if full_len > args.max_seq_length:
-                overlength.append(f"{row['task']}:{row['id']}")
-            if prompt_len >= args.max_seq_length:
+    token_counts: dict[str, dict[str, dict[str, int]]] = {}
+    for split in ("train", "validation", "test"):
+        token_counts[split] = {}
+        for task in (TASK_BLOOM, TASK_QA, TASK_SUM):
+            rows = task_splits[task][split]
+            overlength: list[str] = []
+            prompt_overflow: list[str] = []
+            lengths: list[int] = []
+            for row in rows:
+                full_len = bounded_token_count(tokenizer, row["sft_text"], args.max_seq_length)
+                prompt_len = bounded_token_count(tokenizer, row["prompt_text"], args.max_seq_length)
+                lengths.append(full_len)
+                if full_len > args.max_seq_length:
+                    overlength.append(str(row["id"]))
+                if prompt_len >= args.max_seq_length:
+                    prompt_overflow.append(str(row["id"]))
+            if overlength or prompt_overflow:
                 raise SystemExit(
-                    f"{split_name} prompt leaves no assistant target tokens: "
-                    f"{row['task']}:{row['id']} (prompt token count exceeds the usable budget)."
+                    f"{task}/{split} token budget failure: overlength={len(overlength)}, "
+                    f"prompt_without_target={len(prompt_overflow)}; "
+                    f"examples={(overlength + prompt_overflow)[:10]}"
                 )
-        if overlength:
-            raise SystemExit(
-                f"{split_name} contains {len(overlength)} overlength SFT sequence(s); "
-                f"the builder will not emit data the trainer silently truncates. "
-                f"First examples: {overlength[:10]}"
-            )
-        token_counts[split_name] = {"rows": len(rows), "overlength": len(overlength)}
-
-    for name, rows in (("train", train_rows), ("validation", val_rows), ("test", test_rows)):
-        tasks = {r["task"] for r in rows}
-        if not tasks <= ALLOWED_TASKS:
-            raise SystemExit(f"Unexpected task(s) in {name}: {tasks - ALLOWED_TASKS}")
-        if not all(r.get("sft_text") and r.get("prompt_text") for r in rows):
-            raise SystemExit(f"Missing SFT/prompt text in {name}.")
-
-    # No Bloom example may cross the frozen BloomShift split boundaries.
-    test_bloom_ids = {r["id"] for r in bloom_test}
-    if test_bloom_ids & {r["id"] for r in train_rows if r["task"] == TASK_BLOOM}:
-        raise SystemExit("BloomShift test examples leaked into generator train.")
-    if test_bloom_ids & {r["id"] for r in val_rows if r["task"] == TASK_BLOOM}:
-        raise SystemExit("BloomShift test examples leaked into generator validation.")
+            lengths.sort()
+            token_counts[split][task] = {
+                "rows": len(rows),
+                "overlength": 0,
+                "min_tokens": min(lengths),
+                "p50_tokens": lengths[int((len(lengths) - 1) * 0.50)],
+                "p95_tokens": lengths[int((len(lengths) - 1) * 0.95)],
+                "p99_tokens": lengths[int((len(lengths) - 1) * 0.99)],
+                "max_tokens": max(lengths),
+            }
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    write_jsonl(out_dir / "train.jsonl", train_rows)
-    write_jsonl(out_dir / "validation.jsonl", val_rows)
-    write_jsonl(out_dir / "test.jsonl", test_rows)
+    file_hashes: dict[str, str] = {}
+    for task, splits in task_splits.items():
+        for split, rows in splits.items():
+            path = out_dir / task / f"{split}.jsonl"
+            write_jsonl(path, rows)
+            rel = path.relative_to(out_dir).as_posix()
+            file_hashes[rel] = sha256_file(path)
 
-    source_hashes = {
-        p.name: sha256_file(p)
-        for p in required_bloom
+    source_hashes = {path.name: sha256_file(path) for path in required_bloom}
+    attestation_path = bloom_dir / "batch_review_attestation.json"
+    source_hashes[attestation_path.name] = sha256_file(attestation_path)
+
+    task_counts = {
+        split: {task: len(task_splits[task][split]) for task in (TASK_BLOOM, TASK_QA, TASK_SUM)}
+        for split in ("train", "validation", "test")
     }
-    generated_hashes = {
-        name: sha256_file(out_dir / name)
-        for name in ("train.jsonl", "validation.jsonl", "test.jsonl")
-    }
+    actual_train_total = sum(task_counts["train"].values())
     manifest = {
-        "version": "multitask_bloom_rewrite_final_v2",
+        "version": "multitask_bloom_rewrite_separate_v1",
+        "storage_layout": "one_directory_per_task",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "seed": args.seed,
         "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
         "classifier_dataset_excluded": True,
         "tasks": [TASK_BLOOM, TASK_QA, TASK_SUM],
+        "persisted_merged_jsonl": False,
         "bloom_source": {
-            "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
+            "path": str(bloom_dir.relative_to(REPO_ROOT)).replace("\\\\", "/"),
             "version": "bloomshift_final_candidate",
             "files_sha256": source_hashes,
+            "heldout_annotation_provenance": annotation_provenance,
+            "batch_review_attestation": {
+                "path": str(attestation_path.relative_to(REPO_ROOT)).replace("\\\\", "/"),
+                "sha256": source_hashes[attestation_path.name],
+            },
+            "training_split_eligibility_policy": (
+                "All 1075 canonical BloomShift train rows are used; all 212 validation and 135 test rows "
+                "remain held out. Legacy review flags are retained as provenance and never used as row filters. "
+                "Owner batch attestation is not independent dual review or inter-rater reliability."
+            ),
             "train_rows": len(bloom_train),
             "validation_rows": len(bloom_val),
             "test_rows": len(bloom_test),
@@ -501,8 +680,8 @@ def main() -> None:
         "qa_source": {
             "dataset": "rajpurkar/squad",
             "requested_train_fraction": 0.95,
-            "actual_train_fraction_of_official_train": round(len(qa_train) / max(1, len(qa_train) + len(qa_val)), 6),
-            "train_rows_after_group_split": len(qa_train),
+            "available_train_rows_after_group_split": len(qa_train),
+            "sampled_train_rows": len(task_splits[TASK_QA]["train"]),
             "validation_rows_after_group_split": len(qa_val),
             "official_validation_rows_used_as_test": len(qa_test),
             "official_validation_used_as_test": True,
@@ -515,56 +694,66 @@ def main() -> None:
             "dataset": "ccdv/arxiv-summarization",
             "official_splits_preserved": True,
             "split_names": {"train": "train", "validation": "validation", "test": "test"},
+            "available_train_rows_after_length_filter": len(arxiv_train),
+            "sampled_train_rows": len(task_splits[TASK_SUM]["train"]),
             "long_context_policy": {
                 "max_seq_length": args.max_seq_length,
                 "over_budget_examples_excluded": arxiv_excluded,
-                "policy": "exclude complete SFT sequences above the fixed training budget rather than truncating full-paper inputs while retaining their abstracts",
+                "policy": "Exclude complete SFT sequences above the fixed token budget rather than truncating article inputs while retaining full abstracts.",
             },
         },
         "tokenizer": {
             "model_id": args.model_id,
             "max_seq_length": args.max_seq_length,
-            "sequence_policy": "all emitted complete SFT sequences must fit; builder fails rather than relying on trainer truncation",
+            "sequence_policy": "all persisted complete SFT sequences must fit; fail rather than rely on trainer truncation",
             "bounded_token_count_check": True,
             "checked_sequences": token_counts,
         },
         "upstream_datasets": UPSTREAM_DATASET_INFO,
-        "generated_files_sha256": generated_hashes,
-        "train_mix": {
-            "requested": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
-            "actual": {k: round(v / max(1, len(train_rows)), 6) for k, v in counts(train_rows).items()},
+        "generated_files_sha256": file_hashes,
+        "training_sample": {
+            "purpose": "Fixed reusable training sample for experiments C and D; source datasets remain physically separated.",
+            "seed": args.seed,
+            "requested_mix": {TASK_BLOOM: args.mix_bloom, TASK_QA: args.mix_qa, TASK_SUM: args.mix_sum},
+            "actual_counts": task_counts["train"],
+            "actual_mix": {task: round(count / actual_train_total, 6) for task, count in task_counts["train"].items()},
+            "bloom_is_anchor": True,
+            "selection_happens_once_during_preparation": True,
+            "d_and_c_must_use_same_generated_file_hashes": True,
         },
-        "counts": {
-            "train": counts(train_rows),
-            "validation": counts(val_rows),
-            "test": counts(test_rows),
-        },
+        "counts": task_counts,
         "notes": [
-            "Upstream Hugging Face split fingerprints are recorded; dataset revisions are not pinned by this script, so preserve the manifest and generated file hashes with the experiment.",
-            "Bloom transformation data is taken only from the canonical BloomShift final candidate.",
-            "The 0.5B Bloom classifier dataset is not included in this generator corpus.",
-            "Train/validation/test are kept task-aware and prompt-conditioned.",
-            "BloomShift group isolation is checked before writing the corpus.",
-            "Do not tune hyperparameters on the held-out test split.",
+            "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
+            "Each task's train/validation/test data is stored in its own directory.",
+            "The training subset is selected once at preparation time to keep C/D example IDs identical.",
+            "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
+            "BloomShift's fixed split boundaries and source-group isolation are preserved.",
+            "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
+            "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
+            "Never tune model choices using the held-out test split.",
         ],
     }
     (out_dir / "dataset_manifest.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False),
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\\n",
         encoding="utf-8",
     )
 
     report = {
-        "train_rows": len(train_rows),
-        "validation_rows": len(val_rows),
-        "test_rows": len(test_rows),
-        "by_task": manifest["counts"],
-        "output_dir": str(out_dir.relative_to(REPO_ROOT)).replace("\\", "/"),
+        "layout": "task-separated",
+        "persisted_merged_jsonl": False,
+        "train_rows": actual_train_total,
+        "validation_rows": sum(task_counts["validation"].values()),
+        "test_rows": sum(task_counts["test"].values()),
+        "by_task": task_counts,
+        "output_dir": str(out_dir.relative_to(REPO_ROOT)).replace("\\\\", "/"),
+        "generated_files_sha256": file_hashes,
     }
     (EXPERIMENT_DIR / "reports").mkdir(parents=True, exist_ok=True)
-    (EXPERIMENT_DIR / "reports" / "multitask_final_prepare_report.json").write_text(
-        json.dumps(report, indent=2), encoding="utf-8"
+    (EXPERIMENT_DIR / "reports" / "multitask_separate_prepare_report.json").write_text(
+        json.dumps(report, indent=2, ensure_ascii=False) + "\\n",
+        encoding="utf-8",
     )
-    print(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
