@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     bloom_model_size: str = "0.5b"
     bloom_model_dir: str | None = None
     bloom_use_quantized: bool = False
-    generator_model_path: str | None = None
+    generator_model_path: str = "models/qwen.gguf"
     retrieval_encoder: str = "bge-small"
     offline_mode: bool = True
     data_dir: Path = ROOT / "data" / "web_sessions"

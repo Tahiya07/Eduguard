@@ -3,6 +3,7 @@ import threading
 from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from starlette.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from .auth import create_token, current_session, require_teacher
 from .config import settings
@@ -48,7 +49,13 @@ def index_text(body: IndexTextRequest, session: dict = Depends(current_session))
 @app.post("/documents/upload")
 async def upload(file: UploadFile = File(...), scope: str = Form("public"), content_type: str = Form("study_material"), session: dict = Depends(current_session)):
     payload = await file.read()
-    return run(lambda: service.ingest_file(session["sid"], session["role"], payload, file.filename or "upload", scope, content_type))
+    # PDF parsing, OCR, embedding, and FAISS indexing are CPU-bound; keep them
+    # off the ASGI event loop so health/status and other requests remain responsive.
+    return await run_in_threadpool(
+        lambda: run(lambda: service.ingest_file(
+            session["sid"], session["role"], payload, file.filename or "upload", scope, content_type
+        ))
+    )
 # Bloom inference is a teacher-side capability. Keep the legacy route but
 # protect it identically to the explicit teacher endpoint.
 @app.post("/bloom/classify")
