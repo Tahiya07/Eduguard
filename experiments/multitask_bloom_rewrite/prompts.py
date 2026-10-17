@@ -37,37 +37,37 @@ BLOOM_SYSTEM = (
 BLOOM_TARGET_GUIDANCE = {
     "Remember": (
         "Cognitive operation: retrieve or recognize a fact, term, component, rule, or procedure. "
-        "Preferred action verbs: Identify, Define, List, Name, State, Recall, Recognize, Label, Select, Match. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Identify, Define, List, Name, State, Recall, Recognize, Label, Select, Match, Enumerate, Retrieve, Locate, Memorize, Reproduce, Repeat, Record, Quote, Specify, Indicate, Point out, Tabulate, Outline, Duplicate, Arrange, Order, Cite, Tell, Who/What/When/Where prompts when suitable. "
         "Keep the task to retrieval/recognition; do not ask for explanation, comparison, application, judgment, or design. "
         "Example form: 'Identify the main components of [original topic].'"
     ),
     "Understand": (
         "Cognitive operation: explain meaning, interpret, classify, summarize, or describe an existing idea. "
-        "Preferred action verbs: Explain, Describe, Summarize, Interpret, Classify, Illustrate, Paraphrase, Distinguish, Discuss. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Explain, Describe, Summarize, Interpret, Classify, Illustrate, Paraphrase, Discuss, Exemplify, Clarify, Restate, Represent, Translate, Infer meaning, Compare in meaning, Give an account of, Characterize, Report, Review, Associate, Group, Sort, Convert, Predict meaning from given information, Explain in your own words. "
         "Require comprehension of the original concept, not a solution to a new case, a criteria-based judgment, or a new artifact. "
         "Example form: 'Explain how [original concept] works.'"
     ),
     "Apply": (
         "Cognitive operation: use a learned rule, method, or concept to work through a concrete case. "
-        "Preferred action verbs: Apply, Use, Calculate, Solve, Demonstrate, Execute, Implement, Determine, Compute, Predict. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Apply, Use, Calculate, Solve, Demonstrate, Execute, Implement, Determine, Compute, Predict, Operate, Carry out, Perform, Practice, Show how, Illustrate by using, Modify for a given case, Prepare, Produce a result using, Select and use, Complete, Estimate, Measure, Test, Run, Manipulate, Model, Work out, Find, Obtain, Verify by applying a stated rule. "
         "Keep the original topic and provide/use a concrete given situation, inputs, or conditions when needed; require an actual result or procedure, not just explanation. "
         "Example form: 'Given [relevant conditions], apply [original method] to determine [relevant result].'"
     ),
     "Analyze": (
         "Cognitive operation: break information into parts and examine relationships, structure, causes, patterns, or differences. "
-        "Preferred action verbs: Analyze, Compare, Contrast, Differentiate, Examine, Investigate, Categorize, Decompose, Trace, Relate. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Analyze, Compare, Contrast, Differentiate, Examine, Investigate, Categorize, Decompose, Trace, Relate, Break down, Distinguish components, Organize, Attribute, Structure, Map relationships, Inspect, Probe, Correlate, Separate, Subdivide, Infer causes, Identify assumptions, Detect patterns, Find evidence of, Determine functions, Uncover, Test a hypothesis against evidence, Explain relationships among parts, Diagram dependencies, Diagnose causes. "
         "Make the relationship, parts, cause, or pattern to be examined explicit; do not stop at listing facts or merely asking for an unsupported opinion. "
         "Example form: 'Analyze how [original topic's parts or factors] interact.'"
     ),
     "Evaluate": (
         "Cognitive operation: make and support a judgment using explicit criteria, evidence, standards, or trade-offs. "
-        "Preferred action verbs: Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize, Rate against criteria, Rank using stated standards, Argue for or against, Weigh evidence, Verify against a standard, Review critically, Support a conclusion, Refute with evidence, Determine suitability, Select and justify, Decide with reasons, Compare against benchmarks, Establish value, Test validity, Challenge a claim, Substantiate, Endorse with evidence, Reject with reasons, Audit against requirements, Resolve a choice using criteria. "
         "Require a reasoned judgment tied to criteria/evidence; do not only describe/analyze, and do not turn the task into designing a new artifact. "
         "Example form: 'Evaluate [original approach] against [relevant criteria] and justify the judgment.'"
     ),
     "Create": (
         "Cognitive operation: produce or propose a new artifact, plan, model, design, procedure, or solution by combining ideas. "
-        "Preferred action verbs: Design, Develop, Create, Construct, Formulate, Propose, Devise, Compose, Generate, Plan. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Design, Develop, Create, Construct, Formulate, Propose, Devise, Compose, Generate, Plan, Invent, Build, Produce, Assemble, Synthesize, Integrate, Engineer, Draft, Author, Architect, Model, Establish, Originate, Adapt into a new solution, Create a procedure, Develop a framework, Prepare a blueprint, Combine into a coherent product, Elaborate a proposal, Generate alternatives, Design an experiment, Form a hypothesis, Compose a response, Produce an original plan. "
         "Require a new deliverable and preserve the source topic; add constraints only when grounded in the source or necessary to make the deliverable clear. "
         "Do not merely explain, analyze, or judge an existing item. "
         "Example form: 'Design [a relevant new deliverable] for [original purpose/context].'"
