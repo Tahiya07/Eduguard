@@ -44,6 +44,7 @@ import logging
 import os
 import random
 import sys
+import threading
 import time
 from dataclasses import dataclass, field
 from glob import glob
@@ -241,6 +242,9 @@ class RAGGenerator:
         self.n_threads = int(n_threads)
         self.max_tokens = int(max_tokens)
         self.seed = int(seed)
+        # llama.cpp's shared context is stateful; concurrent API requests must
+        # not mutate it at the same time. Direct task-specific paths share this lock.
+        self.inference_lock = threading.RLock()
         self.task_profile = get_task_profile(task_id)
         self.task_id = self.task_profile.task_id
 
@@ -379,26 +383,29 @@ class RAGGenerator:
         max_tokens: Optional[int] = None,
     ) -> tuple[str, float]:
         """Run deterministic CPU inference on an already-built ChatML prompt."""
-        reset_fn = getattr(self.llm, "reset", None)
-        if callable(reset_fn):
-            try:
-                reset_fn()
-            except Exception as e:  # pragma: no cover - defensive
-                logger.warning(f"llm.reset() failed: {e}")
+        # Keep reset + generation in one critical section: the KV cache and
+        # sampler state belong to this single shared model instance.
+        with self.inference_lock:
+            reset_fn = getattr(self.llm, "reset", None)
+            if callable(reset_fn):
+                try:
+                    reset_fn()
+                except Exception as e:  # pragma: no cover - defensive
+                    logger.warning(f"llm.reset() failed: {e}")
 
-        t0 = time.time()
-        out = self.llm(
-            chatml,
-            max_tokens=int(max_tokens or self.max_tokens),
-            temperature=0.0,
-            top_p=1.0,
-            top_k=0,
-            repeat_penalty=1.0,
-            stop=["<|im_end|>", "<|im_start|>"],
-            echo=False,
-            seed=self.seed,
-        )
-        elapsed = time.time() - t0
+            t0 = time.perf_counter()
+            out = self.llm(
+                chatml,
+                max_tokens=int(max_tokens or self.max_tokens),
+                temperature=0.0,
+                top_p=1.0,
+                top_k=0,
+                repeat_penalty=1.0,
+                stop=["<|im_end|>", "<|im_start|>"],
+                echo=False,
+                seed=self.seed,
+            )
+            elapsed = time.perf_counter() - t0
 
         try:
             text = out["choices"][0]["text"].strip()
