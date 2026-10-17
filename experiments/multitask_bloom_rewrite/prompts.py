@@ -19,16 +19,60 @@ FORBIDDEN_SOURCE_LEVEL_MARKERS = (
 
 BLOOM_SYSTEM = (
     "You are an expert academic assessment editor. "
-    "Rewrite the question so that the student's required cognitive task matches "
-    "the requested Bloom level. "
-    "Preserve the original topic and academic intent. "
-    "Do not merely replace verbs. "
-    "OUTPUT ONLY THE REWRITTEN EXAM QUESTION. "
-    "Do not answer the question. "
-    "Do not write explanations, definitions-as-answers, bullet lists, or meta commentary. "
-    "The output must be exactly one student-facing exam question "
-    "(interrogative or valid exam imperative)."
+    "This is the BLOOM_REWRITE task only: rewrite one supplied exam question for the caller's exact target Bloom level. "
+    "Never answer it, summarize it, classify it, or switch to QA or summarization. "
+    "Preserve the source question's subject, entities, core meaning, constraints, and relevant context. "
+    "Change the cognitive operation the student must perform, not just the wording or verb. "
+    "Use the target-level action-verb guidance supplied in the user message: choose a suitable verb from that level's bank, "
+    "prefer an action-verb-led imperative when it reads naturally, and make the requested thinking operation explicit. "
+    "The verb is a cue, not proof of Bloom alignment: the whole task must require the target-level cognition. "
+    "Do not add unsupported facts, arbitrary scenarios, new entities, or unrelated requirements. "
+    "Do not force an awkward verb; choose another suitable verb from the same target-level bank if needed. "
+    "OUTPUT ONLY ONE student-facing exam question as a single sentence or short paragraph. "
+    "Do not include a Bloom label, rationale, answer, solution, preamble, bullet list, or meta commentary."
 )
+
+# These are inference-time and SFT prompt instructions for the requested target level.
+# Verbs are examples, not a keyword classifier; validate the cognitive operation in context.
+BLOOM_TARGET_GUIDANCE = {
+    "Remember": (
+        "Cognitive operation: retrieve or recognize a fact, term, component, rule, or procedure. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Identify, Define, List, Name, State, Recall, Recognize, Label, Select, Match, Enumerate, Retrieve, Locate, Reproduce, Repeat, Record, Quote, Specify, Indicate, Tabulate, Outline, Cite, Recite, Report, Identify by name, Recall from memory. "
+        "Keep the task to retrieval/recognition; do not ask for explanation, comparison, application, judgment, or design. "
+        "Example form: 'Identify the main components of [original topic].'"
+    ),
+    "Understand": (
+        "Cognitive operation: explain meaning, interpret, classify, summarize, or describe an existing idea. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Explain, Describe, Summarize, Interpret, Classify, Illustrate, Paraphrase, Discuss, Exemplify, Clarify, Restate, Represent, Translate, Characterize, Report, Associate, Group, Sort, Convert, Infer, Relate meaning, Generalize, Review, Explain in your own words. "
+        "Require comprehension of the original concept, not a solution to a new case, a criteria-based judgment, or a new artifact. "
+        "Example form: 'Explain how [original concept] works.'"
+    ),
+    "Apply": (
+        "Cognitive operation: use a learned rule, method, or concept to work through a concrete case. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Apply, Use, Calculate, Solve, Demonstrate, Execute, Implement, Determine, Compute, Predict, Operate, Perform, Practice, Prepare, Estimate, Measure, Test, Run, Manipulate, Model, Modify, Complete, Find, Obtain, Carry out, Execute, Illustrate through use, Solve using, Verify by applying a stated rule. "
+        "Keep the original topic and provide/use a concrete given situation, inputs, or conditions when needed; require an actual result or procedure, not just explanation. "
+        "Example form: 'Given [relevant conditions], apply [original method] to determine [relevant result].'"
+    ),
+    "Analyze": (
+        "Cognitive operation: break information into parts and examine relationships, structure, causes, patterns, or differences. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Analyze, Compare, Contrast, Differentiate, Examine, Investigate, Categorize, Decompose, Trace, Relate, Organize, Attribute, Structure, Inspect, Probe, Correlate, Separate, Subdivide, Infer, Detect, Uncover, Diagnose, Dissect, Scrutinize, Distinguish, Map, Identify assumptions, Identify patterns, Determine relationships, Examine dependencies. "
+        "Make the relationship, parts, cause, or pattern to be examined explicit; do not stop at listing facts or merely asking for an unsupported opinion. "
+        "Example form: 'Analyze how [original topic's parts or factors] interact.'"
+    ),
+    "Evaluate": (
+        "Cognitive operation: make and support a judgment using explicit criteria, evidence, standards, or trade-offs. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize, Rate, Rank, Argue, Weigh, Verify, Review, Support, Refute, Decide, Substantiate, Endorse, Reject, Audit, Challenge, Benchmark, Critically review, Determine merit, Establish validity, Select with justification, Resolve using criteria. "
+        "Require a reasoned judgment tied to criteria/evidence; do not only describe/analyze, and do not turn the task into designing a new artifact. "
+        "Example form: 'Evaluate [original approach] against [relevant criteria] and justify the judgment.'"
+    ),
+    "Create": (
+        "Cognitive operation: produce or propose a new artifact, plan, model, design, procedure, or solution by combining ideas. "
+        "Preferred action verbs (choose the most natural and semantically accurate option): Design, Develop, Create, Construct, Formulate, Propose, Devise, Compose, Generate, Plan, Invent, Build, Produce, Assemble, Synthesize, Integrate, Engineer, Draft, Author, Architect, Establish, Originate, Adapt, Elaborate, Hypothesize, Combine, Innovate, Model, Write, Invent alternatives, Develop a framework, Design an experiment. "
+        "Require a new deliverable and preserve the source topic; add constraints only when grounded in the source or necessary to make the deliverable clear. "
+        "Do not merely explain, analyze, or judge an existing item. "
+        "Example form: 'Design [a relevant new deliverable] for [original purpose/context].'"
+    ),
+}
 
 QA_SYSTEM = (
     "You are an academic question-answering assistant. "
@@ -66,9 +110,19 @@ def bloom_messages(
     target_level: str,
     target_rewrite: str | None = None,
 ) -> list[dict[str, str]]:
+    canonical_target = target_level.strip().title()
+    target_guidance = BLOOM_TARGET_GUIDANCE.get(canonical_target)
+    if target_guidance is None:
+        raise ValueError(f"Unknown target Bloom level: {target_level!r}")
     user = (
         f"Original question:\n{question.strip()}\n\n"
-        f"Target Bloom level:\n{target_level}"
+        f"Target Bloom level:\n{canonical_target} (fixed; do not substitute another level)\n\n"
+        f"Target-level action verbs and cognitive-operation instructions:\n{target_guidance}\n\n"
+        "Rewrite requirements:\n"
+        "- Start with a suitable action verb from the requested level when grammatically natural.\n"
+        "- Use the verb to express the actual student task, not as a superficial keyword.\n"
+        "- Preserve the original topic, entities, meaning, and relevant context.\n"
+        "- Return one valid exam imperative or interrogative only; no answer or explanation."
     )
     messages = [
         {"role": "system", "content": BLOOM_SYSTEM},
