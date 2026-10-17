@@ -22,6 +22,7 @@ from training.paths import (
 )
 from training.federated.checkpoint import resolve_round_resume, write_round_checkpoint
 from training.federated.config import (
+    BLOOM_LABELS,
     DEFAULT_PROX_MU,
     FederatedLoraConfig,
     effective_prox_mu,
@@ -126,7 +127,7 @@ def _initialize_random_global_adapter(config: FederatedLoraConfig, global_dir: P
         tokenizer.pad_token = tokenizer.eos_token
     base = AutoModelForSequenceClassification.from_pretrained(
         config.base_model,
-        num_labels=len(__import__("training.federated.config", fromlist=["BLOOM_LABELS"]).BLOOM_LABELS),
+        num_labels=len(BLOOM_LABELS),
         trust_remote_code=True,
         torch_dtype=torch.float32,
     )
