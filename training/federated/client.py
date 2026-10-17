@@ -9,6 +9,7 @@ privacy is from Opacus DP-SGD, not from the proximal term.
 from __future__ import annotations
 
 import argparse
+import faulthandler
 import json
 import math
 import random
@@ -156,17 +157,21 @@ def train_local_adapter(
     np.random.seed(config.seed)
     torch.manual_seed(config.seed)
 
+    print("[client] stage=model_load start", flush=True)
     tokenizer, model = _load_model_stack(config, global_dir)
+    print("[client] stage=model_load complete", flush=True)
     global_named = {
         name: param.detach().cpu().clone()
         for name, param in model.named_parameters()
         if param.requires_grad
     }
 
+    print(f"[client] stage=tokenization start rows={len(df)}", flush=True)
     texts = [build_prompt(str(q)) for q in df[config.text_col]]
     labels = [BLOOM_LABELS[str(l)] for l in df[config.label_col]]
     enc = tokenizer(texts, truncation=True, padding=True, max_length=config.max_length)
     ds = _BloomDS(enc, labels)
+    print(f"[client] stage=tokenization complete rows={len(ds)}", flush=True)
 
     warm_started = bool(global_dir and (global_dir / "adapter_config.json").is_file())
     lr = config.finetune_learning_rate if warm_started else config.learning_rate
@@ -225,7 +230,14 @@ def train_local_adapter(
         prox_mu=prox_mu,
         global_params=global_named if prox_mu > 0 else None,
     )
+    print(
+        f"[client] stage=trainer_train start rows={len(ds)} "
+        f"epochs={config.local_epochs} batch_size={config.batch_size} "
+        f"grad_accum={config.grad_accum} prox_mu={prox_mu}",
+        flush=True,
+    )
     trainer.train()
+    print("[client] stage=trainer_train complete", flush=True)
     exec_stats = read_trainer_execution_stats(trainer)
 
     local_state = extract_trainable_state(model)
@@ -253,6 +265,11 @@ def _configure_cpu_threads() -> None:
 
 
 def main() -> int:
+    # If a client stalls, periodically print Python thread stacks to stderr so
+    # the exact blocking operation is visible instead of waiting indefinitely.
+    faulthandler.enable()
+    faulthandler.dump_traceback_later(120, repeat=True)
+    print("[client] starting local federated client", flush=True)
     _configure_cpu_threads()
     if str(ROOT) not in sys.path:
         sys.path.insert(0, str(ROOT))
@@ -293,7 +310,11 @@ def main() -> int:
         cfg.prox_mu = args.prox_mu
     cfg.prox_mu = effective_prox_mu(cfg.algorithm, cfg.prox_mu)
 
+    print(f"[client] stage=read_csv path={args.csv}", flush=True)
     df = pd.read_csv(args.csv).dropna()
+    if df.empty:
+        raise ValueError(f"Client dataset is empty after dropna: {args.csv}")
+    print(f"[client] stage=read_csv complete rows={len(df)}", flush=True)
     if args.max_samples > 0 and len(df) > args.max_samples:
         df = df.sample(args.max_samples, random_state=cfg.seed)
 
@@ -313,6 +334,7 @@ def main() -> int:
     else:
         local_state, n, stats = train_local_adapter(df, cfg, global_dir)
 
+    print("[client] stage=bundle_pack start", flush=True)
     bundle = pack_update(
         client_id=args.client_id,
         round_idx=args.round,
@@ -341,7 +363,9 @@ def main() -> int:
             "loss": stats.get("dp_loss"),
         }
     require_bundle_communication(bundle, context=f"client {args.client_id} round {args.round}")
+    print(f"[client] stage=bundle_write start path={args.out_bundle}", flush=True)
     save_bundle(Path(args.out_bundle), bundle)
+    print("[client] stage=bundle_write complete", flush=True)
     comm = bundle["communication"]
     print(
         f"[client] saved bundle -> {args.out_bundle} "

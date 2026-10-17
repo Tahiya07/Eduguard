@@ -65,9 +65,34 @@ def internal_module_cmd(python_exe: str, module: str, *args: str) -> list[str]:
     return [python_exe, "-m", module, *args]
 
 
-def _run(cmd: list[str]) -> None:
-    print("[sim]", " ".join(cmd))
-    subprocess.run(cmd, cwd=str(ROOT), check=True)
+def _run(cmd: list[str], *, timeout_seconds: float | None = None) -> None:
+    """Run a client command with a timeout and terminate its entire process tree.
+
+    Windows venv launchers can spawn a second Python process, so killing only the
+    launcher may leave the actual training process orphaned.
+    """
+    print("[sim]", " ".join(cmd), flush=True)
+    proc = subprocess.Popen(cmd, cwd=str(ROOT))
+    try:
+        return_code = proc.wait(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        print(
+            f"[sim] subprocess timed out after {timeout_seconds}s; terminating pid={proc.pid}",
+            flush=True,
+        )
+        if os.name == "nt":
+            subprocess.run(
+                ["taskkill", "/PID", str(proc.pid), "/T", "/F"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        else:
+            proc.kill()
+            proc.wait()
+        raise
+    if return_code:
+        raise subprocess.CalledProcessError(return_code, cmd)
 
 
 def _write_round_failure(
@@ -200,6 +225,12 @@ def main() -> int:
     parser.add_argument("--clients", type=int, default=8)
     parser.add_argument("--rounds", type=int, default=5)
     parser.add_argument("--local-epochs", type=float, default=3.0)
+    parser.add_argument(
+        "--client-timeout-seconds",
+        type=float,
+        default=1800.0,
+        help="Maximum wall time per client subprocess (default: 1800 seconds; 0 disables timeout).",
+    )
     parser.add_argument("--max-samples-per-client", type=int, default=0)
     parser.add_argument("--clip-norm", type=float, default=1.0)
     parser.add_argument("--train-csv", default=str(ROOT / "data" / "figshare_bloom_v1_train.csv"))
@@ -487,7 +518,27 @@ def main() -> int:
                         ]
                     )
                 try:
-                    _run(cmd)
+                    _run(
+                        cmd,
+                        timeout_seconds=(
+                            args.client_timeout_seconds
+                            if args.client_timeout_seconds > 0
+                            else None
+                        ),
+                    )
+                except subprocess.TimeoutExpired as exc:
+                    round_failed_client = client_id
+                    timeout_seconds = args.client_timeout_seconds
+                    _write_round_failure(
+                        run_dir,
+                        round_idx=round_idx,
+                        client_id=client_id,
+                        error=f"client subprocess timed out after {timeout_seconds} seconds",
+                    )
+                    raise SystemExit(
+                        f"[sim] round {round_idx} FAILED at client {client_id}: "
+                        f"timed out after {timeout_seconds} seconds; round not aggregated"
+                    ) from exc
                 except subprocess.CalledProcessError as exc:
                     round_failed_client = client_id
                     _write_round_failure(
