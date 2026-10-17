@@ -49,6 +49,33 @@ class TestPromptContract(unittest.TestCase):
         self.assertTrue(prompt.endswith("<|im_start|>assistant\n"))
 
 
+    def test_each_target_has_explicit_action_verb_guidance(self) -> None:
+        expected = {
+            "Remember": "Identify, Define, List",
+            "Understand": "Explain, Describe, Summarize",
+            "Apply": "Apply, Use, Calculate",
+            "Analyze": "Analyze, Compare, Contrast",
+            "Evaluate": "Evaluate, Assess, Justify",
+            "Create": "Design, Develop, Create",
+        }
+        for level, verbs in expected.items():
+            with self.subTest(level=level):
+                prompt = build_generation_prompt(
+                    "bloom_rewrite",
+                    {"source_question": "Explain virtual memory.", "target_bloom_level": level},
+                )
+                self.assertIn(level, prompt)
+                self.assertIn(verbs, prompt)
+                self.assertIn("actual student task", prompt)
+                self.assertIn("OUTPUT ONLY ONE", prompt)
+
+    def test_unknown_target_level_fails_closed(self) -> None:
+        with self.assertRaises(ValueError):
+            build_generation_prompt(
+                "bloom_rewrite",
+                {"source_question": "Explain virtual memory.", "target_bloom_level": "Invent"},
+            )
+
 class TestBloomTransformations(unittest.TestCase):
     def test_c1_c6_and_non_self(self) -> None:
         levels = ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
