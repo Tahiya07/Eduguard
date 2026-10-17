@@ -20,6 +20,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import threading
 from dataclasses import asdict, is_dataclass
 from dataclasses import dataclass
 from pathlib import Path
@@ -37,6 +38,11 @@ DEFAULT_MODEL_NAME = _DEFAULT_PROFILE.model_name
 EMBED_DIM = _DEFAULT_PROFILE.embed_dim
 
 logger = logging.getLogger("retriever")
+
+# One lazily initialized CPU encoder per configuration. Workspaces keep separate
+# FAISS indexes and document stores, but do not duplicate the BGE model in RAM.
+_ENCODER_CACHE: dict[tuple, StableTextEncoder] = {}
+_ENCODER_CACHE_LOCK = threading.Lock()
 if not logger.handlers:
     logging.basicConfig(level=logging.INFO)
 
@@ -108,18 +114,33 @@ class PrivacyRetriever:
 
     @property
     def model(self) -> StableTextEncoder:
-        if self._model is None:
-            logger.info("Loading encoder: %s", self.model_name)
-            self._model = StableTextEncoder(
-                self.model_name,
-                device="cpu",
-                local_files_only=True,
-                n_features=self.encoder_profile.embed_dim,
-                query_prefix=self.encoder_profile.query_prefix,
-                passage_prefix=self.encoder_profile.passage_prefix,
-                max_length=self.encoder_profile.max_length,
-                encode_batch_size=self.encoder_profile.encode_batch_size,
-            )
+        if self._model is not None:
+            return self._model
+        profile = self.encoder_profile
+        cache_key = (
+            self.model_name,
+            profile.embed_dim,
+            profile.query_prefix,
+            profile.passage_prefix,
+            profile.max_length,
+            profile.encode_batch_size,
+        )
+        with _ENCODER_CACHE_LOCK:
+            encoder = _ENCODER_CACHE.get(cache_key)
+            if encoder is None:
+                logger.info("Loading shared retrieval encoder: %s", self.model_name)
+                encoder = StableTextEncoder(
+                    self.model_name,
+                    device="cpu",
+                    local_files_only=True,
+                    n_features=profile.embed_dim,
+                    query_prefix=profile.query_prefix,
+                    passage_prefix=profile.passage_prefix,
+                    max_length=profile.max_length,
+                    encode_batch_size=profile.encode_batch_size,
+                )
+                _ENCODER_CACHE[cache_key] = encoder
+            self._model = encoder
         return self._model
 
     def _encode_passages(self, texts: Sequence[str]) -> np.ndarray:
