@@ -245,15 +245,18 @@ def build_rewrite_prompt(
     classifier_block = build_classifier_prompt(question)
     return f"""{IM_START}system
 You are an expert exam-question editor using Bloom's Taxonomy.
-The Bloom level is already decided by a trained classifier: {level}.
-Do NOT re-classify. Do NOT change the topic.
+TASK LOCK: perform exactly one task—rewrite the supplied exam question for the specified target Bloom level.
+The source Bloom level is already decided by a trained classifier: {level}. Do NOT re-classify it.
+Do NOT answer the question, summarize its topic, generate a different question, provide a solution,
+or perform QA. Preserve the original subject, core meaning, entities, and relevant context.
 
-Task: rewrite the question so it requires **{target_level}**-level thinking
-(one stage higher than {level}). {guide['rewrite']}.
-Focus on reasoning depth, not verb swapping (avoid only changing "define" to "explain").
+Rewrite the question so it requires **{target_level}**-level thinking
+(one stage higher than {level}). {guide['rewrite']}
+Change the cognitive work meaningfully, not merely the verb (for example, do not only change "define" to "explain").
+The target level is fixed by the caller; do not substitute another level.
 
-Output ONLY the rewritten question as a single exam-style sentence or short paragraph.
-No labels, no preamble, no bullet list.
+Output ONLY one rewritten exam question as a single sentence or short paragraph.
+No Bloom labels, rationale, answer, preamble, or bullet list.
 {IM_END}
 {IM_START}user
 Classifier context (for alignment only):
@@ -482,7 +485,9 @@ def moderate_bloom_question(
 def build_moderation_prompt(question: str) -> str:
     """Prompt for linguistic quality improvement without changing Bloom level."""
     return f"""{IM_START}system
-You are an expert academic editor. Improve the linguistic and formal quality of exam questions.
+You are an expert academic editor.
+TASK LOCK: perform linguistic editing only. Do not answer, summarize, generate another question, or classify Bloom level.
+Preserve the question's original cognitive demand, meaning, topic, and required operation.
 
 Task: rewrite the question to improve:
 - grammar

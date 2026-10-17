@@ -46,7 +46,9 @@ Editable sources (do not edit the attachment by hand):
 ## Selected configuration
 
 - Bloom classifier: FedProx IID, 20 rounds, best round 20, Qwen2.5-0.5B sequence classification
-- Generator: Qwen2.5-1.5B multitask LoRA v3
-- Deployment: generator only, Q4_K_M GGUF. The classifier stays a sequence-classification model
+- Generator: Qwen2.5-1.5B multitask LoRA, exported/merged and quantized to GGUF
+- Runtime path: `models/qwen.gguf` by default (`GENERATOR_MODEL_PATH` can override it)
+- The same local generator is shared by student chat/RAG and teacher QA, summarization, and rewrite. Replace `models/qwen.gguf` with the selected GGUF and restart the backend to load it. The Bloom classifier remains a separate sequence-classification model.
+- Task isolation: each backend action supplies a task-locked prompt (QA/chat, summarization, Bloom rewrite, or linguistic editing). The model must not change task because a user message, quoted source text, or conversation history asks it to; route a different task through its dedicated UI/API action. This reduces task interference but does not guarantee zero errors, so validate each route with regression tests.
 
 Pre-v3 multitask runs, the unified-table accuracy of 0.840, empty human ratings, and the differential-privacy utility collapse are not main-paper evidence. See `paper/final_experiment_inventory.md`.
