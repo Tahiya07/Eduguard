@@ -1,0 +1,27 @@
+{
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "bbdf5907724b355d3d7f1e92b7299026781bdabd",
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 8481.72,
+    "uss_mb": 8248.37,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_allocated_mb": 3977.11,
+    "gpu_memory_reserved_mb": 29534.0
+  },
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\experiment_B_bloom_rewrite_only\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\experiment_B_bloom_rewrite_only\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  }
+}

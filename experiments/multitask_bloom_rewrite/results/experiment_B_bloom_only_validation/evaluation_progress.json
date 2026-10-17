@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "updated_utc": "2026-10-17T01:22:22.190691+00:00",
+  "output_dir": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_B_bloom_only_validation",
+  "predictions_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_B_bloom_only_validation\\predictions.jsonl",
+  "completed": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "expected": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "total_completed": 636,
+  "total_expected": 636,
+  "metrics_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_B_bloom_only_validation\\metrics.json",
+  "report_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_B_bloom_only_validation\\evaluation_report.md",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\experiment_B_bloom_rewrite_only\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\experiment_B_bloom_rewrite_only\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  }
+}
