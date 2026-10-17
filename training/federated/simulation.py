@@ -22,9 +22,11 @@ from training.paths import (
 )
 from training.federated.checkpoint import resolve_round_resume, write_round_checkpoint
 from training.federated.config import (
+    BLOOM_LABELS,
     DEFAULT_PROX_MU,
     FederatedLoraConfig,
     effective_prox_mu,
+    make_peft_lora_config,
     setting_tag,
 )
 from training.federated.partition import client_label_distributions, partition_csv
@@ -105,6 +107,36 @@ def _parse_server_summary(stdout: str) -> dict:
     if start >= 0:
         return json.loads(stdout[start:])
     return {}
+
+
+def _initialize_random_global_adapter(config: FederatedLoraConfig, global_dir: Path) -> None:
+    """Create one seeded random adapter shared by every client and the server.
+
+    Saving a single initialization prevents clients and the server from independently
+    initializing LoRA/head parameters before the first round, which would make their
+    first-round parameter deltas inconsistent.
+    """
+    import torch
+    from peft import get_peft_model
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+    torch.manual_seed(int(config.seed))
+    tokenizer = AutoTokenizer.from_pretrained(config.base_model, trust_remote_code=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    base = AutoModelForSequenceClassification.from_pretrained(
+        config.base_model,
+        num_labels=len(BLOOM_LABELS),
+        trust_remote_code=True,
+        torch_dtype=torch.float32,
+    )
+    base.config.pad_token_id = tokenizer.pad_token_id
+    model = get_peft_model(base, make_peft_lora_config(config))
+    global_dir.mkdir(parents=True, exist_ok=True)
+    model.save_pretrained(global_dir)
+    tokenizer.save_pretrained(global_dir)
+    del model, base
+    print(f"[sim] initialized shared random global adapter with seed={config.seed} -> {global_dir}")
 
 
 def _load_centralized_optimizer_steps() -> int | None:
@@ -362,6 +394,9 @@ def main() -> int:
             if item.is_file():
                 shutil.copy2(item, global_dir / item.name)
         print(f"[sim] ABLATION: seeded global adapter from {src}")
+
+    if not args.skip_train and not (global_dir / "adapter_config.json").is_file():
+        _initialize_random_global_adapter(cfg, global_dir)
 
     for d in (UPDATES_DIR, BUNDLES_DIR):
         if d.exists():
