@@ -1,41 +1,63 @@
 @echo off
 setlocal EnableExtensions
+cd /d "%~dp0"
 
-echo Updating EduGuard dist folder ^(runtime assets only^)...
+echo ========================================
+echo     Updating EduGuard dist assets
+echo ========================================
 echo.
-echo This does NOT rebuild EXEs. Use build_exe.bat for a full rebuild.
+echo This refreshes frontend assets, runtime models, and .env.
+echo It does NOT rebuild EduGuard.exe or EduGuardBackend.exe.
+echo Use build_exe.bat for a full rebuild.
 echo.
 
 if not exist "dist\EduGuard\EduGuard.exe" (
     echo ERROR: dist\EduGuard\EduGuard.exe not found. Run build_exe.bat first.
     exit /b 1
 )
-
-echo Step 1: Updating frontend standalone...
 if not exist "frontend\.next\standalone\server.js" (
     echo ERROR: frontend\.next\standalone\server.js not found.
+    echo Build the frontend with: cd frontend ^&^& npm run build
     exit /b 1
 )
-if exist "dist\EduGuard\frontend\.next\standalone" rmdir /s /q "dist\EduGuard\frontend\.next\standalone"
-xcopy "frontend\.next\standalone" "dist\EduGuard\frontend\.next\standalone\" /E /I /Y >nul
-echo.
+if not exist "node.exe" (
+    echo ERROR: Root node.exe not found. Rebuild the launcher package.
+    exit /b 1
+)
 
-echo Step 2: Updating public folder...
+echo [1/4] Updating standalone frontend...
+if exist "dist\EduGuard\frontend\.next\standalone" rmdir /s /q "dist\EduGuard\frontend\.next\standalone"
+robocopy "frontend\.next\standalone" "dist\EduGuard\frontend\.next\standalone" /E /NFL /NDL /NJH /NJS /NC /NS /NP
+if errorlevel 8 (
+    echo ERROR: Failed to update standalone frontend.
+    exit /b 1
+)
+if not exist "dist\EduGuard\frontend\.next\standalone\server.js" (
+    echo ERROR: Packaged server.js missing after copy.
+    exit /b 1
+)
+
+echo.
+echo [2/4] Updating public assets...
 if exist "frontend\public" (
     if exist "dist\EduGuard\frontend\public" rmdir /s /q "dist\EduGuard\frontend\public"
-    xcopy "frontend\public" "dist\EduGuard\frontend\public\" /E /I /Y >nul
+    robocopy "frontend\public" "dist\EduGuard\frontend\public" /E /NFL /NDL /NJH /NJS /NC /NS /NP
+    if errorlevel 8 (
+        echo ERROR: Failed to update public assets.
+        exit /b 1
+    )
 )
-echo.
 
-echo Step 3: Updating runtime models only...
+echo.
+echo [3/4] Updating selected runtime models...
 call "%~dp0scripts\copy_runtime_models.bat" "dist\EduGuard\models"
 if errorlevel 1 (
-    echo ERROR: Runtime model copy failed.
+    echo ERROR: Runtime model update failed.
     exit /b 1
 )
-echo.
 
-echo Step 4: Refreshing portable .env...
+echo.
+echo [4/4] Refreshing portable .env...
 (
     echo BLOOM_MODEL_SIZE=0.5b
     echo BLOOM_MODEL_DIR=models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged
@@ -53,13 +75,25 @@ echo Step 4: Refreshing portable .env...
     echo TRANSFORMERS_OFFLINE=1
     echo HF_DATASETS_OFFLINE=1
 ) > "dist\EduGuard\.env"
-echo.
 
+if not exist "dist\EduGuard\models\qwen15b_multitask_v3_q4_k_m.gguf" (
+    echo ERROR: Packaged multitask GGUF missing.
+    exit /b 1
+)
+if not exist "dist\EduGuard\models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged\model.safetensors" (
+    echo ERROR: Packaged Bloom classifier weights missing.
+    exit /b 1
+)
+if not exist "dist\EduGuard\models\bge-small\model.safetensors" (
+    echo ERROR: Packaged BGE encoder weights missing.
+    exit /b 1
+)
+
+echo.
 echo ========================================
-echo Update complete
+echo DIST UPDATE COMPLETED - FILE CHECKS PASSED
 echo ========================================
-echo Updated: frontend + lean models + .env
-echo EXEs unchanged. Rebuild with build_exe.bat if backend/launcher code changed.
+echo EXEs unchanged. Use build_exe.bat if Python launcher/backend code changed.
 echo.
 pause
-endlocal
+exit /b 0
