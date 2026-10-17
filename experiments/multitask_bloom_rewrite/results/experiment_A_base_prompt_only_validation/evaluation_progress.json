@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "updated_utc": "2026-10-17T00:41:49.015633+00:00",
+  "output_dir": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_A_base_prompt_only_validation",
+  "predictions_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_A_base_prompt_only_validation\\predictions.jsonl",
+  "completed": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "expected": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "total_completed": 636,
+  "total_expected": 636,
+  "metrics_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_A_base_prompt_only_validation\\metrics.json",
+  "report_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_A_base_prompt_only_validation\\evaluation_report.md",
+  "checkpoint": {
+    "condition": "base",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": null,
+    "resolved_path": "Qwen/Qwen2.5-1.5B-Instruct",
+    "checkpoint_selection": "n/a_base_model"
+  }
+}
