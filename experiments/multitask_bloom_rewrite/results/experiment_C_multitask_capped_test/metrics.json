@@ -1,0 +1,383 @@
+{
+  "evaluated_utc": "2026-10-17T01:57:04.565542+00:00",
+  "condition": "lora",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  },
+  "dataset": {
+    "layout": "task-separated",
+    "manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "6217ec29cfb4586902002d7f75927af2cabf05c18f38f07354d643152fdea470",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "counts": {
+      "row_count": 405,
+      "test_count": 405,
+      "validation_count": null,
+      "by_task": {
+        "bloom_rewrite": 135,
+        "qa": 135,
+        "summarization": 135
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/train.jsonl": "11dba4a9817b0bc540cabee06783c20409614ca845b07ed69b3be245fbb4d1a1",
+      "bloom_rewrite/validation.jsonl": "49332c17badbdd4aefeb9ce7292938b55ad911f9269f258b150b0bde2d3f2871",
+      "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+      "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+      "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+      "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "bloom_source": "D:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source_sha256": {
+      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
+      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "dataset_owner_batch_attestation",
+      "owner_reported_all_rows_human_reviewed": true,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "training_data_policy": {
+      "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+      "ratio_based_downsampling": false,
+      "requested_caps": {
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "rows_retained_during_capped_source_scan": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "retained_training_rows": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "task_train_fractions_of_retained_union": {
+        "bloom_rewrite": 0.333333,
+        "qa": 0.333333,
+        "summarization": 0.333333
+      },
+      "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+    },
+    "split": "test",
+    "split_counts_loaded": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "split_file_sha256": {
+      "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "loaded_tasks": [
+      "bloom_rewrite",
+      "qa",
+      "summarization"
+    ],
+    "combined_in_memory_only": true,
+    "dataset_hash": "6217ec29cfb4586902002d7f75927af2cabf05c18f38f07354d643152fdea470",
+    "file_sha256": {
+      "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "test_manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "validation_manifest_path": null,
+    "full_source_split_unchanged": true,
+    "corpus_physically_task_separated": true
+  },
+  "evaluation_subset": {
+    "full_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "evaluated_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "evaluated_total": 405,
+    "manifest_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test\\evaluation_subset_manifest.json"
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "decoding": "greedy",
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "D:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9619
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 135,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 135,
+      "accuracy": 0.785185,
+      "macro_precision": 0.813878,
+      "macro_recall": 0.79213,
+      "macro_f1": 0.773713,
+      "weighted_f1": 0.777893,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.423077,
+          "f1": 0.594595,
+          "support": 26
+        },
+        "Understand": {
+          "precision": 0.5,
+          "recall": 0.705882,
+          "f1": 0.585366,
+          "support": 17
+        },
+        "Apply": {
+          "precision": 0.84,
+          "recall": 0.954545,
+          "f1": 0.893617,
+          "support": 22
+        },
+        "Analyze": {
+          "precision": 0.8125,
+          "recall": 0.896552,
+          "f1": 0.852459,
+          "support": 29
+        },
+        "Evaluate": {
+          "precision": 0.730769,
+          "recall": 1.0,
+          "f1": 0.844444,
+          "support": 19
+        },
+        "Create": {
+          "precision": 1.0,
+          "recall": 0.772727,
+          "f1": 0.871795,
+          "support": 22
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 11,
+          "Understand": 9,
+          "Apply": 2,
+          "Analyze": 3,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 12,
+          "Apply": 2,
+          "Analyze": 3,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 21,
+          "Analyze": 0,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 3,
+          "Apply": 0,
+          "Analyze": 26,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 19,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 5,
+          "Create": 17,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.977778,
+      "semantic_valid_rate": 0.896296,
+      "cognitive_valid_rate": 0.977778,
+      "classifier_match_rate": 0.785185,
+      "fully_validated_rewrite_rate": 0.637037,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.0,
+      "answer_output_rate": 0.022222,
+      "empty_output_rate": 0.0,
+      "interrogative_valid_rate": 0.377778,
+      "imperative_valid_rate": 0.6,
+      "question_form_valid_rate": 0.977778,
+      "mean_output_chars": 124.7,
+      "mean_semantic_similarity": 0.433829,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.423077,
+        "f1": 0.594595,
+        "support": 26
+      },
+      "Understand": {
+        "precision": 0.5,
+        "recall": 0.705882,
+        "f1": 0.585366,
+        "support": 17
+      },
+      "Apply": {
+        "precision": 0.84,
+        "recall": 0.954545,
+        "f1": 0.893617,
+        "support": 22
+      },
+      "Analyze": {
+        "precision": 0.8125,
+        "recall": 0.896552,
+        "f1": 0.852459,
+        "support": 29
+      },
+      "Evaluate": {
+        "precision": 0.730769,
+        "recall": 1.0,
+        "f1": 0.844444,
+        "support": 19
+      },
+      "Create": {
+        "precision": 1.0,
+        "recall": 0.772727,
+        "f1": 0.871795,
+        "support": 22
+      }
+    }
+  },
+  "qa": {
+    "squad": {
+      "n": 135,
+      "exact_match": 0.592593,
+      "f1": 0.775024
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 135,
+    "rouge1": 0.432557,
+    "rouge2": 0.162559,
+    "rougeL": 0.2598
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 5.221,
+    "per_example": {
+      "mean": 2.747339,
+      "p50": 1.091554,
+      "p95": 7.760398,
+      "min": 0.092999,
+      "max": 8.98523
+    }
+  },
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 1973.71,
+    "uss_mb": 1712.6,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_allocated_mb": 3977.11,
+    "gpu_memory_reserved_mb": 15696.0
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "af661ac800dcec0bbc5dad7fc843a4cc4f788c40",
+  "deployment_recommendation": "INCONCLUSIVE"
+}

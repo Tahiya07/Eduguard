@@ -591,11 +591,21 @@ def main() -> None:
 
     data_dir = data_dir.resolve()
 
-    if not (data_dir / "test.jsonl").exists():
+    flat_test = data_dir / "test.jsonl"
+    task_test_files = [
+        data_dir / task / "test.jsonl"
+        for task in ("bloom_rewrite", "qa", "summarization")
+    ]
+
+    if not flat_test.is_file() and not all(
+        path.is_file() for path in task_test_files
+    ):
         print(
-            "STOP: test.jsonl missing: "
-            f"{data_dir / 'test.jsonl'}"
+            "STOP: dataset test files missing. Expected either "
+            f"{flat_test} or all three task-separated files:"
         )
+        for path in task_test_files:
+            print(f"  {path} {'[OK]' if path.is_file() else '[MISSING]'}")
         raise SystemExit(2)
 
     print("=" * 72)

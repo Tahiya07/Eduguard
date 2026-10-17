@@ -1,20 +1,22 @@
 {
-  "status": "running",
-  "updated_utc": "2026-10-17T01:53:56.265982+00:00",
+  "status": "complete",
+  "updated_utc": "2026-10-17T01:57:04.587067+00:00",
   "output_dir": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test",
   "predictions_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test\\predictions.jsonl",
   "completed": {
     "bloom_rewrite": 135,
     "qa": 135,
-    "summarization": 105
+    "summarization": 135
   },
   "expected": {
     "bloom_rewrite": 135,
     "qa": 135,
     "summarization": 135
   },
-  "total_completed": 375,
+  "total_completed": 405,
   "total_expected": 405,
+  "metrics_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test\\metrics.json",
+  "report_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test\\evaluation_report.md",
   "checkpoint": {
     "condition": "lora",
     "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
