@@ -116,7 +116,7 @@ def bloom_messages(
         raise ValueError(f"Unknown target Bloom level: {target_level!r}")
     user = (
         f"Original question:\n{question.strip()}\n\n"
-        f"Target Bloom level (fixed; do not substitute another level):\n{canonical_target}\n\n"
+        f"Target Bloom level:\n{canonical_target} (fixed; do not substitute another level)\n\n"
         f"Target-level action verbs and cognitive-operation instructions:\n{target_guidance}\n\n"
         "Rewrite requirements:\n"
         "- Start with a suitable action verb from the requested level when grammatically natural.\n"
