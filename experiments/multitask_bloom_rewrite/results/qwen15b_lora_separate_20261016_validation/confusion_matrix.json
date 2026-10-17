@@ -1,0 +1,56 @@
+{
+  "Remember": {
+    "Remember": 13,
+    "Understand": 13,
+    "Apply": 5,
+    "Analyze": 2,
+    "Evaluate": 3,
+    "Create": 0,
+    "MISSING": 0
+  },
+  "Understand": {
+    "Remember": 0,
+    "Understand": 22,
+    "Apply": 3,
+    "Analyze": 3,
+    "Evaluate": 1,
+    "Create": 0,
+    "MISSING": 0
+  },
+  "Apply": {
+    "Remember": 0,
+    "Understand": 1,
+    "Apply": 30,
+    "Analyze": 0,
+    "Evaluate": 1,
+    "Create": 0,
+    "MISSING": 0
+  },
+  "Analyze": {
+    "Remember": 0,
+    "Understand": 6,
+    "Apply": 1,
+    "Analyze": 31,
+    "Evaluate": 3,
+    "Create": 0,
+    "MISSING": 0
+  },
+  "Evaluate": {
+    "Remember": 0,
+    "Understand": 0,
+    "Apply": 0,
+    "Analyze": 0,
+    "Evaluate": 40,
+    "Create": 0,
+    "MISSING": 0
+  },
+  "Create": {
+    "Remember": 0,
+    "Understand": 0,
+    "Apply": 0,
+    "Analyze": 0,
+    "Evaluate": 6,
+    "Create": 28,
+    "MISSING": 0
+  }
+}
