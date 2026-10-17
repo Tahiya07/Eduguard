@@ -31,8 +31,10 @@ class FrameworkService:
     def workspace(self, sid: str) -> dict[str, Any]:
         with self._lock:
             if sid not in self._workspaces:
+                # Keep public/protected indexes separate, but defer encoder loading
+                # until indexing or retrieval is requested. The encoder is shared lazily.
                 public = PrivacyRetriever(lambda_privacy=0.1, encoder_profile=settings.retrieval_encoder)
-                protected = PrivacyRetriever(lambda_privacy=0.5, model=public.model, encoder_profile=settings.retrieval_encoder)
+                protected = PrivacyRetriever(lambda_privacy=0.5, encoder_profile=settings.retrieval_encoder)
                 self._workspaces[sid] = {"public": public, "protected": protected, "chunks": {"public": [], "protected": []}, "moderation_reviews": []}
             return self._workspaces[sid]
 
@@ -229,17 +231,18 @@ class FrameworkService:
                 except Exception:
                     pass
             started = time.perf_counter()
-            output = generator.llm(
-                prompt,
-                max_tokens=settings.generator_moderation_tokens,
-                temperature=0.0,
-                top_p=1.0,
-                top_k=0,
-                repeat_penalty=1.0,
-                stop=["<|im_end|>", "<|im_start|>"],
-                echo=False,
-                seed=generator.seed,
-            )
+            with generator.inference_lock:
+                output = generator.llm(
+                    prompt,
+                    max_tokens=settings.generator_moderation_tokens,
+                    temperature=0.0,
+                    top_p=1.0,
+                    top_k=0,
+                    repeat_penalty=1.0,
+                    stop=["<|im_end|>", "<|im_start|>"],
+                    echo=False,
+                    seed=generator.seed,
+                )
             text = str(output["choices"][0]["text"] or "").strip()
             return text, "llama-cpp-python-cpu-gguf", time.perf_counter() - started
 
@@ -253,11 +256,12 @@ class FrameworkService:
             raise ValueError("Question cannot be empty")
         generator = self._generator_instance(self.workspace(sid)["public"])
         try:
-            improved = moderate_question_linguistic(
-                question,
-                llm=generator.llm,
-                max_tokens=settings.generator_moderation_tokens,
-            )
+            with generator.inference_lock:
+                improved = moderate_question_linguistic(
+                    question,
+                    llm=generator.llm,
+                    max_tokens=settings.generator_moderation_tokens,
+                )
             return {
                 "original": question,
                 "improved": improved,
@@ -284,14 +288,15 @@ class FrameworkService:
         except Exception as exc:
             predictor_error = str(exc)
 
-        result = rewrite_to_target_level(
-            question,
-            target_level,
-            llm=generator.llm,
-            predictor=predictor,
-            predictor_error=predictor_error,
-            max_tokens=settings.generator_rewrite_tokens,
-        )
+        with generator.inference_lock:
+            result = rewrite_to_target_level(
+                question,
+                target_level,
+                llm=generator.llm,
+                predictor=predictor,
+                predictor_error=predictor_error,
+                max_tokens=settings.generator_rewrite_tokens,
+            )
         if not result.rewritten:
             return {
                 "original": question,
@@ -340,7 +345,8 @@ class FrameworkService:
                     reset()
                 except Exception:
                     pass
-            generator.llm("Ready.", max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
+            with generator.inference_lock:
+                generator.llm("Ready.", max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
             report["generator"] = True
             report["generator_path"] = Path(str(generator.model_path)).name
         except Exception as exc:
