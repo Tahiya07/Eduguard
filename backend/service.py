@@ -224,14 +224,14 @@ class FrameworkService:
         generator = self._generator_instance(ws["public"])
 
         def generate_rewrite(prompt: str) -> tuple[str, str, float]:
-            reset = getattr(generator.llm, "reset", None)
-            if callable(reset):
-                try:
-                    reset()
-                except Exception:
-                    pass
             started = time.perf_counter()
             with generator.inference_lock:
+                reset = getattr(generator.llm, "reset", None)
+                if callable(reset):
+                    try:
+                        reset()
+                    except Exception:
+                        pass
                 output = generator.llm(
                     prompt,
                     max_tokens=settings.generator_moderation_tokens,
