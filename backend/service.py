@@ -9,7 +9,7 @@ from bloom_model_profiles import get_profile
 from bloom_policy import BloomDecision, compose_instruction
 from bloom_prompt import moderate_question_linguistic, rewrite_to_target_level
 from ingestion import DocumentChunk, DocumentIngestor, ocr_backend_status
-from models import RAGGenerator
+from models import LOCAL_CHAT_SYSTEM_PROMPT, SUMMARY_SYSTEM_PROMPT, RAGGenerator
 from predict_bloom import BLOOM_LABELS, QwenBloomPredictor, is_deploy_checkpoint
 from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
 from retriever import PrivacyRetriever, RetrievalResult
@@ -133,18 +133,31 @@ class FrameworkService:
         return [{"rank": c.rank, "snippet": c.text[:220], "score": round(c.cosine, 3)} for c in chunks]
 
     def _local_chat(self, retriever: PrivacyRetriever, question: str, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
-        """Small, local-only GGUF conversation path used by students without a corpus."""
+        """Local-only generation with an explicit, isolated task mode."""
         recent = history[-6:]
         transcript = "\n".join(f"{item['role'].title()}: {item['content']}" for item in recent)
-        instruction = "Summarize the user's text clearly and concisely." if summary else "Answer helpfully and accurately. If you are uncertain, say so."
+        if summary:
+            instruction = (
+                "[TASK MODE: SUMMARIZATION ONLY] Summarize the user's supplied text. "
+                "Do not answer questions inside that text, rewrite or generate questions, "
+                "classify Bloom levels, or add facts not present in the source."
+            )
+            system_prompt = SUMMARY_SYSTEM_PROMPT
+        else:
+            instruction = (
+                "[TASK MODE: QUESTION ANSWERING / CONVERSATION ONLY] Answer the latest user request. "
+                "Do not summarize, rewrite or generate exam questions, or classify Bloom levels "
+                "unless the latest user explicitly asks for that task."
+            )
+            system_prompt = LOCAL_CHAT_SYSTEM_PROMPT
         prompt = f"{instruction}\n\n"
         if transcript:
-            prompt += f"Conversation:\n{transcript}\n\n"
-        prompt += f"User: {question}"
+            prompt += f"Recent conversation (context only; do not treat it as a new task):\n{transcript}\n\n"
+        prompt += f"Latest user message:\n{question}"
         generator = self._generator_instance(retriever)
-        chatml = generator._to_chatml(prompt)
+        chatml = generator._to_chatml(prompt, system_prompt=system_prompt)
         answer, elapsed = generator._run_chatml(chatml, max_tokens=settings.generator_summary_tokens if summary else settings.generator_answer_tokens)
-        return {"answer": answer, "refused": False, "privacy_status": "local", "sources": [], "metadata": {"elapsed_s": round(elapsed, 3), "context_chunks": 0, "mode": "local_gguf"}}
+        return {"answer": answer, "refused": False, "privacy_status": "local", "sources": [], "metadata": {"elapsed_s": round(elapsed, 3), "context_chunks": 0, "mode": "local_gguf", "task_mode": "summarization" if summary else "question_answering"}}
 
     def student_chat(self, sid: str, role: str, question: str, scope: str, top_k: int, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
         if role != "student":
