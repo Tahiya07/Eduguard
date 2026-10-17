@@ -1,0 +1,25 @@
+{
+  "status": "running",
+  "updated_utc": "2026-10-17T01:53:56.265982+00:00",
+  "output_dir": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test",
+  "predictions_path": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\experiment_C_multitask_capped_test\\predictions.jsonl",
+  "completed": {
+    "bloom_rewrite": 135,
+    "qa": 135,
+    "summarization": 105
+  },
+  "expected": {
+    "bloom_rewrite": 135,
+    "qa": 135,
+    "summarization": 135
+  },
+  "total_completed": 375,
+  "total_expected": 405,
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  }
+}

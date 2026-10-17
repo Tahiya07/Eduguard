@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import os, threading, time
 from dataclasses import asdict
 from pathlib import Path
@@ -43,7 +43,7 @@ class FrameworkService:
         if settings.bloom_model_dir:
             path = Path(settings.bloom_model_dir)
             return path if path.is_absolute() else (root / path).resolve()
-        return (root / "models" / "qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged").resolve()
+        return (root / "models" / "qwen_bloom_merged0.5B").resolve()
 
     @staticmethod
     def _checkpoint_has_weights(path: Path) -> bool:
@@ -63,8 +63,8 @@ class FrameworkService:
                 ok, path = self.bloom_ready()
                 if not ok:
                     raise RuntimeError(
-                        "Teacher Bloom classifier is not ready. Set BLOOM_MODEL_DIR to "
-                        "models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged "
+                        "Centralized non-FL teacher Bloom classifier is not ready. Set BLOOM_MODEL_DIR to "
+                        "models/qwen_bloom_merged0.5B "
                         "containing config.json and model.safetensors."
                     )
                 self._bloom = QwenBloomPredictor(model_dir=path, model_size=settings.bloom_model_size, quantized=settings.bloom_use_quantized, prefer_quantized=settings.bloom_use_quantized)
@@ -398,3 +398,4 @@ class FrameworkService:
         }
 
 service = FrameworkService()
+
