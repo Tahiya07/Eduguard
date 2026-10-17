@@ -117,7 +117,7 @@ class FrameworkService:
                     raise RuntimeError(
                         "The local Qwen GGUF generator is not ready. Set GENERATOR_MODEL_PATH in .env "
                         "to the deployed multitask GGUF, for example "
-                        "models/qwen15b_multitask_v3_q4_k_m.gguf."
+                        "models/qwen.gguf."
                     )
                 self._generator = RAGGenerator(
                     retriever=retriever,
