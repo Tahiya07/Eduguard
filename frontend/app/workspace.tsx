@@ -886,19 +886,25 @@ function TeacherStudio({ token }: { token: string }) {
               </div>
               {!targetRewrite.validation_match && (
                 <div className="mt-3 text-sm text-[#d97706]">
-                  <p>
-                    {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown"
-                      ? `Classifier prediction: "${targetRewrite.predicted_level}"`
-                      : "The rewrite could not be classified by the Bloom classifier"}
-                    {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0
-                      ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)`
-                      : ""}
-                    {targetRewrite.predicted_level !== targetRewrite.target_level
-                      ? ` — this does not match the selected target "${targetRewrite.target_level}". Review recommended.`
-                      : " — review recommended."}
-                  </p>
-                  {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
-                  <p className="mt-2">Please try again or select a different target level.</p>
+                  {targetRewrite.error?.startsWith("Generator did not follow the selected action verb") ? (
+                    <p>{targetRewrite.error}</p>
+                  ) : (
+                    <>
+                      <p>
+                        {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown"
+                          ? `Classifier prediction: "${targetRewrite.predicted_level}"`
+                          : "The rewrite could not be classified by the Bloom classifier"}
+                        {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0
+                          ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)`
+                          : ""}
+                        {targetRewrite.predicted_level !== targetRewrite.target_level
+                          ? ` — this does not match the selected target "${targetRewrite.target_level}". Review recommended.`
+                          : " — review recommended."}
+                      </p>
+                      {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
+                      <p className="mt-2">Please review the rewrite before using it.</p>
+                    </>
+                  )}
                 </div>
               )}
             </article>
@@ -918,7 +924,7 @@ function TeacherStudio({ token }: { token: string }) {
         </section>
       )}
 
-      {error && (
+      {error && error !== targetRewrite?.error && (
         <div className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">
           <p>{error}</p>
           {!classifierLoaded && !busy && (
