@@ -23,14 +23,15 @@ BLOOM_SYSTEM = (
     "You are an expert academic assessment editor. "
     "This is the BLOOM_REWRITE task only: rewrite one supplied exam question for the caller's exact target Bloom level. "
     "Never answer it, summarize it, classify it, or switch to QA or summarization. "
-    "Preserve the source question's subject, entities, core meaning, constraints, and relevant context. "
-    "Never refer to stated/provided conditions, supplied data, inputs, measurements, constraints, or a described scenario unless the source actually provides them. "
-    "Change the cognitive operation the student must perform, not just the wording or verb. "
-    "Use the target-level action-verb guidance supplied in the user message: choose a suitable verb from that level's bank, "
-    "prefer an action-verb-led imperative when it reads naturally, and make the requested thinking operation explicit. "
-    "The verb is a cue, not proof of Bloom alignment: the whole task must require the target-level cognition. "
-    "Do not add unsupported facts, arbitrary scenarios, new entities, or unrelated requirements. "
-    "Do not force an awkward verb; choose another suitable verb from the same target-level bank if needed. "
+    "Preserve the source question's subject, entities, core intent, scope, and stated constraints. "
+    "Silently identify the original task, the target level's distinct cognitive operation, and the smallest change needed to achieve it. "
+    "Change what the student must think or do, not merely the opening verb or sentence structure. "
+    "Make the task specific and answerable: state the relationship to examine, purpose or outcome to judge, method to apply, or artifact to produce. "
+    "Avoid generic filler such as 'using relevant criteria and evidence' when a meaningful topic-specific purpose or criterion can be stated. "
+    "Add only minimal, topic-grounded clarification; do not invent a scenario, supplied data, measurements, constraints, entities, or unsupported facts. "
+    "Ordinary domain knowledge may clarify a topic's established purpose, but must not introduce a new case. "
+    "Do not make the question needlessly long or combine unrelated tasks. Before output, silently check topic preservation, target cognition, answerability, natural wording, and absence of invented context; revise if any check fails. "
+    "Do not force an awkward verb; use the selected verb only when it expresses the intended task naturally. "
     "OUTPUT ONLY ONE student-facing exam question as a single sentence or short paragraph. "
     "Do not include a Bloom label, rationale, answer, solution, preamble, bullet list, or meta commentary."
 )
@@ -130,10 +131,11 @@ BLOOM_TARGET_GUIDANCE = {
         "Possible forms: 'Examine how [original concept] works'; 'Investigate how [original concept] affects [source-grounded purpose]'; 'Compare [source-grounded alternatives]'; 'Trace [source-grounded process].'"
     ),
     "Evaluate": (
-        "Cognitive operation: make and support a judgment using explicit criteria, evidence, standards, or trade-offs. "
+        "Cognitive operation: make and support a defensible judgment about effectiveness, quality, validity, suitability, or merit. "
         "Preferred action verbs (choose the most natural and semantically accurate option): Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize, Rate, Rank, Argue, Weigh, Verify, Review, Support, Refute, Decide, Substantiate, Endorse, Reject, Audit, Challenge, Benchmark, Critically review, Determine merit, Establish validity, Select with justification, Resolve using criteria. "
-        "Require a reasoned judgment tied to criteria/evidence; do not only describe/analyze, and do not turn the task into designing a new artifact. "
-        "Example form: 'Evaluate [original approach] against [relevant criteria] and justify the judgment.'"
+        "Require a judgment and a reason for it, grounded in criteria, evidence, standards, or trade-offs relevant to the original topic. Name a topic-specific purpose, outcome, or criterion when safely inferable; avoid vague filler with no indication of what is being judged. "
+        "For a question about a known system's purpose, assess how effectively it fulfils that purpose without inventing a deployment, dataset, measurements, or named rubric. Do not merely request an explanation or list of features, and do not ask for a new design. "
+        "Example: Original 'Explain the purpose of a firewall.' → 'Assess how effectively a firewall fulfils its purpose of controlling network traffic and preventing unauthorized access, and justify your judgment using relevant security considerations.' Treat this as a reasoning pattern, not wording to copy for unrelated topics."
     ),
     "Create": (
         "Cognitive operation: produce or propose a new artifact, plan, model, design, procedure, or solution by combining ideas. "
@@ -196,11 +198,13 @@ def bloom_messages(
             if selected_action_verb
             else "- Start with a suitable action verb from the requested level when grammatically natural.\n"
         )
-        + "- Use the verb to express the actual student task, not as a superficial keyword.\n"
-        "- Preserve the original topic, entities, meaning, and relevant context.\n"
-        "- Do not invent conditions, data, inputs, measurements, constraints, or a scenario. Do not say 'under the stated conditions' unless the source states conditions.\n"
-        "- For broad concept questions, use a simple, relevant application without pretending the source supplied specific facts or constraints.\n"
-        "- Return one valid exam imperative or interrogative only; no answer or explanation."
+        + "- Preserve the original topic and intended purpose, then change the student's cognitive operation to match the target level.\n"
+        "- Make the task specific and answerable; state the relevant relationship, outcome, judgment, method, or deliverable instead of adding generic filler.\n"
+        "- Add only minimal topic-grounded clarification. Never invent a scenario, supplied data, measurements, constraints, or entities.\n"
+        "- For Evaluate, require a defensible judgment and name the relevant purpose/outcome or criterion when safely inferable; do not merely append 'using relevant criteria and evidence'.\n"
+        "- For Analyze, specify a source-grounded relationship, structure, difference, or cause; do not invent parts or factors.\n"
+        "- For Apply, require use of a method or concept to reach a result. For Create, specify a relevant new deliverable.\n"
+        "- Avoid padding, unrelated tasks, or changes to the original scope. Return one clear, natural exam question only; no answer or explanation."
     )
     messages = [
         {"role": "system", "content": BLOOM_SYSTEM},
