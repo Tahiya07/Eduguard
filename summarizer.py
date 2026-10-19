@@ -111,16 +111,16 @@ SUMMARY_STYLE: Dict[str, str] = {
 
 STYLE_INSTRUCTIONS: Dict[str, str] = {
     "factual": (
-        "Produce a short, fact-based summary that lists the key facts directly "
-        "supported by the context. Use plain language and avoid speculation."
+        "Summarize the source's central idea and key facts in plain language. "
+        "Include only details directly supported by the retrieved passages."
     ),
     "reasoning": (
-        "Produce a step-by-step reasoning summary that decomposes the topic "
-        "into its main parts and explains how the context supports each step."
+        "Summarize the important steps, causes, and relationships explicitly described "
+        "in the source. Do not solve a new problem or add reasoning absent from the passages."
     ),
     "comparative": (
-        "Produce a comparative / evaluative summary that contrasts perspectives, "
-        "identifies trade-offs, and weighs the evidence drawn from the context."
+        "Summarize comparisons, trade-offs, and judgments that the source itself presents. "
+        "Do not invent alternative views or evaluate claims beyond the available evidence."
     ),
 }
 
@@ -207,11 +207,13 @@ class CognitiveSummarizer:
 
     @staticmethod
     def _style_query(query: str, bloom_lc: str, style: str) -> str:
-        """Wrap the user's query in a style-conditioned summarisation request."""
+        """Use the query as a focus cue, never as the material to be summarized."""
         return (
-            f"Summarise the topic of the following query for a learner at the "
-            f"'{bloom_lc}' Bloom level. {STYLE_INSTRUCTIONS[style]}\n\n"
-            f"Query: {query.strip()}"
+            f"Summarize the retrieved source passages for a learner at the "
+            f"'{bloom_lc}' Bloom level. {STYLE_INSTRUCTIONS[style]} "
+            "Summarize the substantive source content, not this instruction or the query. "
+            "Do not answer questions found in the source or add unsupported facts. "
+            f"Focus, if relevant: {query.strip()}"
         )
 
     # ------------------------------------------------------------------ #
@@ -359,16 +361,18 @@ class CognitiveSummarizer:
                 for i, c in enumerate(chunks)
             ]
 
-        # 4. Build a style-conditioned summarisation query.
+        # 4. This entry point is always summarization. The query only focuses
+        # retrieval and the summary; it must never switch generation to QA mode.
         if document_summary or is_document_summary_query(query):
             style_query = build_document_summary_task()
             min_cosine = 0.0
-            max_chars_per_chunk = max(max_chars_per_chunk, 7200)
-            max_total_chars = max(max_total_chars, 7200)
-            summary_mode = True
         else:
             style_query = self._style_query(query, bloom_lc, style)
-            summary_mode = False
+        # RAGGenerator uses a small local context window; never inject a whole
+        # multi-thousand-character document into a 512-token prompt.
+        max_chars_per_chunk = min(int(max_chars_per_chunk), 600)
+        max_total_chars = min(int(max_total_chars), 900)
+        summary_mode = True
 
         # 5. Compose the final prompt manually so we can:
         #    - keep the Phase-2 prompt skeleton intact,
