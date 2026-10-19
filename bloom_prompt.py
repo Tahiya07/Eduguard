@@ -960,7 +960,7 @@ def rewrite_to_target_level(
         return TargetRewriteResult(
             rewritten,
             True,
-            f"Generator did not follow the selected action verb ({selected_verb}); review or retry.",
+            f"Generator did not follow the selected action verb ({selected_verb}); review required. Automatic retry is disabled to keep latency bounded.",
             validation_error=True,
         )
     if prevalidation_failure:
