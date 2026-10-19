@@ -641,7 +641,22 @@ def _validate_output_format(question: str) -> tuple[bool, str]:
     # Imperative exam prompts are valid questions even without a question mark.
     # This checks only grammatical prompt form, never Bloom classification.
     question_words = {"what", "how", "why", "which", "who", "when", "where", "given", "determine", "calculate", "show", "predict", "outline", "distinguish", "recommend", "propose"}
-    imperative_starters = {"define", "identify", "list", "name", "state", "explain", "describe", "summarize", "interpret", "classify", "use", "solve", "demonstrate", "analyze", "compare", "examine", "evaluate", "assess", "justify", "critique", "design", "develop", "construct", "create", "formulate"}
+    imperative_starters = {
+        "define", "identify", "list", "name", "state", "recall", "recognize", "specify",
+        "explain", "describe", "summarize", "interpret", "classify", "illustrate", "clarify", "paraphrase",
+        "use", "apply", "calculate", "solve", "demonstrate", "implement", "determine", "compute",
+        "predict", "execute", "estimate", "test", "diagnose", "operate", "perform", "prepare",
+        "measure", "run", "manipulate", "model", "modify", "complete", "find", "obtain",
+        "analyze", "compare", "contrast", "differentiate", "examine", "investigate", "categorize",
+        "trace", "relate", "organize", "attribute", "structure", "inspect", "probe", "correlate",
+        "separate", "subdivide", "infer", "detect", "uncover", "dissect", "scrutinize", "distinguish", "map",
+        "evaluate", "assess", "justify", "critique", "defend", "judge", "recommend", "validate",
+        "rank", "appraise", "prioritize", "rate", "argue", "weigh", "verify", "review", "support",
+        "refute", "decide", "substantiate", "endorse", "reject", "audit", "challenge", "benchmark",
+        "design", "develop", "construct", "create", "formulate", "propose", "devise", "compose",
+        "plan", "synthesize", "generate", "invent", "build", "produce", "assemble", "integrate",
+        "engineer", "draft", "author", "architect", "establish", "originate", "adapt", "elaborate", "hypothesize",
+    }
     has_question_structure = (
         question.endswith("?")
         or bool(words and words[0].rstrip(":,.") in question_words)
