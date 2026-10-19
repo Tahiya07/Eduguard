@@ -15,6 +15,13 @@ class UnsupportedContextTests(unittest.TestCase):
         self.assertFalse(valid)
         self.assertIn("unsupported context", reason.lower())
 
+    def test_rejects_unfounded_prediction_even_without_the_conditions_phrase(self):
+        original = "Explain peer to peer network."
+        rewrite = "Predict the outcome of peer-to-peer network operations."
+        valid, reason = unsupported_context_check(original, rewrite)
+        self.assertFalse(valid)
+        self.assertIn("unsupported context", reason.lower())
+
     def test_allows_conditions_that_are_present_in_the_source(self):
         original = "Given the stated conditions, explain how a peer-to-peer network operates."
         rewrite = "Predict the outcome of peer-to-peer network operations under the stated conditions."
