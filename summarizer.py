@@ -467,8 +467,8 @@ def _self_test() -> None:
     # --- Phase-2 generator -------------------------------------------------
     rag = RAGGenerator(
         retriever=retr,
-        n_ctx=1024,
-        max_tokens=160,
+        n_ctx=4096,
+        max_tokens=256,
         seed=42,
     )
 
