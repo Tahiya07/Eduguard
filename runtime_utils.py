@@ -92,7 +92,7 @@ GOVERNOR_PRESETS: Dict[str, Dict[str, Any]] = {
     "off": {"max_chunk_chars": 20_000, "max_total_chars": 100_000, "diversify": False},
     "qa": {"max_chunk_chars": 700, "max_total_chars": 2800, "diversify": False},
     "mild": {"max_chunk_chars": 900, "max_total_chars": 3600, "diversify": False},
-    "summary": {"max_chunk_chars": 500, "max_total_chars": 900, "diversify": True},
+    "summary": {"max_chunk_chars": 1800, "max_total_chars": 9000, "diversify": True},
     "strong": {"max_chunk_chars": 420, "max_total_chars": 1680, "diversify": True},
 }
 
