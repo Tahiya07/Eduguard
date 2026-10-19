@@ -28,6 +28,34 @@ class UnsupportedContextTests(unittest.TestCase):
         valid, reason = unsupported_context_check(original, rewrite)
         self.assertTrue(valid, reason)
 
+    def test_target_rewrite_uses_one_generation_attempt_on_verb_mismatch(self):
+        class FakeLLM:
+            def __init__(self):
+                self.calls = 0
+
+            def reset(self):
+                pass
+
+            def __call__(self, prompt, **kwargs):
+                self.calls += 1
+                return {"choices": [{"text": "Judge the client-server architecture."}]}
+
+        class PredictorMustNotRun:
+            def predict(self, question):
+                raise AssertionError("Classifier must not run after prevalidation failure")
+
+        llm = FakeLLM()
+        result = rewrite_to_target_level(
+            "Describe the client-server architecture.",
+            "Evaluate",
+            llm=llm,
+            predictor=PredictorMustNotRun(),
+        )
+        self.assertEqual(llm.calls, 1)
+        self.assertTrue(result.needs_review)
+        self.assertTrue(result.validation_error)
+        self.assertIn("did not follow the selected action verb", result.note.lower())
+
     def test_generation_does_not_mark_context_drift_as_valid(self):
         class FakeLLM:
             def reset(self):
