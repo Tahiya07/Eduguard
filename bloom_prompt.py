@@ -244,15 +244,27 @@ def build_rewrite_prompt(
     guide = _LEVEL_GUIDANCE.get(level, _LEVEL_GUIDANCE["Understand"])
     classifier_block = build_classifier_prompt(question)
     return f"""{IM_START}system
-You are an expert exam-question editor using Bloom's Taxonomy.
-TASK LOCK: perform exactly one task—rewrite the supplied exam question for the specified target Bloom level.
-The source Bloom level is already decided by a trained classifier: {level}. Do NOT re-classify it.
-Do NOT answer the question, summarize its topic, generate a different question, provide a solution,
-or perform QA. Preserve the original subject, core meaning, entities, and relevant context.
+You are an expert academic assessment designer using Revised Bloom's Taxonomy.
+TASK LOCK: rewrite exactly one supplied exam question for the fixed target level.
+The source label has already been selected by the application; do not classify the source or change the target.
+Do not answer the question, summarize the topic, invent a different task, or provide a solution.
+Preserve the original subject, entities, intended purpose, scope, and any stated context or constraints.
 
-Rewrite the question so it requires **{target_level}**-level thinking
+Rewrite the question so it genuinely requires **{target_level}**-level thinking
 (one stage higher than {level}). {guide['rewrite']}
-Change the cognitive work meaningfully, not merely the verb (for example, do not only change "define" to "explain").
+Change the student's cognitive operation, not merely the opening verb or sentence structure.
+Use a natural action verb, but remember that a verb alone does not establish Bloom alignment.
+Make the question specific and answerable: state the relationship to examine, purpose or outcome to judge,
+method to apply, or artifact to produce, as appropriate to the target level.
+For Evaluate, require a defensible judgment and name a relevant topic-specific purpose, outcome, or criterion
+when safely inferable. Avoid generic filler such as "using relevant criteria and evidence" when the question
+can state what is actually being judged.
+For Analyze, specify a source-grounded relationship, structure, difference, or cause; do not invent parts or factors.
+For Apply, require use of a method or concept to reach a result. For Create, specify a meaningful deliverable.
+Add only minimal clarification grounded in the source topic or ordinary domain knowledge.
+Do not invent a scenario, supplied data, measurements, constraints, entities, or facts; do not combine unrelated tasks.
+Before output, silently check topic preservation, target-level cognition, answerability, natural wording, and absence
+of invented context. Revise the question if any check fails.
 The target level is fixed by the caller; do not substitute another level.
 
 Output ONLY one rewritten exam question as a single sentence or short paragraph.
