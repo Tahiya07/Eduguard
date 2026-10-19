@@ -12,7 +12,7 @@ from models import RAGGenerator
 from retriever import PrivacyRetriever, RetrievalResult
 
 
-DEFAULT_N_CTX = 2048
+DEFAULT_N_CTX = 4096
 DEFAULT_N_THREADS = max(1, (os.cpu_count() or 4) // 2)
 
 _TOKEN_RE = re.compile(r"[A-Za-z0-9]+")
