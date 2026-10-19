@@ -119,8 +119,13 @@ def bloom_messages(
         f"Target Bloom level:\n{canonical_target} (fixed; do not substitute another level)\n\n"
         f"Target-level action verbs and cognitive-operation instructions:\n{target_guidance}\n\n"
         "Rewrite requirements:\n"
-        "- Start with a suitable action verb from the requested level when grammatically natural.\n"
-        "- Use the verb to express the actual student task, not as a superficial keyword.\n"
+        + (
+            f"- Begin with this required action verb: {selected_action_verb}. "
+            "Use this exact opening verb (capitalization may vary) to express the actual target-level task.\n"
+            if selected_action_verb
+            else "- Start with a suitable action verb from the requested level when grammatically natural.\n"
+        )
+        + "- Use the verb to express the actual student task, not as a superficial keyword.\n"
         "- Preserve the original topic, entities, meaning, and relevant context.\n"
         "- Return one valid exam imperative or interrogative only; no answer or explanation."
     )
