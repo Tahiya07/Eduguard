@@ -453,7 +453,8 @@ function TeacherStudio({ token }: { token: string }) {
   }
 
   async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary", explicitTargetLevel?: string) {
-    if (!classifierLoaded || !q.trim()) return;
+    // Summarization does not use the Bloom classifier and can run while it loads.
+    if (!q.trim() || (!classifierLoaded && action !== "summary")) return;
 
     // Clear previous outputs when starting a new task
     setBloom(null);
