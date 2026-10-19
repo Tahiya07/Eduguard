@@ -379,8 +379,8 @@ class CognitiveSummarizer:
             style_query = self._style_query(query, bloom_lc, style)
         # RAGGenerator uses a small local context window; never inject a whole
         # multi-thousand-character document into a 512-token prompt.
-        max_chars_per_chunk = min(int(max_chars_per_chunk), 1800)
-        max_total_chars = min(int(max_total_chars), 9000)
+        max_chars_per_chunk = min(int(max_chars_per_chunk), 1200)
+        max_total_chars = min(int(max_total_chars), 5000)
         summary_mode = True
 
         # 5. Compose the final prompt manually so we can:
@@ -467,8 +467,8 @@ def _self_test() -> None:
     # --- Phase-2 generator -------------------------------------------------
     rag = RAGGenerator(
         retriever=retr,
-        n_ctx=4096,
-        max_tokens=256,
+        n_ctx=2048,
+        max_tokens=160,
         seed=42,
     )
 
