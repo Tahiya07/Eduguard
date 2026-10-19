@@ -105,7 +105,7 @@ BLOOM_TARGET_GUIDANCE = {
     "Apply": (
         "Cognitive operation: use a learned rule, method, or concept to work through a concrete case. "
         "Preferred action verbs (choose the most natural and semantically accurate option): Apply, Use, Calculate, Solve, Demonstrate, Execute, Implement, Determine, Compute, Predict, Operate, Perform, Practice, Prepare, Estimate, Measure, Test, Run, Manipulate, Model, Modify, Complete, Find, Obtain, Carry out, Execute, Illustrate through use, Solve using, Verify by applying a stated rule. "
-        "Keep the original topic and provide/use a concrete given situation, inputs, or conditions when needed; require an actual result or procedure, not just explanation. "
+        "Keep the original topic and require an actual use or procedure, not just explanation. If the source gives no inputs or conditions, use only a simple generic application grounded in the concept; do not invent specific data or imply that conditions were supplied. "
         "Example form: 'Given [relevant conditions], apply [original method] to determine [relevant result].'"
     ),
     "Analyze": (
