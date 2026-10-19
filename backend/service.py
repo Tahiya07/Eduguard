@@ -219,7 +219,12 @@ class FrameworkService:
             )
         else:
             task_instruction = compose_instruction(bloom["effective_level"], task="question answering")
-        instruction = policy_instruction(role, scope) + "\n" + task_instruction
+        # The generator's dedicated summary prompt already carries the full
+        # summarization contract; append only role/scope privacy policy here
+        # to avoid wasting the 512-token context on duplicated instructions.
+        instruction = policy_instruction(role, scope)
+        if not summary:
+            instruction += "\n" + task_instruction
         generator = self._generator_instance(retriever)
         task = "Summarize the supplied academic material." if summary else question
         result = generator.generate_from_chunks(
