@@ -531,15 +531,23 @@ def _load_v3_prompts():
     return _V3_PROMPTS
 
 
-def build_v3_target_rewrite_prompt(question: str, target_level: str) -> str:
-    """ChatML prompt the finalized v3 multitask model was trained to continue."""
+def build_v3_target_rewrite_prompt(
+    question: str,
+    target_level: str,
+    *,
+    selected_action_verb: str | None = None,
+) -> str:
+    """Build the trained v3 prompt with an inference-time controlled action verb."""
     target_level = _canonical_bloom_label(target_level)
     prompts = _load_v3_prompts()
+    if selected_action_verb is None:
+        selected_action_verb = prompts.select_action_verbs(question, target_level)[0]
     prompt = prompts.build_generation_prompt(
         "bloom_rewrite",
         {
             "source_question": question.strip(),
             "target_bloom_level": target_level,
+            "selected_action_verb": selected_action_verb,
         },
     )
     prompts.assert_no_source_level_in_prompt(prompt)
@@ -859,16 +867,42 @@ def rewrite_to_target_level(
     predictor_error: str = "",
     max_tokens: int | None = None,
 ) -> TargetRewriteResult:
-    """One greedy v3 GGUF rewrite. The classifier verifies; it does not replace the text."""
+    """Generate with controlled verb diversity; classifier verification remains independent."""
     target_level = _canonical_bloom_label(target_level)
-    prompt = build_v3_target_rewrite_prompt(question, target_level)
+    prompts = _load_v3_prompts()
+    candidates = prompts.select_action_verbs(question, target_level)
     model = llm if llm is not None else _get_llm()
-    try:
-        rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
-    except Exception as exc:
-        return TargetRewriteResult("", True, f"Generation error: {exc}", validation_error=True)
+    rewritten = ""
+    last_error = None
+    selected_verb = candidates[0]
+    # Bounded retries only address failure to follow the selected opening verb.
+    for selected_verb in candidates[:3]:
+        prompt = build_v3_target_rewrite_prompt(
+            question, target_level, selected_action_verb=selected_verb
+        )
+        try:
+            candidate = generate_v3_rewrite(model, prompt, max_tokens=max_tokens)
+        except Exception as exc:
+            last_error = exc
+            continue
+        if not candidate:
+            continue
+        rewritten = candidate
+        if re.match(rf"^{re.escape(selected_verb)}\b", candidate, flags=re.IGNORECASE):
+            break
+    if last_error is not None and not rewritten:
+        return TargetRewriteResult("", True, f"Generation error: {last_error}", validation_error=True)
     if not rewritten:
         return TargetRewriteResult("", True, f"The v3 generator returned an empty {target_level} rewrite.")
+    if not re.match(
+        rf"^{re.escape(selected_verb)}\b", rewritten, flags=re.IGNORECASE
+    ):
+        return TargetRewriteResult(
+            rewritten,
+            True,
+            f"Generator did not follow the selected action verb ({selected_verb}); review or retry.",
+            validation_error=True,
+        )
 
     if predictor is None and not predictor_error:
         return TargetRewriteResult(

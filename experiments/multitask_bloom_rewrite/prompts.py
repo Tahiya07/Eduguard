@@ -6,6 +6,8 @@ Source Bloom level must never appear in generator prompts.
 from __future__ import annotations
 
 from typing import Any
+import hashlib
+import re
 
 IM_START = "<|im_start|>"
 IM_END = "<|im_end|>"
@@ -31,6 +33,56 @@ BLOOM_SYSTEM = (
     "OUTPUT ONLY ONE student-facing exam question as a single sentence or short paragraph. "
     "Do not include a Bloom label, rationale, answer, solution, preamble, bullet list, or meta commentary."
 )
+
+# Inference-time verb selection keeps greedy decoding from defaulting to a single verb.
+# A semantic cue narrows the candidate pool; a stable hash rotates the pool per question.
+_ACTION_VERB_BANKS = {
+    "Remember": ["Identify", "List", "State", "Name", "Define", "Recall", "Recognize", "Specify"],
+    "Understand": ["Explain", "Describe", "Interpret", "Summarize", "Classify", "Illustrate", "Clarify", "Paraphrase"],
+    "Apply": ["Determine", "Calculate", "Solve", "Use", "Apply", "Compute", "Execute", "Estimate", "Predict", "Implement", "Test", "Diagnose"],
+    "Analyze": ["Examine", "Compare", "Trace", "Differentiate", "Investigate", "Diagnose", "Contrast", "Categorize", "Analyze", "Distinguish", "Map", "Identify"],
+    "Evaluate": ["Justify", "Critique", "Recommend", "Validate", "Rank", "Appraise", "Defend", "Judge", "Assess", "Evaluate"],
+    "Create": ["Design", "Develop", "Formulate", "Construct", "Propose", "Devise", "Compose", "Plan", "Synthesize", "Generate"],
+}
+
+
+def select_action_verbs(question: str, target_level: str) -> list[str]:
+    """Return a stable ordering of plausible action verbs for this question and level."""
+    level = target_level.strip().title()
+    if level not in _ACTION_VERB_BANKS:
+        raise ValueError(f"Unknown target Bloom level: {target_level!r}")
+    q = question.lower()
+    if level == "Apply":
+        if re.search(r"\b(calculat|comput|numeric|equation|formula|percentage|probability|sum|average|distance|speed|cost|rate)\w*\b", q):
+            pool = ["Calculate", "Compute", "Determine", "Estimate", "Solve", "Apply"]
+        elif re.search(r"\b(error|debug|fault|failure|bug|diagnos)\w*\b", q):
+            pool = ["Diagnose", "Test", "Use", "Apply", "Determine", "Solve"]
+        elif re.search(r"\b(given|input|output|scenario|case|example|algorithm|procedure|method)\b", q):
+            pool = ["Use", "Apply", "Execute", "Determine", "Solve", "Implement", "Predict"]
+        else:
+            pool = ["Determine", "Use", "Apply", "Solve", "Implement", "Execute", "Predict", "Calculate"]
+    elif level == "Analyze":
+        if re.search(r"\b(compare|versus|difference|differentiate|contrast|similarit)\w*\b", q):
+            pool = ["Compare", "Differentiate", "Contrast", "Examine", "Distinguish", "Analyze"]
+        elif re.search(r"\b(step|sequence|process|flow|trace|execution|order)\w*\b", q):
+            pool = ["Trace", "Examine", "Investigate", "Analyze", "Map", "Identify"]
+        elif re.search(r"\b(error|fault|failure|bug|problem|cause|why)\w*\b", q):
+            pool = ["Investigate", "Diagnose", "Examine", "Trace", "Analyze", "Identify"]
+        else:
+            pool = ["Examine", "Investigate", "Analyze", "Distinguish", "Categorize", "Trace", "Compare", "Differentiate"]
+    elif level == "Evaluate":
+        if re.search(r"\b(recommend|choose|select|alternative|option|best|which)\w*\b", q):
+            pool = ["Recommend", "Rank", "Justify", "Appraise", "Evaluate", "Assess"]
+        elif re.search(r"\b(valid|correct|accurate|prove|evidence|claim|argument|justify)\w*\b", q):
+            pool = ["Validate", "Justify", "Defend", "Critique", "Judge", "Assess"]
+        else:
+            pool = ["Justify", "Critique", "Appraise", "Defend", "Judge", "Evaluate", "Recommend", "Rank", "Validate"]
+    else:
+        pool = list(_ACTION_VERB_BANKS[level])
+    digest = hashlib.sha256(f"{level}\0{question.strip().casefold()}".encode("utf-8")).digest()
+    offset = int.from_bytes(digest[:4], "big") % len(pool)
+    return pool[offset:] + pool[:offset]
+
 
 # These are inference-time and SFT prompt instructions for the requested target level.
 # Verbs are examples, not a keyword classifier; validate the cognitive operation in context.
@@ -109,6 +161,7 @@ def bloom_messages(
     question: str,
     target_level: str,
     target_rewrite: str | None = None,
+    selected_action_verb: str | None = None,
 ) -> list[dict[str, str]]:
     canonical_target = target_level.strip().title()
     target_guidance = BLOOM_TARGET_GUIDANCE.get(canonical_target)
@@ -119,8 +172,13 @@ def bloom_messages(
         f"Target Bloom level:\n{canonical_target} (fixed; do not substitute another level)\n\n"
         f"Target-level action verbs and cognitive-operation instructions:\n{target_guidance}\n\n"
         "Rewrite requirements:\n"
-        "- Start with a suitable action verb from the requested level when grammatically natural.\n"
-        "- Use the verb to express the actual student task, not as a superficial keyword.\n"
+        + (
+            f"- Begin with this required action verb: {selected_action_verb}. "
+            "Use this exact opening verb (capitalization may vary) to express the actual target-level task.\n"
+            if selected_action_verb
+            else "- Start with a suitable action verb from the requested level when grammatically natural.\n"
+        )
+        + "- Use the verb to express the actual student task, not as a superficial keyword.\n"
         "- Preserve the original topic, entities, meaning, and relevant context.\n"
         "- Return one valid exam imperative or interrogative only; no answer or explanation."
     )
@@ -189,7 +247,11 @@ def build_generation_prompt(task: str, record: dict[str, Any]) -> str:
     task = task.strip().lower()
     if task == "bloom_rewrite":
         text = render_chatml(
-            bloom_messages(record["source_question"], record["target_bloom_level"]),
+            bloom_messages(
+                record["source_question"],
+                record["target_bloom_level"],
+                selected_action_verb=record.get("selected_action_verb"),
+            ),
             add_generation_prompt=True,
         )
         assert_no_source_level_in_prompt(text)
