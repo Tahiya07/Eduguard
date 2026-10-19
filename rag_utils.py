@@ -94,13 +94,16 @@ def merged_document_retrieval_result(chunks: Sequence[Any], *, max_chars: int = 
 
 
 def build_document_summary_task() -> str:
-    """Fixed generation task — never echoes the user's meta query."""
+    """Fixed, domain-neutral summary task; never echoes the user's meta query."""
     return (
-        "Summarize the document excerpts in [BOUNDED CONTEXT] for an academic reader.\n"
-        "Cover: main themes, stakeholder concerns, and the key interview topics.\n"
-        "Write 5-7 sentences. Begin directly with the substance "
-        '(example opening: "Stakeholder interviews focus on...").\n'
-        "Forbidden words/phrases: query, PDF, user, context, summarize the."
+        "Summarize the supplied source material for an academic reader.\n"
+        "Identify its central topic or purpose, main claims or ideas, important supporting details, "
+        "and any findings, relationships, methods, or limitations stated in the source.\n"
+        "Preserve important technical terms, names, figures, and qualifications. Merge related points, "
+        "remove repetition, and do not add facts or conclusions that the source does not support.\n"
+        "Write a concise 4-6 sentence paragraph (shorter for a short source). Begin with the substantive "
+        "main point, not a description of the summarization task.\n"
+        "Do not mention the user, query, PDF, or context."
     )
 
 
@@ -121,7 +124,7 @@ def looks_like_meta_summary(text: str) -> bool:
 
 
 def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
-    """Deterministic fallback when the small LLM narrates the request instead of summarizing."""
+    """Return a domain-neutral, deterministic extractive summary as a safe fallback."""
     merged = merge_corpus_for_summary(
         [type("_C", (), {"text": t, "source": "", "page": 0, "chunk_id": i})() for i, t in enumerate(chunk_texts)],
         max_chars=9000,
@@ -129,30 +132,49 @@ def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
     if not merged.strip():
         return _REFUSAL
 
-    questions = re.findall(r"\d+\.\s*[^?\n]{10,}\?", merged)
-    seen_q: set[str] = set()
-    unique_q: List[str] = []
-    for q in questions:
-        key = _normalize(q)
-        if key in seen_q:
-            continue
-        seen_q.add(key)
-        unique_q.append(re.sub(r"\s+", " ", q).strip())
+    # Keep actual source sentences; rank them by informative-term coverage and
+    # a small lead bias, then restore their original order for readability.
+    sentences = [
+        re.sub(r"\\s+", " ", part).strip()
+        for part in re.split(r"(?<=[.!?])\\s+|\\n+", merged)
+        if len(re.findall(r"\\w+", part)) >= 5
+    ]
+    if not sentences:
+        return re.sub(r"\\s+", " ", merged).strip()[:900]
 
-    lead = "Stakeholder interviews address managing course materials, assessments, and academic AI assistance."
-    if unique_q:
-        q_block = "; ".join(unique_q[:6])
-        if len(unique_q) > 6:
-            q_block += f"; and {len(unique_q) - 6} further topics."
-        return (
-            f"{lead} Key questions raised include: {q_block} "
-            "Overall themes include separating student learning resources from protected assessments, "
-            "reducing exam leakage, offline vs cloud trust, Bloom taxonomy moderation, and assessment design."
-        )
+    stop_words = {
+        "about", "after", "again", "also", "among", "because", "been", "being",
+        "between", "both", "could", "does", "each", "from", "have", "into",
+        "more", "most", "other", "over", "same", "some", "such", "than", "that",
+        "their", "them", "then", "there", "these", "they", "this", "those",
+        "through", "under", "very", "were", "what", "when", "where", "which",
+        "while", "with", "would", "your", "the", "and", "for", "are", "was",
+        "but", "not", "you", "its", "our", "can", "may", "has", "had", "all",
+        "any", "one", "use", "used", "using", "will", "within", "from", "per",
+    }
+    tokenized = [
+        [w.lower() for w in re.findall(r"[A-Za-z0-9][A-Za-z0-9'-]*", sentence)]
+        for sentence in sentences
+    ]
+    freq: dict[str, int] = {}
+    for words in tokenized:
+        for word in set(words):
+            if len(word) > 2 and word not in stop_words:
+                freq[word] = freq.get(word, 0) + 1
 
-    snippet = re.sub(r"\s+", " ", merged)[:600].strip()
-    return f"{lead} {snippet}"
+    scored = []
+    for i, (sentence, words) in enumerate(zip(sentences, tokenized)):
+        informative = [w for w in words if len(w) > 2 and w not in stop_words]
+        lexical = sum(freq.get(w, 0) for w in set(informative)) / max(1, len(set(informative)))
+        lead_bonus = 1.0 / (1.0 + i * 0.35)
+        length_penalty = min(1.0, 24 / max(24, len(words)))
+        scored.append((lexical * 0.8 + lead_bonus * 0.2) * length_penalty, i, sentence)
 
+    target_count = min(5, max(2, round(len(sentences) * 0.22)))
+    selected = sorted(scored, reverse=True)[:target_count]
+    selected = sorted(selected, key=lambda item: item[1])
+    summary = " ".join(item[2] for item in selected).strip()
+    return summary or re.sub(r"\\s+", " ", merged).strip()[:900]
 
 
 def filter_relevant_chunks(
