@@ -17,12 +17,12 @@ class Settings(BaseSettings):
     max_upload_mb: int = 20
     max_question_chars: int = 4000
     bloom_gate_threshold: float = 0.40
-    # Match the recorded Q4_K_M GGUF bench (8 threads, 512 ctx). Shorter
-    # interactive token caps keep CPU decoding under a few seconds.
+    # Qwen2.5-1.5B supports a larger context; 4096 tokens balances multi-passage
+    # summaries against CPU KV-cache memory on typical desktops.
     generator_threads: int = max(4, min(8, (os.cpu_count() or 4)))
-    generator_context_tokens: int = 512
+    generator_context_tokens: int = 4096
     generator_answer_tokens: int = 64
-    generator_summary_tokens: int = 128
+    generator_summary_tokens: int = 256
     generator_moderation_tokens: int = 64
     generator_rewrite_tokens: int = 64
     session_secret: str = "local1234"
