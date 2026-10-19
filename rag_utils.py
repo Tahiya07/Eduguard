@@ -135,12 +135,12 @@ def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
     # Keep actual source sentences; rank them by informative-term coverage and
     # a small lead bias, then restore their original order for readability.
     sentences = [
-        re.sub(r"\\s+", " ", part).strip()
-        for part in re.split(r"(?<=[.!?])\\s+|\\n+", merged)
-        if len(re.findall(r"\\w+", part)) >= 5
+        re.sub(r"\s+", " ", part).strip()
+        for part in re.split(r"(?<=[.!?])\s+|\n+", merged)
+        if len(re.findall(r"\w+", part)) >= 5
     ]
     if not sentences:
-        return re.sub(r"\\s+", " ", merged).strip()[:900]
+        return re.sub(r"\s+", " ", merged).strip()[:900]
 
     stop_words = {
         "about", "after", "again", "also", "among", "because", "been", "being",
@@ -174,7 +174,7 @@ def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
     selected = sorted(scored, reverse=True)[:target_count]
     selected = sorted(selected, key=lambda item: item[1])
     summary = " ".join(item[2] for item in selected).strip()
-    return summary or re.sub(r"\\s+", " ", merged).strip()[:900]
+    return summary or re.sub(r"\s+", " ", merged).strip()[:900]
 
 
 def filter_relevant_chunks(
