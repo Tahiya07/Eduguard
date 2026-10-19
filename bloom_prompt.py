@@ -798,6 +798,30 @@ def semantic_preservation_check(original: str, rewrite: str, *, threshold: float
     return True, score, f"Topic overlap {score:.0%}: {', '.join(sorted(overlap))}"
 
 
+_UNSUPPORTED_CONTEXT_PATTERNS = (
+    re.compile(r"\bunder\s+(?:the\s+)?(?:stated|specified|given|provided|these|those)\s+conditions\b", re.I),
+    re.compile(r"\bgiven\s+(?:the\s+)?(?:stated|specified|provided|following)\s+conditions\b", re.I),
+    re.compile(r"\b(?:based on|using|from)\s+(?:the\s+)?(?:provided|given|stated|specified)\s+(?:data|inputs?|measurements?|values?|parameters?|evidence)\b", re.I),
+    re.compile(r"\bin\s+(?:the\s+)?(?:stated|specified|given|provided|following)\s+(?:scenario|case|situation)\b", re.I),
+    re.compile(r"\bunder\s+(?:the\s+)?(?:stated|specified|given|provided)\s+constraints\b", re.I),
+)
+
+
+def unsupported_context_check(original: str, rewrite: str) -> tuple[bool, str]:
+    """Reject references to supplied conditions/data/scenarios absent from the source."""
+    if not original.strip():
+        return False, "Original question is empty"
+    source_lower = original.casefold()
+    for pattern in _UNSUPPORTED_CONTEXT_PATTERNS:
+        match = pattern.search(rewrite)
+        if match and not re.search(
+            r"\b(condition|scenario|case|situation|data|input|measurement|value|parameter|evidence|constraint|given|provided|stated|specified)\w*\b",
+            source_lower,
+        ):
+            return False, f"Introduces unsupported context: {match.group(0)!r}"
+    return True, "No unsupported context reference detected"
+
+
 def _retry_instruction(target_level: str, failure: str) -> str:
     if failure.startswith("Classified as"):
         instructions = {
@@ -820,6 +844,10 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
         return record
     valid, similarity, reason = semantic_preservation_check(question, rewrite)
     record["semantic_similarity"] = similarity
+    if not valid:
+        record["failure_reason"] = reason
+        return record
+    valid, reason = unsupported_context_check(question, rewrite)
     if not valid:
         record["failure_reason"] = reason
         return record
@@ -874,8 +902,9 @@ def rewrite_to_target_level(
     model = llm if llm is not None else _get_llm()
     rewritten = ""
     last_error = None
+    prevalidation_failure = ""
     selected_verb = candidates[0]
-    # Bounded retries only address failure to follow the selected opening verb.
+    # Retry if the model ignores the requested verb or introduces unsupported context.
     for selected_verb in candidates[:3]:
         prompt = build_v3_target_rewrite_prompt(
             question, target_level, selected_action_verb=selected_verb
@@ -888,8 +917,22 @@ def rewrite_to_target_level(
         if not candidate:
             continue
         rewritten = candidate
-        if re.match(rf"^{re.escape(selected_verb)}\b", candidate, flags=re.IGNORECASE):
-            break
+        if not re.match(rf"^{re.escape(selected_verb)}\b", candidate, flags=re.IGNORECASE):
+            continue
+        format_ok, format_reason = _validate_output_format(candidate)
+        if not format_ok:
+            prevalidation_failure = format_reason
+            continue
+        topic_ok, _, topic_reason = semantic_preservation_check(question, candidate)
+        if not topic_ok:
+            prevalidation_failure = topic_reason
+            continue
+        context_ok, context_reason = unsupported_context_check(question, candidate)
+        if not context_ok:
+            prevalidation_failure = context_reason
+            continue
+        prevalidation_failure = ""
+        break
     if last_error is not None and not rewritten:
         return TargetRewriteResult("", True, f"Generation error: {last_error}", validation_error=True)
     if not rewritten:
@@ -901,6 +944,13 @@ def rewrite_to_target_level(
             rewritten,
             True,
             f"Generator did not follow the selected action verb ({selected_verb}); review or retry.",
+            validation_error=True,
+        )
+    if prevalidation_failure:
+        return TargetRewriteResult(
+            rewritten,
+            True,
+            f"Rewrite failed semantic validation: {prevalidation_failure}",
             validation_error=True,
         )
 
