@@ -931,10 +931,19 @@ export default function Workspace({ role }: { role: Role }) {
 
   async function login(e: FormEvent) {
     e.preventDefault();
-    setBusy("login");
+    setBusy(role === "teacher" ? "Loading teacher Bloom classifier..." : "Opening student workspace...");
     setError("");
     try {
-      setToken((await call("/auth/session", { role, access_code: code })).access_token);
+      const session = await call("/auth/session", { role, access_code: code });
+      if (role === "teacher") {
+        const response = await apiFetch(`${API}/models/load-bloom`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+        const result = await response.json();
+        if (!response.ok) throw Error(result.detail || "The teacher Bloom classifier could not be loaded.");
+      }
+      setToken(session.access_token);
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
@@ -1030,7 +1039,7 @@ export default function Workspace({ role }: { role: Role }) {
         />
       </label>
       <button className="btn-primary" disabled={!!busy}>
-        {busy ? "Opening workspace..." : "Continue to workspace →"}
+        {busy ? (role === "teacher" ? "Loading teacher model..." : "Opening workspace...") : "Continue to workspace →"}
       </button>
     </form>
   );
