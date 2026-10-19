@@ -52,6 +52,13 @@ def select_action_verbs(question: str, target_level: str) -> list[str]:
     level = target_level.strip().title()
     if level not in _ACTION_VERB_BANKS:
         raise ValueError(f"Unknown target Bloom level: {target_level!r}")
+
+    # Stable inference verbs prevent avoidable retries when the model is required
+    # to begin with the selected verb. Keep these choices deterministic.
+    fixed_verbs = {"Apply": "Demonstrate", "Analyze": "Analyze", "Evaluate": "Assess"}
+    if level in fixed_verbs:
+        return [fixed_verbs[level]]
+
     q = question.lower()
     if level == "Apply":
         if re.search(r"\b(calculat|comput|numeric|equation|formula|percentage|probability|sum|average|distance|speed|cost|rate)\w*\b", q):
