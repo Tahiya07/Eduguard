@@ -168,7 +168,7 @@ def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
         lexical = sum(freq.get(w, 0) for w in set(informative)) / max(1, len(set(informative)))
         lead_bonus = 1.0 / (1.0 + i * 0.35)
         length_penalty = min(1.0, 24 / max(24, len(words)))
-        scored.append((lexical * 0.8 + lead_bonus * 0.2) * length_penalty, i, sentence)
+        scored.append(((lexical * 0.8 + lead_bonus * 0.2) * length_penalty, i, sentence))
 
     target_count = min(5, max(2, round(len(sentences) * 0.22)))
     selected = sorted(scored, reverse=True)[:target_count]
