@@ -24,6 +24,7 @@ BLOOM_SYSTEM = (
     "This is the BLOOM_REWRITE task only: rewrite one supplied exam question for the caller's exact target Bloom level. "
     "Never answer it, summarize it, classify it, or switch to QA or summarization. "
     "Preserve the source question's subject, entities, core meaning, constraints, and relevant context. "
+    "Never refer to stated/provided conditions, supplied data, inputs, measurements, constraints, or a described scenario unless the source actually provides them. "
     "Change the cognitive operation the student must perform, not just the wording or verb. "
     "Use the target-level action-verb guidance supplied in the user message: choose a suitable verb from that level's bank, "
     "prefer an action-verb-led imperative when it reads naturally, and make the requested thinking operation explicit. "
@@ -180,6 +181,8 @@ def bloom_messages(
         )
         + "- Use the verb to express the actual student task, not as a superficial keyword.\n"
         "- Preserve the original topic, entities, meaning, and relevant context.\n"
+        "- Do not invent conditions, data, inputs, measurements, constraints, or a scenario. Do not say 'under the stated conditions' unless the source states conditions.\n"
+        "- For broad concept questions, use a simple, relevant application without pretending the source supplied specific facts or constraints.\n"
         "- Return one valid exam imperative or interrogative only; no answer or explanation."
     )
     messages = [
