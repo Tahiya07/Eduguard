@@ -255,6 +255,8 @@ class FrameworkService:
             safety_instruction=instruction,
             summary_mode=summary,
             min_cosine=0.0 if summary else 0.22,
+            max_chars_per_chunk=1800 if summary else 700,
+            max_total_chars=9000 if summary else 2800,
         )
         screened = screen_generation_output(role, question, result.answer, protected)
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
