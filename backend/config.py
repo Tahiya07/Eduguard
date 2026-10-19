@@ -17,12 +17,12 @@ class Settings(BaseSettings):
     max_upload_mb: int = 20
     max_question_chars: int = 4000
     bloom_gate_threshold: float = 0.40
-    # Qwen2.5-1.5B supports a larger context; 4096 tokens balances multi-passage
-    # summaries against CPU KV-cache memory on typical desktops.
+    # Keep the shared CPU generator context moderate: larger contexts reserve more KV-cache
+    # memory even for short QA prompts. Summaries are bounded to fit this budget.
     generator_threads: int = max(4, min(8, (os.cpu_count() or 4)))
-    generator_context_tokens: int = 4096
+    generator_context_tokens: int = 2048
     generator_answer_tokens: int = 64
-    generator_summary_tokens: int = 256
+    generator_summary_tokens: int = 160
     generator_moderation_tokens: int = 64
     generator_rewrite_tokens: int = 64
     session_secret: str = "local1234"
