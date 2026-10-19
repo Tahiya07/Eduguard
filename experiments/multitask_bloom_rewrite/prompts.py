@@ -53,45 +53,43 @@ def select_action_verbs(question: str, target_level: str) -> list[str]:
     if level not in _ACTION_VERB_BANKS:
         raise ValueError(f"Unknown target Bloom level: {target_level!r}")
 
-    # Stable inference verbs prevent avoidable retries when the model is required
-    # to begin with the selected verb. Keep these choices deterministic.
-    fixed_verbs = {"Apply": "Demonstrate", "Analyze": "Analyze", "Evaluate": "Assess"}
-    if level in fixed_verbs:
-        return [fixed_verbs[level]]
-
     q = question.lower()
+
+    # Return one context-sensitive verb, not a rotated candidate list. The caller
+    # performs one generation pass, so deterministic selection avoids retry latency
+    # without forcing the same verb onto numeric, diagnostic, or comparison tasks.
     if level == "Apply":
         if re.search(r"\b(calculat|comput|numeric|equation|formula|percentage|probability|sum|average|distance|speed|cost|rate)\w*\b", q):
-            pool = ["Calculate", "Compute", "Determine", "Estimate", "Solve", "Apply"]
+            verb = "Calculate"
         elif re.search(r"\b(error|debug|fault|failure|bug|diagnos)\w*\b", q):
-            pool = ["Diagnose", "Test", "Use", "Apply", "Determine", "Solve"]
+            verb = "Diagnose"
         elif re.search(r"\b(given|input|output|scenario|case|example|algorithm|procedure|method)\b", q):
-            pool = ["Use", "Apply", "Execute", "Determine", "Solve", "Implement", "Demonstrate"]
+            verb = "Use"
         else:
-            # Broad concept questions do not supply inputs or conditions for prediction/calculation.
-            # Prefer verbs that can introduce a grounded, simple application without inventing data.
-            pool = ["Demonstrate", "Use", "Apply", "Implement", "Execute", "Operate", "Perform", "Determine"]
-    elif level == "Analyze":
+            verb = "Demonstrate"
+        return [verb]
+
+    if level == "Analyze":
         if re.search(r"\b(compare|versus|difference|differentiate|contrast|similarit)\w*\b", q):
-            pool = ["Compare", "Differentiate", "Contrast", "Examine", "Distinguish", "Analyze"]
-        elif re.search(r"\b(step|sequence|process|flow|trace|execution|order)\w*\b", q):
-            pool = ["Trace", "Examine", "Investigate", "Analyze", "Map", "Identify"]
-        elif re.search(r"\b(error|fault|failure|bug|problem|cause|why)\w*\b", q):
-            pool = ["Investigate", "Diagnose", "Examine", "Trace", "Analyze", "Identify"]
-        else:
-            pool = ["Examine", "Investigate", "Analyze", "Distinguish", "Categorize", "Trace", "Compare", "Differentiate"]
-    elif level == "Evaluate":
+            return ["Compare"]
+        if re.search(r"\b(step|sequence|process|flow|trace|execution|order)\w*\b", q):
+            return ["Trace"]
+        if re.search(r"\b(error|fault|failure|bug|problem|cause|why)\w*\b", q):
+            return ["Investigate"]
+        return ["Analyze"]
+
+    if level == "Evaluate":
         if re.search(r"\b(recommend|choose|select|alternative|option|best|which)\w*\b", q):
-            pool = ["Recommend", "Rank", "Justify", "Appraise", "Evaluate", "Assess"]
-        elif re.search(r"\b(valid|correct|accurate|prove|evidence|claim|argument|justify)\w*\b", q):
-            pool = ["Validate", "Justify", "Defend", "Critique", "Judge", "Assess"]
-        else:
-            pool = ["Justify", "Critique", "Appraise", "Defend", "Judge", "Evaluate", "Recommend", "Rank", "Validate"]
-    else:
-        pool = list(_ACTION_VERB_BANKS[level])
+            return ["Recommend"]
+        if re.search(r"\b(valid|correct|accurate|prove|evidence|claim|argument|justify)\w*\b", q):
+            return ["Justify"]
+        return ["Assess"]
+
+    # Stable hash-based selection for the other levels, with no retry rotation.
+    pool = list(_ACTION_VERB_BANKS[level])
     digest = hashlib.sha256(f"{level}\0{question.strip().casefold()}".encode("utf-8")).digest()
     offset = int.from_bytes(digest[:4], "big") % len(pool)
-    return pool[offset:] + pool[:offset]
+    return [pool[offset]]
 
 
 # These are inference-time and SFT prompt instructions for the requested target level.
