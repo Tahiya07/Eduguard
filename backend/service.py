@@ -148,6 +148,28 @@ class FrameworkService:
     def _local_chat(self, retriever: PrivacyRetriever, question: str, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
         """Local-only generation with an explicit, isolated task mode."""
         recent = history[-6:]
+        if summary:
+            normalized_request = " ".join(question.lower().strip(" .!?").split())
+            summary_only_requests = {
+                "summarize", "summarise", "summary", "give me a summary",
+                "provide a summary", "summarize this", "summarise this",
+                "summarize this document", "summarise this document",
+                "summarize the document", "summarise the document",
+                "summarize the above", "summarise the above",
+                "give me an overview", "provide an overview",
+            }
+            prior_source = any(
+                item.get("role") == "user" and len(str(item.get("content", "")).strip()) >= 160
+                for item in recent
+            )
+            if normalized_request in summary_only_requests and not prior_source:
+                return {
+                    "answer": "Please paste the text you want summarized or upload and index a document first. I don't have source material to summarize yet.",
+                    "refused": False,
+                    "privacy_status": "local",
+                    "sources": [],
+                    "metadata": {"context_chunks": 0, "mode": "local_gguf", "task_mode": "summarization", "missing_source": True},
+                }
         transcript = "\n".join(f"{item['role'].title()}: {item['content']}" for item in recent)
         if summary:
             instruction = (
