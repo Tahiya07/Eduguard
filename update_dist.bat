@@ -60,27 +60,27 @@ echo.
 echo [4/4] Refreshing portable .env...
 (
     echo BLOOM_MODEL_SIZE=0.5b
-    echo BLOOM_MODEL_DIR=models/qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged
+    echo BLOOM_MODEL_DIR=models/qwen_bloom_merged0.5B
     echo BLOOM_USE_QUANTIZED=false
-    echo GENERATOR_MODEL_PATH=models/qwen15b_multitask_v3_q4_k_m.gguf
+    echo GENERATOR_MODEL_PATH=models/qwen.gguf
     echo RETRIEVAL_ENCODER=bge-small
     echo OFFLINE_MODE=true
-    echo GENERATOR_THREADS=8
-    echo GENERATOR_CONTEXT_TOKENS=512
-    echo GENERATOR_ANSWER_TOKENS=64
-    echo GENERATOR_SUMMARY_TOKENS=80
-    echo GENERATOR_MODERATION_TOKENS=64
-    echo GENERATOR_REWRITE_TOKENS=64
+echo GENERATOR_THREADS=8
+echo GENERATOR_CONTEXT_TOKENS=1024
+echo GENERATOR_ANSWER_TOKENS=96
+echo GENERATOR_SUMMARY_TOKENS=128
+echo GENERATOR_MODERATION_TOKENS=48
+echo GENERATOR_REWRITE_TOKENS=96
     echo HF_HUB_OFFLINE=1
     echo TRANSFORMERS_OFFLINE=1
     echo HF_DATASETS_OFFLINE=1
 ) > "dist\EduGuard\.env"
 
-if not exist "dist\EduGuard\models\qwen15b_multitask_v3_q4_k_m.gguf" (
+if not exist "dist\EduGuard\models\qwen.gguf" (
     echo ERROR: Packaged multitask GGUF missing.
     exit /b 1
 )
-if not exist "dist\EduGuard\models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged\model.safetensors" (
+if not exist "dist\EduGuard\models\qwen_bloom_merged0.5B\model.safetensors" (
     echo ERROR: Packaged Bloom classifier weights missing.
     exit /b 1
 )
