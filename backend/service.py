@@ -70,6 +70,16 @@ class FrameworkService:
                 self._bloom = QwenBloomPredictor(model_dir=path, model_size=settings.bloom_model_size, quantized=settings.bloom_use_quantized, prefer_quantized=settings.bloom_use_quantized)
             return self._bloom
 
+    def load_bloom(self) -> dict[str, Any]:
+        """Load the teacher-only classifier on demand after teacher authentication."""
+        predictor = self.bloom()
+        predictor._ensure_loaded()
+        return {
+            "loaded": True,
+            "teacher_only": True,
+            "checkpoint": Path(predictor.model_dir).name,
+        }
+
     def classify(self, question: str) -> dict[str, Any]:
         out = self.bloom().predict(question)
         engine = UncertaintyEngine(K=len(BLOOM_LABELS))
