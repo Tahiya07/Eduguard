@@ -49,24 +49,14 @@ class ActionVerbSelectionTests(unittest.TestCase):
         self.assertNotIn("Calculate", verbs)
         self.assertTrue(set(verbs) & {"Demonstrate", "Use", "Apply", "Implement", "Execute"})
 
-    def test_verb_selection_varies_across_different_questions(self):
-        questions = [
-            "Explain how a process moves through its steps.",
-            "Describe the difference between paging and segmentation.",
-            "Explain the causes of a page fault.",
-            "Discuss how the components of virtual memory interact.",
-            "Explain the sequence of operations in a page replacement algorithm.",
-            "Describe the relationships among memory, pages, and frames.",
-            "Explain the structure of a page table.",
-            "Discuss the factors that affect page replacement.",
-            "Describe how page faults influence performance.",
-            "Explain the role of a translation lookaside buffer.",
-        ]
-        verbs = {
-            PROMPTS.select_action_verbs(question, "Analyze")[0]
-            for question in questions
-        }
-        self.assertGreaterEqual(len(verbs), 3)
+    def test_production_target_verbs_are_fixed_to_avoid_retry_drift(self):
+        expected = {"Apply": "Demonstrate", "Analyze": "Analyze", "Evaluate": "Assess"}
+        for level, verb in expected.items():
+            with self.subTest(level=level):
+                self.assertEqual(
+                    PROMPTS.select_action_verbs("Describe any academic concept.", level),
+                    [verb],
+                )
 
     def test_selected_verb_is_an_explicit_prompt_requirement(self):
         messages = PROMPTS.bloom_messages(
