@@ -15,6 +15,7 @@ from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_
 from retriever import PrivacyRetriever, RetrievalResult
 from role_access import Role, check_retriever_binding
 from runtime_utils import _apply_retrieval_governor
+from rag_utils import boost_summary_retrieval_query
 from uncertainty import UncertaintyEngine
 from bloom_prompt import moderate_bloom_question
 from .config import settings
@@ -206,7 +207,15 @@ class FrameworkService:
             if summary or role == "student"
             else self.classify(question)
         )
-        pool = retriever.retrieve(question, top_k=max(8, top_k), candidate_pool=max(8, top_k), rank_by="relevance" if role == "student" else "privacy")
+        retrieval_query = (
+            boost_summary_retrieval_query(
+                question,
+                [chunk.text for chunk in ws["chunks"][scope]],
+            )
+            if summary
+            else question
+        )
+        pool = retriever.retrieve(retrieval_query, top_k=max(8, top_k), candidate_pool=max(8, top_k), rank_by="relevance" if role == "student" else "privacy")
         chunks, _ = _apply_retrieval_governor(pool, "summary" if summary else "qa", question, top_k, retriever)
         if summary:
             task_instruction = (
