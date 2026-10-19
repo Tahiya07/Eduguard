@@ -920,8 +920,9 @@ def rewrite_to_target_level(
     last_error = None
     prevalidation_failure = ""
     selected_verb = candidates[0]
-    # Retry if the model ignores the requested verb or introduces unsupported context.
-    for selected_verb in candidates[:3]:
+    # One generation pass per request: retrying nearly identical prompts made the
+    # local model latency unpredictable. A failed candidate is surfaced for review.
+    for selected_verb in candidates[:1]:
         prompt = build_v3_target_rewrite_prompt(
             question, target_level, selected_action_verb=selected_verb
         )
