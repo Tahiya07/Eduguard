@@ -373,6 +373,33 @@ function TeacherStudio({ token }: { token: string }) {
   const [file, setFile] = useState<File | null>(null);
   const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
   const operationElapsed = useElapsed(!!busy);
+  const [classifierLoaded, setClassifierLoaded] = useState(false);
+  const [classifierLoadAttempt, setClassifierLoadAttempt] = useState(0);
+
+  async function loadBloomClassifier() {
+    setBusy("Loading teacher Bloom classifier...");
+    setError("");
+    try {
+      const response = await apiFetch(`${API}/models/load-bloom`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = await response.json();
+      if (!response.ok) throw Error(result.detail || "The teacher Bloom classifier could not be loaded.");
+      setClassifierLoaded(true);
+    } catch (e) {
+      setError(String(e).replace("Error: ", ""));
+    } finally {
+      setBusy("");
+    }
+  }
+
+  // Start loading only after the authenticated teacher workspace has mounted.
+  useEffect(() => {
+    if (!classifierLoaded) void loadBloomClassifier();
+    // Initial mount and explicit retry are the only triggers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [classifierLoadAttempt, token]);
 
   // Clear previous output when input changes
   const handleQuestionChange = (newQuestion: string) => {
@@ -428,7 +455,7 @@ function TeacherStudio({ token }: { token: string }) {
   }
 
   async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary", explicitTargetLevel?: string) {
-    if (!q.trim()) return;
+    if (!classifierLoaded || !q.trim()) return;
 
     // Clear previous outputs when starting a new task
     setBloom(null);
@@ -893,7 +920,14 @@ function TeacherStudio({ token }: { token: string }) {
       )}
 
       {error && (
-        <p className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">{error}</p>
+        <div className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">
+          <p>{error}</p>
+          {!classifierLoaded && !busy && (
+            <button type="button" className="btn-secondary mt-3" onClick={() => setClassifierLoadAttempt((attempt) => attempt + 1)}>
+              Retry classifier loading
+            </button>
+          )}
+        </div>
       )}
 
       {busy && <Loading label={busy} hint={loadingHint} showGame={true} />}
@@ -931,18 +965,10 @@ export default function Workspace({ role }: { role: Role }) {
 
   async function login(e: FormEvent) {
     e.preventDefault();
-    setBusy(role === "teacher" ? "Loading teacher Bloom classifier..." : "Opening student workspace...");
+    setBusy("Opening workspace...");
     setError("");
     try {
       const session = await call("/auth/session", { role, access_code: code });
-      if (role === "teacher") {
-        const response = await apiFetch(`${API}/models/load-bloom`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${session.access_token}` },
-        });
-        const result = await response.json();
-        if (!response.ok) throw Error(result.detail || "The teacher Bloom classifier could not be loaded.");
-      }
       setToken(session.access_token);
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
@@ -1039,7 +1065,7 @@ export default function Workspace({ role }: { role: Role }) {
         />
       </label>
       <button className="btn-primary" disabled={!!busy}>
-        {busy ? (role === "teacher" ? "Loading teacher model..." : "Opening workspace...") : "Continue to workspace →"}
+        {busy ? "Opening workspace..." : "Continue to workspace →"}
       </button>
     </form>
   );
