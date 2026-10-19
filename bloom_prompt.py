@@ -814,6 +814,7 @@ def semantic_preservation_check(original: str, rewrite: str, *, threshold: float
 
 
 _UNSUPPORTED_CONTEXT_PATTERNS = (
+    re.compile(r"\b(?:predict|forecast)\s+(?:the\s+)?(?:outcome|result)\s+of\b", re.I),
     re.compile(r"\bunder\s+(?:the\s+)?(?:stated|specified|given|provided|these|those)\s+conditions\b", re.I),
     re.compile(r"\bgiven\s+(?:the\s+)?(?:stated|specified|provided|following)\s+conditions\b", re.I),
     re.compile(r"\b(?:based on|using|from)\s+(?:the\s+)?(?:provided|given|stated|specified)\s+(?:data|inputs?|measurements?|values?|parameters?|evidence)\b", re.I),
