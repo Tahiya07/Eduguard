@@ -377,8 +377,7 @@ function TeacherStudio({ token }: { token: string }) {
   const [classifierLoadAttempt, setClassifierLoadAttempt] = useState(0);
 
   async function loadBloomClassifier() {
-    setBusy("Loading teacher Bloom classifier...");
-    setError("");
+    // Load silently in the background; do not replace or block the teacher UI.
     try {
       const response = await apiFetch(`${API}/models/load-bloom`, {
         method: "POST",
@@ -388,9 +387,8 @@ function TeacherStudio({ token }: { token: string }) {
       if (!response.ok) throw Error(result.detail || "The teacher Bloom classifier could not be loaded.");
       setClassifierLoaded(true);
     } catch (e) {
+      // Surface only failures so the teacher can retry; successful loading is silent.
       setError(String(e).replace("Error: ", ""));
-    } finally {
-      setBusy("");
     }
   }
 
