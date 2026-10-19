@@ -41,6 +41,14 @@ class ActionVerbSelectionTests(unittest.TestCase):
         )
         self.assertIn(verbs[0], {"Calculate", "Compute", "Determine", "Estimate", "Solve", "Apply"})
 
+    def test_broad_apply_question_does_not_default_to_prediction_without_conditions(self):
+        verbs = PROMPTS.select_action_verbs(
+            "Explain peer to peer network.", "Apply"
+        )
+        self.assertNotIn("Predict", verbs)
+        self.assertNotIn("Calculate", verbs)
+        self.assertTrue(set(verbs) & {"Demonstrate", "Use", "Apply", "Implement", "Execute"})
+
     def test_verb_selection_varies_across_different_questions(self):
         questions = [
             "Explain how a process moves through its steps.",
