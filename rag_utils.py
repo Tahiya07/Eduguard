@@ -28,7 +28,6 @@ _DOCUMENT_SUMMARY_CUES = (
     "what is in",
     "what does this",
     "tell me about this",
-    "stakeholder interview",
 )
 
 
