@@ -70,6 +70,7 @@ from predict_bloom import BLOOM_LEVELS, QwenBloomPredictor
 from uncertainty import UncertaintyEngine
 from rag_utils import (
     DOCUMENT_SUMMARY_MIN_COSINE,
+    boost_summary_retrieval_query,
     build_document_summary_task,
     is_document_summary_query,
     looks_like_meta_summary,
@@ -340,7 +341,11 @@ class CognitiveSummarizer:
         chunks = (
             list(retrieved_chunks)
             if retrieved_chunks is not None
-            else self.retriever.retrieve(query, top_k=k, rank_by="relevance")
+            else self.retriever.retrieve(
+                boost_summary_retrieval_query(query, []),
+                top_k=k,
+                rank_by="relevance",
+            )
         )
 
         # 3. Optional hierarchical pre-summarisation for high cognitive levels
