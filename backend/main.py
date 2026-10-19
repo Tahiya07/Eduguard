@@ -39,6 +39,10 @@ def run(fn):
 def health(): return {"status": "ok", "offline_mode": settings.offline_mode}
 @app.get("/models/status")
 def models_status(session: dict = Depends(current_session)): return service.status()
+@app.post("/models/load-bloom")
+def load_bloom(session: dict = Depends(require_teacher)):
+    # FastAPI runs sync handlers in a worker thread, so model loading does not block health checks.
+    return run(service.load_bloom)
 @app.post("/auth/session")
 def login(body: LoginRequest):
     expected = settings.teacher_access_code if body.role == "teacher" else settings.student_access_code
