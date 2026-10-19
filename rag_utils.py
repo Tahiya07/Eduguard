@@ -47,8 +47,8 @@ def boost_summary_retrieval_query(
     sample = " ".join((t or "").strip() for t in corpus_chunks[:4] if (t or "").strip())
     sample = re.sub(r"\s+", " ", sample)[:500]
     if sample:
-        return f"main topics themes key points interview questions {sample}"
-    return f"document content themes key points {query.strip()}"
+        return f"central topic main claims key findings important details methods limitations conclusions {sample}"
+    return f"document main topics key claims findings important details {query.strip()}"
 
 
 def merge_corpus_for_summary(chunks: Sequence[Any], *, max_chars: int = 7200) -> str:
