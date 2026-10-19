@@ -40,7 +40,7 @@ BLOOM_SYSTEM = (
 _ACTION_VERB_BANKS = {
     "Remember": ["Identify", "List", "State", "Name", "Define", "Recall", "Recognize", "Specify"],
     "Understand": ["Explain", "Describe", "Interpret", "Summarize", "Classify", "Illustrate", "Clarify", "Paraphrase"],
-    "Apply": ["Determine", "Calculate", "Solve", "Use", "Apply", "Compute", "Execute", "Estimate", "Predict", "Implement", "Test", "Diagnose"],
+    "Apply": ["Determine", "Calculate", "Solve", "Use", "Apply", "Compute", "Execute", "Estimate", "Predict", "Implement", "Test", "Diagnose", "Demonstrate", "Operate", "Perform"],
     "Analyze": ["Examine", "Compare", "Trace", "Differentiate", "Investigate", "Diagnose", "Contrast", "Categorize", "Analyze", "Distinguish", "Map", "Identify"],
     "Evaluate": ["Justify", "Critique", "Recommend", "Validate", "Rank", "Appraise", "Defend", "Judge", "Assess", "Evaluate"],
     "Create": ["Design", "Develop", "Formulate", "Construct", "Propose", "Devise", "Compose", "Plan", "Synthesize", "Generate"],
@@ -59,9 +59,11 @@ def select_action_verbs(question: str, target_level: str) -> list[str]:
         elif re.search(r"\b(error|debug|fault|failure|bug|diagnos)\w*\b", q):
             pool = ["Diagnose", "Test", "Use", "Apply", "Determine", "Solve"]
         elif re.search(r"\b(given|input|output|scenario|case|example|algorithm|procedure|method)\b", q):
-            pool = ["Use", "Apply", "Execute", "Determine", "Solve", "Implement", "Predict"]
+            pool = ["Use", "Apply", "Execute", "Determine", "Solve", "Implement", "Demonstrate"]
         else:
-            pool = ["Determine", "Use", "Apply", "Solve", "Implement", "Execute", "Predict", "Calculate"]
+            # Broad concept questions do not supply inputs or conditions for prediction/calculation.
+            # Prefer verbs that can introduce a grounded, simple application without inventing data.
+            pool = ["Demonstrate", "Use", "Apply", "Implement", "Execute", "Operate", "Perform", "Determine"]
     elif level == "Analyze":
         if re.search(r"\b(compare|versus|difference|differentiate|contrast|similarit)\w*\b", q):
             pool = ["Compare", "Differentiate", "Contrast", "Examine", "Distinguish", "Analyze"]
