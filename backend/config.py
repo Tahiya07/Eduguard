@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     generator_threads: int = max(4, min(8, (os.cpu_count() or 4)))
     generator_context_tokens: int = 512
     generator_answer_tokens: int = 64
-    generator_summary_tokens: int = 80
+    generator_summary_tokens: int = 128
     generator_moderation_tokens: int = 64
     generator_rewrite_tokens: int = 64
     session_secret: str = "local1234"
