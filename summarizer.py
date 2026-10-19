@@ -65,7 +65,7 @@ except Exception:  # pragma: no cover
 # Phase-1/2/3 modules (imported, not modified)
 # ----------------------------------------------------------------------------
 from retriever import PrivacyRetriever, RetrievalResult
-from models import RAGGenerator, BLOOM_INSTRUCTIONS
+from models import RAGGenerator, BLOOM_INSTRUCTIONS, SUMMARY_SYSTEM_PROMPT
 from predict_bloom import BLOOM_LEVELS, QwenBloomPredictor
 from uncertainty import UncertaintyEngine
 from rag_utils import (
@@ -236,14 +236,18 @@ class CognitiveSummarizer:
         try:
             self.generator.max_tokens = self.per_chunk_max_tokens
             for c in chunks:
-                # Build a tiny one-chunk prompt body.
-                body = self.generator.build_prompt(
-                    query=f"In one sentence, summarise this passage in the "
-                          f"context of: {query}",
+                # Each intermediate step is also summarization, not QA.
+                body = self.generator.build_summary_prompt(
+                    task=(
+                        "Summarize this passage in one sentence, preserving its "
+                        f"main point and key detail relevant to: {query}"
+                    ),
                     chunks=[c],
-                    bloom_level=bloom_lc,
                 )
-                chatml = self.generator._to_chatml(body)
+                chatml = self.generator._to_chatml(
+                    body,
+                    system_prompt=SUMMARY_SYSTEM_PROMPT,
+                )
                 reset_fn = getattr(self.generator.llm, "reset", None)
                 if callable(reset_fn):
                     try:
