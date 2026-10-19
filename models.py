@@ -33,7 +33,7 @@ Pipeline
 
 Constraints
 -----------
-* CPU-only inference with mmap-backed weights; context size is configurable.
+* CPU-only inference with mmap-backed weights; context size is configurable and kept moderate for desktop memory.
 * No external APIs, no fine-tuning, no training in this phase.
 * Phase-1 modules (``ingestion.py``, ``retriever.py``) are NOT modified.
 """
@@ -105,7 +105,7 @@ def _ok(msg: str) -> None:
 # ----------------------------------------------------------------------------
 # Defaults
 # ----------------------------------------------------------------------------
-DEFAULT_N_CTX = 4096
+DEFAULT_N_CTX = 2048
 DEFAULT_MAX_TOKENS = 64
 DEFAULT_N_THREADS = max(4, min(8, (os.cpu_count() or 4)))
 DEFAULT_SEED = 42
