@@ -47,49 +47,57 @@ _ACTION_VERB_BANKS = {
 }
 
 
+# Rotate choices across repeated requests for the same question/level without
+# adding a second generation pass or retry latency.
+_ACTION_VERB_ROTATION: dict[tuple[str, str], int] = {}
+
+
 def select_action_verbs(question: str, target_level: str) -> list[str]:
-    """Return a stable ordering of plausible action verbs for this question and level."""
+    """Select a context-appropriate verb and rotate suitable alternatives across requests."""
     level = target_level.strip().title()
     if level not in _ACTION_VERB_BANKS:
         raise ValueError(f"Unknown target Bloom level: {target_level!r}")
 
     q = question.lower()
+    normalized_question = " ".join(question.strip().casefold().split())
+    key = (level, normalized_question)
+    digest = hashlib.sha256(f"{level}\0{normalized_question}".encode("utf-8")).digest()
 
-    # Return one context-sensitive verb, not a rotated candidate list. The caller
-    # performs one generation pass, so deterministic selection avoids retry latency
-    # without forcing the same verb onto numeric, diagnostic, or comparison tasks.
     if level == "Apply":
         if re.search(r"\b(calculat|comput|numeric|equation|formula|percentage|probability|sum|average|distance|speed|cost|rate)\w*\b", q):
-            verb = "Calculate"
+            pool = ["Calculate", "Compute", "Determine"]
         elif re.search(r"\b(error|debug|fault|failure|bug|diagnos)\w*\b", q):
-            verb = "Diagnose"
+            pool = ["Diagnose", "Test", "Investigate"]
         elif re.search(r"\b(given|input|output|scenario|case|example|algorithm|procedure|method)\b", q):
-            verb = "Use"
+            pool = ["Use", "Apply", "Demonstrate", "Execute"]
         else:
-            verb = "Demonstrate"
-        return [verb]
+            pool = ["Demonstrate", "Apply", "Use", "Determine"]
 
-    if level == "Analyze":
+    elif level == "Analyze":
         if re.search(r"\b(compare|versus|difference|differentiate|contrast|similarit)\w*\b", q):
-            return ["Compare"]
-        if re.search(r"\b(step|sequence|process|flow|trace|execution|order)\w*\b", q):
-            return ["Trace"]
-        if re.search(r"\b(error|fault|failure|bug|problem|cause|why)\w*\b", q):
-            return ["Investigate"]
-        return ["Analyze"]
+            pool = ["Compare", "Contrast", "Differentiate", "Distinguish"]
+        elif re.search(r"\b(step|sequence|process|flow|trace|execution|order)\w*\b", q):
+            pool = ["Trace", "Map", "Examine", "Analyze"]
+        elif re.search(r"\b(error|fault|failure|bug|problem|cause|why|purpose|function|role|work|works|protect|protection)\w*\b", q):
+            pool = ["Examine", "Investigate", "Analyze", "Dissect"]
+        else:
+            pool = ["Examine", "Analyze", "Investigate", "Map", "Dissect"]
 
-    if level == "Evaluate":
+    elif level == "Evaluate":
         if re.search(r"\b(recommend|choose|select|alternative|option|best|which)\w*\b", q):
-            return ["Recommend"]
-        if re.search(r"\b(valid|correct|accurate|prove|evidence|claim|argument|justify)\w*\b", q):
-            return ["Justify"]
-        return ["Assess"]
+            pool = ["Recommend", "Rank", "Prioritize", "Assess"]
+        elif re.search(r"\b(valid|correct|accurate|prove|evidence|claim|argument|justify)\w*\b", q):
+            pool = ["Justify", "Critique", "Validate", "Defend"]
+        else:
+            pool = ["Assess", "Evaluate", "Appraise", "Critique"]
 
-    # Stable hash-based selection for the other levels, with no retry rotation.
-    pool = list(_ACTION_VERB_BANKS[level])
-    digest = hashlib.sha256(f"{level}\0{question.strip().casefold()}".encode("utf-8")).digest()
+    else:
+        pool = list(_ACTION_VERB_BANKS[level])
+
     offset = int.from_bytes(digest[:4], "big") % len(pool)
-    return [pool[offset]]
+    turn = _ACTION_VERB_ROTATION.get(key, 0)
+    _ACTION_VERB_ROTATION[key] = turn + 1
+    return [pool[(offset + turn) % len(pool)]]
 
 
 # These are inference-time and SFT prompt instructions for the requested target level.
@@ -117,7 +125,9 @@ BLOOM_TARGET_GUIDANCE = {
         "Cognitive operation: break information into parts and examine relationships, structure, causes, patterns, or differences. "
         "Preferred action verbs (choose the most natural and semantically accurate option): Analyze, Compare, Contrast, Differentiate, Examine, Investigate, Categorize, Decompose, Trace, Relate, Organize, Attribute, Structure, Inspect, Probe, Correlate, Separate, Subdivide, Infer, Detect, Uncover, Diagnose, Dissect, Scrutinize, Distinguish, Map, Identify assumptions, Identify patterns, Determine relationships, Examine dependencies. "
         "Make the relationship, parts, cause, or pattern to be examined explicit; do not stop at listing facts or merely asking for an unsupported opinion. "
-        "Example form: 'Analyze how [original topic's parts or factors] interact.'"
+        "Vary the opening verb naturally across suitable tasks; do not default to 'Analyze' when Examine, Investigate, Compare, Contrast, Trace, Map, Dissect, Differentiate, or Distinguish better fits the original question. "
+        "Do not invent parts or factors absent from the source; use only relationships or mechanisms inherent to the original topic. "
+        "Possible forms: 'Examine how [original concept] works'; 'Investigate how [original concept] affects [source-grounded purpose]'; 'Compare [source-grounded alternatives]'; 'Trace [source-grounded process].'"
     ),
     "Evaluate": (
         "Cognitive operation: make and support a judgment using explicit criteria, evidence, standards, or trade-offs. "
