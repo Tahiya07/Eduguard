@@ -51,11 +51,11 @@ def test_cv_summary_task_requests_a_profile_not_contact_header():
 
 def test_general_summary_task_adapts_to_multiple_document_genres():
     paper = build_document_summary_task(
-        "Abstract\\nThis study evaluates a retrieval system.\\nMethods\\nWe compare two encoders.\\n"
-        "Results\\nEncoder A improves recall.\\nLimitations\\nThe dataset is small."
+        "Abstract\nThis study evaluates a retrieval system.\nMethods\nWe compare two encoders.\n"
+        "Results\nEncoder A improves recall.\nLimitations\nThe dataset is small."
     )
     notes = build_document_summary_task(
-        "Binary search\\nCompare the target with the middle element.\\n"
+        "Binary search\nCompare the target with the middle element.\n"
         "If the target is smaller, continue in the left half; otherwise continue in the right half."
     )
 
