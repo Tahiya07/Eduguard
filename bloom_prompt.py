@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 import re
+from operation_control import check_cancelled, llama_stopping_criteria
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -420,8 +421,10 @@ def _generate_rewrite(prompt: str, *, llm=None, max_tokens: int | None = None) -
         except Exception:
             pass
     t0 = _time.perf_counter()
+    check_cancelled()
     output = model(
         prompt,
+        stopping_criteria=llama_stopping_criteria(),
         max_tokens=limit,
         temperature=0.0,
         top_p=1.0,
@@ -597,6 +600,7 @@ def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> s
         stop=[IM_END, IM_START],
         echo=False,
     )
+    check_cancelled()
     raw = str(output["choices"][0]["text"] or "")
     return clean_v3_generation(raw)
 
