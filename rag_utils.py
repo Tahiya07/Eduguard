@@ -54,7 +54,7 @@ def boost_summary_retrieval_query(
 
 
 def merge_corpus_for_summary(chunks: Sequence[Any], *, max_chars: int = 7200) -> str:
-    """Merge unique ingested chunks into one text block for document summarization."""
+    """Merge document chunks in source order while removing ingestion overlap."""
     ordered = sorted(
         chunks,
         key=lambda c: (str(getattr(c, "source", "")), int(getattr(c, "page", 0) or 0), int(getattr(c, "chunk_id", 0))),
@@ -62,6 +62,10 @@ def merge_corpus_for_summary(chunks: Sequence[Any], *, max_chars: int = 7200) ->
     seen: set[str] = set()
     parts: List[str] = []
     total = 0
+
+    def token_key(token: str) -> str:
+        return re.sub(r"\W+", "", token.lower())
+
     for chunk in ordered:
         text = str(getattr(chunk, "text", "") or "").strip()
         if not text:
@@ -70,16 +74,44 @@ def merge_corpus_for_summary(chunks: Sequence[Any], *, max_chars: int = 7200) ->
         if key in seen:
             continue
         seen.add(key)
-        room = max_chars - total
+
+        # Ingestion uses overlapping word windows. Remove the longest suffix
+        # of the previous chunk that repeats at the start of this chunk, while
+        # retaining the source's original punctuation and line breaks.
+        if parts:
+            previous_words = list(re.finditer(r"\S+", parts[-1]))
+            current_words = list(re.finditer(r"\S+", text))
+            max_overlap = min(160, len(previous_words), len(current_words))
+            overlap = 0
+            for size in range(max_overlap, 0, -1):
+                left = [token_key(m.group()) for m in previous_words[-size:]]
+                right = [token_key(m.group()) for m in current_words[:size]]
+                if all(left) and left == right:
+                    overlap = size
+                    break
+            if overlap:
+                text = text[current_words[overlap - 1].end():].lstrip()
+
+        if not text:
+            continue
+        separator = "\n\n" if parts else ""
+        room = max_chars - total - len(separator)
         if room <= 0:
             break
         if len(text) > room:
-            parts.append(text[:room].rsplit(" ", 1)[0].strip())
+            cut = text[:room]
+            # Prefer a complete sentence/line at the budget boundary.
+            boundary = max(cut.rfind(". "), cut.rfind(".\n"), cut.rfind("\n"))
+            if boundary >= room // 2:
+                cut = cut[:boundary + (1 if cut[boundary] == "." else 0)]
+            else:
+                cut = cut.rsplit(" ", 1)[0]
+            if cut.strip():
+                parts.append(cut.strip())
             break
         parts.append(text)
-        total += len(text) + 2
+        total += len(separator) + len(text)
     return "\n\n".join(parts)
-
 
 def merged_document_retrieval_result(chunks: Sequence[Any], *, max_chars: int = 7200) -> List[RetrievalResult]:
     body = merge_corpus_for_summary(chunks, max_chars=max_chars)
