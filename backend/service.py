@@ -320,29 +320,16 @@ class FrameworkService:
             raise RuntimeError(f"Linguistic moderation failed: {str(e)}")
 
     def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
-        """Rewrite with the finalized v3 GGUF prompt, then verify with the deployed classifier.
-
-        The generator sees only the question and the selected target level. The classifier
-        scores the rewrite and does not choose a different question.
-        """
+        """Generate a teacher-requested Bloom rewrite without classifier re-scoring."""
         if not question.strip():
             raise ValueError("Question cannot be empty")
 
         generator = self._generator_instance(self.workspace(sid)["public"])
-        predictor = None
-        predictor_error = ""
-        try:
-            predictor = self.bloom()
-        except Exception as exc:
-            predictor_error = str(exc)
-
         with generator.inference_lock:
             result = rewrite_to_target_level(
                 question,
                 target_level,
                 llm=generator.llm,
-                predictor=predictor,
-                predictor_error=predictor_error,
                 max_tokens=settings.generator_rewrite_tokens,
             )
         if not result.rewritten:
@@ -350,36 +337,20 @@ class FrameworkService:
                 "original": question,
                 "rewritten": "",
                 "target_level": target_level,
-                "predicted_level": "",
-                "validation_match": False,
-                "validation_confidence": 0.0,
                 "needs_review": True,
                 "error": result.note or "Failed to generate a rewrite",
                 "privacy_status": "teacher_authorized",
                 "type": "target_level_rewrite_failed",
             }
 
-        response = {
+        return {
             "original": question,
             "rewritten": result.rewritten,
             "target_level": target_level,
-            "predicted_level": result.predicted_level or "unknown",
-            "validation_match": result.validation_match,
-            "validation_confidence": result.confidence,
-            "needs_review": result.needs_review,
+            "needs_review": False,
             "privacy_status": "teacher_authorized",
+            "type": "target_level_rewrite",
         }
-        if result.validation_error:
-            response["type"] = "target_level_rewrite_validation_failed"
-            response["error"] = result.note
-            response["review_reason"] = result.note
-        elif not result.validation_match:
-            response["type"] = "target_level_rewrite_mismatch"
-            response["error"] = result.note
-            response["review_reason"] = result.note
-        else:
-            response["type"] = "target_level_rewrite"
-        return response
 
     def warmup(self) -> dict[str, Any]:
         """Warm the shared GGUF without loading teacher-only Bloom or BGE."""
