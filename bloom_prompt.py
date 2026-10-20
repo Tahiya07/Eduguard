@@ -947,6 +947,21 @@ def _rewrite_instruction_issues(question: str, rewrite: str, target_level: str) 
     if not output:
         return ["empty rewrite"]
 
+    # Catch obvious decoding loops such as repeating the same relationship clause.
+    # This is a wording-quality check, not a Bloom-level classifier.
+    tokens = re.findall(r"[A-Za-z0-9_'-]+", output.casefold())
+    seen_ngrams: dict[tuple[str, ...], int] = {}
+    for size in (5, 4):
+        for index in range(max(0, len(tokens) - size + 1)):
+            ngram = tuple(tokens[index:index + size])
+            previous = seen_ngrams.get(ngram)
+            if previous is not None and index - previous >= size + 2:
+                issues.append("repeats the same wording or relationship clause")
+                break
+            seen_ngrams[ngram] = index
+        if issues:
+            break
+
     source_has_requirements = bool(re.search(
         r"\b(requirements?|constraints?|specifications?|rubric|criteria|standards?|provided evidence|given data|test results?)\b",
         source,
@@ -997,7 +1012,8 @@ def _build_repair_prompt(base_prompt: str, question: str, target_level: str,
         f"Original question: {question.strip()}\n"
         f"Fixed target level: {target_level}\n"
         f"Draft to repair: {draft.strip()}\n\n"
-        "Rewrite the draft as ONE natural, student-facing exam question. Preserve the original topic and intent. "
+        "Rewrite the draft as ONE natural, student-facing exam question. Preserve the original topic and intent. " 
+        "Remove repeated phrases, clauses, and duplicated instructions; express each relationship only once. "
         "Do not treat the original command verb as part of the topic. Do not claim that requirements, constraints, "
         "rubrics, specifications, measurements, test results, or evidence were supplied unless the original question "
         "actually supplies them. For Evaluate, make a defensible judgment about an inherent, topic-specific purpose, "
