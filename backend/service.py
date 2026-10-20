@@ -226,7 +226,7 @@ class FrameworkService:
         if summary:
             if finish_reason == "length":
                 logger.warning("Local-chat summary reached its token limit; returning a source-derived fallback")
-            answer = sanitize_summary_answer(answer, [summary_source])
+            answer = sanitize_summary_answer(answer, [summary_source], finish_reason=finish_reason)
         return {
             "answer": answer,
             "refused": False,
