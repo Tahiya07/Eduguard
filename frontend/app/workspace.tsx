@@ -617,14 +617,14 @@ function TeacherStudio({ token }: { token: string }) {
       });
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
       if (stillCurrent) {
         setBusy("");
-        setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        if (!operation.controller.signal.aborted) setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
         setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
       }
     }
@@ -651,12 +651,16 @@ function TeacherStudio({ token }: { token: string }) {
       if (!r.ok) throw Error("Upload failed");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
-      setBusy("");
-      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
-      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      if (stillCurrent) {
+        setBusy("");
+        if (!operation.controller.signal.aborted) setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      }
     }
   }
 
@@ -1012,7 +1016,7 @@ export default function Workspace({ role }: { role: Role }) {
       });
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
