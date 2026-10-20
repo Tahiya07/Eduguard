@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 import threading
 from contextlib import asynccontextmanager
 
@@ -13,9 +14,11 @@ from .service import service
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # The shared GGUF can warm in the background. Bloom remains lazy so it is
-    # loaded only by a teacher-side classification or rewrite request.
-    threading.Thread(target=service.warmup, name="eduguard-warmup", daemon=True).start()
+    # Keep server startup responsive. The shared GGUF is loaded on the first
+    # generation request by default; opt into background warm-up only when
+    # trading startup CPU/memory for a potentially faster first response.
+    if os.getenv("EDUGUARD_WARMUP_ON_STARTUP", "0").strip().lower() in {"1", "true", "yes"}:
+        threading.Thread(target=service.warmup, name="eduguard-warmup", daemon=True).start()
     yield
 
 
