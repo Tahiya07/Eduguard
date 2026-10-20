@@ -687,8 +687,8 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         </div>
       )}
 
-      {busy && <Loading label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} />}
-      {showSuccess && <Loading label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}
+      {busy && <LoadingComponent label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} />}
+      {showSuccess && <LoadingComponent label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}
     </main>
   );
 }
