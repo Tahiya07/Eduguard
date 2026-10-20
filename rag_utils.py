@@ -139,7 +139,7 @@ def build_document_summary_task(source_text: str = "") -> str:
     ))
     cv_heading_count = sum(
         1 for marker in ("education", "technical skills", "projects", "experience", "certifications")
-        if re.search(rf"(?im)^\\s*(?:\\d+[.)]\\s*)?{re.escape(marker)}\\s*:?[ \\t]*$", text)
+        if re.search(rf"(?im)^\s*(?:\d+[.)]\s*)?{re.escape(marker)}\s*:?[ \t]*$", text)
     )
     looks_like_cv = explicit_cv or (
         cv_heading_count >= 3 and (
