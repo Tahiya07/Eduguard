@@ -18,6 +18,7 @@ async function apiFetch(
       return response;
     } catch (error) {
       lastError = error;
+      if (init?.signal?.aborted || (error instanceof DOMException && error.name === "AbortError")) throw error;
 
       if (attempt === retries) {
         throw lastError;
@@ -25,9 +26,19 @@ async function apiFetch(
 
       // Backend may still be initializing. Wait progressively,
       // but never block the UI itself.
-      await new Promise((resolve) =>
-        setTimeout(resolve, Math.min(1000 + attempt * 500, 3000))
-      );
+      await new Promise<void>((resolve, reject) => {
+        const signal = init?.signal;
+        const timeout = window.setTimeout(() => {
+          signal?.removeEventListener("abort", abort);
+          resolve();
+        }, Math.min(1000 + attempt * 500, 3000));
+        const abort = () => {
+          window.clearTimeout(timeout);
+          reject(new DOMException("The operation was cancelled.", "AbortError"));
+        };
+        if (signal?.aborted) abort();
+        else signal?.addEventListener("abort", abort, { once: true });
+      });
     }
   }
 
@@ -52,6 +63,22 @@ type Moderation = {
   reason: string;
   higher_level_rewrite: string;
 };
+
+
+function createOperation() {
+  return { id: crypto.randomUUID(), controller: new AbortController() };
+}
+
+function cancelBackendOperation(operation: { id: string; controller: AbortController } | null, token: string) {
+  if (!operation) return;
+  operation.controller.abort();
+  void fetch(`${API}/operations/cancel?operation_id=${encodeURIComponent(operation.id)}`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  }).catch(() => {
+    // The local operation may have already completed; closing the UI is still immediate.
+  });
+}
 
 function formatElapsed(seconds: number) {
   const mins = Math.floor(seconds / 60);
@@ -249,6 +276,7 @@ function Loading({
   successMessage = "",
   finalElapsed = 0,
   showGame = false,
+  onCancel,
 }: {
   label: string;
   hint?: string;
@@ -256,20 +284,18 @@ function Loading({
   successMessage?: string;
   finalElapsed?: number;
   showGame?: boolean;
+  onCancel?: () => void;
 }) {
   const elapsed = useElapsed(!success);
-  const [dismissed, setDismissed] = useState(false);
-
-  if (dismissed) return null;
 
   return (
-    <div className="loading-dialog-backdrop" role="status" aria-live="polite">
+    <div className="loading-dialog-backdrop" role="dialog" aria-modal="true" aria-label={success ? successMessage : label}>
       <section className={`loading-dialog ${showGame && !success ? 'loading-dialog-with-game' : ''}`}>
         {!success && (
           <button
             type="button"
             className="loading-dialog-close"
-            onClick={() => setDismissed(true)}
+            onClick={() => onCancel?.() }
             aria-label="Close loading dialog"
             title="Close"
           >
@@ -382,6 +408,14 @@ function TeacherStudio({ token }: { token: string }) {
   const [answer, setAnswer] = useState("");
   const [summary, setSummary] = useState("");
   const [busy, setBusy] = useState("");
+  const operationController = useRef<ReturnType<typeof createOperation> | null>(null);
+  const cancelOperation = useCallback(() => {
+    const active = operationController.current;
+    operationController.current = null;
+    cancelBackendOperation(active, token);
+    setBusy("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+  }, [token]);
   const [error, setError] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -453,13 +487,16 @@ function TeacherStudio({ token }: { token: string }) {
   };
 
   async function req(path: string, body: object) {
+    const active = operationController.current;
     const r = await apiFetch(`${API}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        ...(active ? { "X-Operation-ID": active.id } : {}),
       },
       body: JSON.stringify(body),
+      signal: active?.controller.signal,
     });
     const d = await r.json();
     if (!r.ok) throw Error(d.detail || "The local service could not complete this request.");
@@ -498,6 +535,8 @@ function TeacherStudio({ token }: { token: string }) {
       summary: "Summarized the content",
     } as const;
 
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy(labels[action]);
 
     try {
@@ -549,11 +588,13 @@ function TeacherStudio({ token }: { token: string }) {
         setSuccess({ show: true, message: successMessages.summary, elapsed: operationElapsed });
       }
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
-      setBusy("");
-      if (successMessages[action]) {
+      if (stillCurrent) setBusy("");
+      if (stillCurrent && successMessages[action] && !operation.controller.signal.aborted) {
         setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
         setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
       }
@@ -562,6 +603,8 @@ function TeacherStudio({ token }: { token: string }) {
 
   async function index() {
     if (!text.trim()) return;
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy("Indexing your material");
     setError("");
     setSuccess({ show: false, message: "", elapsed: 0 });
@@ -576,15 +619,21 @@ function TeacherStudio({ token }: { token: string }) {
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
-      setBusy("");
-      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
-      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      if (stillCurrent) {
+        setBusy("");
+        setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      }
     }
   }
 
   async function upload() {
     if (!file) return;
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy("Uploading and indexing your file");
     setError("");
     setSuccess({ show: false, message: "", elapsed: 0 });
@@ -595,8 +644,9 @@ function TeacherStudio({ token }: { token: string }) {
       f.set("content_type", "study_material");
       const r = await apiFetch(`${API}/documents/upload`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, "X-Operation-ID": operation.id },
         body: f,
+        signal: operation.controller.signal,
       });
       if (!r.ok) throw Error("Upload failed");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
@@ -888,7 +938,7 @@ function TeacherStudio({ token }: { token: string }) {
         </div>
       )}
 
-      {busy && <Loading label={busy} hint={loadingHint} showGame={true} />}
+      {busy && <Loading label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} />}
       {showSuccess && <Loading label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}
     </main>
   );
@@ -902,19 +952,30 @@ export default function Workspace({ role }: { role: Role }) {
   const [q, setQ] = useState("");
   const [history, setHistory] = useState<Msg[]>([]);
   const [busy, setBusy] = useState("");
+  const operationController = useRef<ReturnType<typeof createOperation> | null>(null);
+  const cancelOperation = useCallback(() => {
+    const active = operationController.current;
+    operationController.current = null;
+    cancelBackendOperation(active, token);
+    setBusy("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+  }, [token]);
   const [error, setError] = useState("");
   const [clip, setClip] = useState<(typeof clips)[number] | null>(null);
   const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
   const operationElapsed = useElapsed(!!busy);
 
   async function call(path: string, body: object) {
+    const active = operationController.current;
     const r = await apiFetch(`${API}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(active ? { "X-Operation-ID": active.id } : {}),
       },
       body: JSON.stringify(body),
+      signal: active?.controller.signal,
     });
     const d = await r.json();
     if (!r.ok) throw Error(d.detail || "The local service could not complete this request.");
@@ -937,6 +998,8 @@ export default function Workspace({ role }: { role: Role }) {
 
   async function index() {
     if (!text.trim()) return;
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy("Indexing your material");
     setError("");
     setSuccess({ show: false, message: "", elapsed: 0 });
@@ -951,15 +1014,21 @@ export default function Workspace({ role }: { role: Role }) {
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
-      setBusy("");
-      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
-      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      if (stillCurrent) {
+        setBusy("");
+        if (!operation.controller.signal.aborted) setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      }
     }
   }
 
   async function upload() {
     if (!file) return;
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy("Uploading and indexing your file");
     setError("");
     setSuccess({ show: false, message: "", elapsed: 0 });
@@ -970,23 +1039,30 @@ export default function Workspace({ role }: { role: Role }) {
       f.set("content_type", "study_material");
       const r = await apiFetch(`${API}/documents/upload`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, "X-Operation-ID": operation.id },
         body: f,
+        signal: operation.controller.signal,
       });
       if (!r.ok) throw Error("Upload failed");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
       const finalElapsed = operationElapsed;
-      setBusy("");
-      setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
-      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      if (stillCurrent) {
+        setBusy("");
+        if (!operation.controller.signal.aborted) setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
+        setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
+      }
     }
   }
 
   async function ask(summary = false) {
     if (!q.trim()) return;
+    const operation = createOperation();
+    operationController.current = operation;
     setBusy(summary ? "Preparing a local summary" : "Loading the local model and writing a reply");
     setError("");
     try {
@@ -1004,9 +1080,11 @@ export default function Workspace({ role }: { role: Role }) {
       ]);
       setQ("");
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
-      setBusy("");
+      const stillCurrent = operationController.current === operation;
+      if (stillCurrent) operationController.current = null;
+      if (stillCurrent) setBusy("");
     }
   }
 
@@ -1266,6 +1344,7 @@ export default function Workspace({ role }: { role: Role }) {
           label={busy}
           hint="Preparing your material for source-grounded answers."
           showGame={true}
+          onCancel={cancelOperation}
         />
       )}
       {showSuccess && (
