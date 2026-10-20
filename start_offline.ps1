@@ -60,39 +60,74 @@ Write-Host "          EduGuard Offline"
 Write-Host "========================================"
 Write-Host ""
 
-Write-Host "Starting backend..."
-
-Start-Process `
-    -FilePath $python `
-    -ArgumentList "-m uvicorn backend.main:app --host 127.0.0.1 --port 8000" `
-    -WorkingDirectory $root `
-    -WindowStyle Hidden
-
-Start-Sleep -Seconds 5
+# Prioritize the UI and launch both processes without fixed sleeps. The frontend
+# can render while the backend's optional model warmup runs in its own thread.
+if (-not $env:EDUGUARD_WARMUP_ON_STARTUP) { $env:EDUGUARD_WARMUP_ON_STARTUP = "1" }
 
 if (-not $Development) {
     Write-Host "Starting production frontend..."
-
-    Start-Process `
+    $frontendProcess = Start-Process `
         -FilePath "npm.cmd" `
         -ArgumentList "run start -- --hostname 127.0.0.1 --port 3000" `
         -WorkingDirectory $frontend `
-        -WindowStyle Hidden
+        -WindowStyle Hidden `
+        -PassThru
 }
 else {
-    Write-Host "Starting development frontend..."
-
-    Start-Process `
+    Write-Host "Starting development frontend (Turbopack)..."
+    $frontendProcess = Start-Process `
         -FilePath "npm.cmd" `
         -ArgumentList "run dev -- --hostname 127.0.0.1 --port 3000" `
         -WorkingDirectory $frontend `
-        -WindowStyle Hidden
+        -WindowStyle Hidden `
+        -PassThru
 }
 
-Start-Sleep -Seconds 5
+Write-Host "Starting backend in parallel..."
+$backendProcess = Start-Process `
+    -FilePath $python `
+    -ArgumentList "-m uvicorn backend.main:app --host 127.0.0.1 --port 8000" `
+    -WorkingDirectory $root `
+    -WindowStyle Hidden `
+    -PassThru
+
+# Poll for actual frontend readiness instead of imposing two fixed 5-second
+# delays. The UI is opened as soon as Next responds; model readiness is separate.
+$frontendReady = $false
+$deadline = [DateTime]::UtcNow.AddSeconds(90)
+while ([DateTime]::UtcNow -lt $deadline) {
+    if ($frontendProcess.HasExited) {
+        throw "Frontend process exited during startup (exit code $($frontendProcess.ExitCode)). Check the frontend terminal/log output."
+    }
+    try {
+        $response = Invoke-WebRequest -Uri "http://127.0.0.1:3000" -UseBasicParsing -TimeoutSec 2
+        if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 500) {
+            $frontendReady = $true
+            break
+        }
+    } catch {
+        # Next is still compiling or binding its port. Keep polling briefly.
+    }
+    Start-Sleep -Milliseconds 300
+}
+
+if (-not $frontendReady) {
+    Write-Warning "Frontend did not respond within 90 seconds. It may still be compiling; opening the local URL anyway."
+}
+else {
+    Write-Host "Frontend is responding."
+}
+
+try {
+    $null = Invoke-WebRequest -Uri "http://127.0.0.1:8000/health" -UseBasicParsing -TimeoutSec 2
+    Write-Host "Backend health endpoint is responding."
+} catch {
+    Write-Host "Backend is still starting. The UI can open now; model readiness is reported separately by /models/status."
+}
 
 Write-Host ""
-Write-Host "EduGuard is running locally:"
-Write-Host "http://127.0.0.1:3000"
+Write-Host "EduGuard local UI: http://127.0.0.1:3000"
+Write-Host "Backend health:    http://127.0.0.1:8000/health"
+Write-Host "Model status:     http://127.0.0.1:8000/models/status"
 Write-Host ""
-Start-Process "http://127.0.0.1:3000"
+
