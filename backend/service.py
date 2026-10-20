@@ -11,6 +11,7 @@ from bloom_model_profiles import get_profile
 from bloom_policy import compose_instruction
 from role_access import Role, check_retriever_binding
 from .config import settings
+from operation_control import check_cancelled, llama_stopping_criteria
 
 class FrameworkService:
     """One application layer: role checks precede every corpus/model operation."""
@@ -110,7 +111,9 @@ class FrameworkService:
 
     def index_text(self, sid: str, role: str, text: str, name: str, scope: str, content_type: str) -> dict[str, Any]:
         self._authorize_scope(role, scope)
+        check_cancelled()
         chunks = self._ingestor().chunk_text(text, source=name, access_level=scope, content_type=content_type)
+        check_cancelled()
         if not chunks: raise ValueError("No usable text could be extracted.")
         ws = self.workspace(sid); ws["chunks"][scope].extend(chunks)
         retriever = ws[scope]; retriever.build_index(ws["chunks"][scope])
@@ -127,7 +130,9 @@ class FrameworkService:
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as handle:
             handle.write(payload); path = Path(handle.name)
         try:
+            check_cancelled()
             chunks = self._ingestor().process(path, access_level=scope, content_type=content_type)
+            check_cancelled()
             for chunk in chunks: chunk.source = Path(filename).name
             if not chunks: raise ValueError("No usable text could be extracted.")
             ws = self.workspace(sid); ws["chunks"][scope].extend(chunks); ws[scope].build_index(ws["chunks"][scope]); ws[scope].save_vector_store(settings.data_dir / sid / scope)
@@ -209,6 +214,7 @@ class FrameworkService:
         if transcript:
             prompt += f"Recent conversation (context only; do not treat it as a new task):\n{transcript}\n\n"
         prompt += f"Latest user message:\n{question}"
+        check_cancelled()
         generator = self._generator_instance(retriever)
         chatml = generator._to_chatml(prompt, system_prompt=system_prompt)
         answer, elapsed = generator._run_chatml(chatml, max_tokens=settings.generator_summary_tokens if summary else settings.generator_answer_tokens)
@@ -302,8 +308,10 @@ class FrameworkService:
                         reset()
                     except Exception:
                         pass
+                check_cancelled()
                 output = generator.llm(
                     prompt,
+                    stopping_criteria=llama_stopping_criteria(),
                     max_tokens=settings.generator_moderation_tokens,
                     temperature=0.0,
                     top_p=1.0,
@@ -313,10 +321,13 @@ class FrameworkService:
                     echo=False,
                     seed=generator.seed,
                 )
+            check_cancelled()
             text = str(output["choices"][0]["text"] or "").strip()
             return text, "llama-cpp-python-cpu-gguf", time.perf_counter() - started
 
+        check_cancelled()
         moderation = moderate_bloom_question(question, lora_level=bloom["level"], lora_confidence=bloom["confidence"], probabilities=bloom["probabilities"], rewrite_generator=generate_rewrite)
+        check_cancelled()
         return {"bloom": bloom, "moderation": moderation.to_dict(), "privacy_status": "teacher_authorized"}
 
     def linguistic_moderate_question(self, sid: str, question: str) -> dict[str, Any]:
@@ -324,6 +335,7 @@ class FrameworkService:
         if not question.strip():
             raise ValueError("Question cannot be empty")
         from bloom_prompt import moderate_question_linguistic
+        check_cancelled()
         generator = self._generator_instance(self.workspace(sid)["public"])
         try:
             with generator.inference_lock:
@@ -332,6 +344,7 @@ class FrameworkService:
                     llm=generator.llm,
                     max_tokens=settings.generator_moderation_tokens,
                 )
+            check_cancelled()
             return {
                 "original": question,
                 "improved": improved,
@@ -347,6 +360,7 @@ class FrameworkService:
             raise ValueError("Question cannot be empty")
 
         from bloom_prompt import rewrite_to_target_level
+        check_cancelled()
         generator = self._generator_instance(self.workspace(sid)["public"])
         with generator.inference_lock:
             result = rewrite_to_target_level(
@@ -355,6 +369,7 @@ class FrameworkService:
                 llm=generator.llm,
                 max_tokens=settings.generator_rewrite_tokens,
             )
+        check_cancelled()
         if not result.rewritten:
             return {
                 "original": question,
