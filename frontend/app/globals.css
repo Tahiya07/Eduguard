@@ -545,8 +545,9 @@ to  {
   position:absolute;
   top:.65rem;
   right:.7rem;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   width:2rem;
   height:2rem;
   padding:0;
@@ -554,10 +555,14 @@ to  {
   border-radius:999px;
   background:rgba(255,255,255,.72);
   color:#36577a;
-  font-size:1.65rem;
-  line-height:1;
+  line-height:0;
   cursor:pointer;
   transition:background .18s ease,transform .18s ease;
+}
+
+.loading-dialog-close svg {
+  display:block;
+  flex:none;
 }
 
 .loading-dialog-close:hover {
