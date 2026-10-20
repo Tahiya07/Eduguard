@@ -383,8 +383,8 @@ class RAGGenerator:
         chatml: str,
         *,
         max_tokens: Optional[int] = None,
-    ) -> tuple[str, float]:
-        """Run deterministic CPU inference on an already-built ChatML prompt."""
+    ) -> tuple[str, float, str]:
+        """Run deterministic CPU inference and retain the model's stop reason."""
         # Keep reset + generation in one critical section: the KV cache and
         # sampler state belong to this single shared model instance.
         with self.inference_lock:
@@ -413,10 +413,16 @@ class RAGGenerator:
             check_cancelled()
 
         try:
-            text = out["choices"][0]["text"].strip()
-        except (KeyError, IndexError, TypeError) as e:
+            choice = out["choices"][0]
+            text = choice["text"].strip()
+            finish_reason = str(choice.get("finish_reason") or "unknown")
+        except (KeyError, IndexError, TypeError, AttributeError) as e:
             raise RuntimeError(f"Unexpected llama-cpp output: {out!r}") from e
-        return text, elapsed
+        logger.info(
+            "Generation finished: reason=%s elapsed_s=%.3f output_chars=%d max_tokens=%d",
+            finish_reason, elapsed, len(text), int(max_tokens or self.max_tokens),
+        )
+        return text, elapsed, finish_reason
 
     def generate_from_chunks(
         self,
@@ -471,7 +477,7 @@ class RAGGenerator:
         else:
             prompt = self.build_prompt(query, norm, bl, safety_instruction=safety_instruction)
             chatml = self._to_chatml(prompt)
-        text, elapsed = self._run_chatml(
+        text, elapsed, finish_reason = self._run_chatml(
             chatml,
             max_tokens=max_tokens,
         )
@@ -495,6 +501,8 @@ class RAGGenerator:
                 "n_threads": self.n_threads,
                 "max_tokens": int(max_tokens or self.max_tokens),
                 "elapsed_s": round(elapsed, 3),
+                "finish_reason": finish_reason,
+                "completion_truncated": finish_reason == "length",
             },
         )
 
