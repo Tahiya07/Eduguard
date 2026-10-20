@@ -20,6 +20,12 @@ class FrameworkService:
         self._bloom: QwenBloomPredictor | None = None
         self._generator: RAGGenerator | None = None
         self._lock = threading.RLock()
+        self._warmup_state: dict[str, Any] = {
+            "state": "idle",
+            "started_at": None,
+            "finished_at": None,
+            "error": None,
+        }
 
     def _ingestor(self):
         # ingestion imports PyTorch/PyMuPDF at module scope; defer it until
@@ -370,7 +376,25 @@ class FrameworkService:
         }
 
     def warmup(self) -> dict[str, Any]:
-        """Warm the shared GGUF without loading teacher-only Bloom or BGE."""
+        """Load and smoke-test the shared GGUF after the API starts.
+
+        The teacher-only Bloom classifier and retrieval encoder remain lazy:
+        loading them at startup would add substantial CPU/RAM cost for features
+        that are not required by every session.
+        """
+        with self._lock:
+            # Avoid duplicate warmups if startup hooks or an operator trigger it twice.
+            if self._warmup_state["state"] == "loading":
+                return {"generator": False, "state": "loading", "already_running": True}
+            if self._warmup_state["state"] == "ready":
+                return {"generator": True, "state": "ready", "already_loaded": True}
+            self._warmup_state.update({
+                "state": "loading",
+                "started_at": time.time(),
+                "finished_at": None,
+                "error": None,
+            })
+
         report: dict[str, Any] = {"generator": False, "bloom": False, "bge_loaded": False}
         try:
             # Empty public retriever does not load BGE until .model is touched.
@@ -385,15 +409,24 @@ class FrameworkService:
                 generator.llm("Ready.", max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
             report["generator"] = True
             report["generator_path"] = Path(str(generator.model_path)).name
+            report["state"] = "ready"
         except Exception as exc:
             report["generator_error"] = str(exc)
-        # Confirm retrieval encoder was not pulled in during warmup.
-        try:
-            ws = self._workspaces.get("_warmup")
-            if ws is not None and getattr(ws["public"], "_model", None) is not None:
-                report["bge_loaded"] = True
-        except Exception:
-            pass
+            report["state"] = "failed"
+        finally:
+            # Confirm retrieval encoder was not pulled in during warmup.
+            try:
+                ws = self._workspaces.get("_warmup")
+                if ws is not None and getattr(ws["public"], "_model", None) is not None:
+                    report["bge_loaded"] = True
+            except Exception:
+                pass
+            with self._lock:
+                self._warmup_state.update({
+                    "state": report["state"],
+                    "finished_at": time.time(),
+                    "error": report.get("generator_error"),
+                })
         return report
 
     def record_moderation_review(self, sid: str, question: str, decision: str, notes: str) -> dict[str, Any]:
@@ -427,6 +460,7 @@ class FrameworkService:
                 "rewrite_tokens": settings.generator_rewrite_tokens,
             },
             "retrieval": {"encoder": settings.retrieval_encoder, "backend": "FAISS", "session_namespaced": True},
+            "startup_warmup": dict(self._warmup_state),
             "runtime": {
                 "offline_mode": settings.offline_mode,
                 "cpu_count": os.cpu_count(),
