@@ -197,17 +197,17 @@ def bloom_messages(
         f"Original question:\n{question.strip()}\n\n"
         f"Target Bloom level:\n{canonical_target} (fixed; do not substitute another level)\n\n"
         f"Target-level action verbs and cognitive-operation instructions:\n{target_guidance}\n\n"
-        "Target-level rewrite requirements (not linguistic moderation):\\n"
+        "Target-level rewrite requirements (not linguistic moderation):\n"
         + (
             f"- Begin with this required action verb: {selected_action_verb}. "
-            "Use this exact opening verb (capitalization may vary) only if it naturally expresses the requested cognitive operation.\\n"
+            "Use this exact opening verb (capitalization may vary) only if it naturally expresses the requested cognitive operation.\n"
             if selected_action_verb
-            else "- Start with a suitable action verb from the requested level when grammatically natural.\\n"
+            else "- Start with a suitable action verb from the requested level when grammatically natural.\n"
         )
-        + "- Change the cognitive work the student must perform so it matches the fixed target level; do not merely proofread or rephrase the original.\\n"
-        "- Preserve the original topic, intended purpose, entities, and scope. Make the target-level task specific and answerable without adding generic filler.\\n"
-        "- For Analyze, state a topic-grounded relationship, structure, difference, pattern, or cause. For Evaluate, require a defensible, topic-specific judgment. For Apply, require use of a method or concept to reach a result. For Create, specify a relevant new deliverable.\\n"
-        "- Add only minimal topic-grounded clarification. Never invent a scenario, supplied data, measurements, constraints, or entities, and never imply that evidence or requirements were supplied when they were not.\\n"
+        + "- Change the cognitive work the student must perform so it matches the fixed target level; do not merely proofread or rephrase the original.\n"
+        "- Preserve the original topic, intended purpose, entities, and scope. Make the target-level task specific and answerable without adding generic filler.\n"
+        "- For Analyze, state a topic-grounded relationship, structure, difference, pattern, or cause. For Evaluate, require a defensible, topic-specific judgment. For Apply, require use of a method or concept to reach a result. For Create, specify a relevant new deliverable.\n"
+        "- Add only minimal topic-grounded clarification. Never invent a scenario, supplied data, measurements, constraints, or entities, and never imply that evidence or requirements were supplied when they were not.\n"
         "- Do not add a second task, answer the question, explain changes, or judge linguistic quality. Return one clear student-facing exam question only."
     )
     messages = [
