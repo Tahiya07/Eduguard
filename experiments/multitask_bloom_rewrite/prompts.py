@@ -34,7 +34,7 @@ BLOOM_SYSTEM = (
     "Ordinary domain knowledge may clarify an established purpose or property of the named concept, but must not introduce a new case. "
     "Do not make the question needlessly long or combine unrelated tasks. Do not copy a generic template when its assumptions do not fit the source. "
     "Never turn the source's instruction verb into part of the subject (for example, do not write 'the differences between Differentiate ...'). "
-    "For Evaluate, judge an inherent, topic-specific purpose, outcome, validity, suitability, or trade-off without pretending a rubric, specification, experiment, or measurements were supplied. "
+    "For Evaluate, judge a concrete property, capability, suitability, outcome, or trade-off inherent to the named subject. Never use a generic requirements-compliance template unless the source actually states requirements. "
     "Before output, silently check that the student must perform the target-level cognitive operation and that the original topic and intent remain intact. Do not run or simulate a separate linguistic moderation task. "
     "OUTPUT ONLY ONE student-facing exam question as a single sentence or short paragraph. "
     "Do not include a Bloom label, rationale, answer, solution, proofreading notes, preamble, bullet list, or meta commentary."
@@ -137,11 +137,14 @@ BLOOM_TARGET_GUIDANCE = {
     "Evaluate": (
         "Cognitive operation: make and support a defensible judgment about effectiveness, quality, validity, suitability, or merit. "
         "Preferred action verbs (choose the most natural and semantically accurate option): Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize, Rate, Rank, Argue, Weigh, Verify, Review, Support, Refute, Decide, Substantiate, Endorse, Reject, Audit, Challenge, Benchmark, Critically review, Determine merit, Establish validity, Select with justification, Resolve using criteria. "
-        "Require a judgment and a reason for it, grounded in criteria, evidence, standards, or trade-offs relevant to the original topic. Name a topic-specific purpose, outcome, or criterion when safely inferable; avoid vague filler with no indication of what is being judged. "
-        "For a question about a known system's purpose, assess how effectively it fulfils that purpose without inventing a deployment, dataset, measurements, or named rubric. Do not merely request an explanation or list of features, and do not ask for a new design. "
-        "Do not use generic phrases such as 'meets its stated requirements and constraints' unless the source actually states requirements or constraints. Do not imply that a test, specification, rubric, or evidence set was supplied when it was not. "
-        "Choose a criterion grounded in the named topic and original intent; where no specific criterion is supplied, phrase the judgment without claiming that one was specified. "
-        "Example: Original 'Explain the purpose of a firewall.' → 'Assess how effectively a firewall fulfils its purpose of controlling network traffic and preventing unauthorized access, and justify your judgment using relevant security considerations.' Treat this as a reasoning pattern, not wording to copy for unrelated topics."
+        "Require a defensible judgment about a specific property, capability, suitability, outcome, or trade-off that genuinely belongs to the named subject. The question must make clear WHAT is being judged and WHY, but must not manufacture a rubric or pretend the source supplied one. "
+        "ANTI-TEMPLATE RULE: Never default to 'meets its stated requirements and constraints', 'justify your judgment using relevant criteria', 'based on the given specifications', or similar stock endings. Use such wording only when the source explicitly supplies requirements, constraints, criteria, or specifications. "
+        "Do not append 'justify your judgment' as filler: the judgment itself must identify a meaningful subject-specific issue. Do not transform every Evaluate question into a requirements-compliance audit. "
+        "When the source asks to design/build/create an object but gives no design artifact to inspect, do not pretend a design already exists or that requirements were stated. Reframe the target task as a bounded judgment about the object's inherent suitability or capability for its named purpose, using ordinary domain knowledge and no invented scenario or measurements. "
+        "Example: Original 'design a 8bit adder.' → 'Assess the suitability of an 8-bit adder for adding 8-bit binary numbers, considering its bit width and carry-out behavior.' This judges a concrete property without inventing requirements, test results, or a rubric. "
+        "Contrastive failure: 'Assess whether an 8bit adder meets its stated requirements and constraints, and justify your judgment using relevant criteria.' This is invalid when the source states no such requirements or constraints. "
+        "For a source that names an existing system and its purpose, judge a concrete inherent outcome or trade-off; for example, a firewall question may concern traffic filtering and unauthorized-access prevention. Do not copy the wording or structure of one example to unrelated subjects. "
+        "If no meaningful subject-specific judgment can be formed without inventing context, keep the question narrow rather than adding a generic template or fabricated evidence."
     ),
     "Create": (
         "Cognitive operation: produce or propose a new artifact, plan, model, design, procedure, or solution by combining ideas. "
