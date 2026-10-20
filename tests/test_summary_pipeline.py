@@ -43,6 +43,24 @@ def test_cv_summary_task_requests_a_profile_not_contact_header():
     task = build_document_summary_task(source)
 
     assert "CV/resume" in task
-    assert "professional profile" in task
-    assert "Do not reproduce email addresses" in task
+    assert "professional/academic profile" in task
+    assert "Exclude contact details" in task
     assert "do not invent seniority" in task
+
+
+
+def test_general_summary_task_adapts_to_multiple_document_genres():
+    paper = build_document_summary_task(
+        "Abstract\\nThis study evaluates a retrieval system.\\nMethods\\nWe compare two encoders.\\n"
+        "Results\\nEncoder A improves recall.\\nLimitations\\nThe dataset is small."
+    )
+    notes = build_document_summary_task(
+        "Binary search\\nCompare the target with the middle element.\\n"
+        "If the target is smaller, continue in the left half; otherwise continue in the right half."
+    )
+
+    assert "research papers" in paper
+    assert "lecture notes or textbooks" in paper
+    assert "do not force a paper-style" in paper
+    assert "technical documentation or procedures" in notes
+    assert "do not invent facts" in notes
