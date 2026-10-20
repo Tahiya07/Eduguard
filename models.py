@@ -52,6 +52,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Union
 
 import numpy as np
+from operation_control import check_cancelled, llama_stopping_criteria
 
 # ----------------------------------------------------------------------------
 # Reproducibility (mandated global rule)
@@ -395,8 +396,10 @@ class RAGGenerator:
                     logger.warning(f"llm.reset() failed: {e}")
 
             t0 = time.perf_counter()
+            check_cancelled()
             out = self.llm(
                 chatml,
+                stopping_criteria=llama_stopping_criteria(),
                 max_tokens=int(max_tokens or self.max_tokens),
                 temperature=0.0,
                 top_p=1.0,
@@ -407,6 +410,7 @@ class RAGGenerator:
                 seed=self.seed,
             )
             elapsed = time.perf_counter() - t0
+            check_cancelled()
 
         try:
             text = out["choices"][0]["text"].strip()
@@ -471,6 +475,7 @@ class RAGGenerator:
             chatml,
             max_tokens=max_tokens,
         )
+        check_cancelled()
         chunk_texts = [c.text for c in norm]
         if summary_mode:
             from rag_utils import sanitize_summary_answer
