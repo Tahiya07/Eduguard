@@ -128,38 +128,53 @@ def merged_document_retrieval_result(chunks: Sequence[Any], *, max_chars: int = 
 
 
 def build_document_summary_task(source_text: str = "") -> str:
-    """Build a source-aware summary task without echoing the user's meta query."""
+    """Build a document-aware, source-faithful summary task for varied material."""
     text = source_text or ""
     low = text.lower()
-    cv_signals = (
-        "curriculum vitae", "resume", "résumé", "work experience", "professional experience",
-        "education", "technical skills", "projects", "linkedin.com", "github.com",
+    # Avoid classifying ordinary academic/project documents as a CV from generic
+    # words such as "education", "projects", or "skills" alone.
+    explicit_cv = any(marker in low for marker in (
+        "curriculum vitae", "resume", "résumé", "professional summary",
+        "work experience", "employment history",
+    ))
+    cv_heading_count = sum(
+        1 for marker in ("education", "technical skills", "projects", "experience", "certifications")
+        if re.search(rf"(?im)^\\s*(?:\\d+[.)]\\s*)?{re.escape(marker)}\\s*:?[ \\t]*$", text)
     )
-    cv_score = sum(1 for signal in cv_signals if signal in low)
-    looks_like_cv = cv_score >= 3 and (
-        "@" in text or "linkedin.com" in low or "github.com" in low
-        or "work experience" in low or "education" in low
+    looks_like_cv = explicit_cv or (
+        cv_heading_count >= 3 and (
+            "@" in text or "linkedin.com" in low or "github.com" in low
+        )
     )
     if looks_like_cv:
         return (
-            "Summarize this CV/resume as a concise professional profile in one coherent paragraph of "
-            "4-5 complete sentences. Start with the candidate's professional/academic identity and core "
-            "specialization, then summarize relevant technical skills, experience, and the strongest projects "
-            "or accomplishments actually present in the source. Preserve concrete technologies and evidence; "
-            "do not invent seniority, proficiency, metrics, or achievements. Do not reproduce email addresses, "
-            "phone numbers, URLs, contact headers, or raw bullet lists. Do not concatenate project headings, "
-            "dates, and bullets. Ignore layout artifacts caused by PDF extraction. End with a complete sentence. "
-            "Use only source-supported facts and output only the summary."
+            "DOCUMENT TYPE: CV/resume. Summarize it as a concise professional/academic profile in one "
+            "coherent paragraph of 4-5 complete sentences. Lead with the person's identity or current "
+            "academic/professional focus when stated; then cover the most relevant skills, experience, "
+            "and strongest projects or achievements supported by the source. Preserve concrete technologies "
+            "and evidence, but do not invent seniority, proficiency, metrics, or achievements. Exclude contact "
+            "details, URLs, raw headings, and bullet-by-bullet transcription. Do not concatenate project titles, "
+            "dates, and fragments. Ignore extraction/layout artifacts. Output only the profile."
         )
     return (
-        "Summarize the supplied source material for an academic reader.\n"
-        "Identify its central topic or purpose, main claims or ideas, important supporting details, "
-        "and any findings, relationships, methods, or limitations stated in the source.\n"
-        "Preserve important technical terms, names, figures, and qualifications. Merge related points, "
-        "remove repetition, and do not add facts or conclusions that the source does not support.\n"
-        "Write a concise 4-6 sentence paragraph (shorter for a short source). Begin with the substantive "
-        "main point, not a description of the summarization task. End with a complete sentence.\n"
-        "Do not mention the user, query, PDF, or context."
+        "Summarize the supplied source itself; infer its document type from its content and structure, "
+        "but do not announce or guess a type when uncertain. Adapt the summary to the material:\\n"
+        "- For research papers, capture the research problem or aim, approach/method, principal findings, "
+        "and stated limitations or implications when available.\\n"
+        "- For lecture notes or textbooks, explain the central concepts and how the important ideas relate; "
+        "retain key definitions, formulas, examples, and distinctions when they carry meaning.\\n"
+        "- For reports or case studies, preserve the purpose, evidence, results, and conclusions.\\n"
+        "- For technical documentation or procedures, retain what the system/process does, important steps, "
+        "constraints, and dependencies; do not turn steps into vague generalities.\\n"
+        "- For essays or other prose, preserve the thesis, main supporting arguments, and qualifications.\\n"
+        "Use only categories that are actually present; do not force a paper-style methods/findings structure "
+        "onto other material. Prioritize central information over minor examples, but keep essential names, "
+        "technical terms, figures, equations, dates, and caveats accurate. Explain relationships rather than "
+        "listing disconnected keywords. Remove repeated overlap and extraction noise without losing meaning. "
+        "Do not invent facts, causal links, results, or conclusions. Write a concise, coherent summary "
+        "(usually 4-6 sentences, shorter for a short source); use brief labeled sections or bullets only when "
+        "that structure materially improves a complex or structured source. Start with the substantive main "
+        "point and finish with a complete sentence. Output only the summary."
     )
 
 
