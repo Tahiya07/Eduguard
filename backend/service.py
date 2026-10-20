@@ -399,7 +399,8 @@ class FrameworkService:
         return item
 
     def status(self) -> dict[str, Any]:
-        from ingestion import ocr_backend_status
+        # Do not import the ingestion/OCR stack just to render status. OCR
+        # capability is checked on demand when an image is actually uploaded.
         ready, path = self.bloom_ready(); profile = get_profile(settings.bloom_model_size)
         gguf = Path(settings.generator_model_path) if settings.generator_model_path else None
         if gguf is not None and not gguf.is_absolute():
@@ -428,7 +429,11 @@ class FrameworkService:
                 "cpu_count": os.cpu_count(),
                 "rss_mb": round(psutil.Process().memory_info().rss / 1024**2, 1),
             },
-            "ocr": ocr_backend_status(),
+            "ocr": {
+                "available": None,
+                "engine": "deferred",
+                "reason": "OCR capability is checked when an image is uploaded.",
+            },
         }
 
 service = FrameworkService()
