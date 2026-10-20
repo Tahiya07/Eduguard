@@ -89,7 +89,7 @@ def merge_corpus_for_summary(chunks: Sequence[Any], *, max_chars: int = 7200) ->
                 if all(left) and left == right:
                     overlap = size
                     break
-            if overlap:
+            if overlap >= 8:
                 text = text[current_words[overlap - 1].end():].lstrip()
 
         if not text:
