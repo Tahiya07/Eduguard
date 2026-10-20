@@ -14,10 +14,11 @@ from .service import service
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # Keep server startup responsive. The shared GGUF is loaded on the first
-    # generation request by default; opt into background warm-up only when
-    # trading startup CPU/memory for a potentially faster first response.
-    if os.getenv("EDUGUARD_WARMUP_ON_STARTUP", "0").strip().lower() in {"1", "true", "yes"}:
+    # Uvicorn has already bound its listening socket before lifespan startup.
+    # Start the local GGUF load in a background thread so model initialization
+    # does not hold up ASGI startup or block health/status requests. Set the
+    # flag to 0 only when intentionally preferring first-request lazy loading.
+    if os.getenv("EDUGUARD_WARMUP_ON_STARTUP", "1").strip().lower() in {"1", "true", "yes"}:
         threading.Thread(target=service.warmup, name="eduguard-warmup", daemon=True).start()
     yield
 
