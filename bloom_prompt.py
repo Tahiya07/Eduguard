@@ -525,7 +525,7 @@ Improve the linguistic quality of this exam question (do not change its cognitiv
 """.strip()
 
 # Locked v3 GGUF contract: question + target level, greedy decoding.
-# Interactive default is 64 new tokens (one exam question). Paper eval used 128.
+# Interactive default is 48 new tokens (one exam question). Paper eval used 128.
 V3_REWRITE_MAX_TOKENS = int(os.environ.get("GENERATOR_REWRITE_TOKENS", "48"))
 V3_CLASSIFIER_CONFIDENCE_MIN = 0.5
 _V3_PROMPTS = None
