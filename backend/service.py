@@ -5,29 +5,29 @@ from pathlib import Path
 from typing import Any
 import psutil
 
+# Keep API import time small: ML, OCR, embedding, and generation modules are
+# imported only when the corresponding feature is first used.
 from bloom_model_profiles import get_profile
-from bloom_policy import BloomDecision, compose_instruction
-from bloom_prompt import moderate_question_linguistic, rewrite_to_target_level
-from ingestion import DocumentChunk, DocumentIngestor, ocr_backend_status
-from models import LOCAL_CHAT_SYSTEM_PROMPT, SUMMARY_SYSTEM_PROMPT, RAGGenerator
-from predict_bloom import BLOOM_LABELS, QwenBloomPredictor, is_deploy_checkpoint
-from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
-from retriever import PrivacyRetriever, RetrievalResult
+from bloom_policy import compose_instruction
 from role_access import Role, check_retriever_binding
-from runtime_utils import _apply_retrieval_governor
-from rag_utils import boost_summary_retrieval_query
-from uncertainty import UncertaintyEngine
-from bloom_prompt import moderate_bloom_question
 from .config import settings
 
 class FrameworkService:
     """One application layer: role checks precede every corpus/model operation."""
     def __init__(self) -> None:
-        self.ingestor = DocumentIngestor(chunk_size=220, chunk_overlap=32)
+        self._ingestor_instance = None
         self._workspaces: dict[str, dict[str, Any]] = {}
         self._bloom: QwenBloomPredictor | None = None
         self._generator: RAGGenerator | None = None
         self._lock = threading.RLock()
+
+    def _ingestor(self):
+        # ingestion imports PyTorch/PyMuPDF at module scope; defer it until
+        # document ingestion is actually requested.
+        if self._ingestor_instance is None:
+            from ingestion import DocumentIngestor
+            self._ingestor_instance = DocumentIngestor(chunk_size=220, chunk_overlap=32)
+        return self._ingestor_instance
 
     def workspace(self, sid: str) -> dict[str, Any]:
         with self._lock:
@@ -55,10 +55,12 @@ class FrameworkService:
     def bloom_ready(self) -> tuple[bool, str]:
         path = self._bloom_path()
         if settings.bloom_use_quantized:
+            from predict_bloom import is_deploy_checkpoint
             return is_deploy_checkpoint(path), str(path)
         return self._checkpoint_has_weights(path), str(path)
 
-    def bloom(self) -> QwenBloomPredictor:
+    def bloom(self):
+        from predict_bloom import QwenBloomPredictor
         with self._lock:
             if self._bloom is None:
                 ok, path = self.bloom_ready()
@@ -82,6 +84,9 @@ class FrameworkService:
         }
 
     def classify(self, question: str) -> dict[str, Any]:
+        from predict_bloom import BLOOM_LABELS
+        from uncertainty import UncertaintyEngine
+        from bloom_policy import BloomDecision
         out = self.bloom().predict(question)
         engine = UncertaintyEngine(K=len(BLOOM_LABELS))
         summary = engine.aggregate_summary(out["distribution"])
@@ -96,7 +101,7 @@ class FrameworkService:
 
     def index_text(self, sid: str, role: str, text: str, name: str, scope: str, content_type: str) -> dict[str, Any]:
         self._authorize_scope(role, scope)
-        chunks = self.ingestor.chunk_text(text, source=name, access_level=scope, content_type=content_type)
+        chunks = self._ingestor().chunk_text(text, source=name, access_level=scope, content_type=content_type)
         if not chunks: raise ValueError("No usable text could be extracted.")
         ws = self.workspace(sid); ws["chunks"][scope].extend(chunks)
         retriever = ws[scope]; retriever.build_index(ws["chunks"][scope])
@@ -113,14 +118,17 @@ class FrameworkService:
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as handle:
             handle.write(payload); path = Path(handle.name)
         try:
-            chunks = self.ingestor.process(path, access_level=scope, content_type=content_type)
+            chunks = self._ingestor().process(path, access_level=scope, content_type=content_type)
             for chunk in chunks: chunk.source = Path(filename).name
             if not chunks: raise ValueError("No usable text could be extracted.")
             ws = self.workspace(sid); ws["chunks"][scope].extend(chunks); ws[scope].build_index(ws["chunks"][scope]); ws[scope].save_vector_store(settings.data_dir / sid / scope)
             return {"indexed_chunks": len(chunks), "scope": scope, "document": Path(filename).name}
         finally: path.unlink(missing_ok=True)
 
-    def _generator_instance(self, retriever: PrivacyRetriever) -> RAGGenerator:
+    def _generator_instance(self, retriever: PrivacyRetriever):
+        # llama-cpp-python and its runtime dependencies are not needed to serve
+        # health, auth, status, or document metadata endpoints.
+        from models import RAGGenerator
         with self._lock:
             if self._generator is None:
                 model_path = Path(settings.generator_model_path or "")
@@ -147,6 +155,7 @@ class FrameworkService:
 
     def _local_chat(self, retriever: PrivacyRetriever, question: str, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
         """Local-only generation with an explicit, isolated task mode."""
+        from models import LOCAL_CHAT_SYSTEM_PROMPT, SUMMARY_SYSTEM_PROMPT
         recent = history[-6:]
         if summary:
             normalized_request = " ".join(question.lower().strip(" .!?").split())
@@ -206,6 +215,9 @@ class FrameworkService:
         return self.answer(sid, role, question, scope, top_k, summary=summary)
 
     def answer(self, sid: str, role: str, question: str, scope: str, top_k: int, summary: bool = False) -> dict[str, Any]:
+        from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
+        from runtime_utils import _apply_retrieval_governor
+        from rag_utils import boost_summary_retrieval_query
         self._authorize_scope(role, scope)
         ws = self.workspace(sid); retriever = ws[scope]
         
@@ -267,6 +279,7 @@ class FrameworkService:
 
     def moderate_exam_question(self, sid: str, question: str) -> dict[str, Any]:
         """Teacher-only Bloom moderation using one shared local GGUF instance."""
+        from bloom_prompt import moderate_bloom_question
         bloom = self.classify(question)
         ws = self.workspace(sid)
         generator = self._generator_instance(ws["public"])
@@ -294,7 +307,6 @@ class FrameworkService:
             text = str(output["choices"][0]["text"] or "").strip()
             return text, "llama-cpp-python-cpu-gguf", time.perf_counter() - started
 
-        from bloom_prompt import moderate_bloom_question
         moderation = moderate_bloom_question(question, lora_level=bloom["level"], lora_confidence=bloom["confidence"], probabilities=bloom["probabilities"], rewrite_generator=generate_rewrite)
         return {"bloom": bloom, "moderation": moderation.to_dict(), "privacy_status": "teacher_authorized"}
 
@@ -302,6 +314,7 @@ class FrameworkService:
         """Linguistic quality improvement without changing cognitive level."""
         if not question.strip():
             raise ValueError("Question cannot be empty")
+        from bloom_prompt import moderate_question_linguistic
         generator = self._generator_instance(self.workspace(sid)["public"])
         try:
             with generator.inference_lock:
@@ -324,6 +337,7 @@ class FrameworkService:
         if not question.strip():
             raise ValueError("Question cannot be empty")
 
+        from bloom_prompt import rewrite_to_target_level
         generator = self._generator_instance(self.workspace(sid)["public"])
         with generator.inference_lock:
             result = rewrite_to_target_level(
@@ -385,6 +399,7 @@ class FrameworkService:
         return item
 
     def status(self) -> dict[str, Any]:
+        from ingestion import ocr_backend_status
         ready, path = self.bloom_ready(); profile = get_profile(settings.bloom_model_size)
         gguf = Path(settings.generator_model_path) if settings.generator_model_path else None
         if gguf is not None and not gguf.is_absolute():
