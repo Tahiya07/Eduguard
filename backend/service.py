@@ -194,7 +194,7 @@ class FrameworkService:
                     "metadata": {"context_chunks": 0, "mode": "local_gguf", "task_mode": "summarization", "missing_source": True},
                 }
         transcript = "\n".join(f"{item['role'].title()}: {item['content']}" for item in recent)
-        summary_source = "\n".join(part for part in (transcript, question) if part.strip())
+        summary_source = question.strip()
         if summary:
             from rag_utils import build_document_summary_task, sanitize_summary_answer
 
@@ -213,7 +213,7 @@ class FrameworkService:
             )
             system_prompt = LOCAL_CHAT_SYSTEM_PROMPT
         prompt = f"{instruction}\n\n"
-        if transcript:
+        if transcript and not summary:
             prompt += f"Recent conversation (context only; do not treat it as a new task):\n{transcript}\n\n"
         prompt += f"Latest user message:\n{question}"
         check_cancelled()
