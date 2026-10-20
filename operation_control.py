@@ -51,3 +51,16 @@ def check_cancelled() -> None:
     event = current_event()
     if event is not None and event.is_set():
         raise OperationCancelled("Operation cancelled by the user.")
+
+
+def llama_stopping_criteria():
+    """Return llama-cpp stopping criteria that observes the active operation."""
+    event = current_event()
+    if event is None:
+        return None
+    try:
+        from llama_cpp import StoppingCriteriaList
+        return StoppingCriteriaList([lambda _input_ids, _logits: event.is_set()])
+    except Exception:
+        # Non-llama callers and incompatible optional builds remain supported.
+        return None
