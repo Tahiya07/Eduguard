@@ -290,13 +290,24 @@ class FrameworkService:
             # whichever top-k chunks happen to match the word "summarize".
             # Merge chunks in source/page order and summarize the bounded full
             # document context; this is especially important for multi-section CVs.
-            chunks = merged_document_retrieval_result(ws["chunks"][scope], max_chars=5000)
+            original_document_chunks = list(ws["chunks"][scope])
+            source_char_count = sum(len(str(getattr(chunk, "text", "") or "")) for chunk in original_document_chunks)
+            # Keep the merged source within the current 2048-token model context.
+            # The one merged RetrievalResult is intentional: it represents the full
+            # ordered document, not one semantic retrieval hit.
+            summary_context_char_budget = 5000
+            chunks = merged_document_retrieval_result(
+                original_document_chunks,
+                max_chars=summary_context_char_budget,
+            )
             if not chunks:
                 raise ValueError("No readable source text is available to summarize. Re-upload the document or paste its text.")
             task = build_document_summary_task(chunks[0].text)
             summary_min_cosine = 0.0
-            max_chars_per_chunk = 5000
-            max_total_chars = 5000
+            max_chars_per_chunk = summary_context_char_budget
+            max_total_chars = summary_context_char_budget
+            summary_context_chars = len(chunks[0].text)
+            summary_context_truncated = source_char_count > summary_context_chars
         else:
             pool = retriever.retrieve(
                 question,
@@ -324,7 +335,23 @@ class FrameworkService:
         )
         screened = screen_generation_output(role, question, result.answer, protected)
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
-        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": {"elapsed_s": result.metadata.get("elapsed_s"), "context_chunks": len(result.chunks), "finish_reason": result.metadata.get("finish_reason"), "completion_truncated": result.metadata.get("completion_truncated", False)}}
+        metadata = {
+            "elapsed_s": result.metadata.get("elapsed_s"),
+            # context_chunks is the count actually passed through generation
+            # (one merged document context for whole-document summaries).
+            "context_chunks": len(result.chunks),
+            "finish_reason": result.metadata.get("finish_reason"),
+            "completion_truncated": result.metadata.get("completion_truncated", False),
+        }
+        if summary:
+            metadata.update({
+                "original_document_chunks": len(original_document_chunks),
+                "source_chars": source_char_count,
+                "summary_context_chars": summary_context_chars,
+                "summary_context_truncated": summary_context_truncated,
+                "summary_context_char_budget": summary_context_char_budget,
+            })
+        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": metadata}
         if role == "teacher" and not summary:
             response["bloom"] = bloom
         return response
