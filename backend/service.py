@@ -405,7 +405,8 @@ class FrameworkService:
             "original": question,
             "rewritten": result.rewritten,
             "target_level": target_level,
-            "needs_review": False,
+            "needs_review": result.needs_review,
+            "review_note": result.note or None,
             "privacy_status": "teacher_authorized",
             "type": "target_level_rewrite",
         }
