@@ -359,16 +359,36 @@ class FrameworkService:
         if not question.strip():
             raise ValueError("Question cannot be empty")
 
+        import logging
+
         from bloom_prompt import rewrite_to_target_level
+
+        logger = logging.getLogger(__name__)
         check_cancelled()
+        acquire_started = time.perf_counter()
         generator = self._generator_instance(self.workspace(sid)["public"])
+        generator_ready_elapsed = time.perf_counter() - acquire_started
+        inference_started = time.perf_counter()
+        # One concise exam question rarely needs 64 generated tokens. Keep the
+        # interactive path bounded even if a local .env has a larger value.
+        rewrite_token_limit = max(1, min(settings.generator_rewrite_tokens, 48))
         with generator.inference_lock:
             result = rewrite_to_target_level(
                 question,
                 target_level,
                 llm=generator.llm,
-                max_tokens=settings.generator_rewrite_tokens,
+                max_tokens=rewrite_token_limit,
             )
+        generation_elapsed = time.perf_counter() - inference_started
+        logger.info(
+            "Target Bloom rewrite timings: generator_acquire=%.2fs generation_and_validation=%.2fs "
+            "token_limit=%d output_chars=%d repair_or_review=%s",
+            generator_ready_elapsed,
+            generation_elapsed,
+            rewrite_token_limit,
+            len(result.rewritten or ""),
+            result.needs_review,
+        )
         check_cancelled()
         if not result.rewritten:
             return {
