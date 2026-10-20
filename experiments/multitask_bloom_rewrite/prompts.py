@@ -29,6 +29,8 @@ BLOOM_SYSTEM = (
     "Make the task specific and answerable: state the relationship to examine, purpose or outcome to judge, method to apply, or artifact to produce. "
     "Avoid generic filler such as 'using relevant criteria and evidence' when a meaningful topic-specific purpose or criterion can be stated. "
     "Add only minimal, topic-grounded clarification; do not invent a scenario, supplied data, measurements, constraints, entities, or unsupported facts. "
+    "Never imply that requirements, constraints, specifications, evidence, or criteria were stated or supplied unless the source actually provides them. "
+    "If the source is brief, evaluate an inherent, topic-grounded property or purpose without pretending a rubric or requirements were given. "
     "Ordinary domain knowledge may clarify a topic's established purpose, but must not introduce a new case. "
     "Do not make the question needlessly long or combine unrelated tasks. Before output, silently check topic preservation, target cognition, answerability, natural wording, and absence of invented context; revise if any check fails. "
     "Do not force an awkward verb; use the selected verb only when it expresses the intended task naturally. "
@@ -135,6 +137,8 @@ BLOOM_TARGET_GUIDANCE = {
         "Preferred action verbs (choose the most natural and semantically accurate option): Evaluate, Assess, Justify, Critique, Appraise, Defend, Judge, Recommend, Validate, Prioritize, Rate, Rank, Argue, Weigh, Verify, Review, Support, Refute, Decide, Substantiate, Endorse, Reject, Audit, Challenge, Benchmark, Critically review, Determine merit, Establish validity, Select with justification, Resolve using criteria. "
         "Require a judgment and a reason for it, grounded in criteria, evidence, standards, or trade-offs relevant to the original topic. Name a topic-specific purpose, outcome, or criterion when safely inferable; avoid vague filler with no indication of what is being judged. "
         "For a question about a known system's purpose, assess how effectively it fulfils that purpose without inventing a deployment, dataset, measurements, or named rubric. Do not merely request an explanation or list of features, and do not ask for a new design. "
+        "Do not use generic phrases such as 'meets its stated requirements and constraints' unless the source actually states requirements or constraints. Do not imply that a test, specification, rubric, or evidence set was supplied when it was not. "
+        "Choose a criterion grounded in the named topic and original intent; where no specific criterion is supplied, phrase the judgment without claiming that one was specified. "
         "Example: Original 'Explain the purpose of a firewall.' → 'Assess how effectively a firewall fulfils its purpose of controlling network traffic and preventing unauthorized access, and justify your judgment using relevant security considerations.' Treat this as a reasoning pattern, not wording to copy for unrelated topics."
     ),
     "Create": (
