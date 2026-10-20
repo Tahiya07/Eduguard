@@ -4,7 +4,11 @@ from __future__ import annotations
 import re
 import unittest
 
-from bloom_prompt import rewrite_to_target_level, unsupported_context_check
+from bloom_prompt import (
+    _rewrite_instruction_issues,
+    rewrite_to_target_level,
+    unsupported_context_check,
+)
 
 
 class UnsupportedContextTests(unittest.TestCase):
@@ -89,6 +93,41 @@ class UnsupportedContextTests(unittest.TestCase):
         self.assertTrue(result.validation_error)
         self.assertIn("semantic validation", result.note.lower())
         self.assertIn("unsupported context", result.note.lower())
+
+
+class RewriteInstructionIssueTests(unittest.TestCase):
+    def test_flags_unsupported_stated_requirements_template(self):
+        issues = _rewrite_instruction_issues(
+            "Design an 8-bit adder.",
+            "Assess how effectively an 8-bit adder meets its stated requirements and constraints.",
+            "Evaluate",
+        )
+        self.assertTrue(issues)
+        self.assertIn("unstated requirements", issues[0])
+
+    def test_allows_requirement_claim_when_source_mentions_requirements(self):
+        issues = _rewrite_instruction_issues(
+            "Design an 8-bit adder that meets the stated timing and area constraints.",
+            "Assess how effectively the 8-bit adder meets the stated timing and area constraints.",
+            "Evaluate",
+        )
+        self.assertEqual(issues, [])
+
+    def test_flags_original_command_embedded_as_subject(self):
+        issues = _rewrite_instruction_issues(
+            "Differentiate bonds traded at par, premium, and discount.",
+            "Assess the differences between Differentiate bonds traded at par, premium, and discount using relevant criteria and evidence.",
+            "Evaluate",
+        )
+        self.assertTrue(any("original instruction verb" in issue for issue in issues))
+
+    def test_allows_topic_specific_evaluation_without_invented_rubric(self):
+        issues = _rewrite_instruction_issues(
+            "Explain the purpose of a firewall.",
+            "Assess how effectively a firewall controls network traffic and prevents unauthorized access.",
+            "Evaluate",
+        )
+        self.assertEqual(issues, [])
 
 
 if __name__ == "__main__":
