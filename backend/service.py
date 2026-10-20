@@ -194,7 +194,7 @@ class FrameworkService:
                     "metadata": {"context_chunks": 0, "mode": "local_gguf", "task_mode": "summarization", "missing_source": True},
                 }
         transcript = "\n".join(f"{item['role'].title()}: {item['content']}" for item in recent)
-        summary_source = "\\n".join(part for part in (transcript, question) if part.strip())
+        summary_source = "\n".join(part for part in (transcript, question) if part.strip())
         if summary:
             from rag_utils import build_document_summary_task, sanitize_summary_answer
 
@@ -236,7 +236,7 @@ class FrameworkService:
     def answer(self, sid: str, role: str, question: str, scope: str, top_k: int, summary: bool = False) -> dict[str, Any]:
         from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
         from runtime_utils import _apply_retrieval_governor
-        from rag_utils import boost_summary_retrieval_query, build_document_summary_task, merged_document_retrieval_result
+        from rag_utils import build_document_summary_task, merged_document_retrieval_result
         self._authorize_scope(role, scope)
         ws = self.workspace(sid); retriever = ws[scope]
         
