@@ -92,8 +92,30 @@ def merged_document_retrieval_result(chunks: Sequence[Any], *, max_chars: int = 
     ]
 
 
-def build_document_summary_task() -> str:
-    """Fixed, domain-neutral summary task; never echoes the user's meta query."""
+def build_document_summary_task(source_text: str = "") -> str:
+    """Build a source-aware summary task without echoing the user's meta query."""
+    text = source_text or ""
+    low = text.lower()
+    cv_signals = (
+        "curriculum vitae", "resume", "résumé", "work experience", "professional experience",
+        "education", "technical skills", "projects", "linkedin.com", "github.com",
+    )
+    cv_score = sum(1 for signal in cv_signals if signal in low)
+    looks_like_cv = cv_score >= 3 and (
+        "@" in text or "linkedin.com" in low or "github.com" in low
+        or "work experience" in low or "education" in low
+    )
+    if looks_like_cv:
+        return (
+            "Summarize this CV/resume as a concise professional profile in one coherent paragraph of "
+            "4-5 complete sentences. Start with the candidate's professional/academic identity and core "
+            "specialization, then summarize relevant technical skills, experience, and the strongest projects "
+            "or accomplishments actually present in the source. Preserve concrete technologies and evidence; "
+            "do not invent seniority, proficiency, metrics, or achievements. Do not reproduce email addresses, "
+            "phone numbers, URLs, contact headers, or raw bullet lists. Do not concatenate project headings, "
+            "dates, and bullets. Ignore layout artifacts caused by PDF extraction. End with a complete sentence. "
+            "Use only source-supported facts and output only the summary."
+        )
     return (
         "Summarize the supplied source material for an academic reader.\n"
         "Identify its central topic or purpose, main claims or ideas, important supporting details, "
@@ -101,7 +123,7 @@ def build_document_summary_task() -> str:
         "Preserve important technical terms, names, figures, and qualifications. Merge related points, "
         "remove repetition, and do not add facts or conclusions that the source does not support.\n"
         "Write a concise 4-6 sentence paragraph (shorter for a short source). Begin with the substantive "
-        "main point, not a description of the summarization task.\n"
+        "main point, not a description of the summarization task. End with a complete sentence.\n"
         "Do not mention the user, query, PDF, or context."
     )
 
@@ -291,5 +313,16 @@ def trim_chunks_for_context(
 def sanitize_summary_answer(answer: str, chunk_texts: Sequence[str]) -> str:
     text = sanitize_rag_answer(answer, chunk_texts, max_copy_ratio=0.92)
     if text == _REFUSAL or looks_like_meta_summary(text):
+        return extractive_document_summary(chunk_texts)
+
+    # A summary ending without sentence-final punctuation is often a completion
+    # cut (e.g. "... links PDF/DOCX files into a"). Never display that as a
+    # successful summary; fall back to source-derived sentences instead.
+    stripped = text.rstrip().strip('"\u201c\u201d\u2018\u2019* ')
+    if stripped and stripped[-1] not in ".!?":
+        logger.warning("Summary output appears truncated; using extractive fallback")
+        return extractive_document_summary(chunk_texts)
+    if len(re.findall(r"\\b(?:a|an|the|and|or|but|to|of|for|with|into|from|by|as|is|are|was|were|that|which|who|such|including)\\s*$", stripped, flags=re.I)):
+        logger.warning("Summary output ends with a dangling phrase; using extractive fallback")
         return extractive_document_summary(chunk_texts)
     return text
