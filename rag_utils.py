@@ -345,7 +345,15 @@ def trim_chunks_for_context(
     return out
 
 
-def sanitize_summary_answer(answer: str, chunk_texts: Sequence[str]) -> str:
+def sanitize_summary_answer(
+    answer: str,
+    chunk_texts: Sequence[str],
+    *,
+    finish_reason: str | None = None,
+) -> str:
+    if finish_reason == "length":
+        logger.warning("Summary generation hit max_tokens; using a source-derived fallback rather than returning a possibly incomplete answer")
+        return extractive_document_summary(chunk_texts)
     text = sanitize_rag_answer(answer, chunk_texts, max_copy_ratio=0.92)
     if text == _REFUSAL or looks_like_meta_summary(text):
         return extractive_document_summary(chunk_texts)
