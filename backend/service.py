@@ -232,7 +232,7 @@ class FrameworkService:
     def answer(self, sid: str, role: str, question: str, scope: str, top_k: int, summary: bool = False) -> dict[str, Any]:
         from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
         from runtime_utils import _apply_retrieval_governor
-        from rag_utils import boost_summary_retrieval_query
+        from rag_utils import boost_summary_retrieval_query, build_document_summary_task, merged_document_retrieval_result
         self._authorize_scope(role, scope)
         ws = self.workspace(sid); retriever = ws[scope]
         
@@ -256,24 +256,39 @@ class FrameworkService:
             if summary or role == "student"
             else self.classify(question)
         )
-        retrieval_query = (
-            boost_summary_retrieval_query(
-                question,
-                [chunk.text for chunk in ws["chunks"][scope]],
-            )
-            if summary
-            else question
-        )
-        pool = retriever.retrieve(retrieval_query, top_k=max(8, top_k), candidate_pool=max(8, top_k), rank_by="relevance" if role == "student" else "privacy")
-        chunks, _ = _apply_retrieval_governor(pool, "summary" if summary else "qa", question, top_k, retriever)
         instruction = policy_instruction(role, scope)
         if not summary:
             instruction += "\n" + compose_instruction(
                 bloom["effective_level"],
                 task="question answering",
             )
+
+        if summary:
+            # A document summary must represent the uploaded document, not just
+            # whichever top-k chunks happen to match the word "summarize".
+            # Merge chunks in source/page order and summarize the bounded full
+            # document context; this is especially important for multi-section CVs.
+            chunks = merged_document_retrieval_result(ws["chunks"][scope], max_chars=5000)
+            if not chunks:
+                raise ValueError("No readable source text is available to summarize. Re-upload the document or paste its text.")
+            task = build_document_summary_task(chunks[0].text)
+            summary_min_cosine = 0.0
+            max_chars_per_chunk = 5000
+            max_total_chars = 5000
+        else:
+            pool = retriever.retrieve(
+                question,
+                top_k=max(8, top_k),
+                candidate_pool=max(8, top_k),
+                rank_by="relevance" if role == "student" else "privacy",
+            )
+            chunks, _ = _apply_retrieval_governor(pool, "qa", question, top_k, retriever)
+            task = question
+            summary_min_cosine = 0.22
+            max_chars_per_chunk = 700
+            max_total_chars = 2800
+
         generator = self._generator_instance(retriever)
-        task = "Summarize the supplied academic material." if summary else question
         result = generator.generate_from_chunks(
             task,
             chunks,
@@ -281,9 +296,9 @@ class FrameworkService:
             max_tokens=settings.generator_summary_tokens if summary else settings.generator_answer_tokens,
             safety_instruction=instruction,
             summary_mode=summary,
-            min_cosine=0.0 if summary else 0.22,
-            max_chars_per_chunk=1200 if summary else 700,
-            max_total_chars=5000 if summary else 2800,
+            min_cosine=summary_min_cosine,
+            max_chars_per_chunk=max_chars_per_chunk,
+            max_total_chars=max_total_chars,
         )
         screened = screen_generation_output(role, question, result.answer, protected)
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
