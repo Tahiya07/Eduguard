@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from typing import Any, List, Sequence
 
 from retriever import RetrievalResult
+
+logger = logging.getLogger(__name__)
 
 # Chunks below this cosine similarity are dropped before generation.
 DEFAULT_MIN_COSINE = 0.22
@@ -322,7 +325,7 @@ def sanitize_summary_answer(answer: str, chunk_texts: Sequence[str]) -> str:
     if stripped and stripped[-1] not in ".!?":
         logger.warning("Summary output appears truncated; using extractive fallback")
         return extractive_document_summary(chunk_texts)
-    if len(re.findall(r"\\b(?:a|an|the|and|or|but|to|of|for|with|into|from|by|as|is|are|was|were|that|which|who|such|including)\\s*$", stripped, flags=re.I)):
+    if re.search(r"\b(?:a|an|the|and|or|but|to|of|for|with|into|from|by|as|is|are|was|were|that|which|who|such|including)[.!?]?$", stripped, flags=re.I):
         logger.warning("Summary output ends with a dangling phrase; using extractive fallback")
         return extractive_document_summary(chunk_texts)
     return text
