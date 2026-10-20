@@ -5,9 +5,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Sequence
+from typing import TYPE_CHECKING, List, Sequence
 
-from ingestion import DocumentChunk
+if TYPE_CHECKING:
+    from ingestion import DocumentChunk
 
 
 class Role(str, Enum):
