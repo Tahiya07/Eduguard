@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import os
 import re
-from operation_control import check_cancelled, llama_stopping_criteria
+from operation_control import OperationCancelled, check_cancelled, llama_stopping_criteria
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -1051,6 +1051,9 @@ def rewrite_to_target_level(
                 else:
                     rewritten = repaired
                     issues = remaining_issues
+        except OperationCancelled:
+            # A user cancellation must terminate both the initial generation and repair.
+            raise
         except Exception:
             # Preserve the original generation if repair fails; mark it for review.
             pass
