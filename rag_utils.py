@@ -152,9 +152,11 @@ def build_document_summary_task(source_text: str = "") -> str:
             "coherent paragraph of 4-5 complete sentences. Lead with the person's identity or current "
             "academic/professional focus when stated; then cover the most relevant skills, experience, "
             "and strongest projects or achievements supported by the source. Preserve concrete technologies "
-            "and evidence, but do not invent seniority, proficiency, metrics, or achievements. Exclude contact "
-            "details, URLs, raw headings, and bullet-by-bullet transcription. Do not concatenate project titles, "
-            "dates, and fragments. Ignore extraction/layout artifacts. Output only the profile."
+            "and evidence, but do not invent seniority, proficiency, metrics, or achievements. Write grammatical "
+            "sentences that synthesize education, technical focus, and selected projects into a coherent narrative; "
+            "explain what a project does only when the source states it. Exclude contact details, URLs, raw headings, "
+            "and bullet-by-bullet transcription. Never join project titles, stack labels, dates, and URLs with separators. "
+            "Ignore extraction/layout artifacts. Output only the profile."
         )
     return (
         "Summarize the supplied source itself; infer its document type from its content and structure, "
