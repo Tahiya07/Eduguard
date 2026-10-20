@@ -258,10 +258,24 @@ function Loading({
   showGame?: boolean;
 }) {
   const elapsed = useElapsed(!success);
+  const [dismissed, setDismissed] = useState(false);
+
+  if (dismissed) return null;
 
   return (
     <div className="loading-dialog-backdrop" role="status" aria-live="polite">
       <section className={`loading-dialog ${showGame && !success ? 'loading-dialog-with-game' : ''}`}>
+        {!success && (
+          <button
+            type="button"
+            className="loading-dialog-close"
+            onClick={() => setDismissed(true)}
+            aria-label="Close loading dialog"
+            title="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        )}
         {success ? (
           <div className="loading-success">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
