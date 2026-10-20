@@ -923,23 +923,23 @@ def _rewrite_instruction_issues(question: str, rewrite: str, target_level: str) 
         return ["empty rewrite"]
 
     source_has_requirements = bool(re.search(
-        r"\\b(requirements?|constraints?|specifications?|rubric|criteria|standards?|provided evidence|given data|test results?)\\b",
+        r"\b(requirements?|constraints?|specifications?|rubric|criteria|standards?|provided evidence|given data|test results?)\b",
         source,
         flags=re.IGNORECASE,
     ))
     if not source_has_requirements and re.search(
-        r"\\b(?:its|the|their)\\s+(?:stated|specified|given|provided)\\s+"
-        r"(?:requirements?|constraints?|specifications?|criteria|standards?)\\b|"
-        r"\\b(?:provided|supplied|given)\\s+(?:evidence|rubric|criteria|measurements?|test results?)\\b",
+        r"\b(?:its|the|their)\s+(?:stated|specified|given|provided)\s+"
+        r"(?:requirements?|constraints?|specifications?|criteria|standards?)\b|"
+        r"\b(?:provided|supplied|given)\s+(?:evidence|rubric|criteria|measurements?|test results?)\b",
         output,
         flags=re.IGNORECASE,
     ):
         issues.append("claims that unstated requirements, constraints, criteria, or evidence were supplied")
 
     if re.search(
-        r"\\b(?:assess|evaluate|appraise|critique|justify|validate)\\s+"
-        r"(?:the\\s+)?(?:differences|similarities)\\s+between\\s+"
-        r"(?:differentiate|compare|explain|describe|identify|define|list|discuss)\\b",
+        r"\b(?:assess|evaluate|appraise|critique|justify|validate)\s+"
+        r"(?:the\s+)?(?:differences|similarities)\s+between\s+"
+        r"(?:differentiate|compare|explain|describe|identify|define|list|discuss)\b",
         output,
         flags=re.IGNORECASE,
     ):
@@ -948,12 +948,12 @@ def _rewrite_instruction_issues(question: str, rewrite: str, target_level: str) 
     # Avoid a repeated imperative where the generated question embeds the whole
     # source command as if it were a topic (e.g. '... between Differentiate bonds...').
     source_match = re.match(
-        r"^\\s*(differentiate|compare|explain|describe|identify|define|list|discuss|analyze|analyse)\\b",
+        r"^\s*(differentiate|compare|explain|describe|identify|define|list|discuss|analyze|analyse)\b",
         source,
         flags=re.IGNORECASE,
     )
     if source_match and re.search(
-        r"\\b(?:differences|similarities)\\s+between\\s+" + re.escape(source_match.group(1)) + r"\\b",
+        r"\b(?:differences|similarities)\s+between\s+" + re.escape(source_match.group(1)) + r"\b",
         output,
         flags=re.IGNORECASE,
     ):
@@ -965,13 +965,13 @@ def _rewrite_instruction_issues(question: str, rewrite: str, target_level: str) 
 def _build_repair_prompt(base_prompt: str, question: str, target_level: str,
                          draft: str, issues: list[str]) -> str:
     """Append a narrowly scoped repair request without changing the model or task."""
-    prefix = re.sub(r"<\\|im_start\\|>assistant\\s*$", "", base_prompt)
+    prefix = re.sub(r"<\|im_start\|>assistant\s*$", "", base_prompt)
     issue_text = "; ".join(issues)
     repair_request = (
-        f"The draft has these wording defects: {issue_text}.\\n"
-        f"Original question: {question.strip()}\\n"
-        f"Fixed target level: {target_level}\\n"
-        f"Draft to repair: {draft.strip()}\\n\\n"
+        f"The draft has these wording defects: {issue_text}.\n"
+        f"Original question: {question.strip()}\n"
+        f"Fixed target level: {target_level}\n"
+        f"Draft to repair: {draft.strip()}\n\n"
         "Rewrite the draft as ONE natural, student-facing exam question. Preserve the original topic and intent. "
         "Do not treat the original command verb as part of the topic. Do not claim that requirements, constraints, "
         "rubrics, specifications, measurements, test results, or evidence were supplied unless the original question "
@@ -980,7 +980,7 @@ def _build_repair_prompt(base_prompt: str, question: str, target_level: str,
         "Use only context grounded in the original question or ordinary domain knowledge. Do not answer the question, "
         "explain the repair, or add a Bloom label. Output only the repaired question."
     )
-    return prefix + f"{IM_START}user\\n{repair_request}{IM_END}\\n{IM_START}assistant\\n"
+    return prefix + f"{IM_START}user\n{repair_request}{IM_END}\n{IM_START}assistant\n"
 
 
 @dataclass
