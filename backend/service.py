@@ -164,8 +164,19 @@ class FrameworkService:
             return self._generator
 
     @staticmethod
-    def _sources(chunks: list[RetrievalResult]) -> list[dict[str, Any]]:
-        return [{"rank": c.rank, "snippet": c.text[:220], "score": round(c.cosine, 3)} for c in chunks]
+    def _sources(chunks: list[Any]) -> list[dict[str, Any]]:
+        # In QA these are RetrievalResult objects; in document summaries they
+        # are original ingested chunks and therefore have no retrieval rank/score.
+        return [
+            {
+                "rank": getattr(c, "rank", index),
+                "snippet": str(getattr(c, "text", "") or "")[:220],
+                "score": round(float(getattr(c, "cosine", 0.0) or 0.0), 3),
+                **({"source": str(c.source)} if getattr(c, "source", None) else {}),
+                **({"page": int(c.page)} if getattr(c, "page", None) is not None else {}),
+            }
+            for index, c in enumerate(chunks, start=1)
+        ]
 
     def _local_chat(self, retriever: PrivacyRetriever, question: str, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
         """Local-only generation with an explicit, isolated task mode."""
