@@ -588,7 +588,7 @@ function TeacherStudio({ token }: { token: string }) {
         setSuccess({ show: true, message: successMessages.summary, elapsed: operationElapsed });
       }
     } catch (e) {
-      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
+      if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
@@ -617,7 +617,7 @@ function TeacherStudio({ token }: { token: string }) {
       });
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
+      if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
