@@ -863,7 +863,7 @@ function TeacherStudio({ token }: { token: string }) {
         </section>
       )}
 
-      {error && error !== targetRewrite?.error && (
+      {error && (
         <div className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">
           <p>{error}</p>
           {!classifierLoaded && !busy && (
