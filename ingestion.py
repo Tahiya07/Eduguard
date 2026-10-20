@@ -146,18 +146,29 @@ class DocumentIngestor:
 
     def _normalize(self, text: str) -> str:
         text = (text or "").replace("\x00", " ")
-        return re.sub(r"\s+", " ", text).strip() if self.normalize_whitespace else text
+        if not self.normalize_whitespace:
+            return text
+        # Normalize spaces within each line but retain paragraph, heading, and
+        # bullet boundaries. Flattening all whitespace makes CVs and structured
+        # notes read like one run-on sentence before the summarizer sees them.
+        lines = [re.sub(r"[ \\t\\f\\v]+", " ", line).strip() for line in text.splitlines()]
+        return re.sub(r"\\n{3,}", "\\n\\n", "\\n".join(lines)).strip()
 
     def _split_text(self, text: str) -> List[str]:
-        tokens = self._normalize(text).split()
-        if not tokens:
+        normalized = self._normalize(text)
+        words = list(re.finditer(r"\\S+", normalized))
+        if not words:
             return []
         step = max(1, self.chunk_size - self.chunk_overlap)
-        return [
-            " ".join(tokens[i : i + self.chunk_size])
-            for i in range(0, len(tokens), step)
-            if tokens[i : i + self.chunk_size]
-        ]
+        chunks: List[str] = []
+        for start in range(0, len(words), step):
+            window = words[start : start + self.chunk_size]
+            if not window:
+                continue
+            # Slice the original normalized text so line breaks inside each
+            # word-bounded chunk survive ingestion and document summarization.
+            chunks.append(normalized[window[0].start() : window[-1].end()])
+        return chunks
 
     def chunk_text(
         self,
