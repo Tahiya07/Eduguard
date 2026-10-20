@@ -486,7 +486,7 @@ class RAGGenerator:
         if summary_mode:
             from rag_utils import sanitize_summary_answer
 
-            text = sanitize_summary_answer(text, chunk_texts)
+            text = sanitize_summary_answer(text, chunk_texts, finish_reason=finish_reason)
         else:
             text = sanitize_rag_answer(text, chunk_texts)
         return GenerationOutput(
