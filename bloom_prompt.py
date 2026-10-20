@@ -590,8 +590,10 @@ def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> s
             reset()
         except Exception:
             pass
+    check_cancelled()
     output = llm(
         prompt,
+        stopping_criteria=llama_stopping_criteria(),
         max_tokens=limit,
         temperature=0.0,
         top_p=1.0,
