@@ -581,8 +581,18 @@ def clean_v3_generation(text: str) -> str:
     return re.sub(r"\s+", " ", cleaned.strip().strip('"').strip("'"))
 
 
-def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> str:
-    """Greedy continuation matching evaluate_gguf.py; token cap may be lower for UI latency."""
+def generate_v3_rewrite(
+    llm,
+    prompt: str,
+    *,
+    max_tokens: int | None = None,
+    repeat_penalty: float = 1.0,
+) -> str:
+    """Greedy continuation; interactive rewrites can use a mild repetition penalty."""
+    import logging
+    import time
+
+    logger = logging.getLogger(__name__)
     limit = int(max_tokens if max_tokens is not None else V3_REWRITE_MAX_TOKENS)
     reset = getattr(llm, "reset", None)
     if callable(reset):
@@ -591,6 +601,7 @@ def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> s
         except Exception:
             pass
     check_cancelled()
+    started = time.perf_counter()
     output = llm(
         prompt,
         stopping_criteria=llama_stopping_criteria(),
@@ -598,12 +609,26 @@ def generate_v3_rewrite(llm, prompt: str, *, max_tokens: int | None = None) -> s
         temperature=0.0,
         top_p=1.0,
         top_k=0,
-        repeat_penalty=1.0,
+        repeat_penalty=float(repeat_penalty),
         stop=[IM_END, IM_START],
         echo=False,
     )
+    elapsed = time.perf_counter() - started
     check_cancelled()
     raw = str(output["choices"][0]["text"] or "")
+    usage = output.get("usage") or {}
+    timings = output.get("timings") or {}
+    logger.info(
+        "Target rewrite inference: elapsed=%.2fs prompt_tokens=%s completion_tokens=%s "
+        "prompt_eval_ms=%s generation_ms=%s generation_tokens_per_second=%s repeat_penalty=%.2f",
+        elapsed,
+        usage.get("prompt_tokens", timings.get("prompt_n", "n/a")),
+        usage.get("completion_tokens", timings.get("predicted_n", "n/a")),
+        timings.get("prompt_ms", "n/a"),
+        timings.get("predicted_ms", "n/a"),
+        timings.get("predicted_per_second", "n/a"),
+        float(repeat_penalty),
+    )
     return clean_v3_generation(raw)
 
 
@@ -1019,7 +1044,9 @@ def rewrite_to_target_level(
         question, target_level, selected_action_verb=selected_verb
     )
     try:
-        rewritten = generate_v3_rewrite(model, prompt, max_tokens=max_tokens).strip()
+        rewritten = generate_v3_rewrite(
+            model, prompt, max_tokens=max_tokens, repeat_penalty=1.08
+        ).strip()
     except Exception as exc:
         return TargetRewriteResult(
             "", True, f"Generation error: {exc}", validation_error=True
@@ -1039,7 +1066,7 @@ def rewrite_to_target_level(
                 prompt, question, target_level, rewritten, issues
             )
             repaired = generate_v3_rewrite(
-                model, repair_prompt, max_tokens=max_tokens
+                model, repair_prompt, max_tokens=max_tokens, repeat_penalty=1.08
             ).strip()
             if repaired:
                 remaining_issues = _rewrite_instruction_issues(
