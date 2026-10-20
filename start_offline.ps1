@@ -130,4 +130,4 @@ Write-Host "EduGuard local UI: http://127.0.0.1:3000"
 Write-Host "Backend health:    http://127.0.0.1:8000/health"
 Write-Host "Model status:     http://127.0.0.1:8000/models/status"
 Write-Host ""
-
+Start-Process "http://127.0.0.1:3000"
