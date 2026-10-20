@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     generator_answer_tokens: int = 64
     generator_summary_tokens: int = 160
     generator_moderation_tokens: int = 64
-    generator_rewrite_tokens: int = 64
+    generator_rewrite_tokens: int = 48
     session_secret: str = "local1234"
     student_access_code: str = "student-local"
     teacher_access_code: str = "teacher-local"
