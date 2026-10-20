@@ -32,6 +32,9 @@ class FrameworkService:
     def workspace(self, sid: str) -> dict[str, Any]:
         with self._lock:
             if sid not in self._workspaces:
+                # Load the retriever only when a session first needs retrieval.
+                # This import was previously module-level and is intentionally lazy.
+                from retriever import PrivacyRetriever
                 # Keep public/protected indexes separate, but defer encoder loading
                 # until indexing or retrieval is requested. The encoder is shared lazily.
                 public = PrivacyRetriever(lambda_privacy=0.1, encoder_profile=settings.retrieval_encoder)
