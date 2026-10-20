@@ -254,7 +254,7 @@ class FrameworkService:
     def answer(self, sid: str, role: str, question: str, scope: str, top_k: int, summary: bool = False) -> dict[str, Any]:
         from privacy.privacy_guard import STUDENT_REFUSAL, assess_student_query_against_protected_corpus, policy_instruction, screen_generation_output
         from runtime_utils import _apply_retrieval_governor
-        from rag_utils import build_document_summary_task, merged_document_retrieval_result
+        from rag_utils import build_document_summary_task, merge_corpus_for_summary, merged_document_retrieval_result
         self._authorize_scope(role, scope)
         ws = self.workspace(sid); retriever = ws[scope]
         
@@ -291,7 +291,11 @@ class FrameworkService:
             # Merge chunks in source/page order and summarize the bounded full
             # document context; this is especially important for multi-section CVs.
             original_document_chunks = list(ws["chunks"][scope])
-            source_char_count = sum(len(str(getattr(chunk, "text", "") or "")) for chunk in original_document_chunks)
+            # Measure the de-overlapped full source separately from the bounded
+            # context passed to the model, so metadata can distinguish real
+            # truncation from the overlap intentionally removed during merging.
+            full_source_text = merge_corpus_for_summary(original_document_chunks, max_chars=10**9)
+            source_char_count = len(full_source_text)
             # Keep the merged source within the current 2048-token model context.
             # The one merged RetrievalResult is intentional: it represents the full
             # ordered document, not one semantic retrieval hit.
@@ -337,9 +341,10 @@ class FrameworkService:
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
         metadata = {
             "elapsed_s": result.metadata.get("elapsed_s"),
-            # context_chunks is the count actually passed through generation
-            # (one merged document context for whole-document summaries).
-            "context_chunks": len(result.chunks),
+            # Preserve the original document chunk count for UI/reporting even
+            # though whole-document summarization uses one ordered merged context.
+            "context_chunks": len(original_document_chunks) if summary else len(result.chunks),
+            "model_context_chunks": len(result.chunks),
             "finish_reason": result.metadata.get("finish_reason"),
             "completion_truncated": result.metadata.get("completion_truncated", False),
         }
@@ -351,7 +356,12 @@ class FrameworkService:
                 "summary_context_truncated": summary_context_truncated,
                 "summary_context_char_budget": summary_context_char_budget,
             })
-        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": metadata}
+        response_sources = (
+            self._sources(original_document_chunks)
+            if summary
+            else self._sources(result.chunks)
+        )
+        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": response_sources, "metadata": metadata}
         if role == "teacher" and not summary:
             response["bloom"] = bloom
         return response
