@@ -18,10 +18,13 @@ class OperationCancelled(RuntimeError):
 
 @contextmanager
 def operation_context(operation_id: str) -> Iterator[threading.Event]:
-    event = threading.Event()
     with _events_lock:
-        # IDs are unique per frontend request; replace stale entries defensively.
-        _events[operation_id] = event
+        # Reuse a cancellation signal if the user closed the modal before the
+        # request reached its worker thread.
+        event = _events.get(operation_id)
+        if event is None:
+            event = threading.Event()
+            _events[operation_id] = event
     token = _current_event.set(event)
     try:
         yield event
@@ -33,11 +36,22 @@ def operation_context(operation_id: str) -> Iterator[threading.Event]:
 
 
 def cancel_operation(operation_id: str) -> bool:
+    if not operation_id or len(operation_id) > 128:
+        return False
     with _events_lock:
         event = _events.get(operation_id)
         if event is None:
-            return False
+            # Remember early cancellation until the matching request registers.
+            event = threading.Event()
+            _events[operation_id] = event
         event.set()
+        # Bound entries if a client submits cancellation IDs for requests that
+        # never arrive. Active operations retain their own Event references.
+        while len(_events) > 512:
+            oldest_id = next(iter(_events))
+            if oldest_id == operation_id and len(_events) > 1:
+                oldest_id = next(key for key in _events if key != operation_id)
+            _events.pop(oldest_id, None)
         return True
 
 
