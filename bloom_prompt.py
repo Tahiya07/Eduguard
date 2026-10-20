@@ -1072,10 +1072,32 @@ def rewrite_to_target_level(
             "", True, f"The generator returned an empty {target_level} rewrite."
         )
 
-    # The training corpus contains some template-like and malformed rewrites.
-    # Keep the normal path single-pass; only run one repair generation for a
-    # high-confidence wording defect, using the same already-loaded local model.
+    # Reject the known unsupported-requirements template without spending another
+    # full CPU inference pass. The previous behavior retried it, then still
+    # returned the same defective draft when the retry failed; the UI presented
+    # that draft as a rewrite despite needs_review=True.
     issues = _rewrite_instruction_issues(question, rewritten, target_level)
+    unsupported_context = any(
+        "claims that unstated requirements" in issue for issue in issues
+    )
+    if unsupported_context:
+        return TargetRewriteResult(
+            rewritten="",
+            needs_review=True,
+            note=(
+                "The model produced a generic requirements-compliance template "
+                "without requirements in the source question. No rewrite was "
+                "returned; correct the Evaluate training examples or retry after "
+                "the model/prompt is updated."
+            ),
+            predicted_level="",
+            confidence=0.0,
+            validation_match=False,
+            validation_error=True,
+        )
+
+    # For other high-confidence wording defects, allow one targeted repair pass.
+    # Do not expose a known-defective repair as a successful rewrite.
     if issues:
         try:
             repair_prompt = _build_repair_prompt(
@@ -1092,24 +1114,34 @@ def rewrite_to_target_level(
                     rewritten = repaired
                     issues = []
                 else:
-                    rewritten = repaired
-                    issues = remaining_issues
+                    return TargetRewriteResult(
+                        rewritten="",
+                        needs_review=True,
+                        note="The model's repair still contains wording defects: "
+                             + "; ".join(remaining_issues),
+                        predicted_level="",
+                        confidence=0.0,
+                        validation_match=False,
+                        validation_error=True,
+                    )
         except OperationCancelled:
             # A user cancellation must terminate both the initial generation and repair.
             raise
-        except Exception:
-            # Preserve the original generation if repair fails; mark it for review.
-            pass
+        except Exception as exc:
+            return TargetRewriteResult(
+                rewritten="",
+                needs_review=True,
+                note=f"Target rewrite repair failed: {exc}",
+                predicted_level="",
+                confidence=0.0,
+                validation_match=False,
+                validation_error=True,
+            )
 
-    # Do not classifier-gate the output. A remaining high-confidence wording
-    # defect is surfaced to the teacher instead of being silently called valid.
     return TargetRewriteResult(
         rewritten=rewritten,
         needs_review=bool(issues),
-        note=(
-            "Wording needs review: " + "; ".join(issues)
-            if issues else ""
-        ),
+        note=("Wording needs review: " + "; ".join(issues)) if issues else "",
         predicted_level="",
         confidence=0.0,
         validation_match=False,
