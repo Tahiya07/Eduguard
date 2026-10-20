@@ -324,7 +324,7 @@ class FrameworkService:
         )
         screened = screen_generation_output(role, question, result.answer, protected)
         if not screened.allowed: return {"answer": STUDENT_REFUSAL if role == "student" else "The response was withheld because it may reproduce protected material.", "refused": True, "privacy_status": "screened", "sources": []}
-        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": {"elapsed_s": result.metadata.get("elapsed_s"), "context_chunks": len(result.chunks)}}
+        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": self._sources(result.chunks), "metadata": {"elapsed_s": result.metadata.get("elapsed_s"), "context_chunks": len(result.chunks), "finish_reason": result.metadata.get("finish_reason"), "completion_truncated": result.metadata.get("completion_truncated", False)}}
         if role == "teacher" and not summary:
             response["bloom"] = bloom
         return response
