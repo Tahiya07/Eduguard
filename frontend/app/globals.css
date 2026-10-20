@@ -531,6 +531,7 @@ to  {
 }
 
 .loading-dialog  {
+  position:relative;
   width:min(100%,25rem);
   border:1px solid rgba(255,255,255,.94);
   border-radius:1.5rem;
@@ -538,6 +539,35 @@ to  {
   background:#f9fcff;
   box-shadow:0 24px 55px -26px rgba(15,44,77,.55);
   text-align:center;
+}
+
+.loading-dialog-close {
+  position:absolute;
+  top:.65rem;
+  right:.7rem;
+  display:grid;
+  place-items:center;
+  width:2rem;
+  height:2rem;
+  padding:0;
+  border:1px solid rgba(65,108,228,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.72);
+  color:#36577a;
+  font-size:1.65rem;
+  line-height:1;
+  cursor:pointer;
+  transition:background .18s ease,transform .18s ease;
+}
+
+.loading-dialog-close:hover {
+  background:#fff;
+  transform:scale(1.05);
+}
+
+.loading-dialog-close:focus-visible {
+  outline:2px solid #416ce4;
+  outline-offset:2px;
 }
 
 .loading-dialog p {
