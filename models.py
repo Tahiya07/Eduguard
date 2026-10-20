@@ -480,13 +480,37 @@ class RAGGenerator:
         else:
             prompt = self.build_prompt(query, norm, bl, safety_instruction=safety_instruction)
             chatml = self._to_chatml(prompt)
+        effective_max_tokens = int(max_tokens or self.max_tokens)
         text, elapsed, finish_reason = self._run_chatml(
             chatml,
-            max_tokens=max_tokens,
+            max_tokens=effective_max_tokens,
         )
         check_cancelled()
         chunk_texts = [c.text for c in norm]
         if summary_mode:
+            # A length stop is not a summary. Retry once with a larger completion
+            # budget before considering any fallback; extractive fallback tends
+            # to concatenate CV headings and project metadata instead of profiling.
+            if finish_reason == "length":
+                retry_tokens = min(max(effective_max_tokens * 2, 384), 512)
+                logger.warning(
+                    "Summary reached token limit (%d); retrying once with %d tokens",
+                    effective_max_tokens,
+                    retry_tokens,
+                )
+                retry_text, retry_elapsed, retry_reason = self._run_chatml(
+                    chatml,
+                    max_tokens=retry_tokens,
+                )
+                elapsed += retry_elapsed
+                if retry_text.strip() and retry_reason != "length":
+                    text, finish_reason = retry_text, retry_reason
+                else:
+                    logger.warning(
+                        "Summary retry did not finish cleanly (finish_reason=%s); keeping retry output for validation",
+                        retry_reason,
+                    )
+                    text, finish_reason = retry_text or text, retry_reason
             from rag_utils import sanitize_summary_answer
 
             text = sanitize_summary_answer(text, chunk_texts, finish_reason=finish_reason)
