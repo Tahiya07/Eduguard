@@ -151,12 +151,12 @@ class DocumentIngestor:
         # Normalize spaces within each line but retain paragraph, heading, and
         # bullet boundaries. Flattening all whitespace makes CVs and structured
         # notes read like one run-on sentence before the summarizer sees them.
-        lines = [re.sub(r"[ \\t\\f\\v]+", " ", line).strip() for line in text.splitlines()]
-        return re.sub(r"\\n{3,}", "\\n\\n", "\\n".join(lines)).strip()
+        lines = [re.sub(r"[ \t\f\v]+", " ", line).strip() for line in text.splitlines()]
+        return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
     def _split_text(self, text: str) -> List[str]:
         normalized = self._normalize(text)
-        words = list(re.finditer(r"\\S+", normalized))
+        words = list(re.finditer(r"\S+", normalized))
         if not words:
             return []
         step = max(1, self.chunk_size - self.chunk_overlap)
