@@ -219,10 +219,28 @@ class FrameworkService:
         check_cancelled()
         generator = self._generator_instance(retriever)
         chatml = generator._to_chatml(prompt, system_prompt=system_prompt)
-        answer, elapsed = generator._run_chatml(chatml, max_tokens=settings.generator_summary_tokens if summary else settings.generator_answer_tokens)
+        answer, elapsed, finish_reason = generator._run_chatml(
+            chatml,
+            max_tokens=settings.generator_summary_tokens if summary else settings.generator_answer_tokens,
+        )
         if summary:
+            if finish_reason == "length":
+                logger.warning("Local-chat summary reached its token limit; returning a source-derived fallback")
             answer = sanitize_summary_answer(answer, [summary_source])
-        return {"answer": answer, "refused": False, "privacy_status": "local", "sources": [], "metadata": {"elapsed_s": round(elapsed, 3), "context_chunks": 0, "mode": "local_gguf", "task_mode": "summarization" if summary else "question_answering"}}
+        return {
+            "answer": answer,
+            "refused": False,
+            "privacy_status": "local",
+            "sources": [],
+            "metadata": {
+                "elapsed_s": round(elapsed, 3),
+                "context_chunks": 0,
+                "mode": "local_gguf",
+                "task_mode": "summarization" if summary else "question_answering",
+                "finish_reason": finish_reason,
+                "completion_truncated": finish_reason == "length",
+            },
+        }
 
     def student_chat(self, sid: str, role: str, question: str, scope: str, top_k: int, history: list[dict[str, str]], summary: bool = False) -> dict[str, Any]:
         if role != "student":
