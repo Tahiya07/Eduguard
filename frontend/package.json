@@ -2,7 +2,7 @@
     "name":  "framework-academic-ui",
     "private":  true,
     "scripts":  {
-                    "dev":  "next dev",
+                    "dev":  "next dev --turbo",
                     "build":  "next build \u0026\u0026 node -e \"const fs=require(\u0027fs\u0027); fs.cpSync(\u0027public\u0027,\u0027.next/standalone/public\u0027,{recursive:true}); fs.cpSync(\u0027.next/static\u0027,\u0027.next/standalone/.next/static\u0027,{recursive:true})\"",
                     "start":  "next start",
                     "lint":  "next lint"
