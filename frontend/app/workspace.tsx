@@ -651,7 +651,7 @@ function TeacherStudio({ token }: { token: string }) {
       if (!r.ok) throw Error("Upload failed");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
+      if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
@@ -1050,7 +1050,7 @@ export default function Workspace({ role }: { role: Role }) {
       if (!r.ok) throw Error("Upload failed");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
-      setError(String(e).replace("Error: ", ""));
+      if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
       const stillCurrent = operationController.current === operation;
       if (stillCurrent) operationController.current = null;
