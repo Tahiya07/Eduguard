@@ -25,8 +25,6 @@ def operation_context(operation_id: str) -> Iterator[threading.Event]:
     token = _current_event.set(event)
     try:
         yield event
-        if event.is_set():
-            raise OperationCancelled("Operation cancelled by the user.")
     finally:
         _current_event.reset(token)
         with _events_lock:
