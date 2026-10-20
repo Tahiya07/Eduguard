@@ -909,6 +909,80 @@ def _validate_generated_candidate(question: str, rewrite: str, target_level: str
     return record
 
 
+def _rewrite_instruction_issues(question: str, rewrite: str, target_level: str) -> list[str]:
+    """Catch a few high-confidence wording failures caused by noisy SFT targets.
+
+    This is deliberately not a Bloom classifier or a general semantic validator.
+    It flags unsupported claims about supplied requirements and obvious duplicated
+    source instructions, which can be repaired with one targeted local generation.
+    """
+    issues: list[str] = []
+    source = (question or "").strip()
+    output = (rewrite or "").strip()
+    if not output:
+        return ["empty rewrite"]
+
+    source_has_requirements = bool(re.search(
+        r"\\b(requirements?|constraints?|specifications?|rubric|criteria|standards?|provided evidence|given data|test results?)\\b",
+        source,
+        flags=re.IGNORECASE,
+    ))
+    if not source_has_requirements and re.search(
+        r"\\b(?:its|the|their)\\s+(?:stated|specified|given|provided)\\s+"
+        r"(?:requirements?|constraints?|specifications?|criteria|standards?)\\b|"
+        r"\\b(?:provided|supplied|given)\\s+(?:evidence|rubric|criteria|measurements?|test results?)\\b",
+        output,
+        flags=re.IGNORECASE,
+    ):
+        issues.append("claims that unstated requirements, constraints, criteria, or evidence were supplied")
+
+    if re.search(
+        r"\\b(?:assess|evaluate|appraise|critique|justify|validate)\\s+"
+        r"(?:the\\s+)?(?:differences|similarities)\\s+between\\s+"
+        r"(?:differentiate|compare|explain|describe|identify|define|list|discuss)\\b",
+        output,
+        flags=re.IGNORECASE,
+    ):
+        issues.append("duplicates the source command instead of expressing a clean student-facing task")
+
+    # Avoid a repeated imperative where the generated question embeds the whole
+    # source command as if it were a topic (e.g. '... between Differentiate bonds...').
+    source_match = re.match(
+        r"^\\s*(differentiate|compare|explain|describe|identify|define|list|discuss|analyze|analyse)\\b",
+        source,
+        flags=re.IGNORECASE,
+    )
+    if source_match and re.search(
+        r"\\b(?:differences|similarities)\\s+between\\s+" + re.escape(source_match.group(1)) + r"\\b",
+        output,
+        flags=re.IGNORECASE,
+    ):
+        issues.append("treats the original instruction verb as part of the topic")
+
+    return issues
+
+
+def _build_repair_prompt(base_prompt: str, question: str, target_level: str,
+                         draft: str, issues: list[str]) -> str:
+    """Append a narrowly scoped repair request without changing the model or task."""
+    prefix = re.sub(r"<\\|im_start\\|>assistant\\s*$", "", base_prompt)
+    issue_text = "; ".join(issues)
+    repair_request = (
+        f"The draft has these wording defects: {issue_text}.\\n"
+        f"Original question: {question.strip()}\\n"
+        f"Fixed target level: {target_level}\\n"
+        f"Draft to repair: {draft.strip()}\\n\\n"
+        "Rewrite the draft as ONE natural, student-facing exam question. Preserve the original topic and intent. "
+        "Do not treat the original command verb as part of the topic. Do not claim that requirements, constraints, "
+        "rubrics, specifications, measurements, test results, or evidence were supplied unless the original question "
+        "actually supplies them. For Evaluate, make a defensible judgment about an inherent, topic-specific purpose, "
+        "outcome, validity, suitability, or trade-off; do not use a generic 'meets its stated requirements' template. "
+        "Use only context grounded in the original question or ordinary domain knowledge. Do not answer the question, "
+        "explain the repair, or add a Bloom label. Output only the repaired question."
+    )
+    return prefix + f"{IM_START}user\\n{repair_request}{IM_END}\\n{IM_START}assistant\\n"
+
+
 @dataclass
 class TargetRewriteResult:
     rewritten: str
@@ -955,13 +1029,41 @@ def rewrite_to_target_level(
             "", True, f"The generator returned an empty {target_level} rewrite."
         )
 
-    # Do not reject the generated text because it uses a different valid verb,
-    # differs from the classifier's predicted label, or has low classifier
-    # confidence. Those checks produced false-negative warnings and extra delay.
+    # The training corpus contains some template-like and malformed rewrites.
+    # Keep the normal path single-pass; only run one repair generation for a
+    # high-confidence wording defect, using the same already-loaded local model.
+    issues = _rewrite_instruction_issues(question, rewritten, target_level)
+    if issues:
+        try:
+            repair_prompt = _build_repair_prompt(
+                prompt, question, target_level, rewritten, issues
+            )
+            repaired = generate_v3_rewrite(
+                model, repair_prompt, max_tokens=max_tokens
+            ).strip()
+            if repaired:
+                remaining_issues = _rewrite_instruction_issues(
+                    question, repaired, target_level
+                )
+                if not remaining_issues:
+                    rewritten = repaired
+                    issues = []
+                else:
+                    rewritten = repaired
+                    issues = remaining_issues
+        except Exception:
+            # Preserve the original generation if repair fails; mark it for review.
+            pass
+
+    # Do not classifier-gate the output. A remaining high-confidence wording
+    # defect is surfaced to the teacher instead of being silently called valid.
     return TargetRewriteResult(
         rewritten=rewritten,
-        needs_review=False,
-        note="",
+        needs_review=bool(issues),
+        note=(
+            "Wording needs review: " + "; ".join(issues)
+            if issues else ""
+        ),
         predicted_level="",
         confidence=0.0,
         validation_match=False,
