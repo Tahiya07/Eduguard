@@ -320,7 +320,7 @@ function TeacherStudio({ token }: { token: string }) {
   const [bloom, setBloom] = useState<Bloom | null>(null);
   const [mod, setMod] = useState<Moderation | null>(null);
   const [linguisticMod, setLinguisticMod] = useState<{ original: string; improved: string } | null>(null);
-  const [targetRewrite, setTargetRewrite] = useState<{ original: string; rewritten: string; target_level: string; predicted_level: string; validation_match: boolean; validation_confidence: number; error?: string } | null>(null);
+  const [targetRewrite, setTargetRewrite] = useState<{ original: string; rewritten: string; target_level: string } | null>(null);
   const [targetLevel, setTargetLevel] = useState("Analyze");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -508,43 +508,14 @@ function TeacherStudio({ token }: { token: string }) {
         const effectiveTargetLevel = explicitTargetLevel || targetLevel;
         const d = await req("/teacher/exam/target-rewrite", { question: q, target_level: effectiveTargetLevel });
         
-        if (d.type === "target_level_rewrite_failed") {
-          // Complete failure - no rewrite generated
-          setError(d.error || "Could not generate a validated rewrite matching the selected Bloom level.");
+        if (!d.rewritten) {
+          setError(d.error || "Could not generate a rewrite.");
           setTargetRewrite(null);
-        } else if (d.type === "target_level_rewrite_validation_failed") {
-          // Validation failed but rewrite exists
-          setTargetRewrite({ 
-            original: d.original, 
-            rewritten: d.rewritten, 
-            target_level: d.target_level,
-            predicted_level: d.predicted_level,
-            validation_match: d.validation_match,
-            validation_confidence: d.validation_confidence,
-            error: d.error
-          });
-          setError(d.error || "Bloom validation could not be completed. The generated rewrite may need manual review.");
-        } else if (d.type === "target_level_rewrite_mismatch") {
-          // Partial success - rewrite generated but validation failed
-          setTargetRewrite({ 
-            original: d.original, 
-            rewritten: d.rewritten, 
-            target_level: d.target_level,
-            predicted_level: d.predicted_level,
-            validation_match: d.validation_match,
-            validation_confidence: d.validation_confidence,
-            error: d.error
-          });
-          setError(d.error || "The generated rewrite may not match the selected Bloom level.");
         } else {
-          // Full success
-          setTargetRewrite({ 
-            original: d.original, 
-            rewritten: d.rewritten, 
+          setTargetRewrite({
+            original: d.original,
+            rewritten: d.rewritten,
             target_level: d.target_level,
-            predicted_level: d.predicted_level,
-            validation_match: d.validation_match,
-            validation_confidence: d.validation_confidence
           });
           setSuccess({ show: true, message: successMessages["target-rewrite"], elapsed: operationElapsed });
         }
@@ -866,15 +837,6 @@ function TeacherStudio({ token }: { token: string }) {
               <p className="eyebrow">Target level rewrite</p>
               <div className="flex items-center gap-3 mt-2">
                 <h2 className="section-title">Rewritten for {targetRewrite.target_level}</h2>
-                {targetRewrite.validation_match ? (
-                  <span className="text-xs font-semibold text-[#29795f] bg-[#29795f]/10 px-2 py-1 rounded-full">
-                    ✓ Validated
-                  </span>
-                ) : (
-                  <span className="text-xs font-semibold text-[#d97706] bg-[#d97706]/10 px-2 py-1 rounded-full">
-                    ⚠ Validation Issue
-                  </span>
-                )}
               </div>
               <div className="teacher-rewrite">
                 <span>Original</span>
@@ -884,29 +846,6 @@ function TeacherStudio({ token }: { token: string }) {
                 <span>Rewritten</span>
                 <p>{targetRewrite.rewritten}</p>
               </div>
-              {!targetRewrite.validation_match && (
-                <div className="mt-3 text-sm text-[#d97706]">
-                  {targetRewrite.error?.startsWith("Generator did not follow the selected action verb") ? (
-                    <p>{targetRewrite.error}</p>
-                  ) : (
-                    <>
-                      <p>
-                        {targetRewrite.predicted_level && targetRewrite.predicted_level !== "unknown"
-                          ? `Classifier prediction: "${targetRewrite.predicted_level}"`
-                          : "The rewrite could not be classified by the Bloom classifier"}
-                        {targetRewrite.validation_confidence && targetRewrite.validation_confidence > 0
-                          ? ` (${Math.round(targetRewrite.validation_confidence * 100)}% confidence)`
-                          : ""}
-                        {targetRewrite.predicted_level !== targetRewrite.target_level
-                          ? ` — this does not match the selected target "${targetRewrite.target_level}". Review recommended.`
-                          : " — review recommended."}
-                      </p>
-                      {targetRewrite.error && <p className="mt-1">{targetRewrite.error}</p>}
-                      <p className="mt-2">Please review the rewrite before using it.</p>
-                    </>
-                  )}
-                </div>
-              )}
             </article>
           )}
           {summary && (
