@@ -311,6 +311,7 @@ def main() -> None:
         qc = json.loads(qc_path.read_text(encoding="utf-8"))
         qc["quality_repairs"] = manifest["quality_repairs"]
         qc["integrity"] = qc.get("integrity", {})
+        qc["integrity"]["manifest_sha256"] = sha256(manifest_path)
         qc["integrity"]["generated_files_sha256"] = dict(manifest["generated_files_sha256"])
         qc["integrity"]["counts"] = {
             split: dict(manifest["counts"][split]) for split in SPLITS
