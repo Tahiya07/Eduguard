@@ -1,0 +1,1261 @@
+{
+  "task": "Bloom rewrite training split semantic repair",
+  "review_scope": "Automated integrity and failure-pattern scan of all rows; source-grounded manual semantic review of flagged repair subset only.",
+  "rows_examined_by_automated_integrity_scan": 1075,
+  "rows_manually_semantically_reviewed": 17,
+  "records_retained_unchanged": 1058,
+  "records_semantically_repaired": 17,
+  "records_flagged_for_manual_review": 1058,
+  "target_level_counts": {
+    "Analyze": 199,
+    "Apply": 174,
+    "Create": 177,
+    "Evaluate": 157,
+    "Remember": 189,
+    "Understand": 179
+  },
+  "invalid_jsonl_lines": 0,
+  "missing_required_fields": 0,
+  "duplicate_ids": 0,
+  "unexpected_record_count_change": false,
+  "ids_source_questions_target_levels_and_other_metadata_unchanged": true,
+  "source_traceable_repairs": 17,
+  "untraceable_repairs": 0,
+  "unchanged_record_cross_split_source_question_overlap": null,
+  "repeated_exact_rewrites": [],
+  "remaining_high_confidence_pattern_flags": 69,
+  "remaining_flagged_by_reason": {
+    "stock_apply_template": 16,
+    "unsupported_generic_evaluation_rubric": 29,
+    "principle_underlying_graft": 6,
+    "factors_responsible_graft": 7,
+    "stock_create_template": 11
+  },
+  "opening_word_frequency_by_target_level": {
+    "Analyze": {
+      "separate": 2,
+      "examine": 15,
+      "identify": 16,
+      "break": 13,
+      "analyze": 60,
+      "which": 22,
+      "trace": 3,
+      "what": 20,
+      "compare": 14,
+      "differentiate": 21,
+      "contrast": 1,
+      "investigate": 3,
+      "inspect": 1,
+      "structure": 1,
+      "map": 1,
+      "classify": 3,
+      "decompose": 1,
+      "categorize": 1,
+      "group": 1
+    },
+    "Apply": {
+      "demonstrate": 7,
+      "apply": 58,
+      "use": 31,
+      "implement": 5,
+      "how": 35,
+      "transfer": 1,
+      "write": 1,
+      "calculate": 7,
+      "evaluate": 1,
+      "draw": 1,
+      "encode": 2,
+      "sketch": 1,
+      "plot": 2,
+      "solve": 1,
+      "for": 1,
+      "classify": 7,
+      "map": 1,
+      "match": 1,
+      "select": 4,
+      "illustrate": 3,
+      "fit": 1,
+      "choose": 1,
+      "arrange": 1,
+      "segment": 1
+    },
+    "Create": {
+      "develop": 57,
+      "build": 12,
+      "create": 16,
+      "construct": 21,
+      "design": 33,
+      "propose": 21,
+      "how": 7,
+      "formulate": 3,
+      "compose": 4,
+      "devise": 1,
+      "illustrate": 1,
+      "draft": 1
+    },
+    "Evaluate": {
+      "assess": 50,
+      "judge": 10,
+      "evaluate": 32,
+      "check": 8,
+      "verify": 5,
+      "how": 24,
+      "examine": 8,
+      "determine": 8,
+      "compare": 5,
+      "defend": 1,
+      "appraise": 1,
+      "prioritize": 2,
+      "critique": 1,
+      "justify": 1,
+      "recommend": 1
+    },
+    "Remember": {
+      "list": 36,
+      "identify": 38,
+      "which": 26,
+      "state": 18,
+      "what": 38,
+      "name": 14,
+      "define": 15,
+      "enumerate": 2,
+      "describe": 1,
+      "label": 1
+    },
+    "Understand": {
+      "explain": 66,
+      "how": 58,
+      "what": 19,
+      "in": 7,
+      "describe": 13,
+      "why": 1,
+      "determine": 1,
+      "assess": 1,
+      "summarize": 4,
+      "clarify": 2,
+      "outline": 3,
+      "illustrate": 2,
+      "compare": 1,
+      "classify": 1
+    }
+  },
+  "manual_repairs": [
+    {
+      "id": "bloomshift_final_train_0498",
+      "source_id": "src_a1838b169456e32e",
+      "source_question": "Construct a dictionary and a truth table to determine if the following statements are logically equivalent",
+      "target_bloom_level": "Create",
+      "old_target_rewrite": "How would you improve or redesign a dictionary and a truth table to determine if the following statements are logically equivalent while preserving the stated requirements?",
+      "new_target_rewrite": "Construct a dictionary assigning truth values to the statements, then build a truth table to determine whether the statements are logically equivalent.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0537",
+      "source_id": "src_ac51759ae189fa6c",
+      "source_question": "Create plan of local environment by drawing around boxes.",
+      "target_bloom_level": "Analyze",
+      "old_target_rewrite": "What components and constraints in plan of local environment by drawing around boxes should be examined, and how are they related?",
+      "new_target_rewrite": "Examine how the boxes in the drawn plan divide and locate features of the local environment, and explain what spatial relationships their arrangement conveys.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0539",
+      "source_id": "src_ac51759ae189fa6c",
+      "source_question": "Create plan of local environment by drawing around boxes.",
+      "target_bloom_level": "Evaluate",
+      "old_target_rewrite": "Determine whether plan of local environment by drawing around boxes satisfies its requirements using relevant criteria and evidence.",
+      "new_target_rewrite": "Judge whether a box-based drawing adequately represents the local environment, considering whether its layout makes the depicted areas distinguishable and their positions clear.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0435",
+      "source_id": "src_87626d5d479facc7",
+      "source_question": "Design a sketch section of the floor slab adjoining the parapet that includes the scupper drain, drain guard, water proofing layer, and protective topping.",
+      "target_bloom_level": "Analyze",
+      "old_target_rewrite": "What components and constraints in a sketch section of the floor slab adjoining the parapet that includes the scupper drain, drain guard, water proofing layer, and protective topping should be examined, and how are they related?",
+      "new_target_rewrite": "Analyze how the scupper drain, drain guard, waterproofing layer, and protective topping fit into the floor-slab section adjoining the parapet and how these elements work together.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0437",
+      "source_id": "src_87626d5d479facc7",
+      "source_question": "Design a sketch section of the floor slab adjoining the parapet that includes the scupper drain, drain guard, water proofing layer, and protective topping.",
+      "target_bloom_level": "Evaluate",
+      "old_target_rewrite": "Determine whether a sketch section of the floor slab adjoining the parapet that includes the scupper drain, drain guard, water proofing layer, and protective topping satisfies its requirements using relevant criteria and evidence.",
+      "new_target_rewrite": "Assess the sketch for completeness by checking whether it shows the scupper drain, drain guard, waterproofing layer, and protective topping in the floor-slab section adjoining the parapet.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0585",
+      "source_id": "src_c6aa9ff674d42728",
+      "source_question": "Develop a time phased product structure.",
+      "target_bloom_level": "Analyze",
+      "old_target_rewrite": "What components and constraints in a time phased product structure should be examined, and how are they related?",
+      "new_target_rewrite": "Trace how the components in a time-phased product structure depend on one another and how their timing organizes the overall structure.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0587",
+      "source_id": "src_c6aa9ff674d42728",
+      "source_question": "Develop a time phased product structure.",
+      "target_bloom_level": "Evaluate",
+      "old_target_rewrite": "Determine whether a time phased product structure satisfies its requirements using relevant criteria and evidence.",
+      "new_target_rewrite": "Evaluate whether a time-phased product structure makes the component sequence and timing clear enough to show how the product is organized over time.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0021",
+      "source_id": "src_045e42be8ea02f8e",
+      "source_question": "Design a healthy menu that you think most people would enjoy using the healthy eating guide.",
+      "target_bloom_level": "Analyze",
+      "old_target_rewrite": "What components and constraints in a healthy menu that you think most people would enjoy using the healthy eating guide should be examined, and how are they related?",
+      "new_target_rewrite": "Analyze how the menu choices follow the healthy eating guide and how those choices may affect its appeal to most people.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0023",
+      "source_id": "src_045e42be8ea02f8e",
+      "source_question": "Design a healthy menu that you think most people would enjoy using the healthy eating guide.",
+      "target_bloom_level": "Create",
+      "old_target_rewrite": "How would you improve or redesign a healthy menu that you think most people would enjoy using the healthy eating guide while preserving the stated requirements?",
+      "new_target_rewrite": "Design a menu that follows the healthy eating guide while choosing foods intended to appeal to a broad range of people.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0373",
+      "source_id": "src_6d7bdd15a939cb51",
+      "source_question": "Explain why the intrinsic carrier concentration of Ge is higher than Si at T = 300 K.",
+      "target_bloom_level": "Apply",
+      "old_target_rewrite": "Use the principle underlying the intrinsic carrier concentration of Ge is higher than Si at T = 300 K in a similar practical situation.",
+      "new_target_rewrite": "Apply the relationship between band gap and intrinsic carrier concentration to predict how the Ge–Si comparison would change at a temperature other than 300 K.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0605",
+      "source_id": "src_cbf5dd462a58b45e",
+      "source_question": "Construct a Venn diagram to determine the validity of the given argument.",
+      "target_bloom_level": "Create",
+      "old_target_rewrite": "How would you improve or redesign a Venn diagram to determine the validity of the given argument while preserving the stated requirements?",
+      "new_target_rewrite": "Construct a Venn diagram for the given argument, placing its premises and conclusion so the diagram can be used to determine whether the argument is valid.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0627",
+      "source_id": "src_d5973f8826fd448f",
+      "source_question": "Construct a basic diagram or figure to demonstrate your understandings on what Information System is.",
+      "target_bloom_level": "Analyze",
+      "old_target_rewrite": "What components and constraints in a basic diagram or figure to demonstrate your understandings on what Information System is should be examined, and how are they related?",
+      "new_target_rewrite": "Break down an information system into its constituent elements and map how those elements are related in a basic diagram.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0629",
+      "source_id": "src_d5973f8826fd448f",
+      "source_question": "Construct a basic diagram or figure to demonstrate your understandings on what Information System is.",
+      "target_bloom_level": "Create",
+      "old_target_rewrite": "How would you improve or redesign a basic diagram or figure to demonstrate your understandings on what Information System is while preserving the stated requirements?",
+      "new_target_rewrite": "Create a basic information-system diagram that identifies its elements and shows how they relate to one another.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0448",
+      "source_id": "src_8e7e1db8a2cb14f6",
+      "source_question": "Explain why a 30-second video clip (containing 25 frames per second) will occupy less disk space than 750 JPEG images of the same size.",
+      "target_bloom_level": "Apply",
+      "old_target_rewrite": "Use the principle underlying a 30-second video clip (containing 25 frames per second) will occupy less disk space than 750 JPEG images of the same size in a similar practical situation.",
+      "new_target_rewrite": "Use the 30-second duration and 25-frames-per-second rate to determine the clip’s frame count, then explain how video compression can make its storage demand differ from 750 separate JPEG images.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0612",
+      "source_id": "src_cc94ed382f0c06aa",
+      "source_question": "Construct an executive remuneration package using the remuneration framework as a guide.",
+      "target_bloom_level": "Create",
+      "old_target_rewrite": "How would you improve or redesign an executive remuneration package using the remuneration framework as a guide while preserving the stated requirements?",
+      "new_target_rewrite": "Develop an executive remuneration package by applying the remuneration framework as its design guide.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0451",
+      "source_id": "src_8e90b7c3671f6f91",
+      "source_question": "Explain why the effectiveness of an expansionary monetary policy in increasing aggregate output is partially dependent on the interest sensitivity of the demand for money.",
+      "target_bloom_level": "Apply",
+      "old_target_rewrite": "Use the principle underlying the effectiveness of an expansionary monetary policy in increasing aggregate output is partially dependent on the interest sensitivity of the demand for money in a similar practical situation.",
+      "new_target_rewrite": "Apply the relationship between interest sensitivity of money demand and monetary-policy transmission to predict how an expansionary policy’s effect on aggregate output changes when money demand is highly interest-sensitive.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    },
+    {
+      "id": "bloomshift_final_train_0469",
+      "source_id": "src_98421c469fc6f6a8",
+      "source_question": "Explain why lossy compression gives better compression.",
+      "target_bloom_level": "Apply",
+      "old_target_rewrite": "Use the principle underlying lossy compression gives better compression in a similar practical situation.",
+      "new_target_rewrite": "For a file where preserving every detail is unnecessary, determine whether lossy compression is suitable and explain how discarding data affects the resulting file size.",
+      "trace": "exact example_id/source_id/source_question match in canonical train.json"
+    }
+  ],
+  "backup": {
+    "path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\bloom_rewrite_train_original_backup.jsonl",
+    "sha256": "fe3db700942df439f56c32e31a5902b07c3ecf2c088e6b83caf3f9057d064a65",
+    "records": 1075
+  },
+  "final_sha256": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba",
+  "independent_review_available": false,
+  "limitations": [
+    "This pass does not constitute semantic review of all 1,075 records; 1,058 rows remain flagged for manual review.",
+    "Pattern checks are diagnostic and do not prove Bloom alignment.",
+    "No independent reviewer was available.",
+    "No cross-split source leakage conclusion is claimed from this pass."
+  ],
+  "final_manifest_sha256": "86b66f50a8c3850ecac0c152dc93c0fe65a61f126f26ab699ef66582dcce1383",
+  "manifest_training_hash_matches": true,
+  "newline_convention": "CRLF preserved from original dataset",
+  "remaining_flagged_examples": [
+    {
+      "id": "bloomshift_final_train_0277",
+      "source_id": "src_49c519c1e6d03fff",
+      "target_bloom_level": "Apply",
+      "source_question": "Describe how hypotheses are combined in boosting.",
+      "target_rewrite": "Apply the principle illustrated by hypotheses are combined in boosting to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0063",
+      "source_id": "src_5d507d1bfd6f04aa",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Differentiate bonds that are traded at par, premium and discount.",
+      "target_rewrite": "Assess the differences between Differentiate bonds that are traded at par, premium and discount using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0096",
+      "source_id": "src_9a872bc08c653f2f",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Contrast building in the coastal zone with building in a river floodplain.",
+      "target_rewrite": "Assess the differences between building in the coastal zone and building in a river floodplain using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0499",
+      "source_id": "src_a1838b169456e32e",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct a dictionary and a truth table to determine if the following statements are logically equivalent",
+      "target_rewrite": "How would you judge whether a dictionary and a truth table to determine if the following statements are logically equivalent meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0037",
+      "source_id": "src_3074ac26d88eff97",
+      "target_bloom_level": "Apply",
+      "source_question": "How do we differentiate between genuine buyer and undercover buyer",
+      "target_rewrite": "Apply the principle illustrated by the way in which we differentiate between genuine buyer and undercover buyer to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0082",
+      "source_id": "src_6858738dc54a4d7f",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Differentiate printf function calls for displaying prompts and for echoing data.",
+      "target_rewrite": "Assess the differences between Differentiate printf function calls for displaying prompts and for echoing data using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0565",
+      "source_id": "src_bf390431660b31a3",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Create a set of guidelines to determine the points of a plant susceptible to localized corrosion.",
+      "target_rewrite": "How would you judge whether a set of guidelines to determine the points of a plant susceptible to localized corrosion meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0163",
+      "source_id": "src_287d9b96373c1e84",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Develop a menu for a new healthy foods restaurant",
+      "target_rewrite": "How would you judge whether a menu for a new healthy foods restaurant meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0513",
+      "source_id": "src_a72726db3dcf24b8",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Create an equation to represent the solution to this problem.",
+      "target_rewrite": "Evaluate whether an equation to represent the solution to this problem satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0379",
+      "source_id": "src_71e6654bba0f7713",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Design a new animal to live in the jungle.",
+      "target_rewrite": "How would you judge whether a new animal to live in the jungle meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0297",
+      "source_id": "src_4e19fc012406dbff",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Develop a plan for a new Olympic Bid System.",
+      "target_rewrite": "Evaluate whether a plan for a new Olympic Bid System satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0021",
+      "source_id": "src_162794883499a474",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Compare this piece of music with the music recorded in CD quality.",
+      "target_rewrite": "Assess the differences between this piece of music and the music recorded in CD quality using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0093",
+      "source_id": "src_11e78597e5e7a107",
+      "target_bloom_level": "Apply",
+      "source_question": "How could you re-write this story with a city setting?",
+      "target_rewrite": "Apply the principle illustrated by you re-write this story with a city setting to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0091",
+      "source_id": "src_821456103a0d5cdd",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Design or sketch a marketing strategy for your product using a known strategy as a model.",
+      "target_rewrite": "Assess whether a marketing strategy for a product based on a known strategy meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0021",
+      "source_id": "src_2461f0b82bd5b8f9",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Differentiate between Putlog and Independent Scaffold.",
+      "target_rewrite": "Assess the differences between Putlog and Independent Scaffold using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0058",
+      "source_id": "src_53558c873c920ea6",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Develop an ABC classification system for the 10 items.",
+      "target_rewrite": "Assess whether an ABC classification system for the 10 items meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0007",
+      "source_id": "src_0564e67343048907",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct a market strategy for your product using a known strategy as a model.",
+      "target_rewrite": "Assess whether a market strategy for your product using a known strategy as a model meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0072",
+      "source_id": "src_759c35445e2606d8",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Contrast the Valles Marineris on Mars with the Grand Canyon",
+      "target_rewrite": "Assess the differences between the Valles Marineris on Mars and the Grand Canyon using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0050",
+      "source_id": "src_4db362eb7b6e4567",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain how Timothy saved Phillip's life.",
+      "target_rewrite": "Apply the principle illustrated by the way in which Timothy saved Phillip's life to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0043",
+      "source_id": "src_31b687430a0bd44c",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain how RequestDispatcher mechanism in the context of Servlet and JSP technology has the ability to facilitate updating and maintaining information on job advertisements across several dynamic web pages.",
+      "target_rewrite": "Apply the principle illustrated by the way in which RequestDispatcher mechanism in the context of Servlet and JSP technology has the ability to facilitate updating and maintaining information on job advertisements across several dynamic web pages to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0051",
+      "source_id": "src_07073a1e62f9dfbc",
+      "target_bloom_level": "Apply",
+      "source_question": "Describe how Phillip and Timothy survived on the Cay.",
+      "target_rewrite": "Apply the principle illustrated by Phillip and Timothy survived on the Cay to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0090",
+      "source_id": "src_7be3cda317f673a4",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Distinguish between rill and gully erosion.",
+      "target_rewrite": "Assess the differences between rill and gully erosion using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0044",
+      "source_id": "src_46bc314388d7035b",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why 3D animation requires much time consuming and complicated in the development phase compared to 2D animation.",
+      "target_rewrite": "How would you apply the principle underlying 3D animation requires much time consuming and complicated in the development phase compared to 2D animation to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0045",
+      "source_id": "src_46bc314388d7035b",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why 3D animation requires much time consuming and complicated in the development phase compared to 2D animation.",
+      "target_rewrite": "Build a structured representation of the factors responsible for 3D animation requires much time consuming and complicated in the development phase compared to 2D animation.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0108",
+      "source_id": "src_1862e87d1cbda48b",
+      "target_bloom_level": "Apply",
+      "source_question": "How could we determine the number of pennies in a jar without counting them?",
+      "target_rewrite": "Apply the principle illustrated by we determine the number of pennies in a jar without counting them to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0235",
+      "source_id": "src_3e6711b848cd704e",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Propose solutions to reinforced concrete flat roof defects experienced in Malaysia, such as water ponding, material exposure to solar radiation, poor maintenance culture and concrete spalling due to leaks from cold joints and stress cracks.",
+      "target_rewrite": "How would you judge whether solutions to reinforced concrete flat roof defects experienced in Malaysia, such as water ponding, material exposure to solar radiation, poor maintenance culture and concrete spalling due to leaks from cold joints and stress cracks meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0025",
+      "source_id": "src_2d54daed0f47a481",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain how auction is related to dynamic pricing.",
+      "target_rewrite": "Apply the principle illustrated by the way in which auction is related to dynamic pricing to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0015",
+      "source_id": "src_146c600c1db8d6ef",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Design a building according to given specifications",
+      "target_rewrite": "Assess whether a building according to given specifications meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0073",
+      "source_id": "src_6187d0c5a45b45c9",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Create a chart that compares things that use electricity and things that do NOT use electricity.",
+      "target_rewrite": "Assess whether a chart that compares things that use electricity and things that do NOT use electricity meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0558",
+      "source_id": "src_b8467ec81897bc9b",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Design a machine to perform a specific task.",
+      "target_rewrite": "Evaluate whether a machine to perform a specific task satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0016",
+      "source_id": "src_21daff6d6feb99e7",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Contrast the treatment of \"well known\" trademarks provided by Paris Article and by TRIPS Article",
+      "target_rewrite": "Assess the differences between the treatment of \"well known\" trademarks provided by Paris Article and by TRIPS Article using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0086",
+      "source_id": "src_806d6e605142d4a3",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Distinguish between abstract date types (ADTs) and implementations of ADTs",
+      "target_rewrite": "Assess the differences between abstract date types (ADTs) and implementations of ADTs using relevant criteria and evidence.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0374",
+      "source_id": "src_6d7bdd15a939cb51",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why the intrinsic carrier concentration of Ge is higher than Si at T = 300 K.",
+      "target_rewrite": "Design a model to represent the factors responsible for the intrinsic carrier concentration of Ge is higher than Si at T = 300 K.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0041",
+      "source_id": "src_3df4c6a29a9ea82b",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct an analog circuit with the following specifications",
+      "target_rewrite": "Assess whether an analog circuit with the following specifications meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0032",
+      "source_id": "src_0642c020699f8077",
+      "target_bloom_level": "Create",
+      "source_question": "Justify which digital video file format you would use for your movie.",
+      "target_rewrite": "Propose a decision framework that can be used to judge which digital video file format you would use for your movie using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0263",
+      "source_id": "src_45ae4ffb38903b23",
+      "target_bloom_level": "Create",
+      "source_question": "Evaluate the appropriateness of drugs advertising by the pharmaceutical firms.",
+      "target_rewrite": "Propose a decision framework that can be used to judge the appropriateness of drugs advertising by the pharmaceutical firms using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0569",
+      "source_id": "src_bf71e8bfb4937435",
+      "target_bloom_level": "Create",
+      "source_question": "Assess the importance of understanding seasonal patters.",
+      "target_rewrite": "Propose a decision framework that can be used to judge the importance of understanding seasonal patters using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0077",
+      "source_id": "src_61e0495f29557f04",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why mycorrhizal fungi are important for phosphorus availability in soil.",
+      "target_rewrite": "How would you apply the principle underlying mycorrhizal fungi are important for phosphorus availability in soil to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0078",
+      "source_id": "src_61e0495f29557f04",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why mycorrhizal fungi are important for phosphorus availability in soil.",
+      "target_rewrite": "Build a structured representation of the factors responsible for mycorrhizal fungi are important for phosphorus availability in soil.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0095",
+      "source_id": "src_7fe5558edb98d02a",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct one Turing Machine for computing each of the following functions",
+      "target_rewrite": "Assess whether one Turing Machine for computing each of the following functions meets its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0320",
+      "source_id": "src_581fdfe15676c4f6",
+      "target_bloom_level": "Create",
+      "source_question": "Evaluate the nature and effect of significant \"entry barriers\" on the formulation of a strategic plan for a business which is already established in the industry.",
+      "target_rewrite": "Propose a decision framework that can be used to judge the nature and effect of significant \"entry barriers\" on the formulation of a strategic plan for a business which is already established in the industry using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0167",
+      "source_id": "src_2a6a36b8d5ed1596",
+      "target_bloom_level": "Create",
+      "source_question": "Evaluate THREE (3) neurocognitive difficulties that may be experienced by people with suicidal-related behaviors.",
+      "target_rewrite": "Propose a decision framework that can be used to judge THREE (3) neurocognitive difficulties that may be experienced by people with suicidal-related behaviors using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0059",
+      "source_id": "src_59363fdb176352b7",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why Servlet technology is better than the Common Gateway Interface CGI.",
+      "target_rewrite": "How would you apply the principle underlying Servlet technology is better than the Common Gateway Interface CGI to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0060",
+      "source_id": "src_59363fdb176352b7",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why Servlet technology is better than the Common Gateway Interface CGI.",
+      "target_rewrite": "Develop a model that illustrates the factors responsible for Servlet technology is better than the Common Gateway Interface CGI.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0191",
+      "source_id": "src_3034f41ae23b603c",
+      "target_bloom_level": "Create",
+      "source_question": "Evaluate appropriate and inappropriate actions of characters.",
+      "target_rewrite": "Propose a decision framework that can be used to judge appropriate and inappropriate actions of characters using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0593",
+      "source_id": "src_c8e3852e92bddfe8",
+      "target_bloom_level": "Create",
+      "source_question": "Defend your use of a specific strategy in solving the problem.",
+      "target_rewrite": "Propose a decision framework that can be used to judge your use of a specific strategy in solving the problem using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0048",
+      "source_id": "src_45ea54a1b6723d75",
+      "target_bloom_level": "Apply",
+      "source_question": "How do you combine the results of various individual tests to determine whether a student can progress to a next semester / phase / year?",
+      "target_rewrite": "Apply the principle illustrated by the way in which you combine the results of various individual tests to determine whether a student can progress to a next semester / phase / year to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0254",
+      "source_id": "src_436707c6f061274c",
+      "target_bloom_level": "Create",
+      "source_question": "Judge whether Olympic Ideals are realistic or unrealistic for the contemporary elite athlete.",
+      "target_rewrite": "Propose a decision framework that can be used to judge whether Olympic Ideals are realistic or unrealistic for the contemporary elite athlete using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0630",
+      "source_id": "src_d5973f8826fd448f",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct a basic diagram or figure to demonstrate your understandings on what Information System is.",
+      "target_rewrite": "Evaluate whether a basic diagram or figure to demonstrate your understandings on what Information System is satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0230",
+      "source_id": "src_3e494d2debcdf3be",
+      "target_bloom_level": "Create",
+      "source_question": "Justify why soil taxonomy is considered as a hierarchical classification system.",
+      "target_rewrite": "Propose a decision framework that can be used to judge why soil taxonomy is considered as a hierarchical classification system using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0441",
+      "source_id": "src_8c8fb857c9feb249",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why contango and backwardation happen in the commodity market.",
+      "target_rewrite": "Design a model to represent the factors responsible for contango and backwardation happen in the commodity market.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0449",
+      "source_id": "src_8e7e1db8a2cb14f6",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why a 30-second video clip (containing 25 frames per second) will occupy less disk space than 750 JPEG images of the same size.",
+      "target_rewrite": "Build a structured representation of the factors responsible for a 30-second video clip (containing 25 frames per second) will occupy less disk space than 750 JPEG images of the same size.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0613",
+      "source_id": "src_cc94ed382f0c06aa",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct an executive remuneration package using the remuneration framework as a guide.",
+      "target_rewrite": "How would you judge whether an executive remuneration package using the remuneration framework as a guide meets its stated requirements and relevant criteria?",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0065",
+      "source_id": "src_6b7956cbfe8866e9",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why the electrical conductivity of a semiconductor is higher than an insulator by using the energy band diagram.",
+      "target_rewrite": "How would you apply the principle underlying the electrical conductivity of a semiconductor is higher than an insulator by using the energy band diagram to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0651",
+      "source_id": "src_ee00f6f3e33bc012",
+      "target_bloom_level": "Evaluate",
+      "source_question": "design a cost effective strategy to generate reliable data.",
+      "target_rewrite": "Evaluate whether a cost effective strategy to generate reliable data satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0113",
+      "source_id": "src_f6f62ba031d711fd",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Construct a DNA based cladogram using neighbour-joining approach, and suggest the relationship of S, M, and D species.",
+      "target_rewrite": "Assess whether a DNA-based cladogram using the neighbour-joining approach, together with the proposed relationships among S, M, and D species, meets the stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0086",
+      "source_id": "src_76caed362433977f",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why VLE could be better than RLE for this case.",
+      "target_rewrite": "How would you apply the principle underlying VLE could be better than RLE for this case to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0087",
+      "source_id": "src_76caed362433977f",
+      "target_bloom_level": "Create",
+      "source_question": "Explain why VLE could be better than RLE for this case.",
+      "target_rewrite": "Develop a model that illustrates the factors responsible for VLE could be better than RLE for this case.",
+      "diagnostic_flags": [
+        "factors_responsible_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0624",
+      "source_id": "src_d32e08c850521652",
+      "target_bloom_level": "Evaluate",
+      "source_question": "Develop a way to teach the concept of \"adjectives\".",
+      "target_rewrite": "Evaluate whether a way to teach the concept of \"adjectives\" satisfies its stated requirements and relevant criteria.",
+      "diagnostic_flags": [
+        "unsupported_generic_evaluation_rubric"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0641",
+      "source_id": "src_e4665a9b642aba5e",
+      "target_bloom_level": "Create",
+      "source_question": "Justify the following statement: “The value of a putable bond is never greater than the value of an otherwise comparable option-free bond.",
+      "target_rewrite": "Propose a decision framework that can be used to judge the following statement: “The value of a putable bond is never greater than the value of an otherwise comparable option-free bond using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0635",
+      "source_id": "src_d990423f3347e4fe",
+      "target_bloom_level": "Create",
+      "source_question": "Justify the following statement. \"It is possible for a firm to experience diminishing marginal return and diseconomies of scale at the same time”.",
+      "target_rewrite": "Propose a decision framework that can be used to judge the following statement. \"It is possible for a firm to experience diminishing marginal return and diseconomies of scale at the same time” using explicit criteria.",
+      "diagnostic_flags": [
+        "stock_create_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0561",
+      "source_id": "src_be39e603b751b2fb",
+      "target_bloom_level": "Apply",
+      "source_question": "How do you distinguish between the binge-eating/purging type of anorexia nervosa and bulimia nervosa, purging type",
+      "target_rewrite": "Apply the principle illustrated by you distinguish between the binge-eating/purging type of anorexia nervosa and bulimia nervosa, purging type to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0636",
+      "source_id": "src_dcd943418538650b",
+      "target_bloom_level": "Apply",
+      "source_question": "How does your pet differ from other animals?",
+      "target_rewrite": "Apply the principle illustrated by your pet differ from other animals to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0453",
+      "source_id": "src_8ef3dd16ff3f932b",
+      "target_bloom_level": "Apply",
+      "source_question": "How does an endorsement differ from a teaching certificate",
+      "target_rewrite": "Apply the principle illustrated by an endorsement differ from a teaching certificate to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0068",
+      "source_id": "src_7499d4a57c550aeb",
+      "target_bloom_level": "Apply",
+      "source_question": "how do we devise a way to enforce the laws",
+      "target_rewrite": "Apply the principle illustrated by the way in which we devise a way to enforce the laws to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_test_0067",
+      "source_id": "src_73e07b9a1c5a6fef",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why bogs are considered to be a \"carbon sink\".",
+      "target_rewrite": "How would you apply the principle underlying bogs are considered to be a \"carbon sink\" to a comparable situation?",
+      "diagnostic_flags": [
+        "principle_underlying_graft"
+      ]
+    },
+    {
+      "id": "bloomshift_final_validation_0107",
+      "source_id": "src_c091ebd4383208a0",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain how you would implement delete schedule functionality in effective manner.",
+      "target_rewrite": "Apply the principle illustrated by the way in which you would implement delete schedule functionality in effective manner to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0531",
+      "source_id": "src_a9c01af3212affb5",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain how the Utilize technology, media and materials stage in ASSURE model can help creating a more effective teaching and learning environment.",
+      "target_rewrite": "Apply the principle illustrated by the Utilize technology, media and materials stage in ASSURE model can help creating a more effective teaching and learning environment to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    },
+    {
+      "id": "bloomshift_final_train_0655",
+      "source_id": "src_f40364cafd7f8711",
+      "target_bloom_level": "Apply",
+      "source_question": "Describe how interest rates affect the economy",
+      "target_rewrite": "Apply the principle illustrated by interest rates affect the economy to a comparable situation.",
+      "diagnostic_flags": [
+        "stock_apply_template"
+      ]
+    }
+  ],
+  "repeated_opening_phrases_4_words_by_level": {
+    "Analyze": {
+      "separate the main parts": 2,
+      "examine the factors and": 3,
+      "identify the components and": 7,
+      "identify the quantities involved": 7,
+      "examine the quantities and": 3,
+      "break down the quantities": 7,
+      "analyze the quantities and": 8,
+      "analyze the interactions among": 4,
+      "which parts and constraints": 6,
+      "analyze the distinct elements": 2,
+      "analyze how the key": 5,
+      "analyze the factors and": 4,
+      "identify the major parts": 2,
+      "break down the factors": 2,
+      "which dimensions of the": 4,
+      "what factors explain why": 5,
+      "which relevant factors and": 5,
+      "what evidence and relationships": 11,
+      "what evidence relationships and": 4,
+      "which evidence relationships and": 2,
+      "analyze the sequence of": 2,
+      "analyze the components relationships": 5,
+      "differentiate the functions of": 2
+    },
+    "Apply": {
+      "demonstrate how the principle": 2,
+      "apply the principle illustrated": 16,
+      "use the distinction in": 8,
+      "use the stated requirements": 6,
+      "use the distinction between": 12,
+      "implement a java program": 2,
+      "use the principles involved": 2,
+      "how could the distinction": 11,
+      "how could the stated": 4,
+      "how would you apply": 12,
+      "apply the stated requirements": 5,
+      "apply the distinction between": 11,
+      "how could the principle": 5,
+      "apply the relationship between": 2,
+      "how could the principles": 3,
+      "apply the principle represented": 3,
+      "encode the supplied token": 2,
+      "demonstrate how five types": 2,
+      "apply the relevant concept": 6
+    },
+    "Create": {
+      "develop a model of": 2,
+      "develop a model that": 7,
+      "build a framework for": 5,
+      "create a general method": 7,
+      "construct a comparison framework": 9,
+      "design a general procedure": 3,
+      "develop a general procedure": 7,
+      "propose a general procedure": 8,
+      "design a model to": 7,
+      "build a structured representation": 6,
+      "develop a comparison framework": 7,
+      "how would you improve": 7,
+      "create a structured comparison": 5,
+      "develop a decision framework": 5,
+      "propose a decision framework": 11,
+      "design a decision framework": 3,
+      "create a structured decision": 2,
+      "design a coherent proposal": 3,
+      "develop a coherent proposal": 4
+    },
+    "Evaluate": {
+      "judge the factors that": 7,
+      "evaluate the differences between": 6,
+      "check the result for": 7,
+      "assess the differences between": 9,
+      "verify the result for": 3,
+      "how would you verify": 7,
+      "examine the result for": 8,
+      "how would you test": 4,
+      "how would you judge": 13,
+      "determine how well the": 4,
+      "assess the factors that": 4,
+      "determine how well why": 4,
+      "compare the differences in": 5,
+      "assess whether a proposed": 2,
+      "assess whether a supplied": 3,
+      "evaluate the relative importance": 2,
+      "evaluate the relevant approach": 3,
+      "assess the relevant approach": 3
+    },
+    "Remember": {
+      "list the principal concepts": 2,
+      "identify the main factors": 2,
+      "list the defining features": 2,
+      "which requirements components and": 5,
+      "identify the formulas quantities": 5,
+      "state the main features": 9,
+      "which formulas quantities and": 10,
+      "what formulas quantities and": 7,
+      "identify the programming constructs": 4,
+      "list the requirements components": 5,
+      "what key factors or": 6,
+      "identify the essential concepts": 2,
+      "which key factors or": 2,
+      "what are the main": 6,
+      "name the main characteristics": 2,
+      "what are the key": 6,
+      "what requirements components and": 7,
+      "identify the requirements components": 4,
+      "list the main features": 3,
+      "identify the criteria concepts": 5,
+      "which criteria concepts or": 9,
+      "what criteria concepts or": 3,
+      "what relevant criteria concepts": 2,
+      "name one material other": 2,
+      "list the main stages": 2,
+      "define the key facts": 2,
+      "name the key facts": 2,
+      "identify the key facts": 2
+    },
+    "Understand": {
+      "what does if the": 2,
+      "explain the purpose of": 6,
+      "how would you explain": 40,
+      "in what ways are": 7,
+      "describe the role of": 2,
+      "what is the purpose": 9,
+      "describe the similarities and": 2,
+      "explain the main concepts": 8,
+      "explain the role of": 2
+    }
+  },
+  "action_verb_frequencies_by_level": {
+    "Analyze": {
+      "separate": 2,
+      "examine": 15,
+      "identify": 16,
+      "break": 13,
+      "analyze": 60,
+      "which": 22,
+      "trace": 3,
+      "what": 20,
+      "compare": 14,
+      "differentiate": 21,
+      "contrast": 1,
+      "investigate": 3,
+      "inspect": 1,
+      "structure": 1,
+      "map": 1,
+      "classify": 3,
+      "decompose": 1,
+      "categorize": 1,
+      "group": 1
+    },
+    "Apply": {
+      "demonstrate": 7,
+      "apply": 58,
+      "use": 31,
+      "implement": 5,
+      "how": 35,
+      "transfer": 1,
+      "write": 1,
+      "calculate": 7,
+      "evaluate": 1,
+      "draw": 1,
+      "encode": 2,
+      "sketch": 1,
+      "plot": 2,
+      "solve": 1,
+      "for": 1,
+      "classify": 7,
+      "map": 1,
+      "match": 1,
+      "select": 4,
+      "illustrate": 3,
+      "fit": 1,
+      "choose": 1,
+      "arrange": 1,
+      "segment": 1
+    },
+    "Create": {
+      "develop": 57,
+      "build": 12,
+      "create": 16,
+      "construct": 21,
+      "design": 33,
+      "propose": 21,
+      "how": 7,
+      "formulate": 3,
+      "compose": 4,
+      "devise": 1,
+      "illustrate": 1,
+      "draft": 1
+    },
+    "Evaluate": {
+      "assess": 50,
+      "judge": 10,
+      "evaluate": 32,
+      "check": 8,
+      "verify": 5,
+      "how": 24,
+      "examine": 8,
+      "determine": 8,
+      "compare": 5,
+      "defend": 1,
+      "appraise": 1,
+      "prioritize": 2,
+      "critique": 1,
+      "justify": 1,
+      "recommend": 1
+    },
+    "Remember": {
+      "list": 36,
+      "identify": 38,
+      "which": 26,
+      "state": 18,
+      "what": 38,
+      "name": 14,
+      "define": 15,
+      "enumerate": 2,
+      "describe": 1,
+      "label": 1
+    },
+    "Understand": {
+      "explain": 66,
+      "how": 58,
+      "what": 19,
+      "in": 7,
+      "describe": 13,
+      "why": 1,
+      "determine": 1,
+      "assess": 1,
+      "summarize": 4,
+      "clarify": 2,
+      "outline": 3,
+      "illustrate": 2,
+      "compare": 1,
+      "classify": 1
+    }
+  },
+  "review_pending": 1058,
+  "corrected_by_target_level": {
+    "Create": 5,
+    "Analyze": 5,
+    "Evaluate": 3,
+    "Apply": 4
+  },
+  "cross_split_canonical_group_overlap_counts": {
+    "train∩validation": 0,
+    "train∩test": 0,
+    "validation∩test": 0
+  },
+  "near_duplicate_rewrite_pairs_same_source_same_level_similarity_ge_0_92": [],
+  "source_dataset_hashes": {
+    "train": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+    "validation": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+    "test": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd"
+  }
+}
