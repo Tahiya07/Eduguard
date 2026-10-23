@@ -154,9 +154,19 @@ def choose_repair(row: dict[str, Any]) -> tuple[str, str] | None:
     if "while preserving the stated requirements" in t and not re.search(
         r"\b(requirements|constraints|specifications|criteria)\b", s
     ):
-        if "poster" in s:
+        if "poster" in s and "jeans" in s:
             return (
-                "Design a poster that communicates the product's main benefits clearly and uses persuasive visual choices to attract the intended audience.",
+                "Design a poster promoting jeans to senior citizens in Malaysia's multiracial population, using accessible language and visuals that appeal to this audience.",
+                "Design",
+            )
+        if "poster" in s and "food product" in s:
+            return (
+                "Design a persuasive poster for the new food product, combining a clear benefit-focused message with engaging visual elements.",
+                "Design",
+            )
+        if "family of networks" in s and ("mincuts" in s or "minimum cuts" in s):
+            return (
+                "Design a family of networks in which the number of distinct minimum cuts grows exponentially with network size, and explain the construction.",
                 "Design",
             )
         return (
@@ -266,12 +276,26 @@ def main() -> None:
         rel = f"bloom_rewrite/{split}.jsonl"
         manifest["generated_files_sha256"][rel] = sha256(BLOOM_DIR / f"{split}.jsonl")
         manifest["counts"][split]["bloom_rewrite"] = len(updated[split])
+    prior_repairs = manifest.get("quality_repairs", {})
+    prior_counts = prior_repairs.get("counts", {}) if isinstance(prior_repairs, dict) else {}
+    cumulative_counts = {}
+    for split in SPLITS:
+        previous = prior_counts.get(split, {}) if isinstance(prior_counts, dict) else {}
+        previous_repaired = int(previous.get("repaired", previous.get("repaired_rows", 0)) or 0)
+        current_repaired = int(report["counts"][split]["repaired"])
+        cumulative_counts[split] = {
+            "repaired": previous_repaired + current_repaired,
+            "this_run": current_repaired,
+            "rows": len(updated[split]),
+        }
     manifest["quality_repairs"] = {
         "version": "bloom_rewrite_source_grounded_repairs_v1",
         "report": str((REPORT_DIR / "repair_report.json").relative_to(ROOT)).replace("\\", "/"),
         "backup": str(backup_dir.relative_to(ROOT)).replace("\\", "/"),
-        "repaired_rows": len(changes),
-        "counts": report["counts"],
+        "repaired_rows_this_run": len(changes),
+        "counts": cumulative_counts,
+        "full_semantic_review": "pending",
+        "warning": "Targeted rule repairs are not a substitute for human semantic review of every row.",
     }
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
