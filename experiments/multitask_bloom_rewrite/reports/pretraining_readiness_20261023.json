@@ -1,0 +1,350 @@
+{
+  "date": "2026-10-23",
+  "verdict": "NOT READY to start the controlled training run on the current host: dataset/config/tokenizer gates pass, but measured CPU-only host memory is below the active 1.5B training estimate.",
+  "checkpoint": {
+    "branch": "main",
+    "head": "d495644ccd9fb8059b96289ea3610624f19f2c20",
+    "origin_main_matches_head": true
+  },
+  "dataset": {
+    "bloom_counts": {
+      "train": 1075,
+      "validation": 212,
+      "test": 135
+    },
+    "rows_examined": 1422,
+    "canonical_mapping_errors": 0,
+    "ids_source_labels_split_membership_preserved": true,
+    "source_or_group_split_leaks": 0,
+    "derived_sft_mismatches": 0,
+    "exact_duplicate_rewrites": 0,
+    "manifest_data_hashes": "PASS",
+    "data_files_changed_this_pass": [
+      "data/multitask_bloom_rewrite_separate/bloom_rewrite/train.jsonl",
+      "data/multitask_bloom_rewrite_separate/dataset_manifest.json",
+      "data/multitask_bloom_rewrite_separate/qc_report.json"
+    ],
+    "previously_corrected_zymogen_apply_record": "bloomshift_expansion_exp038_figshare_row_248_apply",
+    "manifest_sha256": "298bc0a62140a679c19387dd6b86e83d4c3ff86ad15444e5283bcf145362bf01",
+    "qc_sha256": "658a4d45466ad9c57786406d8e43ecf4b4f1668e2064b84f0c1a58f8bd2f6e87",
+    "bloom_train_jsonl_sha256": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
+    "distinct_bloom_rewrites": 1422,
+    "question_targets_changed_this_pass": 0,
+    "derived_prompt_fields_repaired": 18,
+    "derived_prompt_repair_ids": [
+      "bloomshift_final_train_0498",
+      "bloomshift_final_train_0537",
+      "bloomshift_final_train_0539",
+      "bloomshift_final_train_0435",
+      "bloomshift_final_train_0437",
+      "bloomshift_final_train_0585",
+      "bloomshift_final_train_0587",
+      "bloomshift_final_train_0021",
+      "bloomshift_final_train_0023",
+      "bloomshift_final_train_0373",
+      "bloomshift_final_train_0605",
+      "bloomshift_final_train_0627",
+      "bloomshift_final_train_0629",
+      "bloomshift_final_train_0448",
+      "bloomshift_final_train_0612",
+      "bloomshift_final_train_0451",
+      "bloomshift_final_train_0469",
+      "bloomshift_expansion_exp038_figshare_row_248_apply"
+    ]
+  },
+  "semantic_uncertainty": {
+    "initial_flags": 26,
+    "reviewed_this_pass": 24,
+    "resolved_without_rewrite_total": 10,
+    "resolved_this_pass": 9,
+    "prior_rewrite_correction": 1,
+    "unresolved": 15,
+    "unresolved_records": [
+      {
+        "id": "bloomshift_final_test_0042",
+        "split": "train",
+        "target_bloom_level": "Remember",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source refers to analog-circuit specifications but provides no component values, behavior, or design constraints. The canonical source and matching FigShare question (CSV line 1031) omit them; local annotations add no circuit brief."
+      },
+      {
+        "id": "bloomshift_final_test_0105",
+        "split": "train",
+        "target_bloom_level": "Apply",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source uses “this” but names no subject, example domain, or supplied object. The canonical source and matching FigShare question (CSV line 1365) omit the referent; supervisor/reviewer rows and audit queues repeat the same text. No grounded subject can be restored without invention."
+      },
+      {
+        "id": "bloomshift_final_test_0106",
+        "split": "train",
+        "target_bloom_level": "Create",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source uses “this” but names no subject, example domain, or supplied object. The canonical source and matching FigShare question (CSV line 1365) omit the referent; supervisor/reviewer rows and audit queues repeat the same text. No grounded subject can be restored without invention."
+      },
+      {
+        "id": "bloomshift_final_test_0107",
+        "split": "train",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source uses “this” but names no subject, example domain, or supplied object. The canonical source and matching FigShare question (CSV line 1365) omit the referent; supervisor/reviewer rows and audit queues repeat the same text. No grounded subject can be restored without invention."
+      },
+      {
+        "id": "bloomshift_final_test_0108",
+        "split": "train",
+        "target_bloom_level": "Remember",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source uses “this” but names no subject, example domain, or supplied object. The canonical source and matching FigShare question (CSV line 1365) omit the referent; supervisor/reviewer rows and audit queues repeat the same text. No grounded subject can be restored without invention."
+      },
+      {
+        "id": "bloomshift_final_test_0109",
+        "split": "train",
+        "target_bloom_level": "Understand",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source uses “this” but names no subject, example domain, or supplied object. The canonical source and matching FigShare question (CSV line 1365) omit the referent; supervisor/reviewer rows and audit queues repeat the same text. No grounded subject can be restored without invention."
+      },
+      {
+        "id": "bloomshift_final_train_0503",
+        "split": "train",
+        "target_bloom_level": "Apply",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source requests differentiating “the following terms” but supplies no terms. The canonical source and matching FigShare question (CSV line 1601) contain no list or associated context; annotation and audit files add none."
+      },
+      {
+        "id": "bloomshift_final_train_0504",
+        "split": "train",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source requests differentiating “the following terms” but supplies no terms. The canonical source and matching FigShare question (CSV line 1601) contain no list or associated context; annotation and audit files add none."
+      },
+      {
+        "id": "bloomshift_final_validation_0015",
+        "split": "train",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source refers to given building specifications but provides no specification list. The canonical source and matching FigShare question (CSV line 878) omit them; reviewer sheets and queues provide no attached plan or requirements."
+      },
+      {
+        "id": "bloomshift_final_validation_0016",
+        "split": "train",
+        "target_bloom_level": "Remember",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source refers to given building specifications but provides no specification list. The canonical source and matching FigShare question (CSV line 878) omit them; reviewer sheets and queues provide no attached plan or requirements."
+      },
+      {
+        "id": "bloomshift_final_train_0444",
+        "split": "validation",
+        "target_bloom_level": "Create",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source says to solve “the following problem” with a genetic algorithm but supplies no problem instance, objective/fitness definition, representation, constraints, or input data. The canonical source and matching FigShare question (CSV line 1692) contain no such material; local annotations add none."
+      },
+      {
+        "id": "bloomshift_final_train_0445",
+        "split": "validation",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source says to solve “the following problem” with a genetic algorithm but supplies no problem instance, objective/fitness definition, representation, constraints, or input data. The canonical source and matching FigShare question (CSV line 1692) contain no such material; local annotations add none."
+      },
+      {
+        "id": "exp034_figshare_row_107_evaluate",
+        "split": "validation",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source asks which course of action was most effective but supplies no case, candidate actions, outcomes, or effectiveness objective. The canonical source and original FigShare entry (row 107) contain only that sentence; local review files add no case context."
+      },
+      {
+        "id": "bloomshift_final_train_0002",
+        "split": "test",
+        "target_bloom_level": "Apply",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source refers to a nested-loop output pattern but does not include the pattern. The canonical source and matching FigShare question (CSV line 2262) end at the colon; annotations and audit queues provide no sample output."
+      },
+      {
+        "id": "bloomshift_final_train_0003",
+        "split": "test",
+        "target_bloom_level": "Evaluate",
+        "status": "RETAINED_UNCHANGED_SOURCE_CONTEXT_UNRECOVERABLE",
+        "missing_information": "The source refers to a nested-loop output pattern but does not include the pattern. The canonical source and matching FigShare question (CSV line 2262) end at the colon; annotations and audit queues provide no sample output."
+      }
+    ],
+    "method": "Rule-guided per-record review against canonical source, source IDs, source question/topic/anchor, original FigShare question rows, annotation sheets, and audit queues. No unattached context was found; uncertain prompts retained without invented details.",
+    "total_resolved": 11,
+    "unresolved_by_split": {
+      "train": 10,
+      "validation": 3,
+      "test": 2
+    },
+    "source_context_search": {
+      "canonical_files": [
+        "data/rewrite dataset/bloomshift_final_candidate/train.json",
+        "data/rewrite dataset/bloomshift_final_candidate/validation.json",
+        "data/rewrite dataset/bloomshift_final_candidate/test.json"
+      ],
+      "metadata_files": [
+        "supervisor_annotation.csv",
+        "reviewer_1.csv",
+        "reviewer_2.csv",
+        "experiments/multitask_bloom_rewrite/reports/bloomshift_audit/human_review_queue.csv",
+        "experiments/multitask_bloom_rewrite/reports/bloomshift_audit/legacy_source_metadata_gaps.csv"
+      ],
+      "original_source_files": [
+        "data/figshare_bloom_v1.csv",
+        "data/figshare_combined_dataset.csv"
+      ],
+      "result": "No missing source context was found. The 15 records were retained unchanged; no labels or split membership were changed."
+    }
+  },
+  "tokenizer_validation": {
+    "status": "PASS",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "snapshot_source": "Hugging Face Hub snapshot, exact configured repo/revision",
+    "downloaded_files": [
+      "config.json",
+      "merges.txt",
+      "tokenizer.json",
+      "tokenizer_config.json",
+      "vocab.json"
+    ],
+    "model_weights_downloaded": false,
+    "validation_environment": ".venv_tokenizer_validation (isolated, Python 3.11.9)",
+    "installed_versions": {
+      "torch": "2.3.1+cpu",
+      "transformers": "4.41.0",
+      "tokenizers": "0.19.1",
+      "huggingface_hub": "0.36.2",
+      "peft": "0.11.1",
+      "accelerate": "0.33.0",
+      "datasets": "2.20.0",
+      "safetensors": "0.4.3",
+      "sentencepiece": "0.2.0"
+    },
+    "required_versions_from_requirements_train": {
+      "torch": "2.3.1",
+      "transformers": "4.41.0",
+      "tokenizers": "0.19.1",
+      "huggingface_hub": "<1.0",
+      "peft": "0.11.1",
+      "accelerate": "0.33.0",
+      "datasets": "2.20.0",
+      "safetensors": "0.4.3",
+      "sentencepiece": "0.2.0"
+    },
+    "active_config_max_seq_length": 8192,
+    "task_split_rows_tokenized": {
+      "train": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "validation": {
+        "bloom_rewrite": 212,
+        "qa": 212,
+        "summarization": 212
+      },
+      "test": {
+        "bloom_rewrite": 135,
+        "qa": 135,
+        "summarization": 135
+      }
+    },
+    "loss_mask_checks": 4266,
+    "loss_mask_failures": 0,
+    "token_length_stats": {
+      "train": {
+        "count": 3225,
+        "min": 87,
+        "p50": 210,
+        "p95": 7192,
+        "p99": 7942,
+        "max": 8188,
+        "over_max_seq_length": 0,
+        "prompt_at_or_over_max_seq_length": 0
+      },
+      "validation": {
+        "count": 636,
+        "min": 88,
+        "p50": 219,
+        "p95": 7130,
+        "p99": 7938,
+        "max": 8161,
+        "over_max_seq_length": 0,
+        "prompt_at_or_over_max_seq_length": 0
+      },
+      "test": {
+        "count": 405,
+        "min": 96,
+        "p50": 209,
+        "p95": 6767,
+        "p99": 7712,
+        "max": 8085,
+        "over_max_seq_length": 0,
+        "prompt_at_or_over_max_seq_length": 0
+      }
+    },
+    "examples_over_limit": 0,
+    "prompts_at_or_over_limit": 0,
+    "initial_blocker_repaired": "18 Bloom train rows had stale derived prompt_text/generation_prompt fields relative to their existing SFT system prompt; those two derived fields were synchronized. No target_rewrite changed.",
+    "validator": "experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py",
+    "result": "PASS: tokenizer loads; 4,266 task rows tokenized; no sequence overflow or empty assistant target; all loss masks valid."
+  },
+  "training_configuration": {
+    "status": "PASS",
+    "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_separate_20261016.json",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dataset_dir": "data/multitask_bloom_rewrite_separate",
+    "validator": "PASS: active task list, task counts, separate layout, manifest/data/source fingerprints agree.",
+    "max_seq_length": 8192
+  },
+  "tests": {
+    "suite": "experiments/multitask_bloom_rewrite/tests",
+    "project_runtime": ".venv Python 3.11.9 (project environment unchanged)",
+    "full_suite": "60 tests passed; 0 failures, 0 errors, 0 skipped after derived prompt repair",
+    "isolated_loader_tests": "6 passed; 0 failures under .venv_tokenizer_validation",
+    "task_loader": "PASS",
+    "configuration_checks": "PASS",
+    "no_test_weakenings_this_pass": true
+  },
+  "diagnostics": {
+    "task_separated_data_loader": "PASS",
+    "canonical_source_mapping": "PASS 1422/1422",
+    "split_isolation": "PASS, 0 exact-input overlaps and 0 group leaks",
+    "sft_prompt_and_target_consistency": "PASS 4266/4266",
+    "manifest_and_generated_hashes": "PASS",
+    "duplicate_bloom_rewrites": "0 exact normalized duplicates; 1422 distinct",
+    "full_dataset_tokenizer_validation": "PASS 4266/4266, max_seq_length 8192",
+    "active_training_configuration": "PASS"
+  },
+  "provenance_limit": "Rule-guided single-annotator semantic review; no independent second annotator or model verification. Held-out ratings are not independent gold labels.",
+  "hashes": {
+    "manifest_sha256": "298bc0a62140a679c19387dd6b86e83d4c3ff86ad15444e5283bcf145362bf01",
+    "qc_sha256": "658a4d45466ad9c57786406d8e43ecf4b4f1668e2064b84f0c1a58f8bd2f6e87",
+    "bloom_train_jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a"
+  },
+  "current_host_resources": {
+    "status": "BLOCKED",
+    "assessment_basis": "read-only current resource assessment using the repository resource estimate; existing resource report files were not overwritten",
+    "resources": {
+      "cpu_count": 12,
+      "cpu_physical": 10,
+      "cuda_available": false,
+      "gpu_name": null,
+      "gpu_vram_gb": null,
+      "ram_total_gb": 7.72,
+      "ram_available_gb": 1.0,
+      "disk_free_gb": 131.56,
+      "torch_version": "2.3.1+cpu"
+    },
+    "active_model_estimate": {
+      "cpu_lora_ram_gb": 28.0,
+      "min_available_ram_gb": 22.0,
+      "gpu_lora_gb": 12.0
+    },
+    "reasons": [
+      "No CUDA GPU detected; isolated PyTorch is CPU-only.",
+      "Total RAM 7.72 GB is below the estimated 28.0 GB CPU training footprint.",
+      "Available RAM 1.0 GB is below the 22.0 GB minimum."
+    ],
+    "disk": "131.56 GB free; above the 12 GB minimum."
+  },
+  "remaining_blocker": "Current host lacks resources for the active Qwen2.5-1.5B LoRA run. Dataset, tokenizer, data loader, and integrity gates pass. Run on a suitable GPU host or a CPU host meeting the recorded RAM estimate."
+}

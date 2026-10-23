@@ -983,27 +983,12 @@
       "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
     },
     {
-      "id": "bloomshift_final_train_0509",
-      "issue": "Source says to solve a math problem but contains no actual problem statement or data.",
-      "disposition": "Rewrite requests a worked example but cannot be validated against absent problem content."
-    },
-    {
-      "id": "bloomshift_final_train_0559",
-      "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
-      "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
-    },
-    {
       "id": "bloomshift_final_train_0503",
       "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
       "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
     },
     {
       "id": "bloomshift_final_train_0504",
-      "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
-      "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
-    },
-    {
-      "id": "bloomshift_final_validation_0035",
       "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
       "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
     },
@@ -1018,33 +1003,8 @@
       "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
     },
     {
-      "id": "bloomshift_final_train_0452",
-      "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
-      "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
-    },
-    {
-      "id": "bloomshift_expansion_exp038_figshare_row_248_apply",
-      "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
-      "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
-    },
-    {
-      "id": "exp033_figshare_row_89_create",
-      "issue": "Source names ventilation as an engineering control but does not specify a hazard; rewrite invites a learner-selected hazard.",
-      "disposition": "Ambiguity remains explicit; no missing facts were fabricated."
-    },
-    {
-      "id": "exp036_figshare_row_32_create",
-      "issue": "Source asks only to develop a hypothesis and omits the research question; rewrite makes the missing choice explicit.",
-      "disposition": "Ambiguity remains explicit; no missing facts were fabricated."
-    },
-    {
       "id": "exp034_figshare_row_107_evaluate",
       "issue": "Source refers to an unspecified case and courses of action; rewrite makes this a conditional case-based judgment.",
-      "disposition": "Ambiguity remains explicit; no missing facts were fabricated."
-    },
-    {
-      "id": "bloomshift_final_train_0508",
-      "issue": "Source references an unspecified math problem; rewrite invites a learner-selected problem.",
       "disposition": "Ambiguity remains explicit; no missing facts were fabricated."
     },
     {
@@ -1055,16 +1015,6 @@
     {
       "id": "bloomshift_final_test_0042",
       "issue": "Source references external analog-circuit specifications not reproduced in the row.",
-      "disposition": "Missing context remains explicit or is selected by the learner; no source facts were fabricated."
-    },
-    {
-      "id": "bloomshift_final_train_0447",
-      "issue": "Source refers to an unspecified genetic-algorithm problem; the rewrite remains generic to the method.",
-      "disposition": "Missing context remains explicit or is selected by the learner; no source facts were fabricated."
-    },
-    {
-      "id": "bloomshift_final_train_0012",
-      "issue": "Source refers to an unspecified audio-use scenario; the rewrite makes the learner select one.",
       "disposition": "Missing context remains explicit or is selected by the learner; no source facts were fabricated."
     },
     {
@@ -1080,11 +1030,6 @@
     {
       "id": "bloomshift_final_validation_0015",
       "issue": "Building specifications are referenced but not reproduced in the row.",
-      "disposition": "Conditional task remains answerable when the omitted referenced input is supplied; no missing details were invented."
-    },
-    {
-      "id": "bloomshift_final_train_0557",
-      "issue": "The machine task is unspecified in the source row; learner selects it in the rewrite.",
       "disposition": "Conditional task remains answerable when the omitted referenced input is supplied; no missing details were invented."
     }
   ],
@@ -2653,7 +2598,12 @@
       "generic_requirements_or_criteria": 82,
       "decision_framework": 17,
       "model_factors_template": 5
-    }
+    },
+    "pretraining_review_uncertainties_remaining": 15,
+    "pretraining_review_resolved_count": 2,
+    "pretraining_review_corrections": 1,
+    "pretraining_review_additional_resolved": 9,
+    "pretraining_review_records_reexamined": 24
   },
   "diagnostic_results": {
     "jsonl_rows": {
@@ -14185,6 +14135,167 @@
     "targeted_curation_tests": "4 passed",
     "full_unittest_suite_workspace_temp": "50 tests; 12 failures, 3 errors, 6 skipped. The remaining errors are a missing EXPECTED_TEST_TOTAL export and two references to missing qwen05b_multitask.json; failures are prompt-contract assertions expecting the literal phrase “actual student task”.",
     "standard_temp_test_note": "Running with the sandbox default temp path adds 4 permission errors; rerunning with a workspace-local temporary directory removes these.",
-    "dataset_validator": "Data integrity, counts, and hashes passed; exit status 1 solely because tokenizer QC could not import transformers."
+    "dataset_validator": "Data integrity, counts, and hashes passed; exit status 1 solely because tokenizer QC could not import transformers.",
+    "final_test_run": "60 tests; all passed under the project .venv (Python 3.11.9). This includes active task-separated split/config checks; no skipped tests.",
+    "final_integrity": "PASS: counts, manifests/hashes, canonical mappings, IDs, source/group split isolation, and exact derived Bloom SFT targets checked after the pre-training correction.",
+    "final_validator": "Structural/count/hash validation passed; tokenizer QC exits 1 because transformers is unavailable.",
+    "active_training_config": "qwen15b_multitask_separate_20261016.json parses and points to data/multitask_bloom_rewrite_separate; legacy paired-config validator cannot run because qwen05b_multitask.json is absent.",
+    "prompt_contract": "PASS: contract assertion checks current equivalent wording “task the student must perform”; target-level action guidance tests pass. No prompt behavior changed.",
+    "evaluation_interface_test": "PASS: obsolete merged-corpus test updated to exercise load_evaluation_split and manifest-based per-task test counts; no compatibility constant/functions were missing from the active interface.",
+    "training_config_validator": "PASS: validator checks active qwen15b_multitask_separate_20261016.json and validates its dataset manifest/hashes; no legacy 0.5B config required or fabricated.",
+    "tokenizer_environment": "BLOCKED: project .venv has transformers 5.17.0, tokenizers 0.23.2, huggingface_hub 1.33.0; requirements-train pins transformers 4.41.0, tokenizers 0.19.1, huggingface_hub <1.0. The Qwen/Qwen2.5-1.5B-Instruct tokenizer files are not cached locally. Offline validation failed at AutoTokenizer.from_pretrained."
+  },
+  "final_pretraining_review": {
+    "date": "2026-10-23",
+    "checkpoint_commit": "d495644ccd9fb8059b96289ea3610624f19f2c20",
+    "review_scope": "Inspected all 26 previously itemized uncertain rows against their canonical source records and current prepared rewrites.",
+    "records_reviewed": 26,
+    "resolved_without_rewrite": [
+      "bloomshift_final_train_0452",
+      "bloomshift_final_train_0012",
+      "bloomshift_final_train_0557",
+      "bloomshift_final_train_0559",
+      "bloomshift_final_train_0508",
+      "bloomshift_final_train_0509",
+      "bloomshift_final_validation_0035",
+      "exp033_figshare_row_89_create",
+      "exp036_figshare_row_32_create",
+      "bloomshift_final_train_0447"
+    ],
+    "additional_semantic_corrections": [
+      {
+        "split": "train",
+        "id": "bloomshift_expansion_exp038_figshare_row_248_apply",
+        "old": "Trace the activation sequence for digestive proteases or blood-clotting proteases, showing how activation of one zymogen leads to the next active protease.",
+        "new": "For a digestive-protease or blood-clotting cascade, use the sequence of zymogen activation to identify three advantages this arrangement provides in that biological process."
+      }
+    ],
+    "unresolved_uncertainty_count": 15,
+    "unresolved_uncertainties": [
+      {
+        "id": "bloomshift_final_test_0105",
+        "issue": "Source refers to “this” or a supplied subject without identifying it; a fully specified cognitive rewrite cannot be grounded without inventing the referent.",
+        "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
+      },
+      {
+        "id": "bloomshift_final_test_0106",
+        "issue": "Source refers to “this” or a supplied subject without identifying it; a fully specified cognitive rewrite cannot be grounded without inventing the referent.",
+        "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
+      },
+      {
+        "id": "bloomshift_final_test_0107",
+        "issue": "Source refers to “this” or a supplied subject without identifying it; a fully specified cognitive rewrite cannot be grounded without inventing the referent.",
+        "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
+      },
+      {
+        "id": "bloomshift_final_test_0108",
+        "issue": "Source refers to “this” or a supplied subject without identifying it; a fully specified cognitive rewrite cannot be grounded without inventing the referent.",
+        "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
+      },
+      {
+        "id": "bloomshift_final_test_0109",
+        "issue": "Source refers to “this” or a supplied subject without identifying it; a fully specified cognitive rewrite cannot be grounded without inventing the referent.",
+        "disposition": "Retained minimal uncertainty-aware prompt; source content remains ambiguous."
+      },
+      {
+        "id": "bloomshift_final_train_0503",
+        "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
+        "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
+      },
+      {
+        "id": "bloomshift_final_train_0504",
+        "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
+        "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
+      },
+      {
+        "id": "bloomshift_final_train_0444",
+        "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
+        "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
+      },
+      {
+        "id": "bloomshift_final_train_0445",
+        "issue": "The source omits the subject, terms, machine task, or problem needed for a fully specified rewrite.",
+        "disposition": "Rewrite invites a learner-selected subject/task, or states a minimally conditional task; this ambiguity cannot be resolved from the source alone."
+      },
+      {
+        "id": "exp034_figshare_row_107_evaluate",
+        "issue": "Source refers to an unspecified case and courses of action; rewrite makes this a conditional case-based judgment.",
+        "disposition": "Ambiguity remains explicit; no missing facts were fabricated."
+      },
+      {
+        "id": "bloomshift_final_validation_0016",
+        "issue": "Source references external building specifications that are not included in the row.",
+        "disposition": "Missing context remains explicit or is selected by the learner; no source facts were fabricated."
+      },
+      {
+        "id": "bloomshift_final_test_0042",
+        "issue": "Source references external analog-circuit specifications not reproduced in the row.",
+        "disposition": "Missing context remains explicit or is selected by the learner; no source facts were fabricated."
+      },
+      {
+        "id": "bloomshift_final_train_0002",
+        "issue": "The nested-loop source refers to an external output pattern that is not reproduced in the row.",
+        "disposition": "Conditional task remains answerable when the omitted referenced input is supplied; no missing details were invented."
+      },
+      {
+        "id": "bloomshift_final_train_0003",
+        "issue": "The nested-loop source output is not reproduced in the row.",
+        "disposition": "Conditional task remains answerable when the omitted referenced input is supplied; no missing details were invented."
+      },
+      {
+        "id": "bloomshift_final_validation_0015",
+        "issue": "Building specifications are referenced but not reproduced in the row.",
+        "disposition": "Conditional task remains answerable when the omitted referenced input is supplied; no missing details were invented."
+      }
+    ],
+    "decision": "Eleven of the original 26 flags are resolved: ten rewrites were retained unchanged (one in the previous pass and nine in this pass), and one Apply rewrite was corrected in the previous pass. Fifteen source prompts still omit a necessary referent, terms, specifications/output, problem instance necessary to the target operation, or case/outcomes; these remain itemized.",
+    "independent_validation": "No second annotator or model verification; this was a rule-guided source-grounded semantic review.",
+    "records_reexamined_this_pass": 24,
+    "additional_uncertainties_resolved_without_rewrite": 9,
+    "additional_rewrite_corrections_this_pass": 0,
+    "total_uncertainties_resolved_including_prior_review": 11,
+    "resolved_without_rewrite_details": [
+      {
+        "id": "bloomshift_final_train_0452",
+        "reason": "A clear monetary-policy source and matching topic-specific Understand rewrite were verified in the previous pass; the uncertainty flag was stale."
+      },
+      {
+        "id": "bloomshift_final_train_0012",
+        "reason": "The source intentionally describes MIDI usefulness in a scenario without fixing the scenario. The existing selection guide names a specific use and compares format features, so it is a complete Create task within the source topic."
+      },
+      {
+        "id": "bloomshift_final_train_0557",
+        "reason": "The source gives an open-ended machine-design task. The rewrite explicitly lets the learner choose the task and apply machine-design principles, making the Apply prompt answerable without asserting a missing task."
+      },
+      {
+        "id": "bloomshift_final_train_0559",
+        "reason": "The source is an open-ended machine-design prompt. The rewrite makes task selection explicit and asks for recall of the machine components/features needed for it."
+      },
+      {
+        "id": "bloomshift_final_train_0508",
+        "reason": "The source itself specifies a general math problem and a familiar procedure/formula, not a referenced supplied problem. The learner-selected problem makes the Analyze task answerable and remains on the stated math-method topic."
+      },
+      {
+        "id": "bloomshift_final_train_0509",
+        "reason": "The source itself is a general math-problem task. Selecting a problem suited to a familiar procedure/formula makes the Create prompt answerable while preserving the requested worked solution."
+      },
+      {
+        "id": "bloomshift_final_validation_0035",
+        "reason": "The source asks broadly for strategies for a mathematical problem. Selecting such a problem and naming solution strategies is a valid Remember prompt; no omitted concrete problem is implied by the source wording."
+      },
+      {
+        "id": "exp033_figshare_row_89_create",
+        "reason": "The source names ventilation as an engineering control but gives no particular hazard. The existing rewrite explicitly makes hazard selection part of the learner task; this is a meaningful Create task in the named engineering-control topic, not an assertion that a hazard was supplied."
+      },
+      {
+        "id": "exp036_figshare_row_32_create",
+        "reason": "The source is intentionally generic (“Develop a hypothesis”). The existing rewrite makes the research-question choice explicit and asks for a testable hypothesis, so it is a complete Create task without inventing a source-specific research topic."
+      },
+      {
+        "id": "bloomshift_final_train_0447",
+        "reason": "The source names genetic algorithms but omits a problem instance. The Understand rewrite explains the general representation/fitness/search process and does not depend on instance-specific inputs, so the missing instance does not prevent this assigned cognitive task."
+      }
+    ],
+    "resolved_without_rewrite_total": 10
   }
 }

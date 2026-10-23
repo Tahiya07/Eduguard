@@ -1,5 +1,5 @@
 {
-  "status": "FAIL",
+  "status": "PASS",
   "data_layout": "task-separated",
   "persisted_merged_jsonl": false,
   "max_seq_length": 8192,
@@ -7,7 +7,7 @@
   "integrity": {
     "layout": "task-separated",
     "manifest_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
-    "manifest_sha256": "345a09b5a209dbc56253d3327179c01c56e77ea37f92f3a171fe93827eb19024",
+    "manifest_sha256": "298bc0a62140a679c19387dd6b86e83d4c3ff86ad15444e5283bcf145362bf01",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
     "data_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate",
     "counts": {
@@ -28,7 +28,7 @@
       }
     },
     "generated_files_sha256": {
-      "bloom_rewrite/train.jsonl": "792a3ca7ea0ca26a9626c05e0abc6cb8e3b9524a5e34ef50bdcde1a575bf6073",
+      "bloom_rewrite/train.jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
       "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
       "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
       "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
@@ -130,28 +130,39 @@
     "qa": 0.333333,
     "summarization": 0.333333
   },
-  "token_length_stats": {},
-  "loss_mask_checks": 0,
-  "errors": [
-    "tokenizer/tokenization QC could not run: ModuleNotFoundError: No module named 'transformers'"
-  ],
-  "error_count": 1,
-  "curation": {
-    "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
-    "last_updated": "2026-10-23",
-    "rows_examined": 1422,
-    "rows_corrected_vs_pre_curation_backup": 919,
-    "rows_retained_unchanged": 503,
-    "uncertain_records": 26,
-    "semantic_review": "Single-agent source-grounded rule-guided curation; no independent dual annotation or model-based verification."
+  "token_length_stats": {
+    "train": {
+      "count": 3225,
+      "min": 87,
+      "p50": 210,
+      "p95": 7192,
+      "p99": 7942,
+      "max": 8188,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "validation": {
+      "count": 636,
+      "min": 88,
+      "p50": 219,
+      "p95": 7130,
+      "p99": 7938,
+      "max": 8161,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "test": {
+      "count": 405,
+      "min": 96,
+      "p50": 209,
+      "p95": 6767,
+      "p99": 7712,
+      "max": 8085,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    }
   },
-  "validation_results": {
-    "dataset_integrity_and_hashes": "PASS",
-    "canonical_source_mapping": "PASS",
-    "split_integrity": "PASS",
-    "derived_sft_consistency": "PASS",
-    "targeted_curation_tests": "4 passed",
-    "full_test_suite": "50 tests: 12 failures, 3 errors, 6 skipped using a workspace-local temp directory",
-    "tokenizer_qc": "FAIL: transformers is not installed"
-  }
+  "loss_mask_checks": 4266,
+  "errors": [],
+  "error_count": 0
 }

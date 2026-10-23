@@ -244,7 +244,7 @@
     }
   },
   "generated_files_sha256": {
-    "bloom_rewrite/train.jsonl": "792a3ca7ea0ca26a9626c05e0abc6cb8e3b9524a5e34ef50bdcde1a575bf6073",
+    "bloom_rewrite/train.jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
     "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
     "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
     "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
@@ -315,7 +315,7 @@
     "train_rows_repaired_by_local_repair_script": true,
     "policy": "Corrected known malformed source-clause grafts and stock templates; no split movement or source changes.",
     "full_semantic_review": "completed_rule_guided_single_agent_review_of_all_1422_rows",
-    "warning": "Curation decisions are source-grounded but not independently double-annotated or model-verified; 26 source-context uncertainties remain itemized in the audit.",
+    "warning": "15 source prompts remain under-specified and itemized; no independent dual annotation or model verification.",
     "train_semantic_repair_passes": [
       {
         "version": "source_grounded_manual_subset_v1",
@@ -354,6 +354,19 @@
       "derived_sft_targets_synchronized": true,
       "independent_model_verification": false,
       "limitation": "Single-agent, rule-guided semantic curation; no independent second annotator or model verification. See the audit uncertainty list."
+    },
+    "pretraining_review": {
+      "date": "2026-10-23",
+      "uncertainty_records_reexamined_this_pass": 24,
+      "original_uncertainty_records": 26,
+      "resolved_without_rewrite_total": 10,
+      "resolved_without_rewrite_this_pass": 9,
+      "additional_rewrite_corrections_this_pass": 0,
+      "prior_additional_rewrite_corrections": 1,
+      "unresolved_source_contexts": 15,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
+      "decision": "15 source prompts remain under-specified; itemized in final_pretraining_review.",
+      "total_uncertainties_resolved": 11
     }
   },
   "curation_history": [
@@ -366,6 +379,20 @@
       "date": "2026-10-23",
       "activity": "Final Bloom semantic curation pass, October 23 2026",
       "rows_changed_in_final_pass": 289,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Final pre-training review of all 26 uncertainty entries; one clear Understand source resolved, one Apply rewrite corrected to retain the source objective. 24 source-context uncertainties remain.",
+      "rows_changed_in_final_pass": 1,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Re-examined all 24 remaining uncertainty flags; adjudicated nine generic learner-choice prompts as answerable, retained 15 source-context limitations. No Bloom rewrite rows changed in this pass.",
+      "rows_changed_in_final_pass": 0,
       "row_counts_and_splits_preserved": true,
       "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
     }

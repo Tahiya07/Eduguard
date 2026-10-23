@@ -1,9 +1,106 @@
 {
-  "hyperparameter_diffs_outside_allowed": [],
   "ok": true,
-  "decision_rule_loaded": true,
-  "model_ids": {
-    "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
-    "1.5b": "Qwen/Qwen2.5-1.5B-Instruct"
-  }
+  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_separate_20261016.json",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset_dir": "data/multitask_bloom_rewrite_separate",
+  "dataset_integrity": {
+    "layout": "task-separated",
+    "manifest_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "298bc0a62140a679c19387dd6b86e83d4c3ff86ad15444e5283bcf145362bf01",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "counts": {
+      "train": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "validation": {
+        "bloom_rewrite": 212,
+        "qa": 212,
+        "summarization": 212
+      },
+      "test": {
+        "bloom_rewrite": 135,
+        "qa": 135,
+        "summarization": 135
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/train.jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
+      "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
+      "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
+      "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
+      "qa/validation.jsonl": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
+      "qa/test.jsonl": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
+      "summarization/train.jsonl": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
+      "summarization/validation.jsonl": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
+      "summarization/test.jsonl": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7"
+    },
+    "bloom_source": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source_sha256": {
+      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
+      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
+      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
+      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "dataset_owner_batch_attestation",
+      "owner_reported_all_rows_human_reviewed": true,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "training_data_policy": {
+      "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+      "ratio_based_downsampling": false,
+      "requested_caps": {
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "rows_retained_during_capped_source_scan": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "retained_training_rows": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "task_train_fractions_of_retained_union": {
+        "bloom_rewrite": 0.333333,
+        "qa": 0.333333,
+        "summarization": 0.333333
+      },
+      "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+    }
+  },
+  "errors": []
 }
