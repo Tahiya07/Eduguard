@@ -148,9 +148,30 @@ def find_rejection_reasons(row: dict[str, Any]) -> list[str]:
     return list(dict.fromkeys(reasons))
 
 
+ACTION_VERB_WORDS = {
+    "identify", "list", "state", "name", "define", "recall", "recognize", "specify",
+    "explain", "describe", "interpret", "summarize", "classify", "illustrate", "clarify",
+    "paraphrase", "apply", "use", "calculate", "compute", "solve", "determine",
+    "demonstrate", "implement", "test", "predict", "execute", "estimate", "diagnose",
+    "examine", "compare", "trace", "differentiate", "investigate", "contrast", "analyze",
+    "distinguish", "map", "assess", "evaluate", "appraise", "critique", "justify",
+    "validate", "rank", "recommend", "judge", "design", "develop", "formulate",
+    "construct", "propose", "devise", "compose", "plan", "generate", "create", "inspect",
+    "calculate", "calculate", "measure", "verify", "review", "argue", "defend", "rate",
+    "prioritize", "synthesize", "build", "produce", "organize", "categorize", "correlate",
+    "dissect", "scrutinize", "diagnose", "outline", "enumerate", "locate", "select",
+}
+
+
 def action_start(text: str) -> str:
-    match = re.match(r"^\s*([A-Za-z]+)", text or "")
-    return match.group(1).lower() if match else "(no verb)"
+    words = re.findall(r"[A-Za-z]+", text or "")
+    # Locate the first recognizable task verb rather than counting interrogative
+    # openers such as "What" and "How" as if they were action verbs.
+    for word in words[:10]:
+        lowered = word.lower()
+        if lowered in ACTION_VERB_WORDS:
+            return lowered
+    return "(no recognizable action verb)"
 
 
 def build_report(rows_by_split: dict[str, list[dict[str, Any]]],
@@ -184,6 +205,14 @@ def build_report(rows_by_split: dict[str, list[dict[str, Any]]],
             "rejection_reasons": dict(reason_counts),
             "action_verb_distribution_after_filtering": {
                 level: dict(counter.most_common())
+                for level, counter in sorted(starts.items())
+            },
+            "action_verb_diversity_after_filtering": {
+                level: {
+                    "unique_verbs": len(counter),
+                    "dominant_verb": counter.most_common(1)[0][0] if counter else None,
+                    "dominant_verb_share": round(counter.most_common(1)[0][1] / sum(counter.values()), 4) if counter else 0.0,
+                }
                 for level, counter in sorted(starts.items())
             },
         }
