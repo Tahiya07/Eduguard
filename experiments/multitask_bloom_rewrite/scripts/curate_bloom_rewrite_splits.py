@@ -290,11 +290,22 @@ def main() -> None:
         },
         "training_note": "Rejected examples are quarantined, not relabelled. Manually corrected examples must be reviewed before re-adding."
     }
-    manifest["training_split_eligibility_policy"] = (
+    policy_note = (
         "Bloom rewrite rows are conservatively quality-filtered after split assignment; "
         "the original train/validation/test boundaries and source-group isolation are preserved. "
         "Rejected rows are quarantined and are not used for SFT."
     )
+    manifest["training_split_eligibility_policy"] = policy_note
+    bloom_source = manifest.setdefault("bloom_source", {})
+    bloom_source["training_split_eligibility_policy"] = policy_note
+    training_policy = manifest.setdefault("training_data_policy", {})
+    retained = training_policy.setdefault("retained_training_rows", {})
+    retained["bloom_rewrite"] = len(kept_by_split["train"])
+    fractions_total = sum(int(v) for v in retained.values())
+    training_policy["task_train_fractions_of_retained_union"] = {
+        task: round(int(count) / fractions_total, 6) if fractions_total else 0.0
+        for task, count in retained.items()
+    }
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     # Mark the previous broad QC report as historical because its tokenizer percentiles
@@ -303,6 +314,8 @@ def main() -> None:
         qc = json.loads(qc_path.read_text(encoding="utf-8"))
         qc["status"] = "PASS_WITH_BLOOM_QUALITY_CURATION"
         qc["historical_token_length_stats_pre_curation"] = qc.pop("token_length_stats", None)
+        qc["historical_tokenizer_report_pre_curation"] = qc.pop("tokenizer", None)
+        qc["tokenizer_report_status"] = "historical_pre_curation; rerun tokenizer audit for current percentiles"
         qc["quality_curation"] = report
         qc["integrity"] = qc.get("integrity", {})
         qc["integrity"]["manifest_sha256"] = sha256_file(manifest_path)
