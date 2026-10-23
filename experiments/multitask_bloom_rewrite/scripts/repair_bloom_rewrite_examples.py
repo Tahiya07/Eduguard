@@ -281,7 +281,14 @@ def main() -> None:
     cumulative_counts = {}
     for split in SPLITS:
         previous = prior_counts.get(split, {}) if isinstance(prior_counts, dict) else {}
-        previous_repaired = int(previous.get("repaired", previous.get("repaired_rows", 0)) or 0)
+        if previous:
+            previous_repaired = int(previous.get("repaired", previous.get("repaired_rows", 0)) or 0)
+        elif split == "validation":
+            previous_repaired = int(prior_repairs.get("validation_rows_repaired", 0) or 0)
+        elif split == "test":
+            previous_repaired = int(prior_repairs.get("test_rows_repaired", 0) or 0)
+        else:
+            previous_repaired = 0
         current_repaired = int(report["counts"][split]["repaired"])
         cumulative_counts[split] = {
             "repaired": previous_repaired + current_repaired,
