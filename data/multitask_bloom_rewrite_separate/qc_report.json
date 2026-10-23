@@ -7,7 +7,7 @@
   "integrity": {
     "layout": "task-separated",
     "manifest_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
-    "manifest_sha256": "93f959a004ab30cc1375a2c36d408ec5d0dc50cf429bab12a4602a06a1b48d7f",
+    "manifest_sha256": "e4582f77b60f03aae9a03885a6681aee772db1829b8199fb3f918b14921a7e68",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
     "data_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate",
     "counts": {
@@ -40,10 +40,10 @@
     },
     "bloom_source": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
     "bloom_source_sha256": {
-      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
-      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
-      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
-      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "train.json": "df545418454c344585eb873048d24114e4210d40450f9bfafe47ad8d7013c7ae",
+      "validation.json": "0bf48571236f5c647a9d1f31d77848d92e443a1938e0edd6f31b03b9bbc12986",
+      "test.json": "292c0c1ba7548d6d3ff24a89c0dd74aa6e462ac010ad985456b1de1d93a5f3c2",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "bloom_annotation_provenance": {
       "inclusion_basis": "dataset_owner_batch_attestation",

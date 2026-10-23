@@ -15,10 +15,10 @@
     "path": "data/rewrite dataset/bloomshift_final_candidate",
     "version": "bloomshift_final_candidate",
     "files_sha256": {
-      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
-      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
-      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
-      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "train.json": "df545418454c344585eb873048d24114e4210d40450f9bfafe47ad8d7013c7ae",
+      "validation.json": "0bf48571236f5c647a9d1f31d77848d92e443a1938e0edd6f31b03b9bbc12986",
+      "test.json": "292c0c1ba7548d6d3ff24a89c0dd74aa6e462ac010ad985456b1de1d93a5f3c2",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "heldout_annotation_provenance": {
       "inclusion_basis": "dataset_owner_batch_attestation",
@@ -55,7 +55,7 @@
     },
     "batch_review_attestation": {
       "path": "data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json",
-      "sha256": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "sha256": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "training_split_eligibility_policy": "All 1075 canonical BloomShift train rows are used; all 212 validation and 135 test rows remain held out. Legacy review flags are retained as provenance and never used as row filters. Owner batch attestation is not independent dual review or inter-rater reliability.",
     "train_rows": 1075,
@@ -306,7 +306,7 @@
     "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
     "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
     "Never tune model choices using the held-out test split.",
-    "Prepared task-separated JSONL files use LF line endings; repository attributes enforce LF checkouts so raw-byte fingerprints are portable across Windows and Linux."
+    "Prepared task-separated JSONL files and fingerprinted canonical BloomShift source files use LF line endings; repository attributes enforce LF checkouts so raw-byte fingerprints are portable across Windows and Linux."
   ],
   "quality_repairs": {
     "version": "bloom_rewrite_source_grounded_repairs_v1",
