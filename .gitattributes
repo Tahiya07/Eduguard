@@ -1,1 +1,6 @@
 *.gguf filter=lfs diff=lfs merge=lfs -text
+
+# Dataset fingerprints cover raw file bytes; keep prepared splits identical on all platforms.
+data/multitask_bloom_rewrite_separate/**/*.jsonl text eol=lf
+data/multitask_bloom_rewrite_separate/dataset_manifest.json text eol=lf
+data/multitask_bloom_rewrite_separate/qc_report.json text eol=lf

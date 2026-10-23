@@ -7,7 +7,7 @@
   "integrity": {
     "layout": "task-separated",
     "manifest_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
-    "manifest_sha256": "298bc0a62140a679c19387dd6b86e83d4c3ff86ad15444e5283bcf145362bf01",
+    "manifest_sha256": "93f959a004ab30cc1375a2c36d408ec5d0dc50cf429bab12a4602a06a1b48d7f",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
     "data_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate",
     "counts": {
@@ -31,12 +31,12 @@
       "bloom_rewrite/train.jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
       "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
       "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
-      "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
-      "qa/validation.jsonl": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
-      "qa/test.jsonl": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
-      "summarization/train.jsonl": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
-      "summarization/validation.jsonl": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
-      "summarization/test.jsonl": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7"
+      "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+      "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+      "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
     },
     "bloom_source": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
     "bloom_source_sha256": {
