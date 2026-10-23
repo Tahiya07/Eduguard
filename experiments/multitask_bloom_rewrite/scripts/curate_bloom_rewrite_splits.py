@@ -329,8 +329,13 @@ def main() -> None:
         qc_path.write_text(json.dumps(qc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print("\nApplied. Original split files and manifests are backed up.")
-    print("Run the dataset validator before training:")
-    print("  python experiments/multitask_bloom_rewrite/scripts/audit_datasets.py")
+    print("Validate the task-separated corpus before training:")
+    print(
+        '  python -c "import sys; from pathlib import Path; '
+        'sys.path.insert(0, \'experiments/multitask_bloom_rewrite/scripts\'); '
+        'from dataset_io import validate_separate_dataset; '
+        'print(validate_separate_dataset(Path(\'data/multitask_bloom_rewrite_separate\'))[\'counts\'])"'
+    )
 
 
 if __name__ == "__main__":
