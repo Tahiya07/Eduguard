@@ -244,15 +244,15 @@
     }
   },
   "generated_files_sha256": {
-    "bloom_rewrite/train.jsonl": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba",
-    "bloom_rewrite/validation.jsonl": "5c7f64e4ede8d7b221731d513dc2a70eaa7f0bac9c1f2556d6b894fdd7cce765",
-    "bloom_rewrite/test.jsonl": "d04c288f1ef117e87031878610b3dc66840178f0f2a92b1591d504e62006f080",
-    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
-    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
-    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
-    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
-    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
-    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    "bloom_rewrite/train.jsonl": "792a3ca7ea0ca26a9626c05e0abc6cb8e3b9524a5e34ef50bdcde1a575bf6073",
+    "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
+    "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
+    "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
+    "qa/validation.jsonl": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
+    "qa/test.jsonl": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
+    "summarization/train.jsonl": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
+    "summarization/validation.jsonl": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
+    "summarization/test.jsonl": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7"
   },
   "training_data_policy": {
     "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
@@ -305,7 +305,8 @@
     "BloomShift's fixed split boundaries and source-group isolation are preserved.",
     "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
     "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
-    "Never tune model choices using the held-out test split."
+    "Never tune model choices using the held-out test split.",
+    "Working-tree SHA-256 values for unchanged QA and summarization JSONL files reflect CRLF bytes; verified that LF-normalized contents match the prior manifest hashes exactly."
   ],
   "quality_repairs": {
     "version": "bloom_rewrite_source_grounded_repairs_v1",
@@ -313,8 +314,8 @@
     "test_rows_repaired": 8,
     "train_rows_repaired_by_local_repair_script": true,
     "policy": "Corrected known malformed source-clause grafts and stock templates; no split movement or source changes.",
-    "full_semantic_review": "pending",
-    "warning": "Repairs are high-confidence targeted corrections, not a complete human semantic review of every row.",
+    "full_semantic_review": "completed_rule_guided_single_agent_review_of_all_1422_rows",
+    "warning": "Curation decisions are source-grounded but not independently double-annotated or model-verified; 26 source-context uncertainties remain itemized in the audit.",
     "train_semantic_repair_passes": [
       {
         "version": "source_grounded_manual_subset_v1",
@@ -326,6 +327,47 @@
         "backup_sha256": "fe3db700942df439f56c32e31a5902b07c3ecf2c088e6b83caf3f9057d064a65",
         "final_sha256": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba"
       }
-    ]
-  }
+    ],
+    "full_split_curation": {
+      "report": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
+      "human_row_level_review": false,
+      "single_agent_row_level_semantic_screen": true,
+      "rows_examined": 1422,
+      "rows_corrected_vs_pre_curation_backup": 919,
+      "rows_retained_unchanged_vs_pre_curation_backup": 503,
+      "corrected_by_split": {
+        "train": 684,
+        "validation": 148,
+        "test": 79
+      },
+      "retained_by_split": {
+        "train": 391,
+        "validation": 64,
+        "test": 56
+      },
+      "unique_rows_flagged_by_rule_diagnostics": 447,
+      "diagnostic_flags_are_confirmed_errors": false,
+      "all_old_named_template_families_resolved": true,
+      "uncertain_source_prompts": 26,
+      "row_counts_preserved": true,
+      "source_questions_labels_ids_and_splits_preserved": true,
+      "derived_sft_targets_synchronized": true,
+      "independent_model_verification": false,
+      "limitation": "Single-agent, rule-guided semantic curation; no independent second annotator or model verification. See the audit uncertainty list."
+    }
+  },
+  "curation_history": [
+    {
+      "date": "2026-10-23",
+      "activity": "Source-grounded semantic curation of Bloom rewrite and derived SFT targets; IDs, labels, source mappings, row counts, and split membership preserved. See experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json.",
+      "rows_changed_in_final_pass": 154
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Final Bloom semantic curation pass, October 23 2026",
+      "rows_changed_in_final_pass": 289,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    }
+  ]
 }

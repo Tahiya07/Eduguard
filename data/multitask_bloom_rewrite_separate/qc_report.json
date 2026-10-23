@@ -1,15 +1,15 @@
 {
-  "status": "PASS_WITH_TARGETED_REWRITE_REPAIRS_REVIEW_PENDING",
+  "status": "FAIL",
   "data_layout": "task-separated",
   "persisted_merged_jsonl": false,
   "max_seq_length": 8192,
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
   "integrity": {
     "layout": "task-separated",
-    "manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
-    "manifest_sha256": "86b66f50a8c3850ecac0c152dc93c0fe65a61f126f26ab699ef66582dcce1383",
+    "manifest_path": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "345a09b5a209dbc56253d3327179c01c56e77ea37f92f3a171fe93827eb19024",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
-    "data_dir": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "data_dir": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\multitask_bloom_rewrite_separate",
     "counts": {
       "train": {
         "bloom_rewrite": 1075,
@@ -28,17 +28,17 @@
       }
     },
     "generated_files_sha256": {
-      "bloom_rewrite/train.jsonl": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba",
-      "bloom_rewrite/validation.jsonl": "5c7f64e4ede8d7b221731d513dc2a70eaa7f0bac9c1f2556d6b894fdd7cce765",
-      "bloom_rewrite/test.jsonl": "d04c288f1ef117e87031878610b3dc66840178f0f2a92b1591d504e62006f080",
-      "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
-      "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
-      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
-      "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
-      "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
-      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+      "bloom_rewrite/train.jsonl": "792a3ca7ea0ca26a9626c05e0abc6cb8e3b9524a5e34ef50bdcde1a575bf6073",
+      "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
+      "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
+      "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
+      "qa/validation.jsonl": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
+      "qa/test.jsonl": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
+      "summarization/train.jsonl": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
+      "summarization/validation.jsonl": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
+      "summarization/test.jsonl": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7"
     },
-    "bloom_source": "D:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
     "bloom_source_sha256": {
       "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
       "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
@@ -130,118 +130,28 @@
     "qa": 0.333333,
     "summarization": 0.333333
   },
-  "token_length_stats": {
-    "train": {
-      "count": 3225,
-      "min": 87,
-      "p50": 208,
-      "p95": 7192,
-      "p99": 7942,
-      "max": 8188,
-      "over_max_seq_length": 0,
-      "prompt_at_or_over_max_seq_length": 0
-    },
-    "validation": {
-      "count": 636,
-      "min": 88,
-      "p50": 220,
-      "p95": 7130,
-      "p99": 7938,
-      "max": 8161,
-      "over_max_seq_length": 0,
-      "prompt_at_or_over_max_seq_length": 0
-    },
-    "test": {
-      "count": 405,
-      "min": 96,
-      "p50": 209,
-      "p95": 6767,
-      "p99": 7712,
-      "max": 8085,
-      "over_max_seq_length": 0,
-      "prompt_at_or_over_max_seq_length": 0
-    }
+  "token_length_stats": {},
+  "loss_mask_checks": 0,
+  "errors": [
+    "tokenizer/tokenization QC could not run: ModuleNotFoundError: No module named 'transformers'"
+  ],
+  "error_count": 1,
+  "curation": {
+    "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
+    "last_updated": "2026-10-23",
+    "rows_examined": 1422,
+    "rows_corrected_vs_pre_curation_backup": 919,
+    "rows_retained_unchanged": 503,
+    "uncertain_records": 26,
+    "semantic_review": "Single-agent source-grounded rule-guided curation; no independent dual annotation or model-based verification."
   },
-  "loss_mask_checks": 4266,
-  "errors": [],
-  "error_count": 0,
-  "quality_repairs": {
-    "version": "bloom_rewrite_source_grounded_repairs_v1",
-    "validation_rows_repaired": 10,
-    "test_rows_repaired": 8,
-    "train_rows_repaired_by_local_repair_script": true,
-    "policy": "Corrected known malformed source-clause grafts and stock templates; no split movement or source changes.",
-    "full_semantic_review": "pending",
-    "warning": "Repairs are high-confidence targeted corrections, not a complete human semantic review of every row.",
-    "train_semantic_repair_passes": [
-      {
-        "version": "source_grounded_manual_subset_v1",
-        "reviewed_and_corrected": 17,
-        "review_pending": 1058,
-        "full_semantic_review": "pending",
-        "report": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_train_semantic_audit.json",
-        "backup_path": "bloom_rewrite_train_original_backup.jsonl",
-        "backup_sha256": "fe3db700942df439f56c32e31a5902b07c3ecf2c088e6b83caf3f9057d064a65",
-        "final_sha256": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba"
-      }
-    ]
-  },
-  "latest_validation_attempt": {
-    "status": "FAIL",
-    "errors": [
-      "SHA-256 mismatch on qa/train.jsonl before tokenizer validation",
-      "tokenizer validation unavailable: transformers is not installed"
-    ],
-    "working_tree_hash_mismatch_count": 8,
-    "working_tree_hash_mismatches": [
-      {
-        "path": "bloom_rewrite/validation.jsonl",
-        "manifest_sha256": "5c7f64e4ede8d7b221731d513dc2a70eaa7f0bac9c1f2556d6b894fdd7cce765",
-        "working_tree_sha256": "41b4b1b07d264be73e6aba2f7c24b2cbe7f534f3b454519d342afaca50849e1b",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "bloom_rewrite/test.jsonl",
-        "manifest_sha256": "d04c288f1ef117e87031878610b3dc66840178f0f2a92b1591d504e62006f080",
-        "working_tree_sha256": "ccdb8a75734d682ccd4c3bc5f081b106366c7638c2f7182022e3c77950d909d9",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "qa/train.jsonl",
-        "manifest_sha256": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
-        "working_tree_sha256": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "qa/validation.jsonl",
-        "manifest_sha256": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
-        "working_tree_sha256": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "qa/test.jsonl",
-        "manifest_sha256": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
-        "working_tree_sha256": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "summarization/train.jsonl",
-        "manifest_sha256": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
-        "working_tree_sha256": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "summarization/validation.jsonl",
-        "manifest_sha256": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
-        "working_tree_sha256": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      },
-      {
-        "path": "summarization/test.jsonl",
-        "manifest_sha256": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1",
-        "working_tree_sha256": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7",
-        "note": "working-tree newline normalization differs from manifest SHA-256"
-      }
-    ]
+  "validation_results": {
+    "dataset_integrity_and_hashes": "PASS",
+    "canonical_source_mapping": "PASS",
+    "split_integrity": "PASS",
+    "derived_sft_consistency": "PASS",
+    "targeted_curation_tests": "4 passed",
+    "full_test_suite": "50 tests: 12 failures, 3 errors, 6 skipped using a workspace-local temp directory",
+    "tokenizer_qc": "FAIL: transformers is not installed"
   }
 }
