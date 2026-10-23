@@ -245,8 +245,8 @@
   },
   "generated_files_sha256": {
     "bloom_rewrite/train.jsonl": "11dba4a9817b0bc540cabee06783c20409614ca845b07ed69b3be245fbb4d1a1",
-    "bloom_rewrite/validation.jsonl": "49332c17badbdd4aefeb9ce7292938b55ad911f9269f258b150b0bde2d3f2871",
-    "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+    "bloom_rewrite/validation.jsonl": "5c7f64e4ede8d7b221731d513dc2a70eaa7f0bac9c1f2556d6b894fdd7cce765",
+    "bloom_rewrite/test.jsonl": "d04c288f1ef117e87031878610b3dc66840178f0f2a92b1591d504e62006f080",
     "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
     "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
     "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
@@ -306,5 +306,14 @@
     "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
     "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
     "Never tune model choices using the held-out test split."
-  ]
+  ],
+  "quality_repairs": {
+    "version": "bloom_rewrite_source_grounded_repairs_v1",
+    "validation_rows_repaired": 10,
+    "test_rows_repaired": 8,
+    "train_rows_repaired_by_local_repair_script": true,
+    "policy": "Corrected known malformed source-clause grafts and stock templates; no split movement or source changes.",
+    "full_semantic_review": "pending",
+    "warning": "Repairs are high-confidence targeted corrections, not a complete human semantic review of every row."
+  }
 }
