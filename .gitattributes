@@ -1,1 +1,12 @@
 *.gguf filter=lfs diff=lfs merge=lfs -text
+
+# Dataset fingerprints cover raw file bytes; keep prepared splits identical on all platforms.
+data/multitask_bloom_rewrite_separate/**/*.jsonl text eol=lf
+data/multitask_bloom_rewrite_separate/dataset_manifest.json text eol=lf
+data/multitask_bloom_rewrite_separate/qc_report.json text eol=lf
+
+# These canonical source files are also checked by raw-byte fingerprints.
+"data/rewrite dataset/bloomshift_final_candidate/train.json" text eol=lf
+"data/rewrite dataset/bloomshift_final_candidate/validation.json" text eol=lf
+"data/rewrite dataset/bloomshift_final_candidate/test.json" text eol=lf
+"data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json" text eol=lf

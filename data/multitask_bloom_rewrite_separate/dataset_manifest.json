@@ -15,10 +15,10 @@
     "path": "data/rewrite dataset/bloomshift_final_candidate",
     "version": "bloomshift_final_candidate",
     "files_sha256": {
-      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
-      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
-      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
-      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "train.json": "df545418454c344585eb873048d24114e4210d40450f9bfafe47ad8d7013c7ae",
+      "validation.json": "0bf48571236f5c647a9d1f31d77848d92e443a1938e0edd6f31b03b9bbc12986",
+      "test.json": "292c0c1ba7548d6d3ff24a89c0dd74aa6e462ac010ad985456b1de1d93a5f3c2",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "heldout_annotation_provenance": {
       "inclusion_basis": "dataset_owner_batch_attestation",
@@ -55,7 +55,7 @@
     },
     "batch_review_attestation": {
       "path": "data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json",
-      "sha256": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "sha256": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "training_split_eligibility_policy": "All 1075 canonical BloomShift train rows are used; all 212 validation and 135 test rows remain held out. Legacy review flags are retained as provenance and never used as row filters. Owner batch attestation is not independent dual review or inter-rater reliability.",
     "train_rows": 1075,
@@ -247,12 +247,12 @@
     "bloom_rewrite/train.jsonl": "161d96669cd3d37c58e75428b083e1936f5e40b47de19aaac132c51ee215d31a",
     "bloom_rewrite/validation.jsonl": "2ca970b8dcdab13b38e8d512403aefae2aab9e84744f18073297ceff7b5ca2fa",
     "bloom_rewrite/test.jsonl": "dbb0239e7bc1d2f1628490e6b3e899644ad9a1bc52eecf3c92f89def385915aa",
-    "qa/train.jsonl": "519c09423a2b63dda5aeeae47ad13c0041a5a04e66954612c9c5a3e7d137f7f2",
-    "qa/validation.jsonl": "3b6f3364b290a0af2999fa02f5c8386b48ab2bde8ee0379511e47a42812c045b",
-    "qa/test.jsonl": "b3e052c30bc870a5c7266a7630ab3da7d1860a15b955e393c04c006df48f0111",
-    "summarization/train.jsonl": "b8d668c2a0d133e598c71dea8e05618cb82405dd9352669dbfb2f1c2c744559a",
-    "summarization/validation.jsonl": "37311cb678b6ed00a2119ce4a6af3483da6bdb0d06220c68f8632628f57f7d8a",
-    "summarization/test.jsonl": "7ead1c9b2ecc716d29a169d005f1535f3ee5ed1d2ef94152a38a2aa4d2db11c7"
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
   },
   "training_data_policy": {
     "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
@@ -306,7 +306,7 @@
     "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
     "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
     "Never tune model choices using the held-out test split.",
-    "Working-tree SHA-256 values for unchanged QA and summarization JSONL files reflect CRLF bytes; verified that LF-normalized contents match the prior manifest hashes exactly."
+    "Prepared task-separated JSONL files and fingerprinted canonical BloomShift source files use LF line endings; repository attributes enforce LF checkouts so raw-byte fingerprints are portable across Windows and Linux."
   ],
   "quality_repairs": {
     "version": "bloom_rewrite_source_grounded_repairs_v1",
