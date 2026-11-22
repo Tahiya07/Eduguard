@@ -1,7 +1,7 @@
 ﻿import uvicorn
 from backend.main import app
 
-#testing
+#testing2
 
 if __name__ == "__main__":
     uvicorn.run(
