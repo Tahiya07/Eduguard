@@ -27,11 +27,19 @@
     "process_form": null,
     "source_anchor": "a family of networks to demonstrate that the number of different mincuts in a network can be exponential in the size of the network",
     "target_bloom_level": "Create",
-    "target_rewrite": "How would you improve or redesign a family of networks to demonstrate that the number of different mincuts in a network can be exponential in the size of the network while preserving the stated requirements?",
+    "target_rewrite": "Construct a family of networks whose number of distinct minimum cuts grows exponentially with network size, and show the construction pattern.",
     "synthetic": true,
     "transformation_type": "Apply->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0142"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0142",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_25336b22863e103e",
@@ -44,11 +52,19 @@
     "process_form": null,
     "source_anchor": "a family of networks to demonstrate that the number of different mincuts in a network can be exponential in the size of the network",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Determine whether a family of networks to demonstrate that the number of different mincuts in a network can be exponential in the size of the network satisfies its requirements using relevant criteria and evidence.",
+    "target_rewrite": "Verify whether the constructed network family demonstrates an exponential number of distinct minimum cuts as its size grows.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0143"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0143",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_25336b22863e103e",
@@ -146,10 +162,10 @@
     "process_form": "why",
     "source_anchor": "it is important for the width of the base quasineutral region to be small compared to the minority carrier diffusion length in the operation of a BJT",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess why it is important for the width of the base quasineutral region to be small compared to the minority carrier diffusion length in the operation of a BJT?",
+    "target_rewrite": "Defend the design requirement that a BJT's base quasineutral region be small relative to the minority-carrier diffusion length by judging its effect on device operation.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0346"
   },
   {
@@ -163,10 +179,10 @@
     "process_form": "why",
     "source_anchor": "it is important for the width of the base quasineutral region to be small compared to the minority carrier diffusion length in the operation of a BJT",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What key factors or concepts explain why the width of the base quasineutral region should be small compared to the minority carrier diffusion length in the operation of a BJT?",
+    "target_rewrite": "State the BJT size relationship in the question: the base quasineutral region should be small relative to minority-carrier diffusion length.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0347"
   },
   {
@@ -214,11 +230,19 @@
     "process_form": null,
     "source_anchor": "objectives and learning outcomes when planning a lesson",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Compare the differences in objectives and learning outcomes when planning a lesson against relevant criteria and supporting evidence.",
+    "target_rewrite": "Critique how clearly the lesson plan distinguishes its objectives from its learning outcomes.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0245"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0245",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_42bf8700a7fe6107",
@@ -282,11 +306,19 @@
     "process_form": null,
     "source_anchor": "the 4-Bit Ripple carry Adder Circuit",
     "target_bloom_level": "Create",
-    "target_rewrite": "How would you improve or redesign the 4-Bit Ripple carry Adder Circuit while preserving the stated requirements?",
+    "target_rewrite": "Design a 4-bit ripple-carry adder circuit and label its inputs, carry connections, and sum outputs.",
     "synthetic": true,
     "transformation_type": "Apply->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0551"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0551",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_b27ef22d0e8f04c8",
@@ -299,11 +331,19 @@
     "process_form": null,
     "source_anchor": "the 4-Bit Ripple carry Adder Circuit",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate whether the 4-Bit Ripple carry Adder Circuit satisfies its stated requirements and relevant criteria.",
+    "target_rewrite": "Validate whether the 4-bit ripple-carry adder circuit performs the addition required by its design.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0552"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0552",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_b27ef22d0e8f04c8",
@@ -316,10 +356,10 @@
     "process_form": null,
     "source_anchor": "the 4-Bit Ripple carry Adder Circuit",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which requirements, components, and constraints are associated with the 4-Bit Ripple carry Adder Circuit?",
+    "target_rewrite": "Name the circuit requested: a 4-bit ripple-carry adder.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0553"
   },
   {
@@ -367,11 +407,19 @@
     "process_form": "how",
     "source_anchor": "the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the principle illustrated by the way in which the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness to a comparable situation.",
+    "target_rewrite": "Apply the concept of symbiotic relationships to develop a way to address water pollution, overflowing landfills, or homelessness.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_test_0035"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0035",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_347005efbe71f907",
@@ -384,11 +432,19 @@
     "process_form": "how",
     "source_anchor": "the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that determine the way in which the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness?",
+    "target_rewrite": "Recommend which named problem offers the clearest way to apply symbiotic relationships, and justify the choice.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_test_0036"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0036",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_347005efbe71f907",
@@ -401,10 +457,10 @@
     "process_form": "how",
     "source_anchor": "the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What key factors or stages are involved in the way in which the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness?",
+    "target_rewrite": "Name the three example problems in the question: water pollution, overflowing garbage landfills, and homelessness.",
     "synthetic": true,
     "transformation_type": "Create->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_test_0037"
   },
   {
@@ -418,11 +474,19 @@
     "process_form": "how",
     "source_anchor": "the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness",
     "target_bloom_level": "Understand",
-    "target_rewrite": "How would you explain the way in which the biological concept of symbiotic relationships could be used to help solve socially created problems like water pollution, overflowing garbage landfills, or homelessness?",
+    "target_rewrite": "Explain how symbiotic relationships could help address water pollution, overflowing landfills, or homelessness.",
     "synthetic": true,
     "transformation_type": "Create->Understand",
-    "transformation_strategy": "meaning_explanation",
-    "example_id": "bloomshift_final_test_0038"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0038",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_2f780ad86019ca34",
@@ -435,11 +499,19 @@
     "process_form": "how",
     "source_anchor": "someone modify the Cornell Method to make it effective for researching a topic for a paper",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze how the key factors in someone modify the Cornell Method to make it effective for researching a topic for a paper interact and influence the outcome.",
+    "target_rewrite": "Examine how the Cornell Method's note-taking sections could be adapted to gather and organize research for a paper.",
     "synthetic": true,
     "transformation_type": "Apply->Analyze",
-    "transformation_strategy": "relationship_analysis",
-    "example_id": "bloomshift_final_train_0185"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0185",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_2f780ad86019ca34",
@@ -452,11 +524,19 @@
     "process_form": "how",
     "source_anchor": "someone modify the Cornell Method to make it effective for researching a topic for a paper",
     "target_bloom_level": "Create",
-    "target_rewrite": "Construct a model showing the factors that determine the way in which someone modify the Cornell Method to make it effective for researching a topic for a paper.",
+    "target_rewrite": "Develop a Cornell Method layout adapted to capture and organize research for a paper.",
     "synthetic": true,
     "transformation_type": "Apply->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0186"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0186",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_2f780ad86019ca34",
@@ -469,11 +549,19 @@
     "process_form": "how",
     "source_anchor": "someone modify the Cornell Method to make it effective for researching a topic for a paper",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that determine the way in which someone modify the Cornell Method to make it effective for researching a topic for a paper?",
+    "target_rewrite": "Critique how effectively adapting the Cornell Method can support research for a paper.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0187"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0187",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_2f780ad86019ca34",
@@ -486,11 +574,19 @@
     "process_form": "how",
     "source_anchor": "someone modify the Cornell Method to make it effective for researching a topic for a paper",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What are the key factors or stages associated with someone modify the Cornell Method to make it effective for researching a topic for a paper?",
+    "target_rewrite": "Name one change to the Cornell Method that could support research for a paper.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0188"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0188",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_2f780ad86019ca34",
@@ -503,11 +599,19 @@
     "process_form": "how",
     "source_anchor": "someone modify the Cornell Method to make it effective for researching a topic for a paper",
     "target_bloom_level": "Understand",
-    "target_rewrite": "How would you explain the way in which someone modify the Cornell Method to make it effective for researching a topic for a paper?",
+    "target_rewrite": "Describe how the Cornell Method could be adapted to support research for a paper.",
     "synthetic": true,
     "transformation_type": "Apply->Understand",
-    "transformation_strategy": "meaning_explanation",
-    "example_id": "bloomshift_final_train_0189"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0189",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_096043364cdb1fce",
@@ -537,11 +641,19 @@
     "process_form": "how",
     "source_anchor": "the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the principle illustrated by the way in which the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients to a comparable situation.",
+    "target_rewrite": "Use the soil colloidal complex's role as a nutrient reservoir to explain how it supplies nutrients to plants.",
     "synthetic": true,
     "transformation_type": "Understand->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_validation_0002"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0002",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_096043364cdb1fce",
@@ -554,11 +666,19 @@
     "process_form": "how",
     "source_anchor": "the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients",
     "target_bloom_level": "Create",
-    "target_rewrite": "Construct a model showing the factors that determine the way in which the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients.",
+    "target_rewrite": "Create a diagram showing how the soil colloidal complex retains and releases nutrients for plants.",
     "synthetic": true,
     "transformation_type": "Understand->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_validation_0003"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0003",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_096043364cdb1fce",
@@ -571,11 +691,19 @@
     "process_form": "how",
     "source_anchor": "the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that determine the way in which the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients?",
+    "target_rewrite": "Evaluate how effectively the soil colloidal complex retains and releases nutrients for plant use.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_validation_0004"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0004",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_096043364cdb1fce",
@@ -588,10 +716,10 @@
     "process_form": "how",
     "source_anchor": "the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What key factors or stages are involved in the way in which the soil colloidal complex tends to serve as a \"reservoir\" for plant nutrients?",
+    "target_rewrite": "State the soil colloidal complex's role: a reservoir for plant nutrients.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_validation_0005"
   },
   {
@@ -622,11 +750,19 @@
     "process_form": null,
     "source_anchor": "a network based on the following information: Activity Immediate predecessors",
     "target_bloom_level": "Apply",
-    "target_rewrite": "How could the stated requirements be applied to the design of a network based on the following information: Activity Immediate predecessors?",
+    "target_rewrite": "Use activity-precedence information to draw a network for the project.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0315"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0315",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_57f30443af1e5dd1",
@@ -639,11 +775,19 @@
     "process_form": null,
     "source_anchor": "a network based on the following information: Activity Immediate predecessors",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you judge whether a network based on the following information: Activity Immediate predecessors meets its stated requirements and relevant criteria?",
+    "target_rewrite": "Verify whether the network correctly represents the activity-precedence relationships supplied in the source task.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0316"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0316",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_57f30443af1e5dd1",
@@ -690,11 +834,19 @@
     "process_form": "how",
     "source_anchor": "soils are involved in the greenhouse effects",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze how the key factors in soils are involved in the greenhouse effects interact and influence the outcome.",
+    "target_rewrite": "Examine the ways soil processes contribute to greenhouse effects and how those contributions differ.",
     "synthetic": true,
     "transformation_type": "Understand->Analyze",
-    "transformation_strategy": "relationship_analysis",
-    "example_id": "bloomshift_final_train_0026"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0026",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_04e6a52a0a3451be",
@@ -707,11 +859,19 @@
     "process_form": "how",
     "source_anchor": "soils are involved in the greenhouse effects",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the principle illustrated by soils are involved in the greenhouse effects to a comparable situation.",
+    "target_rewrite": "Apply knowledge of soil processes to explain how soils contribute to greenhouse effects.",
     "synthetic": true,
     "transformation_type": "Understand->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0027"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0027",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_04e6a52a0a3451be",
@@ -724,11 +884,19 @@
     "process_form": "how",
     "source_anchor": "soils are involved in the greenhouse effects",
     "target_bloom_level": "Create",
-    "target_rewrite": "Construct a model showing the factors that determine the way in which soils are involved in the greenhouse effects.",
+    "target_rewrite": "Construct a diagram linking soil processes to their contributions to greenhouse effects.",
     "synthetic": true,
     "transformation_type": "Understand->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0028"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0028",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_04e6a52a0a3451be",
@@ -741,11 +909,19 @@
     "process_form": "how",
     "source_anchor": "soils are involved in the greenhouse effects",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that determine the way in which soils are involved in the greenhouse effects?",
+    "target_rewrite": "Appraise the significance of soil processes in greenhouse effects and explain the basis for that appraisal.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0029"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0029",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_04e6a52a0a3451be",
@@ -758,10 +934,10 @@
     "process_form": "how",
     "source_anchor": "soils are involved in the greenhouse effects",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which key factors or stages are involved in the way in which soils are involved in the greenhouse effects?",
+    "target_rewrite": "Identify the topic link in the source question: soils' involvement in greenhouse effects.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0030"
   },
   {
@@ -809,11 +985,19 @@
     "process_form": null,
     "source_anchor": "several different strategies to solve a mathematical problem",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess whether several different strategies to solve a mathematical problem meets its stated requirements and relevant criteria.",
+    "target_rewrite": "Rank the developed strategies by how effectively each solves the stated mathematical problem.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_validation_0034"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0034",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_27665bab761e384d",
@@ -826,11 +1010,19 @@
     "process_form": null,
     "source_anchor": "several different strategies to solve a mathematical problem",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What requirements, components, and constraints are specified for several different strategies to solve a mathematical problem?",
+    "target_rewrite": "State the number of different strategies requested for solving the mathematical problem.",
     "synthetic": true,
     "transformation_type": "Create->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_validation_0035"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0035",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_27665bab761e384d",
@@ -843,11 +1035,19 @@
     "process_form": null,
     "source_anchor": "several different strategies to solve a mathematical problem",
     "target_bloom_level": "Understand",
-    "target_rewrite": "What is the purpose of several different strategies to solve a mathematical problem, and how do its main elements fit together?",
+    "target_rewrite": "Explain how different strategies can be used to solve the mathematical problem.",
     "synthetic": true,
     "transformation_type": "Create->Understand",
-    "transformation_strategy": "meaning_explanation",
-    "example_id": "bloomshift_final_validation_0036"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0036",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_1cfa94a35e3944ee",
@@ -894,11 +1094,19 @@
     "process_form": null,
     "source_anchor": "electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess the differences between electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis using relevant criteria and evidence.",
+    "target_rewrite": "Weigh how the difference between electroosmosis and electrophoretic mobility affects solute movement in capillary electroosmosis.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_validation_0025"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0025",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_1cfa94a35e3944ee",
@@ -911,11 +1119,19 @@
     "process_form": null,
     "source_anchor": "electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis",
     "target_bloom_level": "Remember",
-    "target_rewrite": "State the main features of electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis.",
+    "target_rewrite": "Name the two processes being compared: electroosmosis and electrophoretic mobility of solutes.",
     "synthetic": true,
     "transformation_type": "Analyze->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_validation_0026"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0026",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_1cfa94a35e3944ee",
@@ -928,11 +1144,19 @@
     "process_form": null,
     "source_anchor": "electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis",
     "target_bloom_level": "Understand",
-    "target_rewrite": "How are electroosmosis and electrophoretic mobility of solutes in capillary electroosmosis similar and different?",
+    "target_rewrite": "Explain how electroosmosis differs from electrophoretic mobility of solutes in capillary electroosmosis.",
     "synthetic": true,
     "transformation_type": "Analyze->Understand",
-    "transformation_strategy": "meaning_explanation",
-    "example_id": "bloomshift_final_validation_0027"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0027",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_3347c2fabe6f1150",
@@ -996,10 +1220,10 @@
     "process_form": null,
     "source_anchor": "the surface tension of a wetting liquid, C (1.23 gml-l ) which rises 1.50 m in a vertical capillary tube with the internal radius of 0.15 mm",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which formulas, quantities, and steps are required to determine the surface tension of a wetting liquid, C (1.23 gml-l ) which rises 1.50 m in a vertical capillary tube with the internal radius of 0.15 mm?",
+    "target_rewrite": "Record the liquid value and capillary dimensions provided for the surface-tension calculation.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_test_0032"
   },
   {
@@ -1064,11 +1288,19 @@
     "process_form": null,
     "source_anchor": "a poster that promote jeans to local senior citizen which appeal directly to a multiracial citizen in Malaysia",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Determine whether a poster that promote jeans to local senior citizen which appeal directly to a multiracial citizen in Malaysia satisfies its requirements using relevant criteria and evidence.",
+    "target_rewrite": "Rate how well the poster's message and imagery appeal to local senior citizens in a multiracial Malaysian audience.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0518"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0518",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_a74d3dcd48c7a0a1",
@@ -1149,10 +1381,10 @@
     "process_form": null,
     "source_anchor": "the Macaulay duration and estimate the bond price if the yield increases by 100 basis points",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you verify the result for the Macaulay duration and estimate the bond price if the yield increases by 100 basis points and support your conclusion?",
+    "target_rewrite": "Verify the Macaulay duration and the estimated bond-price change by checking the calculation against the 100-basis-point yield increase.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0196"
   },
   {
@@ -1166,10 +1398,10 @@
     "process_form": null,
     "source_anchor": "the Macaulay duration and estimate the bond price if the yield increases by 100 basis points",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which formulas, quantities, and steps should be recalled to determine the Macaulay duration and estimate the bond price if the yield increases by 100 basis points?",
+    "target_rewrite": "Name the requested bond quantities: Macaulay duration and price after a 100-basis-point yield increase.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0197"
   },
   {
@@ -1234,10 +1466,10 @@
     "process_form": null,
     "source_anchor": "Differentiate spoken and written language in FIVE (5) aspects",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you judge the differences between Differentiate spoken and written language in FIVE (5) aspects using explicit criteria and evidence?",
+    "target_rewrite": "Appraise spoken and written language across the FIVE stated aspects and decide which differences matter most for the communication purpose.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0226"
   },
   {
@@ -1251,10 +1483,10 @@
     "process_form": null,
     "source_anchor": "Differentiate spoken and written language in FIVE (5) aspects",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What are the main features of spoken and written language in FIVE (5) aspects?",
+    "target_rewrite": "Name the two language forms being compared: spoken and written language.",
     "synthetic": true,
     "transformation_type": "Analyze->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0227"
   },
   {
@@ -1336,10 +1568,10 @@
     "process_form": "noun",
     "source_anchor": "the development process for a building construction",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the development process for a building construction?",
+    "target_rewrite": "Evaluate how the stages in a building-construction process contribute to completing the building, and identify which stage is most consequential.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0058"
   },
   {
@@ -1353,10 +1585,10 @@
     "process_form": "noun",
     "source_anchor": "the development process for a building construction",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What are the key concepts or components of the development process for a building construction?",
+    "target_rewrite": "List the stages in the development process for building construction.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0059"
   },
   {
@@ -1404,10 +1636,10 @@
     "process_form": null,
     "source_anchor": "the following problem using genetic algorithm",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you verify the result for the following problem using genetic algorithm and support your conclusion?",
+    "target_rewrite": "Assess whether the genetic-algorithm solution minimizes the stated objective by comparing its result with the problem's constraints and candidate alternatives.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0445"
   },
   {
@@ -1421,10 +1653,10 @@
     "process_form": null,
     "source_anchor": "the following problem using genetic algorithm",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which formulas, quantities, and steps should be recalled to determine the following problem using genetic algorithm?",
+    "target_rewrite": "State the algorithm specified for solving the problem: genetic algorithm.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0446"
   },
   {
@@ -1574,11 +1806,19 @@
     "process_form": null,
     "source_anchor": "the benefits and drawbacks of artificial drainage",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which criteria, concepts, or evidence are relevant to the benefits and drawbacks of artificial drainage?",
+    "target_rewrite": "Name one benefit and one drawback of artificial drainage.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0114"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0114",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_197f006552c56af1",
@@ -1642,11 +1882,19 @@
     "process_form": null,
     "source_anchor": "the functions of the component of a structural floor",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Identify the criteria, concepts, or evidence relevant to the functions of the component of a structural floor.",
+    "target_rewrite": "List the functions of the components of a structural floor.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0073"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0073",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0a7e633fae4f88ff",
@@ -1710,11 +1958,19 @@
     "process_form": null,
     "source_anchor": "aesthetic qualities and relationship to future values",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which criteria, concepts, or evidence are relevant to aesthetic qualities and relationship to future values?",
+    "target_rewrite": "Identify the aesthetic qualities and future values that the source asks learners to judge.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0462"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0462",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_92189325f2f83d7c",
@@ -1778,11 +2034,19 @@
     "process_form": null,
     "source_anchor": "the performance of Malaysian newspapers and comment on what you think they should do to win back readers, particularly those who show preference for online news",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What relevant criteria, concepts, or evidence should be considered for the performance of Malaysian newspapers and comment on what you think they should do to win back readers, particularly those who show preference for online news?",
+    "target_rewrite": "Name the newspaper audience whose preference for online news is highlighted in the question.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0410"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0410",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_78aaa78533dcaf3f",
@@ -1863,10 +2127,10 @@
     "process_form": "noun",
     "source_anchor": "the purpose of human communication process",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the purpose of human communication process?",
+    "target_rewrite": "Judge which purpose of the human communication process is most important in a described interaction and explain the choice.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0390"
   },
   {
@@ -1914,11 +2178,19 @@
     "process_form": null,
     "source_anchor": "flat roof and pitched roof",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Compare the differences in flat roof and pitched roof against relevant criteria and supporting evidence.",
+    "target_rewrite": "Recommend either a flat or pitched roof for the building conditions stated in the source task.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0485"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0485",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_90c69a78a8d89b45",
@@ -1972,55 +2244,88 @@
     "example_id": "bloomshift_final_train_0459"
   },
   {
-    "source_id": "src_c46b37eb2c6c8ab8",
-    "group_id": 1819793895,
+    "source_id": "figshare_bloom_v1_validation_data_0119",
+    "group_id": 777791890,
     "split": "validation",
-    "source_question": "Calculate the balance of trade when the economy is at equilibrium.",
-    "source_bloom_level": "Apply",
-    "source_topic": "the balance of trade when the economy is at equilibrium",
-    "question_family": "calculation",
+    "source_question": "Contrast Olympic athletes of today with athletes of past Olympic games.",
+    "source_bloom_level": "Analyze",
+    "source_topic": "Contrast Olympic athletes of today with athletes of past Olympic games.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "the balance of trade when the economy is at equilibrium",
+    "source_anchor": "Contrast Olympic athletes of today with athletes of past Olympic games.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the quantities and relationships needed to determine the balance of trade when the economy is at equilibrium.",
+    "target_rewrite": "Compare Olympic athletes from today and past Games, distinguishing the characteristics that differ between the two groups.",
     "synthetic": true,
-    "transformation_type": "Apply->Analyze",
-    "transformation_strategy": "relationship_analysis",
-    "example_id": "bloomshift_final_train_0579"
+    "transformation_type": "Analyze->Analyze",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0119_analyze_replacement",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "training_eligible": true,
+    "candidate_feasibility": "provisional_agent_curated",
+    "semantic_risks": [
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
+    ],
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_final_train_0579",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 119
   },
   {
-    "source_id": "src_c46b37eb2c6c8ab8",
-    "group_id": 1819793895,
+    "source_id": "figshare_bloom_v1_validation_data_0159",
+    "group_id": 198823157,
     "split": "validation",
-    "source_question": "Calculate the balance of trade when the economy is at equilibrium.",
-    "source_bloom_level": "Apply",
-    "source_topic": "the balance of trade when the economy is at equilibrium",
-    "question_family": "calculation",
+    "source_question": "The independence of external auditors is extremely critical due to their roles in providing true and fair view on a company financial position. Develop THREE (3) safeguards to reduce the threats on external auditors' independence.",
+    "source_bloom_level": "Create",
+    "source_topic": "The independence of external auditors is extremely critical due to their roles in providing true and fair view on a company financial position. Develop THREE (3) safeguards to reduce the threats on external auditors' independence.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "the balance of trade when the economy is at equilibrium",
+    "source_anchor": "The independence of external auditors is extremely critical due to their roles in providing true and fair view on a company financial position. Develop THREE (3) safeguards to reduce the threats on external auditors' independence.",
     "target_bloom_level": "Create",
-    "target_rewrite": "Propose a general procedure that determines the balance of trade when the economy is at equilibrium from the required inputs.",
+    "target_rewrite": "Develop three distinct safeguards for external auditors' independence, explaining how each would reduce a threat to that independence.",
     "synthetic": true,
-    "transformation_type": "Apply->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0580"
+    "transformation_type": "Create->Create",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0159_create_replacement",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "training_eligible": true,
+    "candidate_feasibility": "provisional_agent_curated",
+    "semantic_risks": [
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
+    ],
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_final_train_0580",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 159
   },
   {
-    "source_id": "src_c46b37eb2c6c8ab8",
-    "group_id": 1819793895,
+    "source_id": "figshare_bloom_v1_validation_data_0106",
+    "group_id": 614837717,
     "split": "validation",
-    "source_question": "Calculate the balance of trade when the economy is at equilibrium.",
-    "source_bloom_level": "Apply",
-    "source_topic": "the balance of trade when the economy is at equilibrium",
-    "question_family": "calculation",
+    "source_question": "Shareholder activism is an important governance mechanism because this is how minority shareholders exercise and enforce their rights. Comment on the effectiveness of shareholder activism.",
+    "source_bloom_level": "Evaluate",
+    "source_topic": "Shareholder activism is an important governance mechanism because this is how minority shareholders exercise and enforce their rights. Comment on the effectiveness of shareholder activism.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "the balance of trade when the economy is at equilibrium",
+    "source_anchor": "Shareholder activism is an important governance mechanism because this is how minority shareholders exercise and enforce their rights. Comment on the effectiveness of shareholder activism.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Examine the result for the balance of trade when the economy is at equilibrium and justify whether it is correct.",
+    "target_rewrite": "Rate how effectively shareholder activism lets minority shareholders exercise and enforce their rights, and explain the basis for the rating.",
     "synthetic": true,
-    "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0581"
+    "transformation_type": "Evaluate->Evaluate",
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "figshare_bloom_v1_validation_data_0106_evaluate_replacement",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "training_eligible": true,
+    "candidate_feasibility": "provisional_agent_curated",
+    "semantic_risks": [
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
+    ],
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_final_train_0581",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 106
   },
   {
     "source_id": "src_9c77e441714cb3dd",
@@ -2050,11 +2355,19 @@
     "process_form": null,
     "source_anchor": "micro and macro economics",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess the differences between micro and macro economics using relevant criteria and evidence.",
+    "target_rewrite": "Defend whether an individual economic decision or an economy-wide issue calls for microeconomic or macroeconomic analysis.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_test_0100"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0100",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_f62fc65287ecf8d5",
@@ -2084,11 +2397,19 @@
     "process_form": null,
     "source_anchor": "a vendor-rating form that represents your comparison of the education offered by universities in which you considered/are considering/have considered enrolling",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Determine whether a vendor-rating form that represents your comparison of the education offered by universities in which you considered/are considering/have considered enrolling satisfies its requirements using relevant criteria and evidence.",
+    "target_rewrite": "Critique whether the vendor-rating form captures the education features needed to compare the universities being considered.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0659"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0659",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_aa3bb1b9a3b0e970",
@@ -2135,11 +2456,19 @@
     "process_form": null,
     "source_anchor": "a SQA Plan for a software development project which is defined in the attached document",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Use the stated requirements to guide the design of a SQA Plan for a software development project which is defined in the attached document.",
+    "target_rewrite": "Use the referenced project's requirements to prepare a software quality assurance (SQA) plan.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0656"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0656",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_f57c7c5c2315731c",
@@ -2152,11 +2481,19 @@
     "process_form": null,
     "source_anchor": "a SQA Plan for a software development project which is defined in the attached document",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate whether a SQA Plan for a software development project which is defined in the attached document satisfies its stated requirements and relevant criteria.",
+    "target_rewrite": "Validate whether the SQA plan meets the software project's requirements in the referenced document.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0657"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0657",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_d632fb8baa510bdd",
@@ -2411,10 +2748,10 @@
     "process_form": null,
     "source_anchor": "Decide which course of action was most effective",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Judge which course of action was most effective, and justify the judgment using the evidence provided in the case.",
+    "target_rewrite": "Select the most effective course of action from the case and justify the selection with the available evidence.",
     "synthetic": true,
     "transformation_type": "Evaluate->Evaluate",
-    "transformation_strategy": "manual_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "exp034_figshare_row_107_evaluate",
     "review_status": "human_validated",
     "training_eligible": true,
@@ -2476,10 +2813,10 @@
     "process_form": null,
     "source_anchor": "Given two possible solutions, A and B, to solving the given software development problem, decide on the best solution. Give your justification.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Judge which of the two proposed solutions, A or B, best addresses the software-development problem, and justify the decision using explicit criteria.",
+    "target_rewrite": "Choose the better of software solutions A and B by comparing how each addresses the stated development problem, and justify the decision.",
     "synthetic": true,
     "transformation_type": "Evaluate->Evaluate",
-    "transformation_strategy": "manual_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "exp032_figshare_row_589_evaluate",
     "review_status": "human_validated",
     "training_eligible": true,
@@ -2565,10 +2902,10 @@
     "process_form": null,
     "source_anchor": "Discuss how far you agree with this statement with emphasis on circulation management of a newspaper company.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess the extent to which the stated claim holds, focusing on newspaper circulation management and supporting the judgment with reasons.",
+    "target_rewrite": "Weigh the extent to which the statement holds for newspaper circulation management and defend that position with reasons.",
     "synthetic": true,
     "transformation_type": "Evaluate->Evaluate",
-    "transformation_strategy": "manual_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "exp036_figshare_row_119_evaluate",
     "review_status": "human_validated",
     "training_eligible": true,
@@ -3847,20 +4184,21 @@
     "process_form": null,
     "source_anchor": "Suggest and explain TWO (2) ways to measure a bank's profitability.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Compare the components, relationships, or causes concerning measuring a bank's profitability, addressing two ways.",
+    "target_rewrite": "Compare two ways to measure a bank's profitability and explain what each measure reveals.",
     "synthetic": true,
     "transformation_type": "Create->Analyze",
-    "transformation_strategy": "action_verb_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_expansion_exp039_figshare_row_229_analyze",
     "candidate_id": "exp039_figshare_row_229_analyze",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
     "candidate_source_line": 44,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
       "Template-assisted draft; check that the rewrite preserves the source's intended assessment purpose and does not introduce unsupported assumptions.",
-      "The task may be too broad or may omit source-specific nuance; revise or reject during subject-matter review."
+      "The task may be too broad or may omit source-specific nuance; revise or reject during subject-matter review.",
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
     ],
     "expansion_batch": "bloomshift_expansion_v0.3.9",
     "opening_verb": "Compare",
@@ -3872,7 +4210,9 @@
       "human_review_status": null,
       "original_notes": null,
       "original_candidate_id": "exp039_figshare_row_229_analyze"
-    }
+    },
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21"
   },
   {
     "source_id": "figshare_row_229",
@@ -3885,10 +4225,10 @@
     "process_form": null,
     "source_anchor": "Suggest and explain TWO (2) ways to measure a bank's profitability.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess the relevant approach or claims concerning measuring a bank's profitability against explicit criteria, addressing two ways.",
+    "target_rewrite": "Compare the two proposed measures of bank profitability and recommend which gives the more useful view for the intended purpose.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "action_verb_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_expansion_exp039_figshare_row_229_evaluate",
     "candidate_id": "exp039_figshare_row_229_evaluate",
     "candidate_source_file": "candidate_batch_0.3.9_assistant_curated.jsonl",
@@ -4040,10 +4380,10 @@
     "process_form": null,
     "source_anchor": "Describe the advantages of Product Standardization.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess whether product standardization is appropriate for a firm using cost, quality, and customer-fit criteria.",
+    "target_rewrite": "Decide whether product standardization suits the firm by weighing its effects on cost, quality, and customer fit.",
     "synthetic": true,
     "transformation_type": "Remember->Evaluate",
-    "transformation_strategy": "action_verb_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_expansion_exp0310_figshare_row_356_evaluate",
     "candidate_id": "exp0310_figshare_row_356_evaluate",
     "candidate_source_file": "candidate_batch_0.3.10_assistant_curated.jsonl",
@@ -4545,29 +4885,29 @@
     }
   },
   {
-    "source_id": "figshare_row_31",
-    "group_id": 4268095460,
+    "source_id": "figshare_bloom_v1_validation_data_0077",
+    "group_id": 50978875,
     "split": "validation",
-    "source_question": "You are conducting a building survey for a 2 year old building where you reported premature building decay. Explain the possible factors that may cause these defects to the building owner.",
-    "source_bloom_level": "Understand",
-    "source_topic": "You are conducting a building survey for a 2 year old building where you reported premature building decay. Explain the possible factors that may cause these defects to the building owner.",
-    "question_family": "expansion_candidate",
+    "source_question": "GIF and SWF file format can be used to create animations. Compare and state the major advantage and limitation of using GIF rather than SWF for creating animations in webpages.",
+    "source_bloom_level": "Analyze",
+    "source_topic": "GIF and SWF file format can be used to create animations. Compare and state the major advantage and limitation of using GIF rather than SWF for creating animations in webpages.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "You are conducting a building survey for a 2 year old building where you reported premature building decay. Explain the possible factors that may cause these defects to the building owner.",
+    "source_anchor": "GIF and SWF file format can be used to create animations. Compare and state the major advantage and limitation of using GIF rather than SWF for creating animations in webpages.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the reported premature decay in a two-year-old building by grouping plausible causes into relevant categories for the building owner.",
+    "target_rewrite": "Compare GIF and SWF for webpage animation by separating GIF's major advantage from its major limitation relative to SWF.",
     "synthetic": true,
-    "transformation_type": "Understand->Analyze",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_24_figshare_row_31_analyze",
+    "transformation_type": "Analyze->Analyze",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0077_analyze_replacement",
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_24_figshare_row_31_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 24,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Categorization adds an analytical operation; actual defect evidence is not supplied."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_batch_001_30_sources.csv",
     "opening_verb": "Analyze",
@@ -4579,32 +4919,37 @@
       "human_review_status": "pending",
       "original_notes": "Categorization adds an analytical operation; actual defect evidence is not supplied.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_24_figshare_row_31_analyze",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 77
   },
   {
-    "source_id": "figshare_row_33",
-    "group_id": 6683402,
+    "source_id": "figshare_bloom_v1_validation_data_0007",
+    "group_id": 728014864,
     "split": "validation",
-    "source_question": "Describe the SEVEN (7) advantages of radio advertising.",
-    "source_bloom_level": "Remember",
-    "source_topic": "Describe the SEVEN (7) advantages of radio advertising.",
-    "question_family": "expansion_candidate",
+    "source_question": "Discuss why physical weathering is more prevalent in dry, cool regions while chemical weathering is more prevalent in wet, hot regions.",
+    "source_bloom_level": "Understand",
+    "source_topic": "Discuss why physical weathering is more prevalent in dry, cool regions while chemical weathering is more prevalent in wet, hot regions.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Describe the SEVEN (7) advantages of radio advertising.",
+    "source_anchor": "Discuss why physical weathering is more prevalent in dry, cool regions while chemical weathering is more prevalent in wet, hot regions.",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain seven advantages of radio advertising.",
+    "target_rewrite": "Explain why physical weathering is more prevalent in dry, cool regions while chemical weathering is more prevalent in wet, hot regions.",
     "synthetic": true,
-    "transformation_type": "Remember->Understand",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_25_figshare_row_33_understand",
+    "transformation_type": "Understand->Understand",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0007_understand_replacement",
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_25_figshare_row_33_understand",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 25,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Preserves the count and topic while raising the demand from listing/recall to explanation."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_batch_001_30_sources.csv",
     "opening_verb": "Explain",
@@ -4616,7 +4961,12 @@
       "human_review_status": "pending",
       "original_notes": "Preserves the count and topic while raising the demand from listing/recall to explanation.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_25_figshare_row_33_understand",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 7
   },
   {
     "source_id": "figshare_row_33",
@@ -4656,29 +5006,29 @@
     }
   },
   {
-    "source_id": "figshare_row_9",
-    "group_id": 1451595647,
+    "source_id": "figshare_bloom_v1_validation_data_0013",
+    "group_id": 471745194,
     "split": "validation",
-    "source_question": "Compute the area of actual circles.",
-    "source_bloom_level": "Apply",
-    "source_topic": "Compute the area of actual circles.",
-    "question_family": "expansion_candidate",
+    "source_question": "Explain how the heart is like a pump.",
+    "source_bloom_level": "Understand",
+    "source_topic": "Explain how the heart is like a pump.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Compute the area of actual circles.",
+    "source_anchor": "Explain how the heart is like a pump.",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain the procedure for calculating the area of a circle from its radius.",
+    "target_rewrite": "Describe how the heart functions like a pump.",
     "synthetic": true,
-    "transformation_type": "Apply->Understand",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_23_figshare_row_9_understand",
+    "transformation_type": "Understand->Understand",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0013_understand_replacement",
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_23_figshare_row_9_understand",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 23,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Clarifies 'actual circles' as geometric circles; source wording is ambiguous."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_pilot_001.csv",
     "opening_verb": "Explain",
@@ -4690,7 +5040,12 @@
       "human_review_status": "pending",
       "original_notes": "Clarifies 'actual circles' as geometric circles; source wording is ambiguous.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_23_figshare_row_9_understand",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 13
   },
   {
     "source_id": "figshare_row_9",
@@ -4804,29 +5159,29 @@
     }
   },
   {
-    "source_id": "figshare_row_11",
-    "group_id": 4066469842,
+    "source_id": "figshare_bloom_v1_validation_data_0040",
+    "group_id": 24871604,
     "split": "validation",
-    "source_question": "Briefly explain and draw the structure of dilute foams and concentrated foams.",
-    "source_bloom_level": "Understand",
-    "source_topic": "Briefly explain and draw the structure of dilute foams and concentrated foams.",
-    "question_family": "expansion_candidate",
+    "source_question": "Distinguish automatic processing and controlled processing of information. Support your answer with TWO (2) relevant examples. Elaborate your examples in details.",
+    "source_bloom_level": "Analyze",
+    "source_topic": "Distinguish automatic processing and controlled processing of information. Support your answer with TWO (2) relevant examples. Elaborate your examples in details.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Briefly explain and draw the structure of dilute foams and concentrated foams.",
+    "source_anchor": "Distinguish automatic processing and controlled processing of information. Support your answer with TWO (2) relevant examples. Elaborate your examples in details.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Differentiate dilute foams from concentrated foams by analyzing their structures in labeled diagrams.",
+    "target_rewrite": "Differentiate automatic processing from controlled processing by examining their characteristics and using two relevant examples.",
     "synthetic": true,
-    "transformation_type": "Understand->Analyze",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_30_figshare_row_11_analyze",
+    "transformation_type": "Analyze->Analyze",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0040_analyze_replacement",
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_30_figshare_row_11_analyze",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 30,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Analytical contrast; source's drawing component remains relevant."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_pilot_001.csv",
     "opening_verb": "Differentiate",
@@ -4838,32 +5193,37 @@
       "human_review_status": "pending",
       "original_notes": "Analytical contrast; source's drawing component remains relevant.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_30_figshare_row_11_analyze",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 40
   },
   {
-    "source_id": "figshare_row_13",
-    "group_id": 4032914604,
+    "source_id": "figshare_bloom_v1_validation_data_0024",
+    "group_id": 269359737,
     "split": "validation",
-    "source_question": "Define FOUR (4) primary roles of advertising in business and society.",
-    "source_bloom_level": "Remember",
-    "source_topic": "Define FOUR (4) primary roles of advertising in business and society.",
-    "question_family": "expansion_candidate",
+    "source_question": "Briefly describe the advantages of marker assisted selection in farm animal breeding.",
+    "source_bloom_level": "Understand",
+    "source_topic": "Briefly describe the advantages of marker assisted selection in farm animal breeding.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Define FOUR (4) primary roles of advertising in business and society.",
+    "source_anchor": "Briefly describe the advantages of marker assisted selection in farm animal breeding.",
     "target_bloom_level": "Understand",
-    "target_rewrite": "Explain four primary roles of advertising in business and society.",
+    "target_rewrite": "Summarize the advantages of marker-assisted selection in farm-animal breeding.",
     "synthetic": true,
-    "transformation_type": "Remember->Understand",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_35_figshare_row_13_understand",
+    "transformation_type": "Understand->Understand",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_validation_data_0024_understand_replacement",
     "candidate_id": "action_verb_rewrite_pilot_001_csv_line_35_figshare_row_13_understand",
     "candidate_source_file": "action_verb_rewrite_pilot_001.csv",
     "candidate_source_line": 35,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Preserves number and topic while shifting from definition to explanation."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_pilot_001.csv",
     "opening_verb": "Explain",
@@ -4875,7 +5235,12 @@
       "human_review_status": "pending",
       "original_notes": "Preserves number and topic while shifting from definition to explanation.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_pilot_001_csv_line_35_figshare_row_13_understand",
+    "figshare_source_csv": "data/figshare_bloom_v1_val.csv",
+    "figshare_source_data_index": 24
   },
   {
     "source_id": "figshare_row_13",

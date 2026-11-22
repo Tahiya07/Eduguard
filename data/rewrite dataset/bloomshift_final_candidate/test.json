@@ -61,10 +61,10 @@
     "process_form": "why",
     "source_anchor": "higher rates of nitrogen might be required for no tillage compared to conventional tillage",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess why higher rates of nitrogen might be required for no tillage compared to conventional tillage?",
+    "target_rewrite": "Defend the use of higher nitrogen rates under no-tillage by judging how residue and nitrogen availability affect the crop compared with conventional tillage.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0351"
   },
   {
@@ -78,10 +78,10 @@
     "process_form": "why",
     "source_anchor": "higher rates of nitrogen might be required for no tillage compared to conventional tillage",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What key factors or concepts are associated with higher rates of nitrogen might be required for no tillage compared to conventional tillage?",
+    "target_rewrite": "Name the tillage systems being compared for nitrogen requirements: no-tillage and conventional tillage.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0352"
   },
   {
@@ -146,10 +146,10 @@
     "process_form": null,
     "source_anchor": "the distance between the two points with the following formula",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which formulas, quantities, and steps are required to determine the distance between the two points with the following formula?",
+    "target_rewrite": "State the distance formula to use for the two points.",
     "synthetic": true,
     "transformation_type": "Apply->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_validation_0054"
   },
   {
@@ -197,11 +197,19 @@
     "process_form": null,
     "source_anchor": "a program that uses nested loops to print the following output:",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Implement a program that uses nested loops to print the following output: using the stated requirements.",
+    "target_rewrite": "Use nested loops in a program to print the specified output.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0002"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0002",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_013d7e6678a5af5d",
@@ -214,10 +222,10 @@
     "process_form": null,
     "source_anchor": "a program that uses nested loops to print the following output:",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you test an implementation of a program that uses nested loops to print the following output: for correctness and efficiency?",
+    "target_rewrite": "Test whether the nested-loop program produces the specified output for representative inputs, and judge whether its loop structure is appropriate for that output.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0003"
   },
   {
@@ -299,11 +307,19 @@
     "process_form": null,
     "source_anchor": "repurchase agreement (repo) and reverse repurchase agreement",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Compare the differences in repurchase agreement (repo) and reverse repurchase agreement against relevant criteria and supporting evidence.",
+    "target_rewrite": "Decide which transaction, a repo or reverse repo, fits a party seeking to borrow cash against securities, based on the direction of the exchange.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0206"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0206",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_34730a89dff20fab",
@@ -384,11 +400,19 @@
     "process_form": null,
     "source_anchor": "a poster that will advertise your new food product in an exciting and irresistible way",
     "target_bloom_level": "Create",
-    "target_rewrite": "How would you improve or redesign a poster that will advertise your new food product in an exciting and irresistible way while preserving the stated requirements?",
+    "target_rewrite": "Create an advertisement poster for your new food product with a message and visual concept designed to attract attention.",
     "synthetic": true,
     "transformation_type": "Evaluate->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0335"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0335",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_6042bc94cf656445",
@@ -452,11 +476,19 @@
     "process_form": null,
     "source_anchor": "a scientific study to test the effect of different kinds of music on hens’ egg production",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Use the stated requirements to guide the design of a scientific study to test the effect of different kinds of music on hens’ egg production.",
+    "target_rewrite": "Apply experimental-design principles to set up a study comparing music conditions and egg production in hens.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0599"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0599",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_cb1c6acbaebfb3cf",
@@ -469,11 +501,19 @@
     "process_form": null,
     "source_anchor": "a scientific study to test the effect of different kinds of music on hens’ egg production",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate whether a scientific study to test the effect of different kinds of music on hens’ egg production satisfies its stated requirements and relevant criteria.",
+    "target_rewrite": "Critique whether the study design can isolate the effect of different kinds of music on hens' egg production.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0600"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0600",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_cb1c6acbaebfb3cf",
@@ -486,10 +526,10 @@
     "process_form": null,
     "source_anchor": "a scientific study to test the effect of different kinds of music on hens’ egg production",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which requirements, components, and constraints are associated with a scientific study to test the effect of different kinds of music on hens’ egg production?",
+    "target_rewrite": "Name the variables in the proposed study: type of music and hens' egg production.",
     "synthetic": true,
     "transformation_type": "Create->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0601"
   },
   {
@@ -639,10 +679,10 @@
     "process_form": null,
     "source_anchor": "Distinguish among acidic, saline and sodic soils",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you judge the differences between Distinguish among acidic, saline and sodic soils using explicit criteria and evidence?",
+    "target_rewrite": "Classify acidic, saline, and sodic soils from their stated properties, then justify whether each classification fits the defining soil condition.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0325"
   },
   {
@@ -656,10 +696,10 @@
     "process_form": null,
     "source_anchor": "Distinguish among acidic, saline and sodic soils",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What are the main features of acidic, saline and sodic soils?",
+    "target_rewrite": "Name the three soil conditions being distinguished: acidic, saline, and sodic.",
     "synthetic": true,
     "transformation_type": "Analyze->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0326"
   },
   {
@@ -741,10 +781,10 @@
     "process_form": "why",
     "source_anchor": "hazard identification in the case of pathogens is complicated",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess why hazard identification in the case of pathogens is complicated?",
+    "target_rewrite": "Judge which features of pathogens make hazard identification difficult and explain how those features affect detection.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0069"
   },
   {
@@ -758,10 +798,10 @@
     "process_form": "why",
     "source_anchor": "hazard identification in the case of pathogens is complicated",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What key factors or concepts are associated with the complication of hazard identification in the case of pathogens?",
+    "target_rewrite": "Identify the subject whose hazard identification is described as complicated: pathogens.",
     "synthetic": true,
     "transformation_type": "Understand->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0070"
   },
   {
@@ -894,10 +934,10 @@
     "process_form": null,
     "source_anchor": "Gibbs adsorption equation and dynamic surface tension in the study of adsorption at interfaces",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "How would you judge the differences between Gibbs adsorption equation and dynamic surface tension in the study of adsorption at interfaces using explicit criteria and evidence?",
+    "target_rewrite": "Decide whether Gibbs adsorption equation or dynamic surface tension better addresses a stated adsorption-at-interfaces question, and justify the choice.",
     "synthetic": true,
     "transformation_type": "Analyze->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0037"
   },
   {
@@ -911,10 +951,10 @@
     "process_form": null,
     "source_anchor": "Gibbs adsorption equation and dynamic surface tension in the study of adsorption at interfaces",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What are the main features of Gibbs adsorption equation and dynamic surface tension in the study of adsorption at interfaces?",
+    "target_rewrite": "Name the two concepts compared in adsorption at interfaces: the Gibbs adsorption equation and dynamic surface tension.",
     "synthetic": true,
     "transformation_type": "Analyze->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0038"
   },
   {
@@ -962,11 +1002,19 @@
     "process_form": null,
     "source_anchor": "a new song for the opening line of \"Mary had a little lamb\"",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Use the stated requirements to guide the design of a new song for the opening line of \"Mary had a little lamb\".",
+    "target_rewrite": "Apply the rhyme and rhythm of the opening line of 'Mary Had a Little Lamb' to write a matching next line.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0086"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0086",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0d53bdedc0d17e44",
@@ -979,11 +1027,19 @@
     "process_form": null,
     "source_anchor": "a new song for the opening line of \"Mary had a little lamb\"",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate whether a new song for the opening line of \"Mary had a little lamb\" satisfies its stated requirements and relevant criteria.",
+    "target_rewrite": "Appraise whether the new song fits the opening line of 'Mary Had a Little Lamb' in rhythm and rhyme.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0087"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0087",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0d53bdedc0d17e44",
@@ -996,10 +1052,10 @@
     "process_form": null,
     "source_anchor": "a new song for the opening line of \"Mary had a little lamb\"",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Which requirements, components, and constraints are associated with a new song for the opening line of \"Mary had a little lamb\"?",
+    "target_rewrite": "Recall the opening line that the new song is to follow.",
     "synthetic": true,
     "transformation_type": "Create->Remember",
-    "transformation_strategy": "feature_recall",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0088"
   },
   {
@@ -1047,11 +1103,19 @@
     "process_form": null,
     "source_anchor": "whether the dam and sire are inbred or outbred",
     "target_bloom_level": "Create",
-    "target_rewrite": "Design a decision framework for judging whether the dam and sire are inbred or outbred using explicit criteria.",
+    "target_rewrite": "Create a pedigree diagram showing the relationship between the dam and sire whose inbreeding status is to be determined.",
     "synthetic": true,
     "transformation_type": "Evaluate->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_validation_0029"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0029",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_21579aa457e1e64d",
@@ -1064,11 +1128,19 @@
     "process_form": null,
     "source_anchor": "whether the dam and sire are inbred or outbred",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What criteria, concepts, or evidence are relevant to whether the dam and sire are inbred or outbred?",
+    "target_rewrite": "State whether the dam and sire are classified as inbred or outbred in the source task.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_validation_0030"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_validation_0030",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_21579aa457e1e64d",
@@ -1115,11 +1187,19 @@
     "process_form": "how",
     "source_anchor": "the affinity of hemoglobin for oxygen is regulated",
     "target_bloom_level": "Apply",
-    "target_rewrite": "How could the principle illustrated by the affinity of hemoglobin for oxygen is regulated be applied in a comparable situation?",
+    "target_rewrite": "Apply knowledge of hemoglobin regulation to predict its oxygen affinity under a described condition.",
     "synthetic": true,
     "transformation_type": "Understand->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0413"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0413",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_7ae74a856f66eee1",
@@ -1132,11 +1212,19 @@
     "process_form": "how",
     "source_anchor": "the affinity of hemoglobin for oxygen is regulated",
     "target_bloom_level": "Create",
-    "target_rewrite": "Construct a model showing the factors that determine the way in which the affinity of hemoglobin for oxygen is regulated.",
+    "target_rewrite": "Create a diagram showing the factors that regulate hemoglobin's affinity for oxygen.",
     "synthetic": true,
     "transformation_type": "Understand->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_train_0414"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0414",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_7ae74a856f66eee1",
@@ -1149,11 +1237,19 @@
     "process_form": "how",
     "source_anchor": "the affinity of hemoglobin for oxygen is regulated",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess the factors that determine the way in which the affinity of hemoglobin for oxygen is regulated?",
+    "target_rewrite": "Determine how hemoglobin's regulatory response changes its affinity for oxygen under the condition described.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0415"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0415",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0207adec30af9a73",
@@ -1183,11 +1279,19 @@
     "process_form": null,
     "source_anchor": "the appropriateness of an author's conclusions based on the evidence given",
     "target_bloom_level": "Create",
-    "target_rewrite": "Design a decision framework for judging the appropriateness of an author's conclusions based on the evidence given using explicit criteria.",
+    "target_rewrite": "Construct a checklist for assessing whether an author's conclusion is supported by the evidence presented.",
     "synthetic": true,
     "transformation_type": "Evaluate->Create",
-    "transformation_strategy": "solution_design",
-    "example_id": "bloomshift_final_test_0002"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0002",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0207adec30af9a73",
@@ -1200,11 +1304,19 @@
     "process_form": null,
     "source_anchor": "the appropriateness of an author's conclusions based on the evidence given",
     "target_bloom_level": "Remember",
-    "target_rewrite": "What criteria, concepts, or evidence are relevant to the appropriateness of an author's conclusions based on the evidence given?",
+    "target_rewrite": "Identify the evidence on which the author's conclusions are to be judged.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_test_0003"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_test_0003",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_0207adec30af9a73",
@@ -1268,11 +1380,19 @@
     "process_form": null,
     "source_anchor": "the differences between the common, facing and engineering bricks in characteristics and use",
     "target_bloom_level": "Remember",
-    "target_rewrite": "Identify the criteria, concepts, or evidence relevant to the differences between the common, facing and engineering bricks in characteristics and use.",
+    "target_rewrite": "Name the three brick types compared in the question: common, facing, and engineering bricks.",
     "synthetic": true,
     "transformation_type": "Evaluate->Remember",
-    "transformation_strategy": "feature_recall",
-    "example_id": "bloomshift_final_train_0064"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0064",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_088aae2755cd40ed",
@@ -1319,10 +1439,10 @@
     "process_form": "noun",
     "source_anchor": "How would you show your understanding of the ABC process",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "What evidence or criteria would you use to assess How would you show your understanding of the ABC process?",
+    "target_rewrite": "Appraise the ABC process by deciding how well its steps support the intended result and explaining the basis for that judgment.",
     "synthetic": true,
     "transformation_type": "Apply->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_final_train_0430"
   },
   {
@@ -1370,11 +1490,19 @@
     "process_form": null,
     "source_anchor": "a questionnaire based on at least FOUR open-ended and FOUR closed-ended questions for the interviews",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Use the stated requirements to guide the design of a questionnaire based on at least FOUR open-ended and FOUR closed-ended questions for the interviews.",
+    "target_rewrite": "Prepare an interview questionnaire with at least four open-ended and four closed-ended questions.",
     "synthetic": true,
     "transformation_type": "Create->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0653"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0653",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_f05aaa51b28ff7c1",
@@ -1387,11 +1515,19 @@
     "process_form": null,
     "source_anchor": "a questionnaire based on at least FOUR open-ended and FOUR closed-ended questions for the interviews",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Evaluate whether a questionnaire based on at least FOUR open-ended and FOUR closed-ended questions for the interviews satisfies its stated requirements and relevant criteria.",
+    "target_rewrite": "Verify whether the interview questionnaire includes at least four open-ended and four closed-ended questions.",
     "synthetic": true,
     "transformation_type": "Create->Evaluate",
-    "transformation_strategy": "criteria_based_evaluation",
-    "example_id": "bloomshift_final_train_0654"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0654",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "src_08755036412ab65d",
@@ -1518,11 +1654,19 @@
     "process_form": "how",
     "source_anchor": "a Close method behaves differently for a modelessform (using the show method) compared to a modal form (using the showdialog method)",
     "target_bloom_level": "Apply",
-    "target_rewrite": "Apply the principle illustrated by a Close method behaves differently for a modelessform (using the show method) compared to a modal form (using the showdialog method) to a comparable situation.",
+    "target_rewrite": "Use the form type to determine how Close behaves for a modeless form shown with Show and a modal form shown with ShowDialog.",
     "synthetic": true,
     "transformation_type": "Understand->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0615"
+    "transformation_strategy": "agent_semantic_repair",
+    "example_id": "bloomshift_final_train_0615",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "candidate_feasibility": "provisional_agent_curated",
+    "curation_provenance": "agent_semantic_repair",
+    "curation_recorded_at": "2026-11-21",
+    "semantic_risks": [
+      null,
+      "Source-grounded rewrite was manually curated after the owner attestation; independent human validation is pending."
+    ]
   },
   {
     "source_id": "figshare_row_199",
@@ -1653,10 +1797,10 @@
     "process_form": null,
     "source_anchor": "Building Information Modeling (BIM) claims to enhance construction efficiency. Discuss THREE (3) benefits you would utilize and their importance to your project.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Judge the importance of THREE (3) Building Information Modeling (BIM) benefits for your project and justify each benefit you would choose to use.",
+    "target_rewrite": "Prioritize the THREE BIM benefits most valuable to the stated construction project and justify which ones you would use.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "manual_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "exp03_figshare_row_20_understand",
     "review_status": "human_validated",
     "training_eligible": true,
@@ -1756,21 +1900,32 @@
     "expansion_batch": "036"
   },
   {
-    "source_id": "src_cd5068060a64f4f9",
-    "group_id": 1758222841,
+    "source_id": "figshare_bloom_v1_test_data_0036",
+    "group_id": 75534853,
     "split": "test",
-    "source_question": "Compare how the internal rate of return (IRR) method, Net Present Value (NPV) and modified internal rate of return (MIRR) method is different.",
-    "source_bloom_level": "Analyze",
-    "source_topic": "how the internal rate of return (IRR) method, Net Present Value (NPV) and modified internal rate of return (MIRR) method is different",
-    "question_family": "comparison",
+    "source_question": "A solid cube with dimensions of 10.0 nm was dispersed into water to become colloidal particles with dimensions of 1.0 nm. Calculate the changes of surface area to volume (surface / volume).",
+    "source_bloom_level": "Apply",
+    "source_topic": "A solid cube with dimensions of 10.0 nm was dispersed into water to become colloidal particles with dimensions of 1.0 nm. Calculate the changes of surface area to volume (surface / volume).",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "how the internal rate of return (IRR) method, Net Present Value (NPV) and modified internal rate of return (MIRR) method is different",
+    "source_anchor": "A solid cube with dimensions of 10.0 nm was dispersed into water to become colloidal particles with dimensions of 1.0 nm. Calculate the changes of surface area to volume (surface / volume).",
     "target_bloom_level": "Apply",
-    "target_rewrite": "How could the distinction between how the internal rate of return (IRR) method, Net Present Value (NPV) and modified internal rate of return (MIRR) method is different be used in a practical situation?",
+    "target_rewrite": "Calculate how the cube's surface-area-to-volume ratio changes when its dimensions decrease from 10.0 nm to 1.0 nm in water.",
     "synthetic": true,
-    "transformation_type": "Analyze->Apply",
-    "transformation_strategy": "contextual_application",
-    "example_id": "bloomshift_final_train_0614"
+    "transformation_type": "Apply->Apply",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_test_data_0036_apply_replacement",
+    "review_status": "agent_curated_pending_independent_human_validation",
+    "training_eligible": true,
+    "candidate_feasibility": "provisional_agent_curated",
+    "semantic_risks": [
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
+    ],
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_final_train_0614",
+    "figshare_source_csv": "data/figshare_bloom_v1_test.csv",
+    "figshare_source_data_index": 36
   },
   {
     "source_id": "figshare_row_40",
@@ -2295,10 +2450,10 @@
     "process_form": null,
     "source_anchor": "Give TWO functions of egg yolks in mayonnaise production.",
     "target_bloom_level": "Evaluate",
-    "target_rewrite": "Assess a proposed substitute for egg yolk in mayonnaise against the TWO functions required in the formulation.",
+    "target_rewrite": "Test whether a proposed egg-yolk substitute can perform both required functions in mayonnaise, and justify whether it is suitable.",
     "synthetic": true,
     "transformation_type": "Understand->Evaluate",
-    "transformation_strategy": "action_verb_expansion_candidate",
+    "transformation_strategy": "agent_semantic_repair",
     "example_id": "bloomshift_expansion_exp038_figshare_row_202_evaluate",
     "candidate_id": "exp038_figshare_row_202_evaluate",
     "candidate_source_file": "candidate_batch_0.3.8_assistant_curated.jsonl",
@@ -2840,29 +2995,29 @@
     }
   },
   {
-    "source_id": "figshare_row_36",
-    "group_id": 4251317841,
+    "source_id": "figshare_bloom_v1_test_data_0006",
+    "group_id": 465912979,
     "split": "test",
-    "source_question": "Describe characteristics and importance of secondary market.",
-    "source_bloom_level": "Understand",
-    "source_topic": "Describe characteristics and importance of secondary market.",
-    "question_family": "expansion_candidate",
+    "source_question": "Compare and contrast Manufacturing Resource Planning (MRP-II) and Lean Manufacturing.",
+    "source_bloom_level": "Analyze",
+    "source_topic": "Compare and contrast Manufacturing Resource Planning (MRP-II) and Lean Manufacturing.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Describe characteristics and importance of secondary market.",
+    "source_anchor": "Compare and contrast Manufacturing Resource Planning (MRP-II) and Lean Manufacturing.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Differentiate the characteristics of the secondary market from its role and importance in the relevant financial context.",
+    "target_rewrite": "Contrast Manufacturing Resource Planning (MRP-II) with Lean Manufacturing by examining how their approaches differ.",
     "synthetic": true,
-    "transformation_type": "Understand->Analyze",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_32_figshare_row_36_analyze",
+    "transformation_type": "Analyze->Analyze",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_test_data_0006_analyze_replacement",
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_32_figshare_row_36_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 32,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Adds explicit distinction between features and role; financial-market context should be confirmed."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_batch_001_30_sources.csv",
     "opening_verb": "Differentiate",
@@ -2874,7 +3029,12 @@
       "human_review_status": "pending",
       "original_notes": "Adds explicit distinction between features and role; financial-market context should be confirmed.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_32_figshare_row_36_analyze",
+    "figshare_source_csv": "data/figshare_bloom_v1_test.csv",
+    "figshare_source_data_index": 6
   },
   {
     "source_id": "figshare_row_40",
@@ -2914,29 +3074,29 @@
     }
   },
   {
-    "source_id": "figshare_row_40",
-    "group_id": 4115964056,
+    "source_id": "figshare_bloom_v1_test_data_0088",
+    "group_id": 11006677,
     "split": "test",
-    "source_question": "Eukaryotic genome is mostly repetitive DNA and non-coding sequences. Elaborate the statement.",
-    "source_bloom_level": "Understand",
-    "source_topic": "Eukaryotic genome is mostly repetitive DNA and non-coding sequences. Elaborate the statement.",
-    "question_family": "expansion_candidate",
+    "source_question": "Examine the connection and connectionless protocols using appropriate examples.",
+    "source_bloom_level": "Analyze",
+    "source_topic": "Examine the connection and connectionless protocols using appropriate examples.",
+    "question_family": "unused_figshare_bloom_source_replacement",
     "process_form": null,
-    "source_anchor": "Eukaryotic genome is mostly repetitive DNA and non-coding sequences. Elaborate the statement.",
+    "source_anchor": "Examine the connection and connectionless protocols using appropriate examples.",
     "target_bloom_level": "Analyze",
-    "target_rewrite": "Analyze the statement about repetitive DNA and non-coding sequences in eukaryotic genomes by distinguishing the two concepts and their relationship.",
+    "target_rewrite": "Examine how connection-oriented and connectionless protocols differ, using an appropriate example of each.",
     "synthetic": true,
-    "transformation_type": "Understand->Analyze",
-    "transformation_strategy": "action_verb_expansion_candidate",
-    "example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_40_figshare_row_40_analyze",
+    "transformation_type": "Analyze->Analyze",
+    "transformation_strategy": "individual_source_grounded_figshare_replacement",
+    "example_id": "figshare_bloom_v1_test_data_0088_analyze_replacement",
     "candidate_id": "action_verb_rewrite_batch_001_30_sources_csv_line_40_figshare_row_40_analyze",
     "candidate_source_file": "action_verb_rewrite_batch_001_30_sources.csv",
     "candidate_source_line": 40,
-    "review_status": "human_validated",
+    "review_status": "agent_curated_pending_independent_human_validation",
     "training_eligible": true,
-    "candidate_feasibility": "conditional",
+    "candidate_feasibility": "provisional_agent_curated",
     "semantic_risks": [
-      "Preserves the claim and adds conceptual distinction; biological accuracy and scope need subject review."
+      "Replacement rewrite is outside the prior owner human-review attestation and still requires independent human validation."
     ],
     "expansion_batch": "action_verb_rewrite_batch_001_30_sources.csv",
     "opening_verb": "Analyze",
@@ -2948,7 +3108,12 @@
       "human_review_status": "pending",
       "original_notes": "Preserves the claim and adds conceptual distinction; biological accuracy and scope need subject review.",
       "original_candidate_id": null
-    }
+    },
+    "curation_provenance": "figshare_bloom_unused_source_replacement",
+    "curation_recorded_at": "2026-11-21",
+    "replacement_of_example_id": "bloomshift_expansion_action_verb_rewrite_batch_001_30_sources_csv_line_40_figshare_row_40_analyze",
+    "figshare_source_csv": "data/figshare_bloom_v1_test.csv",
+    "figshare_source_data_index": 88
   },
   {
     "source_id": "figshare_row_42",
