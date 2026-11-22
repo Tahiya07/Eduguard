@@ -105,6 +105,12 @@ def main() -> None:
         trust_remote_code=True,
         torch_dtype=dtype,
     )
+    use_gradient_checkpointing = bool(cfg.get("gradient_checkpointing", True))
+    if args.backward and device == "cuda" and use_gradient_checkpointing:
+        # Match the training path: checkpoint long-context activations and disable
+        # KV caching during backward to reduce GPU memory use.
+        model.config.use_cache = False
+        model.gradient_checkpointing_enable()
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
         lora_alpha=int(cfg["lora_alpha"]),
@@ -115,7 +121,7 @@ def main() -> None:
     )
     model = get_peft_model(model, lora)
     model.to(device)
-    model.eval()
+    model.train(args.backward)
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
@@ -133,6 +139,8 @@ def main() -> None:
     }
 
     for task, tokenized, supervised in batch:
+        if args.backward:
+            model.zero_grad(set_to_none=True)
         inputs = {
             k: torch.tensor([v], dtype=torch.long, device=device)
             for k, v in tokenized.items()
@@ -152,7 +160,6 @@ def main() -> None:
         }
 
         if args.backward:
-            model.zero_grad(set_to_none=True)
             loss.backward()
             finite_grads = 0
             for p in model.parameters():
@@ -165,6 +172,9 @@ def main() -> None:
             task_result["gradient_tensors"] = finite_grads
 
         results["tasks_checked"][task] = task_result
+        # Do not retain the previous task's autograd graph while constructing
+        # the next task's long-context forward pass.
+        del out, loss, inputs
 
     print(json.dumps(results, indent=2))
     print("TRAINING SANITY CHECK: PASS")
