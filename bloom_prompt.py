@@ -8,12 +8,18 @@
 
 from __future__ import annotations
 
+import logging
 import os
 import re
-from operation_control import OperationCancelled, check_cancelled, llama_stopping_criteria
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+
+from operation_control import (
+    OperationCancelled,
+    check_cancelled,
+    llama_stopping_criteria,
+)
 
 from multi_slm import resolve_slm_model_path
 from predict_bloom import BLOOM_LABELS, build_prompt as build_classifier_prompt
@@ -396,15 +402,27 @@ def _get_llm():
         model_path = resolve_slm_model_path("bloom_moderation")
         threads = max(1, int(os.environ.get("GENERATOR_THREADS", "8")))
         n_ctx = max(512, int(os.environ.get("GENERATOR_CONTEXT_TOKENS", "512")))
-        _LLM = Llama(
-            model_path=str(model_path),
-            n_ctx=n_ctx,
-            n_threads=threads,
-            n_gpu_layers=0,
-            use_mmap=True,
-            use_mlock=False,
-            verbose=False,
-        )
+        n_gpu_layers = int(os.environ.get("GENERATOR_GPU_LAYERS", "-1"))
+        load_options = {
+            "model_path": str(model_path),
+            "n_ctx": n_ctx,
+            "n_threads": threads,
+            "n_gpu_layers": n_gpu_layers,
+            "use_mmap": True,
+            "use_mlock": False,
+            "verbose": False,
+        }
+        try:
+            _LLM = Llama(**load_options)
+        except Exception as exc:
+            if n_gpu_layers == 0:
+                raise
+            logging.getLogger(__name__).warning(
+                "Could not load Bloom rewrite model with GPU offload; falling back to CPU: %s",
+                exc,
+            )
+            load_options["n_gpu_layers"] = 0
+            _LLM = Llama(**load_options)
     return _LLM
 
 

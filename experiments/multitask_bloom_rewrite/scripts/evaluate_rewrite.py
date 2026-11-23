@@ -128,6 +128,16 @@ def clean_generation(text: str) -> str:
     return re.sub(r"\s+", " ", cleaned.strip().strip('"').strip("'"))
 
 
+def generation_config_for_task(gen_cfg: dict[str, Any], task: str) -> dict[str, Any]:
+    """Apply an optional task-specific output cap without changing other decoding settings."""
+    task_caps = gen_cfg.get("max_new_tokens_by_task", {})
+    if not isinstance(task_caps, dict) or task not in task_caps:
+        return gen_cfg
+    task_cfg = dict(gen_cfg)
+    task_cfg["max_new_tokens"] = int(task_caps[task])
+    return task_cfg
+
+
 def classify_failure(record: dict[str, Any]) -> str:
     if record.get("empty_output"):
         return "EMPTY_OUTPUT"
@@ -171,7 +181,7 @@ def evaluate_bloom_row(
             raise AssertionError("source_bloom_level in prompt")
 
     t0 = time.perf_counter()
-    raw = generator.generate(prompt, gen_cfg)
+    raw = generator.generate(prompt, generation_config_for_task(gen_cfg, TASK_BLOOM))
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
 
@@ -251,7 +261,7 @@ def evaluate_qa_row(
 ) -> dict[str, Any]:
     prompt = build_generation_prompt(TASK_QA, row)
     t0 = time.perf_counter()
-    raw = generator.generate(prompt, gen_cfg)
+    raw = generator.generate(prompt, generation_config_for_task(gen_cfg, TASK_QA))
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
@@ -270,7 +280,7 @@ def evaluate_sum_row(
 ) -> dict[str, Any]:
     prompt = build_generation_prompt(TASK_SUMMARIZATION, row)
     t0 = time.perf_counter()
-    raw = generator.generate(prompt, gen_cfg)
+    raw = generator.generate(prompt, generation_config_for_task(gen_cfg, TASK_SUMMARIZATION))
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
     return {
@@ -491,6 +501,9 @@ def main() -> None:
         "top_k": 0,
         "repeat_penalty": 1.0,
         "max_new_tokens": int(cfg.get("generation", {}).get("max_new_tokens", 128)),
+        "max_new_tokens_by_task": cfg.get("generation", {}).get(
+            "max_new_tokens_by_task", {}
+        ),
         "decoding": "greedy",
         "seed": SEED,
     }
