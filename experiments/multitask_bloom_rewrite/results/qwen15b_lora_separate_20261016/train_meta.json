@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-10-16T22:22:44.310214+00:00",
+  "timestamp_utc": "2026-11-23T06:10:34.283914+00:00",
   "config": {
     "experiment_name": "multitask_qwen15b_separate_20261016",
     "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -68,7 +68,7 @@
       "summarization"
     ]
   },
-  "git_commit": "7545111a14de208206227861882693cc20b9509a",
+  "git_commit": "7a008781fc4d23e209b901dbaa2fa11e0e45a619",
   "package_versions": {
     "torch": "2.13.0+cu126",
     "transformers": "5.16.1",
@@ -78,33 +78,33 @@
     "numpy": "2.2.6"
   },
   "resources": {
-    "cpu_count": 32,
+    "cpu_count": 24,
     "cuda_available": true,
-    "gpu_name": "NVIDIA GeForce RTX 4090",
-    "gpu_vram_gb": 23.99,
-    "ram_total_gb": 63.84,
-    "ram_available_gb": 55.1,
-    "disk_free_gb": 733.15,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_vram_gb": 15.99,
+    "ram_total_gb": 63.78,
+    "ram_available_gb": 48.3,
+    "disk_free_gb": 113.27,
     "torch_version": "2.13.0+cu126",
     "psutil": true,
-    "cpu_physical": 24,
-    "disk_total_gb": 931.5
+    "cpu_physical": 16,
+    "disk_total_gb": 464.77
   },
   "feasibility": {
-    "timestamp_utc": "2026-10-16T18:00:05.696647+00:00",
+    "timestamp_utc": "2026-11-22T21:42:20.369714+00:00",
     "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
     "resources": {
-      "cpu_count": 32,
+      "cpu_count": 24,
       "cuda_available": true,
-      "gpu_name": "NVIDIA GeForce RTX 4090",
-      "gpu_vram_gb": 23.99,
-      "ram_total_gb": 63.84,
-      "ram_available_gb": 55.1,
-      "disk_free_gb": 733.15,
+      "gpu_name": "NVIDIA GeForce RTX 4080",
+      "gpu_vram_gb": 15.99,
+      "ram_total_gb": 63.78,
+      "ram_available_gb": 48.3,
+      "disk_free_gb": 113.27,
       "torch_version": "2.13.0+cu126",
       "psutil": true,
-      "cpu_physical": 24,
-      "disk_total_gb": 931.5
+      "cpu_physical": 16,
+      "disk_total_gb": 464.77
     },
     "estimates": {
       "approx_params_b": 1.54,
@@ -133,21 +133,21 @@
   "train_samples": 3225,
   "validation_samples": 636,
   "metrics": {
-    "train_runtime": 15692.7909,
-    "train_samples_per_second": 0.617,
-    "train_steps_per_second": 0.039,
-    "total_flos": 1.4127479250816614e+17,
-    "train_loss": 1.313218317409553,
+    "train_runtime": 30301.7556,
+    "train_samples_per_second": 0.319,
+    "train_steps_per_second": 0.02,
+    "total_flos": 1.63728090001152e+17,
+    "train_loss": 1.369564125640164,
     "epoch": 3.0
   },
   "checkpoint_selection": "validation_loss_only",
   "assistant_only_loss": true,
   "dataset_fingerprint": {
     "layout": "task-separated",
-    "manifest_path": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
-    "manifest_sha256": "6217ec29cfb4586902002d7f75927af2cabf05c18f38f07354d643152fdea470",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "959f86d61cce08f2da9dba317b1ad35d22858b09abee8f4b306a543b144f1568",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
-    "data_dir": "D:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
     "counts": {
       "train": {
         "bloom_rewrite": 1075,
@@ -166,9 +166,9 @@
       }
     },
     "generated_files_sha256": {
-      "bloom_rewrite/train.jsonl": "11dba4a9817b0bc540cabee06783c20409614ca845b07ed69b3be245fbb4d1a1",
-      "bloom_rewrite/validation.jsonl": "49332c17badbdd4aefeb9ce7292938b55ad911f9269f258b150b0bde2d3f2871",
-      "bloom_rewrite/test.jsonl": "be0fc9b953c69635db8a8315563bed2b4518387509a5ce2ee0d572972cdda509",
+      "bloom_rewrite/train.jsonl": "03e3a2db2d7435de534f23c73b979ad877ec11f027b9a7b8144934c96f437a83",
+      "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+      "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
       "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
       "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
       "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
@@ -176,16 +176,17 @@
       "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
       "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
     },
-    "bloom_source": "D:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source": "C:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
     "bloom_source_sha256": {
-      "train.json": "3e85e4e42a40dab1228213021391f4dd0960717cbbb81e6dc5e279445c7504d0",
-      "validation.json": "bb981213354378861e349581cc1baebd1181c313cfee8492ac586fe5a06a78bc",
-      "test.json": "7d7298c09f2dd0f78039b8f1e5a875c0cb2df25fe9e821f1e3f75ed4b5ceddfd",
-      "batch_review_attestation.json": "598016a70948e3d3c51c224f835e54b6cab1f6e81d7692816939da94b0278a95"
+      "train.json": "1368b4f6888332217fb28abd74ffb4dbea150728e6c6074e7864f57b8e2a2806",
+      "validation.json": "7c8483928d020df51312b285b8ab6ff9fbbae5296bb938f05be2537ec58dcda1",
+      "test.json": "f5e5702f4c3ee7944d07db687f0bfccaf7e429addd280c66056cbc8c22a1ca4b",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
     },
     "bloom_annotation_provenance": {
-      "inclusion_basis": "dataset_owner_batch_attestation",
-      "owner_reported_all_rows_human_reviewed": true,
+      "inclusion_basis": "owner_batch_attestation_with_agent_curated_replacements",
+      "owner_reported_all_rows_human_reviewed": false,
+      "agent_curated_replacement_rows": 47,
       "all_source_rows_included": true,
       "source_split_counts": {
         "train": 1075,
@@ -212,7 +213,8 @@
       ],
       "warnings": [
         "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
-        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims.",
+        "47 Figshare-source replacement rows were curated after the owner attestation; they are not covered by its human-review claim and still require independent human validation."
       ],
       "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
     },
@@ -247,8 +249,8 @@
     "qa",
     "summarization"
   ],
-  "training_selection_manifest": "D:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_lora_separate_20261016\\training_selection_manifest.json",
-  "training_selection_manifest_sha256": "95c625061c80ca57cb2afd298fe1807f59fc34b9a0beeb6799867f6c2c82c655",
+  "training_selection_manifest": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_lora_separate_20261016\\training_selection_manifest.json",
+  "training_selection_manifest_sha256": "7a2528e880744d0007293ad994d7c7ab2b5ada056c9496ed8f74dc682d876ca9",
   "train_rows_by_task": {
     "bloom_rewrite": 1075,
     "qa": 1075,

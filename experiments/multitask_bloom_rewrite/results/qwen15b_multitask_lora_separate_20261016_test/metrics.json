@@ -1,0 +1,385 @@
+{
+  "evaluated_utc": "2026-11-23T07:55:42.389221+00:00",
+  "condition": "lora",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_lora_separate_20261016\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  },
+  "dataset": {
+    "layout": "task-separated",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "959f86d61cce08f2da9dba317b1ad35d22858b09abee8f4b306a543b144f1568",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "counts": {
+      "row_count": 405,
+      "test_count": 405,
+      "validation_count": null,
+      "by_task": {
+        "bloom_rewrite": 135,
+        "qa": 135,
+        "summarization": 135
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/train.jsonl": "03e3a2db2d7435de534f23c73b979ad877ec11f027b9a7b8144934c96f437a83",
+      "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+      "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+      "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+      "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+      "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "bloom_source": "C:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source_sha256": {
+      "train.json": "1368b4f6888332217fb28abd74ffb4dbea150728e6c6074e7864f57b8e2a2806",
+      "validation.json": "7c8483928d020df51312b285b8ab6ff9fbbae5296bb938f05be2537ec58dcda1",
+      "test.json": "f5e5702f4c3ee7944d07db687f0bfccaf7e429addd280c66056cbc8c22a1ca4b",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "owner_batch_attestation_with_agent_curated_replacements",
+      "owner_reported_all_rows_human_reviewed": false,
+      "agent_curated_replacement_rows": 47,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims.",
+        "47 Figshare-source replacement rows were curated after the owner attestation; they are not covered by its human-review claim and still require independent human validation."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "training_data_policy": {
+      "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+      "ratio_based_downsampling": false,
+      "requested_caps": {
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "rows_retained_during_capped_source_scan": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "retained_training_rows": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "task_train_fractions_of_retained_union": {
+        "bloom_rewrite": 0.333333,
+        "qa": 0.333333,
+        "summarization": 0.333333
+      },
+      "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+    },
+    "split": "test",
+    "split_counts_loaded": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "split_file_sha256": {
+      "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "loaded_tasks": [
+      "bloom_rewrite",
+      "qa",
+      "summarization"
+    ],
+    "combined_in_memory_only": true,
+    "dataset_hash": "959f86d61cce08f2da9dba317b1ad35d22858b09abee8f4b306a543b144f1568",
+    "file_sha256": {
+      "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "test_manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "validation_manifest_path": null,
+    "full_source_split_unchanged": true,
+    "corpus_physically_task_separated": true
+  },
+  "evaluation_subset": {
+    "full_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "evaluated_task_counts": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "evaluated_total": 405,
+    "manifest_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_lora_separate_20261016_test\\evaluation_subset_manifest.json"
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "decoding": "greedy",
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "C:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9614
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 135,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 135,
+      "accuracy": 0.666667,
+      "macro_precision": 0.717193,
+      "macro_recall": 0.699468,
+      "macro_f1": 0.67236,
+      "weighted_f1": 0.663938,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.653846,
+          "f1": 0.790698,
+          "support": 26
+        },
+        "Understand": {
+          "precision": 0.388889,
+          "recall": 0.823529,
+          "f1": 0.528302,
+          "support": 17
+        },
+        "Apply": {
+          "precision": 0.52,
+          "recall": 0.590909,
+          "f1": 0.553191,
+          "support": 22
+        },
+        "Analyze": {
+          "precision": 0.75,
+          "recall": 0.310345,
+          "f1": 0.439024,
+          "support": 29
+        },
+        "Evaluate": {
+          "precision": 0.826087,
+          "recall": 1.0,
+          "f1": 0.904762,
+          "support": 19
+        },
+        "Create": {
+          "precision": 0.818182,
+          "recall": 0.818182,
+          "f1": 0.818182,
+          "support": 22
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 17,
+          "Understand": 9,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 14,
+          "Apply": 0,
+          "Analyze": 2,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 5,
+          "Apply": 13,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 4,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 7,
+          "Apply": 12,
+          "Analyze": 9,
+          "Evaluate": 1,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 19,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 1,
+          "Apply": 0,
+          "Analyze": 1,
+          "Evaluate": 2,
+          "Create": 18,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.644444,
+      "semantic_valid_rate": 0.703704,
+      "cognitive_valid_rate": 0.644444,
+      "classifier_match_rate": 0.666667,
+      "fully_validated_rewrite_rate": 0.392593,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.0,
+      "answer_output_rate": 0.355556,
+      "empty_output_rate": 0.0,
+      "interrogative_valid_rate": 0.0,
+      "imperative_valid_rate": 0.644444,
+      "question_form_valid_rate": 0.644444,
+      "mean_output_chars": 108.76,
+      "mean_semantic_similarity": 0.270553,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.653846,
+        "f1": 0.790698,
+        "support": 26
+      },
+      "Understand": {
+        "precision": 0.388889,
+        "recall": 0.823529,
+        "f1": 0.528302,
+        "support": 17
+      },
+      "Apply": {
+        "precision": 0.52,
+        "recall": 0.590909,
+        "f1": 0.553191,
+        "support": 22
+      },
+      "Analyze": {
+        "precision": 0.75,
+        "recall": 0.310345,
+        "f1": 0.439024,
+        "support": 29
+      },
+      "Evaluate": {
+        "precision": 0.826087,
+        "recall": 1.0,
+        "f1": 0.904762,
+        "support": 19
+      },
+      "Create": {
+        "precision": 0.818182,
+        "recall": 0.818182,
+        "f1": 0.818182,
+        "support": 22
+      }
+    }
+  },
+  "qa": {
+    "squad": {
+      "n": 135,
+      "exact_match": 0.555556,
+      "f1": 0.767323
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 135,
+    "rouge1": 0.432103,
+    "rouge2": 0.160398,
+    "rougeL": 0.259092
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 7.9549,
+    "per_example": {
+      "mean": 7.422833,
+      "p50": 3.078254,
+      "p95": 20.181295,
+      "min": 0.244204,
+      "max": 30.11998
+    }
+  },
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 3184.52,
+    "uss_mb": 2921.61,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_memory_allocated_mb": 3976.61,
+    "gpu_memory_reserved_mb": 16016.0
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "7a008781fc4d23e209b901dbaa2fa11e0e45a619",
+  "deployment_recommendation": "INCONCLUSIVE"
+}
