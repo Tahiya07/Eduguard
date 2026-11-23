@@ -148,16 +148,25 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
             raise SystemExit("Maximum-length GPU preflight produced a non-finite loss.")
         loss.backward()
         torch.cuda.synchronize()
-        peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
+        peak_allocated_gb = torch.cuda.max_memory_allocated(0) / 1024**3
+        current_reserved_gb = torch.cuda.memory_reserved(0) / 1024**3
+        current_allocated_gb = torch.cuda.memory_allocated(0) / 1024**3
         total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         free_bytes, _ = torch.cuda.mem_get_info(0)
-        remaining_headroom_gb = free_bytes / 1024**3
+        free_global_gb = free_bytes / 1024**3
+        non_torch_usage_gb = max(
+            0.0,
+            total_gb - free_global_gb - current_reserved_gb,
+        )
+        remaining_headroom_gb = total_gb - non_torch_usage_gb - peak_allocated_gb
         result = {
             "example_id": longest_row.get("id"),
             "sequence_tokens": longest_tokens,
-            "peak_reserved_gb": round(peak_reserved_gb, 2),
+            "peak_live_tensor_gb": round(peak_allocated_gb, 2),
+            "current_tensor_gb": round(current_allocated_gb, 2),
+            "non_torch_usage_gb": round(non_torch_usage_gb, 2),
+            "free_global_after_backward_gb": round(free_global_gb, 2),
             "device_total_gb": round(total_gb, 2),
-            "free_after_backward_gb": round(remaining_headroom_gb, 2),
             "headroom_gb": round(remaining_headroom_gb, 2),
             "required_headroom_gb": min_free_gb,
         }

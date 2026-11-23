@@ -220,21 +220,33 @@ def main() -> None:
         del out, loss, inputs
 
     if args.backward and device == "cuda":
-        peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
+        peak_allocated_gb = torch.cuda.max_memory_allocated(0) / 1024**3
+        current_reserved_gb = torch.cuda.memory_reserved(0) / 1024**3
+        current_allocated_gb = torch.cuda.memory_allocated(0) / 1024**3
         total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         free_bytes, _ = torch.cuda.mem_get_info(0)
-        headroom_gb = free_bytes / 1024**3
+        free_global_gb = free_bytes / 1024**3
+        non_torch_usage_gb = max(
+            0.0,
+            total_gb - free_global_gb - current_reserved_gb,
+        )
+        headroom_gb = (
+            total_gb - non_torch_usage_gb - peak_allocated_gb
+        )
         results["gpu_memory"] = {
-            "peak_reserved_gb": round(peak_reserved_gb, 2),
+            "peak_live_tensor_gb": round(peak_allocated_gb, 2),
+            "current_tensor_gb": round(current_allocated_gb, 2),
+            "non_torch_usage_gb": round(non_torch_usage_gb, 2),
+            "free_global_after_backward_gb": round(free_global_gb, 2),
             "total_gb": round(total_gb, 2),
-            "free_after_backward_gb": round(headroom_gb, 2),
             "headroom_gb": round(headroom_gb, 2),
         }
         required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
         if headroom_gb < required_headroom_gb:
             raise SystemExit(
-                f"GPU sanity backward left {headroom_gb:.2f} GB free "
-                f"(peak reserved {peak_reserved_gb:.2f}/{total_gb:.2f} GB); "
+                f"GPU sanity backward estimates {headroom_gb:.2f} GB headroom "
+                f"(peak tensors {peak_allocated_gb:.2f} GB, non-PyTorch use "
+                f"{non_torch_usage_gb:.2f} GB of {total_gb:.2f} GB); "
                 f"{required_headroom_gb:.2f} GB is required."
             )
 
