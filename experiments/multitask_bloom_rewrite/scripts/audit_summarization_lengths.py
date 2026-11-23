@@ -7,7 +7,7 @@ SCRIPT_DIR=Path(__file__).resolve().parent
 EXPERIMENT_DIR=SCRIPT_DIR.parent
 REPO_ROOT=EXPERIMENT_DIR.parents[1]
 if str(EXPERIMENT_DIR) not in sys.path: sys.path.insert(0,str(EXPERIMENT_DIR))
-from paths import MULTITASK_FINAL_DATA_DIR, TASK_SUMMARIZATION
+from paths import TASK_SEPARATED_DATA_DIR, TASK_SUMMARIZATION
 
 def read_jsonl(path):
     with path.open(encoding="utf-8") as f: return [json.loads(x) for x in f if x.strip()]
@@ -17,7 +17,10 @@ def stats(values):
     return {"n":len(s),"mean":round(sum(s)/len(s),2),"median":round(statistics.median(s),2),"p95":s[min(len(s)-1,round(.95*(len(s)-1)))],"min":s[0],"max":s[-1]}
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--dataset",default=str(MULTITASK_FINAL_DATA_DIR/"train.jsonl"))
+    ap.add_argument(
+        "--dataset",
+        default=str(TASK_SEPARATED_DATA_DIR / TASK_SUMMARIZATION / "train.jsonl"),
+    )
     ap.add_argument("--max-seq-length",type=int,default=8192)
     ap.add_argument("--max-new-tokens",type=int,default=128)
     ap.add_argument("--approx-chars-per-token",type=float,default=4.0)

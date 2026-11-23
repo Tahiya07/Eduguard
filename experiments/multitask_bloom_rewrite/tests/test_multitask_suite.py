@@ -13,7 +13,7 @@ if str(EXPERIMENT_DIR) not in sys.path:
 
 from bloom_validation import validate_bloom_example  # noqa: E402
 from loss_masking import assert_assistant_only_loss, mask_prompt_labels  # noqa: E402
-from paths import CONFIG_DIR, MULTITASK_DATA_DIR, TOPIC_SIMILARITY_THRESHOLD  # noqa: E402
+from paths import CONFIG_DIR, TASK_SEPARATED_DATA_DIR, TOPIC_SIMILARITY_THRESHOLD  # noqa: E402
 from prompts import (  # noqa: E402
     FORBIDDEN_SOURCE_LEVEL_MARKERS,
     assert_no_source_level_in_prompt,
@@ -66,7 +66,9 @@ class TestPromptContract(unittest.TestCase):
                 )
                 self.assertIn(level, prompt)
                 self.assertIn(verbs, prompt)
-                self.assertIn("actual student task", prompt)
+                # The current contract states this as "the task the student must perform";
+                # retain the semantic check without coupling it to the retired wording.
+                self.assertIn("task the student must perform", prompt)
                 self.assertIn("OUTPUT ONLY ONE", prompt)
 
     def test_unknown_target_level_fails_closed(self) -> None:
@@ -119,16 +121,25 @@ class TestLossMasking(unittest.TestCase):
 
 
 class TestTrainingConfig(unittest.TestCase):
-    def test_configs_differ_only_on_model_paths(self) -> None:
-        a = json.loads((CONFIG_DIR / "qwen05b_multitask.json").read_text(encoding="utf-8"))
-        b = json.loads((CONFIG_DIR / "qwen15b_multitask.json").read_text(encoding="utf-8"))
-        ignore = {"experiment_name", "model_id", "model_key", "output_dir", "results_dir", "notes"}
-        for k in set(a) | set(b):
-            if k in ignore:
-                continue
-            self.assertEqual(a.get(k), b.get(k), msg=k)
-        self.assertEqual(a["model_id"], "Qwen/Qwen2.5-0.5B-Instruct")
-        self.assertEqual(b["model_id"], "Qwen/Qwen2.5-1.5B-Instruct")
+    def test_active_separate_config_uses_prepared_dataset(self) -> None:
+        config = json.loads(
+            (CONFIG_DIR / "qwen15b_multitask_separate_20261016.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        manifest = json.loads(
+            (TASK_SEPARATED_DATA_DIR / "dataset_manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(config["model_id"], "Qwen/Qwen2.5-1.5B-Instruct")
+        self.assertEqual(config["dataset_dir"], "data/multitask_bloom_rewrite_separate")
+        self.assertEqual(set(config["train_tasks"]), set(manifest["tasks"]))
+        for split in ("validation", "test"):
+            self.assertEqual(
+                config[f"{split}_task_limits"],
+                manifest["counts"][split],
+            )
 
     def test_decision_rule_loads(self) -> None:
         rule = json.loads((CONFIG_DIR / "decision_rule.json").read_text(encoding="utf-8"))
@@ -138,40 +149,48 @@ class TestTrainingConfig(unittest.TestCase):
 
 class TestLeakageAndDataset(unittest.TestCase):
     def test_splits_disjoint_if_prepared(self) -> None:
-        paths = {s: MULTITASK_DATA_DIR / f"{s}.jsonl" for s in ("train", "validation", "test")}
-        if not all(p.exists() for p in paths.values()):
+        paths = {
+            (task, split): TASK_SEPARATED_DATA_DIR / task / f"{split}.jsonl"
+            for task in ("bloom_rewrite", "qa", "summarization")
+            for split in ("train", "validation", "test")
+        }
+        if not all(path.exists() for path in paths.values()):
             self.skipTest("multitask dataset not prepared yet")
         ids = {}
-        for split, path in paths.items():
+        for split in ("train", "validation", "test"):
             s = set()
-            with path.open(encoding="utf-8") as handle:
-                for line in handle:
-                    row = json.loads(line)
-                    if row["task"] == "bloom_rewrite":
-                        key = str(
-                            row.get("group_id")
-                            or row.get("source_id")
-                            or row["source_question"]
-                        ).lower()
-                    else:
-                        key = str(row.get("source_id") or row["example_id"])
-                    s.add((row["task"], key))
+            for task in ("bloom_rewrite", "qa", "summarization"):
+                with paths[(task, split)].open(encoding="utf-8") as handle:
+                    for line in handle:
+                        row = json.loads(line)
+                        if row["task"] == "bloom_rewrite":
+                            key = str(
+                                row.get("group_id")
+                                or row.get("source_id")
+                                or row["source_question"]
+                            ).lower()
+                        else:
+                            key = str(row.get("source_id") or row["id"])
+                        s.add((row["task"], key))
             ids[split] = s
         self.assertEqual(len(ids["train"] & ids["validation"]), 0)
         self.assertEqual(len(ids["train"] & ids["test"]), 0)
         self.assertEqual(len(ids["validation"] & ids["test"]), 0)
 
     def test_task_labels(self) -> None:
-        path = MULTITASK_DATA_DIR / "train.jsonl"
-        if not path.exists():
+        paths = [
+            TASK_SEPARATED_DATA_DIR / task / "train.jsonl"
+            for task in ("bloom_rewrite", "qa", "summarization")
+        ]
+        if not all(path.exists() for path in paths):
             self.skipTest("multitask dataset not prepared yet")
-        allowed = {"qa", "summarization", "bloom_rewrite"}
-        with path.open(encoding="utf-8") as handle:
-            for i, line in enumerate(handle):
-                if i > 200:
-                    break
-                row = json.loads(line)
-                self.assertIn(row["task"], allowed)
+        for path in paths:
+            with path.open(encoding="utf-8") as handle:
+                for i, line in enumerate(handle):
+                    if i > 200:
+                        break
+                    row = json.loads(line)
+                    self.assertEqual(row["task"], path.parent.name)
 
 
 class TestEvaluationMetrics(unittest.TestCase):

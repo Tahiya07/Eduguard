@@ -1,0 +1,404 @@
+{
+  "created_utc": "2026-10-23T10:43:17.644298+00:00",
+  "policy": "conservative_high_confidence_exclusion_no_synthetic_replacements",
+  "splits": {
+    "train": {
+      "before": 1075,
+      "kept": 1075,
+      "rejected": 0,
+      "before_by_target_level": {
+        "Analyze": 199,
+        "Apply": 174,
+        "Create": 177,
+        "Evaluate": 157,
+        "Remember": 189,
+        "Understand": 179
+      },
+      "kept_by_target_level": {
+        "Analyze": 199,
+        "Apply": 174,
+        "Create": 177,
+        "Evaluate": 157,
+        "Remember": 189,
+        "Understand": 179
+      },
+      "rejection_reasons": {},
+      "action_verb_distribution_after_filtering": {
+        "Analyze": {
+          "analyze": 60,
+          "(no recognizable action verb)": 47,
+          "differentiate": 21,
+          "identify": 16,
+          "examine": 15,
+          "compare": 14,
+          "determine": 7,
+          "explain": 5,
+          "trace": 3,
+          "investigate": 3,
+          "classify": 3,
+          "use": 1,
+          "contrast": 1,
+          "inspect": 1,
+          "map": 1,
+          "categorize": 1
+        },
+        "Apply": {
+          "apply": 50,
+          "use": 40,
+          "(no recognizable action verb)": 33,
+          "classify": 8,
+          "demonstrate": 7,
+          "calculate": 7,
+          "implement": 6,
+          "design": 4,
+          "select": 4,
+          "illustrate": 3,
+          "determine": 2,
+          "trace": 1,
+          "identify": 1,
+          "estimate": 1,
+          "predict": 1,
+          "generate": 1,
+          "compare": 1,
+          "evaluate": 1,
+          "plan": 1,
+          "solve": 1,
+          "map": 1
+        },
+        "Create": {
+          "develop": 63,
+          "design": 33,
+          "construct": 22,
+          "create": 20,
+          "propose": 10,
+          "(no recognizable action verb)": 10,
+          "build": 9,
+          "compose": 5,
+          "formulate": 3,
+          "devise": 1,
+          "illustrate": 1
+        },
+        "Evaluate": {
+          "assess": 33,
+          "(no recognizable action verb)": 31,
+          "evaluate": 26,
+          "judge": 17,
+          "verify": 12,
+          "examine": 8,
+          "determine": 8,
+          "compare": 6,
+          "test": 4,
+          "use": 3,
+          "prioritize": 2,
+          "construct": 1,
+          "recognize": 1,
+          "defend": 1,
+          "appraise": 1,
+          "critique": 1,
+          "justify": 1,
+          "recommend": 1
+        },
+        "Remember": {
+          "(no recognizable action verb)": 45,
+          "identify": 38,
+          "list": 36,
+          "state": 18,
+          "determine": 17,
+          "define": 15,
+          "name": 14,
+          "enumerate": 2,
+          "plan": 1,
+          "use": 1,
+          "describe": 1,
+          "design": 1
+        },
+        "Understand": {
+          "explain": 106,
+          "(no recognizable action verb)": 39,
+          "describe": 13,
+          "summarize": 4,
+          "differentiate": 3,
+          "outline": 3,
+          "clarify": 2,
+          "illustrate": 2,
+          "rate": 1,
+          "distinguish": 1,
+          "plan": 1,
+          "determine": 1,
+          "assess": 1,
+          "compare": 1,
+          "classify": 1
+        }
+      },
+      "action_verb_diversity_after_filtering": {
+        "Analyze": {
+          "unique_verbs": 16,
+          "dominant_verb": "analyze",
+          "dominant_verb_share": 0.3015
+        },
+        "Apply": {
+          "unique_verbs": 21,
+          "dominant_verb": "apply",
+          "dominant_verb_share": 0.2874
+        },
+        "Create": {
+          "unique_verbs": 11,
+          "dominant_verb": "develop",
+          "dominant_verb_share": 0.3559
+        },
+        "Evaluate": {
+          "unique_verbs": 18,
+          "dominant_verb": "assess",
+          "dominant_verb_share": 0.2102
+        },
+        "Remember": {
+          "unique_verbs": 12,
+          "dominant_verb": "(no recognizable action verb)",
+          "dominant_verb_share": 0.2381
+        },
+        "Understand": {
+          "unique_verbs": 15,
+          "dominant_verb": "explain",
+          "dominant_verb_share": 0.5922
+        }
+      }
+    },
+    "validation": {
+      "before": 212,
+      "kept": 212,
+      "rejected": 0,
+      "before_by_target_level": {
+        "Analyze": 41,
+        "Create": 34,
+        "Evaluate": 40,
+        "Remember": 36,
+        "Understand": 29,
+        "Apply": 32
+      },
+      "kept_by_target_level": {
+        "Analyze": 41,
+        "Create": 34,
+        "Evaluate": 40,
+        "Remember": 36,
+        "Understand": 29,
+        "Apply": 32
+      },
+      "rejection_reasons": {},
+      "action_verb_distribution_after_filtering": {
+        "Analyze": {
+          "(no recognizable action verb)": 11,
+          "analyze": 10,
+          "differentiate": 5,
+          "contrast": 3,
+          "compare": 3,
+          "determine": 2,
+          "explain": 1,
+          "identify": 1,
+          "solve": 1,
+          "examine": 1,
+          "trace": 1,
+          "categorize": 1,
+          "distinguish": 1
+        },
+        "Apply": {
+          "apply": 14,
+          "use": 10,
+          "(no recognizable action verb)": 3,
+          "classify": 2,
+          "design": 1,
+          "select": 1,
+          "calculate": 1
+        },
+        "Create": {
+          "develop": 13,
+          "construct": 7,
+          "design": 5,
+          "create": 4,
+          "build": 2,
+          "(no recognizable action verb)": 2,
+          "propose": 1
+        },
+        "Evaluate": {
+          "(no recognizable action verb)": 11,
+          "evaluate": 9,
+          "assess": 4,
+          "verify": 3,
+          "judge": 3,
+          "justify": 3,
+          "compare": 2,
+          "examine": 2,
+          "solve": 1,
+          "plan": 1,
+          "critique": 1
+        },
+        "Remember": {
+          "(no recognizable action verb)": 13,
+          "list": 5,
+          "identify": 5,
+          "define": 4,
+          "state": 3,
+          "determine": 3,
+          "name": 2,
+          "explain": 1
+        },
+        "Understand": {
+          "explain": 17,
+          "describe": 4,
+          "(no recognizable action verb)": 4,
+          "solve": 1,
+          "estimate": 1,
+          "differentiate": 1,
+          "summarize": 1
+        }
+      },
+      "action_verb_diversity_after_filtering": {
+        "Analyze": {
+          "unique_verbs": 13,
+          "dominant_verb": "(no recognizable action verb)",
+          "dominant_verb_share": 0.2683
+        },
+        "Apply": {
+          "unique_verbs": 7,
+          "dominant_verb": "apply",
+          "dominant_verb_share": 0.4375
+        },
+        "Create": {
+          "unique_verbs": 7,
+          "dominant_verb": "develop",
+          "dominant_verb_share": 0.3824
+        },
+        "Evaluate": {
+          "unique_verbs": 11,
+          "dominant_verb": "(no recognizable action verb)",
+          "dominant_verb_share": 0.275
+        },
+        "Remember": {
+          "unique_verbs": 8,
+          "dominant_verb": "(no recognizable action verb)",
+          "dominant_verb_share": 0.3611
+        },
+        "Understand": {
+          "unique_verbs": 7,
+          "dominant_verb": "explain",
+          "dominant_verb_share": 0.5862
+        }
+      }
+    },
+    "test": {
+      "before": 135,
+      "kept": 135,
+      "rejected": 0,
+      "before_by_target_level": {
+        "Analyze": 29,
+        "Apply": 22,
+        "Create": 22,
+        "Evaluate": 19,
+        "Remember": 26,
+        "Understand": 17
+      },
+      "kept_by_target_level": {
+        "Analyze": 29,
+        "Apply": 22,
+        "Create": 22,
+        "Evaluate": 19,
+        "Remember": 26,
+        "Understand": 17
+      },
+      "rejection_reasons": {},
+      "action_verb_distribution_after_filtering": {
+        "Analyze": {
+          "analyze": 8,
+          "(no recognizable action verb)": 7,
+          "identify": 4,
+          "differentiate": 4,
+          "examine": 3,
+          "interpret": 1,
+          "contrast": 1,
+          "organize": 1
+        },
+        "Apply": {
+          "apply": 6,
+          "use": 5,
+          "(no recognizable action verb)": 5,
+          "select": 2,
+          "implement": 1,
+          "execute": 1,
+          "calculate": 1,
+          "rate": 1
+        },
+        "Create": {
+          "develop": 8,
+          "design": 4,
+          "construct": 4,
+          "create": 2,
+          "build": 1,
+          "compose": 1,
+          "(no recognizable action verb)": 1,
+          "formulate": 1
+        },
+        "Evaluate": {
+          "(no recognizable action verb)": 7,
+          "evaluate": 4,
+          "judge": 3,
+          "rate": 1,
+          "verify": 1,
+          "test": 1,
+          "compare": 1,
+          "assess": 1
+        },
+        "Remember": {
+          "identify": 8,
+          "(no recognizable action verb)": 8,
+          "list": 6,
+          "state": 1,
+          "determine": 1,
+          "name": 1,
+          "define": 1
+        },
+        "Understand": {
+          "explain": 7,
+          "(no recognizable action verb)": 6,
+          "describe": 4
+        }
+      },
+      "action_verb_diversity_after_filtering": {
+        "Analyze": {
+          "unique_verbs": 8,
+          "dominant_verb": "analyze",
+          "dominant_verb_share": 0.2759
+        },
+        "Apply": {
+          "unique_verbs": 8,
+          "dominant_verb": "apply",
+          "dominant_verb_share": 0.2727
+        },
+        "Create": {
+          "unique_verbs": 8,
+          "dominant_verb": "develop",
+          "dominant_verb_share": 0.3636
+        },
+        "Evaluate": {
+          "unique_verbs": 8,
+          "dominant_verb": "(no recognizable action verb)",
+          "dominant_verb_share": 0.3684
+        },
+        "Remember": {
+          "unique_verbs": 7,
+          "dominant_verb": "identify",
+          "dominant_verb_share": 0.3077
+        },
+        "Understand": {
+          "unique_verbs": 3,
+          "dominant_verb": "explain",
+          "dominant_verb_share": 0.4118
+        }
+      }
+    }
+  },
+  "limitations": [
+    "This pass removes high-confidence malformed or stock-template rows; it does not claim to replace human semantic review.",
+    "Rejected rows are preserved with reasons for manual correction and possible future inclusion.",
+    "The held-out test split is filtered using the same predeclared, text-only rules; it is never moved into training.",
+    "Action-verb counts are descriptive diagnostics, not a target to force by synonym substitution."
+  ]
+}

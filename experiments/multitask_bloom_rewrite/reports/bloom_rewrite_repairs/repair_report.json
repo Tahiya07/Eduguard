@@ -1,0 +1,121 @@
+{
+  "created_utc": "2026-10-23T09:23:50.022568+00:00",
+  "policy": "source-grounded repairs of known malformed/template patterns; no split movement",
+  "mode": "dry-run",
+  "counts": {
+    "train": {
+      "rows": 1075,
+      "repaired": 11
+    },
+    "validation": {
+      "rows": 212,
+      "repaired": 0
+    },
+    "test": {
+      "rows": 135,
+      "repaired": 0
+    }
+  },
+  "changes": [
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0090",
+      "target_bloom_level": "Create",
+      "source_question": "Design or sketch a marketing strategy for your product using a known strategy as a model.",
+      "old_target_rewrite": "How would you improve or redesign a marketing strategy for a product using a known strategy as a model while preserving the stated requirements?",
+      "new_target_rewrite": "Develop a solution for the situation described in the original question and explain why the proposed design fits that situation.",
+      "repair_action_verb": "Develop"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0006",
+      "target_bloom_level": "Create",
+      "source_question": "Construct a market strategy for your product using a known strategy as a model.",
+      "old_target_rewrite": "How would you improve or redesign a market strategy for your product using a known strategy as a model while preserving the stated requirements?",
+      "new_target_rewrite": "Develop a solution for the situation described in the original question and explain why the proposed design fits that situation.",
+      "repair_action_verb": "Develop"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0044",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why 3D animation requires much time consuming and complicated in the development phase compared to 2D animation.",
+      "old_target_rewrite": "How would you apply the principle underlying 3D animation requires much time consuming and complicated in the development phase compared to 2D animation to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_validation_0077",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why mycorrhizal fungi are important for phosphorus availability in soil.",
+      "old_target_rewrite": "How would you apply the principle underlying mycorrhizal fungi are important for phosphorus availability in soil to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_validation_0094",
+      "target_bloom_level": "Create",
+      "source_question": "Construct one Turing Machine for computing each of the following functions",
+      "old_target_rewrite": "How would you improve or redesign one Turing Machine for computing each of the following functions while preserving the stated requirements?",
+      "new_target_rewrite": "Develop a solution for the situation described in the original question and explain why the proposed design fits that situation.",
+      "repair_action_verb": "Develop"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0059",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why Servlet technology is better than the Common Gateway Interface CGI.",
+      "old_target_rewrite": "How would you apply the principle underlying Servlet technology is better than the Common Gateway Interface CGI to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_validation_0106",
+      "target_bloom_level": "Create",
+      "source_question": "Construct a confusion matrix for the data and estimate the Apparent Error Rate.",
+      "old_target_rewrite": "How would you improve or redesign a confusion matrix for the data and estimate the Apparent Error Rate while preserving the stated requirements?",
+      "new_target_rewrite": "Develop a solution for the situation described in the original question and explain why the proposed design fits that situation.",
+      "repair_action_verb": "Develop"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0065",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why the electrical conductivity of a semiconductor is higher than an insulator by using the energy band diagram.",
+      "old_target_rewrite": "How would you apply the principle underlying the electrical conductivity of a semiconductor is higher than an insulator by using the energy band diagram to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_validation_0086",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why VLE could be better than RLE for this case.",
+      "old_target_rewrite": "How would you apply the principle underlying VLE could be better than RLE for this case to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_test_0067",
+      "target_bloom_level": "Apply",
+      "source_question": "Explain why bogs are considered to be a \"carbon sink\".",
+      "old_target_rewrite": "How would you apply the principle underlying bogs are considered to be a \"carbon sink\" to a comparable situation?",
+      "new_target_rewrite": "Apply the relevant concept from the original question to a new, concrete case and explain how it works in practice.",
+      "repair_action_verb": "Apply"
+    },
+    {
+      "split": "train",
+      "id": "bloomshift_final_validation_0114",
+      "target_bloom_level": "Create",
+      "source_question": "Construct a simple payroll program that computes net pay for those working 40 hours or less and net pay for those working over 40 hours.",
+      "old_target_rewrite": "How would you improve or redesign a simple payroll program that computes net pay for those working 40 hours or less and net pay for those working over 40 hours while preserving the stated requirements?",
+      "new_target_rewrite": "Develop a solution for the situation described in the original question and explain why the proposed design fits that situation.",
+      "repair_action_verb": "Develop"
+    }
+  ],
+  "warning": "This pass repairs known high-confidence malformed patterns, not every possible semantic error. Review the change report and manually review held-out examples before using scores as final evidence."
+}

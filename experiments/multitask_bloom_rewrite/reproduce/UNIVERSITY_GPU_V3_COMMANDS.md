@@ -14,22 +14,22 @@ cd D:\\Eduguard
 # 0) GPU sanity
 .\\.venv\\Scripts\\python.exe -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
 
-# 1) Generate final corpus from BloomShift + SQuAD + BillSum
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --bloom-dir "data/rewrite dataset/bloomshift_final_candidate" --output-dir data/multitask_bloom_rewrite_final --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-seq-length 8192 --seed 42
-
-# 2) Strict dataset QC
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_final --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
+# 1) Strict QC of the prepared, task-separated dataset
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
 
 # 3) One-task-per-task 1.5B sanity check; add --backward on GPU for gradient validation
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_final
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate
 
 # 4) Resource gate
 .\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --model-id "Qwen/Qwen2.5-1.5B-Instruct"
 
 # 5) Final 1.5B LoRA training
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json
+
+# 6) Evaluate on validation for model selection; reserve test for the final chosen model
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --condition lora --split validation
 ```
 
-The final corpus uses 40% Bloom transformation, 30% QA, and 30% summarization in training. Validation/test remain task-wise held-out splits. Checkpoint selection uses validation loss only.
+The follow-up experiment samples Bloom rewrite at 50% and QA/summarization at 25% each while retaining all source files and IDs. Validation/test remain task-wise held-out splits. Select on validation only; do not tune against test.
 
 Do not use the old qwen15b v3/sumfix configs or data/multitask_bloom_rewrite_v3 for the final run.

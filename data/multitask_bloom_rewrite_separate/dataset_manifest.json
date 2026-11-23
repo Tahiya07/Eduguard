@@ -1,7 +1,7 @@
 {
   "version": "multitask_bloom_rewrite_separate_v1",
   "storage_layout": "one_directory_per_task",
-  "timestamp_utc": "2026-11-22T19:40:09Z",
+  "timestamp_utc": "2026-11-23T09:56:35.1801947+00:00",
   "seed": 42,
   "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
   "classifier_dataset_excluded": true,
@@ -266,7 +266,7 @@
     }
   },
   "generated_files_sha256": {
-    "bloom_rewrite/train.jsonl": "03e3a2db2d7435de534f23c73b979ad877ec11f027b9a7b8144934c96f437a83",
+    "bloom_rewrite/train.jsonl": "b48b26be11e55f6595ea1c425c14ac423cb9444bfc9ccff802c1b38dfbf2ea40",
     "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
     "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
     "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
@@ -421,6 +421,37 @@
       "independent_human_validation": false,
       "full_row_by_row_review_complete": false,
       "note": "A source-grounded correction pass addressed repeated templates and malformed prompts directly in the existing Bloom JSONL split files. The row-by-row audit is not complete; the QC notes below itemize known missing source context."
+    },
+    "targeted_training_rewrite_variety_20261123": {
+      "date": "2026-11-23",
+      "split": "train",
+      "rows_changed": 11,
+      "reason": "Manual training-only cleanup of repeated five-token openings and one malformed replacement character found by the training-target pattern audit. Prepared split fields were checked; all edited rows belong to train despite legacy ID prefixes.",
+      "corrected_ids": [
+        "bloomshift_final_train_0401",
+        "bloomshift_final_train_0593",
+        "bloomshift_final_train_0489",
+        "bloomshift_final_train_0217",
+        "bloomshift_final_train_0105",
+        "bloomshift_final_validation_0022",
+        "bloomshift_final_test_0022",
+        "bloomshift_final_test_0073",
+        "bloomshift_final_validation_0091",
+        "bloomshift_final_test_0017",
+        "bloomshift_final_validation_0062"
+      ],
+      "fields_changed": [
+        "target_rewrite",
+        "sft_text assistant target"
+      ],
+      "immutable_fields_preserved": [
+        "id",
+        "source_question",
+        "target_bloom_level",
+        "source mapping",
+        "split"
+      ],
+      "heldout_splits_edited": false
     }
   },
   "curation_history": [

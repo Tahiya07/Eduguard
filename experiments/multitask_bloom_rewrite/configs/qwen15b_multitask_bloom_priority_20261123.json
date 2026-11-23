@@ -1,0 +1,71 @@
+{
+  "experiment_name": "multitask_qwen15b_bloom_priority_20261123",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "dataset_dir": "data/multitask_bloom_rewrite_separate",
+  "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_bloom_priority_20261123",
+  "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_bloom_priority_20261123",
+  "seed": 42,
+  "epochs": 3,
+  "learning_rate": 0.0002,
+  "max_seq_length": 8192,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "warmup_ratio": 0.03,
+  "weight_decay": 0.01,
+  "lr_scheduler_type": "cosine",
+  "per_device_train_batch_size": 1,
+  "per_device_eval_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "gradient_checkpointing": true,
+  "early_stopping_patience": 2,
+  "metric_for_best_model": "eval_loss",
+  "logging_steps": 20,
+  "save_total_limit": 3,
+  "lora_target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "generation": {
+    "do_sample": false,
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 0,
+    "repeat_penalty": 1,
+    "max_new_tokens": 128,
+    "decoding": "greedy"
+  },
+  "task_sampling_weights": {
+    "bloom_rewrite": 0.5,
+    "qa": 0.25,
+    "summarization": 0.25
+  },
+  "validation_task_limits": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "test_task_limits": {
+    "bloom_rewrite": 135,
+    "qa": 135,
+    "summarization": 135
+  },
+  "train_tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "notes": [
+    "Follow-up controlled experiment after the 2026-11-23 multitask test evaluation.",
+    "Keeps the current task-separated dataset, model, LoRA modules, optimizer settings, sequence length, and epoch count fixed.",
+    "Samples Bloom rewrite at 50% of training examples and QA/summarization at 25% each to test whether equal row sampling under-trains the primary Bloom rewrite task.",
+    "Validation remains unweighted and task-stratified. Select using validation only; evaluate the held-out test once after model selection.",
+    "The task-weight change is an experiment, not a guaranteed improvement. Preserve the original run and use fresh output and results directories."
+  ]
+}

@@ -28,7 +28,7 @@ from bloom_validation import validate_bloom_example  # noqa: E402
 from eval_classifier import load_classifier  # noqa: E402
 from eval_dataset import load_test_split  # noqa: E402
 from eval_model import HFGenerator, resolve_checkpoint, set_seed, validate_checkpoint  # noqa: E402
-from paths import CONFIG_DIR, SEED, TASK_BLOOM  # noqa: E402
+from paths import CONFIG_DIR, SEED, TASK_BLOOM, TASK_SEPARATED_DATA_DIR  # noqa: E402
 from prompts import build_generation_prompt  # noqa: E402
 
 CONSTRAINT = (
@@ -68,7 +68,7 @@ def main() -> None:
         "max_new_tokens": int(cfg.get("generation", {}).get("max_new_tokens", 128)),
     }
     set_seed(SEED)
-    data_dir = Path(cfg.get("dataset_dir", REPO_ROOT / "data" / "multitask_bloom_rewrite_final"))
+    data_dir = Path(cfg.get("dataset_dir", TASK_SEPARATED_DATA_DIR))
     rows, meta = load_test_split(data_dir)
     bloom_rows = [r for r in rows if r["task"] == TASK_BLOOM]
     if args.limit:

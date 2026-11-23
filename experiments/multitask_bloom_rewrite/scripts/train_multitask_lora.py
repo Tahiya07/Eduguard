@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import random
 import subprocess
@@ -283,6 +284,51 @@ def main() -> None:
         },
         "validation_sampling": "stable per-task ID-sorted seed sample after loading separate validation files",
     }
+    configured_task_weights = cfg.get("task_sampling_weights")
+    active_counts = {
+        task: sum(row.get("task") == task for row in train_rows)
+        for task in train_tasks
+    }
+    if configured_task_weights is not None:
+        if not isinstance(configured_task_weights, dict):
+            raise SystemExit("task_sampling_weights must map active task names to positive weights.")
+        if set(configured_task_weights) != set(train_tasks):
+            raise SystemExit(
+                "task_sampling_weights must specify exactly the active train_tasks: "
+                f"active={sorted(train_tasks)}, weights={sorted(configured_task_weights)}"
+            )
+        try:
+            raw_weights = {task: float(configured_task_weights[task]) for task in train_tasks}
+        except (TypeError, ValueError) as exc:
+            raise SystemExit("task_sampling_weights values must be positive numbers.") from exc
+        if any(not math.isfinite(weight) or weight <= 0 for weight in raw_weights.values()):
+            raise SystemExit("task_sampling_weights values must be finite and greater than zero.")
+        weight_total = sum(raw_weights.values())
+        task_probabilities = {
+            task: raw_weights[task] / weight_total for task in train_tasks
+        }
+        training_selection["task_sampling"] = {
+            "mode": "weighted_with_replacement",
+            "probabilities_per_epoch": task_probabilities,
+            "expected_examples_per_epoch": {
+                task: round(len(train_rows) * task_probabilities[task], 2)
+                for task in train_tasks
+            },
+            "seed": seed,
+        }
+    else:
+        task_probabilities = None
+        training_selection["task_sampling"] = {
+            "mode": "uniform_over_rows",
+            "probabilities_per_epoch": {
+                task: count / len(train_rows)
+                for task, count in active_counts.items()
+            },
+            "expected_examples_per_epoch": {
+                task: count for task, count in active_counts.items()
+            },
+            "seed": seed,
+        }
     selection_path = results_dir / "training_selection_manifest.json"
     selection_path.write_text(json.dumps(training_selection, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -313,7 +359,7 @@ def main() -> None:
     try:
         import torch
         from peft import LoraConfig, TaskType, get_peft_model
-        from torch.utils.data import Dataset
+        from torch.utils.data import Dataset, WeightedRandomSampler
         from transformers import (
             AutoModelForCausalLM,
             AutoTokenizer,
@@ -347,6 +393,32 @@ def main() -> None:
                 self.max_len,
             )
 
+    class TaskWeightedTrainer(Trainer):
+        """Optionally sample tasks at configured probabilities per epoch."""
+
+        def _get_train_sampler(self, train_dataset=None):
+            if task_probabilities is None:
+                return super()._get_train_sampler()
+            dataset = self.train_dataset
+            if not isinstance(dataset, JsonlChatDataset):
+                raise TypeError("Weighted task sampling requires JsonlChatDataset.")
+            counts = {
+                task: sum(row.get("task") == task for row in dataset.rows)
+                for task in train_tasks
+            }
+            sample_weights = [
+                task_probabilities[row["task"]] / counts[row["task"]]
+                for row in dataset.rows
+            ]
+            generator = torch.Generator()
+            generator.manual_seed(seed)
+            return WeightedRandomSampler(
+                weights=torch.tensor(sample_weights, dtype=torch.double),
+                num_samples=len(dataset),
+                replacement=True,
+                generator=generator,
+            )
+
     # Prefer official chat template when available to locate assistant boundary.
     # We still use stored prompt_text / sft_text which already follow ChatML.
     train_ds = JsonlChatDataset(train_rows, int(cfg["max_seq_length"]))
@@ -372,8 +444,6 @@ def main() -> None:
     )
     model = get_peft_model(model, lora)
     model.print_trainable_parameters()
-
-    import math
 
     effective_batch_size = (
         int(cfg["per_device_train_batch_size"])
@@ -408,7 +478,7 @@ def main() -> None:
         remove_unused_columns=False,
     )
     collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True)
-    trainer = Trainer(
+    trainer = TaskWeightedTrainer(
         model=model,
         args=args_tr,
         train_dataset=train_ds,

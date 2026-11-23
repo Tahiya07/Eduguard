@@ -58,17 +58,11 @@ Run all commands from the repository root.
 python experiments/multitask_bloom_rewrite/scripts/audit_bloomshift_dataset.py
 ```
 
-2. Prepare the separate task directories. Do not pass a combined corpus path:
-
-```powershell
-python experiments/multitask_bloom_rewrite/scripts/prepare_multitask_dataset_final.py --output-dir data/multitask_bloom_rewrite_separate --model-id Qwen/Qwen2.5-1.5B-Instruct --max-seq-length 8192 --seed 42 --max-qa-train 806 --max-sum-train 806
-```
-
-3. Run strict integrity, split isolation, token length, and assistant-only mask QC:
+2. Validate the curated task-separated files in place. Do not rebuild them before this follow-up run:
 
 ```powershell
 python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
-python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json --dataset-dir data/multitask_bloom_rewrite_separate
+python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate
 ```
 
 4. Run the experiments sequentially, using fresh output directories:
@@ -82,11 +76,14 @@ python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --con
 
 # C — 40/30/30 multitask LoRA baseline
 python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_final.json
+
+# Follow-up — 50/25/25 task-sampling experiment after the 2026-11-23 result
+python experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json
 ```
 
-After B and C finish, evaluate each using the same validation split and generation settings. The evaluator requires a fixed auxiliary Bloom classifier; use `--classifier-dir` to select one explicit checkpoint if auto-detection does not select the same classifier in every condition. Classifier agreement is a diagnostic proxy, not human ground truth for Bloom-level alignment.
+After training finishes, evaluate the new adapter on validation using the same split and generation settings. The evaluator requires a fixed auxiliary Bloom classifier; use `--classifier-dir` to select one explicit checkpoint if auto-detection does not select the same classifier in every condition. Classifier agreement is a diagnostic proxy, not human ground truth for Bloom-level alignment.
 
-The task-balanced D loss implementation remains a separate method change after A/B/C results are available. D must use the exact same prepared per-task train files and validation row IDs as C, and vary only the response-normalized task-loss weights. Do not label an unweighted run as D.
+The follow-up changes sampling probabilities only; it does not change examples, labels, prompts, optimizer settings, or validation/test files. Compare its validation results with the previous run before using the locked test split once for the selected model.
 
 ## Reproducibility requirements
 

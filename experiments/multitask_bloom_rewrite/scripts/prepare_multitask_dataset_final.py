@@ -134,6 +134,10 @@ def validate_annotation_provenance(
         and reviewer_hashes.get("reviewer_1.csv") != reviewer_hashes.get("reviewer_2.csv")
     )
     independent_verified = independent_files and incomplete_annotations == 0
+    agent_curated_replacements = [
+        row for row in train_rows + validation_rows + test_rows
+        if row.get("curation_provenance") == "figshare_bloom_unused_source_replacement"
+    ]
     warnings = []
     if not independent_files:
         warnings.append(
@@ -144,12 +148,22 @@ def validate_annotation_provenance(
             f"{incomplete_annotations} held-out reviewer records lack all required ratings; "
             "held-out targets are usable for provisional model diagnostics, not independent gold-label claims."
         )
+    if agent_curated_replacements:
+        warnings.append(
+            f"{len(agent_curated_replacements)} Figshare-source replacement rows were curated after the owner attestation; "
+            "they are not covered by its human-review claim and still require independent human validation."
+        )
 
     return {
-        "inclusion_basis": "dataset_owner_batch_attestation",
+        "inclusion_basis": (
+            "owner_batch_attestation_with_agent_curated_replacements"
+            if agent_curated_replacements else "dataset_owner_batch_attestation"
+        ),
         "owner_reported_all_rows_human_reviewed": bool(
             attestation.get("dataset_owner_report", {}).get("all_records_reported_human_reviewed")
+            and not agent_curated_replacements
         ),
+        "agent_curated_replacement_rows": len(agent_curated_replacements),
         "all_source_rows_included": True,
         "source_split_counts": actual_counts,
         "reviewer_file_sha256": reviewer_hashes,
@@ -184,6 +198,7 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
         # Do not expose source review gaps to the model as target labels. Every
         # canonical row is retained under the explicit owner batch attestation.
         # Preserve legacy fields separately so no evidence is fabricated.
+        agent_curated = row.get("curation_provenance") == "figshare_bloom_unused_source_replacement"
         record = {
             "task": TASK_BLOOM,
             "split": split,
@@ -199,12 +214,24 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
             "transformation_strategy": row.get("transformation_strategy"),
             "source_review_status": row.get("review_status") or "unmarked",
             "source_training_eligible": row.get("training_eligible"),
-            "review_status": "owner_batch_attested",
+            "review_status": (
+                "agent_curated_pending_independent_human_validation"
+                if agent_curated else "owner_batch_attested"
+            ),
             "training_eligible": True,
-            "review_provenance_method": "dataset_owner_batch_attestation",
+            "review_provenance_method": (
+                "source_grounded_agent_curation_from_unused_figshare_bloom_question"
+                if agent_curated else "dataset_owner_batch_attestation"
+            ),
             "independent_review_verified": False,
-            "dataset_inclusion_reason": "all canonical BloomShift rows retained; legacy review metadata is not an exclusion filter",
+            "dataset_inclusion_reason": (
+                "user-requested replacement from an unused Figshare Bloom source question; included for provisional training, but the replacement rewrite is not covered by the earlier owner review attestation"
+                if agent_curated else "all canonical BloomShift rows retained; legacy review metadata is not an exclusion filter"
+            ),
         }
+        if agent_curated:
+            record["curation_provenance"] = row["curation_provenance"]
+            record["curation_recorded_at"] = row.get("curation_recorded_at")
         record["sft_text"] = build_sft_text(TASK_BLOOM, record)
         record["prompt_text"] = build_prompt_only_text(TASK_BLOOM, record)
         record["generation_prompt"] = build_generation_prompt(TASK_BLOOM, record)
@@ -214,7 +241,7 @@ def normalize_bloom(rows: list[dict[str, Any]], split: str) -> list[dict[str, An
         raise AssertionError(
             f"BloomShift {split}: retained {len(out)} of {len(rows)} source rows; no-drop policy violated."
         )
-    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under owner batch attestation", flush=True)
+    print(f"BloomShift {split}: included={len(out)}/{len(rows)} under the explicit all-record inclusion policy", flush=True)
     return out
 
 

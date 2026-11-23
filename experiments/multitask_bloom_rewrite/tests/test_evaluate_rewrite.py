@@ -1,6 +1,7 @@
 """Unit tests for multitask evaluation pipeline (no model weights required)."""
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -9,13 +10,11 @@ EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
 if str(EXPERIMENT_DIR) not in sys.path:
     sys.path.insert(0, str(EXPERIMENT_DIR))
 
-from bloom_validation import validate_bloom_example  # noqa: E402
-from eval_dataset import (  # noqa: E402
-    EXPECTED_TEST_TOTAL,
-    assert_split_is_test,
-    assert_test_counts,
-    load_test_split,
+from bloom_validation import (  # noqa: E402
+    is_valid_imperative_exam,
+    validate_bloom_example,
 )
+from eval_dataset import load_evaluation_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
     aggregate_qa_metrics,
     bloom_classification_metrics,
@@ -25,26 +24,27 @@ from eval_metrics import (  # noqa: E402
 )
 from eval_classifier import resolve_classifier_dir  # noqa: E402
 from eval_model import resolve_checkpoint, _sanitize_lora_adapter_config  # noqa: E402
-from paths import MULTITASK_DATA_DIR, REPO_ROOT  # noqa: E402
+from paths import REPO_ROOT, TASK_SEPARATED_DATA_DIR  # noqa: E402
 from prompts import assert_no_source_level_in_prompt, build_generation_prompt  # noqa: E402
 
 
 class TestDatasetAssertions(unittest.TestCase):
-    def test_rejects_validation_file_name(self) -> None:
-        rows = [{"task": "qa", "split": "validation", "example_id": "x"}]
-        with self.assertRaises(AssertionError):
-            assert_split_is_test(rows, path=MULTITASK_DATA_DIR / "validation.jsonl")
+    def test_rejects_non_evaluation_split(self) -> None:
+        with self.assertRaises(ValueError):
+            load_evaluation_split(TASK_SEPARATED_DATA_DIR, split="train")
 
-    def test_test_split_loads_if_present(self) -> None:
-        if not (MULTITASK_DATA_DIR / "test.jsonl").exists():
-            self.skipTest("test.jsonl not prepared")
-        rows, meta = load_test_split(MULTITASK_DATA_DIR)
-        self.assertEqual(meta["counts"]["test_count"], EXPECTED_TEST_TOTAL)
-        self.assertEqual(len(rows), EXPECTED_TEST_TOTAL)
-
-    def test_wrong_count_fails(self) -> None:
-        with self.assertRaises(AssertionError):
-            assert_test_counts([{"task": "qa"}] * 10)
+    def test_test_split_matches_manifest_task_counts(self) -> None:
+        rows, meta = load_evaluation_split(TASK_SEPARATED_DATA_DIR, split="test")
+        manifest = json.loads(
+            (TASK_SEPARATED_DATA_DIR / "dataset_manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        expected_by_task = manifest["counts"]["test"]
+        self.assertEqual(meta["split"], "test")
+        self.assertEqual(meta["counts"]["by_task"], expected_by_task)
+        self.assertEqual(meta["counts"]["test_count"], sum(expected_by_task.values()))
+        self.assertEqual(len(rows), sum(expected_by_task.values()))
 
 
 class TestPromptContract(unittest.TestCase):
@@ -57,7 +57,10 @@ class TestPromptContract(unittest.TestCase):
         prompt = build_generation_prompt("bloom_rewrite", row)
         assert_no_source_level_in_prompt(prompt)
         self.assertIn("Target Bloom level:\nAnalyze", prompt)
-        self.assertNotIn("Remember", prompt.split("Target Bloom level:")[0])
+        # General instructions enumerate every Bloom level. Only a source-level
+        # field is forbidden; the bare word can legitimately appear in guidance.
+        self.assertNotIn("Source Bloom level:\nRemember", prompt)
+        self.assertNotIn("Original Bloom level:\nRemember", prompt)
 
 
 class TestMetrics(unittest.TestCase):
@@ -138,6 +141,23 @@ class TestBloomValidation(unittest.TestCase):
             "Explain how photosynthesis converts light energy into chemical energy?",
         )
         self.assertTrue(v.format_valid)
+
+    def test_recognizes_diverse_action_verb_imperatives(self) -> None:
+        prompts = (
+            "Relate the stages of mitosis to their roles.",
+            "Judge which mitosis stage best explains the observed event.",
+            "Clarify how mitosis produces two daughter cells.",
+            "Verify the mitosis sequence against the described stages.",
+            "Compose a diagram of the stages of mitosis.",
+            "Trace the sequence of stages in mitosis.",
+            "Check whether the cells completed mitosis.",
+            "Draw a labeled diagram of mitosis.",
+            "Validate the proposed account of mitosis.",
+            "Write a brief account of mitosis.",
+        )
+        for prompt in prompts:
+            with self.subTest(prompt=prompt):
+                self.assertTrue(is_valid_imperative_exam(prompt))
 
 
 if __name__ == "__main__":

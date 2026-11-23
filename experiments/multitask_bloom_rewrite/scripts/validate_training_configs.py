@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Validate training configs are identical except model_id/output paths."""
+"""Validate the active task-separated 1.5B training configuration."""
 from __future__ import annotations
 
 import json
@@ -8,43 +8,60 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 EXPERIMENT_DIR = SCRIPT_DIR.parent
+REPO_ROOT = EXPERIMENT_DIR.parents[1]
 CONFIG_DIR = EXPERIMENT_DIR / "configs"
+DATA_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_separate"
+ACTIVE_CONFIG = CONFIG_DIR / "qwen15b_multitask_separate_20261016.json"
 
-IGNORE_KEYS = {
-    "experiment_name",
-    "model_id",
-    "model_key",
-    "output_dir",
-    "results_dir",
-    "notes",
-}
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from dataset_io import validate_separate_dataset  # noqa: E402
 
 
 def main() -> None:
-    a = json.loads((CONFIG_DIR / "qwen05b_multitask.json").read_text(encoding="utf-8"))
-    b = json.loads((CONFIG_DIR / "qwen15b_multitask.json").read_text(encoding="utf-8"))
-    keys = set(a) | set(b)
-    diffs = []
-    for k in sorted(keys):
-        if k in IGNORE_KEYS:
-            continue
-        if a.get(k) != b.get(k):
-            diffs.append({"key": k, "0.5b": a.get(k), "1.5b": b.get(k)})
-    decision = json.loads((CONFIG_DIR / "decision_rule.json").read_text(encoding="utf-8"))
-    assert decision.get("frozen_before_test_evaluation") is True
-    assert decision.get("do_not_change_after_seeing_test_results") is True
+    errors: list[str] = []
+    config: dict = {}
+    manifest: dict = {}
+    try:
+        config = json.loads(ACTIVE_CONFIG.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"cannot load active training config: {type(exc).__name__}: {exc}")
+    try:
+        manifest = json.loads((DATA_DIR / "dataset_manifest.json").read_text(encoding="utf-8"))
+        integrity = validate_separate_dataset(DATA_DIR, REPO_ROOT)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        integrity = {"status": "FAIL", "error": f"{type(exc).__name__}: {exc}"}
+        errors.append(f"task-separated dataset validation failed: {exc}")
+
+    if config:
+        if config.get("model_id") != "Qwen/Qwen2.5-1.5B-Instruct":
+            errors.append("active config must use Qwen/Qwen2.5-1.5B-Instruct")
+        if config.get("dataset_dir", "").replace("\\", "/") != "data/multitask_bloom_rewrite_separate":
+            errors.append("active config does not point to the task-separated dataset")
+        if config.get("train_tasks") != manifest.get("tasks"):
+            errors.append("active config train_tasks differ from manifest tasks")
+        if config.get("max_seq_length") != manifest.get("tokenizer", {}).get("max_seq_length"):
+            errors.append("active config max_seq_length differs from manifest tokenizer limit")
+        for split in ("validation", "test"):
+            key = f"{split}_task_limits"
+            if config.get(key) != manifest.get("counts", {}).get(split):
+                errors.append(f"active config {key} differs from manifest counts")
+
     report = {
-        "hyperparameter_diffs_outside_allowed": diffs,
-        "ok": len(diffs) == 0,
-        "decision_rule_loaded": True,
-        "model_ids": {"0.5b": a["model_id"], "1.5b": b["model_id"]},
+        "ok": not errors,
+        "active_config": str(ACTIVE_CONFIG.relative_to(REPO_ROOT)).replace("\\", "/"),
+        "model_id": config.get("model_id"),
+        "dataset_dir": config.get("dataset_dir"),
+        "dataset_integrity": integrity,
+        "errors": errors,
     }
     out = EXPERIMENT_DIR / "reports" / "training_config_validation.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(report, indent=2), encoding="utf-8")
-    print(json.dumps(report, indent=2))
-    if diffs:
-        raise SystemExit(2)
+    out.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps(report, indent=2, ensure_ascii=False))
+    if errors:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
