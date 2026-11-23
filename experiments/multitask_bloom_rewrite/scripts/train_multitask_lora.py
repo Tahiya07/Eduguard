@@ -151,18 +151,13 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
         peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
         total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         free_bytes, _ = torch.cuda.mem_get_info(0)
-        current_reserved_gb = torch.cuda.memory_reserved() / 1024**3
-        other_process_gb = max(
-            0.0,
-            total_gb - free_bytes / 1024**3 - current_reserved_gb,
-        )
-        remaining_headroom_gb = total_gb - peak_reserved_gb - other_process_gb
+        remaining_headroom_gb = free_bytes / 1024**3
         result = {
             "example_id": longest_row.get("id"),
             "sequence_tokens": longest_tokens,
             "peak_reserved_gb": round(peak_reserved_gb, 2),
             "device_total_gb": round(total_gb, 2),
-            "other_process_memory_gb": round(other_process_gb, 2),
+            "free_after_backward_gb": round(remaining_headroom_gb, 2),
             "headroom_gb": round(remaining_headroom_gb, 2),
             "required_headroom_gb": min_free_gb,
         }

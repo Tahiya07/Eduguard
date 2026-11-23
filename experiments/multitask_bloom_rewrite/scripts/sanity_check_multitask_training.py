@@ -217,16 +217,11 @@ def main() -> None:
         peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
         total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         free_bytes, _ = torch.cuda.mem_get_info(0)
-        current_reserved_gb = torch.cuda.memory_reserved() / 1024**3
-        other_process_gb = max(
-            0.0,
-            total_gb - free_bytes / 1024**3 - current_reserved_gb,
-        )
-        headroom_gb = total_gb - peak_reserved_gb - other_process_gb
+        headroom_gb = free_bytes / 1024**3
         results["gpu_memory"] = {
             "peak_reserved_gb": round(peak_reserved_gb, 2),
             "total_gb": round(total_gb, 2),
-            "other_process_memory_gb": round(other_process_gb, 2),
+            "free_after_backward_gb": round(headroom_gb, 2),
             "headroom_gb": round(headroom_gb, 2),
         }
         required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
