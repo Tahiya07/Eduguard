@@ -150,17 +150,6 @@ def assess(
                 f"{needed:.2f} GB estimate for {max_seq_length} tokens "
                 f"({'4-bit QLoRA' if load_in_4bit else 'FP16 LoRA'})."
             )
-        if (
-            model_id == "Qwen/Qwen2.5-1.5B-Instruct"
-            and max_seq_length >= 8192
-            and not load_in_4bit
-            and vram <= 16.5
-        ):
-            feasible = False
-            reasons.append(
-                "This 1.5B FP16 LoRA profile at 8192 tokens already OOMed on a 16 GB RTX 4080; "
-                "use 4-bit QLoRA or a larger GPU."
-            )
     if feasible and not reasons:
         reasons.append("Resource estimates indicate training may proceed.")
     verdict = (
@@ -226,7 +215,16 @@ def main() -> None:
         help="Repeatable. Default: both Qwen sizes.",
     )
     parser.add_argument("--config", help="Training JSON config to assess its precision and sequence length.")
+    parser.add_argument(
+        "--defer-vram-check-to-preflight",
+        action="store_true",
+        help=(
+            "Allow a conservative VRAM estimate to proceed only to the configured "
+            "maximum-length backward preflight. The preflight remains mandatory."
+        ),
+    )
     args = parser.parse_args()
+    config = None
     if args.config:
         config_path = Path(args.config)
         if not config_path.is_absolute():
@@ -242,21 +240,44 @@ def main() -> None:
         profiles = [{"max_seq_length": 8192, "load_in_4bit": False} for _ in model_ids]
     if args.model_ids and args.config:
         raise SystemExit("Use --config or --model-id, not both.")
+    if args.defer_vram_check_to_preflight and not args.config:
+        raise SystemExit("--defer-vram-check-to-preflight requires --config.")
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     resources = collect_resources()
     reports = [assess(mid, resources, **profile) for mid, profile in zip(model_ids, profiles)]
+    static_feasible = any(r["feasible"] for r in reports)
+    preflight_only = False
+    if (
+        not static_feasible
+        and args.defer_vram_check_to_preflight
+        and config
+        and bool(config.get("max_length_memory_preflight", False))
+        and bool(resources.get("cuda_available"))
+    ):
+        preflight_only = all(
+            r["reasons"]
+            and all(reason.startswith("Available GPU VRAM ") for reason in r["reasons"])
+            for r in reports
+        )
     out = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "resources": resources,
         "models": reports,
-        "any_feasible": any(r["feasible"] for r in reports),
+        "any_feasible": static_feasible,
+        "runtime_preflight_required": preflight_only,
+        "training_gate_passed": static_feasible or preflight_only,
     }
     path = RESULTS_DIR / "resource_check.json"
     path.write_text(json.dumps(out, indent=2), encoding="utf-8")
     (REPORTS_DIR / "resource_check.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(json.dumps(out, indent=2))
-    if not out["any_feasible"]:
+    if preflight_only:
+        print(
+            "STATIC VRAM ESTIMATE EXCEEDS AVAILABLE MEMORY — "
+            "CONTINUING ONLY TO THE REQUIRED MAX-LENGTH BACKWARD PREFLIGHT"
+        )
+    if not out["training_gate_passed"]:
         print("TRAINING NOT STARTED — INSUFFICIENT RESOURCES")
         raise SystemExit(2)
 

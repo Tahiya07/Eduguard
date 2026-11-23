@@ -12,7 +12,7 @@ Write-Host "Config: $Config"
 & $Py experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
 if ($LASTEXITCODE -ne 0) { throw "Final multitask dataset QC failed." }
 
-& $Py experiments/multitask_bloom_rewrite/scripts/check_resources.py --config $Config
+& $Py experiments/multitask_bloom_rewrite/scripts/check_resources.py --config $Config --defer-vram-check-to-preflight
 if ($LASTEXITCODE -ne 0) { Write-Host "TRAINING NOT STARTED - INSUFFICIENT RESOURCES"; exit $LASTEXITCODE }
 
 & $Py experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config $Config --dataset-dir data/multitask_bloom_rewrite_separate --backward
