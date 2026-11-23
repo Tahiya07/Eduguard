@@ -4,6 +4,8 @@
 peft>=0.11.0,<0.12
 transformers>=4.41.0,<4.42
 accelerate>=0.33.0
+# Optional GPU memory reduction for configs that set load_in_4bit=true.
+bitsandbytes>=0.43.3
 safetensors>=0.4.3
 sentencepiece>=0.2.0
 protobuf>=4.25.0

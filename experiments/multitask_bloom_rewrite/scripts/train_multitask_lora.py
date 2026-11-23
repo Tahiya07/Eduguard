@@ -103,13 +103,86 @@ def git_commit() -> str | None:
 
 def package_versions() -> dict:
     versions = {}
-    for name in ("torch", "transformers", "peft", "accelerate", "datasets", "numpy"):
+    for name in ("torch", "transformers", "peft", "accelerate", "bitsandbytes", "datasets", "numpy"):
         try:
             mod = __import__(name)
             versions[name] = getattr(mod, "__version__", "unknown")
         except Exception:
             versions[name] = None
     return versions
+
+
+def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_gb, torch):
+    """Backpropagate through the longest configured training example before Trainer starts."""
+    if not torch.cuda.is_available():
+        raise SystemExit("GPU memory preflight requires a CUDA device.")
+    longest_row = None
+    longest_tokens = -1
+    for row in train_rows:
+        token_count = len(tokenizer(
+            row["sft_text"],
+            truncation=True,
+            max_length=max_length,
+            padding=False,
+            add_special_tokens=False,
+        )["input_ids"])
+        if token_count > longest_tokens:
+            longest_row, longest_tokens = row, token_count
+    if longest_row is None:
+        raise SystemExit("GPU memory preflight found no training examples.")
+    encoded = tokenize_with_assistant_only_loss(
+        tokenizer, longest_row["sft_text"], longest_row["prompt_text"], max_length
+    )
+    inputs = {
+        key: torch.tensor([encoded[key]], dtype=torch.long, device="cuda")
+        for key in ("input_ids", "attention_mask", "labels")
+        if key in encoded
+    }
+    model.train()
+    model.zero_grad(set_to_none=True)
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
+    try:
+        loss = model(**inputs).loss
+        if not torch.isfinite(loss).item():
+            raise SystemExit("Maximum-length GPU preflight produced a non-finite loss.")
+        loss.backward()
+        torch.cuda.synchronize()
+        peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
+        total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
+        free_bytes, _ = torch.cuda.mem_get_info(0)
+        current_reserved_gb = torch.cuda.memory_reserved() / 1024**3
+        other_process_gb = max(
+            0.0,
+            total_gb - free_bytes / 1024**3 - current_reserved_gb,
+        )
+        remaining_headroom_gb = total_gb - peak_reserved_gb - other_process_gb
+        result = {
+            "example_id": longest_row.get("id"),
+            "sequence_tokens": longest_tokens,
+            "peak_reserved_gb": round(peak_reserved_gb, 2),
+            "device_total_gb": round(total_gb, 2),
+            "other_process_memory_gb": round(other_process_gb, 2),
+            "headroom_gb": round(remaining_headroom_gb, 2),
+            "required_headroom_gb": min_free_gb,
+        }
+        print("MAX-LENGTH GPU MEMORY PREFLIGHT:", json.dumps(result, sort_keys=True))
+        if remaining_headroom_gb < min_free_gb:
+            raise SystemExit(
+                f"GPU memory preflight left only {remaining_headroom_gb:.2f} GB headroom; "
+                f"at least {min_free_gb:.2f} GB is required. Training has not started."
+            )
+        return result
+    except torch.cuda.OutOfMemoryError as exc:
+        raise SystemExit(
+            f"GPU memory preflight OOMed on the longest training example "
+            f"({longest_tokens} tokens, id={longest_row.get('id')}). "
+            "Training has not started; use a GPU with more VRAM or a validated shorter-context recipe."
+        ) from exc
+    finally:
+        model.zero_grad(set_to_none=True)
+        del inputs
+        torch.cuda.empty_cache()
 
 
 def main() -> None:
@@ -164,7 +237,12 @@ def main() -> None:
     set_seed(seed)
 
     resources = collect_resources()
-    feasibility = assess(cfg["model_id"], resources)
+    feasibility = assess(
+        cfg["model_id"],
+        resources,
+        max_seq_length=int(cfg.get("max_seq_length", 8192)),
+        load_in_4bit=bool(cfg.get("load_in_4bit", False)),
+    )
     print(json.dumps(feasibility, indent=2))
     if not feasibility["feasible"] and not args.force:
         print(feasibility["verdict"])
@@ -424,14 +502,43 @@ def main() -> None:
     train_ds = JsonlChatDataset(train_rows, int(cfg["max_seq_length"]))
     val_ds = JsonlChatDataset(val_rows, int(cfg["max_seq_length"]))
 
-    model = AutoModelForCausalLM.from_pretrained(
-        cfg["model_id"],
-        trust_remote_code=True,
-        torch_dtype=torch.float32 if device == "cpu" else torch.float16,
-    )
-    if bool(cfg.get("gradient_checkpointing", True)) and device == "cuda":
+    use_gradient_checkpointing = bool(cfg.get("gradient_checkpointing", True)) and device == "cuda"
+    load_in_4bit = bool(cfg.get("load_in_4bit", False))
+    if load_in_4bit and device != "cuda":
+        raise SystemExit("4-bit QLoRA is configured but CUDA is unavailable.")
+    model_kwargs = {
+        "trust_remote_code": True,
+        "torch_dtype": torch.float32 if device == "cpu" else torch.float16,
+    }
+    if load_in_4bit:
+        try:
+            import bitsandbytes  # noqa: F401
+            from peft import prepare_model_for_kbit_training
+            from transformers import BitsAndBytesConfig
+        except ImportError as exc:
+            raise SystemExit(
+                "This config requires 4-bit QLoRA. Install bitsandbytes in the active "
+                "GPU environment with: python -m pip install bitsandbytes"
+            ) from exc
+        compute_dtype = torch.float16
+        if cfg.get("bnb_4bit_compute_dtype", "float16") != "float16":
+            raise SystemExit("This QLoRA config currently supports only float16 compute.")
+        model_kwargs["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type=str(cfg.get("bnb_4bit_quant_type", "nf4")),
+            bnb_4bit_use_double_quant=bool(cfg.get("bnb_4bit_use_double_quant", True)),
+            bnb_4bit_compute_dtype=compute_dtype,
+        )
+        model_kwargs["device_map"] = {"": torch.cuda.current_device()}
+    model = AutoModelForCausalLM.from_pretrained(cfg["model_id"], **model_kwargs)
+    if use_gradient_checkpointing:
         # Trade compute for activation memory so long-context LoRA training can fit.
         model.config.use_cache = False
+    if load_in_4bit:
+        model = prepare_model_for_kbit_training(
+            model, use_gradient_checkpointing=use_gradient_checkpointing
+        )
+    elif use_gradient_checkpointing:
         model.gradient_checkpointing_enable()
 
     lora = LoraConfig(
@@ -443,7 +550,19 @@ def main() -> None:
         target_modules=list(cfg["lora_target_modules"]),
     )
     model = get_peft_model(model, lora)
+    if device == "cuda" and not load_in_4bit:
+        model.to("cuda")
     model.print_trainable_parameters()
+    preflight_result = None
+    if device == "cuda" and bool(cfg.get("max_length_memory_preflight", True)):
+        preflight_result = run_gpu_memory_preflight(
+            model,
+            tokenizer,
+            train_rows,
+            int(cfg["max_seq_length"]),
+            float(cfg.get("preflight_min_free_vram_gb", 2.0)),
+            torch,
+        )
 
     effective_batch_size = (
         int(cfg["per_device_train_batch_size"])
@@ -537,6 +656,13 @@ def main() -> None:
         "train_rows_by_task": training_selection["train_counts"],
         "validation_rows_by_task": training_selection["validation_counts"],
         "resume_from_checkpoint": str(resume_path) if resume_path else None,
+        "max_length_memory_preflight": preflight_result,
+        "quantization": {
+            "load_in_4bit": load_in_4bit,
+            "quant_type": cfg.get("bnb_4bit_quant_type") if load_in_4bit else None,
+            "double_quant": cfg.get("bnb_4bit_use_double_quant") if load_in_4bit else None,
+            "compute_dtype": cfg.get("bnb_4bit_compute_dtype") if load_in_4bit else None,
+        },
     }
     (results_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     (output_dir / "train_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")

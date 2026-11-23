@@ -62,8 +62,14 @@ python experiments/multitask_bloom_rewrite/scripts/audit_bloomshift_dataset.py
 
 ```powershell
 python experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id Qwen/Qwen2.5-1.5B-Instruct --max-length 8192
-python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate
+python experiments/multitask_bloom_rewrite/scripts/check_resources.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json
+python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate --backward
 ```
+
+The priority config uses 4-bit NF4 QLoRA to reduce base-weight VRAM. Before training,
+the runner checks currently free GPU memory and runs a backward pass on the longest
+training example. It stops before training if the configured context does not fit
+with the required safety headroom. The resource estimate alone is not a guarantee.
 
 4. Run the experiments sequentially, using fresh output directories:
 

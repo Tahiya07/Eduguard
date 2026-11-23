@@ -17,11 +17,11 @@ cd D:\\Eduguard
 # 1) Strict QC of the prepared, task-separated dataset
 .\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
 
-# 3) One-task-per-task 1.5B sanity check; add --backward on GPU for gradient validation
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate
+# 3) Check free VRAM for this exact 4-bit, 8192-token config
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json
 
-# 4) Resource gate
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --model-id "Qwen/Qwen2.5-1.5B-Instruct"
+# 4) Longest-example backward preflight; training must not proceed if this fails
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate --backward
 
 # 5) Final 1.5B LoRA training
 .\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json

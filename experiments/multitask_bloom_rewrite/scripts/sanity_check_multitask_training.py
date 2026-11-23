@@ -61,12 +61,12 @@ def main() -> None:
         data_dir = repo_root / data_dir
 
     train_rows, _ = load_split_rows(data_dir, "train", validate=True)
-    by_task = {}
+    rows_by_task = {}
     for row in train_rows:
-        by_task.setdefault(row["task"], row)
+        rows_by_task.setdefault(row["task"], []).append(row)
 
     required_tasks = {"bloom_rewrite", "qa", "summarization"}
-    missing = required_tasks - set(by_task)
+    missing = required_tasks - set(rows_by_task)
     if missing:
         raise SystemExit(f"Missing required training tasks: {sorted(missing)}")
 
@@ -85,6 +85,10 @@ def main() -> None:
         tokenizer.pad_token = tokenizer.eos_token
 
     max_length = int(cfg["max_seq_length"])
+    by_task = {
+        task: max(rows_by_task[task], key=lambda row: len(row.get("sft_text", "")))
+        for task in required_tasks
+    }
     batch = []
     for task in sorted(required_tasks):
         row = by_task[task]
@@ -100,17 +104,41 @@ def main() -> None:
             raise RuntimeError(f"{task}: no supervised assistant tokens")
         batch.append((task, tokenized, supervised))
 
-    model = AutoModelForCausalLM.from_pretrained(
-        cfg["model_id"],
-        trust_remote_code=True,
-        torch_dtype=dtype,
-    )
+    load_in_4bit = bool(cfg.get("load_in_4bit", False))
+    model_kwargs = {"trust_remote_code": True, "torch_dtype": dtype}
+    if load_in_4bit:
+        if device != "cuda":
+            raise SystemExit("4-bit QLoRA is configured but CUDA is unavailable.")
+        try:
+            import bitsandbytes  # noqa: F401
+            from peft import prepare_model_for_kbit_training
+            from transformers import BitsAndBytesConfig
+        except ImportError as exc:
+            raise SystemExit(
+                "This config requires 4-bit QLoRA. Install bitsandbytes in the active "
+                "GPU environment with: python -m pip install bitsandbytes"
+            ) from exc
+        if cfg.get("bnb_4bit_compute_dtype", "float16") != "float16":
+            raise SystemExit("This QLoRA config currently supports only float16 compute.")
+        model_kwargs["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type=str(cfg.get("bnb_4bit_quant_type", "nf4")),
+            bnb_4bit_use_double_quant=bool(cfg.get("bnb_4bit_use_double_quant", True)),
+            bnb_4bit_compute_dtype=torch.float16,
+        )
+        model_kwargs["device_map"] = {"": torch.cuda.current_device()}
+    model = AutoModelForCausalLM.from_pretrained(cfg["model_id"], **model_kwargs)
     use_gradient_checkpointing = bool(cfg.get("gradient_checkpointing", True))
     if args.backward and device == "cuda" and use_gradient_checkpointing:
-        # Match the training path: checkpoint long-context activations and disable
-        # KV caching during backward to reduce GPU memory use.
+        # Disable KV caching during backward to reduce long-context memory.
         model.config.use_cache = False
+    if args.backward and device == "cuda" and use_gradient_checkpointing and not load_in_4bit:
         model.gradient_checkpointing_enable()
+    if load_in_4bit:
+        model = prepare_model_for_kbit_training(
+            model,
+            use_gradient_checkpointing=bool(args.backward and use_gradient_checkpointing),
+        )
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
         lora_alpha=int(cfg["lora_alpha"]),
@@ -120,8 +148,12 @@ def main() -> None:
         target_modules=list(cfg["lora_target_modules"]),
     )
     model = get_peft_model(model, lora)
-    model.to(device)
+    if not load_in_4bit:
+        model.to(device)
     model.train(args.backward)
+    if args.backward and device == "cuda":
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
@@ -136,6 +168,11 @@ def main() -> None:
         "trainable_parameters": trainable,
         "total_parameters": total,
         "backward_checked": bool(args.backward),
+        "quantization": {
+            "load_in_4bit": load_in_4bit,
+            "quant_type": cfg.get("bnb_4bit_quant_type") if load_in_4bit else None,
+            "compute_dtype": cfg.get("bnb_4bit_compute_dtype") if load_in_4bit else None,
+        },
     }
 
     for task, tokenized, supervised in batch:
@@ -175,6 +212,29 @@ def main() -> None:
         # Do not retain the previous task's autograd graph while constructing
         # the next task's long-context forward pass.
         del out, loss, inputs
+
+    if args.backward and device == "cuda":
+        peak_reserved_gb = torch.cuda.max_memory_reserved() / 1024**3
+        total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
+        free_bytes, _ = torch.cuda.mem_get_info(0)
+        current_reserved_gb = torch.cuda.memory_reserved() / 1024**3
+        other_process_gb = max(
+            0.0,
+            total_gb - free_bytes / 1024**3 - current_reserved_gb,
+        )
+        headroom_gb = total_gb - peak_reserved_gb - other_process_gb
+        results["gpu_memory"] = {
+            "peak_reserved_gb": round(peak_reserved_gb, 2),
+            "total_gb": round(total_gb, 2),
+            "other_process_memory_gb": round(other_process_gb, 2),
+            "headroom_gb": round(headroom_gb, 2),
+        }
+        required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
+        if headroom_gb < required_headroom_gb:
+            raise SystemExit(
+                f"GPU sanity backward left {headroom_gb:.2f} GB VRAM headroom; "
+                f"{required_headroom_gb:.2f} GB is required."
+            )
 
     print(json.dumps(results, indent=2))
     print("TRAINING SANITY CHECK: PASS")

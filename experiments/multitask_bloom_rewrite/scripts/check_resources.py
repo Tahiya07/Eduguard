@@ -7,6 +7,7 @@ when the machine cannot safely host the job.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import sys
@@ -57,6 +58,7 @@ def collect_resources() -> dict:
         "disk_free_gb": None,
         "torch_version": None,
         "psutil": False,
+        "bitsandbytes_available": importlib.util.find_spec("bitsandbytes") is not None,
     }
     try:
         import psutil
@@ -80,12 +82,21 @@ def collect_resources() -> dict:
             props = torch.cuda.get_device_properties(0)
             info["gpu_name"] = torch.cuda.get_device_name(0)
             info["gpu_vram_gb"] = round(props.total_memory / 1024**3, 2)
+            free_bytes, total_bytes = torch.cuda.mem_get_info(0)
+            info["gpu_vram_free_gb"] = round(free_bytes / 1024**3, 2)
+            info["gpu_vram_total_reported_gb"] = round(total_bytes / 1024**3, 2)
     except ImportError:
         pass
     return info
 
 
-def assess(model_id: str, resources: dict | None = None) -> dict:
+def assess(
+    model_id: str,
+    resources: dict | None = None,
+    *,
+    max_seq_length: int = 8192,
+    load_in_4bit: bool = False,
+) -> dict:
     resources = resources or collect_resources()
     estimate = MODEL_ESTIMATES.get(model_id)
     if estimate is None:
@@ -94,9 +105,27 @@ def assess(model_id: str, resources: dict | None = None) -> dict:
     ram_avail = resources.get("ram_available_gb") or 0.0
     cuda = bool(resources.get("cuda_available"))
     vram = resources.get("gpu_vram_gb") or 0.0
-    needed = estimate["estimated_gpu_lora_gb"] if cuda else estimate["estimated_cpu_lora_gb"]
+    parameter_gb = estimate["approx_params_b"] * (0.65 if load_in_4bit else 2.0)
+    adapter_optimizer_gb = 1.0
+    # Planning estimate only. The trainer also runs a real maximum-length
+    # forward/backward preflight before optimization starts.
+    seq_scale = max(1, max_seq_length) / 8192
+    activation_gb = 10.0 * seq_scale
+    reserve_gb = 2.5
+    gpu_needed = parameter_gb + adapter_optimizer_gb + activation_gb + reserve_gb
+    needed = gpu_needed if cuda else estimate["estimated_cpu_lora_gb"]
     reasons: list[str] = []
     feasible = True
+    if max_seq_length <= 0:
+        raise ValueError("max_seq_length must be positive.")
+    if load_in_4bit and not cuda:
+        feasible = False
+        reasons.append("4-bit QLoRA requires a CUDA GPU; CUDA is unavailable.")
+    if load_in_4bit and cuda and not resources.get("bitsandbytes_available", False):
+        feasible = False
+        reasons.append(
+            "This config requires bitsandbytes for 4-bit QLoRA; install it in the active GPU environment."
+        )
     if ram_total and ram_total < needed:
         feasible = False
         reasons.append(
@@ -111,11 +140,27 @@ def assess(model_id: str, resources: dict | None = None) -> dict:
     if disk_free is not None and disk_free < 12.0:
         feasible = False
         reasons.append(f"Free disk {disk_free} GB < 12 GB for checkpoints/HF cache.")
-    if cuda and vram < estimate["estimated_gpu_lora_gb"] * 0.75:
-        feasible = False
-        reasons.append(
-            f"GPU VRAM {vram} GB likely insufficient (est. {estimate['estimated_gpu_lora_gb']} GB)."
-        )
+    if cuda:
+        free_vram = resources.get("gpu_vram_free_gb")
+        available_vram = float(free_vram if free_vram is not None else vram)
+        if available_vram < needed:
+            feasible = False
+            reasons.append(
+                f"Available GPU VRAM {available_vram:.2f} GB < planning "
+                f"{needed:.2f} GB estimate for {max_seq_length} tokens "
+                f"({'4-bit QLoRA' if load_in_4bit else 'FP16 LoRA'})."
+            )
+        if (
+            model_id == "Qwen/Qwen2.5-1.5B-Instruct"
+            and max_seq_length >= 8192
+            and not load_in_4bit
+            and vram <= 16.5
+        ):
+            feasible = False
+            reasons.append(
+                "This 1.5B FP16 LoRA profile at 8192 tokens already OOMed on a 16 GB RTX 4080; "
+                "use 4-bit QLoRA or a larger GPU."
+            )
     if feasible and not reasons:
         reasons.append("Resource estimates indicate training may proceed.")
     verdict = (
@@ -129,13 +174,43 @@ def assess(model_id: str, resources: dict | None = None) -> dict:
         "resources": resources,
         "estimates": estimate,
         "estimated_footprint_gb": needed,
+        "memory_estimate_inputs": {
+            "max_seq_length": max_seq_length,
+            "load_in_4bit": load_in_4bit,
+            "parameter_memory_est_gb": round(parameter_gb, 2),
+            "adapter_and_optimizer_memory_est_gb": adapter_optimizer_gb,
+            "activation_memory_est_gb": round(activation_gb, 2),
+            "safety_reserve_gb": reserve_gb,
+            "estimated_gpu_footprint_gb": round(gpu_needed, 2),
+            "footprint_basis": "GPU profile" if cuda else "CPU fallback profile",
+            "estimate_is_not_a_guarantee": True,
+            "training_runs_max_length_forward_backward_preflight": True,
+        },
         "feasible": feasible,
         "reasons": reasons,
         "verdict": verdict,
         "memory_breakdown_est_gb": {
-            "parameter_memory": estimate["fp32_weights_gb"],
-            "optimizer_memory": estimate["optimizer_adamw_gb_est"],
-            "activation_memory": estimate["activation_gb_est"],
+            "parameter_memory": round(
+                parameter_gb if cuda else estimate["fp32_weights_gb"], 2
+            ),
+            "optimizer_memory": (
+                adapter_optimizer_gb if cuda else estimate["optimizer_adamw_gb_est"]
+            ),
+            "activation_memory": round(
+                activation_gb if cuda else estimate["activation_gb_est"], 2
+            ),
+            "other_and_safety_memory": round(
+                reserve_gb
+                if cuda
+                else max(
+                    0.0,
+                    needed
+                    - estimate["fp32_weights_gb"]
+                    - estimate["optimizer_adamw_gb_est"]
+                    - estimate["activation_gb_est"],
+                ),
+                2,
+            ),
             "expected_training_footprint": needed,
         },
     }
@@ -150,12 +225,27 @@ def main() -> None:
         default=None,
         help="Repeatable. Default: both Qwen sizes.",
     )
+    parser.add_argument("--config", help="Training JSON config to assess its precision and sequence length.")
     args = parser.parse_args()
-    model_ids = args.model_ids or list(MODEL_ESTIMATES.keys())
+    if args.config:
+        config_path = Path(args.config)
+        if not config_path.is_absolute():
+            config_path = (EXPERIMENT_DIR.parents[1] / config_path).resolve()
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        model_ids = [str(config["model_id"])]
+        profiles = [{
+            "max_seq_length": int(config.get("max_seq_length", 8192)),
+            "load_in_4bit": bool(config.get("load_in_4bit", False)),
+        }]
+    else:
+        model_ids = args.model_ids or list(MODEL_ESTIMATES.keys())
+        profiles = [{"max_seq_length": 8192, "load_in_4bit": False} for _ in model_ids]
+    if args.model_ids and args.config:
+        raise SystemExit("Use --config or --model-id, not both.")
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     resources = collect_resources()
-    reports = [assess(mid, resources) for mid in model_ids]
+    reports = [assess(mid, resources, **profile) for mid, profile in zip(model_ids, profiles)]
     out = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "resources": resources,
