@@ -106,6 +106,9 @@ def main() -> None:
 
     load_in_4bit = bool(cfg.get("load_in_4bit", False))
     model_kwargs = {"trust_remote_code": True, "torch_dtype": dtype}
+    if cfg.get("attn_implementation"):
+        model_kwargs["attn_implementation"] = str(cfg["attn_implementation"])
+    checkpointing_kwargs = dict(cfg.get("gradient_checkpointing_kwargs", {}))
     if load_in_4bit:
         if device != "cuda":
             raise SystemExit("4-bit QLoRA is configured but CUDA is unavailable.")
@@ -133,11 +136,14 @@ def main() -> None:
         # Disable KV caching during backward to reduce long-context memory.
         model.config.use_cache = False
     if args.backward and device == "cuda" and use_gradient_checkpointing and not load_in_4bit:
-        model.gradient_checkpointing_enable()
+        model.gradient_checkpointing_enable(
+            gradient_checkpointing_kwargs=checkpointing_kwargs
+        )
     if load_in_4bit:
         model = prepare_model_for_kbit_training(
             model,
             use_gradient_checkpointing=bool(args.backward and use_gradient_checkpointing),
+            gradient_checkpointing_kwargs=checkpointing_kwargs,
         )
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
@@ -227,7 +233,8 @@ def main() -> None:
         required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
         if headroom_gb < required_headroom_gb:
             raise SystemExit(
-                f"GPU sanity backward left {headroom_gb:.2f} GB VRAM headroom; "
+                f"GPU sanity backward left {headroom_gb:.2f} GB free "
+                f"(peak reserved {peak_reserved_gb:.2f}/{total_gb:.2f} GB); "
                 f"{required_headroom_gb:.2f} GB is required."
             )
 

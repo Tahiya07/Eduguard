@@ -5,6 +5,10 @@
   "bnb_4bit_quant_type": "nf4",
   "bnb_4bit_use_double_quant": true,
   "bnb_4bit_compute_dtype": "float16",
+  "attn_implementation": "sdpa",
+  "gradient_checkpointing_kwargs": {
+    "use_reentrant": false
+  },
   "preflight_min_free_vram_gb": 2.0,
   "max_length_memory_preflight": true,
   "model_key": "15b",
@@ -69,7 +73,7 @@
   ],
   "notes": [
     "Follow-up controlled experiment after the 2026-11-23 multitask test evaluation.",
-    "Uses 4-bit NF4 QLoRA with double quantization to lower base-weight VRAM while preserving the full 8192-token dataset context and trainable LoRA adapters.",
+    "Uses 4-bit NF4 QLoRA, SDPA attention, and non-reentrant gradient checkpointing to reduce peak VRAM while preserving the full 8192-token dataset context and trainable LoRA adapters.",
     "Keeps the current task-separated dataset, model, LoRA modules, optimizer settings, sequence length, and epoch count fixed.",
     "Samples Bloom rewrite at 50% of training examples and QA/summarization at 25% each to test whether equal row sampling under-trains the primary Bloom rewrite task.",
     "Validation remains unweighted and task-stratified. Select using validation only; evaluate the held-out test once after model selection.",

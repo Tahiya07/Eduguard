@@ -66,10 +66,11 @@ python experiments/multitask_bloom_rewrite/scripts/check_resources.py --config e
 python experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_bloom_priority_20261123.json --dataset-dir data/multitask_bloom_rewrite_separate --backward
 ```
 
-The priority config uses 4-bit NF4 QLoRA to reduce base-weight VRAM. Before training,
-the runner checks currently free GPU memory and runs a backward pass on the longest
-training example. It stops before training if the configured context does not fit
-with the required safety headroom. The resource estimate alone is not a guarantee.
+The priority config uses 4-bit NF4 QLoRA, SDPA attention, and non-reentrant gradient
+checkpointing to reduce peak VRAM without shortening the source context. Before
+training, the runner checks currently free GPU memory and runs a backward pass on
+long training examples. It stops before training if the configured context does not
+fit with the required safety headroom. The resource estimate alone is not a guarantee.
 
 4. Run the experiments sequentially, using fresh output directories:
 

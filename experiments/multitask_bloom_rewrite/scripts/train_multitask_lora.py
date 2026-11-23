@@ -505,6 +505,9 @@ def main() -> None:
         "trust_remote_code": True,
         "torch_dtype": torch.float32 if device == "cpu" else torch.float16,
     }
+    if cfg.get("attn_implementation"):
+        model_kwargs["attn_implementation"] = str(cfg["attn_implementation"])
+    checkpointing_kwargs = dict(cfg.get("gradient_checkpointing_kwargs", {}))
     if load_in_4bit:
         try:
             import bitsandbytes  # noqa: F401
@@ -531,10 +534,14 @@ def main() -> None:
         model.config.use_cache = False
     if load_in_4bit:
         model = prepare_model_for_kbit_training(
-            model, use_gradient_checkpointing=use_gradient_checkpointing
+            model,
+            use_gradient_checkpointing=use_gradient_checkpointing,
+            gradient_checkpointing_kwargs=checkpointing_kwargs,
         )
     elif use_gradient_checkpointing:
-        model.gradient_checkpointing_enable()
+        model.gradient_checkpointing_enable(
+            gradient_checkpointing_kwargs=checkpointing_kwargs
+        )
 
     lora = LoraConfig(
         r=int(cfg["lora_r"]),
@@ -578,6 +585,7 @@ def main() -> None:
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
         gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
         gradient_checkpointing=bool(cfg.get("gradient_checkpointing", True)),
+        gradient_checkpointing_kwargs=checkpointing_kwargs or None,
         eval_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
