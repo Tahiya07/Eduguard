@@ -141,51 +141,40 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
     model.train()
     model.zero_grad(set_to_none=True)
     torch.cuda.empty_cache()
-    torch.cuda.reset_peak_memory_stats()
+    safety_reserve = None
     try:
+        reserve_bytes = int(min_free_gb * 1024**3)
+        safety_reserve = torch.empty(
+            reserve_bytes, dtype=torch.uint8, device="cuda"
+        )
         loss = model(**inputs).loss
         if not torch.isfinite(loss).item():
             raise SystemExit("Maximum-length GPU preflight produced a non-finite loss.")
         loss.backward()
         torch.cuda.synchronize()
-        peak_allocated_gb = torch.cuda.max_memory_allocated(0) / 1024**3
-        current_reserved_gb = torch.cuda.memory_reserved(0) / 1024**3
-        current_allocated_gb = torch.cuda.memory_allocated(0) / 1024**3
-        total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
-        free_bytes, _ = torch.cuda.mem_get_info(0)
-        free_global_gb = free_bytes / 1024**3
-        non_torch_usage_gb = max(
-            0.0,
-            total_gb - free_global_gb - current_reserved_gb,
-        )
-        remaining_headroom_gb = total_gb - non_torch_usage_gb - peak_allocated_gb
         result = {
             "example_id": longest_row.get("id"),
             "sequence_tokens": longest_tokens,
-            "peak_live_tensor_gb": round(peak_allocated_gb, 2),
-            "current_tensor_gb": round(current_allocated_gb, 2),
-            "non_torch_usage_gb": round(non_torch_usage_gb, 2),
-            "free_global_after_backward_gb": round(free_global_gb, 2),
-            "device_total_gb": round(total_gb, 2),
-            "headroom_gb": round(remaining_headroom_gb, 2),
+            "explicit_safety_reserve_gb": min_free_gb,
+            "reserve_held_during_backward": safety_reserve is not None,
+            "device": str(safety_reserve.device),
+            "status": "PASS",
             "required_headroom_gb": min_free_gb,
         }
         print("MAX-LENGTH GPU MEMORY PREFLIGHT:", json.dumps(result, sort_keys=True))
-        if remaining_headroom_gb < min_free_gb:
-            raise SystemExit(
-                f"GPU memory preflight left only {remaining_headroom_gb:.2f} GB headroom; "
-                f"at least {min_free_gb:.2f} GB is required. Training has not started."
-            )
         return result
     except torch.cuda.OutOfMemoryError as exc:
         raise SystemExit(
             f"GPU memory preflight OOMed on the longest training example "
-            f"({longest_tokens} tokens, id={longest_row.get('id')}). "
+            f"({longest_tokens} tokens, id={longest_row.get('id')}) while holding "
+            f"the {min_free_gb:.2f} GB safety reserve. "
             "Training has not started; use a GPU with more VRAM or a validated shorter-context recipe."
         ) from exc
     finally:
         model.zero_grad(set_to_none=True)
         del inputs
+        if safety_reserve is not None:
+            del safety_reserve
         torch.cuda.empty_cache()
 
 

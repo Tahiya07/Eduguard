@@ -157,9 +157,22 @@ def main() -> None:
     if not load_in_4bit:
         model.to(device)
     model.train(args.backward)
+    safety_reserve = None
+    required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
     if args.backward and device == "cuda":
+        # Hold the required reserve during backward; allocator peak counters can
+        # overstate device usage with CUDA async memory pools.
         torch.cuda.empty_cache()
-        torch.cuda.reset_peak_memory_stats()
+        reserve_bytes = int(required_headroom_gb * 1024**3)
+        try:
+            safety_reserve = torch.empty(
+                reserve_bytes, dtype=torch.uint8, device="cuda"
+            )
+        except torch.cuda.OutOfMemoryError as exc:
+            raise SystemExit(
+                f"Cannot reserve {required_headroom_gb:.2f} GB on the GPU before "
+                "the backward check. Training was not started."
+            ) from exc
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
@@ -189,9 +202,17 @@ def main() -> None:
             for k, v in tokenized.items()
             if k in {"input_ids", "attention_mask", "labels"}
         }
-        with torch.set_grad_enabled(args.backward):
-            out = model(**inputs)
-            loss = out.loss
+        try:
+            with torch.set_grad_enabled(args.backward):
+                out = model(**inputs)
+                loss = out.loss
+                if args.backward:
+                    loss.backward()
+        except torch.cuda.OutOfMemoryError as exc:
+            raise SystemExit(
+                f"GPU backward preflight for task {task} could not fit while holding "
+                f"the {required_headroom_gb:.2f} GB safety reserve. Training was not started."
+            ) from exc
 
         if not torch.isfinite(loss).item():
             raise RuntimeError(f"{task}: non-finite loss: {loss.item()}")
@@ -203,7 +224,6 @@ def main() -> None:
         }
 
         if args.backward:
-            loss.backward()
             finite_grads = 0
             for p in model.parameters():
                 if p.requires_grad and p.grad is not None:
@@ -220,35 +240,13 @@ def main() -> None:
         del out, loss, inputs
 
     if args.backward and device == "cuda":
-        peak_allocated_gb = torch.cuda.max_memory_allocated(0) / 1024**3
-        current_reserved_gb = torch.cuda.memory_reserved(0) / 1024**3
-        current_allocated_gb = torch.cuda.memory_allocated(0) / 1024**3
-        total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
-        free_bytes, _ = torch.cuda.mem_get_info(0)
-        free_global_gb = free_bytes / 1024**3
-        non_torch_usage_gb = max(
-            0.0,
-            total_gb - free_global_gb - current_reserved_gb,
-        )
-        headroom_gb = (
-            total_gb - non_torch_usage_gb - peak_allocated_gb
-        )
         results["gpu_memory"] = {
-            "peak_live_tensor_gb": round(peak_allocated_gb, 2),
-            "current_tensor_gb": round(current_allocated_gb, 2),
-            "non_torch_usage_gb": round(non_torch_usage_gb, 2),
-            "free_global_after_backward_gb": round(free_global_gb, 2),
-            "total_gb": round(total_gb, 2),
-            "headroom_gb": round(headroom_gb, 2),
+            "explicit_safety_reserve_gb": required_headroom_gb,
+            "reserve_held_during_backward": safety_reserve is not None,
+            "device": str(safety_reserve.device),
+            "status": "PASS",
         }
-        required_headroom_gb = float(cfg.get("preflight_min_free_vram_gb", 2.0))
-        if headroom_gb < required_headroom_gb:
-            raise SystemExit(
-                f"GPU sanity backward estimates {headroom_gb:.2f} GB headroom "
-                f"(peak tensors {peak_allocated_gb:.2f} GB, non-PyTorch use "
-                f"{non_torch_usage_gb:.2f} GB of {total_gb:.2f} GB); "
-                f"{required_headroom_gb:.2f} GB is required."
-            )
+        del safety_reserve
 
     print(json.dumps(results, indent=2))
     print("TRAINING SANITY CHECK: PASS")
