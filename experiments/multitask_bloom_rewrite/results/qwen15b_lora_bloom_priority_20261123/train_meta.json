@@ -1,0 +1,307 @@
+{
+  "timestamp_utc": "2026-11-25T20:05:54.503281+00:00",
+  "config": {
+    "experiment_name": "multitask_qwen15b_bloom_priority_20261123",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "attn_implementation": "sdpa",
+    "gradient_checkpointing_kwargs": {
+      "use_reentrant": false
+    },
+    "preflight_min_free_vram_gb": 0.0,
+    "max_length_memory_preflight": false,
+    "model_key": "15b",
+    "dataset_dir": "data/multitask_bloom_rewrite_separate",
+    "output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_bloom_priority_20261123",
+    "results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_bloom_priority_20261123",
+    "seed": 42,
+    "epochs": 3,
+    "learning_rate": 0.0001,
+    "max_seq_length": 8192,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.01,
+    "lr_scheduler_type": "cosine",
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "gradient_checkpointing": true,
+    "early_stopping_patience": 2,
+    "metric_for_best_model": "eval_loss",
+    "logging_steps": 20,
+    "save_total_limit": 3,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "generation": {
+      "do_sample": false,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "repeat_penalty": 1,
+      "max_new_tokens": 128,
+      "max_new_tokens_by_task": {
+        "bloom_rewrite": 128,
+        "qa": 128,
+        "summarization": 256
+      },
+      "decoding": "greedy"
+    },
+    "task_sampling_weights": {
+      "bloom_rewrite": 0.5,
+      "qa": 0.25,
+      "summarization": 0.25
+    },
+    "validation_task_limits": {
+      "bloom_rewrite": 212,
+      "qa": 212,
+      "summarization": 212
+    },
+    "test_task_limits": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    },
+    "train_tasks": [
+      "bloom_rewrite",
+      "qa",
+      "summarization"
+    ],
+    "notes": [
+      "Follow-up controlled experiment after the 2026-11-23 multitask test evaluation.",
+      "Uses standard FP16 LoRA on the original Qwen2.5-1.5B-Instruct weights, with SDPA attention and non-reentrant gradient checkpointing while preserving the full 8192-token dataset context.",
+      "Keeps the current task-separated dataset, model, LoRA modules, optimizer settings, sequence length, and epoch count fixed.",
+      "Samples Bloom rewrite at 50% of training examples and QA/summarization at 25% each to test whether equal row sampling under-trains the primary Bloom rewrite task.",
+      "Validation remains unweighted and task-stratified. Select using validation only; evaluate the held-out test once after model selection.",
+      "The task-weight change is an experiment, not a guaranteed improvement. Preserve the original run and use fresh output and results directories."
+    ]
+  },
+  "git_commit": "d87e696effc422e60baa77e585a76e7b2005f6df",
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "bitsandbytes": "0.50.2",
+    "datasets": "5.0.1",
+    "numpy": "2.2.6"
+  },
+  "resources": {
+    "cpu_count": 24,
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_vram_gb": 15.99,
+    "ram_total_gb": 63.78,
+    "ram_available_gb": 49.46,
+    "disk_free_gb": 114.43,
+    "torch_version": "2.13.0+cu126",
+    "psutil": true,
+    "bitsandbytes_available": true,
+    "cpu_physical": 16,
+    "disk_total_gb": 464.77,
+    "gpu_vram_free_gb": 14.72,
+    "gpu_vram_total_reported_gb": 15.99
+  },
+  "feasibility": {
+    "timestamp_utc": "2026-11-23T17:04:45.641202+00:00",
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "resources": {
+      "cpu_count": 24,
+      "cuda_available": true,
+      "gpu_name": "NVIDIA GeForce RTX 4080",
+      "gpu_vram_gb": 15.99,
+      "ram_total_gb": 63.78,
+      "ram_available_gb": 49.46,
+      "disk_free_gb": 114.43,
+      "torch_version": "2.13.0+cu126",
+      "psutil": true,
+      "bitsandbytes_available": true,
+      "cpu_physical": 16,
+      "disk_total_gb": 464.77,
+      "gpu_vram_free_gb": 14.72,
+      "gpu_vram_total_reported_gb": 15.99
+    },
+    "estimates": {
+      "approx_params_b": 1.54,
+      "fp16_weights_gb": 3.1,
+      "fp32_weights_gb": 6.2,
+      "optimizer_adamw_gb_est": 12.0,
+      "activation_gb_est": 4.0,
+      "estimated_cpu_lora_gb": 28.0,
+      "estimated_gpu_lora_gb": 12.0,
+      "min_available_ram_gb": 22.0,
+      "hf_download_gb_est": 3.5
+    },
+    "estimated_footprint_gb": 16.58,
+    "memory_estimate_inputs": {
+      "max_seq_length": 8192,
+      "load_in_4bit": false,
+      "parameter_memory_est_gb": 3.08,
+      "adapter_and_optimizer_memory_est_gb": 1.0,
+      "activation_memory_est_gb": 10.0,
+      "safety_reserve_gb": 2.5,
+      "estimated_gpu_footprint_gb": 16.58,
+      "footprint_basis": "GPU profile",
+      "estimate_is_not_a_guarantee": true,
+      "training_runs_max_length_forward_backward_preflight": true
+    },
+    "feasible": false,
+    "reasons": [
+      "Available GPU VRAM 14.72 GB < planning 16.58 GB estimate for 8192 tokens (FP16 LoRA)."
+    ],
+    "verdict": "TRAINING NOT STARTED \u2014 INSUFFICIENT RESOURCES",
+    "memory_breakdown_est_gb": {
+      "parameter_memory": 3.08,
+      "optimizer_memory": 1.0,
+      "activation_memory": 10.0,
+      "other_and_safety_memory": 2.5,
+      "expected_training_footprint": 16.58
+    }
+  },
+  "train_samples": 3225,
+  "validation_samples": 636,
+  "metrics": {
+    "train_runtime": 183469.1724,
+    "train_samples_per_second": 0.053,
+    "train_steps_per_second": 0.003,
+    "total_flos": 1.4398376158794854e+17,
+    "train_loss": 1.348568052348524,
+    "epoch": 3.0
+  },
+  "checkpoint_selection": "validation_loss_only",
+  "assistant_only_loss": true,
+  "dataset_fingerprint": {
+    "layout": "task-separated",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate\\dataset_manifest.json",
+    "manifest_sha256": "f5ed31966327eb77db6c5ecf9be6aa640bb88c1de6c893d82e3afcc6b880cbf5",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate",
+    "counts": {
+      "train": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "validation": {
+        "bloom_rewrite": 212,
+        "qa": 212,
+        "summarization": 212
+      },
+      "test": {
+        "bloom_rewrite": 135,
+        "qa": 135,
+        "summarization": 135
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/train.jsonl": "b48b26be11e55f6595ea1c425c14ac423cb9444bfc9ccff802c1b38dfbf2ea40",
+      "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+      "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+      "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+      "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+      "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+      "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+      "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+      "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+    },
+    "bloom_source": "C:\\Eduguard\\data\\rewrite dataset\\bloomshift_final_candidate",
+    "bloom_source_sha256": {
+      "train.json": "1368b4f6888332217fb28abd74ffb4dbea150728e6c6074e7864f57b8e2a2806",
+      "validation.json": "7c8483928d020df51312b285b8ab6ff9fbbae5296bb938f05be2537ec58dcda1",
+      "test.json": "f5e5702f4c3ee7944d07db687f0bfccaf7e429addd280c66056cbc8c22a1ca4b",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "owner_batch_attestation_with_agent_curated_replacements",
+      "owner_reported_all_rows_human_reviewed": false,
+      "agent_curated_replacement_rows": 47,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims.",
+        "47 Figshare-source replacement rows were curated after the owner attestation; they are not covered by its human-review claim and still require independent human validation."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "training_data_policy": {
+      "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+      "ratio_based_downsampling": false,
+      "requested_caps": {
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "rows_retained_during_capped_source_scan": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "retained_training_rows": {
+        "bloom_rewrite": 1075,
+        "qa": 1075,
+        "summarization": 1075
+      },
+      "task_train_fractions_of_retained_union": {
+        "bloom_rewrite": 0.333333,
+        "qa": 0.333333,
+        "summarization": 0.333333
+      },
+      "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+    }
+  },
+  "dataset_layout": "task-separated; merged rows exist only in memory",
+  "active_training_tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "training_selection_manifest": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_lora_bloom_priority_20261123\\training_selection_manifest.json",
+  "training_selection_manifest_sha256": "4684a0ce21228566ccf15416cd1beeda849574187f1fbb47c47342e50457c930",
+  "train_rows_by_task": {
+    "bloom_rewrite": 1075,
+    "qa": 1075,
+    "summarization": 1075
+  },
+  "validation_rows_by_task": {
+    "bloom_rewrite": 212,
+    "qa": 212,
+    "summarization": 212
+  },
+  "resume_from_checkpoint": null,
+  "max_length_memory_preflight": null,
+  "quantization": {
+    "load_in_4bit": false,
+    "quant_type": null,
+    "double_quant": null,
+    "compute_dtype": null
+  }
+}

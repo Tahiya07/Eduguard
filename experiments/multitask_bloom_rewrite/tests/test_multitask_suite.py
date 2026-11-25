@@ -13,7 +13,10 @@ if str(EXPERIMENT_DIR) not in sys.path:
 
 from bloom_validation import validate_bloom_example  # noqa: E402
 from loss_masking import assert_assistant_only_loss, mask_prompt_labels  # noqa: E402
-from paths import CONFIG_DIR, TASK_SEPARATED_DATA_DIR, TOPIC_SIMILARITY_THRESHOLD  # noqa: E402
+from paths import (  # noqa: E402
+    ACTIVE_TRAINING_CONFIG, CONFIG_DIR, REPO_ROOT as PATHS_REPO_ROOT, TASK_SEPARATED_DATA_DIR,
+    TOPIC_SIMILARITY_THRESHOLD,
+)
 from prompts import (  # noqa: E402
     FORBIDDEN_SOURCE_LEVEL_MARKERS,
     assert_no_source_level_in_prompt,
@@ -123,7 +126,7 @@ class TestLossMasking(unittest.TestCase):
 class TestTrainingConfig(unittest.TestCase):
     def test_active_separate_config_uses_prepared_dataset(self) -> None:
         config = json.loads(
-            (CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json").read_text(
+            (CONFIG_DIR / ACTIVE_TRAINING_CONFIG).read_text(
                 encoding="utf-8"
             )
         )
@@ -133,7 +136,7 @@ class TestTrainingConfig(unittest.TestCase):
             )
         )
         self.assertEqual(config["model_id"], "Qwen/Qwen2.5-1.5B-Instruct")
-        self.assertEqual(config["dataset_dir"], "data/multitask_bloom_rewrite_separate_eduguard_v3_2")
+        self.assertEqual(config["dataset_dir"], TASK_SEPARATED_DATA_DIR.relative_to(PATHS_REPO_ROOT).as_posix())
         self.assertEqual(set(config["train_tasks"]), set(manifest["tasks"]))
         for split in ("validation", "test"):
             self.assertEqual(

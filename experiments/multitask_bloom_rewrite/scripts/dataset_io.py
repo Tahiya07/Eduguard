@@ -162,6 +162,78 @@ def verify_eduguard_qa_rows(
     return {"kind": QA_EDUGUARD_SOURCE_KIND, "rows_checked": checked, "reserve_rows_excluded": len(reserve_ids)}
 
 
+# Owner-built university lecture summarization (lecture PDF/slide/notes text -> study summary).
+SUM_LECTURE_SOURCE_KIND = "eduguard_lecture_summarization"
+SUM_LECTURE = "lecture"
+LECTURE_SOURCE_FILES = ("train.jsonl", "validation.jsonl", "test.jsonl")
+LECTURE_REQUIRED_FIELDS = ("id", "source_text", "summary")
+_LECTURE_PRESERVED_FIELDS = ("id", "source_text", "summary", "department", "course", "topic", "source_type",
+                             "review_status")
+
+
+def enforce_lecture_summarization_rows(
+    split: str, rows: list[dict[str, Any]], manifest: dict[str, Any]
+) -> dict[str, Any]:
+    """Load-time guard: every row is a lecture row whose exact content hash is recorded in the manifest."""
+    recorded = ((manifest.get("summarization_source") or {}).get("row_sha256") or {}).get(split)
+    if not isinstance(recorded, dict):
+        raise SummarizationEligibilityError(f"Manifest has no lecture row hashes for summarization/{split}.")
+    seen = set()
+    for row in rows:
+        rid = str(row.get("id") or "")
+        if row.get("summarization_format") != SUM_LECTURE:
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} is not a lecture row.")
+        if recorded.get(rid) != _row_sha256(row):
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} differs from its recorded content.")
+        seen.add(rid)
+    if seen != set(recorded):
+        raise SummarizationEligibilityError(
+            f"summarization/{split}: {len(seen)} rows loaded but {len(recorded)} are recorded in the manifest."
+        )
+    return {"status": "lecture_source_hashes", "split": split, "rows": len(rows)}
+
+
+def verify_lecture_summarization_rows(
+    source_dir: Path,
+    rows_by_split: dict[str, list[dict[str, Any]]],
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    """Check summarization rows against the owner-built lecture source splits.
+
+    * each split holds exactly that source split's rows, with source fields unchanged;
+    * article == source_text and abstract == summary (the training input and target);
+    * rows carry the required review status when the manifest sets one;
+    * sft_text starts with prompt_text and ends with the summary.
+    """
+    required_status = (manifest.get("summarization_source") or {}).get("required_review_status")
+    checked = 0
+    for split in SPLITS:
+        expected = {str(r["id"]): r for r in read_jsonl(source_dir / f"{split}.jsonl")}
+        got = {str(r.get("id")): r for r in rows_by_split[split]}
+        if set(got) != set(expected):
+            missing, extra = sorted(set(expected) - set(got)), sorted(set(got) - set(expected))
+            raise ValueError(
+                f"summarization/{split} does not match the lecture source split: "
+                f"missing {missing[:3]} ({len(missing)}), unexpected {extra[:3]} ({len(extra)})."
+            )
+        for rid, row in got.items():
+            src = expected[rid]
+            if row.get("summarization_format") != SUM_LECTURE:
+                raise ValueError(f"summarization/{split} row {rid}: summarization_format must be {SUM_LECTURE!r}.")
+            for field in _LECTURE_PRESERVED_FIELDS:
+                if row.get(field) != src.get(field):
+                    raise ValueError(f"summarization/{split} row {rid}: {field} differs from the lecture source.")
+            if row.get("article") != src["source_text"] or row.get("abstract") != src["summary"]:
+                raise ValueError(f"summarization/{split} row {rid}: article/abstract differ from source_text/summary.")
+            if required_status and src.get("review_status") != required_status:
+                raise ValueError(f"summarization/{split} row {rid}: review_status is not {required_status!r}.")
+            sft, prompt = str(row.get("sft_text") or ""), str(row.get("prompt_text") or "\0")
+            if not sft.startswith(prompt) or not sft.endswith(src["summary"].strip() + "<|im_end|>"):
+                raise ValueError(f"summarization/{split} row {rid}: sft_text/prompt_text are inconsistent.")
+            checked += 1
+    return {"kind": SUM_LECTURE_SOURCE_KIND, "rows_checked": checked}
+
+
 def _row_sha256(row: dict[str, Any]) -> str:
     # Same row hash the summarization eligibility record was written with (sha256 of sorted-key JSON).
     return hashlib.sha256(json.dumps(row, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
@@ -197,7 +269,18 @@ def enforce_summarization_eligibility(
 
     Legacy directories without an eligibility record may be read for validation/test (to reproduce earlier
     evaluations) but never for train unless the caller explicitly passes allow_unaudited=True.
+
+    Datasets whose manifest declares a lecture summarization source are checked against the per-row hashes
+    recorded in that manifest instead (full source verification runs in validate_separate_dataset).
     """
+    manifest = manifest if manifest is not None else load_manifest(data_dir)
+    if (manifest.get("summarization_source") or {}).get("kind") == SUM_LECTURE_SOURCE_KIND:
+        return enforce_lecture_summarization_rows(split, rows, manifest)
+    if any(row.get("summarization_format") == SUM_LECTURE for row in rows):
+        raise SummarizationEligibilityError(
+            f"summarization/{split}: lecture rows found but the manifest does not declare "
+            f"summarization_source.kind={SUM_LECTURE_SOURCE_KIND!r}."
+        )
     eligibility = load_summarization_eligibility(data_dir, manifest)
     if eligibility is None:
         if split == "train" and not allow_unaudited:
@@ -452,6 +535,22 @@ def validate_separate_dataset(
             f"qa_source.kind={QA_EDUGUARD_SOURCE_KIND!r}."
         )
 
+    # Lecture summarization source: fingerprinted source splits, verified row for row.
+    sum_source = manifest.get("summarization_source") or {}
+    summarization_source_check: dict[str, Any] | None = None
+    if sum_source.get("kind") == SUM_LECTURE_SOURCE_KIND:
+        sum_dir = (repo_root / str(sum_source.get("path") or "")).resolve()
+        sum_hashes = sum_source.get("files_sha256") or {}
+        for name in LECTURE_SOURCE_FILES:
+            path = sum_dir / name
+            if not path.is_file():
+                raise FileNotFoundError(f"Lecture summarization source file is missing: {path}")
+            if not sum_hashes.get(name) or sha256_file(path) != sum_hashes[name]:
+                raise ValueError(f"Lecture summarization source fingerprint mismatch for {path}.")
+        summarization_source_check = verify_lecture_summarization_rows(
+            sum_dir, rows_by_task_split["summarization"], manifest
+        )
+
     # Summarization eligibility: enforced for every split when the dataset carries an eligibility record;
     # legacy directories are reported as unaudited (training loads of them are refused in load_split_rows).
     summarization_eligibility = {
@@ -476,6 +575,7 @@ def validate_separate_dataset(
         "bloom_annotation_provenance": bloom_source.get("heldout_annotation_provenance"),
         "bloom_source_check": bloom_source_check,
         "qa_source_check": qa_source_check,
+        "summarization_source_check": summarization_source_check,
         "training_data_policy": manifest.get("training_data_policy"),
     }
 
