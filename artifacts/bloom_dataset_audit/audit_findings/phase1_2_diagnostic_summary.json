@@ -1,0 +1,90 @@
+{
+  "source_file": "C:\\Users\\tahiy\\PycharmProjects\\Eduguard\\artifacts\\bloom_dataset_audit\\original_source\\EduGuard_ Federated Sub-Billion Bloom Classification and Multitask Academic Generation for Privacy-Aware University Assistance.docx",
+  "sha256": "a733409bcbc0e134c32af8787bd50efd8dcd96099d9c76c6119a8322b9df00d9",
+  "document_paragraphs": 1882,
+  "example_heading_count": 600,
+  "example_ids_first_last": [
+    1,
+    600
+  ],
+  "example_ids_sequential": true,
+  "tables_total": 605,
+  "transformation_tables": 600,
+  "embedded_data_tables": 5,
+  "transformation_count_distribution": {
+    "5": 599,
+    "4": 1
+  },
+  "structural_issue_example_count": 1,
+  "structural_issues": [
+    {
+      "example_id": 105,
+      "issue_codes": "one target row (Create) is paragraph-formatted outside the transformation table; recovered as an extracted row, not corrected",
+      "transformation_count": 5,
+      "target_labels": "Remember|Understand|Analyze|Evaluate|Create"
+    }
+  ],
+  "original_bloom_label_distribution": {
+    "Understand": 74,
+    "Create": 55,
+    "Evaluate": 75,
+    "Apply": 212,
+    "Analyze": 175,
+    "Remember": 9
+  },
+  "target_label_distribution": {
+    "Remember": 591,
+    "Apply": 388,
+    "Analyze": 425,
+    "Evaluate": 525,
+    "Create": 545,
+    "Understand": 526
+  },
+  "directed_transition_counts": {
+    "Remember->Understand": 9,
+    "Remember->Apply": 9,
+    "Remember->Analyze": 9,
+    "Remember->Evaluate": 9,
+    "Remember->Create": 9,
+    "Understand->Remember": 74,
+    "Understand->Apply": 74,
+    "Understand->Analyze": 74,
+    "Understand->Evaluate": 74,
+    "Understand->Create": 74,
+    "Apply->Remember": 212,
+    "Apply->Understand": 212,
+    "Apply->Analyze": 212,
+    "Apply->Evaluate": 212,
+    "Apply->Create": 212,
+    "Analyze->Remember": 175,
+    "Analyze->Understand": 175,
+    "Analyze->Apply": 175,
+    "Analyze->Evaluate": 175,
+    "Analyze->Create": 175,
+    "Evaluate->Remember": 75,
+    "Evaluate->Understand": 75,
+    "Evaluate->Apply": 75,
+    "Evaluate->Analyze": 75,
+    "Evaluate->Create": 75,
+    "Create->Remember": 55,
+    "Create->Understand": 55,
+    "Create->Apply": 55,
+    "Create->Analyze": 55,
+    "Create->Evaluate": 55
+  },
+  "exact_normalized_duplicate_original_groups": [],
+  "examples_with_embedded_tables": [
+    428,
+    442,
+    475,
+    477,
+    548
+  ],
+  "omml_node_count": 1933,
+  "omml_text_nodes": 536,
+  "tracked_change_node_count": 0,
+  "note": "This is a structural extraction and diagnostic scan only. Bloom semantics, preservation, technical accuracy, and near-duplicate status require question-level academic review.",
+  "extraction_represented_transformations": 3000,
+  "phase_status": "Phase 1 complete; Phase 2 structural and screening diagnostics complete; semantic/technical question-by-question validation not yet complete",
+  "interpretation_note": "Example 105 has five target prompts in the source, but its Create prompt is outside the table, so the table itself has only four data rows. The extraction preserves the paragraph and labels its source format."
+}

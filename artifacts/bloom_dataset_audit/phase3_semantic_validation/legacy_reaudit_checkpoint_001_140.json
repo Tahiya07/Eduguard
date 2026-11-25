@@ -1,0 +1,14 @@
+{
+  "covered_examples": 140,
+  "assessed_transformations": 700,
+  "expected_transformations": 700,
+  "status_counts": {
+    "PASS": 292,
+    "REVIEW": 309,
+    "MINOR": 63,
+    "MAJOR": 36
+  },
+  "next_example": 141,
+  "source_docx_modified": false,
+  "note": "Legacy provisional audit records retained in their original files; the independent batch files and this consolidated audit hold question-specific reassessments. Assessments do not imply corrections have been applied or training approval."
+}

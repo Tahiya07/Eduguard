@@ -352,9 +352,7 @@ function isModelBusy(busy: string) {
   return (
     busy.includes("model") ||
     busy.includes("summary") ||
-    busy.includes("reply") ||
-ess.elapsed} />}
-    </main>
+    busy.includes("reply")
   );
 }
 

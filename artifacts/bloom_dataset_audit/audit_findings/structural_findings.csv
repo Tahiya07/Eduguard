@@ -1,0 +1,2 @@
+﻿example_id,issue_codes,transformation_count,target_labels
+105,malformed_transformation_table;Create_row_as_paragraph_after_table_recovered,5,Remember|Understand|Analyze|Evaluate|Create
