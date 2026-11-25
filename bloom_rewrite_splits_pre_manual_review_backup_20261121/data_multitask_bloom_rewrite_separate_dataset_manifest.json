@@ -1,0 +1,447 @@
+{
+  "version": "multitask_bloom_rewrite_separate_v1",
+  "storage_layout": "one_directory_per_task",
+  "timestamp_utc": "2026-11-21T11:44:03.731460+00:00",
+  "seed": 42,
+  "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
+  "classifier_dataset_excluded": true,
+  "tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "persisted_merged_jsonl": false,
+  "bloom_source": {
+    "path": "data/rewrite dataset/bloomshift_final_candidate",
+    "version": "bloomshift_final_candidate",
+    "files_sha256": {
+      "train.json": "3b193f0cd0648c0472912e4734f96097589e27d4d5b975a13fbeb5bd4b2401b4",
+      "validation.json": "d5bde6a9ee373586c9654bc9cb9184797f5983e518f3b8beb87fdff7e18e609d",
+      "test.json": "99883d0d4d93a3a54517c626cd1d287c1bc22c6192fa63993b73c09a8c066503",
+      "batch_review_attestation.json": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
+    },
+    "heldout_annotation_provenance": {
+      "inclusion_basis": "owner_batch_attestation_with_agent_curated_replacements",
+      "owner_reported_all_rows_human_reviewed": false,
+      "agent_curated_replacement_rows": 47,
+      "all_source_rows_included": true,
+      "source_split_counts": {
+        "train": 1075,
+        "validation": 212,
+        "test": 135
+      },
+      "reviewer_file_sha256": {
+        "reviewer_1.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f",
+        "reviewer_2.csv": "1d1849e8de757deb043b7baf22f2edc90920c815ad700fe3d182045b3782108f"
+      },
+      "independent_reviewer_files": false,
+      "heldout_rows": 347,
+      "incomplete_reviewer_records": 694,
+      "independent_review_verified": false,
+      "row_level_ratings_required_fields": [
+        "bloom_aligned",
+        "reviewer_bloom_level",
+        "content_preserved",
+        "context_preserved",
+        "meaningful_transformation",
+        "pedagogically_valid",
+        "clear_and_grammatical",
+        "final_decision"
+      ],
+      "warnings": [
+        "Independent reviewer files are missing or byte-identical; inter-rater reliability is not established.",
+        "694 held-out reviewer records lack all required ratings; held-out targets are usable for provisional model diagnostics, not independent gold-label claims.",
+        "47 Figshare-source replacement rows were curated after the owner attestation; they are not covered by its human-review claim and still require independent human validation."
+      ],
+      "research_claim_limit": "Batch attestation is not independent dual annotation and does not establish inter-rater reliability."
+    },
+    "batch_review_attestation": {
+      "path": "data/rewrite dataset/bloomshift_final_candidate/batch_review_attestation.json",
+      "sha256": "55b02dc2e157933931e584658bc03e51c0434ce1c61d4483f1e62596955d64b1"
+    },
+    "training_split_eligibility_policy": "All 1075 canonical BloomShift train rows are used; all 212 validation and 135 test rows remain held out. Legacy review flags are retained as provenance and never used as row filters. Owner batch attestation is not independent dual review or inter-rater reliability.",
+    "train_rows": 1075,
+    "validation_rows": 212,
+    "test_rows": 135,
+    "curation_adjustments": {
+      "duplicate_source_target_rows_replaced": 33,
+      "near_duplicate_source_family_rows_replaced": 10,
+      "cross_split_source_overlap_rows_replaced": 4,
+      "replacements_by_split": {
+        "train": 36,
+        "validation": 8,
+        "test": 3
+      },
+      "replacement_source": "unused rows from data/figshare_bloom_v1_{train,val,test}.csv",
+      "replacement_review_status": "agent_curated_pending_independent_human_validation",
+      "owner_attestation_scope": "The 2026-10-16 owner human-review attestation predates and does not cover these replacement rewrites.",
+      "audit_report": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_repairs/duplicate_replacement_audit_20261121.json"
+    }
+  },
+  "qa_source": {
+    "dataset": "rajpurkar/squad",
+    "requested_train_fraction": 0.95,
+    "retained_train_rows_after_early_stop": 1075,
+    "prepared_train_rows": 1075,
+    "retained_validation_rows_after_early_stop": 212,
+    "prepared_validation_rows": 212,
+    "retained_test_rows_after_early_stop": 135,
+    "prepared_test_rows": 135,
+    "official_validation_used_as_test": true,
+    "evaluation_sampling": {
+      "validation_target_rows": 212,
+      "test_target_rows": 135,
+      "seed_offsets": {
+        "validation": 303,
+        "test": 505
+      },
+      "policy": "Seed-shuffle source candidates and stop conversion at the requested count; train/validation context groups remain isolated."
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "answer_preserving_context_window": true
+    }
+  },
+  "summarization_source": {
+    "dataset": "ccdv/arxiv-summarization",
+    "official_splits_preserved": true,
+    "split_names": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "retained_train_rows_after_early_stop": 1075,
+    "prepared_train_rows": 1075,
+    "retained_validation_rows_after_early_stop": 212,
+    "prepared_validation_rows": 212,
+    "retained_test_rows_after_early_stop": 135,
+    "prepared_test_rows": 135,
+    "evaluation_sampling": {
+      "validation_target_rows": 212,
+      "test_target_rows": 135,
+      "seed_offsets": {
+        "validation": 404,
+        "test": 606
+      },
+      "policy": "Seed-shuffle each official source split and stop tokenization at the requested count; over-budget rows are skipped."
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "over_budget_examples_excluded": {
+        "train": 940,
+        "validation": 145,
+        "test": 108
+      },
+      "policy": "Exclude complete SFT sequences above the fixed token budget rather than truncating article inputs while retaining full abstracts."
+    }
+  },
+  "tokenizer": {
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "max_seq_length": 8192,
+    "sequence_policy": "all persisted complete SFT sequences must fit; fail rather than rely on trainer truncation",
+    "bounded_token_count_check": true,
+    "checked_sequences": {
+      "train": {
+        "bloom_rewrite": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 128,
+          "p50_tokens": 152,
+          "p95_tokens": 184,
+          "p99_tokens": 199,
+          "max_tokens": 242
+        },
+        "qa": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 87,
+          "p50_tokens": 207,
+          "p95_tokens": 355,
+          "p99_tokens": 444,
+          "max_tokens": 606
+        },
+        "summarization": {
+          "rows": 1075,
+          "overlength": 0,
+          "min_tokens": 644,
+          "p50_tokens": 5240,
+          "p95_tokens": 7794,
+          "p99_tokens": 8095,
+          "max_tokens": 8188
+        }
+      },
+      "validation": {
+        "bloom_rewrite": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 135,
+          "p50_tokens": 149,
+          "p95_tokens": 188,
+          "p99_tokens": 215,
+          "max_tokens": 220
+        },
+        "qa": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 88,
+          "p50_tokens": 219,
+          "p95_tokens": 339,
+          "p99_tokens": 412,
+          "max_tokens": 493
+        },
+        "summarization": {
+          "rows": 212,
+          "overlength": 0,
+          "min_tokens": 616,
+          "p50_tokens": 5191,
+          "p95_tokens": 7846,
+          "p99_tokens": 7981,
+          "max_tokens": 8161
+        }
+      },
+      "test": {
+        "bloom_rewrite": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 130,
+          "p50_tokens": 154,
+          "p95_tokens": 170,
+          "p99_tokens": 183,
+          "max_tokens": 219
+        },
+        "qa": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 96,
+          "p50_tokens": 208,
+          "p95_tokens": 389,
+          "p99_tokens": 523,
+          "max_tokens": 829
+        },
+        "summarization": {
+          "rows": 135,
+          "overlength": 0,
+          "min_tokens": 1442,
+          "p50_tokens": 5149,
+          "p95_tokens": 7576,
+          "p99_tokens": 7898,
+          "max_tokens": 8085
+        }
+      }
+    },
+    "post_duplicate_repair_prompt_revision": {
+      "status": "blocked_on_training_compatible_environment",
+      "reason": "The system Python lacks Transformers. The project .venv has Transformers 5.17.0, while the training dependency pin is 4.41.0. Local Qwen tokenizer files load under 5.17.0, but the full tokenization and loss-mask validation did not complete; network access is unavailable for obtaining other files.",
+      "local_tokenizer_path": ".tokenizer_validation/Qwen2.5-1.5B-Instruct",
+      "required_command": ".venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate --max-length 8192 --model-id .tokenizer_validation/Qwen2.5-1.5B-Instruct"
+    }
+  },
+  "upstream_datasets": {
+    "qa": {
+      "dataset": "rajpurkar/squad",
+      "split_fingerprints": {
+        "train": "f1987d620e8fac37",
+        "validation": "6614e223193ae5a9"
+      },
+      "raw_split_rows": {
+        "train": 87599,
+        "validation": 10570
+      },
+      "revision_pinned": false
+    },
+    "summarization": {
+      "dataset": "ccdv/arxiv-summarization",
+      "split_fingerprints": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "raw_split_rows": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "streaming": true,
+      "revision_pinned": false
+    }
+  },
+  "generated_files_sha256": {
+    "bloom_rewrite/train.jsonl": "9eb273bde855084c8fdc30a7883ef29b987438c66861de2b9900b3c1ce871d91",
+    "bloom_rewrite/validation.jsonl": "c783b7fdd764caf6c0f35eddc21efc3665bb89dcdfb5f7bbac6ea2edb009aaa8",
+    "bloom_rewrite/test.jsonl": "fc2a4644dd731cc8b34a19414a7228feef6898dac691b8b9286beaf95835c956",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1"
+  },
+  "training_data_policy": {
+    "policy": "retain_bloom_all_and_apply_auxiliary_caps_during_source_iteration",
+    "ratio_based_downsampling": false,
+    "requested_caps": {
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "rows_retained_during_capped_source_scan": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "retained_training_rows": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "task_train_fractions_of_retained_union": {
+      "bloom_rewrite": 0.333333,
+      "qa": 0.333333,
+      "summarization": 0.333333
+    },
+    "note": "QA and summarization caps are applied during source iteration, avoiding full conversion of unused rows. Validation/test auxiliary tasks are capped to BloomShift split counts; task files remain separate."
+  },
+  "counts": {
+    "train": {
+      "bloom_rewrite": 1075,
+      "qa": 1075,
+      "summarization": 1075
+    },
+    "validation": {
+      "bloom_rewrite": 212,
+      "qa": 212,
+      "summarization": 212
+    },
+    "test": {
+      "bloom_rewrite": 135,
+      "qa": 135,
+      "summarization": 135
+    }
+  },
+  "notes": [
+    "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
+    "Each task's train/validation/test data is stored in its own directory.",
+    "BloomShift training rows are retained; optional QA/summarization training caps are independent of evaluation caps.",
+    "QA and summarization caps are applied during seeded source iteration, stopping expensive conversion once each target count is reached.",
+    "QA train/validation group boundaries are established before row selection to prevent context leakage across those splits.",
+    "The 0.5B Bloom classifier dataset is not part of this generator training corpus.",
+    "BloomShift's fixed split boundaries and source-group isolation are preserved.",
+    "Upstream SQuAD and arXiv revisions are not pinned; preserve this manifest and all generated hashes for reproducibility.",
+    "Owner batch attestation is not independent gold-label validation or inter-rater reliability.",
+    "Never tune model choices using the held-out test split.",
+    "Prepared task-separated JSONL files and fingerprinted canonical BloomShift source files use LF line endings; repository attributes enforce LF checkouts so raw-byte fingerprints are portable across Windows and Linux."
+  ],
+  "quality_repairs": {
+    "version": "bloom_rewrite_source_grounded_repairs_v1",
+    "validation_rows_repaired": 10,
+    "test_rows_repaired": 8,
+    "train_rows_repaired_by_local_repair_script": true,
+    "policy": "Corrected known malformed source-clause grafts and stock templates; no split movement or source changes.",
+    "full_semantic_review": "completed_rule_guided_single_agent_review_of_all_1422_rows",
+    "warning": "15 source prompts remain under-specified and itemized; no independent dual annotation or model verification.",
+    "train_semantic_repair_passes": [
+      {
+        "version": "source_grounded_manual_subset_v1",
+        "reviewed_and_corrected": 17,
+        "review_pending": 1058,
+        "full_semantic_review": "pending",
+        "report": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_train_semantic_audit.json",
+        "backup_path": "bloom_rewrite_train_original_backup.jsonl",
+        "backup_sha256": "fe3db700942df439f56c32e31a5902b07c3ecf2c088e6b83caf3f9057d064a65",
+        "final_sha256": "9602e3c88a9557f301aba1161b35e0ef435d0cd8df874c68480aee753ada10ba"
+      }
+    ],
+    "full_split_curation": {
+      "report": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
+      "human_row_level_review": false,
+      "single_agent_row_level_semantic_screen": true,
+      "rows_examined": 1422,
+      "rows_corrected_vs_pre_curation_backup": 919,
+      "rows_retained_unchanged_vs_pre_curation_backup": 503,
+      "corrected_by_split": {
+        "train": 684,
+        "validation": 148,
+        "test": 79
+      },
+      "retained_by_split": {
+        "train": 391,
+        "validation": 64,
+        "test": 56
+      },
+      "unique_rows_flagged_by_rule_diagnostics": 447,
+      "diagnostic_flags_are_confirmed_errors": false,
+      "all_old_named_template_families_resolved": true,
+      "uncertain_source_prompts": 26,
+      "row_counts_preserved": true,
+      "source_questions_labels_ids_and_splits_preserved": true,
+      "derived_sft_targets_synchronized": true,
+      "independent_model_verification": false,
+      "limitation": "Single-agent, rule-guided semantic curation; no independent second annotator or model verification. See the audit uncertainty list."
+    },
+    "pretraining_review": {
+      "date": "2026-10-23",
+      "uncertainty_records_reexamined_this_pass": 24,
+      "original_uncertainty_records": 26,
+      "resolved_without_rewrite_total": 10,
+      "resolved_without_rewrite_this_pass": 9,
+      "additional_rewrite_corrections_this_pass": 0,
+      "prior_additional_rewrite_corrections": 1,
+      "unresolved_source_contexts": 15,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json",
+      "decision": "15 source prompts remain under-specified; itemized in final_pretraining_review.",
+      "total_uncertainties_resolved": 11
+    },
+    "duplicate_replacement_pass": {
+      "rows_replaced": 47,
+      "replacements_by_split": {
+        "train": 36,
+        "validation": 8,
+        "test": 3
+      },
+      "same_source_same_target_groups_remaining": 0,
+      "action_verb_selection": "source- and target-specific, naturally diverse; no forced synonym rotation",
+      "independent_human_validation": false,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_repairs/duplicate_replacement_audit_20261121.json"
+    }
+  },
+  "curation_history": [
+    {
+      "date": "2026-10-23",
+      "activity": "Source-grounded semantic curation of Bloom rewrite and derived SFT targets; IDs, labels, source mappings, row counts, and split membership preserved. See experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json.",
+      "rows_changed_in_final_pass": 154
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Final Bloom semantic curation pass, October 23 2026",
+      "rows_changed_in_final_pass": 289,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Final pre-training review of all 26 uncertainty entries; one clear Understand source resolved, one Apply rewrite corrected to retain the source objective. 24 source-context uncertainties remain.",
+      "rows_changed_in_final_pass": 1,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    },
+    {
+      "date": "2026-10-23",
+      "activity": "Re-examined all 24 remaining uncertainty flags; adjudicated nine generic learner-choice prompts as answerable, retained 15 source-context limitations. No Bloom rewrite rows changed in this pass.",
+      "rows_changed_in_final_pass": 0,
+      "row_counts_and_splits_preserved": true,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_full_curation_audit.json"
+    },
+    {
+      "date": "2026-11-21",
+      "activity": "Replaced repeated source/target rows, near-duplicate source families, and cross-split source overlaps with unused Figshare Bloom questions; retained split counts; regenerated Bloom ChatML with semantic-first verb diversity and no example-form scaffolds.",
+      "rows_replaced": 47,
+      "replacement_categories": {
+        "duplicate_source_target": 33,
+        "near_duplicate_source_family": 10,
+        "cross_split_source_overlap": 4
+      },
+      "row_counts_and_splits_preserved": true,
+      "independent_human_validation_of_replacements": false,
+      "audit_path": "experiments/multitask_bloom_rewrite/reports/bloom_rewrite_repairs/duplicate_replacement_audit_20261121.json"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "Screening and interim pattern counts; not a complete semantic deduplication adjudication.",
+  "transformation_target_level_counts": {
+    "Remember": 592,
+    "Understand": 527,
+    "Apply": 388,
+    "Analyze": 423,
+    "Evaluate": 525,
+    "Create": 545
+  },
+  "target_cognitive_mismatch_counts": {
+    "Apply": 93,
+    "Remember": 1,
+    "Understand": 1,
+    "Create": 331,
+    "Evaluate": 226,
+    "Analyze": 2
+  },
+  "status_counts": {
+    "REVIEW": 844,
+    "PASS": 1019,
+    "MAJOR": 990,
+    "MINOR": 147
+  },
+  "duplicate_screening_file": "near_duplicate_report.csv",
+  "near_duplicate_adjudication": "Candidates remain REVIEW until semantic context adjudicated.",
+  "repeated_calculation_verification_pattern_count": 256,
+  "approved_examples_by_discipline": {
+    "Textile Engineering — Fabric Manufacturing: Plain Weave": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "expected_transformations": 3000,
+  "records": 3000,
+  "unique_example_target_pairs": 3000,
+  "duplicate_pairs": 0,
+  "examples_with_other_than_five": 0,
+  "missing_or_incomplete_example_ids": [],
+  "transformation_status_counts": {
+    "PASS": 1348,
+    "MAJOR": 1263,
+    "MINOR": 193,
+    "REVIEW": 196
+  },
+  "coverage_new_independent_examples": "511-600 assessed; legacy 1-140 provisional and not considered independently validated",
+  "source_docx_modified": false,
+  "correction_stage": "In progress; no bulk question rewrites issued from incomplete cross-dataset audit",
+  "training_approval": "No records approved until source-question re-audit/reconciliation is completed"
+}

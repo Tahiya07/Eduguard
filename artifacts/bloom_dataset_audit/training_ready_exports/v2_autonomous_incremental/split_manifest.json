@@ -1,0 +1,21 @@
+{
+  "seed": 20261125,
+  "split_unit": "original example_id",
+  "approved_source_ids": [
+    529
+  ],
+  "partitions": {
+    "train": [
+      529
+    ],
+    "validation": [],
+    "test": []
+  },
+  "record_counts": {
+    "train": 5,
+    "validation": 0,
+    "test": 0
+  },
+  "leakage_free": true,
+  "scope_note": "Incremental approved subset only; not a final dataset split while Examples 1–510 source audits remain provisional."
+}
