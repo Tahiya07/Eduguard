@@ -25,6 +25,77 @@ class SummarizationEligibilityError(ValueError):
     """A summarization row is excluded/unaudited, or the eligibility record is missing or altered."""
 
 
+# EduGuard v3.1 Bloom splits (data/bloom_rewrite_eduguard_v3_1) as an alternative bloom_rewrite source.
+EDUGUARD_BLOOM_SOURCE_KIND = "eduguard_bloom_v3_1"
+EDUGUARD_SOURCE_FILES = ("train.jsonl", "validation.jsonl", "test.jsonl", "dataset_manifest.json")
+_EDUGUARD_PRESERVED_FIELDS = (
+    "id", "source_id", "group_id", "split", "source_question", "source_bloom_level",
+    "target_bloom_level", "target_rewrite",
+)
+
+
+class ContestedBloomLabelError(ValueError):
+    """A Bloom row whose gold label is contested reached a training or evaluation path."""
+
+
+def assert_no_contested_bloom_rows(rows: list[dict[str, Any]], where: str = "") -> None:
+    """Fail closed if any bloom_rewrite row is flagged gold_label_contested."""
+    bad = [str(r.get("id")) for r in rows if r.get("task") == "bloom_rewrite" and r.get("gold_label_contested")]
+    if bad:
+        raise ContestedBloomLabelError(f"{where}: {len(bad)} contested Bloom row(s), e.g. {bad[:3]}")
+
+
+def verify_eduguard_bloom_rows(
+    source_dir: Path,
+    bloom_rows_by_split: dict[str, list[dict[str, Any]]],
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    """Check the bloom_rewrite rows against the EduGuard v3.1 source splits.
+
+    * every contested source row is excluded, and the manifest's exclusion list equals the contested source rows;
+    * every remaining source row is present, in the same split, with its IDs, labels and texts unchanged;
+    * nothing else was added; sft_text is built from the preserved fields.
+    """
+    exclusions = manifest.get("bloom_exclusions") or {}
+    declared = {str(e["id"]) for e in exclusions.get("excluded_rows", [])}
+    contested: set[str] = set()
+    checked = 0
+    for split in SPLITS:
+        source_rows = read_jsonl(source_dir / f"{split}.jsonl")
+        if any(r.get("split") != split for r in source_rows):
+            raise ValueError(f"EduGuard source {split}.jsonl contains rows from another split.")
+        expected = {}
+        for r in source_rows:
+            if r.get("gold_label_contested"):
+                contested.add(str(r["id"]))
+            else:
+                expected[str(r["id"])] = r
+        rows = bloom_rows_by_split[split]
+        assert_no_contested_bloom_rows(rows, f"bloom_rewrite/{split}")
+        got = {str(r.get("id")): r for r in rows}
+        if set(got) != set(expected):
+            missing, extra = sorted(set(expected) - set(got)), sorted(set(got) - set(expected))
+            raise ValueError(
+                f"bloom_rewrite/{split} does not match the EduGuard source split: "
+                f"missing {missing[:3]} ({len(missing)}), unexpected {extra[:3]} ({len(extra)})."
+            )
+        for rid, row in got.items():
+            src = expected[rid]
+            for field in _EDUGUARD_PRESERVED_FIELDS:
+                if row.get(field) != src.get(field):
+                    raise ValueError(f"bloom_rewrite/{split} row {rid}: {field} differs from the EduGuard source.")
+            sft = str(row.get("sft_text") or "")
+            if not sft.startswith(str(row.get("prompt_text") or "\0")) or str(row["target_rewrite"]).strip() not in sft:
+                raise ValueError(f"bloom_rewrite/{split} row {rid}: sft_text/prompt_text are inconsistent.")
+            checked += 1
+    if declared != contested:
+        raise ValueError(
+            "Manifest bloom_exclusions.excluded_rows does not equal the contested rows in the EduGuard source "
+            f"({len(declared)} declared, {len(contested)} contested)."
+        )
+    return {"kind": EDUGUARD_BLOOM_SOURCE_KIND, "rows_checked": checked, "contested_rows_excluded": len(contested)}
+
+
 def _row_sha256(row: dict[str, Any]) -> str:
     # Must match summarization_quality.row_sha256.
     return hashlib.sha256(json.dumps(row, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
@@ -268,9 +339,15 @@ def validate_separate_dataset(
     if not source_rel or not isinstance(source_hashes, dict):
         raise ValueError("Manifest is missing canonical BloomShift source fingerprints.")
     source_dir = (repo_root / source_rel).resolve()
-    required_source_files = (
-        "train.json", "validation.json", "test.json", "batch_review_attestation.json"
-    )
+    bloom_source_check: dict[str, Any] | None = None
+    if bloom_source.get("kind") == EDUGUARD_BLOOM_SOURCE_KIND:
+        required_source_files = EDUGUARD_SOURCE_FILES
+    elif bloom_source.get("kind") in (None, "bloomshift"):
+        required_source_files = (
+            "train.json", "validation.json", "test.json", "batch_review_attestation.json"
+        )
+    else:
+        raise ValueError(f"Unknown bloom_source kind {bloom_source.get('kind')!r}.")
     for name in required_source_files:
         path = source_dir / name
         expected = source_hashes.get(name)
@@ -281,6 +358,10 @@ def validate_separate_dataset(
                 f"Canonical BloomShift source fingerprint mismatch for {path}. "
                 "Rebuild the task-separated datasets."
             )
+    if bloom_source.get("kind") == EDUGUARD_BLOOM_SOURCE_KIND:
+        bloom_source_check = verify_eduguard_bloom_rows(
+            source_dir, rows_by_task_split["bloom_rewrite"], manifest
+        )
 
     # Summarization eligibility: enforced for every split when the dataset carries an eligibility record;
     # legacy directories are reported as unaudited (training loads of them are refused in load_split_rows).
@@ -304,6 +385,7 @@ def validate_separate_dataset(
         "bloom_source": str(source_dir),
         "bloom_source_sha256": source_hashes,
         "bloom_annotation_provenance": bloom_source.get("heldout_annotation_provenance"),
+        "bloom_source_check": bloom_source_check,
         "training_data_policy": manifest.get("training_data_policy"),
     }
 
@@ -325,6 +407,8 @@ def load_task_split(
     rows = read_jsonl(data_dir / task / f"{split}.jsonl")
     if task == "summarization":
         enforce_summarization_eligibility(data_dir, split, rows, allow_unaudited=allow_unaudited_summarization)
+    if task == "bloom_rewrite":
+        assert_no_contested_bloom_rows(rows, f"bloom_rewrite/{split}")
     return rows
 
 
@@ -369,6 +453,8 @@ def load_split_rows(
             meta["summarization_eligibility_loaded"] = enforce_summarization_eligibility(
                 data_dir, split, task_rows, allow_unaudited=allow_unaudited_summarization
             )
+        if task == "bloom_rewrite":
+            assert_no_contested_bloom_rows(task_rows, rel)
         rows.extend(task_rows)
         counts[task] = len(task_rows)
         hashes[rel] = sha256_file(path)
