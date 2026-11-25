@@ -1,0 +1,205 @@
+#reviewed none
+@@ 361|Evaluate|sweep_evaluate_diversity|Challenge; deliberately false explanation kept exactly.
+A student explains that consolidation settlement occurs immediately when load is applied to a saturated clay layer because the clay particles compress instantly. Challenge this explanation using the effective-stress increase and pore-water pressure dissipation.
+@@ 363|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute a supplied reverberation-time result using the given room volume and total equivalent sound absorption area.
+@@ 366|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether the supplied node-selection sequence follows the A* evaluation function for the given weighted graph and heuristic values.
+@@ 368|Evaluate|sweep_evaluate_diversity|Weigh evidential consistency.
+Weigh how consistently the supplied absorption observations match the observed dissolution profiles, using the given evidence.
+@@ 370|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a supplied set of beam end moments against the slope-deflection equations and the stated support conditions.
+@@ 374|Evaluate|sweep_evaluate_diversity|Establish; deliberately false point kept exactly.
+A student reports the point at t = 0.5 on the cubic Bézier curve with control points P0(0, 0), P1(1, 2), P2(3, 2), and P3(4, 0) as (2, 2). Establish whether this point is correct.
+@@ 378|Evaluate|sweep_evaluate_diversity|Audit.
+Audit a supplied set of equilibrium concentrations against the equilibrium expression and the initial concentration constraints for the stated reaction.
+@@ 380|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the supplied site-development interpretation in light of the topography, vegetation, access routes, and surrounding land uses shown in the plan.
+@@ 382|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether the supplied parameterized-query revision prevents the specific input manipulation demonstrated in the original scenario.
+@@ 386|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied C implementation correctly declares and invokes a function pointer compatible with the specified arithmetic function interface.
+@@ 389|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the supplied conclusion about statistical control against the process measurements and the specified control-chart limits.
+@@ 391|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the supplied clipped line segment against the original endpoints and the rectangular clipping window under the Cohen–Sutherland algorithm.
+@@ 395|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether the supplied connected-component partition correctly accounts for all vertices and edges in the given graph, and justify the conclusion.
+@@ 398|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the supplied interpretation of the receivables aging schedule as an account of how outstanding balances are distributed across the specified overdue periods.
+@@ 401|Evaluate|sweep_evaluate_diversity|Refute or support; deliberately false claim kept exactly.
+A student claims that very intense red light of frequency 4.0 × 10^14 Hz will eventually eject photoelectrons from a metal with a work function of 2.3 eV. Refute or support this claim using Einstein's photoelectric equation (h = 4.14 × 10^-15 eV·s).
+@@ 404|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether the supplied spatial-overlap interpretation correctly identifies the land-use categories that intersect flood-prone areas in the given maps.
+@@ 407|Evaluate|sweep_evaluate_diversity|Establish; authored expression kept.
+Establish whether the simplified expression F=C is equivalent to F(A,B,C)=Σm(1,3,5,7) by checking the specified minterms.
+@@ 409|Evaluate|sweep_evaluate_diversity|Substantiate or refute; values kept.
+Substantiate or refute a reported remaining drug amount of 50 mg after 12 hours for a 400 mg initial dose with a 4-hour half-life under first-order elimination kinetics.
+@@ 411|Evaluate|sweep_evaluate_diversity|Appraise; value kept.
+Appraise the claim that ∫_0^1 x e^x dx equals 1 by checking the integration-by-parts steps and applying the definite limits.
+@@ 413|Evaluate|sweep_evaluate_diversity|Defend or reject; authored design kept.
+Defend or reject the classification of the described survey as stratified sampling, given that 50 students are selected randomly from each faculty rather than entire faculties being selected.
+@@ 416|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate the proposed shortest distances A = 0, B = 3, C = 2, D = 8, and E = 10 for the given graph, justifying the result with the available paths.
+@@ 419|Evaluate|sweep_evaluate_diversity|Judge; equation kept.
+Judge whether the proposed equation CH_3COOH + C_2H_5OH ⇌ CH_3COOC_2H_5 + H_2O correctly represents the stated esterification reaction.
+@@ 422|Evaluate|sweep_evaluate_diversity|Defend or reject; values kept.
+Defend or reject the decision to irrigate the maize field at a current depletion of 60 mm, given its 120 mm available water capacity and 0.5 allowable depletion fraction.
+@@ 424|Evaluate|sweep_evaluate_diversity|Establish; values kept.
+Establish whether a calculated magnetic force of 0.4 N is correct for the 0.5 m conductor carrying 4 A perpendicular to the 0.2 T magnetic field.
+@@ 427|Evaluate|sweep_evaluate_diversity|Critique.
+Critique selective attention as an explanation of the student's ability to concentrate on mathematics examination questions despite the surrounding conversations.
+@@ 430|Evaluate|sweep_evaluate_diversity|Audit; values kept.
+Audit the proposed pressure at point 2 of 194 kPa against the given pressure, velocities, fluid density, and horizontal-pipe assumption.
+@@ 432|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate a maximum change in the money supply of Tk. 500,000 for the 20% reserve ratio and the initial Tk. 100,000 deposit under the stated assumptions.
+@@ 436|Evaluate|sweep_evaluate_diversity|Substantiate or refute; deliberately false value kept exactly.
+Substantiate or refute a reported dynamic power dissipation of 0.81 mW for the stated CMOS inverter parameters using the dynamic power equation P=αC_LV_DD^2f.
+@@ 438|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether a reported total manufacturing cost of Tk. 47,000 is correct for Job 105 using the stated direct materials, direct labour, and overhead application rate.
+@@ 440|Evaluate|sweep_evaluate_diversity|Establish; values kept.
+Establish whether the proposed solution x=10, y=20 maximizes Z=40x+30y while satisfying all the stated constraints.
+@@ 442|Evaluate|sweep_evaluate_diversity|Challenge; deliberately false identification kept exactly.
+Challenge the identification of the North region as the highest-performing region when performance is measured by total sales across Q1 and Q2.
+@@ 444|Evaluate|sweep_evaluate_diversity|Judge with stated criteria.
+Judge whether a laissez-faire leadership style suits a newly formed team of inexperienced employees working to a tight deadline, considering decision-making authority, employee participation, and managerial control.
+@@ 447|Evaluate|sweep_evaluate_diversity|Determine (Evaluate); deliberately false value kept exactly.
+Determine whether a reconciled bank-statement balance of Tk. 27,000 is correct from the cash-book balance and the two stated reconciling items, and justify the conclusion.
+@@ 449|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate the decision to reject the null hypothesis at the 5% significance level by comparing the calculated z-statistic with the two-tailed critical value of approximately ±1.96.
+@@ 451|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the stated division of responsibilities as a coordination structure for implementing the vaccination programme.
+@@ 453|Evaluate|sweep_evaluate_diversity|Establish; values and reference ranges kept.
+Establish whether the reported plasticity index of 26% is correct for the stated liquid limit and plastic limit, and whether describing the soil as highly plastic is justified by Burmister's ranges (PI 20–40% indicates high plasticity).
+@@ 455|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the opposite-wall window arrangement as a means of cross-ventilating the stated rectangular building under the prevailing wind direction.
+@@ 457|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether the reported D-value of 2 minutes is consistent with the reduction from 10^6 to 10^3 cells/mL over 6 minutes.
+@@ 459|Evaluate|sweep_evaluate_diversity|Substantiate or refute; values kept.
+Substantiate or refute a reported reliability of approximately 0.819 after 10 hours using the exponential reliability model and the stated failure rate.
+@@ 461|Evaluate|sweep_evaluate_diversity|Decide with justification; values kept.
+Decide whether the investment should be accepted after checking whether a reported net present value of approximately Tk. 225 is correct for the stated initial outlay, annual cash inflows, and 10% discount rate, justifying the decision with the net-present-value decision rule.
+@@ 463|Evaluate|sweep_evaluate_diversity|Weigh alternatives.
+Weigh whether a botanical garden alone can conserve the genetic diversity and ecological interactions of a threatened forest plant species as effectively as protecting its habitat in a national park.
+@@ 465|Evaluate|sweep_evaluate_diversity|Defend or reject; values kept.
+Defend or reject applying the CSE department filter before the join as an optimization for the given query, considering the 10,000 Student records, 1,000 CSE students, and 30,000 Enrollment records.
+@@ 467|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate a proposed economic order quantity of approximately 894 units for the stated demand, ordering cost, and annual holding cost.
+@@ 469|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether the proposed allocation of 100 KB to the 200 KB block, 250 KB to the 300 KB block, and 300 KB to the 400 KB block follows the first-fit strategy.
+@@ 471|Evaluate|sweep_evaluate_diversity|Critique.
+Critique surface materials, vegetation cover, and human activities as an explanation of the higher temperatures observed in the central business district compared with surrounding rural areas.
+@@ 473|Evaluate|sweep_evaluate_diversity|Recommend; values kept.
+Recommend whether a whole season's potassium fertilizer should be applied in a single dose to a sandy soil with a cation exchange capacity of 4 cmol(+)/kg, justifying the recommendation with reference to nutrient retention and leaching.
+@@ 475|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the conclusion that the reaction is first order with respect to A is consistent with all three experimental observations.
+@@ 479|Evaluate|sweep_evaluate_diversity|Challenge.
+Challenge the view that disintegration time alone establishes the drug-release performance of an immediate-release tablet, considering the distinction between disintegration and dissolution.
+@@ 481|Evaluate|sweep_evaluate_diversity|Appraise; value kept.
+Appraise a reported price elasticity of demand of −1 for the stated price and quantity changes, and judge what the result indicates about demand responsiveness.
+@@ 483|Evaluate|sweep_evaluate_diversity|Refute or support; deliberately false value kept exactly.
+Refute or support the proposed second approximation x_2≈1.52174 as the result of two Newton–Raphson iterations starting from x_0=1.5.
+@@ 485|Evaluate|sweep_evaluate_diversity|Critique; authored arrangement kept.
+A proposed arrangement for the library places the administrative offices at the entrance and the service counter deep inside the book stacks. Critique it in terms of user movement and functional relationships.
+@@ 488|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether integrating finance, human resources, and inventory through a shared organizational database can reduce information silos in the stated manufacturing company.
+@@ 490|Evaluate|sweep_evaluate_diversity|Establish; values kept.
+Establish whether a reported yarn count of 20 tex is correct for the sample weighing 2 grams and measuring 100 metres.
+@@ 492|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the alignment of the comparison activity and the justification-based assessment with the learning outcome requiring students to evaluate database normalization choices.
+@@ 494|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate a reported audit risk of 3% against the stated inherent risk, control risk, and detection risk assessments.
+@@ 496|Evaluate|sweep_evaluate_diversity|Challenge; deliberately false conclusion kept exactly.
+A what-if analysis concludes that raising the price from Tk. 250 to Tk. 275 increases revenue because each unit earns more, even though projected quantity falls from 1,200 to 1,050 units. Challenge this conclusion.
+@@ 498|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether a reported half-life of approximately 19.8 minutes is consistent with the first-order half-life equation and the stated rate constant.
+@@ 500|Evaluate|sweep_evaluate_diversity|Defend or reject.
+Defend or reject a job evaluation that considers skill, responsibility, effort, and working conditions as a basis for comparing the relative worth of organizational positions.
+@@ 503|Evaluate|sweep_evaluate_diversity|Critique.
+Critique collective ministerial responsibility as a basis for executive accountability to the legislature, considering the relationship between cabinet unity and legislative scrutiny.
+@@ 505|Evaluate|sweep_evaluate_diversity|Challenge.
+Challenge the view that increasing gas velocity alone is a sufficient strategy for improving cyclone collection efficiency, considering its relationship with centrifugal action and the other stated factors.
+@@ 507|Evaluate|sweep_evaluate_diversity|Substantiate or refute; values kept.
+Substantiate or refute a reported controller output of 7.4 using the stated gains, error, accumulated error, and error derivative.
+@@ 511|Evaluate|sweep_evaluate_diversity|Appraise; values kept.
+Appraise the recovery decision to redo transaction T1 and retain account balances of Tk. 4,000 each in light of the commit record and the stated crash condition.
+@@ 513|Evaluate|sweep_evaluate_diversity|Judge; authored scenario kept.
+An analyst compares the test and standard solutions after allowing them to stand for different lengths of time and reports that the sample passes the chloride limit test. Judge whether this decision is valid, considering the requirement for identical test conditions.
+@@ 515|Evaluate|sweep_evaluate_diversity|Establish; values kept.
+Establish whether a reported government expenditure multiplier of 5 is consistent with the stated MPC and MPS values and the simple-economy multiplier formula.
+@@ 518|Evaluate|sweep_evaluate_diversity|Audit; classification kept.
+Audit the proposed classification—operating: customer receipts and supplier payments; investing: machinery purchase; financing: share issue and loan repayment—against the stated transactions.
+@@ 520|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether the two stated test cases provide complete statement and branch coverage for the given conditional code, justifying the conclusion with the executed paths.
+@@ 522|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate the conclusion that the training program produces a statistically significant change at the 5% level by comparing the calculated absolute t-statistic with the stated critical value of 2.776.
+@@ 524|Evaluate|sweep_evaluate_diversity|Critique; authored figures kept.
+A proposed annual budget plans Tk. 600 billion of expenditure against expected revenue of Tk. 500 billion under a deficit ceiling of Tk. 50 billion. Critique the fiscal defensibility of this allocation.
+@@ 527|Evaluate|sweep_evaluate_diversity|Judge; code kept.
+Judge whether the three-address code t_1=a+b, t_2=c-d, t_3=t_1×t_2, x=t_3 preserves the original expression, examining the operation order and dependencies.
+@@ 529|Evaluate|sweep_evaluate_diversity|Establish; authored structure kept.
+Establish whether a fabric structure in which each weft yarn passes alternately over and under successive warp yarns, with the next weft yarn reversing the sequence, satisfies the defining interlacement pattern of plain weave.
+@@ 533|Evaluate|sweep_evaluate_diversity|Validate; expressions kept.
+Validate the proposed derivatives f_x=2xy+3y^2 and f_y=x^2+6xy by differentiating the stated function with respect to each variable.
+@@ 535|Evaluate|sweep_evaluate_diversity|Challenge.
+Challenge the validity of a slope-deflection formulation that omits the joint-translation contribution for a member whose end joints undergo relative translation, even when EI is constant and support settlement is absent.
+@@ 538|Evaluate|sweep_evaluate_diversity|Substantiate or refute; values kept.
+Substantiate or refute a reported induced electromotive-force magnitude of 40 V using the stated number of turns, flux change, and time interval.
+@@ 540|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise a balance-of-payments report that records exports and imports in the current account and foreign investment inflows in the financial account against the stated accounting classification, including its treatment of external loan repayments.
+@@ 542|Evaluate|sweep_evaluate_diversity|Critique.
+Critique loading unstandardized sales, inventory, and finance records directly into a centralized data warehouse without transformation as an ETL approach for consistent reporting.
+@@ 544|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether a reported closing inventory value of Tk. 1,200 is correct under FIFO for the stated purchase quantities, unit costs, and sales quantity.
+@@ 546|Evaluate|sweep_evaluate_diversity|Weigh.
+Weigh whether write-back caching reduces the frequency of main-memory writes compared with write-through caching, considering the conditions under which modified cache blocks are written to memory.
+@@ 548|Evaluate|sweep_evaluate_diversity|Establish; deliberately infeasible allocation kept exactly.
+Establish whether the allocation of 10 units from Source 1 to A, 10 units from Source 1 to B, 25 units from Source 3 to B, and 40 units from Source 2 to C satisfies all stated supply and demand constraints and constitutes a valid feasible solution.
+@@ 550|Evaluate|sweep_evaluate_diversity|Critique.
+Critique a dashboard that displays only total monthly sales revenue as a means of identifying differences in regional performance and sales volume.
+@@ 552|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate the proposed subnet allocation using 192.168.10.0/26, 192.168.10.64/26, 192.168.10.128/26, and 192.168.10.192/26 as four non-overlapping, equal-sized subnets within the original network.
+@@ 554|Evaluate|sweep_evaluate_diversity|Challenge; value kept.
+Challenge the view that a single observation of 80% of a drug dissolved after 30 minutes is sufficient to characterize its complete dissolution profile.
+@@ 556|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification; authored values kept.
+A consumer for whom MU_X/P_X = 4 and MU_Y/P_Y = 3 decides to spend more on good Y in order to increase total utility. Determine whether this reallocation is correct, justifying the judgement with the equilibrium condition.
+@@ 558|Evaluate|sweep_evaluate_diversity|Validate; values kept.
+Validate the classification of the student with 75% attendance and 35 examination marks as ineligible under the stated decision rules.
+@@ 560|Evaluate|sweep_evaluate_diversity|Establish; values kept.
+Establish whether the reported 95% confidence interval of [48.04,51.96] is consistent with the stated sample statistics and critical value.
+@@ 562|Evaluate|sweep_evaluate_diversity|Substantiate or refute; deliberately false values kept exactly.
+Substantiate or refute the reported end-effector coordinates x≈3.23 units and y≈5.20 units using the stated forward-kinematics equations and parameters.
+@@ 564|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether extending the accounts payable payment period while keeping the inventory and receivables periods unchanged reduces the cash conversion cycle, justifying the conclusion with the stated relationship.
+@@ 566|Evaluate|sweep_evaluate_diversity|Challenge.
+Challenge the view that measuring total moisture content alone is sufficient to predict microbial stability, considering the distinction between total moisture and water activity.
+@@ 568|Evaluate|sweep_evaluate_diversity|Critique.
+Critique captive breeding alone as a long-term conservation strategy for threatened species whose natural habitats remain unprotected.
+@@ 570|Evaluate|sweep_evaluate_diversity|Validate; sequence kept.
+Validate the sequence 82,140,170,199,43,24,16 against the stated SCAN scheduling conditions, including movement to the upper disk boundary before reversing direction.
+@@ 573|Evaluate|sweep_evaluate_diversity|Audit; values kept.
+Audit a reported discharge of approximately 0.039 m^3/s against the stated venturimeter dimensions, pressure difference, fluid density, and coefficient of discharge.
+@@ 575|Evaluate|sweep_evaluate_diversity|Judge; values kept.
+Judge whether the reported cost of goods sold of Tk. 2,500 and ending inventory of Tk. 1,500 are consistent with the FIFO method and the stated purchases and sales.
+@@ 577|Evaluate|sweep_evaluate_diversity|Establish; authored pattern kept.
+Establish whether a proposed weave pattern in which each warp yarn passes over two consecutive weft yarns and under the next two is consistent with the defining interlacement pattern of plain weave.
+@@ 580|Evaluate|sweep_evaluate_diversity|Critique.
+Critique loading operational data directly into a data warehouse without standardizing inconsistent formats, judging it against the stated ETL preparation requirements.
+@@ 582|Evaluate|sweep_evaluate_diversity|Substantiate or refute; value kept.
+Substantiate or refute a reported net fluid balance of +300 mL using the stated intake and output measurements.
+@@ 584|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether a description that identifies the fracture point as the location of maximum engineering stress is consistent with the distinction between ultimate tensile strength and fracture.
+@@ 586|Evaluate|sweep_evaluate_diversity|Validate; value kept.
+Validate a reported generated emf of 999 V per phase against the stated synchronous-generator equation and parameters.
+@@ 588|Evaluate|sweep_evaluate_diversity|Weigh; values kept.
+Weigh whether a government can rely on a simple expenditure multiplier of 5 (MPC = 0.8) to predict the actual income effect of new public spending in an open economy with income taxes.
+@@ 590|Evaluate|sweep_evaluate_diversity|Decide with the stated rule.
+Decide whether router A should replace its direct route to router C with the route through B, justifying the decision with the stated costs and the shortest-path decision rule.
+@@ 592|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether describing vegetation recovery after a forest fire as primary succession is consistent with the presence of pre-existing soil.
+@@ 594|Evaluate|sweep_evaluate_diversity|Recommend; authored conditions kept.
+Recommend whether a proposed student-information system should proceed when suitable infrastructure is available and staff are willing to use it, but the development cost exceeds the approved budget and the project cannot meet its planned deadline.
+@@ 596|Evaluate|sweep_evaluate_diversity|Challenge; authored description kept.
+Challenge a description of the central executive as the component responsible only for storing visual information in the working-memory model.
+@@ 600|Evaluate|sweep_evaluate_diversity|Weigh with the stated objective.
+Weigh write-back against write-through caching when reducing main-memory traffic is the primary design objective, accounting for the need to track modified cache blocks, and recommend one.

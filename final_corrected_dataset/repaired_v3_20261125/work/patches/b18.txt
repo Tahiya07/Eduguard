@@ -1,0 +1,67 @@
+#reviewed 432,433,434,435,436,437,438,439,440,441,442,443,444,446,447,448,449,450,451,452,453,454,455,456,457
+@@ 432|Understand|verb_diversity|Describe; values kept.
+Describe how a required reserve ratio of 20% determines the proportion of each deposit that banks must retain and how lending excess reserves creates money.
+@@ 432|Analyze|alignment_strengthen|Geometric shrinkage and finite sum.
+Analyze why the successive rounds of lending from the initial Tk. 100,000 deposit become smaller at a 20% reserve requirement, and determine why their sum approaches a finite total rather than growing without limit.
+@@ 433|Evaluate|verb_diversity|Recommend with the stated criteria.
+Recommend the roof system for the stated heavy-rainfall region, justifying the choice by rainwater drainage, roof slope, and construction requirements.
+@@ 433|Create|alignment_fix|A comparative selection proposal is evaluative; now a roof design.
+Design a roof for a building in the stated heavy-rainfall region that specifies its slope, drainage arrangement, and construction details, and justify each choice.
+@@ 434|Analyze|alignment_fix|Was input identification; now explains the posterior shift without giving the answer.
+Determine why Group A's share among passing students is larger than its 60% share of all students, relating the shift to the difference between the pass probabilities of 0.8 and 0.5.
+@@ 435|Remember|answer_in_question|Question named the interests.
+Name the constitutional right engaged when a public demonstration is restricted.
+@@ 435|Create|verb_diversity|Construct.
+Construct a structured constitutional argument addressing the restriction on the public demonstration that incorporates freedom of expression and the stated public-order considerations under the applicable legal framework.
+@@ 436|Understand|verb_diversity|Describe.
+Describe how the supply voltage, switching frequency, effective load capacitance, and activity factor influence the dynamic power dissipation of the stated CMOS inverter.
+@@ 436|Analyze|alignment_fix|Was input identification; now the leverage of each parameter.
+Determine which of the 1.8 V supply, 100 MHz switching frequency, 10 pF load capacitance, and 0.5 activity factor gives the greatest reduction in dynamic power for a given percentage change, and explain why.
+@@ 437|Analyze|alignment_strengthen|Dominant terms and unmeasured losses.
+Determine whether the patient's net fluid balance over the 8-hour shift is driven more by the intravenous intake or by the urine output, and identify which unmeasured losses could make the recorded balance misleading.
+@@ 438|Remember|answer_in_question|Question named the three components.
+Name the principal components of total manufacturing cost under job order costing.
+@@ 438|Analyze|alignment_strengthen|Leverage of labour through the overhead rate; no new numbers.
+Analyze how the 80% overhead application rate makes direct labour cost affect Job 105's total manufacturing cost twice over, and explain why a given increase in direct labour raises the total cost by more than the increase itself.
+@@ 440|Understand|verb_diversity|Describe.
+Describe how the objective function Z=40x+30y and the constraints 2x+y≤40, x+2y≤50, x≥0, and y≥0 define the feasible region and the optimization goal.
+@@ 440|Analyze|alignment_strengthen|Corner-point reasoning.
+Determine which corner points of the feasible region defined by 2x+y≤40, x+2y≤50, x≥0, and y≥0 are candidates for the optimum, and explain why the optimum of Z=40x+30y must lie at one of them.
+@@ 441|Apply|obe_verb_first|Assign is not an Apply bank verb; authored items kept.
+Apply the distinction between administrative justification and political response to the 1905 Partition of Bengal by placing each of the following in its category: the large size of the Bengal Presidency, the Swadeshi and boycott movement, mass protest meetings in Calcutta, and the difficulty of administering the eastern districts.
+@@ 441|Create|verb_diversity|Construct.
+Construct a historical argument that distinguishes the administrative justification for the Partition of Bengal in 1905 from the political responses and factors surrounding the decision.
+@@ 442|Remember|readback|Was reading values off the dataset; now recall of the measures.
+Define total sales and average quarterly sales as measures of regional sales performance.
+@@ 442|Understand|verb_diversity|Interpret.
+Interpret what the Q1 and Q2 sales values show about the quarterly performance of the North, South, and East regions.
+@@ 443|Analyze|alignment_fix|Was distinguishing formula quantities; now why original dimensions are used and the consequence.
+Determine why engineering stress and strain are computed from the original area and gauge length rather than the instantaneous ones, and explain how this choice would misstate the material's behaviour at large extensions.
+@@ 446|Analyze|alignment_strengthen|Pole influence and the stability boundary.
+Determine how each open-loop pole at s = 0, −2, and −4 shapes the root locus of G(s)=K/(s(s+2)(s+4)), and identify the gain at which the closed-loop poles reach the imaginary axis.
+@@ 447|Analyze|alignment_strengthen|Direction of each item and its timing origin.
+Distinguish the reconciling item that raises the bank-statement balance relative to the Tk. 25,000 cash-book balance from the one that lowers it, and explain why each arises from timing alone.
+@@ 448|Apply|obe_verb_first|Match is not an Apply bank verb.
+Determine the effect of each operation in the stated machining sequence on the cylindrical workpiece.
+@@ 448|Create|known_solution_create|Rearranged the given sequence; now a process plan with a design objective.
+Plan a CNC machining process for the stated cylindrical workpiece that adds the tool selection and cutting order needed to achieve the specified diameter with the fewest set-ups.
+@@ 450|Analyze|alignment_strengthen|Linearity and its limit.
+Determine why doubling either the concentration or the path length of the stated solution doubles its absorbance, and explain why the Beer–Lambert law may stop holding at high concentrations.
+@@ 451|Remember|answer_in_question|Question named the three actors.
+Name the main types of actor involved in implementing a public health programme.
+@@ 452|Analyze|alignment_strengthen|Condition on the advertisement and trust limitation.
+Determine under what condition on router B's advertised distance router A would keep its current distance of 8 to destination D, given the A–B link cost of 2, and explain why A cannot verify B's advertisement.
+@@ 453|Analyze|alignment_strengthen|Plasticity-chart position from the stated limits.
+Determine whether the soil with a liquid limit of 48% and a plastic limit of 22% plots above or below the A-line on a plasticity chart, and explain what its position indicates about its clay or silt character.
+@@ 454|Remember|answer_in_question|Question named both accounts.
+Name the main accounts of a country's balance of payments.
+@@ 455|Remember|answer_in_question|Question named the three factors.
+State the conditions needed for cross-ventilation to occur in a building.
+@@ 455|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine which openings act as inlets and which as outlets in the stated rectangular building, given its opposite-wall windows and the prevailing wind direction.
+@@ 455|Create|verb_diversity|Design.
+Design a natural-ventilation layout for the stated rectangular building that relates its orientation and opposite-wall window placement to the prevailing wind direction.
+@@ 457|Understand|verb_diversity|Interpret; values kept.
+Interpret the decrease from 10^6 to 10^3 cells/mL during the 6-minute treatment as a series of decimal reductions.
+@@ 457|Analyze|alignment_fix|Counting reductions is the Apply step; now constancy of D and its implication.
+Determine why the time needed for each tenfold reduction stays constant during the 6-minute treatment, and explain what this implies for the time needed to reach any lower target population.

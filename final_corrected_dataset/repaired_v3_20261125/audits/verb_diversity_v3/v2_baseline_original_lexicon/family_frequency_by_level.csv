@@ -1,0 +1,48 @@
+﻿target_level,family,operation,count,share_of_level
+Remember,define,retrieval,211,0.3644
+Remember,state_recall,retrieval,175,0.3022
+Remember,identify,retrieval/recognition,167,0.2884
+Remember,list,retrieval,25,0.0432
+Remember,differentiate,comparison,1,0.0017
+Understand,explain,verbal explanation,476,0.9315
+Understand,interpret,interpretation,18,0.0352
+Understand,describe,verbal explanation,15,0.0294
+Understand,summarize,verbal explanation,1,0.002
+Understand,predict,inference/prediction,1,0.002
+Apply,compute,computation,143,0.3763
+Apply,apply_use,application,82,0.2158
+Apply,classify,classification,65,0.1711
+Apply,identify,retrieval/recognition,29,0.0763
+Apply,decide,decision-making,13,0.0342
+Apply,trace,application (procedure tracing),11,0.0289
+Apply,NONE,,10,0.0263
+Apply,verify,justification/verification,7,0.0184
+Apply,predict,inference/prediction,5,0.0132
+Apply,interpret,interpretation,5,0.0132
+Apply,construct,construction,3,0.0079
+Apply,state_recall,retrieval,3,0.0079
+Apply,organize,application,1,0.0026
+Apply,formulate,formulation,1,0.0026
+Apply,compose,construction (writing),1,0.0026
+Apply,derive,inference (derivation),1,0.0026
+Analyze,examine,decomposition/relationship analysis,366,0.8883
+Analyze,differentiate,comparison,29,0.0704
+Analyze,trace,application (procedure tracing),6,0.0146
+Analyze,compare,comparison,5,0.0121
+Analyze,decompose,decomposition/relationship analysis,3,0.0073
+Analyze,diagnose,inference (diagnosis),1,0.0024
+Analyze,interpret,interpretation,1,0.0024
+Analyze,compute,computation,1,0.0024
+Evaluate,verify,justification/verification,245,0.4785
+Evaluate,assess_judge,judgement,227,0.4434
+Evaluate,justify,justification,25,0.0488
+Evaluate,critique,criticism,9,0.0176
+Evaluate,compute,computation,3,0.0059
+Evaluate,NONE,,2,0.0039
+Evaluate,diagnose,inference (diagnosis),1,0.002
+Create,design,design,266,0.4963
+Create,develop,construction/planning,184,0.3433
+Create,construct,construction,49,0.0914
+Create,formulate,formulation,25,0.0466
+Create,compose,construction (writing),11,0.0205
+Create,state_recall,retrieval,1,0.0019

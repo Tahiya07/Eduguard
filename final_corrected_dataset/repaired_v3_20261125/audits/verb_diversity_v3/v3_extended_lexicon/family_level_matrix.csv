@@ -1,0 +1,34 @@
+﻿family,operation,Remember,Understand,Apply,Analyze,Evaluate,Create,total,levels_used
+explain,verbal explanation,0,271,0,0,7,0,278,2
+compute,computation,0,0,167,107,3,1,278,4
+state_recall,retrieval,242,0,0,0,1,5,248,3
+design,design,0,0,0,0,0,230,230,1
+verify,justification/verification,0,0,19,8,195,0,222,3
+assess_judge,judgement,0,0,0,0,178,0,178,1
+apply_use,application,0,0,167,0,1,4,172,3
+examine,decomposition/relationship analysis,0,0,0,166,0,0,166,1
+define,retrieval,160,0,0,0,0,0,160,1
+describe,verbal explanation,6,131,0,0,0,0,137,2
+identify,retrieval/recognition,108,0,0,10,0,1,119,3
+develop,construction/planning,0,0,0,0,0,115,115,1
+construct,construction,0,0,0,0,0,81,81,1
+formulate,formulation,0,0,0,0,0,75,75,1
+NONE,,13,10,12,11,10,4,60,6
+interpret,interpretation,0,57,0,0,0,0,57,1
+justify,justification,0,0,0,0,52,0,52,1
+list,retrieval,50,0,0,0,0,0,50,1
+critique,criticism,0,0,0,0,36,0,36,1
+infer,inference,0,14,0,18,0,0,32,2
+differentiate,comparison,0,0,0,32,0,0,32,1
+decide,decision-making,0,0,1,0,24,0,25,2
+summarize,verbal explanation,0,25,0,0,0,0,25,1
+compare,comparison,0,1,0,20,0,0,21,2
+decompose,decomposition/relationship analysis,0,0,0,17,0,0,17,1
+compose,construction (writing),0,0,0,0,0,16,16,1
+trace,application (procedure tracing),0,0,3,12,0,0,15,2
+predict,inference/prediction,0,0,9,0,0,0,9,1
+diagnose,inference (diagnosis),0,0,0,6,0,0,6,1
+classify,classification,0,1,0,5,0,0,6,2
+derive,inference (derivation),0,0,1,0,5,0,6,2
+synthesize,synthesis,0,0,0,0,0,4,4,1
+organize,application,0,0,1,1,0,0,2,2

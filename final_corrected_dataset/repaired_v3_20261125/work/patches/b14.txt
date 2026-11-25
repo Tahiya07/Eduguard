@@ -1,0 +1,65 @@
+#reviewed 330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354
+@@ 330|Analyze|alignment_fix|Tracing operations is procedural; now structural properties of the operators.
+Determine why a left shift by k positions multiplies a non-negative integer operand by 2^k, and explain why bitwise AND can never yield a value larger than either non-negative operand while OR never yields a smaller one.
+@@ 332|Understand|verb_only_pair|Was "Explain how … determine" paired with "Examine how … contributes"; now interpretation of the concept.
+Interpret the reorder point as the stock level that covers expected demand during the lead time plus a safety buffer.
+@@ 332|Analyze|verb_only_pair|Now differentiates effects and reasons about lead-time uncertainty.
+Determine how a longer lead time and a higher demand rate each change the reorder point, and explain why safety stock must grow when lead time becomes less predictable.
+@@ 334|Analyze|alignment_strengthen|Nonlinear rise and limiting assumptions.
+Analyze why the simple money multiplier rises sharply as the reserve ratio approaches zero, and identify the simplified banking assumptions that would make the actual multiplier smaller.
+@@ 335|Remember|answer_in_question|Question named the three categories.
+Name the three categories of misrepresentation recognized in contract law.
+@@ 335|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the state-of-mind test to the supplied misrepresentation scenarios to determine the category of each false statement.
+@@ 336|Create|verb_diversity|Propose.
+Propose a PID controller tuning for the supplied robotic system that addresses its stated overshoot, settling-time, and steady-state-error requirements.
+@@ 337|Analyze|alignment_fix|Was input identification; now behaviour of the probability with the rate.
+Determine how the probability of the specified number of events changes as the supplied event rate rises past that number, and explain why the Poisson probability of a given count is largest when the rate is close to it.
+@@ 338|Remember|readback|Was reading back supplied examples; now recall.
+Recall the main ways in which vernacular architecture typically responds to local climate.
+@@ 338|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the categories of local material use, climatic response, and construction technique to sort the supplied architectural features.
+@@ 340|Analyze|shared_verb|Identify (Analyze) with reasoning about the rotation case.
+Identify the first node that becomes unbalanced during the supplied insertion sequence, and determine which rotation case its imbalance pattern requires and why.
+@@ 341|Create|verb_diversity|Propose.
+Propose a cyclone-separator configuration using the supplied particle size, inlet velocity, and geometric constraints that meets the stated particle-collection requirement.
+@@ 342|Remember|readback|Was reading back the supplied approach; now recall.
+Name the major leadership styles described in organizational behaviour.
+@@ 342|Understand|verb_diversity|Characterize.
+Characterize the supplied leadership approach in relation to the team's task requirements.
+@@ 342|Apply|obe_verb_first|Match is not an Apply bank verb.
+Use relevant leadership principles to state which behaviours the supplied leadership approach would require of the leader in the stated team situation.
+@@ 342|Create|verb_diversity|Plan.
+Plan leadership actions for the supplied team situation that reflect its stated team characteristics and task requirements.
+@@ 343|Analyze|alignment_strengthen|Linear dependence and its appearance in echelon form.
+Determine which rows of the supplied matrix are linear combinations of others, and explain how this dependency appears in its row-echelon form.
+@@ 344|Analyze|alignment_fix|Was input identification; now governing factor and subgrade effect.
+Determine whether traffic loading or subgrade strength governs the required pavement thickness for the supplied conditions, and explain how a weak subgrade changes the thickness needed above it.
+@@ 345|Remember|answer_in_question|Question stated the distinction to be recalled.
+Define selective attention.
+@@ 346|Analyze|alignment_strengthen|Trend detection and its consequence.
+Determine whether the supplied failure-rate measurements show a trend over the observation period, and explain how that trend affects whether the reliability requirement will be met.
+@@ 347|Apply|obe_verb_first|Write is a Create bank verb; authored reaction kept.
+Complete the balanced equation for the esterification of ethanoic acid with methanol in the presence of concentrated sulfuric acid, and name the ester formed.
+@@ 348|Analyze|alignment_fix|Was input identification; now dominance and allocation-rate effect.
+Determine which cost component dominates the supplied job's total cost, and explain how a change in the overhead allocation rate would shift the job's cost relative to its direct costs.
+@@ 349|Remember|readback|Was reading back supplied details; now recall.
+Name the main structural and drainage components of flat and pitched roofs.
+@@ 349|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the structural arrangement and drainage provisions in the supplied construction details to determine whether each represents a flat-roof or a pitched-roof system.
+@@ 350|Apply|obe_verb_first|Leading For-clause; authored sources kept.
+Apply data-warehouse source selection to a retail chain building a sales-analysis warehouse by deciding which of these sources to load, with a reason for each: point-of-sale transactions, the product catalogue, staff canteen menus, and customer loyalty records.
+@@ 351|Analyze|alignment_fix|Was input identification; now orientation dependence and extreme cases.
+Determine how the orientation of the supplied conductor relative to the magnetic field decides the size of the force, and identify the orientations that give the maximum and the zero force.
+@@ 352|Remember|readback|Was reading back supplied instruments; now recall.
+List the main diplomatic instruments available to states for addressing international disputes.
+@@ 352|Apply|obe_verb_first|Match is not an Apply bank verb.
+Apply the supplied diplomatic instruments to the scenario, pairing each with the dispute-related objective it can serve.
+@@ 352|Create|verb_diversity|Formulate.
+Formulate a diplomatic response for the supplied international dispute using the stated parties, dispute characteristics, and available diplomatic instruments.
+@@ 353|Create|known_solution_create|Recomputed the Apply table; now a designed network change and its propagation.
+Construct a network change for the supplied topology, such as a failed link, and show how the distance-vector updates would propagate and whether a count-to-infinity problem could arise.
+@@ 354|Remember|readback|Was reading back supplied conditions; now recall.
+State the main purposes of crop rotation in soil management.
+@@ 354|Apply|obe_verb_first|Assign is not an Apply bank verb.
+Determine the permitted growing season for each specified crop from the supplied field conditions and soil-management requirements.

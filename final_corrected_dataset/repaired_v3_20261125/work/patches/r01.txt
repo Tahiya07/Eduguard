@@ -1,0 +1,331 @@
+#reviewed none
+@@ 004|Create|natural_formulation|Bank verb 'Adapt' replaced by the natural verb; demand unchanged.
+Extend the Banker's algorithm into a request-handling procedure that decides whether to grant, delay, or reject each process request, and specify how delayed requests are reconsidered.
+@@ 007|Create|natural_formulation|Cross-level verb 'Modify' fits a new-procedure task.
+Modify binary search so that it returns the first and last positions of a repeated target value in a sorted array, and argue why your procedure still runs in logarithmic time.
+@@ 009|Create|natural_formulation|'Architect' replaced.
+Propose an encryption scheme for an academic records system that combines symmetric and asymmetric encryption to protect both stored and transmitted records.
+@@ 015|Apply|natural_formulation|'Carry out' replaced; tracing a procedure on a case is Apply.
+Trace, step by step, the DNS resolution process for a given domain name and lookup scenario, and state the IP address returned to the client.
+@@ 019|Apply|natural_formulation|'Model' replaced.
+Organize the development activities of a software project with frequently changing requirements into a sequence of iterative Agile sprints.
+@@ 020|Analyze|natural_formulation|Interrogative form; demand unchanged.
+Which permissions in an existing university access control policy are excessive, and by what paths could a user escalate privileges?
+@@ 022|Evaluate|natural_formulation|'Defend or reject' replaced by a scenario and a judgement question.
+A network administrator proposes allocating equal-sized /26 subnets to every department of a university network whose departments have widely different host requirements. Is this a sound allocation? Argue your position with reference to host capacity and address wastage.
+@@ 026|Evaluate|natural_formulation|'Critically review' replaced; scenario first.
+A compiler front end performs type checking only after intermediate-code generation. Judge whether it still detects lexical, syntax, and semantic errors early enough, and justify the consequences of this ordering.
+@@ 027|Apply|natural_formulation|'Run' replaced.
+Simulate the DFA that recognizes binary strings ending with 01 on the input string 1101, listing each state transition.
+@@ 031|Evaluate|natural_formulation|Interrogative judgement.
+Do digital signatures alone provide sufficient protection for confidential electronic communication? Evaluate this claim with respect to authentication, integrity, and confidentiality.
+@@ 034|Understand|natural_formulation|'Characterize' replaced.
+Describe where direct, fully associative, and set-associative cache mapping each allow a memory block to be stored.
+@@ 043|Evaluate|natural_formulation|False claim and all values kept; judgement asked as a question.
+A student reports that a closed system receiving 50 kJ of heat while doing 70 kJ of work on its surroundings has an internal-energy increase of 20 kJ. Is this energy balance consistent with the first law of thermodynamics? Support your judgement with the energy equation.
+@@ 044|Create|natural_formulation|'Hypothesize' replaced; cross-level 'Find' for a discovery task.
+Find a closed-form formula for the sum of the cubes of the first n positive integers by examining computed cases, and prove it by mathematical induction.
+@@ 045|Remember|natural_formulation|'Reproduce' replaced.
+State Newton's second law of motion in words and as a mathematical expression.
+@@ 051|Understand|natural_formulation|'Characterize' replaced.
+Describe how hierarchical and decentralized organizational structures differ in the way communication flows and managerial authority is exercised.
+@@ 054|Analyze|natural_formulation|'Correlate' replaced.
+Compare students' assessment records before and after formative feedback to identify patterns of change in academic performance.
+@@ 062|Evaluate|natural_formulation|Ungrammatical 'Defend whether' fixed with a question.
+When unemployment is high but inflationary pressure persists, is increasing public infrastructure expenditure preferable to reducing income taxes? Defend your position.
+@@ 066|Evaluate|natural_formulation|Scenario first; 'Challenge' replaced.
+A researcher concludes, from a cross-sectional correlation alone, that increased screen time causes lower academic performance. Evaluate the validity of this conclusion using methodological reasoning.
+@@ 070|Remember|natural_formulation|Interrogative recall.
+What are the major stages involved in conventional wastewater treatment?
+@@ 074|Remember|natural_formulation|'Reproduce' replaced.
+Write down the formula used to calculate the net present value of an investment project.
+@@ 074|Evaluate|natural_formulation|Interrogative recommendation.
+Should a firm accept a project that has a positive net present value but involves substantial financial uncertainty? Justify your recommendation using financial and risk considerations.
+@@ 076|Analyze|natural_formulation|'Scrutinize' replaced.
+Analyze an ECG tracing to distinguish normal waveform components from deviations that may indicate an abnormal cardiac rhythm.
+@@ 082|Create|natural_formulation|'Establish' replaced.
+Draw up a storage protocol for the temperature-sensitive formulation based on its degradation characteristics and intended storage period.
+@@ 087|Evaluate|natural_formulation|'Audit' replaced.
+Check a proposed tensile reinforcement arrangement against the specified bending-moment requirement and the applicable design code provisions, and decide whether it is adequate.
+@@ 100|Evaluate|natural_formulation|False claim kept; judgement as a question.
+A student claims that a TCP Reno sender with a congestion window of 16 MSS resets its window to 1 MSS after receiving three duplicate acknowledgements. Is the student right? Explain your verdict using TCP Reno's congestion-control rules.
+@@ 107|Evaluate|natural_formulation|'Establish' replaced.
+Check whether the supplied Thevenin equivalent voltage and resistance correctly represent the original linear electrical network across the specified load terminals, and account for any discrepancy.
+@@ 109|Understand|natural_formulation|'Paraphrase' replaced.
+In your own words, explain how the liquid limit and plastic limit together determine the plasticity index of a soil sample.
+@@ 116|Analyze|natural_formulation|Interrogative analysis.
+How does the reaction at the specified support of a simply supported beam vary with the position of a moving point load, and at which load positions is the reaction at its maximum and zero?
+@@ 118|Evaluate|natural_formulation|False claim and values kept.
+A student reports that the average memory access time of the cache with a 1 ns hit time, 5% miss rate, and 100 ns miss penalty is 5 ns. Is the student correct? Show the reasoning behind your judgement.
+@@ 120|Create|natural_formulation|'Establish' replaced.
+Draft a sterilization-selection protocol for a pharmaceutical facility that assigns moist-heat or dry-heat sterilization to different product and equipment types according to the mechanisms and applications of each method.
+@@ 123|Understand|natural_formulation|'Paraphrase' replaced.
+Explain in your own words how the literal rule directs a court to read the words of a statute.
+@@ 131|Remember|natural_formulation|Interrogative recall.
+What relationship is used to calculate the concentration of an acidic pharmaceutical sample from the standard alkali concentration and titre volume?
+@@ 132|Evaluate|natural_formulation|Values kept; judgement as a question.
+In a single loop containing a 12 V source, an opposing 5 V source, a 2 Ω resistor, and a 1.5 Ω resistor, a student calculates the voltage across the 1.5 Ω resistor as 11 V. Does this value satisfy Kirchhoff's voltage law for the loop? Give the reasoning for your verdict.
+@@ 134|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Check a reported Reynolds number against the supplied fluid density, mean velocity, pipe diameter, and dynamic viscosity, and state whether it can be accepted.
+@@ 139|Understand|natural_formulation|'Represent' replaced.
+Explain what the equivalent transfer function of a series, a parallel, and a feedback block combination each represents during block diagram reduction.
+@@ 140|Evaluate|natural_formulation|'Audit' replaced.
+Check the supplied reduced levels against the staff readings, and judge whether the arithmetic check of the height-of-instrument method confirms them.
+@@ 141|Understand|natural_formulation|'Paraphrase' replaced; still distinct from the Analyze source.
+Explain in your own words what compression force, tablet hardness, and disintegration time each measure during tablet manufacturing.
+@@ 142|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Decide whether the reported synchronous speed is correct, using the supplied supply frequency and number of poles to support your decision.
+@@ 146|Understand|natural_formulation|'Characterize' replaced.
+Describe how First-Come, First-Served and non-preemptive Shortest Job First each use arrival and burst times to decide the order in which processes run.
+@@ 147|Remember|natural_formulation|Interrogative recall.
+What is the possible range of Pearson's correlation coefficient, and which values represent positive, negative, and zero linear correlation?
+@@ 149|Evaluate|natural_formulation|Interrogative judgement.
+Is a reported modulation index consistent with the supplied maximum and minimum envelope amplitudes? Explain how you reached your conclusion.
+@@ 155|Analyze|natural_formulation|Interrogative analysis.
+Which features of the supplied building component appear as hidden edges in each orthographic view, and why does the component's geometry cause this?
+@@ 160|Create|natural_formulation|'Adapt' replaced.
+Redesign the supplied concrete mix by adjusting its water–cement ratio to meet the specified strength and durability requirements, stating the corresponding changes in water and cement content.
+@@ 171|Evaluate|natural_formulation|'Rate' replaced.
+Judge how accurate a reported concentration is, given the measured absorbance and the supplied calibration-curve equation.
+@@ 172|Remember|natural_formulation|'Reproduce' replaced.
+State the relationship between slip, supply frequency, and rotor frequency in a three-phase induction motor, and define slip.
+@@ 174|Remember|natural_formulation|'Reproduce' replaced.
+Write down the Darcy–Weisbach equation used to determine frictional head loss in a pipe.
+@@ 175|Evaluate|natural_formulation|Interrogative judgement.
+Is a building with its long axis parallel to the prevailing wind and windows only on its leeward façade well suited to natural ventilation? Justify your judgement.
+@@ 177|Apply|natural_formulation|'Carry out' replaced.
+A role requires advanced spreadsheet modelling, but an employee can only enter data and use basic formulas. Perform a gap analysis to identify the skill gap and assign it a training priority.
+@@ 179|Create|natural_formulation|'Engineer' replaced.
+Design a controller modification for the supplied unity-feedback control system, such as added integral action or an adjusted gain, that reduces the steady-state error under the specified reference input to a chosen level.
+@@ 185|Understand|natural_formulation|'Characterize' replaced.
+Describe each of the two supplied Modernist buildings in terms of form, materials, spatial organization, and functional expression.
+@@ 185|Create|natural_formulation|'Synthesize' replaced.
+Develop a new building concept that draws on the relationships among form, materials, spatial organization, and functional expression identified in the two supplied Modernist buildings.
+@@ 187|Evaluate|natural_formulation|'Audit' replaced.
+A reported annual depreciation expense is given for the supplied asset. Should it be accepted under the straight-line method and the supplied asset information? Give your reasons.
+@@ 191|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Is a reported relative viscosity supported by the supplied experimental measurements? Justify your answer.
+@@ 194|Evaluate|natural_formulation|'Audit' replaced.
+Check whether the reported optimum moisture content and maximum dry density are supported by the supplied compaction data and plotted compaction curve.
+@@ 194|Create|natural_formulation|'Establish' replaced.
+Prepare field-compaction specifications for the soil that use the optimum moisture content and maximum dry density obtained from the supplied test results to set an acceptable moisture range and a minimum relative compaction.
+@@ 196|Analyze|natural_formulation|Cross-level 'Find' for locating conflicts.
+Find the production conflicts in the supplied grammar that would produce multiple entries in an LL(1) parsing table, and trace each conflict to the overlapping FIRST or FOLLOW sets that cause it.
+@@ 198|Understand|natural_formulation|'Characterize' replaced.
+Describe the changes in microbial population that mark the lag, logarithmic, stationary, and death phases.
+@@ 202|Analyze|natural_formulation|'Scrutinize' replaced.
+Break down the resultant electric field at the observation point into the contributions of the supplied point charges, identifying which dominates and which partly cancel, and explain the roles of distance and sign.
+@@ 202|Evaluate|natural_formulation|'Establish' replaced.
+Check whether a reported resultant electric field intensity is consistent with the supplied point charges, positions, and observation point.
+@@ 204|Evaluate|natural_formulation|Interrogative judgement.
+Do the reported member forces satisfy the equilibrium equations at the relevant joints of the supplied truss? State your conclusion and the joints that support it.
+@@ 205|Analyze|natural_formulation|'Scrutinize' replaced.
+Analyze the supplied building brief to distinguish required adjacencies, functional relationships, and potential spatial conflicts among the specified spaces.
+@@ 211|Apply|natural_formulation|'Run' replaced; tracing code is Apply.
+Trace a function that sets best = 0, then, for each n in the list, sets best = n if n is even and n > best, and finally returns best, on the input lists [3, 8, 5, 12, 7] and [1, 3, 5], and state the value returned in each case.
+@@ 213|Apply|natural_formulation|'Run' replaced.
+Determine which method is executed for each superclass reference that refers to a subclass object when the supplied Java program runs.
+@@ 217|Evaluate|natural_formulation|Interrogative judgement.
+How adequately does the supplied societal evidence demonstrate the influence of class, status, and power on social stratification? Justify your assessment.
+@@ 219|Evaluate|natural_formulation|'Establish' replaced.
+Check whether the supplied eigenvalues and eigenvectors satisfy the characteristic equation and the matrix eigenvector relationship.
+@@ 220|Apply|natural_formulation|'Carry out' replaced.
+Use binary search on the sorted array [3, 8, 15, 21, 34, 42, 56, 67] to locate the value 42, with mid = ⌊(low + high)/2⌋, and state the number of iterations required.
+@@ 224|Understand|natural_formulation|Cross-level 'Compare': comparing meanings is Understand.
+Compare the selection procedures of simple random, stratified, systematic, and cluster sampling.
+@@ 225|Apply|natural_formulation|'Run' replaced.
+Determine the execution order of the try, catch, and finally blocks when the supplied Java program raises the specified exception.
+@@ 226|Create|natural_formulation|'Hypothesize' replaced.
+Conjecture a closed-form expression for the sum of the first n positive even integers from computed cases, and prove it by mathematical induction.
+@@ 228|Evaluate|natural_formulation|'Audit' replaced.
+Are the supplied final stack contents and top position correct for the given push and pop operations? Point out any error you find.
+@@ 232|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Check a supplied conditional-probability result using Bayes' theorem and the given probabilities, and state whether it is correct.
+@@ 235|Evaluate|natural_formulation|Interrogative critique.
+A student states that urine is formed only by filtration in the glomerulus and that the tubules simply carry the filtrate to the bladder. What is wrong with this account of urine formation, and how serious are its omissions?
+@@ 235|Create|natural_formulation|'Model' replaced.
+Construct a model of how reduced tubular reabsorption would change urine volume and composition, linking filtration, reabsorption, and secretion in the nephron to the predicted outcome.
+@@ 247|Create|natural_formulation|'Adapt' replaced.
+Revise the supplied implementation plan so that its policy objectives, administrative responsibilities, and resource allocation are aligned.
+@@ 248|Understand|natural_formulation|'Characterize' replaced.
+Describe how the microscopic characteristics and burning behaviour of cotton, wool, and polyester fibres differ.
+@@ 250|Evaluate|natural_formulation|Interrogative judgement.
+A student explains that urban heat islands occur mainly because cities contain more people releasing body heat. How adequate is this explanation, considering the contribution of reduced vegetation cover and increased built-up surfaces?
+@@ 252|Evaluate|natural_formulation|Interrogative judgement.
+A retail organization records sales on paper slips that are entered into the computer at the end of each week. How adequately does this workflow capture, process, and store its sales transactions? Justify your assessment.
+@@ 253|Understand|natural_formulation|'Characterize' replaced.
+Explain how technical, economic, and operational feasibility differ when an information system proposal is assessed.
+@@ 265|Evaluate|natural_formulation|'Challenge' replaced.
+A student claims that short-term memory can hold information indefinitely if it is rehearsed, so a separate long-term store is unnecessary. Evaluate this claim using the duration and storage characteristics of the memory stores.
+@@ 268|Create|natural_formulation|'Adapt' replaced; values kept.
+Modify an ideal Otto cycle with a compression ratio of 8, γ = 1.4, and an initial state of 100 kPa and 300 K so that it achieves a higher thermal efficiency, and construct its pressure–volume diagram showing how each of the four processes and their state points change.
+@@ 276|Evaluate|natural_formulation|Interrogative judgement.
+Does the supplied program correctly read the integer values, calculate their sum, and write the result to the output file? Support your verdict with a trace.
+@@ 280|Remember|natural_formulation|Interrogative recall.
+What conduct does cybercrime legislation typically treat as unauthorized access to a computer system?
+@@ 281|Create|natural_formulation|'Engineer' replaced; values kept.
+Size the transistors of a CMOS inverter with V_DD = 1.8 V so that its switching threshold moves from 0.9 V to a chosen value, and explain how the voltage transfer characteristic and operating regions change.
+@@ 284|Evaluate|natural_formulation|Interrogative judgement.
+A student states that static power dissipation in a CMOS circuit is zero because no current flows when the transistors are not switching. Is this explanation of the difference between static and dynamic power dissipation correct? Justify your answer.
+@@ 288|Remember|natural_formulation|'Reproduce' replaced.
+Write the Gibbs free energy equation and name the thermodynamic quantities used to judge reaction spontaneity.
+@@ 288|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Judge whether a supplied conclusion about the spontaneity of the reaction is supported by the Gibbs free energy calculated at the specified temperature.
+@@ 288|Create|natural_formulation|'Establish' replaced.
+Propose an operating temperature range for the supplied reaction in which it is spontaneous, using its standard enthalpy change and standard entropy change to locate the temperature at which ΔG changes sign, and compare it with the specified temperature.
+@@ 290|Create|natural_formulation|'Author' replaced.
+Rewrite the supplied questionnaire so that it removes leading questions and ambiguous wording while staying aligned with its original research objectives.
+@@ 291|Evaluate|natural_formulation|Interrogative judgement.
+Is a supplied sum-of-products expression logically equivalent to the original four-variable Boolean function? Demonstrate how you reached your verdict.
+@@ 292|Understand|natural_formulation|'Characterize' replaced.
+Describe how competitive and non-competitive antagonists differ in their effects on agonist dose-response curves.
+@@ 294|Create|natural_formulation|'Adapt' replaced.
+Redesign the circulation layout of the supplied floor plan to resolve the conflicts between pedestrian movement and functional access.
+@@ 296|Evaluate|natural_formulation|'Audit' replaced.
+Judge the completeness of a supplied requirements traceability matrix by checking whether it links every specified software requirement to its corresponding design components and test cases.
+@@ 300|Remember|natural_formulation|Interrogative recall.
+What is the purpose of a tablet disintegration test, and what does tablet disintegration refer to?
+@@ 301|Understand|natural_formulation|'Paraphrase' replaced.
+Explain in your own words the legal meaning of equality before law and of prohibition of discrimination under the specified constitutional provisions.
+@@ 305|Evaluate|natural_formulation|'Challenge' replaced; values kept.
+A report classifies a household as living in absolute poverty because its income is below 60% of the national median income. Evaluate this classification in terms of the measurement approach and threshold it relies on.
+@@ 314|Analyze|natural_formulation|Interrogative analysis.
+Which of the supplied resource constraints limit the feasible production decisions most, and how do the product contributions interact with those limits?
+@@ 321|Evaluate|natural_formulation|'Challenge' replaced; values kept.
+A report concludes that a soil with a cation exchange capacity of 4 cmol(+)/kg will retain applied potassium well through a wet season. How far is this interpretation justified by the soil's cation exchange capacity?
+@@ 324|Evaluate|natural_formulation|'Audit' replaced.
+Check the supplied consonant classifications for place of articulation, manner of articulation, and voicing, and identify any that are incorrect.
+@@ 330|Evaluate|natural_formulation|'Establish' replaced.
+Check whether the supplied outputs of the C expressions are correct by working through the corresponding binary operations.
+@@ 332|Evaluate|natural_formulation|Interrogative judgement.
+Is a supplied reorder-point value consistent with the given demand rate, lead time, and safety stock? Give the calculation that supports your conclusion.
+@@ 342|Understand|natural_formulation|'Characterize' replaced.
+Describe the supplied leadership approach in your own words, stating who makes decisions and how team members take part in them.
+@@ 343|Evaluate|natural_formulation|'Audit' replaced.
+Check the supplied row-echelon form of the given matrix and say whether the calculated rank is correct.
+@@ 345|Evaluate|natural_formulation|Interrogative judgement.
+How strongly do the supplied experimental results support the conclusion that selective attention influences participants' responses to relevant and irrelevant stimuli?
+@@ 348|Evaluate|natural_formulation|'Establish' replaced.
+Check whether the supplied total job cost correctly incorporates the given direct materials, direct labour, and allocated manufacturing overhead.
+@@ 356|Remember|natural_formulation|'Indicate' replaced.
+State what therapeutic drug monitoring involves and the purpose of a therapeutic range.
+@@ 361|Evaluate|natural_formulation|'Challenge' replaced.
+A student explains that consolidation settlement occurs immediately when load is applied to a saturated clay layer because the clay particles compress instantly. Evaluate this explanation using the effective-stress increase and pore-water pressure dissipation.
+@@ 363|Evaluate|natural_formulation|'Substantiate or refute' replaced.
+Decide whether a supplied reverberation-time result can be accepted, checking it against the given room volume and total equivalent sound absorption area.
+@@ 364|Understand|natural_formulation|'Characterize' replaced; distinct from the Apply row.
+Explain what technical, economic, and operational feasibility each mean for the supplied information-system proposal.
+@@ 366|Remember|natural_formulation|'Reproduce' replaced.
+Write the evaluation function used by the A* search algorithm and define its cost and heuristic components.
+@@ 368|Evaluate|natural_formulation|Interrogative judgement.
+How consistently do the supplied absorption observations match the observed dissolution profiles? Justify your judgement with the given evidence.
+@@ 374|Evaluate|natural_formulation|Values kept; interrogative judgement.
+A student reports the point at t = 0.5 on the cubic Bézier curve with control points P0(0, 0), P1(1, 2), P2(3, 2), and P3(4, 0) as (2, 2). Is this point correct? Show the evaluation that settles it.
+@@ 378|Evaluate|natural_formulation|'Audit' replaced.
+Check a supplied set of equilibrium concentrations against the equilibrium expression and the initial concentration constraints for the stated reaction, and decide whether they can be accepted.
+@@ 381|Analyze|natural_formulation|'Dissect' replaced.
+Break down the chi-square statistic for the supplied observed frequency table into cell contributions, find the cells that contribute most, and explain what their pattern reveals about the nature of any association.
+@@ 386|Evaluate|natural_formulation|Interrogative judgement.
+Does the supplied C implementation correctly declare and invoke a function pointer compatible with the specified arithmetic function interface? Justify your answer.
+@@ 400|Remember|natural_formulation|'Reproduce' replaced.
+Define the mean, median, and standard deviation as descriptive measures of a dataset.
+@@ 400|Understand|natural_formulation|'Characterize' replaced.
+Explain what aspect of central tendency or dispersion each of the mean, median, and standard deviation describes in the supplied sales dataset.
+@@ 401|Evaluate|natural_formulation|False claim and values kept.
+A student claims that very intense red light of frequency 4.0 × 10^14 Hz will eventually eject photoelectrons from a metal with a work function of 2.3 eV. Is the claim correct? Decide using Einstein's photoelectric equation (h = 4.14 × 10^-15 eV·s).
+@@ 407|Evaluate|natural_formulation|'Establish' replaced.
+Check whether the simplified expression F=C is equivalent to F(A,B,C)=Σm(1,3,5,7) by testing the specified minterms.
+@@ 409|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is a reported remaining drug amount of 50 mg after 12 hours correct for a 400 mg initial dose with a 4-hour half-life under first-order elimination kinetics? Explain your verdict.
+@@ 413|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is the described survey correctly classified as stratified sampling, given that 50 students are selected randomly from each faculty rather than entire faculties being selected? Defend your answer.
+@@ 422|Evaluate|natural_formulation|Values kept; interrogative decision.
+Should the maize field be irrigated at a current depletion of 60 mm, given its 120 mm available water capacity and 0.5 allowable depletion fraction? Justify your decision.
+@@ 424|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is a calculated magnetic force of 0.4 N correct for the 0.5 m conductor carrying 4 A perpendicular to the 0.2 T magnetic field? Show the check that supports your answer.
+@@ 426|Create|natural_formulation|'Engineer' replaced.
+Design a particulate-control system for the stated industrial exhaust stream with a high gas flow rate and relatively large particles, specifying the cyclone arrangement, such as multiple cyclones in parallel, and any downstream unit required.
+@@ 427|Create|natural_formulation|'Model' replaced.
+Construct a model of the student's examination situation as a sequence of attentional stages, showing where background conversations are filtered out and where an important cue could still break through.
+@@ 430|Evaluate|natural_formulation|'Audit' replaced; value kept.
+Check the proposed pressure at point 2 of 194 kPa against the given pressure, velocities, fluid density, and horizontal-pipe assumption, and decide whether it is correct.
+@@ 436|Remember|natural_formulation|'Reproduce' replaced.
+Write the dynamic power-dissipation equation for a CMOS inverter and name each of its variables.
+@@ 436|Evaluate|natural_formulation|False claim and value kept.
+Is a reported dynamic power dissipation of 0.81 mW correct for the stated CMOS inverter parameters? Check it with the dynamic power equation P=αC_LV_DD^2f.
+@@ 440|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Does the proposed solution x=10, y=20 maximize Z=40x+30y while satisfying all the stated constraints? Justify your answer by testing the constraints and the objective.
+@@ 442|Evaluate|natural_formulation|False claim kept; interrogative judgement.
+Is the North region correctly identified as the highest-performing region when performance is measured by total sales across Q1 and Q2? Justify your judgement from the data.
+@@ 453|Evaluate|natural_formulation|Values kept; two judgements asked as questions.
+Is the reported plasticity index of 26% correct for the stated liquid limit and plastic limit, and is describing the soil as highly plastic justified by Burmister's ranges (PI 20–40% indicates high plasticity)? Give reasons for both judgements.
+@@ 459|Evaluate|natural_formulation|'Substantiate or refute' replaced; values kept.
+Check a reported reliability of approximately 0.819 after 10 hours against the exponential reliability model and the stated failure rate, and decide whether it is correct.
+@@ 463|Evaluate|natural_formulation|Interrogative judgement.
+Can a botanical garden alone conserve the genetic diversity and ecological interactions of a threatened forest plant species as effectively as protecting its habitat in a national park? Justify your judgement.
+@@ 465|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is applying the CSE department filter before the join a worthwhile optimization for the given query, considering the 10,000 Student records, 1,000 CSE students, and 30,000 Enrollment records? Argue your answer from the intermediate result sizes.
+@@ 467|Remember|natural_formulation|'Reproduce' replaced.
+Write the economic order quantity formula and name each of its inputs.
+@@ 468|Understand|natural_formulation|'Characterize' replaced.
+Explain how the relationship between the executive and the legislature differs between parliamentary and presidential systems, including executive selection and political accountability.
+@@ 470|Create|natural_formulation|'Establish' replaced; values kept.
+Propose an enzyme assay condition for the enzyme with a maximum reaction velocity of 100 μmol/min and a Michaelis constant of 2 mmol/L that achieves a chosen fraction of the maximum velocity, specifying the required substrate concentration and comparing it with the velocity at 5 mmol/L.
+@@ 471|Create|natural_formulation|'Model' replaced.
+Build a causal model of the urban heat island effect for the stated city that links surface materials, vegetation cover, and human activities to higher central-district temperatures, and identify where an intervention would break the strongest link.
+@@ 475|Evaluate|natural_formulation|Interrogative judgement.
+Is the conclusion that the reaction is first order with respect to A consistent with all three experimental observations? Justify your answer.
+@@ 479|Evaluate|natural_formulation|Interrogative judgement.
+Does disintegration time alone establish the drug-release performance of an immediate-release tablet? Evaluate this view, considering the distinction between disintegration and dissolution.
+@@ 483|Evaluate|natural_formulation|False claim and values kept.
+Is the proposed second approximation x_2≈1.52174 the correct result of two Newton–Raphson iterations starting from x_0=1.5? Verify it and state your conclusion.
+@@ 488|Create|natural_formulation|'Model' replaced.
+Construct an integration model for the manufacturing company's ERP system that specifies the data each of the finance, human resources, and inventory modules writes to and reads from the shared organizational database.
+@@ 489|Remember|natural_formulation|'Reproduce' replaced.
+Write the Poisson probability formula and name the roles of the average arrival rate and the number of observed events.
+@@ 490|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is a reported yarn count of 20 tex correct for the sample weighing 2 grams and measuring 100 metres? Explain your verdict.
+@@ 496|Evaluate|natural_formulation|Values kept; interrogative judgement.
+A what-if analysis concludes that raising the price from Tk. 250 to Tk. 275 increases revenue because each unit earns more, even though projected quantity falls from 1,200 to 1,050 units. Is this conclusion sound? Justify your judgement with the revenue relationship.
+@@ 500|Evaluate|natural_formulation|Interrogative judgement.
+Is a job evaluation that considers skill, responsibility, effort, and working conditions a sound basis for comparing the relative worth of organizational positions? Defend your view.
+@@ 505|Evaluate|natural_formulation|Interrogative judgement.
+Is increasing gas velocity alone a sufficient strategy for improving cyclone collection efficiency? Evaluate this view, considering its relationship with centrifugal action and the other stated factors.
+@@ 507|Evaluate|natural_formulation|'Substantiate or refute' replaced; value kept.
+Check a reported controller output of 7.4 against the stated gains, error, accumulated error, and error derivative, and decide whether it is correct.
+@@ 515|Evaluate|natural_formulation|Value kept; interrogative judgement.
+Is a reported government expenditure multiplier of 5 consistent with the stated MPC and MPS values and the simple-economy multiplier formula? Explain your verdict.
+@@ 518|Evaluate|natural_formulation|'Audit' replaced.
+Check the proposed classification—operating: customer receipts and supplier payments; investing: machinery purchase; financing: share issue and loan repayment—against the stated transactions, and identify any misclassified item.
+@@ 529|Evaluate|natural_formulation|Interrogative judgement.
+Does a fabric structure in which each weft yarn passes alternately over and under successive warp yarns, with the next weft yarn reversing the sequence, satisfy the defining interlacement pattern of plain weave? Justify your answer.
+@@ 535|Evaluate|natural_formulation|'Challenge' replaced.
+Evaluate the validity of a slope-deflection formulation that omits the joint-translation contribution for a member whose end joints undergo relative translation, even when EI is constant and support settlement is absent.
+@@ 538|Evaluate|natural_formulation|Value kept; interrogative judgement.
+Is a reported induced electromotive-force magnitude of 40 V correct for the stated number of turns, flux change, and time interval? Show the check behind your answer.
+@@ 547|Remember|natural_formulation|Interrogative recall.
+Is soil present at the start of primary succession and at the start of secondary succession? Define each type of succession.
+@@ 548|Evaluate|natural_formulation|False claim and values kept.
+Does the allocation of 10 units from Source 1 to A, 10 units from Source 1 to B, 25 units from Source 3 to B, and 40 units from Source 2 to C satisfy all stated supply and demand constraints and constitute a valid feasible solution? Justify your answer.
+@@ 549|Understand|natural_formulation|'Characterize' replaced.
+Describe how the location and manner of airflow obstruction distinguish the consonant sounds /p/, /m/, /s/, and /ʃ/.
+@@ 554|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is a single observation of 80% of a drug dissolved after 30 minutes sufficient to characterize its complete dissolution profile? Justify your judgement.
+@@ 560|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Is the reported 95% confidence interval of [48.04,51.96] consistent with the stated sample statistics and critical value? Show the calculation that settles it.
+@@ 562|Evaluate|natural_formulation|False claim and values kept.
+Are the reported end-effector coordinates x≈3.23 units and y≈5.20 units correct for the stated forward-kinematics equations and parameters? Explain your verdict.
+@@ 566|Evaluate|natural_formulation|Interrogative judgement.
+Is measuring total moisture content alone sufficient to predict microbial stability? Evaluate this view, considering the distinction between total moisture and water activity.
+@@ 569|Remember|natural_formulation|'Reproduce' replaced.
+Write the characteristic equation used to find the eigenvalues of a square matrix, and define an eigenvalue and an eigenvector.
+@@ 573|Evaluate|natural_formulation|'Audit' replaced; value kept.
+Check a reported discharge of approximately 0.039 m^3/s against the stated venturimeter dimensions, pressure difference, fluid density, and coefficient of discharge, and decide whether it is correct.
+@@ 577|Evaluate|natural_formulation|Interrogative judgement.
+Is a proposed weave pattern in which each warp yarn passes over two consecutive weft yarns and under the next two consistent with the defining interlacement pattern of plain weave? Justify your answer.
+@@ 582|Evaluate|natural_formulation|Value kept; interrogative judgement.
+Is a reported net fluid balance of +300 mL correct for the stated intake and output measurements? Explain your verdict.
+@@ 588|Evaluate|natural_formulation|Values kept; interrogative judgement.
+Can a government rely on a simple expenditure multiplier of 5 (MPC = 0.8) to predict the actual income effect of new public spending in an open economy with income taxes? Justify your judgement.
+@@ 596|Evaluate|natural_formulation|'Challenge' replaced.
+A description presents the central executive as the component responsible only for storing visual information in the working-memory model. Evaluate how accurate this description is.

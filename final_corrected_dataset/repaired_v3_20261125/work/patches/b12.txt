@@ -1,0 +1,77 @@
+#reviewed 279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303
+@@ 279|Apply|obe_verb_first|Leading Assuming-clause; Trace is not an Apply bank verb; authored code kept.
+Determine the allocated memory size after each of the operations int *p = malloc(4 * sizeof(int)); p = realloc(p, 8 * sizeof(int)); free(p);, assuming sizeof(int) = 4.
+@@ 279|Create|known_solution_create|Was basic allocation/resizing/freeing; now a new module design.
+Develop a dynamic-array module in C that grows its storage with realloc() when full, recovers safely if reallocation fails, and releases all memory with free() when finished.
+@@ 280|Remember|answer_in_question|Question named the category.
+State the conduct that cybercrime legislation typically treats as unauthorized access to a computer system.
+@@ 280|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Apply the statutory elements of unauthorized access to the supplied intrusion scenario to determine which actions may constitute the offence.
+@@ 281|Apply|obe_verb_first|Leading For-clause; authored values kept.
+Determine the approximate output voltage and the operating regions of the NMOS and PMOS transistors for input voltages of 0 V, 0.9 V, and 1.8 V in a symmetric CMOS inverter with V_DD = 1.8 V and a switching threshold of 0.9 V.
+@@ 283|Understand|verb_diversity|Describe.
+Describe how the relationship between gate-to-source voltage, drain-to-source voltage, and threshold voltage determines the operating region of an NMOS transistor.
+@@ 283|Analyze|alignment_strengthen|Which condition sets the triode/saturation boundary.
+Determine which supplied voltage condition, the gate overdrive or the drain-to-source voltage, decides the boundary between triode and saturation operation, and explain why the threshold voltage alone cannot decide it.
+@@ 283|Create|known_solution_create|Was the standard classification procedure; now a designed test sequence.
+Develop a test sequence of gate-to-source and drain-to-source voltage settings that would move an NMOS transistor through cutoff, triode, and saturation in turn, stating the condition crossed at each step.
+@@ 284|Remember|answer_in_question|Question named both components.
+Name the two components of power consumption in CMOS circuits.
+@@ 285|Analyze|alignment_strengthen|Why both transistors are needed.
+Analyze why a transmission gate needs both an NMOS and a PMOS transistor to pass logic 0 and logic 1 without degradation, identifying which transistor passes each level well.
+@@ 285|Create|known_solution_create|Was the basic transmission gate; now a new circuit built from it.
+Design a 2-to-1 multiplexer built from CMOS transmission gates, specifying how the complementary control signals select each input.
+@@ 287|Understand|verb_diversity|Clarify.
+Clarify how the output transition times determine the propagation delay of a CMOS logic gate.
+@@ 287|Analyze|alignment_fix|Was input identification; now limiting transition and the masking effect of averaging.
+Determine which of the supplied low-to-high and high-to-low transition times limits the speed of the CMOS gate, and explain why averaging them can hide this limitation.
+@@ 288|Analyze|alignment_fix|Was input identification; now controlling term and temperature shift.
+Determine whether the spontaneity of the supplied reaction is controlled by its enthalpy term or by its entropy term at the specified temperature, and explain how the balance would shift if the temperature were raised.
+@@ 289|Analyze|adjacent_level_distinction|Source (Understand) interprets the line; Analyze explains its linearity and a characteristic point.
+Determine why the influence line for the support reaction is linear, and identify the load position at which the reaction equals half of the applied load.
+@@ 290|Remember|answer_in_question|Question named both problems.
+List common wording problems that reduce the quality of questionnaire responses.
+@@ 290|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Use the stated research objectives to locate the leading and ambiguous questions in the supplied questionnaire.
+@@ 290|Create|obe_verb_first|Revise is not a Create bank verb.
+Author a revised version of the supplied questionnaire that removes leading questions and ambiguous wording while staying aligned with its original research objectives.
+@@ 291|Analyze|alignment_strengthen|Essential vs optional prime implicants.
+Determine which groupings in the supplied four-variable Karnaugh map are essential prime implicants and which are optional, and explain how the choice affects the minimized expression.
+@@ 291|Create|known_solution_create|Duplicated the Apply source task; now an alternative realization with comparison.
+Develop an alternative realization of the supplied four-variable function in minimized product-of-sums form from the same Karnaugh map, and compare its gate count with that of the sum-of-products realization.
+@@ 292|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the stated characteristics of the supplied dose-response curves to determine whether each represents competitive or non-competitive antagonism.
+@@ 293|Analyze|alignment_fix|Was input identification; now the inverse relation between components.
+Determine why, under the audit risk model, an increase in assessed control risk forces a reduction in acceptable detection risk, and explain the consequence for substantive testing.
+@@ 294|Remember|answer_in_question|Question named both considerations.
+Define circulation planning in building layout.
+@@ 294|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine the circulation routes and functional access points shown in the supplied building floor plan.
+@@ 294|Create|verb_diversity|Adapt.
+Adapt the circulation layout of the supplied floor plan to resolve the conflicts between pedestrian movement and functional access.
+@@ 296|Understand|verb_diversity|Summarize.
+Summarize how requirements traceability establishes relationships among software requirements, design components, and test cases.
+@@ 296|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Use the supplied software project information to link each requirement with its corresponding design components and test cases.
+@@ 297|Analyze|alignment_fix|Tracing pairing duplicated the Apply task; now antiparallel constraint analysis.
+Examine the template strand 5′-ATGCCGTA-3′ to determine why the daughter strand must be written in the opposite orientation, and explain how the antiparallel arrangement constrains the direction of synthesis.
+@@ 298|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply data flow diagram notation to sort the supplied course-registration system components into external entities, processes, data stores, and data flows.
+@@ 299|Understand|verb_diversity|Describe.
+Describe how the pressure difference between the inlet and throat of a venturimeter relates to fluid velocity and discharge.
+@@ 299|Analyze|alignment_fix|Was input identification; now square-root dependence and diameter-ratio sensitivity.
+Determine why the discharge through the venturimeter varies with the square root of the pressure difference, and identify how the ratio of throat to inlet diameter affects the sensitivity of the measurement.
+@@ 300|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine whether each supplied tablet disintegration result meets or fails the stated pharmacopoeial acceptance criteria.
+@@ 300|Analyze|alignment_strengthen|Infers formulation vs tablet-to-tablet causes.
+Analyze the pattern of the supplied disintegration results to infer whether any failures point to a formulation problem or to variation between individual tablets.
+@@ 300|Create|verb_diversity|Propose.
+Propose a corrective-action plan for the tablet batch based on the supplied disintegration results and stated pharmacopoeial acceptance criteria, specifying formulation or process changes for any failing results.
+@@ 301|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the specified constitutional provisions to the supplied legal scenarios, stating whether each primarily concerns equality before law or prohibition of discrimination.
+@@ 302|Understand|verb_diversity|Interpret.
+Interpret inverse kinematics as the relationship between a target end-effector position and the joint angles of a two-link planar robotic arm.
+@@ 302|Analyze|alignment_fix|Was input identification; now reachability and number of solutions.
+Determine how the relationship between the target's distance from the base and the two link lengths decides whether the supplied arm has two solutions, one solution, or none.
+@@ 303|Analyze|alignment_fix|Was input identification; now direction and dominance of items.
+Distinguish the supplied income items that increase taxable income from the deductions that reduce it, and determine which item has the largest effect on the result.

@@ -1,0 +1,203 @@
+#reviewed none
+@@ 006|Evaluate|sweep_evaluate_diversity|Judge; authored values kept.
+A processor's instruction set requires addition, subtraction, AND, OR, and comparison. Judge whether an ALU that implements only addition, AND, OR, and NOT can support every required operation, justifying how each missing operation could or could not be realized from the available ones.
+@@ 010|Evaluate|sweep_evaluate_diversity|Critique; authored rule set kept.
+Critique the rule set 'IF the gateway cannot be pinged THEN physical connectivity problem; IF an IP address can be pinged but a domain name cannot be resolved THEN DNS failure' for its ability to distinguish DNS failures, IP configuration errors, and physical connectivity problems, identifying any case the rules would misdiagnose.
+@@ 014|Evaluate|sweep_evaluate_diversity|Decide and defend.
+Decide whether an array-based stack suits an application requiring frequent insertions with unpredictable storage requirements, and defend the decision.
+@@ 020|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the protection that a role-based access control model gives student and faculty records while still supporting legitimate academic activities.
+@@ 026|Evaluate|sweep_evaluate_diversity|Critically review; authored design kept.
+Critically review a compiler front end that performs type checking only after intermediate-code generation, judging whether it adequately detects lexical, syntax, and semantic errors before code generation and justifying the consequences of this ordering.
+@@ 031|Evaluate|sweep_evaluate_diversity|Challenge.
+Challenge the view that digital signatures alone provide sufficient protection for confidential electronic communication, considering authentication, integrity, and confidentiality.
+@@ 043|Evaluate|sweep_evaluate_diversity|Establish; deliberately false balance kept exactly.
+Establish whether a student's reported energy balance, an internal-energy increase of 20 kJ for a closed system that receives 50 kJ of heat while doing 70 kJ of work on its surroundings, is physically consistent with the first law of thermodynamics.
+@@ 049|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether a researcher's rejection of the null hypothesis at a 5% significance level establishes practical significance as well as statistical significance, and justify the judgement.
+@@ 051|Evaluate|sweep_evaluate_diversity|Weigh and recommend.
+Weigh the advantages and drawbacks of a decentralized organizational structure for a company operating across several geographically distributed branches, and recommend whether it should be adopted.
+@@ 055|Evaluate|sweep_evaluate_diversity|Critique; authored layout kept.
+Critique a proposed university library layout that places all reading areas in the windowless building core and the book stacks along the glazed perimeter, judging it against accessibility and natural-lighting requirements and its use of space.
+@@ 059|Evaluate|sweep_evaluate_diversity|Judge; authored equation set kept.
+Judge whether a student's equations for a three-loop circuit with four nodes, one KVL equation for every loop including the outer loop and one KCL equation for every node, form an independent and sufficient set for solving the unknown currents.
+@@ 061|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a designer's proposal to increase capacitance so that an RLC circuit shifts toward a lower resonant frequency.
+@@ 068|Evaluate|sweep_evaluate_diversity|Appraise; authored proof kept.
+Appraise the validity of a student's proof of the product rule, which adds and subtracts f(x+h)g(x) in the difference quotient and then takes limits using the fact that a differentiable function is continuous, by checking each assumption, intermediate step, and the conclusion.
+@@ 087|Evaluate|sweep_evaluate_diversity|Audit.
+Audit a proposed tensile reinforcement arrangement against the specified bending-moment requirement and the applicable design code provisions.
+@@ 100|Evaluate|sweep_evaluate_diversity|Refute or support; deliberately false claim kept exactly.
+A student claims that a TCP Reno sender with a congestion window of 16 MSS resets its window to 1 MSS after receiving three duplicate acknowledgements. Refute or support this claim using TCP Reno's congestion-control rules.
+@@ 104|Evaluate|sweep_evaluate_diversity|Determine (Evaluate); authored deed kept.
+A sale deed transferring a plot of land is signed by both parties and stamped but is never registered. Determine whether this transfer meets the applicable registration and documentation requirements for a valid transfer of immovable property, and justify the conclusion.
+@@ 107|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied Thevenin equivalent voltage and resistance correctly represent the original linear electrical network across the specified load terminals.
+@@ 111|Evaluate|sweep_evaluate_diversity|Validate a claim; authored keys kept.
+Validate the claim that inserting the keys 50, 30, 70, 20, 40, 60, and 80 in that order produces a binary search tree with root 50, a left subtree rooted at 30 with children 20 and 40, and a right subtree rooted at 70 with children 60 and 80.
+@@ 114|Evaluate|sweep_evaluate_diversity|Judge; authored result kept.
+A student reports the 4-point DFT of x[n] = {1, 2, 1, 0} as X[k] = {4, −2j, 0, 2j}. Judge the correctness of this result against the DFT definition.
+@@ 118|Evaluate|sweep_evaluate_diversity|Substantiate or refute; deliberately false value kept exactly.
+A student reports that the average memory access time of the cache with a 1 ns hit time, 5% miss rate, and 100 ns miss penalty is 5 ns. Substantiate or refute this value, showing the reasoning.
+@@ 123|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether applying the literal rule to the supplied statutory provision produces a legally defensible interpretation in light of its ambiguous or difficult outcome.
+@@ 126|Evaluate|sweep_evaluate_diversity|Critique; authored implementation kept.
+A derived class Bus re-declares the make and speed attributes and copies the describe() method from Vehicle instead of inheriting them. Critique this implementation as a use of inheritance to reuse and extend the base class.
+@@ 128|Evaluate|sweep_evaluate_diversity|Validate or reject; deliberately false proposal kept exactly.
+A designer proposes a duty cycle of 0.6 to obtain a 12 V output from a 24 V input in an ideal buck converter operating in continuous conduction mode. Validate or reject this duty cycle for producing the specified output voltage.
+@@ 132|Evaluate|sweep_evaluate_diversity|Establish; deliberately false value kept exactly.
+In a single loop containing a 12 V source, an opposing 5 V source, a 2 Ω resistor, and a 1.5 Ω resistor, a student calculates the voltage across the 1.5 Ω resistor as 11 V. Establish whether this value satisfies Kirchhoff's voltage law for the loop.
+@@ 137|Evaluate|sweep_evaluate_diversity|Appraise; authored delegation kept.
+A department head delegates approval of all purchases under Tk. 50,000 to section heads while remaining accountable for the department's spending. Appraise how clearly this delegation establishes relationships between managers and subordinates.
+@@ 140|Evaluate|sweep_evaluate_diversity|Audit.
+Audit the supplied reduced levels against the staff readings and the arithmetic check of the height-of-instrument method.
+@@ 142|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute the reported synchronous speed using the supplied supply frequency and number of poles.
+@@ 146|Evaluate|sweep_evaluate_diversity|Recommend with weighed criteria.
+Recommend non-preemptive Shortest Job First or First-Come, First-Served for the supplied processes, weighing average waiting time against the risk of long processes being delayed indefinitely.
+@@ 149|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether a reported modulation index is consistent with the supplied maximum and minimum envelope amplitudes.
+@@ 152|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the supplied addressing-mode labels against the operands of each assembly instruction.
+@@ 159|Evaluate|sweep_evaluate_diversity|Judge with supporting computation; authored values kept.
+A 100 kW load operating at 0.8 power factor lagging is to be corrected to 0.95 lagging, and a 25 kvar capacitor bank is proposed. Judge whether this rating is sufficient, supporting the judgement with the required reactive compensation.
+@@ 162|Evaluate|sweep_evaluate_diversity|Critique; authored design kept.
+A proposed modulo-6 counter uses three flip-flops wired as a 3-bit binary up-counter with an asynchronous reset that is triggered when the outputs reach 110. Critique this design as an implementation of a synchronous modulo-6 counting sequence.
+@@ 165|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification; authored values kept.
+A proposed staircase for a floor-to-floor height of 3.0 m uses 15 risers of 180 mm and treads of 250 mm. Determine whether this layout satisfies the required floor-to-floor height and acceptable riser and tread dimensions, and justify the decision.
+@@ 169|Evaluate|sweep_evaluate_diversity|Judge each statement; authored statements kept.
+A student states that a 1 MHz carrier modulated by a 5 kHz tone has sidebands at 1.005 MHz and 0.995 MHz and a bandwidth of 5 kHz. Judge each statement as correct or incorrect, giving the reason for each judgement.
+@@ 171|Evaluate|sweep_evaluate_diversity|Rate accuracy.
+Rate the accuracy of a reported concentration against the measured absorbance and the supplied calibration-curve equation.
+@@ 174|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether a reported frictional head loss is consistent with the supplied pipe parameters and the Darcy–Weisbach equation, and justify the conclusion.
+@@ 177|Evaluate|sweep_evaluate_diversity|Critique.
+Critique a training-needs assessment based only on employees' self-rated skills as a way of identifying skill gaps in the organization.
+@@ 180|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the adjusted latitudes and departures against the closure requirements after applying the Bowditch rule.
+@@ 184|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether a reported primary consolidation settlement is consistent with the supplied soil parameters and the consolidation equation for normally consolidated clay.
+@@ 188|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the suitability of the selected extraction method and solvent for recovering the stated active constituents from the supplied crude-drug sample, using the provided information.
+@@ 191|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute a reported relative viscosity using the supplied experimental measurements.
+@@ 194|Evaluate|sweep_evaluate_diversity|Audit.
+Audit the reported optimum moisture content and maximum dry density against the supplied compaction data and plotted compaction curve.
+@@ 198|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the supplied bacterial growth-curve interpretation for how correctly it identifies each phase from the population observations.
+@@ 204|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the reported member forces satisfy the equilibrium equations at the relevant joints of the supplied truss.
+@@ 206|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the final key positions in the supplied hash table against the given hash function and collision-resolution method.
+@@ 209|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether a reported Laplace transform is consistent with the supplied piecewise-defined signal and the integral definition.
+@@ 213|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether the supplied output correctly reflects runtime method dispatch in the given Java class hierarchy, and justify the conclusion.
+@@ 215|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the reported interpretation of price elasticity against the supplied percentage changes in price and quantity demanded.
+@@ 217|Evaluate|sweep_evaluate_diversity|Weigh evidential adequacy.
+Weigh how adequately the supplied societal evidence demonstrates the influence of class, status, and power on social stratification.
+@@ 219|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied eigenvalues and eigenvectors satisfy the characteristic equation and the matrix eigenvector relationship.
+@@ 222|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a supplied solution against both the original differential equation and the given initial condition.
+@@ 225|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether the supplied program output correctly represents the execution of the exception-handling blocks for the specified exception.
+@@ 228|Evaluate|sweep_evaluate_diversity|Audit.
+Audit the supplied final stack contents and top position against the given push and pop operations.
+@@ 230|Evaluate|sweep_evaluate_diversity|Critique.
+Critique a supplied SQL query for whether it correctly calculates the average salary of each department from the given tables and their relationship.
+@@ 232|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute a supplied conditional-probability result using Bayes' theorem and the given probabilities.
+@@ 235|Evaluate|sweep_evaluate_diversity|Challenge; deliberately false account kept exactly.
+A student states that urine is formed only by filtration in the glomerulus and that the tubules simply carry the filtrate to the bladder. Challenge this account of urine formation.
+@@ 240|Evaluate|sweep_evaluate_diversity|Recommend with weighed criteria.
+Recommend LRU or FIFO for the system, weighing the page-fault counts obtained for the supplied reference string against the overhead of tracking the recency of page use.
+@@ 243|Evaluate|sweep_evaluate_diversity|Critique; deliberately false explanation kept exactly.
+A student explains that all offspring of the cross Tt × Tt are Tt because each parent passes both of its alleles to every offspring. Critique this explanation against the law of segregation.
+@@ 245|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether a supplied confidence interval is correctly calculated and appropriate for the given sample statistics and population assumptions, and justify the judgement.
+@@ 250|Evaluate|sweep_evaluate_diversity|Refute or support; deliberately false explanation kept exactly.
+A student explains that urban heat islands occur mainly because cities contain more people releasing body heat. Refute or support this explanation by considering the contribution of reduced vegetation cover and increased built-up surfaces.
+@@ 252|Evaluate|sweep_evaluate_diversity|Critically review; authored workflow kept.
+A retail organization records sales on paper slips that are entered into the computer at the end of each week. Critically review how adequately this workflow captures, processes, and stores its sales transactions.
+@@ 255|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise how adequately a supplied business intelligence dashboard specification represents sales revenue, sales growth, and regional sales performance for management decision-making.
+@@ 258|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a supplied equivalent-unit calculation for its treatment of completed units and partially completed inventory.
+@@ 261|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether an organization that receives only annual financial statements has adequate management information to support its controlling activities.
+@@ 265|Evaluate|sweep_evaluate_diversity|Challenge; authored claim kept.
+A student claims that short-term memory can hold information indefinitely if it is rehearsed, so a separate long-term store is unnecessary. Challenge this claim using the duration and storage characteristics of the memory stores.
+@@ 268|Evaluate|sweep_evaluate_diversity|Judge each statement; deliberately false statements kept exactly.
+A student states that in an ideal Otto cycle the temperature falls during isentropic compression and the pressure stays constant during heat addition. Judge each statement against the four processes of the cycle.
+@@ 270|Evaluate|sweep_evaluate_diversity|Critique.
+Critique a supplied interpretation of the intercept and slope of the given regression equation.
+@@ 272|Evaluate|sweep_evaluate_diversity|Determine (Evaluate); deliberately faulty program kept exactly.
+A program declares a single variable struct Student s; and reads three students' data into it inside a loop before displaying s. Determine whether the program correctly stores and displays the information of multiple students, and justify the conclusion.
+@@ 276|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied program correctly reads the integer values, calculates their sum, and writes the result to the output file.
+@@ 280|Evaluate|sweep_evaluate_diversity|Weigh and decide.
+Weigh the supplied intrusion scenario against the legal elements of unauthorized access under the applicable cybercrime legislation, and decide whether the offence is made out.
+@@ 282|Evaluate|sweep_evaluate_diversity|Validate or reject; authored network kept.
+A proposed two-input gate places the two NMOS transistors in parallel and the two PMOS transistors in series. Validate or reject this network as an implementation of the two-input NAND truth table.
+@@ 284|Evaluate|sweep_evaluate_diversity|Refute or support; deliberately false explanation kept exactly.
+A student states that static power dissipation in a CMOS circuit is zero because no current flows when the transistors are not switching. Refute or support this explanation of the difference between static and dynamic power dissipation.
+@@ 286|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether the supplied output waveform correctly represents the operation of a positive-edge-triggered D flip-flop.
+@@ 288|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute a supplied conclusion about the spontaneity of the reaction using the Gibbs free energy calculated at the specified temperature.
+@@ 291|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether a supplied sum-of-products expression is logically equivalent to the original four-variable Boolean function.
+@@ 294|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the circulation arrangement of the supplied floor plan in terms of pedestrian movement and functional access.
+@@ 296|Evaluate|sweep_evaluate_diversity|Audit.
+Audit a supplied requirements traceability matrix for whether it links every specified software requirement to its corresponding design components and test cases.
+@@ 298|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise how accurately a supplied level-0 data flow diagram represents the external entities, major processes, data stores, and data flows of the course-registration system.
+@@ 301|Evaluate|sweep_evaluate_diversity|Critique; authored argument kept.
+A student argues that the guarantee of equality before law forbids every legislative classification between groups of people. Critique this interpretation as a statement of the difference between equality before law and the prohibition of discrimination.
+@@ 303|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a supplied taxable-income calculation against the stated tax rules and the given income and deductions.
+@@ 305|Evaluate|sweep_evaluate_diversity|Challenge; deliberately false classification kept exactly.
+A report classifies a household as living in absolute poverty because its income is below 60% of the national median income. Challenge this classification using the measurement approach and threshold it relies on.
+@@ 307|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether a supplied approximate root satisfies the stated stopping tolerance when obtained with the Newton–Raphson method, and justify the conclusion.
+@@ 310|Evaluate|sweep_evaluate_diversity|Judge; deliberately false description kept exactly.
+A student states that during an SRAM read operation the access transistors are switched off so that the cross-coupled inverters can drive the bit lines. Judge this description of the roles of the inverters and access transistors.
+@@ 313|Evaluate|sweep_evaluate_diversity|Judge with calculation; authored values kept.
+Judge whether a buffer containing 0.10 mol/L acetic acid and 0.10 mol/L sodium acetate (pKa = 4.76) can keep its pH within ±0.1 unit of its initial value after 0.010 mol/L of HCl is added, supporting the judgement with a calculation.
+@@ 315|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the supplied allocation between recurrent and development expenditure against the stated budget priorities.
+@@ 317|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the supplied classifications of the individuals' mobility cases against the distinction between intergenerational and intragenerational mobility.
+@@ 321|Evaluate|sweep_evaluate_diversity|Challenge; authored conclusion kept.
+A report concludes that a soil with a cation exchange capacity of 4 cmol(+)/kg will retain applied potassium well through a wet season. Challenge this interpretation using the soil's cation exchange capacity.
+@@ 324|Evaluate|sweep_evaluate_diversity|Audit.
+Audit the supplied consonant classifications for their places of articulation, manners of articulation, and voicing.
+@@ 327|Evaluate|sweep_evaluate_diversity|Judge; deliberately false token sequence kept exactly.
+A student tokenizes total = price * 2 + tax; as IDENTIFIER(total) ASSIGN IDENTIFIER(price) MULTIPLY IDENTIFIER(2) PLUS IDENTIFIER(tax) SEMICOLON. Judge this token sequence against standard C lexical rules.
+@@ 330|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied outputs of the C expressions are correct by checking the corresponding binary operations.
+@@ 332|Evaluate|sweep_evaluate_diversity|Substantiate or refute.
+Substantiate or refute a supplied reorder-point value using the given demand rate, lead time, and safety stock.
+@@ 334|Evaluate|sweep_evaluate_diversity|Judge.
+Judge whether a supplied money-multiplier value is consistent with the given reserve ratio and simplified banking assumptions.
+@@ 337|Evaluate|sweep_evaluate_diversity|Validate.
+Validate a supplied probability value against the given event rate and target event count under the Poisson distribution.
+@@ 340|Evaluate|sweep_evaluate_diversity|Determine (Evaluate) with justification.
+Determine whether the supplied AVL tree correctly represents the given key-insertion sequence and satisfies the AVL balance condition, and justify the conclusion.
+@@ 343|Evaluate|sweep_evaluate_diversity|Audit.
+Audit the supplied row-echelon form and calculated rank of the given matrix.
+@@ 345|Evaluate|sweep_evaluate_diversity|Weigh evidential support.
+Weigh how strongly the supplied experimental results support the conclusion that selective attention influences participants' responses to relevant and irrelevant stimuli.
+@@ 348|Evaluate|sweep_evaluate_diversity|Establish.
+Establish whether the supplied total job cost correctly incorporates the given direct materials, direct labour, and allocated manufacturing overhead.
+@@ 351|Evaluate|sweep_evaluate_diversity|Critique.
+Critique a supplied force calculation for how it accounts for the conductor's current, length, magnetic field strength, and orientation.
+@@ 354|Evaluate|sweep_evaluate_diversity|Appraise.
+Appraise the supplied crop rotation plan against the specified growing seasons and soil-management requirements for the field.
+@@ 357|Evaluate|sweep_evaluate_diversity|Validate.
+Validate the supplied average-product and marginal-product calculations against the given production function and labour inputs.
+@@ 359|Evaluate|sweep_evaluate_diversity|Critique.
+Critique the supplied operational definitions as representations of the research variables and their intended measurements in the stated study.

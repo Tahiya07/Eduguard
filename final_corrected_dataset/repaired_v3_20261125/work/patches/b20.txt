@@ -1,0 +1,77 @@
+#reviewed 484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,503,504,505,506,507,508,510
+@@ 484|Understand|verb_diversity|Interpret (no computed answer revealed).
+Interpret contribution per unit, for a product selling at Tk. 150 with a variable cost of Tk. 90, as the amount each unit adds toward fixed costs and profit.
+@@ 484|Analyze|alignment_strengthen|Price vs volume leverage; no new numbers.
+Determine why a given percentage rise in selling price increases total contribution more than the same percentage rise in sales volume for a product selling at Tk. 150 with a variable cost of Tk. 90 and a volume of 2,000 units.
+@@ 484|Create|verb_diversity|Formulate.
+Formulate a sales plan for the company that achieves a chosen target total contribution, using the Tk. 150 selling price, Tk. 90 variable cost per unit, and current volume of 2,000 units as the baseline.
+@@ 485|Remember|answer_in_question|Question named the four zones.
+List the principal functional zones of a university library.
+@@ 485|Create|alignment_strengthen|Adds a design objective.
+Design a functional-zoning layout for the stated university library that positions the reading areas, book stacks, administrative offices, and service counter to minimize conflicting user movements.
+@@ 486|Remember|readback|Was partly reading back the program's element count; now recall.
+State the purposes of malloc() and free() in C.
+@@ 486|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Demonstrate, step by step, how the specified program allocates memory for five integers, stores the inputs, and releases the memory after summation.
+@@ 486|Analyze|alignment_strengthen|Failure analysis per stage.
+Determine what would go wrong at each stage of the specified program if the malloc() call failed or free() were omitted, and identify which failure is detectable at run time.
+@@ 487|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the treatment routes of the stated campus approach to biodegradable waste and recyclable non-biodegradable materials, stating the route each follows.
+@@ 487|Analyze|alignment_strengthen|Contamination propagation.
+Trace how contamination of biodegradable waste with non-biodegradable items at a collection point would affect the composting and recycling stages of the stated approach.
+@@ 487|Create|known_solution_create|Restated the approach; now a design that closes its gap.
+Design a campus waste-management process that adds a stage for non-recyclable non-biodegradable waste to the stated approach, showing how each waste stream is handled.
+@@ 488|Remember|answer_in_question|Question named the modules.
+Name the functional modules commonly found in an enterprise resource planning system.
+@@ 488|Apply|obe_verb_first|Leading When-clause.
+Apply the ERP integration principle to determine which finance records must be updated automatically through the shared database when the inventory module records a purchase of raw materials on credit.
+@@ 488|Create|alignment_strengthen|Adds data-flow specification.
+Design an ERP integration model for the manufacturing company that specifies the data each of the finance, human resources, and inventory modules writes to and reads from the shared organizational database.
+@@ 489|Analyze|alignment_fix|Was input identification; now ratio of successive terms.
+Determine why the probability of exactly three arrivals is lower than the probability of exactly two arrivals when the average rate is two customers per minute, using the ratio of successive Poisson terms.
+@@ 490|Analyze|alignment_strengthen|Scale invariance of tex.
+Determine why the tex count would stay the same if both the mass and the length of the 2-gram, 100-metre sample were doubled, and explain what this shows about tex as a measure of fineness.
+@@ 491|Apply|obe_verb_first|Leading If-clause; authored values kept.
+Determine the congestion-window size in each round if slow start continues from 8 MSS with no packet loss and a slow-start threshold of 32 MSS, until the threshold is reached, and the window in the next round under congestion avoidance.
+@@ 492|Remember|answer_in_question|Question named the components.
+Define constructive alignment.
+@@ 492|Create|known_solution_create|Restated the given alignment; now a new assessment task.
+Design an additional assessment task for the stated database-normalization outcome that would provide stronger evidence of students' ability to evaluate normalization choices, and explain how it aligns with the comparison activity.
+@@ 493|Understand|verb_only_pair|Interpret efficiency (comprehension).
+Interpret the ideal Otto-cycle efficiency for a compression ratio of 8 and a specific heat ratio of 1.4 as the fraction of heat input converted into work.
+@@ 493|Analyze|verb_only_pair|Diminishing returns and the effect of the specific heat ratio.
+Determine why raising the compression ratio above 8 gives diminishing gains in ideal Otto-cycle efficiency for a specific heat ratio of 1.4, and explain how a higher specific heat ratio would change the efficiency at the same compression ratio.
+@@ 494|Understand|verb_diversity|Describe.
+Describe how inherent risk of 60%, control risk of 50%, and detection risk of 10% combine in the audit risk model.
+@@ 494|Analyze|adjacent_level_distinction|Controllable vs uncontrollable components.
+Determine why halving the detection risk of 10% halves the overall audit risk while the auditor cannot directly change the 60% inherent risk or 50% control risk, and explain the consequence for audit planning.
+@@ 496|Apply|obe_verb_first|Leading Using-clause; authored values kept.
+Calculate projected sales revenue with Revenue = Price × Quantity when the price is Tk. 250 and quantity is 1,200 units, and when the price is raised to Tk. 275 with projected quantity falling to 1,050 units.
+@@ 496|Create|alignment_strengthen|Restated the model; now an optimizing scenario design.
+Design a what-if analysis model for the stated decision support task that tests several price levels with their projected quantities and identifies the price that maximizes projected sales revenue.
+@@ 498|Analyze|alignment_strengthen|Constant half-life and contrast.
+Determine why every successive half-life of the first-order reaction with rate constant 0.035 min^(-1) lasts the same time, and contrast this with a reaction whose half-life grows as concentration falls.
+@@ 499|Analyze|alignment_fix|Was input identification; now diameter-ratio and square-root dependence.
+Determine why the discharge through the venturimeter depends on the ratio of throat to inlet diameter as well as on the 12 kPa pressure difference, and identify how the discharge would change if the pressure difference were quadrupled.
+@@ 500|Remember|answer_in_question|Question named the four factors.
+Name the factors typically used in a point-factor job evaluation approach.
+@@ 500|Create|verb_diversity|Construct with weighting justification.
+Construct a point-factor job evaluation framework that assigns weights and level definitions to skill, responsibility, effort, and working conditions, and justify the weighting.
+@@ 501|Apply|obe_verb_first|Interpret is not an Apply bank verb.
+Use the mechanism of reversible competitive antagonism to predict what happens to the maximal response when the agonist concentration is increased in the presence of the antagonist.
+@@ 503|Remember|answer_in_question|Question named the legislature.
+Define collective ministerial responsibility.
+@@ 505|Remember|answer_in_question|Question named the three factors.
+State the separating principle on which a cyclone separator operates.
+@@ 507|Analyze|alignment_fix|Was input identification; now dominance and its change near zero error.
+Determine which of the proportional, integral, and derivative terms dominates the controller output for the stated gains and error conditions, and explain how the balance would shift as the error approaches zero.
+@@ 508|Remember|operation_fix|Explain is not a Remember operation; now recall.
+Define the decimal reduction time (D-value).
+@@ 508|Analyze|alignment_strengthen|Independence from starting population.
+Determine why the time for a 6-log reduction is six times the D-value of 2 minutes regardless of the starting population, and explain what this implies for heavily contaminated products.
+@@ 510|Remember|answer_in_question|Question named the types and considerations.
+Name the two main roof-system types used in building construction.
+@@ 510|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the three stated considerations to the pitched and flat roof options for the university building, stating the implication of each roof for drainage, maintenance access, and usable roof space.
+@@ 510|Create|alignment_fix|A comparative selection proposal is evaluative; now a hybrid roof design.
+Design a hybrid roof for the stated university building that combines pitched and flat sections to provide drainage, maintenance access, and usable roof space, and justify the arrangement.

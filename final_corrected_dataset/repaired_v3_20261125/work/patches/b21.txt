@@ -1,0 +1,49 @@
+#reviewed 511,512,513,514,515,516,518,519,520,521,522,523,524,525,526,527,528,529,531,532,533,534,535,536,537
+@@ 512|Analyze|alignment_strengthen|State-count reasoning and unused states.
+Determine why a 4-bit Johnson counter cycles through 8 states rather than the 16 possible with four flip-flops, and identify what would happen if it were started from an unused state.
+@@ 513|Apply|obe_verb_first|Interpret is not an Apply bank verb.
+Determine whether a pharmaceutical sample passes the chloride limit test when it produces greater turbidity than the standard chloride solution under identical test conditions.
+@@ 513|Analyze|alignment_strengthen|Why a comparison method and what invalidates it.
+Analyze why the chloride limit test compares turbidity with a standard rather than measuring chloride directly, and identify the condition whose violation would invalidate the comparison.
+@@ 514|Analyze|alignment_strengthen|Nonlinear vs linear dependence in Webster's formula.
+Determine why the Webster cycle length increases sharply as the sum of critical flow ratios of 0.75 approaches one, while it rises only linearly with the 12-second lost time.
+@@ 515|Analyze|alignment_strengthen|Geometric series reasoning.
+Analyze why the successive rounds of spending in the simple economy shrink by the factor 0.8 each time, and determine why their total equals the reciprocal of the marginal propensity to save of 0.2.
+@@ 516|Remember|answer_in_question|Question listed the elements.
+Define misrepresentation in contract law.
+@@ 516|Create|verb_diversity|Construct.
+Construct a structured legal argument on whether the seller's statement about the vehicle's accident history constitutes misrepresentation, using the facts of the stated transaction.
+@@ 519|Remember|answer_in_question|Question named the factors.
+Define cross-ventilation.
+@@ 519|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine a suitable inlet and outlet arrangement for a classroom when the prevailing wind approaches one external wall and the opposite wall is available for an outlet opening.
+@@ 519|Create|alignment_strengthen|A conceptual layout of given relations; now a sized and justified design.
+Design a cross-ventilation layout for the stated classroom that sizes and positions inlet and outlet openings so the airflow path sweeps the occupied zone, and justify the arrangement.
+@@ 521|Analyze|alignment_fix|Distinguishing intake from output is trivial; now sensitivity using the stated values.
+Determine whether the patient's positive balance would persist if other measured output rose to equal the intravenous intake, and identify which single measurement has the largest influence on the result.
+@@ 523|Create|alignment_strengthen|A conceptual framework restated the relation; now a two-pass parameter plan.
+Design a CNC turning parameter plan that uses a roughing pass for high material removal and a finishing pass for surface finish, specifying how spindle speed, feed rate, and depth of cut differ between the passes.
+@@ 524|Remember|answer_in_question|Question named the considerations.
+Name the main considerations in preparing a government annual budget.
+@@ 524|Create|alignment_strengthen|Framework restated the relation; now an allocation procedure.
+Formulate a budget-allocation procedure that ranks expenditure priorities within the revenue estimate and deficit ceiling, specifying how lower-priority items are cut when revenue falls short.
+@@ 525|Analyze|alignment_strengthen|Sign meaning and error magnification.
+Determine why a negative x-intercept on the Lineweaver–Burk plot corresponds to a positive Michaelis constant, and explain why the double-reciprocal plot magnifies errors at low substrate concentrations.
+@@ 527|Apply|obe_verb_first|Convert is an Understand bank verb.
+Prepare the three-address code for x=(a+b)×(c-d) using temporary variables for intermediate results.
+@@ 527|Create|obe_verb_first|Rewrite is not a Create bank verb.
+Produce a version of the three-address code for x=(a+b)×(c-d) that uses the fewest temporary variables, and show how it preserves the required order of operations.
+@@ 528|Remember|answer_in_question|Question named both components.
+Name the two components of an acidic buffer prepared from a weak acid.
+@@ 529|Analyze|alignment_strengthen|Interlacement density and fabric firmness.
+Determine why plain weave gives the maximum number of interlacements, and explain how this affects the fabric's firmness compared with weaves that float yarns over several others.
+@@ 532|Remember|answer_in_question|Question named the three attributes.
+Define product positioning.
+@@ 532|Create|alignment_strengthen|Adds differentiation and target segment.
+Write a positioning statement for the university's online learning platform that differentiates it from competitors on affordable course access, flexible study schedules, and recorded lectures, and name the target segment it addresses.
+@@ 533|Analyze|alignment_strengthen|Term contributions and the mixed partial.
+Determine why the term 3xy^2 contributes differently to f_x and f_y, and explain what the mixed partial derivative reveals about how the two variables interact in f(x,y)=x^2y+3xy^2.
+@@ 534|Remember|answer_in_question|Question named the factors.
+Define reliability in educational measurement.
+@@ 536|Analyze|adjacent_level_distinction|Source (Understand) compares; Analyze weighs conflicting situational factors.
+Determine how the two-day deadline and the team's technical knowledge pull in opposite directions when choosing between autocratic and democratic leadership, and identify which factor should dominate and why.

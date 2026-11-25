@@ -1,0 +1,75 @@
+#reviewed 126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150
+@@ 126|Apply|obe_verb_first|Leading Given-clause; authored class details kept.
+Implement a derived class Bus that inherits the attributes make and speed and the method describe() from a base class Vehicle, adds a capacity attribute, and overrides describe() to include the capacity.
+@@ 127|Understand|verb_diversity|Interpret the break-even point (comprehension).
+Interpret the break-even point in units as the sales quantity at which contribution just covers fixed costs, explaining the part played by selling price and variable cost per unit.
+@@ 127|Analyze|verb_only_pair|Was "Examine how changes … affect" (verb-only difference from Understand); now sensitivity and structural equivalence.
+Determine which of fixed costs, selling price per unit, and variable cost per unit the break-even point in units is most sensitive to, and explain why a rise in selling price and an equal fall in variable cost per unit have the same effect.
+@@ 127|Create|verb_diversity|Propose.
+Propose a cost-reduction or pricing plan that lowers the business's break-even quantity, using the supplied fixed costs, selling price per unit, and variable cost per unit as the baseline.
+@@ 128|Analyze|verb_only_pair|Was a restatement of V_out = D·V_in; now analysis of load independence and its limit.
+Investigate why the output voltage of a buck converter in continuous conduction mode depends on the duty cycle but not on the load, and identify the operating condition under which this independence breaks down.
+@@ 129|Understand|verb_diversity|Clarify.
+Clarify how the balance of probabilities standard determines whether the burden of proof has been discharged in a civil dispute.
+@@ 129|Create|verb_diversity|Plan.
+Plan the evidence that the party bearing the burden of proof in the civil dispute should obtain, specifying how each additional item would strengthen its case on the balance of probabilities.
+@@ 130|Understand|shared_verb|Relate (Understand).
+Relate biochemical oxygen demand to the amount of biodegradable organic matter in a water sample.
+@@ 130|Evaluate|shared_verb|Select (Evaluate) against the authored limit.
+Three effluent samples have BOD values of 2 mg/L, 8 mg/L, and 40 mg/L. Select the samples that are suitable for discharge into a river with an effluent BOD limit of 30 mg/L, and justify the decision.
+@@ 131|Analyze|alignment_fix|Was input identification; now error-propagation comparison.
+Determine how an error in the titre volume and an error in the standard alkali concentration would each propagate into the calculated concentration of the acidic pharmaceutical sample, and compare their effects.
+@@ 132|Analyze|alignment_fix|Establishing the loop equation is Apply-level; now analysis of source polarity in the equation.
+Separate the voltage rises from the voltage drops in the supplied closed circuit, and determine how the polarity of each source decides the sign it takes in the loop equation.
+@@ 132|Evaluate|obe_verb_first|Check is not an Evaluate bank verb; deliberately false value kept.
+In a single loop containing a 12 V source, an opposing 5 V source, a 2 Ω resistor, and a 1.5 Ω resistor, a student calculates the voltage across the 1.5 Ω resistor as 11 V. Verify whether this value satisfies Kirchhoff's voltage law for the loop.
+@@ 134|Analyze|verb_only_pair|Was "Examine how changes … affect"; now proportional structure of the relationship.
+Determine which of density, mean velocity, pipe diameter, and dynamic viscosity act on the Reynolds number in opposite directions, and explain why doubling the pipe diameter and halving the dynamic viscosity change it by the same factor.
+@@ 134|Evaluate|verb_diversity|Substantiate or refute.
+Substantiate or refute a reported Reynolds number using the supplied fluid density, mean velocity, pipe diameter, and dynamic viscosity.
+@@ 135|Remember|answer_in_question|Question listed the four functions.
+List the basic functions that the space plan of a residential unit must accommodate.
+@@ 135|Apply|obe_verb_first|Allocate is not an Apply bank verb.
+Apply the given spatial requirements to divide the specified floor area among the living, sleeping, cooking, and sanitary functions.
+@@ 135|Analyze|verb_diversity|Map adjacency requirements.
+Map the adjacency requirements among the living, sleeping, cooking, and sanitary spaces of the residential unit, distinguishing connections that must be direct from those that must be separated.
+@@ 136|Analyze|alignment_strengthen|Adds structural reasoning about the join path.
+Determine the order in which the Student, Enrollment, and Course relations must be joined for the specified retrieval by analysing their shared attributes, and explain why the Enrollment relation cannot be omitted.
+@@ 137|Analyze|obe_verb_first|Leading In-clause; authored scenario kept.
+Examine how delegated authority shapes, and confuses, the manager–subordinate relationships in an organization where a production supervisor reports to both the production manager and the quality manager.
+@@ 138|Understand|verb_diversity|Describe.
+Describe how pharmacological response changes with increasing drug dose as represented by the supplied dose–response curve.
+@@ 138|Evaluate|verb_diversity|Judge.
+Judge whether a stated relationship between drug dose and pharmacological response is supported by the supplied dose–response curve.
+@@ 139|Analyze|alignment_strengthen|Was sequencing reduction steps; now locating structural obstacles.
+Inspect the connections among the blocks of the supplied feedback control-system diagram to locate the loops and take-off points that prevent direct reduction, and determine which of them must be moved first.
+@@ 140|Analyze|alignment_strengthen|Was labelling readings; now error propagation.
+Distinguish the back-sight, intermediate-sight, and fore-sight observations in the supplied staff readings, and explain how a mislabelled intermediate sight would propagate into the reduced levels.
+@@ 140|Evaluate|obe_verb_first|Check is not an Evaluate bank verb.
+Verify whether the supplied reduced levels are consistent with the staff readings and the arithmetic check of the height-of-instrument method.
+@@ 140|Create|verb_diversity|Construct.
+Construct a level-book layout and arithmetic-check procedure for the supplied staff readings that records the height of instrument and reduced levels of successive survey points and detects booking errors.
+@@ 141|Remember|answer_in_question|Question named both parameters.
+Name two tablet quality parameters that are affected by compression force during tablet manufacturing.
+@@ 142|Analyze|verb_only_pair|Was "Examine how changes … affect" (verb-only difference); now contrasts discrete and continuous dependence.
+Determine why changing the number of poles alters the synchronous speed of a three-phase induction motor in discrete steps, whereas changing the supply frequency alters it continuously.
+@@ 143|Evaluate|verb_diversity|Evaluate; same authored statute and criteria.
+Evaluate whether a statute that allows executive detention without trial for an unlimited period is constitutionally valid, applying the principles of judicial review to the guarantees of personal liberty and due process.
+@@ 144|Analyze|verb_only_pair|Was "Examine the relative effects"; now decomposes into components and explains dominance.
+Compare how vehicle speed, reaction time, and the coefficient of longitudinal friction enter the reaction-distance and braking-distance components of stopping sight distance, and determine why speed has the dominant effect.
+@@ 145|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the supplied soil and structural loading conditions to determine the foundation-system requirements that each condition imposes.
+@@ 145|Analyze|alignment_strengthen|Separates eliminating factors from design-influencing factors.
+Separate the supplied soil conditions and structural loading requirements into those that rule out particular foundation systems and those that only influence their design, and identify the governing factor.
+@@ 145|Create|verb_diversity|Formulate.
+Formulate a foundation-system selection proposal for the proposed building using the supplied soil conditions and structural loading requirements.
+@@ 148|Analyze|verb_diversity|Categorize and relate.
+Categorize hexane, ethyl acetate, ethanol, and water by polarity, and relate each category to its suitability for dissolving the specified plant constituent.
+@@ 149|Analyze|verb_only_pair|Was "Examine how changes … affect"; now asymmetric effect of the two amplitudes.
+Determine how an increase in the maximum envelope amplitude and an equal decrease in the minimum envelope amplitude differ in their effect on the modulation index of an amplitude-modulated signal, and explain the difference.
+@@ 150|Understand|verb_diversity|Summarize.
+Summarize the purpose of each recruitment and selection stage in relation to the requirements of a vacant organizational position.
+@@ 150|Apply|obe_verb_first|Match is not an Apply bank verb.
+Prepare a set of recruitment and selection activities matched to the supplied job requirements for the vacant position.
+@@ 150|Analyze|alignment_strengthen|Adds relation of each activity to the requirement it addresses.
+Differentiate the recruitment activities from the selection activities needed to fill the vacant position, and relate each activity to the job requirement it addresses.

@@ -1,0 +1,32 @@
+﻿family,operation,Remember,Understand,Apply,Analyze,Evaluate,Create,total,levels_used
+explain,verbal explanation,0,476,0,0,0,0,476,1
+examine,decomposition/relationship analysis,0,0,0,366,0,0,366,1
+design,design,0,0,0,0,0,266,266,1
+verify,justification/verification,0,0,7,0,245,0,252,2
+assess_judge,judgement,0,0,0,0,227,0,227,1
+define,retrieval,211,0,0,0,0,0,211,1
+identify,retrieval/recognition,167,0,29,0,0,0,196,2
+develop,construction/planning,0,0,0,0,0,184,184,1
+state_recall,retrieval,175,0,3,0,0,1,179,3
+compute,computation,0,0,143,1,3,0,147,3
+apply_use,application,0,0,82,0,0,0,82,1
+classify,classification,0,0,65,0,0,0,65,1
+construct,construction,0,0,3,0,0,49,52,2
+differentiate,comparison,1,0,0,29,0,0,30,2
+formulate,formulation,0,0,1,0,0,25,26,2
+justify,justification,0,0,0,0,25,0,25,1
+list,retrieval,25,0,0,0,0,0,25,1
+interpret,interpretation,0,18,5,1,0,0,24,3
+trace,application (procedure tracing),0,0,11,6,0,0,17,2
+describe,verbal explanation,0,15,0,0,0,0,15,1
+decide,decision-making,0,0,13,0,0,0,13,1
+compose,construction (writing),0,0,1,0,0,11,12,2
+NONE,,0,0,10,0,2,0,12,2
+critique,criticism,0,0,0,0,9,0,9,1
+predict,inference/prediction,0,1,5,0,0,0,6,2
+compare,comparison,0,0,0,5,0,0,5,1
+decompose,decomposition/relationship analysis,0,0,0,3,0,0,3,1
+diagnose,inference (diagnosis),0,0,0,1,1,0,2,2
+derive,inference (derivation),0,0,1,0,0,0,1,1
+summarize,verbal explanation,0,1,0,0,0,0,1,1
+organize,application,0,0,1,0,0,0,1,1

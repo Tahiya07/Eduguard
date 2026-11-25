@@ -1,0 +1,189 @@
+{
+  "example_id_overlap_across_splits": 0,
+  "groups_spanning_splits": 0,
+  "identical_question_texts_across_splits": 0,
+  "max_cross_split_question_jaccard": 0.385,
+  "cross_split_pairs_at_or_above_0.35": 5,
+  "top_residual_pairs": [
+    {
+      "jaccard": 0.385,
+      "id_a": "375",
+      "split_a": "train",
+      "id_b": "093",
+      "split_b": "test",
+      "topic_a": "Human Resource Management: Job Evaluation",
+      "topic_b": "Employee Performance Appraisal"
+    },
+    {
+      "jaccard": 0.364,
+      "id_a": "504",
+      "split_a": "train",
+      "id_b": "591",
+      "split_b": "test",
+      "topic_a": "Cost Accounting: Material Cost Variance",
+      "topic_b": "Cost Accounting: Labour Efficiency Variance"
+    },
+    {
+      "jaccard": 0.364,
+      "id_a": "263",
+      "split_a": "train",
+      "id_b": "170",
+      "split_b": "validation",
+      "topic_a": "Management Information Systems: Information System Components",
+      "topic_b": "Environmental Engineering: Solid Waste Management"
+    },
+    {
+      "jaccard": 0.357,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "461",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Investment Analysis: Net Present Value"
+    },
+    {
+      "jaccard": 0.357,
+      "id_a": "034",
+      "split_a": "train",
+      "id_b": "118",
+      "split_b": "test",
+      "topic_a": "Computer Architecture",
+      "topic_b": "Computer Architecture: Cache Memory"
+    },
+    {
+      "jaccard": 0.333,
+      "id_a": "576",
+      "split_a": "train",
+      "id_b": "409",
+      "split_b": "validation",
+      "topic_a": "Multivariable Calculus: Partial Derivatives",
+      "topic_b": "Pharmacology: Drug Half-Life"
+    },
+    {
+      "jaccard": 0.333,
+      "id_a": "145",
+      "split_a": "train",
+      "id_b": "238",
+      "split_b": "test",
+      "topic_a": "Building Construction: Foundation Systems",
+      "topic_b": "Building Construction: Building Foundations"
+    },
+    {
+      "jaccard": 0.333,
+      "id_a": "088",
+      "split_a": "train",
+      "id_b": "595",
+      "split_b": "test",
+      "topic_a": "Shallow Foundation Design",
+      "topic_b": "Geotechnical Engineering: Bearing Capacity of Shallow Foundations"
+    },
+    {
+      "jaccard": 0.333,
+      "id_a": "088",
+      "split_a": "train",
+      "id_b": "543",
+      "split_b": "test",
+      "topic_a": "Shallow Foundation Design",
+      "topic_b": "Geotechnical Engineering: Soil Bearing Capacity"
+    },
+    {
+      "jaccard": 0.32,
+      "id_a": "034",
+      "split_a": "train",
+      "id_b": "474",
+      "split_b": "test",
+      "topic_a": "Computer Architecture",
+      "topic_b": "Computer Organization: Cache Memory Mapping"
+    },
+    {
+      "jaccard": 0.318,
+      "id_a": "525",
+      "split_a": "train",
+      "id_b": "470",
+      "split_b": "validation",
+      "topic_a": "Enzyme Kinetics: Lineweaver–Burk Plot",
+      "topic_b": "Enzyme Kinetics: Michaelis–Menten Equation"
+    },
+    {
+      "jaccard": 0.312,
+      "id_a": "298",
+      "split_a": "train",
+      "id_b": "024",
+      "split_b": "test",
+      "topic_a": "Systems Analysis and Design: Data Flow Diagrams",
+      "topic_b": "Database Management Systems"
+    },
+    {
+      "jaccard": 0.312,
+      "id_a": "074",
+      "split_a": "train",
+      "id_b": "461",
+      "split_b": "test",
+      "topic_a": "Finance",
+      "topic_b": "Investment Analysis: Net Present Value"
+    },
+    {
+      "jaccard": 0.308,
+      "id_a": "292",
+      "split_a": "train",
+      "id_b": "501",
+      "split_b": "test",
+      "topic_a": "Pharmacology: Drug Receptor Antagonism",
+      "topic_b": "Pharmacology: Competitive Antagonism"
+    },
+    {
+      "jaccard": 0.304,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "472",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Financial Management: Internal Rate of Return"
+    },
+    {
+      "jaccard": 0.3,
+      "id_a": "545",
+      "split_a": "train",
+      "id_b": "314",
+      "split_b": "validation",
+      "topic_a": "Cognitive Psychology: Working Memory",
+      "topic_b": "Operations Research: Linear Programming"
+    },
+    {
+      "jaccard": 0.3,
+      "id_a": "175",
+      "split_a": "train",
+      "id_b": "561",
+      "split_b": "validation",
+      "topic_a": "Climate and Design: Natural Ventilation",
+      "topic_b": "Public Policy: Policy Implementation"
+    },
+    {
+      "jaccard": 0.3,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "325",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Investment Analysis: Internal Rate of Return"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "525",
+      "split_a": "train",
+      "id_b": "331",
+      "split_b": "validation",
+      "topic_a": "Enzyme Kinetics: Lineweaver–Burk Plot",
+      "topic_b": "Enzyme Kinetics: Michaelis–Menten Model"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "412",
+      "split_a": "train",
+      "id_b": "024",
+      "split_b": "test",
+      "topic_a": "Database Management: Entity–Relationship Modeling",
+      "topic_b": "Database Management Systems"
+    }
+  ]
+}

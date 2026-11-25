@@ -1,0 +1,85 @@
+#reviewed 076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,095,096,097,098,099,100
+@@ 076|Apply|obe_verb_first|Leading Given-clause.
+Calculate the heart rate from the R-R interval of an ECG waveform with marked intervals.
+@@ 076|Analyze|verb_diversity|Scrutinize and separate.
+Scrutinize an ECG tracing to separate normal waveform components from deviations that may indicate an abnormal cardiac rhythm.
+@@ 076|Create|verb_diversity|Devise.
+Devise a signal-processing workflow for detecting R peaks and estimating heart rate from a recorded ECG signal.
+@@ 077|Remember|verb_diversity|State.
+State the agricultural principles underlying crop rotation.
+@@ 077|Analyze|shared_verb|Relate (Analyze) seasonal evidence to the rotation pattern.
+Relate soil nutrient records and pest observations from successive growing seasons to the crop rotation pattern used, and determine which changes the rotation explains.
+@@ 078|Understand|verb_diversity|Describe.
+Describe how the right to a fair hearing and the rule against bias protect individuals during administrative proceedings.
+@@ 078|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Apply the principles of natural justice to a case in which an administrative authority imposes a penalty without hearing the affected individual, and state which principle is breached.
+@@ 078|Evaluate|verb_diversity|Decide and justify.
+Decide whether an administrative decision should be reconsidered when the affected party was denied an opportunity to respond to the allegations, and justify the decision.
+@@ 079|Apply|obe_verb_first|Leading Given-clause.
+Calculate the relative volatility of a binary mixture from its vapour and liquid compositions under the specified conditions.
+@@ 079|Analyze|verb_diversity|Analyze feasibility from composition/volatility relationships.
+Analyze how the composition and volatility data of a binary mixture determine whether distillation is a feasible means of separating it.
+@@ 079|Create|verb_diversity|Plan.
+Plan a preliminary distillation process configuration for separating a binary mixture with a specified feed composition and product purity requirements.
+@@ 080|Understand|verb_diversity|Clarify.
+Clarify how operational definitions and measurable indicators support the investigation of relationships between study habits and academic achievement.
+@@ 080|Apply|obe_verb_first|Leading Given-clause; Formulate is a Create bank verb.
+Apply operational definitions to a research objective concerning study habits and academic performance by specifying measurable indicators for both variables.
+@@ 080|Analyze|shared_verb|Identify (Analyze) confounders and the bias each introduces; same authored design.
+Identify the confounding variables that could distort the relationship found by a study that correlates students' self-reported weekly study hours with their grade-point average, and explain how each would bias the result.
+@@ 081|Understand|operation_diversity|Summarize the role of each variable.
+Summarize the role that drug clearance, dosing interval, and bioavailability each play in setting the maintenance dose needed for a target steady-state plasma concentration.
+@@ 081|Evaluate|verb_diversity|Validate.
+Validate whether a proposed maintenance dose is appropriate for a patient against the supplied clearance, bioavailability, dosing interval, and target concentration.
+@@ 082|Analyze|verb_diversity|Separate effects.
+Separate the effects of storage temperature and storage duration on the stability of the pharmaceutical formulation using its degradation data.
+@@ 082|Create|shared_verb|Establish (Create).
+Establish a storage protocol for the temperature-sensitive formulation from its degradation characteristics and intended storage period.
+@@ 084|Analyze|verb_diversity|Correlate.
+Correlate photovoltaic output, load variation, and feeder voltage to identify the operating conditions most likely to cause unacceptable voltage deviations.
+@@ 086|Understand|verb_diversity|Discuss.
+Discuss the distinction between intention to cause death and other mental states that may arise in an unlawful killing.
+@@ 087|Analyze|shared_verb|Determine (Analyze) relative influence.
+Determine how changes in the factored bending moment and in the material strengths alter the required tensile reinforcement area of the beam, and identify which change has the largest effect.
+@@ 087|Create|verb_diversity|Produce.
+Produce a tensile reinforcement arrangement for the reinforced concrete beam that satisfies the specified factored bending moment and material constraints.
+@@ 088|Analyze|shared_verb|Identify (Analyze) governing constraint through relationships.
+Identify the governing constraint in the proposed foundation design by relating the column loads to the soil bearing capacity and the settlement limits.
+@@ 088|Evaluate|verb_diversity|Judge.
+Judge whether a proposed shallow foundation is acceptable against the supplied bearing-capacity and settlement criteria.
+@@ 089|Understand|verb_diversity|Describe.
+Describe the roles of building orientation, window placement, and shading devices in controlling indoor thermal conditions in a hot-humid climate.
+@@ 090|Apply|obe_verb_first|Select is not an Apply bank verb.
+Determine a suitable building material for a specified structural or non-structural application from its supplied physical and mechanical properties.
+@@ 090|Create|verb_diversity|Create.
+Create a material-selection schedule for a proposed building that assigns appropriate materials to its specified structural and non-structural components.
+@@ 091|Understand|verb_diversity|Summarize.
+Summarize how threshold-based and region-based methods separate foreground objects from backgrounds in digital images.
+@@ 091|Analyze|verb_diversity|Investigate with comparative attribution.
+Investigate how variations in image illumination affect the segmentation results of threshold-based and region-based methods, and identify which method is more sensitive to them.
+@@ 091|Create|verb_diversity|Integrate.
+Integrate threshold-based and region-based techniques into an image-segmentation pipeline that separates foreground objects under varying illumination conditions.
+@@ 092|Apply|obe_verb_first|Derive is not an Apply bank verb.
+Prepare suitable test cases for the supplied safety-critical software module from its functional requirements, boundary conditions, and specified fault scenarios.
+@@ 092|Analyze|verb_diversity|Map.
+Map the requirements of a safety-critical software module to its functional dependencies, critical boundary conditions, fault scenarios, and potential regression risks.
+@@ 093|Understand|verb_diversity|Illustrate.
+Illustrate how performance appraisal methods can influence employee motivation, perceived fairness, and organizational performance.
+@@ 093|Apply|obe_verb_first|Select is not an Apply bank verb.
+Apply appraisal-method criteria to the stated workforce characteristics and performance objectives of a medium-sized organization to choose an appropriate performance appraisal method.
+@@ 094|Analyze|shared_verb|Determine (Analyze) comparative sensitivity.
+Determine how sensitive a project's net present value is to changes in its projected cash flows compared with changes in the required rate of return.
+@@ 095|Understand|verb_diversity|Interpret.
+Interpret the observed qualitative chemical test results for the supplied medicinal plant sample in terms of the alkaloids they indicate.
+@@ 096|Understand|shared_verb|Relate (Understand).
+Relate the transistor operating point to the voltage amplification of a common-emitter BJT circuit.
+@@ 098|Understand|verb_diversity|Describe.
+Describe how traffic volume, road capacity, and operating speed relate to the level of service of an urban road segment.
+@@ 098|Analyze|shared_verb|Determine (Analyze) the limiting parameter.
+Determine which of traffic volume, capacity, and operating speed limits the road segment's level of service by relating the three parameters to one another.
+@@ 098|Create|known_solution_create|Was the standard LOS procedure; now a new monitoring design.
+Design a monitoring procedure that would detect when the urban road segment's level of service deteriorates, using its traffic volume, capacity, and operating speed.
+@@ 099|Evaluate|shared_verb|Select (Evaluate) with justification.
+Select the better of two supplied wall constructions for sound insulation between adjacent rooms, justifying the choice from their construction details and material properties.
+@@ 099|Create|verb_diversity|Write a specification.
+Write a wall-construction specification for separating two adjacent rooms that uses suitable materials to control sound transmission.

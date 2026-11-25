@@ -1,0 +1,69 @@
+#reviewed 304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,320,321,322,323,324,325,326,327,328,329
+@@ 304|Understand|verb_diversity|Describe.
+Describe how variations in system gain move the closed-loop pole locations represented by a root locus.
+@@ 306|Remember|answer_in_question|Question listed the four components.
+List the main components of a building water-supply system.
+@@ 306|Understand|verb_diversity|Describe.
+Describe how water moves from the source through storage and distribution pipes to the plumbing fixtures in the supplied building layout.
+@@ 306|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Determine the water-supply path from the source to a specified plumbing fixture in the supplied building layout.
+@@ 306|Create|alignment_strengthen|Adds a design objective to the layout task.
+Design a water-supply layout for the supplied building requirements that connects the specified source, storage tank, distribution pipes, and plumbing fixtures with the shortest practical pipe runs.
+@@ 307|Analyze|alignment_strengthen|Convergence behaviour and its relation to the derivative.
+Determine how the choice of initial approximation affects whether the Newton–Raphson iteration for the supplied equation converges quickly, slowly, or not at all, and relate this to the derivative near the root.
+@@ 308|Remember|answer_in_question|Question named the components.
+Define role-based access control and name its principal components.
+@@ 308|Apply|obe_verb_first|Assign is not an Apply bank verb.
+Apply the specified organizational roles to the supplied users, stating the permissions each user receives through their role.
+@@ 311|Analyze|alignment_strengthen|Opposite behaviour of direct and indirect systems.
+Determine why yarn count rises with fineness under an indirect numbering system but falls under a direct system, using the relationship between the supplied length and mass.
+@@ 312|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the stated learning objectives to map the supplied test items, and calculate the specified reliability measure from the supplied assessment results.
+@@ 312|Create|verb_diversity|Compose.
+Compose a structured assessment review of the supplied classroom test that uses its learning objectives, test items, and results to present evidence about validity and reliability.
+@@ 313|Analyze|alignment_fix|Tracing concentration changes duplicated the Apply calculation; now explanation of buffering through ratio change.
+Determine why adding 0.010 mol/L HCl to a buffer containing 0.10 mol/L acetic acid and 0.10 mol/L sodium acetate (pKa = 4.76) changes the ratio of acetate to acetic acid only slightly, and relate this to the small change in pH.
+@@ 314|Remember|readback|Was locating components in the supplied problem; now recall.
+Name the three components of a linear programming model.
+@@ 314|Apply|obe_verb_first|Substitute is not an Apply bank verb.
+Test whether the supplied production plan satisfies the stated objective function and constraints by substituting its production quantities.
+@@ 314|Analyze|alignment_strengthen|Binding constraints and their interaction with contributions.
+Determine which of the supplied resource constraints limit the feasible production decisions most, and explain how the product contributions interact with those limits.
+@@ 315|Remember|readback|Was reading back the supplied budget; now recall.
+List the main categories of revenue and expenditure in a government budget.
+@@ 316|Analyze|alignment_strengthen|Margin above Nyquist and aliasing risk.
+Determine how the margin between the proposed sampling frequency and twice the ECG signal's highest frequency component affects the risk of aliasing, and explain why practical systems sample well above the Nyquist rate.
+@@ 316|Create|known_solution_create|Was the Nyquist minimum (Apply); now a combined filter-and-sampling design.
+Develop an ECG acquisition specification that combines an anti-aliasing filter cut-off with a sampling frequency chosen for the supplied signal, and justify the margin left above the Nyquist rate.
+@@ 317|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the distinction between intergenerational and intragenerational mobility to the supplied individuals' cases according to their stated social-position changes.
+@@ 318|Remember|readback|Was reading back supplied parameters; now recall.
+List the principal parameters that must be specified for a CNC machining operation.
+@@ 318|Understand|verb_diversity|Describe.
+Describe the roles of the supplied cutting speed, feed rate, and depth of cut in CNC machining.
+@@ 320|Understand|adjacent_level_distinction|Was near-identical to Remember; now role description.
+Describe the role that table scans, join operations, and selection operations each play in executing a relational query.
+@@ 320|Create|alignment_strengthen|Was constructing the given plan; now a cost-reducing alternative.
+Construct an alternative execution plan for the supplied query that reorders its join and selection operations to reduce execution cost, and justify the reordering.
+@@ 322|Analyze|alignment_fix|Was input identification; now proportional structure and the role of z.
+Determine why the required processing time is proportional to both the D-value and the target number of log reductions, and explain how the z-value would enter if the processing temperature changed.
+@@ 324|Analyze|alignment_strengthen|Distinguishes feature contrasts.
+Distinguish the supplied consonant pairs that differ only in voicing from those that differ in place or manner of articulation.
+@@ 324|Create|known_solution_create|Duplicated the Apply source task; now a minimal-pair design.
+Construct a minimal-pair exercise from the supplied consonant sounds that tests each articulatory feature separately, stating which feature each pair isolates.
+@@ 325|Analyze|alignment_strengthen|Decision sensitivity and IRR pitfalls.
+Determine how sensitive the accept-or-reject decision for the supplied project is to the gap between its internal rate of return and the required rate of return, and identify cash-flow patterns that could make the IRR rule misleading.
+@@ 325|Create|alignment_fix|A recommendation is Evaluate-level; now a staged design.
+Develop a staged investment proposal for the supplied project that would keep its internal rate of return above the stated required rate of return if early cash flows fell short, specifying the adjustments.
+@@ 326|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Use the characteristic layer arrangements to locate the anticlines and synclines in the supplied geological cross-section.
+@@ 327|Apply|obe_verb_first|Tokenize is not an Apply bank verb; authored statement kept.
+Perform lexical analysis on the C statement total = price * 2 + tax; by splitting it into lexemes and assigning each lexeme to its token category.
+@@ 327|Analyze|adjacent_level_distinction|Duplicated the Apply task; now lexical-rule reasoning.
+Examine the statement total = price * 2 + tax; to determine which lexical rule decides where each lexeme ends, and explain why 2 is classified differently from price.
+@@ 328|Analyze|alignment_fix|Was input identification; now dominant components and underestimated losses.
+Determine which components of the supplied intake and output records most influence the patient's net fluid balance, and identify any losses that the records may underestimate.
+@@ 329|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the balance-of-power principle to the supplied alliance arrangements to determine whether each represents balancing behaviour among the identified states.
+@@ 329|Create|verb_diversity|Construct.
+Construct a reasoned international-relations argument that uses the supplied alliance arrangements to show how a balance-of-power strategy operates among the identified states.

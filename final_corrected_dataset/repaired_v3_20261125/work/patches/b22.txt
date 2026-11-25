@@ -1,0 +1,61 @@
+#reviewed 538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562
+@@ 538|Understand|verb_diversity|Describe.
+Describe how the decrease in magnetic flux through a 200-turn coil produces an induced electromotive force.
+@@ 538|Analyze|alignment_strengthen|Rate dependence and halved time; values kept.
+Determine why the induced emf in the 200-turn coil depends on how quickly the flux falls from 0.05 Wb to 0.01 Wb rather than on the final flux, and identify how the emf would change if the same flux change took twice as long.
+@@ 539|Understand|verb_diversity|Illustrate; values kept.
+Illustrate how an elimination half-life of 4 hours reduces a 160 mg drug amount over an 8-hour period.
+@@ 539|Analyze|alignment_fix|Counting half-lives is the Apply step; now independence from dose and zero-order contrast.
+Determine why the time needed for the 160 mg amount to fall to a quarter of its value does not depend on the starting amount, and explain how the result would differ under zero-order elimination.
+@@ 540|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the standard balance-of-payments classification to exports, imports, foreign investment inflows, and external loan repayments, stating the component in which each is recorded.
+@@ 541|Analyze|alignment_strengthen|Cycle redundancy reasoning.
+Determine how many edges could be removed from the stated five-vertex cycle while keeping the graph connected, and explain why removing any single edge never disconnects it.
+@@ 542|Remember|obe_verb_first|Expand is not a Remember bank verb; question also listed the answer.
+State what the abbreviation ETL stands for in data warehousing.
+@@ 542|Apply|obe_verb_first|Assign is not an Apply bank verb.
+Apply the three ETL stages to retrieving sales records, standardizing inventory data, and loading financial records, stating the stage to which each activity belongs.
+@@ 542|Create|alignment_strengthen|Adds a validation design element.
+Design an ETL workflow for the company's sales, inventory, and finance systems that includes a validation step rejecting inconsistent records before loading.
+@@ 543|Analyze|adjacent_level_distinction|Source (Understand) explains influence; Analyze attributes structure of the bearing-capacity terms.
+Determine why the friction angle affects bearing capacity through all three bearing-capacity factors while cohesion enters only one term, and explain why foundation width matters mainly for frictional soils.
+@@ 544|Analyze|alignment_strengthen|Layer reasoning and method contrast.
+Determine why the units remaining after the sale are valued at the later purchase price under FIFO, and explain how the closing inventory value would differ under the weighted-average method with the stated purchases at Tk. 20 and Tk. 24.
+@@ 545|Remember|answer_in_question|Question named the three components.
+Name the components of the multi-component working-memory model.
+@@ 546|Analyze|adjacent_level_distinction|Source (Understand) compares; Analyze identifies the access pattern and eviction cost.
+Determine under what pattern of repeated writes to the same cache block write-back produces far fewer main-memory writes than write-through, and identify the cost write-back pays when a dirty block is evicted.
+@@ 547|Analyze|adjacent_level_distinction|Source (Understand) explains differences; Analyze traces the causal role of soil.
+Determine why the absence of soil makes pioneer species essential in primary succession but not in secondary succession, and trace how soil formation controls the pace of community development.
+@@ 549|Analyze|alignment_strengthen|Feature contrasts among the four sounds.
+Determine which pairs among /p/, /m/, /s/, and /ʃ/ share a place of articulation but differ in manner, and which share a manner but differ in place, explaining what each pairing shows.
+@@ 550|Remember|answer_in_question|Question named the indicators.
+State the purpose of a business intelligence dashboard in sales management.
+@@ 550|Apply|obe_verb_first|Match is not an Apply bank verb.
+Determine an appropriate dashboard visualization for each of the monthly sales revenue, sales volume, and regional performance indicators.
+@@ 550|Create|alignment_strengthen|Adds drill-down design objective.
+Design a business intelligence dashboard for the stated sales-analysis task that combines monthly sales revenue, sales volume, and regional performance so that a drop in one region can be traced to its cause.
+@@ 551|Analyze|alignment_fix|Was input identification; now origin of the weights.
+Determine how the weights 1, 4, and 1 in Simpson's one-third rule arise from fitting a parabola through the three evaluation points of x^2+1 on [0,2].
+@@ 553|Analyze|alignment_strengthen|Proportionality structure and white-light consequence.
+Determine why the fringe width is directly proportional to the wavelength and the screen distance but inversely proportional to the slit separation, and explain what would happen to the fringe pattern if white light replaced the 600 nm source.
+@@ 554|Remember|answer_in_question|Question defined the profile.
+Define dissolution testing.
+@@ 554|Analyze|alignment_strengthen|Rate pattern from the example's data.
+Determine where the dissolution rate is highest in the release pattern of 40%, 65%, 80%, and 92% at 10, 20, 30, and 45 minutes, and explain why the rate slows as dissolution proceeds.
+@@ 555|Understand|verb_only_pair|Interpret the method (comprehension); values kept.
+Interpret the Rational Method estimate for a 5-hectare urban catchment as the product of the runoff fraction, the rainfall rate, and the contributing area.
+@@ 555|Analyze|verb_only_pair|Which parameter urbanization changes and its effect.
+Determine why the runoff coefficient of 0.6 is the parameter most changed by urbanization, and explain how increasing it would alter the peak runoff from the 5-hectare catchment at a rainfall intensity of 50 mm/hour.
+@@ 558|Remember|readback|Was reading back the stated rules; now recall.
+Define a decision tree classifier.
+@@ 559|Remember|answer_in_question|Question named the three factors.
+State the main factors that govern sound transmission through a wall.
+@@ 559|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine which external-wall modification would directly address sound leakage through an untreated opening in the stated classroom.
+@@ 559|Create|alignment_strengthen|Conceptual strategy restated factors; now an ordered upgrade design.
+Design a sound-insulation upgrade for the classroom external wall that treats its openings and adjusts wall mass and materials, and justify the order of the measures.
+@@ 561|Remember|answer_in_question|Question named the four factors.
+List the main factors that influence the implementation of public policy.
+@@ 561|Create|alignment_strengthen|Framework restated factors; now a plan with safeguards.
+Formulate an implementation plan for a government policy that sets out how institutional capacity, resources, inter-agency coordination, and accountability will be secured, specifying one safeguard for each.

@@ -1,0 +1,245 @@
+#reviewed none
+@@ 007|Understand|sweep_understand_diversity|Clarify.
+Clarify why binary search reduces the search space by half after each comparison.
+@@ 012|Understand|sweep_understand_diversity|Discuss.
+Discuss why high cohesion and low coupling generally improve software maintainability.
+@@ 016|Understand|sweep_understand_diversity|Describe.
+Describe how a decision tree uses feature-based conditions to classify student academic performance.
+@@ 021|Understand|sweep_understand_diversity|Summarize.
+Summarize how the divide-and-conquer strategy enables merge sort to achieve its time complexity.
+@@ 027|Understand|sweep_understand_diversity|Interpret.
+Interpret what each state of a DFA represents about the progress made in recognizing a required pattern in an input string.
+@@ 034|Understand|sweep_understand_diversity|Characterize.
+Characterize the way direct, fully associative, and set-associative cache mapping each decide where a memory block is stored.
+@@ 039|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how Boolean algebra simplification reduces the number of logic gates required to implement a combinational circuit.
+@@ 043|Understand|sweep_understand_diversity|Relate (Understand).
+Relate heat transfer, work transfer, and internal energy change to one another in a closed thermodynamic system.
+@@ 048|Understand|sweep_understand_diversity|Describe.
+Describe how an increase in interest rates can influence borrowing costs, business investment, and aggregate demand.
+@@ 056|Understand|sweep_understand_diversity|Discuss.
+Discuss how increasing vaccination coverage can reduce the transmission of an infectious disease within a population.
+@@ 059|Understand|sweep_understand_diversity|Clarify.
+Clarify how conservation of charge and conservation of energy form the basis of Kirchhoff's laws.
+@@ 071|Understand|sweep_understand_diversity|Interpret.
+Interpret why the order in which processes receive CPU time affects their average waiting time.
+@@ 077|Understand|sweep_understand_diversity|Describe.
+Describe how alternating crops with different nutrient requirements can influence soil fertility and pest populations.
+@@ 088|Understand|sweep_understand_diversity|Summarize.
+Summarize how soil bearing capacity, column loading, and permissible settlement influence the dimensions and suitability of a shallow foundation.
+@@ 100|Understand|sweep_understand_diversity|Describe. Rewritten again: Understand/Analyze operations made distinct.
+Explain what the TCP congestion window represents during data transmission, and describe what packet loss and round-trip time variation each signal to a TCP sender.
+@@ 109|Understand|sweep_understand_diversity|Paraphrase.
+Paraphrase the way the liquid limit and plastic limit together determine the plasticity index of a soil sample.
+@@ 118|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how cache hits and cache misses each contribute to the average memory access time of a computer system.
+@@ 124|Understand|sweep_understand_diversity|Interpret.
+Interpret what the coefficient of uniformity and the coefficient of curvature indicate about the grain-size distribution of a soil.
+@@ 134|Understand|sweep_understand_diversity|Describe.
+Describe how fluid density, mean velocity, pipe diameter, and dynamic viscosity determine the Reynolds number in pipe flow.
+@@ 139|Understand|sweep_understand_diversity|Represent.
+Represent series, parallel, and feedback block combinations by their equivalent transfer functions, describing what each equivalent means during block diagram reduction.
+@@ 142|Understand|sweep_understand_diversity|Discuss.
+Discuss how supply frequency and the number of poles determine the synchronous speed of a three-phase induction motor.
+@@ 146|Understand|sweep_understand_diversity|Characterize.
+Characterize how First-Come, First-Served and non-preemptive Shortest Job First each use arrival and burst times to order process execution.
+@@ 154|Understand|sweep_understand_diversity|Summarize.
+Summarize how the runoff coefficient, rainfall intensity, and catchment area influence the peak runoff rate according to the Rational Method.
+@@ 161|Understand|sweep_understand_diversity|Clarify.
+Clarify the difference between pharmacokinetic and pharmacodynamic interactions in the context of the two specified drugs.
+@@ 166|Understand|sweep_understand_diversity|Describe.
+Describe how the minimax algorithm uses terminal-state utility values to determine the optimal move in a two-player game tree.
+@@ 174|Understand|sweep_understand_diversity|Interpret.
+Interpret how pipe length, diameter, flow velocity, and friction factor each influence frictional head loss according to the Darcy–Weisbach equation.
+@@ 177|Understand|sweep_understand_diversity|Describe.
+Describe how a training-needs assessment identifies differences between employees' existing skills and required competencies.
+@@ 182|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how both half-cycles of the supplied sinusoidal input voltage contribute to the output waveform of a single-phase full-wave rectifier.
+@@ 186|Understand|sweep_understand_diversity|Summarize.
+Summarize how Dijkstra's algorithm updates tentative distances when determining minimum-cost routes from the specified source node.
+@@ 194|Understand|sweep_understand_diversity|Relate (Understand).
+Relate changes in moisture content to the dry density of soil during compaction.
+@@ 198|Understand|sweep_understand_diversity|Characterize.
+Characterize the changes in microbial population that mark the lag, logarithmic, stationary, and death phases.
+@@ 204|Understand|sweep_understand_diversity|Clarify.
+Clarify how force equilibrium at individual joints is used to determine the unknown member forces in a statically determinate plane truss.
+@@ 208|Understand|sweep_understand_diversity|Describe.
+Describe how bulk density and tapped density are used to characterize pharmaceutical powder flowability through Carr's index and the Hausner ratio.
+@@ 211|Understand|sweep_understand_diversity|Describe.
+Describe how a Python function can examine a list of integers and determine whether an even number is present.
+@@ 214|Understand|sweep_understand_diversity|Summarize.
+Summarize how the first and second derivatives are used to identify and classify local maximum and minimum values.
+@@ 218|Understand|sweep_understand_diversity|Interpret.
+Interpret how nodes and next-pointer connections represent a sequence of values in a singly linked list.
+@@ 221|Understand|sweep_understand_diversity|Clarify.
+Clarify how the base case and the recursive calls work together to calculate the factorial of a non-negative integer.
+@@ 224|Understand|sweep_understand_diversity|Characterize.
+Characterize how the selection procedures differ among simple random, stratified, systematic, and cluster sampling.
+@@ 227|Understand|sweep_understand_diversity|Interpret. Rewritten again: Understand/Analyze operations made distinct.
+Explain in your own words what a movement along the supplied short-run Phillips curve indicates about inflation and unemployment.
+@@ 230|Understand|sweep_understand_diversity|Describe.
+Describe how the AVG() function and the GROUP BY clause calculate department-wise average salaries from employee records.
+@@ 238|Understand|sweep_understand_diversity|Discuss.
+Discuss how the stated building and ground conditions influence the selection of a foundation type.
+@@ 241|Understand|sweep_understand_diversity|Describe.
+Describe how the number of coil turns and the rate of change of magnetic flux influence the induced electromotive force.
+@@ 248|Understand|sweep_understand_diversity|Characterize.
+Characterize how the microscopic characteristics and burning behaviour of cotton, wool, and polyester fibres differ.
+@@ 256|Understand|sweep_understand_diversity|Summarize.
+Summarize how segregation of duties, authorization, and record-keeping contribute to internal control over an organization's payment process.
+@@ 260|Understand|sweep_understand_diversity|Interpret.
+Interpret what a favourable or an adverse material cost variance indicates about actual material costs relative to standard material costs.
+@@ 271|Understand|sweep_understand_diversity|Describe.
+Describe how the transmission and reception of ultrasonic waves enable a mobile robot to detect obstacles.
+@@ 274|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how rotation and translation transform a point from a robot's local coordinate frame to its global coordinate frame.
+@@ 277|Understand|sweep_understand_diversity|Clarify.
+Clarify the distinction between the relevance and the authenticity of electronic records as evidence.
+@@ 281|Understand|sweep_understand_diversity|Interpret.
+Interpret how the voltage transfer characteristics represent the switching behaviour of a CMOS inverter.
+@@ 286|Understand|sweep_understand_diversity|Describe.
+Describe how the output of a positive-edge-triggered D flip-flop responds to the data input at the active clock edge.
+@@ 292|Understand|sweep_understand_diversity|Characterize.
+Characterize how competitive and non-competitive antagonists differ in their effects on agonist dose-response curves.
+@@ 295|Understand|sweep_understand_diversity|Discuss.
+Discuss how differences in demand and supply elasticity influence the distribution of a tax burden.
+@@ 301|Understand|sweep_understand_diversity|Paraphrase.
+Paraphrase the legal meaning of equality before law and of prohibition of discrimination under the specified constitutional provisions.
+@@ 307|Understand|sweep_understand_diversity|Summarize.
+Summarize how the derivative and the initial approximation determine successive estimates of a root in the Newton–Raphson method.
+@@ 311|Understand|sweep_understand_diversity|Describe.
+Describe how yarn length and mass determine yarn count under the specified numbering system.
+@@ 316|Understand|sweep_understand_diversity|Clarify.
+Clarify why the sampling frequency must exceed twice the highest frequency component of the supplied ECG signal to avoid aliasing.
+@@ 323|Understand|sweep_understand_diversity|Interpret.
+Interpret the relationship between the partial derivatives of the real and imaginary components in the Cauchy–Riemann equations.
+@@ 328|Understand|sweep_understand_diversity|Describe.
+Describe how recorded fluid intake and output are used to determine a patient's fluid balance over an observation period.
+@@ 331|Understand|sweep_understand_diversity|Relate (Understand).
+Relate substrate concentration to reaction velocity according to Michaelis–Menten kinetics.
+@@ 336|Understand|sweep_understand_diversity|Summarize.
+Summarize how the proportional, integral, and derivative actions influence the overshoot, settling time, and steady-state error of the robotic system.
+@@ 341|Understand|sweep_understand_diversity|Describe.
+Describe how centrifugal action separates particles from the gas stream in a cyclone separator.
+@@ 345|Understand|sweep_understand_diversity|Discuss.
+Discuss how selective attention influences the processing of relevant and irrelevant stimuli.
+@@ 351|Understand|sweep_understand_diversity|Interpret.
+Interpret how current, conductor length, magnetic field strength, and orientation each influence the magnetic force on a conductor.
+@@ 354|Understand|sweep_understand_diversity|Relate (Understand).
+Relate crop selection and growing-season sequence to the soil-management requirements in the supplied field conditions.
+@@ 360|Understand|sweep_understand_diversity|Summarize.
+Summarize how the roots of the characteristic equation determine the general solution of a second-order linear homogeneous differential equation.
+@@ 364|Understand|sweep_understand_diversity|Characterize.
+Characterize the different requirements of the supplied information-system proposal that technical, economic, and operational feasibility each address.
+@@ 370|Understand|sweep_understand_diversity|Describe.
+Describe how member rotations, joint displacements, flexural rigidity, and fixed-end moments enter the slope-deflection equations for the supplied beam.
+@@ 375|Understand|sweep_understand_diversity|Summarize.
+Summarize how the supplied job evaluation methods determine the relative worth of organizational positions.
+@@ 379|Understand|sweep_understand_diversity|Describe.
+Describe how capital structure proportions, component financing costs, and the applicable tax rate influence the weighted average cost of capital.
+@@ 383|Understand|sweep_understand_diversity|Clarify.
+Clarify how the distribution of administrative responsibilities differs from the distribution of financial authority in decentralization.
+@@ 386|Understand|sweep_understand_diversity|Describe.
+Describe how a function pointer refers to a function and allows the specified arithmetic operation to be invoked indirectly.
+@@ 389|Understand|sweep_understand_diversity|Interpret.
+Interpret process measurements in relation to control-chart limits, describing what each position relative to the limits indicates about statistical control.
+@@ 394|Understand|sweep_understand_diversity|Describe.
+Describe how a unit hydrograph represents the direct runoff response to effective rainfall and how successive rainfall contributions combine over time.
+@@ 397|Understand|sweep_understand_diversity|Summarize.
+Summarize how wheel rotation measurements are used to estimate changes in a mobile robot's position and orientation.
+@@ 400|Understand|sweep_understand_diversity|Characterize.
+Characterize the different aspects of central tendency and dispersion that the mean, median, and standard deviation describe in the supplied sales dataset.
+@@ 404|Understand|sweep_understand_diversity|Discuss.
+Discuss how overlaying land-use and flood-hazard layers reveals spatial relationships between land-use categories and flood-prone areas.
+@@ 411|Understand|sweep_understand_diversity|Clarify.
+Clarify why choosing u=x and dv=e^xdx is suitable for evaluating ∫_0^1 x e^x dx using integration by parts.
+@@ 416|Understand|sweep_understand_diversity|Describe.
+Describe how Dijkstra's algorithm uses the edge weights of the given graph to update the shortest known distances from vertex A.
+@@ 421|Understand|sweep_understand_diversity|Describe.
+Describe how the determinant and adjugate of A=[[2, 1], [5, 3]] are used to obtain its inverse.
+@@ 424|Understand|sweep_understand_diversity|Clarify; values kept.
+Clarify why the perpendicular orientation of the 0.5 m conductor carrying 4 A in a 0.2 T magnetic field produces the maximum magnetic force for the given current, length, and field strength.
+@@ 427|Understand|sweep_understand_diversity|Describe.
+Describe how the student can focus on mathematics examination questions while filtering out the background conversations of other students.
+@@ 433|Understand|sweep_understand_diversity|Relate (Understand).
+Relate roof slope to rainwater drainage in flat and pitched roof systems in a region receiving heavy rainfall.
+@@ 437|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how oral and intravenous intake and urine and other measured output contribute to the patient's net fluid balance during the 8-hour shift.
+@@ 441|Understand|sweep_understand_diversity|Summarize.
+Summarize the administrative justification for the Partition of Bengal in 1905 and describe why the decision generated political responses.
+@@ 446|Understand|sweep_understand_diversity|Describe.
+Describe how the forward-path transfer function G(s)=K/(s(s+2)(s+4)) determines the characteristic equation of the unity-feedback system.
+@@ 449|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how the sample mean of 53, hypothesized population mean of 50, known standard deviation of 10, and sample size of 100 are used to test the population mean.
+@@ 452|Understand|sweep_understand_diversity|Describe.
+Describe how router A combines its link cost to router B with B's advertised distance to destination D when updating its routing table.
+@@ 455|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how openings on opposite exterior walls can support cross-ventilation when the building is exposed to prevailing winds.
+@@ 462|Understand|sweep_understand_diversity|Interpret; values kept.
+Interpret how the link lengths of 2 m and 1 m and the target position (2,1) m constrain the possible joint configurations of the manipulator.
+@@ 468|Understand|sweep_understand_diversity|Characterize.
+Characterize how the relationship between the executive and the legislature differs between parliamentary and presidential systems, including executive selection and political accountability.
+@@ 472|Understand|sweep_understand_diversity|Interpret; values kept.
+Interpret the discount rate at which the investment's net present value becomes zero, given an initial outlay of Tk. 10,000 and a Tk. 12,100 cash inflow received after two years.
+@@ 476|Understand|sweep_understand_diversity|Describe.
+Describe how short quizzes, feedback on incorrect answers, and opportunities to improve understanding support learning before the final examination.
+@@ 482|Understand|sweep_understand_diversity|Clarify.
+Clarify why reproducing an entire copyrighted textbook and distributing digital copies without permission may interfere with the rights of the copyright holder.
+@@ 486|Understand|sweep_understand_diversity|Describe.
+Describe how dynamic memory allocation using malloc() allows the program to store five integer inputs and why free() is required after their sum is calculated.
+@@ 489|Understand|sweep_understand_diversity|Interpret; values kept.
+Interpret how an average arrival rate of two customers per minute is used to determine the probability of exactly three arrivals during a one-minute interval.
+@@ 492|Understand|sweep_understand_diversity|Summarize.
+Summarize how the database-normalization learning outcome, the comparison activity, and the justification-based assessment are intended to support the same learning objective.
+@@ 497|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how the initial head position of 50, the upward direction, and the cylinder boundary of 199 influence the servicing order under SCAN.
+@@ 500|Understand|sweep_understand_diversity|Discuss.
+Discuss why a point-factor approach considers multiple job-related factors when determining the relative worth of different positions.
+@@ 505|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how centrifugal action separates suspended particles from an industrial gas stream inside a cyclone separator.
+@@ 508|Understand|sweep_understand_diversity|Interpret; value kept.
+Interpret how a D-value of 2 minutes relates processing time to successive one-log reductions in the microbial population.
+@@ 512|Understand|sweep_understand_diversity|Describe.
+Describe how feeding the complemented output of the last flip-flop into the first flip-flop produces the successive states of the 4-bit Johnson counter.
+@@ 516|Understand|sweep_understand_diversity|Discuss.
+Discuss why a seller's knowingly false statement about a vehicle's accident history may influence a buyer's decision to enter into a transaction.
+@@ 520|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how the two test cases x=5 and x=-3 exercise the statements and decision branches in the given conditional code.
+@@ 523|Understand|sweep_understand_diversity|Summarize. Rewritten again: Understand/Analyze operations made distinct.
+Describe what spindle speed, feed rate, and depth of cut each set during CNC turning of a cylindrical workpiece, and what material removal rate and surface finish mean.
+@@ 526|Understand|sweep_understand_diversity|Describe.
+Describe how negotiation, economic sanctions, and international mediation can influence the behaviour of states involved in a dispute.
+@@ 531|Understand|sweep_understand_diversity|Illustrate.
+Illustrate how compressional forces can deform originally layered rocks into upward-arching anticlines and downward-curving synclines.
+@@ 534|Understand|sweep_understand_diversity|Discuss.
+Discuss how consistent test items and an appropriate number of items can contribute to the reliability of an educational assessment.
+@@ 540|Understand|sweep_understand_diversity|Clarify.
+Clarify why exports and imports are recorded differently from foreign investment inflows and external loan repayments in the balance of payments.
+@@ 544|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how the FIFO assumption determines which purchase costs remain in closing inventory after 150 units are sold from the two stated purchases.
+@@ 549|Understand|sweep_understand_diversity|Characterize.
+Characterize how the location and manner of airflow obstruction distinguish the consonant sounds /p/, /m/, /s/, and /ʃ/.
+@@ 552|Understand|sweep_understand_diversity|Describe.
+Describe how borrowing host bits from the /24 network prefix creates four equal-sized subnets.
+@@ 557|Understand|sweep_understand_diversity|Clarify; values kept.
+Clarify why the 200 ending work-in-process units contribute different equivalent-unit quantities for materials and for conversion costs.
+@@ 560|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how the sample mean of 50, population standard deviation of 10, sample size of 100, and critical value of 1.96 determine the width of the 95% confidence interval.
+@@ 564|Understand|sweep_understand_diversity|Summarize.
+Summarize how the time spent holding inventory and collecting receivables, together with the time allowed for paying suppliers, determines the cash conversion cycle.
+@@ 569|Understand|sweep_understand_diversity|Interpret.
+Interpret the equation Av=λv as a statement about how a matrix transformation acts on its eigenvectors.
+@@ 572|Understand|sweep_understand_diversity|Describe; values kept.
+Describe how compensatory damages are intended to address loss arising from a failure to perform a contractual obligation, using the supplier's failure to deliver 500 units by 1 June as the context.
+@@ 575|Understand|sweep_understand_diversity|Clarify; values kept.
+Clarify why the FIFO method assigns the cost of the earliest purchased units to the 120 units sold before assigning costs to the remaining inventory.
+@@ 580|Understand|sweep_understand_diversity|Summarize.
+Summarize how extracting data, standardizing its format, and loading it into a target repository prepare operational data for analytical use in a data warehouse.
+@@ 585|Understand|sweep_understand_diversity|Describe.
+Describe how a checkpoint helps a database recovery system avoid processing the entire transaction log from the beginning after a system failure.
+@@ 589|Understand|sweep_understand_diversity|Discuss.
+Discuss how the geometric form of flat, pitched, and curved roofs influences rainwater drainage and their architectural applications.
+@@ 593|Understand|sweep_understand_diversity|Clarify.
+Clarify how the existence of paths between vertices determines whether an undirected graph is connected.
+@@ 598|Understand|sweep_understand_diversity|Describe.
+Describe how linking budget allocations to service coverage, cost per vaccinated person, and annual vaccination targets can connect public expenditure with service performance.

@@ -1,0 +1,152 @@
+{
+  "method": "For each export (v2 baseline and v3 repaired) it fits simple predictors on the TRAIN transformation records and scores\nthem on VALIDATION + TEST transformation records:",
+  "exports": {
+    "v2_baseline": {
+      "n_train": 2345,
+      "n_heldout": 585,
+      "verb_only": {
+        "accuracy": 0.9744,
+        "macro_recall": 0.9707,
+        "recall_by_level": {
+          "Remember": 1.0,
+          "Understand": 1.0,
+          "Apply": 0.899,
+          "Analyze": 0.964,
+          "Evaluate": 0.981,
+          "Create": 0.981
+        }
+      },
+      "masked_verb_nb": {
+        "accuracy": 0.7487,
+        "macro_recall": 0.737,
+        "recall_by_level": {
+          "Remember": 0.692,
+          "Understand": 0.719,
+          "Apply": 0.519,
+          "Analyze": 0.663,
+          "Evaluate": 0.932,
+          "Create": 0.897
+        }
+      },
+      "full_text_nb": {
+        "accuracy": 0.947,
+        "macro_recall": 0.943,
+        "recall_by_level": {
+          "Remember": 0.949,
+          "Understand": 0.958,
+          "Apply": 0.861,
+          "Analyze": 0.928,
+          "Evaluate": 0.99,
+          "Create": 0.972
+        }
+      },
+      "first_word_only": {
+        "accuracy": 0.9538,
+        "macro_recall": 0.9465,
+        "recall_by_level": {
+          "Remember": 1.0,
+          "Understand": 1.0,
+          "Apply": 0.785,
+          "Analyze": 0.952,
+          "Evaluate": 0.961,
+          "Create": 0.981
+        }
+      },
+      "H_level_bits": 2.569,
+      "H_level_given_verb_bits": 0.078,
+      "H_verb_given_level_bits": 1.634,
+      "distinct_leading_verbs_train": 66,
+      "leading_verbs_used_at_2plus_levels_train": [
+        "construct",
+        "determine",
+        "distinguish",
+        "for",
+        "given",
+        "identify",
+        "in",
+        "interpret",
+        "predict",
+        "rewrite",
+        "trace",
+        "write"
+      ],
+      "heldout_rows_whose_verb_is_multi_level_in_train": 0.128,
+      "heldout_rows_with_verb_unseen_in_train": 11
+    },
+    "v3_repaired": {
+      "n_train": 2345,
+      "n_heldout": 585,
+      "verb_only": {
+        "accuracy": 0.9299,
+        "macro_recall": 0.9243,
+        "recall_by_level": {
+          "Remember": 0.94,
+          "Understand": 0.969,
+          "Apply": 0.759,
+          "Analyze": 0.964,
+          "Evaluate": 0.942,
+          "Create": 0.972
+        }
+      },
+      "masked_verb_nb": {
+        "accuracy": 0.7162,
+        "macro_recall": 0.7053,
+        "recall_by_level": {
+          "Remember": 0.718,
+          "Understand": 0.542,
+          "Apply": 0.443,
+          "Analyze": 0.795,
+          "Evaluate": 0.883,
+          "Create": 0.85
+        }
+      },
+      "full_text_nb": {
+        "accuracy": 0.9026,
+        "macro_recall": 0.8972,
+        "recall_by_level": {
+          "Remember": 0.957,
+          "Understand": 0.76,
+          "Apply": 0.835,
+          "Analyze": 0.916,
+          "Evaluate": 0.961,
+          "Create": 0.953
+        }
+      },
+      "first_word_only": {
+        "accuracy": 0.9179,
+        "macro_recall": 0.9098,
+        "recall_by_level": {
+          "Remember": 0.94,
+          "Understand": 0.938,
+          "Apply": 0.696,
+          "Analyze": 0.952,
+          "Evaluate": 0.961,
+          "Create": 0.972
+        }
+      },
+      "H_level_bits": 2.569,
+      "H_level_given_verb_bits": 0.166,
+      "H_verb_given_level_bits": 2.969,
+      "distinct_leading_verbs_train": 104,
+      "leading_verbs_used_at_2plus_levels_train": [
+        "a",
+        "compare",
+        "determine",
+        "how",
+        "identify",
+        "infer",
+        "is",
+        "modify",
+        "organize",
+        "prepare",
+        "relate",
+        "trace",
+        "what",
+        "why",
+        "write"
+      ],
+      "heldout_rows_whose_verb_is_multi_level_in_train": 0.169,
+      "heldout_rows_with_verb_unseen_in_train": 4
+    }
+  }
+}

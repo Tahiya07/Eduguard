@@ -1,0 +1,125 @@
+{
+  "version": "v3.1 (pass-3 repair + pass-3.1 form revision, 2026-11-25)",
+  "authoritative_master_files_sha256": {
+    "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+    "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc",
+    "Unresolved_Questions.csv": "3eb6ad29c207fc0cb453ecc8917a1bad588f555b7a9d7ffdcee4227eed5ba312",
+    "Final_Summary.md": "c10a03c78a80dfd189bc8890d658bc8cf3980e2dfcc6a9affb7d03e937e087a6",
+    "EduGuard_600_Corrected.pdf": "a9d6f21dd58dceb38bff9be5c770e6c407a6f8aff8342434c1badc0417953dd6"
+  },
+  "authoritative_master_unchanged_during_build": true,
+  "v2_export_unchanged_during_build": true,
+  "v2_export_files_sha256": {
+    "eligibility_reclassifications.csv": "04d030b8d9c36d9a79288524c70487734ea90e31df4131efab7bb7988a6580fc",
+    "exclusions.csv": "6aa07ff4432daf231b3315ee74dc7d13dd1a207b0296b981c4eb15082a0065fc",
+    "integrity_report.json": "019fcb97aa4edd2b54c0ee75929052af7892324e7289152c9edc5382b13e4438",
+    "label_and_generation_only_examples.jsonl": "4ef0102351f970de0fec2a0ab0df617bc3d0b846bafab533650c3ab8477b096f",
+    "leakage_report.csv": "282efd6355beb97a87d8d7603076afa41f7b0f78886201a79663aa8c8994a8ae",
+    "README.md": "e0238f8ed3b911b03e7f17f6fcc8d16893411b637fbaec85a97fcf5cab128045",
+    "RECONCILIATION_REPORT.md": "a5c66e9160ae11af78b20eda28e4f3cce25db4871626c9d9196594befe476be1",
+    "residual_similarity.json": "7bbc521d80ca497282e9c1984d9501128f280be761ea15aa498cf2dbf2179b49",
+    "schema.json": "b47e0535d1e49c3af8ddb991e912bd9240d26203193ae2d55314b9a902beded7",
+    "self_containment_audit.csv": "824b1f1a75cd65f624b9efc3956730154574d57da0076a488de505a3971b211d",
+    "usable_examples.jsonl": "cad4a6cca51c90fd3e4dbb24b8d9f2f2d2f525db17a4cb70b7ccc2b6c7dc71ef",
+    "answer_generation/answer_generation_manifest.json": "c5e6fa624051673d040fe0afebdde23372d0867fe661c066d39045b2cb708875",
+    "answer_generation/test_transformation_records.jsonl": "f2201443a5798f28c980a84c61a881561def3b9410ca1eb193adf8d74c72e8cd",
+    "answer_generation/train_transformation_records.jsonl": "4ee045750dfd6c0b7c2cd50da364669a2cbdf2e8ae9ebb2a99d5ac88c5b0a576",
+    "answer_generation/validation_transformation_records.jsonl": "3394d1a4b9d8164f9e700d08dadd98a23cdc003786cee8d8859277a73e6b0ad7",
+    "scripts/check_leakage.py": "474c442cf57f9b1d900a040ef2316ab30b15aa1481cf46950db6fff711d6d983",
+    "scripts/eduguard_loader.py": "108fc7a86422c061c18a1fd2be20f36b5dd880c5e7bba6e5f9937a8a98776dcf",
+    "scripts/make_training_ready.py": "1bd55c16896f4784e90005d7d6974fb26dc71f2c1a717f42388ed1e27145531a",
+    "scripts/verify_training_ready.py": "87cafc0a9b2b1a55852850be21c8941278acf7aff8637e4a46caa191557b42d5",
+    "splits/split_manifest.json": "0b7ae037ad09390e6294ab252af256f7af9b2674376eefeac4fba7a2ff81902c",
+    "splits/test_bloom_classification_records.jsonl": "fdfe1711fb40d77195db7919e6d7b9eaadb170bd57504a3ce0cd317da997953b",
+    "splits/test_examples.jsonl": "fabe41e470c7de69c2d2ba4198264648dde08baad251e9cb09f0fa40ebda4589",
+    "splits/test_transformation_records.jsonl": "367d33bdf05b2c6ec5965eced0911f8f9e1f968d011d615e3b02aef2dd65d5c4",
+    "splits/train_bloom_classification_records.jsonl": "aa759776b254e399361db85d346df41689d04c62bd6d75a58c14a134796a95e8",
+    "splits/train_examples.jsonl": "be9883e00c061945f1d154e56bc42f1793c947ed5867a1102793f0d98898f738",
+    "splits/train_transformation_records.jsonl": "5d5d26165d9cf2e5d6c01a8746c0d7a7b9815734586733f0a814f2dfb1ba9fbb",
+    "splits/validation_bloom_classification_records.jsonl": "7e18eb10298222c35d3f11e7e1329d8ef2fe97e6f18e87b1dee09bfb7e27f003",
+    "splits/validation_examples.jsonl": "c582e5ab7652ebf597bcd78a7e564cb127f825e15b1ef125554585c645304bb0",
+    "splits/validation_transformation_records.jsonl": "b5e65d6d9b708d46517488eac48f91437a8a2e82f0875c6f02bcc664d2d6023e",
+    "tests/reference_split_ids.json": "a2ddcbf2212c93b72c9732568cb90e61aca0034fa171fb532a36fbe99907d201",
+    "tests/test_training_ready.py": "035d53b84cc8193dc21921dd0299005859d6f537eefdb7c298ce84a64dd5f407"
+  },
+  "v3_master_sha256": {
+    "corrected_dataset_v3.json": "0d3c927888e1217b948997ba976a7a189465743e252748195ed1e537f85c3499",
+    "Correction_Log_v3.csv": "63c5e2474987f15755fdc89a41c673d51e041e1b0853b4c619c842548adf3e56"
+  },
+  "counts": {
+    "master_examples": 600,
+    "eligibility": {
+      "usable": 341,
+      "label_and_generation_only": 245,
+      "excluded": 14
+    },
+    "exclusions_by_reason": {
+      "redundant_duplicate": 8,
+      "self_containment_row_flagged": 3,
+      "pending_sme_review": 3
+    },
+    "reclassified_usable_to_label_and_generation_only": 31,
+    "self_containment_rows_audited": 152,
+    "self_containment_verdicts": {
+      "FLAG_OBJECTIVE_SHIFT": 1,
+      "FLAG_CONTESTED_CONTENT": 1,
+      "FLAG_SCOPE_EXPANSION": 2,
+      "PRESERVES": 148
+    },
+    "self_containment_rows_by_pass": {
+      "1": 2,
+      "1+2": 31,
+      "2": 119
+    },
+    "self_containment_preserves_rows_by_pass": {
+      "1": 2,
+      "1+2": 31,
+      "2": 115
+    },
+    "authored_scenario_rows_exported": 144,
+    "authored_scenario_rows_exported_by_eligibility": {
+      "usable": 143,
+      "label_and_generation_only": 1
+    },
+    "authored_scenario_rows_exported_by_pass": {
+      "1": 2,
+      "1+2": 30,
+      "2": 112
+    },
+    "authored_scenario_rows_in_excluded_examples": [
+      "156-Analyze",
+      "156-Apply",
+      "158-Analyze",
+      "158-Apply",
+      "158-Create",
+      "319-Apply",
+      "393-Apply",
+      "393-Create"
+    ],
+    "authored_evaluation_object_rows_exported": 118,
+    "deliberately_false_claim_rows_documented": 62,
+    "deliberately_false_claim_rows_exported": 59,
+    "deliberately_false_claim_rows_in_excluded_examples": [
+      "156",
+      "393",
+      "429"
+    ],
+    "answer_generation_transformation_records": {
+      "train": 1350,
+      "validation": 180,
+      "test": 175
+    }
+  },
+  "pass3": {
+    "transformation_records_total": 2930,
+    "transformation_records_rewritten": 1408,
+    "examples_with_any_rewrite": 567,
+    "source_label_changes": {
+      "252": {
+        "before": "Analyze",
+        "after": "Understand"
+      }
+    },
+    "review_method": "model-assisted (Claude) rewrite of every eligible example (pass 3) and revision under the relaxed form rule (pass 3.1: no per-level verb bank; imperative or interrogative); automated format, structure, number-preservation and false-claim-value checks; NOT human-verified"
+  }
+}

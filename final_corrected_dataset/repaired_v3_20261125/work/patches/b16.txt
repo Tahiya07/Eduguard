@@ -1,0 +1,63 @@
+#reviewed 380,381,382,383,384,385,386,387,388,389,390,391,392,394,395,396,397,398,399,400,401,402,403,404,405
+@@ 380|Remember|readback|Was reading back the supplied plan; now recall.
+List the site factors normally examined in landscape site analysis.
+@@ 380|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the stated characteristics to sort the features shown in the supplied site plan into development opportunities and constraints.
+@@ 381|Analyze|alignment_fix|Was input identification; now cell contributions and the nature of the association.
+Determine which cells of the supplied observed frequency table contribute most to the chi-square statistic, and explain what their pattern reveals about the nature of any association.
+@@ 381|Create|known_solution_create|Was the complete standard test (Apply); now a follow-up study design.
+Design a follow-up study for the supplied categorical variables that would test whether the association persists after controlling for a third variable, specifying the stratified frequency tables to be compared.
+@@ 382|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Determine the query structure produced when the supplied user input is concatenated into the vulnerable SQL query.
+@@ 382|Create|known_solution_create|Was the standard parameterized-query fix; now a layered defence design.
+Design an input-handling layer for the supplied application that combines parameterized queries with input validation and least-privilege database access, and explain how each measure blocks the demonstrated manipulation.
+@@ 383|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the distinction between administrative and fiscal decentralization to the supplied local-government responsibilities and financial powers.
+@@ 385|Remember|answer_in_question|Question named both principles.
+State the two principal rules of natural justice.
+@@ 385|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the principles of natural justice to the supplied administrative actions, stating which principle each action engages.
+@@ 386|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Determine which arithmetic function is executed by the supplied function-pointer declaration and invocation.
+@@ 388|Remember|answer_in_question|Question named the three elements.
+Name the three principal elements of constructive alignment.
+@@ 388|Apply|obe_verb_first|Match is not an Apply bank verb.
+Use the supplied course learning outcomes to link each assessment task and teaching activity with the outcome it is intended to support.
+@@ 389|Remember|answer_in_question|Question named the chart lines.
+Define statistical process control and name the lines that make up a control chart.
+@@ 389|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine which of the supplied process measurements fall outside the specified control-chart limits.
+@@ 391|Analyze|alignment_fix|Was input identification; now the logic of the rejection test and its limit.
+Determine how the bitwise AND of the two endpoint region codes decides trivial rejection for the supplied segment, and explain why a zero result does not guarantee that the segment is visible.
+@@ 392|Remember|readback|Was reading back supplied results; now recall.
+Name the main microbial counts used in microbial limit testing of non-sterile pharmaceutical products.
+@@ 392|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine whether each supplied microbial count result complies with its corresponding acceptance limit.
+@@ 392|Analyze|alignment_strengthen|Governing result and decision logic.
+Determine which of the supplied microbial count results governs the product's compliance status, and explain how a single out-of-limit count affects the overall decision.
+@@ 394|Analyze|alignment_fix|Was input identification; now superposition shaping the peak.
+Determine how the overlapping time-shifted responses to the supplied rainfall pulses combine to set the timing and size of the direct runoff peak, and identify which pulse contributes most to it.
+@@ 394|Create|known_solution_create|Duplicated the Apply convolution; now a designed rainfall pattern.
+Construct an alternative effective-rainfall pattern of the same total depth that would produce a lower runoff peak with the given unit hydrograph, and show the resulting direct runoff hydrograph.
+@@ 395|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine the vertices that belong to each connected component of the supplied undirected graph.
+@@ 396|Remember|answer_in_question|Question named the four elements.
+Name the four elements of the marketing mix.
+@@ 396|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the four elements of the marketing mix to the supplied marketing decisions, stating which element each decision concerns.
+@@ 398|Remember|readback|Was reading back the supplied schedule; now recall.
+State the purpose of an accounts-receivable aging schedule.
+@@ 400|Analyze|alignment_strengthen|Skewness and influential observations.
+Determine what the gap between the mean and the median of the supplied sales values reveals about their skewness, and identify the observations that most inflate the standard deviation.
+@@ 401|Analyze|obe_verb_first|Leading For-clause; authored values kept.
+Distinguish the effects on emission rate and on maximum kinetic energy of doubling the intensity of 7.5 × 10^14 Hz light and of raising its frequency to 9.0 × 10^14 Hz for a metal with a work function of 2.3 eV.
+@@ 402|Analyze|alignment_strengthen|Attributes a shortfall to time or rate.
+Determine whether any capacity shortfall in the supplied operation is better attributed to limited operating time or to the production rate, and explain how each would need to change to meet the stated demand.
+@@ 403|Analyze|alignment_fix|Was input identification; now diagonal dominance and convergence.
+Determine whether the supplied system of equations is diagonally dominant, and explain how this property affects the convergence of the Gauss–Seidel iterations from the specified initial approximation.
+@@ 404|Remember|readback|Was reading back supplied layers; now recall.
+Define spatial overlay analysis in geographic information systems.
+@@ 404|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Perform a spatial overlay of the supplied land-use and flood-hazard maps to determine which land-use categories intersect flood-prone areas.
+@@ 405|Apply|obe_verb_first|Construct is not an Apply bank verb.
+Prepare the precedence graph for the given schedule by determining each conflicting operation pair and adding the corresponding directed edges.

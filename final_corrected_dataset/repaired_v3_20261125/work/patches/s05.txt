@@ -1,0 +1,19 @@
+#reviewed none
+@@ 574|Remember|remember_pure_recall|Removed 'why' (explanation) from a recall item; content kept.
+State the definition of operationalization of variables and the purpose it serves in social research.
+@@ 099|Analyze|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Decompose sound transmission between adjacent rooms into the contribution of wall construction and the contribution of material selection, and determine which of the two would limit performance if only the other were improved.
+@@ 188|Analyze|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Separate the effect of the supplied extraction method from the effect of the solvent on the recovery of active constituents from the crude-drug sample, and explain how a change in one factor could mask the effect of the other.
+@@ 250|Analyze|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Trace the separate causal pathways by which reduced vegetation cover and increased built-up surfaces raise urban temperatures, and identify where the two pathways reinforce each other in the urban heat island effect.
+@@ 120|Understand|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Describe the mechanism by which moist-heat sterilization destroys microorganisms and the mechanism by which dry-heat sterilization does, giving one pharmaceutical application of each.
+@@ 141|Understand|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Paraphrase the meaning of compression force, tablet hardness, and disintegration time as quantities measured during tablet manufacturing.
+@@ 265|Understand|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Describe the duration and information-storage characteristics of each of sensory memory, short-term memory, and long-term memory, giving an everyday example of each.
+@@ 261|Understand|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Illustrate, with one example for each, the kind of management information used in planning, organizing, directing, and controlling activities within an organization.
+@@ 380|Understand|adjacent_level_distinction|Understand/Analyze pair differed only by verb; operations made distinct, content kept.
+Explain, with a general example of each, what it means for topography, vegetation, access routes, or surrounding land uses to act as a site-development opportunity or a constraint.

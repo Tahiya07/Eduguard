@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -16,6 +17,80 @@ TASKS = ("bloom_rewrite", "qa", "summarization")
 SPLITS = ("train", "validation", "test")
 MANIFEST_VERSION = "multitask_bloom_rewrite_separate_v1"
 REPO_ROOT = Path(__file__).resolve().parents[3]
+SUMMARIZATION_ELIGIBILITY_FILE = "summarization/summarization_eligibility.json"
+_MATH_PLACEHOLDER = re.compile(r"@xmath\d+")
+
+
+class SummarizationEligibilityError(ValueError):
+    """A summarization row is excluded/unaudited, or the eligibility record is missing or altered."""
+
+
+def _row_sha256(row: dict[str, Any]) -> str:
+    # Must match summarization_quality.row_sha256.
+    return hashlib.sha256(json.dumps(row, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def load_summarization_eligibility(data_dir: Path, manifest: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    """Return the verified eligibility record, or None for a legacy (unaudited) dataset directory."""
+    manifest = manifest if manifest is not None else load_manifest(data_dir)
+    record = manifest.get("summarization_quality_filter")
+    path = data_dir / SUMMARIZATION_ELIGIBILITY_FILE
+    if record is None:
+        if path.is_file():
+            raise SummarizationEligibilityError(
+                f"{path} exists but dataset_manifest.json does not record it; rebuild the dataset."
+            )
+        return None
+    if not path.is_file():
+        raise SummarizationEligibilityError(f"Manifest requires {SUMMARIZATION_ELIGIBILITY_FILE}, which is missing.")
+    if sha256_file(path) != record.get("eligibility_file_sha256"):
+        raise SummarizationEligibilityError(f"{SUMMARIZATION_ELIGIBILITY_FILE} does not match the manifest SHA-256.")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def enforce_summarization_eligibility(
+    data_dir: Path,
+    split: str,
+    rows: list[dict[str, Any]],
+    *,
+    allow_unaudited: bool = False,
+    manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Fail closed unless every summarization row is recorded as eligible (exact row hash) for this split.
+
+    Legacy directories without an eligibility record may be read for validation/test (to reproduce earlier
+    evaluations) but never for train unless the caller explicitly passes allow_unaudited=True.
+    """
+    eligibility = load_summarization_eligibility(data_dir, manifest)
+    if eligibility is None:
+        if split == "train" and not allow_unaudited:
+            raise SummarizationEligibilityError(
+                f"{data_dir} has no summarization eligibility record; its summarization train rows are unaudited "
+                "(e.g. @xmath placeholders in target abstracts). Use the cleaned dataset "
+                "(build_clean_summarization_dataset.py) or pass allow_unaudited_summarization=True deliberately."
+            )
+        return {"status": "unaudited_legacy", "split": split, "rows": len(rows)}
+    allowed = {
+        r["id"]: r for r in eligibility["rows"] if r["split"] == split and r["status"] == "eligible"
+    }
+    excluded = {r["id"] for r in eligibility["rows"] if r["split"] == split and r["status"] != "eligible"}
+    for row in rows:
+        rid = str(row.get("id") or "")
+        if rid in excluded:
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} is excluded ({eligibility['policy_version']}).")
+        entry = allowed.get(rid)
+        if entry is None:
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} is not in the eligibility record.")
+        if _row_sha256(row) != entry["row_sha256"]:
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} differs from its audited content.")
+        target = str(row.get("sft_text", ""))[len(str(row.get("prompt_text", ""))):]
+        if _MATH_PLACEHOLDER.search(str(row.get("abstract", ""))) or _MATH_PLACEHOLDER.search(target):
+            raise SummarizationEligibilityError(f"summarization/{split}: row {rid} has an @xmath placeholder in its target.")
+    if len({str(r.get("id")) for r in rows}) != len(allowed):
+        raise SummarizationEligibilityError(
+            f"summarization/{split}: {len(rows)} rows loaded but {len(allowed)} are recorded as eligible."
+        )
+    return {"status": "enforced", "split": split, "rows": len(rows), "policy_version": eligibility["policy_version"]}
 
 
 def sha256_file(path: Path) -> str:
@@ -207,8 +282,18 @@ def validate_separate_dataset(
                 "Rebuild the task-separated datasets."
             )
 
+    # Summarization eligibility: enforced for every split when the dataset carries an eligibility record;
+    # legacy directories are reported as unaudited (training loads of them are refused in load_split_rows).
+    summarization_eligibility = {
+        split: enforce_summarization_eligibility(
+            data_dir, split, rows_by_task_split["summarization"][split], allow_unaudited=True, manifest=manifest
+        )
+        for split in SPLITS
+    }
+
     manifest_hash = sha256_file(manifest_path)
     return {
+        "summarization_eligibility": summarization_eligibility,
         "layout": "task-separated",
         "manifest_path": str(manifest_path),
         "manifest_sha256": manifest_hash,
@@ -229,6 +314,7 @@ def load_task_split(
     split: str,
     *,
     validate: bool = True,
+    allow_unaudited_summarization: bool = False,
 ) -> list[dict[str, Any]]:
     if task not in TASKS:
         raise ValueError(f"Unknown task {task!r}; expected one of {TASKS}.")
@@ -236,7 +322,10 @@ def load_task_split(
         raise ValueError(f"Unknown split {split!r}; expected one of {SPLITS}.")
     if validate:
         validate_separate_dataset(data_dir)
-    return read_jsonl(data_dir / task / f"{split}.jsonl")
+    rows = read_jsonl(data_dir / task / f"{split}.jsonl")
+    if task == "summarization":
+        enforce_summarization_eligibility(data_dir, split, rows, allow_unaudited=allow_unaudited_summarization)
+    return rows
 
 
 def load_split_rows(
@@ -245,6 +334,7 @@ def load_split_rows(
     *,
     tasks: tuple[str, ...] | list[str] | None = None,
     validate: bool = True,
+    allow_unaudited_summarization: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Read task-specific split files and combine rows in memory, never on disk."""
     if split not in SPLITS:
@@ -275,6 +365,10 @@ def load_split_rows(
         rel = f"{task}/{split}.jsonl"
         path = data_dir / task / f"{split}.jsonl"
         task_rows = read_jsonl(path)
+        if task == "summarization":
+            meta["summarization_eligibility_loaded"] = enforce_summarization_eligibility(
+                data_dir, split, task_rows, allow_unaudited=allow_unaudited_summarization
+            )
         rows.extend(task_rows)
         counts[task] = len(task_rows)
         hashes[rel] = sha256_file(path)

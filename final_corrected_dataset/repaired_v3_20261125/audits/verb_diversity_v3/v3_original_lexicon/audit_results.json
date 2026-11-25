@@ -1,0 +1,1706 @@
+{
+ "scope": {
+  "examples": 586,
+  "transformation_rows": 2930,
+  "by_split": {
+   "train": 2345,
+   "validation": 295,
+   "test": 290
+  },
+  "by_eligibility": {
+   "usable": 1705,
+   "label_and_generation_only": 1225
+  }
+ },
+ "per_level": {
+  "Remember": {
+   "rows": 579,
+   "unique_primary_verbs": 10,
+   "unique_families": 5,
+   "top1_verb_share": 0.276,
+   "top3_verb_share": 0.682,
+   "top1_family_share": 0.418,
+   "verb_entropy_bits": 2.74,
+   "effective_verbs": 6.68,
+   "family_entropy_bits": 1.987,
+   "effective_families": 3.96,
+   "verbs_used_once": [
+    "label"
+   ],
+   "no_instruction_verb_found": 13,
+   "scenario_prefixed_rows": 1,
+   "rows_with_secondary_verb": 177,
+   "top_phrases": [
+    [
+     "",
+     13
+    ],
+    [
+     "list the principal",
+     10
+    ],
+    [
+     "identify the principal",
+     9
+    ],
+    [
+     "name the three",
+     9
+    ],
+    [
+     "name the main",
+     9
+    ],
+    [
+     "state the formula",
+     8
+    ],
+    [
+     "identify the three",
+     7
+    ],
+    [
+     "state the equation",
+     7
+    ]
+   ]
+  },
+  "Understand": {
+   "rows": 510,
+   "unique_primary_verbs": 10,
+   "unique_families": 7,
+   "top1_verb_share": 0.486,
+   "top3_verb_share": 0.796,
+   "top1_family_share": 0.531,
+   "verb_entropy_bits": 2.298,
+   "effective_verbs": 4.92,
+   "family_entropy_bits": 1.817,
+   "effective_families": 3.52,
+   "verbs_used_once": [
+    "classify",
+    "compare"
+   ],
+   "no_instruction_verb_found": 22,
+   "scenario_prefixed_rows": 2,
+   "rows_with_secondary_verb": 6,
+   "top_phrases": [
+    [
+     "explain how the",
+     73
+    ],
+    [
+     "describe how the",
+     31
+    ],
+    [
+     "",
+     22
+    ],
+    [
+     "summarize how the",
+     9
+    ],
+    [
+     "describe how a",
+     7
+    ],
+    [
+     "explain why the",
+     7
+    ],
+    [
+     "interpret how the",
+     6
+    ],
+    [
+     "interpret what the",
+     6
+    ]
+   ]
+  },
+  "Apply": {
+   "rows": 380,
+   "unique_primary_verbs": 21,
+   "unique_families": 8,
+   "top1_verb_share": 0.237,
+   "top3_verb_share": 0.666,
+   "top1_family_share": 0.439,
+   "verb_entropy_bits": 3.048,
+   "effective_verbs": 8.27,
+   "family_entropy_bits": 1.677,
+   "effective_families": 3.2,
+   "verbs_used_once": [
+    "find",
+    "organize",
+    "rank",
+    "show",
+    "simulate"
+   ],
+   "no_instruction_verb_found": 13,
+   "scenario_prefixed_rows": 24,
+   "rows_with_secondary_verb": 33,
+   "top_phrases": [
+    [
+     "",
+     13
+    ],
+    [
+     "apply the distinction",
+     8
+    ],
+    [
+     "use the supplied",
+     7
+    ],
+    [
+     "use the stated",
+     7
+    ],
+    [
+     "determine whether a",
+     6
+    ],
+    [
+     "determine whether each",
+     5
+    ],
+    [
+     "apply the four",
+     5
+    ],
+    [
+     "apply the three",
+     5
+    ]
+   ]
+  },
+  "Analyze": {
+   "rows": 413,
+   "unique_primary_verbs": 22,
+   "unique_families": 12,
+   "top1_verb_share": 0.276,
+   "top3_verb_share": 0.62,
+   "top1_family_share": 0.402,
+   "verb_entropy_bits": 3.355,
+   "effective_verbs": 10.23,
+   "family_entropy_bits": 2.611,
+   "effective_families": 6.11,
+   "verbs_used_once": [
+    "find",
+    "organize"
+   ],
+   "no_instruction_verb_found": 24,
+   "scenario_prefixed_rows": 5,
+   "rows_with_secondary_verb": 216,
+   "top_phrases": [
+    [
+     "determine why the",
+     30
+    ],
+    [
+     "",
+     24
+    ],
+    [
+     "examine the supplied",
+     19
+    ],
+    [
+     "determine how the",
+     17
+    ],
+    [
+     "analyze why the",
+     14
+    ],
+    [
+     "examine how the",
+     14
+    ],
+    [
+     "examine the relationship",
+     11
+    ],
+    [
+     "determine which of",
+     8
+    ]
+   ]
+  },
+  "Evaluate": {
+   "rows": 512,
+   "unique_primary_verbs": 24,
+   "unique_families": 10,
+   "top1_verb_share": 0.25,
+   "top3_verb_share": 0.521,
+   "top1_family_share": 0.381,
+   "verb_entropy_bits": 3.569,
+   "effective_verbs": 11.87,
+   "family_entropy_bits": 2.211,
+   "effective_families": 4.63,
+   "verbs_used_once": [
+    "demonstrate",
+    "prioritize",
+    "state"
+   ],
+   "no_instruction_verb_found": 10,
+   "scenario_prefixed_rows": 118,
+   "rows_with_secondary_verb": 59,
+   "top_phrases": [
+    [
+     "verify whether a",
+     59
+    ],
+    [
+     "verify whether the",
+     48
+    ],
+    [
+     "assess whether the",
+     26
+    ],
+    [
+     "assess whether a",
+     16
+    ],
+    [
+     "judge whether a",
+     14
+    ],
+    [
+     "assess whether this",
+     13
+    ],
+    [
+     "verify whether this",
+     11
+    ],
+    [
+     "justify whether the",
+     10
+    ]
+   ]
+  },
+  "Create": {
+   "rows": 536,
+   "unique_primary_verbs": 24,
+   "unique_families": 10,
+   "top1_verb_share": 0.425,
+   "top3_verb_share": 0.707,
+   "top1_family_share": 0.429,
+   "verb_entropy_bits": 2.831,
+   "effective_verbs": 7.12,
+   "family_entropy_bits": 2.213,
+   "effective_families": 4.63,
+   "verbs_used_once": [
+    "combine",
+    "conjecture",
+    "draw",
+    "find",
+    "generate",
+    "prepare",
+    "revise",
+    "rewrite",
+    "specify"
+   ],
+   "no_instruction_verb_found": 6,
+   "scenario_prefixed_rows": 1,
+   "rows_with_secondary_verb": 143,
+   "top_phrases": [
+    [
+     "construct a reasoned",
+     10
+    ],
+    [
+     "design a modified",
+     7
+    ],
+    [
+     "",
+     6
+    ],
+    [
+     "design a set",
+     6
+    ],
+    [
+     "design a revised",
+     5
+    ],
+    [
+     "construct a structured",
+     4
+    ],
+    [
+     "design a modification",
+     4
+    ],
+    [
+     "design an alternative",
+     4
+    ]
+   ]
+  }
+ },
+ "cross_level": {
+  "verbs_single_level": [
+   "design",
+   "define",
+   "verify",
+   "examine",
+   "describe",
+   "assess",
+   "apply",
+   "calculate",
+   "develop",
+   "construct",
+   "interpret",
+   "recall",
+   "list",
+   "use",
+   "judge",
+   "formulate",
+   "justify",
+   "name",
+   "critique",
+   "analyze",
+   "propose",
+   "validate",
+   "summarize",
+   "clarify",
+   "distinguish",
+   "check",
+   "appraise",
+   "plan",
+   "illustrate",
+   "discuss",
+   "devise",
+   "evaluate",
+   "differentiate",
+   "investigate",
+   "contrast",
+   "recommend",
+   "decide",
+   "draft",
+   "separate",
+   "perform",
+   "produce",
+   "decompose",
+   "predict",
+   "outline",
+   "weigh",
+   "compose",
+   "inspect",
+   "categorize",
+   "argue",
+   "diagnose",
+   "complete",
+   "defend",
+   "integrate",
+   "test",
+   "execute",
+   "create",
+   "compute",
+   "build",
+   "map",
+   "select",
+   "estimate",
+   "break",
+   "redesign",
+   "support",
+   "implement",
+   "detect",
+   "combine",
+   "label",
+   "rewrite",
+   "generate",
+   "classify",
+   "conjecture",
+   "draw",
+   "revise",
+   "simulate",
+   "prioritize"
+  ],
+  "verbs_multi_level": {
+   "explain": {
+    "Understand": 248,
+    "Evaluate": 7
+   },
+   "determine": {
+    "Apply": 77,
+    "Analyze": 106,
+    "Evaluate": 3
+   },
+   "state": {
+    "Remember": 142,
+    "Evaluate": 1
+   },
+   "identify": {
+    "Remember": 93,
+    "Analyze": 10
+   },
+   "NONE": {
+    "Remember": 13,
+    "Understand": 22,
+    "Apply": 13,
+    "Analyze": 24,
+    "Evaluate": 10,
+    "Create": 6
+   },
+   "determine_whether": {
+    "Apply": 16,
+    "Analyze": 8,
+    "Evaluate": 16
+   },
+   "specify": {
+    "Remember": 14,
+    "Create": 1
+   },
+   "write": {
+    "Remember": 8,
+    "Create": 5
+   },
+   "trace": {
+    "Apply": 2,
+    "Analyze": 9
+   },
+   "compare": {
+    "Understand": 1,
+    "Analyze": 10
+   },
+   "prepare": {
+    "Apply": 6,
+    "Create": 1
+   },
+   "demonstrate": {
+    "Apply": 6,
+    "Evaluate": 1
+   },
+   "infer": {
+    "Understand": 2,
+    "Analyze": 5
+   },
+   "show": {
+    "Apply": 1,
+    "Evaluate": 5
+   },
+   "rank": {
+    "Apply": 1,
+    "Evaluate": 2
+   },
+   "find": {
+    "Apply": 1,
+    "Analyze": 1,
+    "Create": 1
+   },
+   "organize": {
+    "Apply": 1,
+    "Analyze": 1
+   }
+  },
+  "high_volume_verbs_ge90pct_one_level": {
+   "explain": {
+    "Understand": 248,
+    "Evaluate": 7
+   },
+   "design": {
+    "Create": 228
+   },
+   "define": {
+    "Remember": 160
+   },
+   "state": {
+    "Remember": 142,
+    "Evaluate": 1
+   },
+   "verify": {
+    "Evaluate": 128
+   },
+   "examine": {
+    "Analyze": 114
+   },
+   "identify": {
+    "Analyze": 10,
+    "Remember": 93
+   },
+   "describe": {
+    "Understand": 101
+   },
+   "assess": {
+    "Evaluate": 94
+   },
+   "apply": {
+    "Apply": 90
+   },
+   "calculate": {
+    "Apply": 86
+   },
+   "develop": {
+    "Create": 84
+   },
+   "construct": {
+    "Create": 67
+   },
+   "interpret": {
+    "Understand": 57
+   },
+   "recall": {
+    "Remember": 51
+   },
+   "list": {
+    "Remember": 50
+   },
+   "use": {
+    "Apply": 48
+   },
+   "judge": {
+    "Evaluate": 45
+   },
+   "formulate": {
+    "Create": 43
+   },
+   "justify": {
+    "Evaluate": 43
+   },
+   "name": {
+    "Remember": 41
+   },
+   "critique": {
+    "Evaluate": 36
+   },
+   "analyze": {
+    "Analyze": 36
+   },
+   "propose": {
+    "Create": 31
+   },
+   "validate": {
+    "Evaluate": 31
+   },
+   "summarize": {
+    "Understand": 25
+   },
+   "clarify": {
+    "Understand": 23
+   },
+   "distinguish": {
+    "Analyze": 20
+   },
+   "check": {
+    "Evaluate": 20
+   },
+   "appraise": {
+    "Evaluate": 20
+   }
+  }
+ },
+ "source_questions": {
+  "Remember": {
+   "rows": 7,
+   "verbs": [
+    [
+     "define",
+     3
+    ],
+    [
+     "identify",
+     3
+    ],
+    [
+     "state",
+     1
+    ]
+   ]
+  },
+  "Understand": {
+   "rows": 76,
+   "verbs": [
+    [
+     "explain",
+     58
+    ],
+    [
+     "interpret",
+     8
+    ],
+    [
+     "compare",
+     6
+    ],
+    [
+     "classify",
+     1
+    ],
+    [
+     "identify",
+     1
+    ],
+    [
+     "distinguish",
+     1
+    ],
+    [
+     "analyze",
+     1
+    ]
+   ]
+  },
+  "Apply": {
+   "rows": 206,
+   "verbs": [
+    [
+     "calculate",
+     100
+    ],
+    [
+     "apply",
+     37
+    ],
+    [
+     "determine",
+     27
+    ],
+    [
+     "NONE",
+     6
+    ],
+    [
+     "classify",
+     6
+    ],
+    [
+     "trace",
+     4
+    ],
+    [
+     "determine_whether",
+     4
+    ],
+    [
+     "solve",
+     4
+    ],
+    [
+     "prove",
+     3
+    ],
+    [
+     "identify",
+     3
+    ]
+   ]
+  },
+  "Analyze": {
+   "rows": 173,
+   "verbs": [
+    [
+     "analyze",
+     145
+    ],
+    [
+     "compare",
+     17
+    ],
+    [
+     "distinguish",
+     7
+    ],
+    [
+     "derive",
+     1
+    ],
+    [
+     "differentiate",
+     1
+    ],
+    [
+     "interpret",
+     1
+    ],
+    [
+     "determine",
+     1
+    ]
+   ]
+  },
+  "Evaluate": {
+   "rows": 74,
+   "verbs": [
+    [
+     "evaluate",
+     55
+    ],
+    [
+     "assess",
+     17
+    ],
+    [
+     "select",
+     1
+    ],
+    [
+     "verify",
+     1
+    ]
+   ]
+  },
+  "Create": {
+   "rows": 50,
+   "verbs": [
+    [
+     "develop",
+     22
+    ],
+    [
+     "design",
+     15
+    ],
+    [
+     "construct",
+     9
+    ],
+    [
+     "prepare",
+     1
+    ],
+    [
+     "write",
+     1
+    ],
+    [
+     "formulate",
+     1
+    ],
+    [
+     "create",
+     1
+    ]
+   ]
+  }
+ },
+ "lexical_shortcut": {
+  "majority_class_baseline": {
+   "accuracy_on_validation_plus_test": 0.2,
+   "recall_by_level": {
+    "Remember": 1.0,
+    "Understand": 0.0,
+    "Apply": 0.0,
+    "Analyze": 0.0,
+    "Evaluate": 0.0,
+    "Create": 0.0
+   }
+  },
+  "first_word_only": {
+   "accuracy_on_validation_plus_test": 0.9231,
+   "recall_by_level": {
+    "Remember": 0.94,
+    "Understand": 0.969,
+    "Apply": 0.696,
+    "Analyze": 0.952,
+    "Evaluate": 0.961,
+    "Create": 0.972
+   }
+  },
+  "primary_instruction_verb_only": {
+   "accuracy_on_validation_plus_test": 0.9179,
+   "recall_by_level": {
+    "Remember": 0.94,
+    "Understand": 0.917,
+    "Apply": 0.759,
+    "Analyze": 0.976,
+    "Evaluate": 0.913,
+    "Create": 0.972
+   }
+  },
+  "primary_verb_family_only": {
+   "accuracy_on_validation_plus_test": 0.9026,
+   "recall_by_level": {
+    "Remember": 0.932,
+    "Understand": 0.917,
+    "Apply": 0.924,
+    "Analyze": 0.663,
+    "Evaluate": 0.942,
+    "Create": 0.991
+   }
+  },
+  "first_three_words": {
+   "accuracy_on_validation_plus_test": 0.5094,
+   "recall_by_level": {
+    "Remember": 0.983,
+    "Understand": 0.438,
+    "Apply": 0.19,
+    "Analyze": 0.47,
+    "Evaluate": 0.602,
+    "Create": 0.234
+   }
+  },
+  "bag_of_words_naive_bayes_full_text": {
+   "accuracy_on_validation_plus_test": 0.9009,
+   "recall_by_level": {
+    "Remember": 0.949,
+    "Understand": 0.781,
+    "Apply": 0.797,
+    "Analyze": 0.94,
+    "Evaluate": 0.961,
+    "Create": 0.944
+   }
+  },
+  "classification_view_primary_verb_only": {
+   "accuracy_on_validation_plus_test": 0.9031,
+   "recall_by_level": {
+    "Remember": 0.94,
+    "Understand": 0.906,
+    "Apply": 0.932,
+    "Analyze": 0.744,
+    "Evaluate": 0.923,
+    "Create": 0.974
+   }
+  },
+  "classification_view_naive_bayes_full_text": {
+   "accuracy_on_validation_plus_test": 0.8932,
+   "recall_by_level": {
+    "Remember": 0.932,
+    "Understand": 0.778,
+    "Apply": 0.897,
+    "Analyze": 0.872,
+    "Evaluate": 0.94,
+    "Create": 0.94
+   }
+  },
+  "source_questions_only_primary_verb": {
+   "accuracy_on_validation_plus_test": 0.9145,
+   "recall_by_level": {
+    "Remember": 0.0,
+    "Understand": 0.857,
+    "Apply": 0.868,
+    "Analyze": 0.941,
+    "Evaluate": 1.0,
+    "Create": 1.0
+   },
+   "n": 117
+  },
+  "information": {
+   "H_level_bits": 2.57,
+   "H_level_given_primary_verb_bits": 0.218,
+   "share_of_level_uncertainty_removed_by_verb": 0.915,
+   "H_verb_given_level_bits": 2.951,
+   "n_train": 2345,
+   "n_heldout": 585
+  }
+ },
+ "templates": {
+  "Remember": {
+   "distinct_opening_2grams": 151,
+   "top_opening_2grams": [
+    [
+     "State the",
+     122
+    ],
+    [
+     "Identify the",
+     88
+    ],
+    [
+     "List the",
+     48
+    ],
+    [
+     "Name the",
+     38
+    ],
+    [
+     "Recall the",
+     32
+    ],
+    [
+     "Define the",
+     27
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "List the principal",
+     10
+    ],
+    [
+     "Identify the principal",
+     9
+    ],
+    [
+     "Name the three",
+     9
+    ],
+    [
+     "Name the main",
+     9
+    ],
+    [
+     "State the formula",
+     8
+    ],
+    [
+     "Identify the three",
+     7
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Recall the definition of",
+     7
+    ],
+    [
+     "State the purpose of",
+     6
+    ],
+    [
+     "Recall the definitions of",
+     5
+    ],
+    [
+     "Identify the purpose of",
+     4
+    ],
+    [
+     "State the equation for",
+     4
+    ]
+   ],
+   "share_top5_opening_3grams": 0.078,
+   "top_endings_3grams": [
+    [
+     "simply supported beam",
+     3
+    ],
+    [
+     "in social research",
+     3
+    ],
+    [
+     "in building construction",
+     3
+    ],
+    [
+     "in project scheduling",
+     2
+    ],
+    [
+     "plays in it",
+     2
+    ]
+   ],
+   "stock_patterns": {
+    "define … ": 159,
+    "state the": 122,
+    "identify the": 88,
+    "explaining/using its … (gerund tail)": 2
+   }
+  },
+  "Understand": {
+   "distinct_opening_2grams": 51,
+   "top_opening_2grams": [
+    [
+     "Explain how",
+     196
+    ],
+    [
+     "Describe how",
+     76
+    ],
+    [
+     "Interpret the",
+     24
+    ],
+    [
+     "Explain why",
+     22
+    ],
+    [
+     "Summarize how",
+     20
+    ],
+    [
+     "Describe the",
+     17
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "Explain how the",
+     72
+    ],
+    [
+     "Describe how the",
+     31
+    ],
+    [
+     "Summarize how the",
+     9
+    ],
+    [
+     "Describe how a",
+     7
+    ],
+    [
+     "Explain why the",
+     7
+    ],
+    [
+     "Interpret how the",
+     6
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Explain in your own",
+     6
+    ],
+    [
+     "Interpret the relationship between",
+     5
+    ],
+    [
+     "Explain the relationship between",
+     5
+    ],
+    [
+     "Explain how changes in",
+     4
+    ],
+    [
+     "Describe what each of",
+     3
+    ]
+   ],
+   "share_top5_opening_3grams": 0.247,
+   "top_endings_3grams": [
+    [
+     "a cyclone separator",
+     3
+    ],
+    [
+     "graph is connected",
+     3
+    ],
+    [
+     "the accounting equation",
+     2
+    ],
+    [
+     "separation of powers",
+     2
+    ],
+    [
+     "simply supported beam",
+     2
+    ]
+   ],
+   "stock_patterns": {
+    "explain how/why the": 79,
+    "explaining/using its … (gerund tail)": 4
+   }
+  },
+  "Apply": {
+   "distinct_opening_2grams": 102,
+   "top_opening_2grams": [
+    [
+     "Calculate the",
+     79
+    ],
+    [
+     "Apply the",
+     64
+    ],
+    [
+     "Determine the",
+     48
+    ],
+    [
+     "Use the",
+     34
+    ],
+    [
+     "Determine whether",
+     15
+    ],
+    [
+     "Determine which",
+     12
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "Apply the distinction",
+     8
+    ],
+    [
+     "Use the supplied",
+     7
+    ],
+    [
+     "What is the",
+     7
+    ],
+    [
+     "Use the stated",
+     7
+    ],
+    [
+     "Determine whether a",
+     6
+    ],
+    [
+     "Determine whether each",
+     5
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Apply the distinction between",
+     8
+    ],
+    [
+     "Determine whether each supplied",
+     4
+    ],
+    [
+     "Calculate the number of",
+     3
+    ],
+    [
+     "Apply the elements of",
+     3
+    ],
+    [
+     "Apply the principle of",
+     3
+    ]
+   ],
+   "share_top5_opening_3grams": 0.092,
+   "top_endings_3grams": [
+    [
+     "and state why",
+     4
+    ],
+    [
+     "Job First scheduling",
+     2
+    ],
+    [
+     "in each case",
+     2
+    ],
+    [
+     "indicator to 0–1",
+     2
+    ],
+    [
+     "Normal Form (3NF)",
+     1
+    ]
+   ],
+   "stock_patterns": {
+    "explaining/using its … (gerund tail)": 23
+   }
+  },
+  "Analyze": {
+   "distinct_opening_2grams": 93,
+   "top_opening_2grams": [
+    [
+     "Examine the",
+     71
+    ],
+    [
+     "Determine why",
+     49
+    ],
+    [
+     "Determine how",
+     29
+    ],
+    [
+     "Examine how",
+     19
+    ],
+    [
+     "Analyze why",
+     18
+    ],
+    [
+     "Determine which",
+     17
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "Determine why the",
+     30
+    ],
+    [
+     "Examine the supplied",
+     19
+    ],
+    [
+     "Determine how the",
+     17
+    ],
+    [
+     "Analyze why the",
+     14
+    ],
+    [
+     "Examine how the",
+     14
+    ],
+    [
+     "Examine the relationship",
+     11
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Examine the relationship between",
+     11
+    ],
+    [
+     "Determine which of the",
+     6
+    ],
+    [
+     "Examine the relationships among",
+     5
+    ],
+    [
+     "Determine whether the supplied",
+     4
+    ],
+    [
+     "Determine why the time",
+     3
+    ]
+   ],
+   "share_top5_opening_3grams": 0.228,
+   "top_endings_3grams": [
+    [
+     "and explain why",
+     4
+    ],
+    [
+     "the same effect",
+     2
+    ],
+    [
+     "explain the difference",
+     2
+    ],
+    [
+     "on the result",
+     2
+    ],
+    [
+     "near the root",
+     2
+    ]
+   ],
+   "stock_patterns": {
+    "examine the relationship between": 11,
+    "examine how": 19,
+    "identify the": 8,
+    "explaining/using its … (gerund tail)": 10
+   }
+  },
+  "Evaluate": {
+   "distinct_opening_2grams": 102,
+   "top_opening_2grams": [
+    [
+     "Verify whether",
+     111
+    ],
+    [
+     "Assess whether",
+     62
+    ],
+    [
+     "Judge whether",
+     34
+    ],
+    [
+     "A student",
+     29
+    ],
+    [
+     "Justify whether",
+     21
+    ],
+    [
+     "Is a",
+     15
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "Verify whether a",
+     59
+    ],
+    [
+     "Verify whether the",
+     48
+    ],
+    [
+     "Assess whether the",
+     26
+    ],
+    [
+     "Assess whether a",
+     16
+    ],
+    [
+     "Judge whether a",
+     14
+    ],
+    [
+     "Justify whether the",
+     10
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Verify whether a supplied",
+     28
+    ],
+    [
+     "Verify whether a reported",
+     21
+    ],
+    [
+     "Verify whether the supplied",
+     14
+    ],
+    [
+     "Verify whether the proposed",
+     12
+    ],
+    [
+     "Verify whether the reported",
+     11
+    ]
+   ],
+   "share_top5_opening_3grams": 0.318,
+   "top_endings_3grams": [
+    [
+     "justify the conclusion",
+     10
+    ],
+    [
+     "Justify your answer",
+     7
+    ],
+    [
+     "justify your conclusion",
+     6
+    ],
+    [
+     "it is correct",
+     5
+    ],
+    [
+     "Explain your verdict",
+     5
+    ]
+   ],
+   "stock_patterns": {
+    "justify your judgement/conclusion/answer": 10,
+    "verify whether": 125,
+    "assess whether": 78,
+    "explaining/using its … (gerund tail)": 38
+   }
+  },
+  "Create": {
+   "distinct_opening_2grams": 57,
+   "top_opening_2grams": [
+    [
+     "Design a",
+     186
+    ],
+    [
+     "Develop a",
+     65
+    ],
+    [
+     "Construct a",
+     56
+    ],
+    [
+     "Formulate a",
+     37
+    ],
+    [
+     "Design an",
+     31
+    ],
+    [
+     "Propose a",
+     25
+    ]
+   ],
+   "top_opening_3grams": [
+    [
+     "Construct a reasoned",
+     10
+    ],
+    [
+     "Design a modified",
+     7
+    ],
+    [
+     "Design a set",
+     6
+    ],
+    [
+     "Design a revised",
+     5
+    ],
+    [
+     "Construct a structured",
+     4
+    ],
+    [
+     "Design a modification",
+     4
+    ]
+   ],
+   "top_opening_4grams": [
+    [
+     "Construct a reasoned legal",
+     6
+    ],
+    [
+     "Design a set of",
+     6
+    ],
+    [
+     "Design a modification of",
+     4
+    ],
+    [
+     "Develop a fluid-management plan",
+     4
+    ],
+    [
+     "Construct a structured legal",
+     3
+    ]
+   ],
+   "share_top5_opening_3grams": 0.06,
+   "top_endings_3grams": [
+    [
+     "as the baseline",
+     7
+    ],
+    [
+     "justify each choice",
+     3
+    ],
+    [
+     "critical load position",
+     2
+    ],
+    [
+     "time between orders",
+     2
+    ],
+    [
+     "same characteristic equation",
+     2
+    ]
+   ],
+   "stock_patterns": {
+    "design a / develop a": 300,
+    "explaining/using its … (gerund tail)": 68
+   }
+  }
+ },
+ "distinctness": {
+  "near_identical_pairs_jaccard_ge_0.7": 34,
+  "verb_swap_of_source_jaccard_ge_0.8": 37,
+  "low_source_content_retention_lt_0.15": 174
+ },
+ "alignment_flags": {
+  "Apply row has no concrete case/data cue": 134,
+  "Analyze row opens with a recall/explanation verb": 10,
+  "Create row has no new-artefact verb": 10,
+  "Evaluate row has no judgement/criterion cue": 57,
+  "Understand row may demand higher-level work": 8
+ },
+ "operation_coverage": {
+  "Remember": {
+   "retrieval": 452,
+   "retrieval/recognition": 108,
+   "none detected": 13,
+   "verbal explanation": 6
+  },
+  "Understand": {
+   "verbal explanation": 427,
+   "interpretation": 57,
+   "none detected": 22,
+   "inference": 2,
+   "comparison": 1,
+   "classification": 1
+  },
+  "Apply": {
+   "application": 167,
+   "computation": 167,
+   "justification/verification": 19,
+   "none detected": 13,
+   "inference/prediction": 9,
+   "application (procedure tracing)": 3,
+   "inference (derivation)": 1,
+   "decision-making": 1
+  },
+  "Analyze": {
+   "decomposition/relationship analysis": 183,
+   "computation": 107,
+   "comparison": 52,
+   "none detected": 24,
+   "application (procedure tracing)": 12,
+   "retrieval/recognition": 10,
+   "justification/verification": 8,
+   "inference (diagnosis)": 6,
+   "classification": 5,
+   "inference": 5,
+   "application": 1
+  },
+  "Evaluate": {
+   "justification/verification": 195,
+   "judgement": 178,
+   "justification": 52,
+   "criticism": 36,
+   "decision-making": 24,
+   "none detected": 10,
+   "verbal explanation": 7,
+   "inference (derivation)": 5,
+   "computation": 3,
+   "retrieval": 1,
+   "application": 1
+  },
+  "Create": {
+   "design": 230,
+   "construction/planning": 115,
+   "construction": 81,
+   "formulation": 75,
+   "construction (writing)": 16,
+   "none detected": 6,
+   "retrieval": 5,
+   "synthesis": 4,
+   "application": 2,
+   "retrieval/recognition": 1,
+   "computation": 1
+  }
+ },
+ "secondary_operations": {
+  "Remember": {
+   "retrieval/recognition": 119,
+   "retrieval": 57,
+   "comparison": 1
+  },
+  "Understand": {
+   "verbal explanation": 5,
+   "computation": 1
+  },
+  "Apply": {
+   "retrieval": 20,
+   "retrieval/recognition": 3,
+   "computation": 3,
+   "inference/prediction": 2,
+   "comparison": 2,
+   "inference (derivation)": 1,
+   "classification": 1,
+   "verbal explanation": 1
+  },
+  "Analyze": {
+   "verbal explanation": 108,
+   "retrieval/recognition": 66,
+   "computation": 21,
+   "comparison": 7,
+   "application (procedure tracing)": 6,
+   "inference": 4,
+   "decomposition/relationship analysis": 2,
+   "inference (derivation)": 1
+  },
+  "Evaluate": {
+   "justification": 39,
+   "decision-making": 10,
+   "retrieval": 4,
+   "judgement": 3,
+   "retrieval/recognition": 2,
+   "computation": 1
+  },
+  "Create": {
+   "inference (derivation)": 47,
+   "comparison": 20,
+   "justification": 17,
+   "verbal explanation": 12,
+   "retrieval/recognition": 8,
+   "retrieval": 7,
+   "inference/prediction": 7,
+   "application": 7
+  }
+ },
+ "train_only_per_level": {
+  "Remember": {
+   "rows": 462,
+   "top1_verb_share": 0.264,
+   "unique_verbs": 10
+  },
+  "Understand": {
+   "rows": 414,
+   "top1_verb_share": 0.488,
+   "unique_verbs": 9
+  },
+  "Apply": {
+   "rows": 301,
+   "top1_verb_share": 0.239,
+   "unique_verbs": 20
+  },
+  "Analyze": {
+   "rows": 330,
+   "top1_verb_share": 0.279,
+   "unique_verbs": 21
+  },
+  "Evaluate": {
+   "rows": 409,
+   "top1_verb_share": 0.249,
+   "unique_verbs": 23
+  },
+  "Create": {
+   "rows": 429,
+   "top1_verb_share": 0.42,
+   "unique_verbs": 21
+  }
+ },
+ "usable_only_per_level": {
+  "Remember": {
+   "rows": 334,
+   "top1_verb_share": 0.269
+  },
+  "Understand": {
+   "rows": 274,
+   "top1_verb_share": 0.464
+  },
+  "Apply": {
+   "rows": 237,
+   "top1_verb_share": 0.287
+  },
+  "Analyze": {
+   "rows": 235,
+   "top1_verb_share": 0.323
+  },
+  "Evaluate": {
+   "rows": 311,
+   "top1_verb_share": 0.219
+  },
+  "Create": {
+   "rows": 314,
+   "top1_verb_share": 0.424
+  }
+ }
+}

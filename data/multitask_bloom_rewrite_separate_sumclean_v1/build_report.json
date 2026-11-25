@@ -1,0 +1,113 @@
+{
+  "policy_version": "arxiv_summarization_quality_v1_20261125",
+  "input_dir_sha256_before": {
+    "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+    "bloom_rewrite/train.jsonl": "b48b26be11e55f6595ea1c425c14ac423cb9444bfc9ccff802c1b38dfbf2ea40",
+    "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+    "dataset_manifest.json": "f5ed31966327eb77db6c5ecf9be6aa640bb88c1de6c893d82e3afcc6b880cbf5",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qc_report.json": "0483ba58f4a8e9f2e5d01b6cff5f49f07185f51ddfefdf84e1f3f8a168d876b3",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea"
+  },
+  "input_dir_sha256_after": {
+    "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+    "bloom_rewrite/train.jsonl": "b48b26be11e55f6595ea1c425c14ac423cb9444bfc9ccff802c1b38dfbf2ea40",
+    "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+    "dataset_manifest.json": "f5ed31966327eb77db6c5ecf9be6aa640bb88c1de6c893d82e3afcc6b880cbf5",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "qc_report.json": "0483ba58f4a8e9f2e5d01b6cff5f49f07185f51ddfefdf84e1f3f8a168d876b3",
+    "summarization/test.jsonl": "9337e14d5df20a6198b9248793b03bf7c16b8fe248dd38340c3d8fa0c3cb48d1",
+    "summarization/train.jsonl": "a26e40e60809476d2c471a811e464d046c282476b8088ca6b9a07e0669b202af",
+    "summarization/validation.jsonl": "eb42c05685b7fdd8cb9d12be438089340701ccd6a33411880694f9f6bb5911ea"
+  },
+  "input_unchanged": true,
+  "output_files_sha256": {
+    "bloom_rewrite/test.jsonl": "19d34f6e9a75eed3efc7da990cdfb601a90970b3e6dd186e7eb8a4570508788c",
+    "bloom_rewrite/train.jsonl": "b48b26be11e55f6595ea1c425c14ac423cb9444bfc9ccff802c1b38dfbf2ea40",
+    "bloom_rewrite/validation.jsonl": "ddfcf07be61efe28962f045020e65034e841bd86ce4ccd8fdbfde6ad92506e37",
+    "dataset_manifest.json": "7a7c781f18ca38d833faab8fda941d3cca81a565b570643d7ac2ca69d9fc36b7",
+    "qa/test.jsonl": "28d2d9b8770031d12d31f5daaf8ccc959a7d9ea59bdafcb79a57a3b463cf7cdf",
+    "qa/train.jsonl": "6550fef5d92373d8483c2670daff9a20a6d0981b1ff6fa75f83d638017be0ac2",
+    "qa/validation.jsonl": "444399a3d9d09709dc54f337d0b0429b696b45b05a0904d1687561146eea5d77",
+    "summarization/summarization_eligibility.json": "898b421081d434debcd014cd2f1855f426c12ca66d75abe27a2d66cce912112e",
+    "summarization/summarization_exclusions.csv": "6ba5b3c635045a7bf01da694b7dad99caff61b14c66479aa085eb65061fd4661",
+    "summarization/test.jsonl": "ac9cdc4f0ce61f2db0bfb49047c3957541463d06d2f1f376c38bdf29934379d3",
+    "summarization/train.jsonl": "59e87b77b8d4db57799832e1f1daad566f9cc7cc8c65bd32022aa21d4217b78b",
+    "summarization/validation.jsonl": "36f9e9b3b8a32622cb0849f442deea2e1f213a5891f7e53c8492ce25fe5e7ecc"
+  },
+  "counts": {
+    "train": {
+      "original": 1075,
+      "eligible": 270,
+      "excluded": 805
+    },
+    "validation": {
+      "original": 212,
+      "eligible": 81,
+      "excluded": 131
+    },
+    "test": {
+      "original": 135,
+      "eligible": 39,
+      "excluded": 96
+    }
+  },
+  "exclusion_reason_counts": {
+    "train": {
+      "abstract_bibliography_reference": 12,
+      "abstract_copied_in_article": 10,
+      "abstract_incomplete_ending": 299,
+      "abstract_latex_or_markup_residue": 127,
+      "abstract_math_placeholder": 680,
+      "abstract_metadata_appended": 55,
+      "abstract_other_conversion_placeholder": 115,
+      "article_math_placeholder_density": 43,
+      "article_not_paper_body": 19
+    },
+    "validation": {
+      "abstract_copied_in_article": 1,
+      "abstract_incomplete_ending": 51,
+      "abstract_latex_or_markup_residue": 14,
+      "abstract_math_placeholder": 105,
+      "abstract_metadata_appended": 10,
+      "abstract_other_conversion_placeholder": 6
+    },
+    "test": {
+      "abstract_copied_in_article": 1,
+      "abstract_incomplete_ending": 36,
+      "abstract_latex_or_markup_residue": 6,
+      "abstract_math_placeholder": 78,
+      "abstract_metadata_appended": 11,
+      "abstract_other_conversion_placeholder": 5
+    }
+  },
+  "placeholder_statistics": {
+    "train": {
+      "rows": 1075,
+      "abstracts_with_math_placeholders": 680,
+      "abstract_math_placeholder_occurrences": 10375,
+      "articles_with_math_placeholders": 1046,
+      "article_math_placeholder_occurrences": 144843
+    },
+    "validation": {
+      "rows": 212,
+      "abstracts_with_math_placeholders": 105,
+      "abstract_math_placeholder_occurrences": 397,
+      "articles_with_math_placeholders": 212,
+      "article_math_placeholder_occurrences": 23356
+    },
+    "test": {
+      "rows": 135,
+      "abstracts_with_math_placeholders": 78,
+      "abstract_math_placeholder_occurrences": 262,
+      "articles_with_math_placeholders": 134,
+      "article_math_placeholder_occurrences": 14766
+    }
+  }
+}

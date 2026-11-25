@@ -1,0 +1,59 @@
+﻿target_level,family,operation,count,share_of_level
+Remember,state_recall,retrieval,242,0.418
+Remember,define,retrieval,160,0.2763
+Remember,identify,retrieval/recognition,108,0.1865
+Remember,list,retrieval,50,0.0864
+Remember,NONE,,13,0.0225
+Remember,describe,verbal explanation,6,0.0104
+Understand,explain,verbal explanation,271,0.5314
+Understand,describe,verbal explanation,131,0.2569
+Understand,interpret,interpretation,57,0.1118
+Understand,summarize,verbal explanation,25,0.049
+Understand,infer,inference,14,0.0275
+Understand,NONE,,10,0.0196
+Understand,compare,comparison,1,0.002
+Understand,classify,classification,1,0.002
+Apply,apply_use,application,167,0.4395
+Apply,compute,computation,167,0.4395
+Apply,verify,justification/verification,19,0.05
+Apply,NONE,,12,0.0316
+Apply,predict,inference/prediction,9,0.0237
+Apply,trace,application (procedure tracing),3,0.0079
+Apply,organize,application,1,0.0026
+Apply,derive,inference (derivation),1,0.0026
+Apply,decide,decision-making,1,0.0026
+Analyze,examine,decomposition/relationship analysis,166,0.4019
+Analyze,compute,computation,107,0.2591
+Analyze,differentiate,comparison,32,0.0775
+Analyze,compare,comparison,20,0.0484
+Analyze,infer,inference,18,0.0436
+Analyze,decompose,decomposition/relationship analysis,17,0.0412
+Analyze,trace,application (procedure tracing),12,0.0291
+Analyze,NONE,,11,0.0266
+Analyze,identify,retrieval/recognition,10,0.0242
+Analyze,verify,justification/verification,8,0.0194
+Analyze,diagnose,inference (diagnosis),6,0.0145
+Analyze,classify,classification,5,0.0121
+Analyze,organize,application,1,0.0024
+Evaluate,verify,justification/verification,195,0.3809
+Evaluate,assess_judge,judgement,178,0.3477
+Evaluate,justify,justification,52,0.1016
+Evaluate,critique,criticism,36,0.0703
+Evaluate,decide,decision-making,24,0.0469
+Evaluate,NONE,,10,0.0195
+Evaluate,explain,verbal explanation,7,0.0137
+Evaluate,derive,inference (derivation),5,0.0098
+Evaluate,compute,computation,3,0.0059
+Evaluate,state_recall,retrieval,1,0.002
+Evaluate,apply_use,application,1,0.002
+Create,design,design,230,0.4291
+Create,develop,construction/planning,115,0.2146
+Create,construct,construction,81,0.1511
+Create,formulate,formulation,75,0.1399
+Create,compose,construction (writing),16,0.0299
+Create,state_recall,retrieval,5,0.0093
+Create,NONE,,4,0.0075
+Create,apply_use,application,4,0.0075
+Create,synthesize,synthesis,4,0.0075
+Create,identify,retrieval/recognition,1,0.0019
+Create,compute,computation,1,0.0019

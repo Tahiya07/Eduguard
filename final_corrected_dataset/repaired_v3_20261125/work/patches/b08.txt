@@ -1,0 +1,85 @@
+#reviewed 178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202
+@@ 178|Analyze|alignment_strengthen|Constant fraction vs shrinking absolute amount.
+Determine why the plasma concentration falls by the same fraction but a smaller absolute amount in each successive half-life, and explain what this implies for the time needed to eliminate most of the drug.
+@@ 178|Create|verb_diversity|Plan; authored values kept.
+Plan a repeated-dosing schedule for a drug with an initial plasma concentration of 80 mg/L and a half-life of 6 hours that prevents the concentration from falling below a chosen fraction of its initial value, and show the predicted concentration profile over successive half-lives.
+@@ 179|Analyze|alignment_strengthen|Was listing relevant characteristics; now system-type reasoning.
+Determine how the system type of the supplied open-loop transfer function decides whether its steady-state error to the specified reference input is zero, finite, or infinite.
+@@ 180|Analyze|alignment_strengthen|Distinguishes blunder from accumulated error.
+Investigate whether the closing error of the supplied closed traverse is concentrated in particular lines by comparing their latitudes, departures, and lengths, and explain how a single blunder would differ from accumulated random error.
+@@ 181|Understand|shared_verb|Infer (Understand).
+Infer how the formulation variables represented in the supplied results may influence the dissolution profile of the pharmaceutical product.
+@@ 181|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the supplied dissolution-test results to group the observations according to the formulation variable associated with each.
+@@ 181|Evaluate|verb_diversity|Rank with justification.
+Rank the supplied formulation conditions by the suitability of their dissolution profiles, justifying the ranking with the provided test results.
+@@ 182|Analyze|alignment_strengthen|Conduction-path contrast with explanation.
+Contrast the conduction paths of a single-phase full-wave rectifier during the positive and negative half-cycles of the supplied input, and explain why both produce output of the same polarity.
+@@ 183|Apply|obe_verb_first|Assign is not an Apply bank verb; authored functions kept.
+Apply the separation of powers to determine which organ of government is responsible for passing an annual finance act, implementing a public-health programme, and resolving an election dispute.
+@@ 183|Evaluate|shared_verb|Determine (Evaluate) with justification; same authored arrangement.
+Determine whether an arrangement in which a parliamentary committee both drafts criminal laws and tries offenders under them reflects the principle of separation of powers, and justify the judgement.
+@@ 184|Analyze|alignment_strengthen|Logarithmic dependence.
+Analyze why the primary consolidation settlement of the clay layer increases less than proportionally with the stress increment, relating this to the logarithmic stress ratio in the settlement equation.
+@@ 185|Remember|readback|Was reading back supplied features; now recall of style characteristics.
+Recall the characteristic features of Modernist architecture in terms of form, materials, spatial organization, and functional expression.
+@@ 185|Understand|verb_diversity|Characterize.
+Characterize the two supplied Modernist buildings in terms of form, materials, spatial organization, and functional expression.
+@@ 185|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the categories of form, materials, spatial organization, and functional expression to sort the supplied architectural features of both buildings.
+@@ 186|Analyze|alignment_fix|Tracing updates is the algorithm (Apply); now sensitivity of the shortest-path tree.
+Identify the edges of the supplied weighted graph whose costs could change without altering the shortest-path tree from the specified source, and explain why.
+@@ 187|Understand|verb_diversity|Summarize.
+Summarize how acquisition cost, residual value, and useful life combine to give annual depreciation expense under the straight-line method.
+@@ 187|Analyze|alignment_fix|Was input identification; now opposing effects.
+Determine how an increase in residual value and an equal increase in acquisition cost would differ in their effects on annual straight-line depreciation, and explain the difference.
+@@ 187|Evaluate|verb_diversity|Audit.
+Audit a reported annual depreciation expense against the supplied asset information and the straight-line method.
+@@ 188|Remember|readback|Was reading back the supplied method; now recall.
+List the common extraction methods used to recover active constituents from crude drugs.
+@@ 188|Apply|obe_verb_first|Match is not an Apply bank verb.
+Use the active-constituent recovery information provided for the crude-drug sample to pair each supplied extraction method and solvent with its recovery result.
+@@ 190|Understand|verb_diversity|Discuss.
+Discuss how traffic volumes, saturation flows, and lost time affect the allocation of a fixed-time signal cycle.
+@@ 190|Analyze|alignment_fix|Was input identification; now drivers of cycle length and its sensitivity near saturation.
+Determine how the lost time and the sum of critical flow ratios each drive the required fixed-time signal cycle length, and explain why the cycle length grows rapidly as the sum of critical flow ratios approaches one.
+@@ 190|Evaluate|verb_diversity|Appraise.
+Appraise whether a supplied fixed-time signal cycle is consistent with the traffic volumes, saturation flows, and lost time at the intersection.
+@@ 191|Understand|verb_diversity|Describe.
+Describe how the flow times and densities of a liquid and a reference fluid are combined to obtain their relative viscosity.
+@@ 191|Analyze|alignment_fix|Was input identification; now accuracy-limiting measurement.
+Determine which of the supplied flow-time and density measurements most limits the accuracy of the calculated relative viscosity, and explain why.
+@@ 194|Create|shared_verb|Establish (Create).
+Establish field-compaction specifications for the soil that use the optimum moisture content and maximum dry density obtained from the supplied test results to set an acceptable moisture range and a minimum relative compaction.
+@@ 195|Remember|readback|Was reading back supplied dimensions; now recall.
+State the parameters normally used to assess the daylighting performance of a room.
+@@ 195|Analyze|verb_diversity|Diagnose limitations through relationships.
+Diagnose the limitations in daylight penetration of the supplied room layout by relating its window dimensions and room depth to the stated daylighting requirements.
+@@ 195|Create|verb_diversity|Propose.
+Propose a daylighting improvement for the supplied room layout that modifies window dimensions or placement to meet the stated daylighting requirements, taking the room dimensions into account.
+@@ 196|Analyze|verb_diversity|Detect and trace conflicts.
+Detect the production conflicts in the supplied grammar that would produce multiple entries in an LL(1) parsing table, and trace each conflict to the overlapping FIRST or FOLLOW sets that cause it.
+@@ 197|Understand|verb_diversity|Interpret.
+Interpret the economic order quantity as the order size that balances annual ordering cost against annual holding cost.
+@@ 197|Analyze|alignment_fix|Was input identification; now square-root dependence and direction.
+Determine why the economic order quantity responds to changes in annual demand, ordering cost, and holding cost only as their square roots, and identify which parameters raise it and which lower it.
+@@ 197|Evaluate|verb_diversity|Validate.
+Validate whether a proposed order quantity is consistent with the supplied inventory parameters and the economic order quantity model.
+@@ 198|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the supplied microbial population observations to assign each time point to its phase of the bacterial growth curve.
+@@ 199|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine whether each supplied measurement deviation is a systematic or a random error from its observed pattern.
+@@ 200|Understand|verb_diversity|Clarify.
+Clarify how activity durations and precedence relationships determine the critical path and total project duration.
+@@ 200|Analyze|alignment_strengthen|Float analysis.
+Identify the activities in the supplied construction-project network whose delay would not change the total duration, and explain how their float arises from the precedence relationships.
+@@ 201|Analyze|alignment_strengthen|Was reading overlaps; now early/late endpoint analysis.
+Compare where each candidate indicator's transition range lies relative to the steep part of the titration curve around the supplied equivalence-point pH, and determine which indicators would give an early or a late endpoint.
+@@ 201|Create|verb_diversity|Devise.
+Devise an indicator-selection decision procedure using the supplied equivalence-point pH and candidate indicator transition ranges.
+@@ 202|Understand|verb_diversity|Illustrate.
+Illustrate how the magnitudes, signs, and positions of point charges determine the resultant electric field intensity at an observation point.
+@@ 202|Analyze|alignment_fix|Was input identification; now dominance and cancellation.
+Determine which of the supplied point charges dominates the resultant electric field at the observation point and which contributions partly cancel, explaining the roles of distance and sign.
+@@ 202|Evaluate|shared_verb|Establish (Evaluate).
+Establish whether a reported resultant electric field intensity is consistent with the supplied point charges, positions, and observation point.

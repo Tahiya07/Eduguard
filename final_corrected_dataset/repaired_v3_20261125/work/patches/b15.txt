@@ -1,0 +1,63 @@
+#reviewed 355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379
+@@ 355|Understand|verb_diversity|Describe.
+Describe how FIFO and LRU use page-reference history to select a page for replacement under the supplied frame allocation.
+@@ 355|Create|known_solution_create|Was constructing the standard replacement sequences (Apply); now a designed counter-example.
+Construct a page-reference string on which FIFO produces more page faults with one additional frame than with the supplied frame allocation, and show that LRU does not behave this way on the same string.
+@@ 356|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine whether each supplied drug concentration measurement lies below, within, or above the stated therapeutic range.
+@@ 356|Analyze|alignment_strengthen|Infers dose vs sampling-time cause.
+Analyze how the timing of each supplied sample relative to dosing could explain concentrations outside the therapeutic range, and infer whether the dose or the sampling time is the more likely cause.
+@@ 357|Understand|verb_diversity|Describe.
+Describe the relationships among total product, average product, and marginal product when labour input changes while other inputs remain fixed.
+@@ 358|Analyze|alignment_strengthen|Ripple delay reasoning.
+Determine why the output transitions of the supplied asynchronous counter occur with cumulative delays, and identify which flip-flop's output changes last after each clock pulse.
+@@ 359|Understand|verb_diversity|Clarify.
+Clarify how an operational definition connects an abstract research variable with an observable measurement in the stated study.
+@@ 359|Apply|obe_verb_first|Match is not an Apply bank verb.
+Use the stated study design to pair each supplied research variable with its corresponding measurement indicator.
+@@ 360|Analyze|alignment_strengthen|Discriminant decides solution behaviour.
+Determine how the discriminant of the supplied equation's characteristic equation decides whether its solution oscillates, decays without oscillation, or is critically damped, and relate this to the equation's coefficients.
+@@ 362|Analyze|alignment_fix|Was input identification; now differential effect on per-unit margin and ratio.
+Determine how equal increases in selling price and in variable cost per unit affect the contribution margin per unit and the contribution margin ratio differently, and explain why.
+@@ 363|Analyze|alignment_strengthen|Proportional structure of the reverberation equation.
+Determine why doubling the room volume while keeping the same equivalent absorption area doubles the reverberation time, and identify the change in absorption area that would restore the original time.
+@@ 364|Remember|readback|Was reading back the supplied proposal; now recall.
+Name the main dimensions considered in an information-system feasibility study.
+@@ 364|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the three feasibility dimensions to the supplied proposal requirements, stating which dimension each requirement concerns.
+@@ 364|Create|verb_diversity|Formulate.
+Formulate an implementation plan for the supplied information-system proposal that addresses any technical, economic, or operational shortcomings identified in its stated requirements.
+@@ 365|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine where each of the four bacterial growth phases begins and ends on the supplied growth curve from the population changes over time.
+@@ 366|Understand|verb_diversity|Interpret.
+Interpret how the path cost and the heuristic estimate influence node selection in the supplied weighted graph.
+@@ 367|Analyze|verb_diversity|Separate contributions and explain dominance.
+Separate the contributions of armature resistance and synchronous reactance to the generated electromotive force in the supplied phasor relationships, and determine why reactance dominates as the power factor becomes more lagging.
+@@ 369|Understand|verb_diversity|Interpret.
+Interpret the intersection of the IS and LM curves as simultaneous equilibrium in the goods and money markets.
+@@ 371|Understand|verb_diversity|Summarize.
+Summarize how sample results provide evidence for drawing conclusions about an audit population under the specified audit criteria.
+@@ 372|Analyze|alignment_fix|Was input identification; now the even-subinterval requirement and error behaviour.
+Determine why Simpson's one-third rule requires an even number of subintervals, and identify the property of the supplied function that would make its error large.
+@@ 373|Remember|answer_in_question|Question listed the three requirements.
+State the patentability requirements that an invention must satisfy.
+@@ 373|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the patentability requirements to the supplied invention facts, stating which requirement each fact bears on.
+@@ 375|Remember|readback|Was reading back supplied methods; now recall.
+Name the main job evaluation methods used in human resource management.
+@@ 375|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the evaluation factors of each specified method to the supplied job characteristics.
+@@ 376|Remember|readback|Was reading back supplied impacts; now recall.
+List the criteria commonly used to judge the significance of environmental impacts.
+@@ 376|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the stated significance categories and assessment criteria to each supplied environmental impact.
+@@ 377|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine the hazard type associated with each specified instruction in the supplied instruction sequence and pipeline diagram.
+@@ 378|Understand|shared_verb|Relate (Understand).
+Relate the equilibrium constant to the equilibrium concentrations of the reactants and products in the supplied reaction.
+@@ 378|Analyze|alignment_fix|Was input identification; now how K's magnitude governs the outcome and the approximation.
+Determine how the size of the supplied equilibrium constant decides whether the equilibrium concentrations lie close to the initial concentrations or close to complete conversion, and explain when the small-change approximation is justified.
+@@ 379|Analyze|alignment_fix|Was input identification; now tax-shield effect and its limit.
+Determine why the after-tax cost of debt lowers the weighted average cost of capital as the debt proportion rises, and identify the point at which this effect could be offset by rising component costs.
+@@ 379|Create|known_solution_create|Was the standard WACC statement (Apply); now a designed capital structure.
+Construct an alternative capital structure for the supplied firm that lowers its weighted average cost of capital, using the supplied component costs and tax rate, and justify the chosen proportions.

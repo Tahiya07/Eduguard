@@ -1,0 +1,135 @@
+#reviewed 001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,017,018,019,020,021,022,023,024,025
+@@ 001|Remember|verb_diversity|List instead of identify; same recall.
+List the successive normal forms used in relational database normalization.
+@@ 001|Apply|obe_verb_first|Leading Given-clause; Normalize is not an Apply bank verb.
+Apply normalization to decompose a relational table that contains repeated student and course information into Third Normal Form (3NF).
+@@ 001|Analyze|alignment_strengthen|Was identify-and-list; now causal attribution of anomalies to dependencies.
+Trace each insertion, update, and deletion anomaly in a relational database schema back to the functional dependency that causes it.
+@@ 001|Evaluate|obe_verb_first|Scenario-first opening; same proposal and criteria.
+Judge whether storing student and course information in a single denormalized table, as a university proposes, is a sound design in terms of data redundancy and integrity.
+@@ 001|Create|verb_diversity|Same deliverable; non-template opening.
+Produce a normalized relational schema for a university registration system that minimizes redundancy while preserving data integrity.
+@@ 002|Understand|operation_diversity|Summarize instead of template explain-how.
+Summarize what each level of software testing contributes to the functional correctness, security, and reliability of an online banking application.
+@@ 002|Apply|obe_verb_first|Classify is not an Apply bank verb; same task.
+Determine suitable testing techniques for verifying the functional correctness, security, and reliability of an online banking application from its requirements, matching each technique to the property it verifies.
+@@ 002|Analyze|shared_verb|Identify (Analyze) gaps plus causal tracing; same authored strategy.
+Identify the coverage gaps in functional correctness, security, and reliability that arise from an online banking testing strategy consisting only of unit tests and manual user-acceptance testing, and trace each gap to its cause.
+@@ 002|Evaluate|obe_verb_first|Scenario-first opening; same authored proposal and criteria.
+Appraise whether a team's plan to test an online banking application with automated functional regression tests and a single penetration test before release adequately ensures functional correctness, security, and reliability, justifying the appraisal against each of the three requirements.
+@@ 003|Understand|verb_diversity|Describe effects (comprehension), same factors.
+Describe the effect that packet loss, retransmission, and delivery delay each have on the quality of a real-time video conference.
+@@ 003|Apply|obe_verb_first|Leading Given-clause; Select is not an Apply bank verb.
+Determine the transport protocol to use for transmitting video data in a real-time video conferencing scenario with strict latency requirements.
+@@ 003|Create|verb_diversity|Same deliverable; propose.
+Propose a transport strategy for real-time video conferencing under variable network conditions that balances latency against transmission reliability.
+@@ 004|Analyze|alignment_fix|Was running the safety algorithm (Apply); now analysis of the constraining relationship.
+Determine, from the allocation, maximum demand, and available resource matrices, which process's outstanding need most constrains the safe sequence, and explain how it limits the order in which the other processes can finish.
+@@ 004|Evaluate|obe_verb_first|Leading Given-clause.
+Justify whether granting a pending resource request would preserve system safety for a given resource allocation state.
+@@ 004|Create|known_solution_create|Was a restatement of the standard procedure; now an extended design.
+Adapt the Banker's algorithm into a request-handling procedure that decides whether to grant, delay, or reject each process request, and specify how delayed requests are reconsidered.
+@@ 005|Remember|verb_diversity|Name instead of identify; same recall.
+Name the three major machine learning paradigms and the kind of training signal each relies on.
+@@ 005|Understand|operation_diversity|Exemplify-style illustration instead of explain-how.
+Illustrate, with one example of each, how labelled examples, unlabelled data, and reward signals guide learning in supervised, unsupervised, and reinforcement learning.
+@@ 005|Apply|obe_verb_first|Scenario-first opening.
+Apply an appropriate learning paradigm to a university's labelled student performance records to predict academic outcomes, demonstrating how the paradigm is used.
+@@ 005|Evaluate|operation_diversity|Critique against the stated objective and data.
+Critique a research team's proposal to use reinforcement learning for a classification task with a large labelled dataset, judging it against the task's learning objective and the data available.
+@@ 005|Create|verb_diversity|Formulate; adds the integration requirement of the combined design.
+Formulate a machine learning approach for academic performance analysis that combines supervised prediction with unsupervised student grouping, stating how the two components use each other's outputs.
+@@ 006|Apply|obe_verb_first|Leading Given-clause.
+Execute specified addition, subtraction, AND, and OR operations on two given binary operands in the way the ALU would perform them.
+@@ 007|Evaluate|obe_verb_first|Scenario-first opening; decide and defend.
+Decide whether a developer's proposal to use binary search on an unsorted array is valid, defending the decision with the algorithm's preconditions.
+@@ 007|Create|known_solution_create|Was the textbook iterative algorithm; now a new variant to design and justify.
+Adapt binary search into a new procedure that returns the first and last positions of a repeated target value in a sorted array, and argue why the procedure keeps logarithmic time complexity.
+@@ 008|Analyze|obe_verb_first|Leading Given-clause.
+Distinguish how base addressing and offset addressing determine the effective addresses of several memory access instructions.
+@@ 009|Understand|verb_diversity|Discuss the difference at comprehension level.
+Discuss how symmetric and asymmetric encryption differ in the way they manage keys when protecting confidential academic records.
+@@ 009|Apply|obe_verb_first|Leading Given-clause.
+Demonstrate how symmetric encryption can be used to encrypt a confidential student record in an academic records system.
+@@ 009|Analyze|adjacent_level_distinction|Understand discusses key handling; Analyze decomposes the workflow and attributes risk per step.
+Decompose the protection of academic records into key distribution, encryption, and decryption steps, and determine at which steps symmetric and asymmetric encryption differ in risk.
+@@ 010|Apply|obe_verb_first|Leading Given-clause.
+Determine the likely connectivity problem from a set of diagnostic rules and observed network symptoms using forward chaining.
+@@ 010|Analyze|verb_diversity|Inspect; adds consequence analysis.
+Inspect a set of diagnostic rules for network connectivity problems and determine which rules conflict or overlap, explaining how each conflict could lead to an incorrect diagnosis.
+@@ 011|Apply|obe_verb_first|Leading Given-clause; Construct is not an Apply bank verb.
+Prepare a serial schedule for two concurrent transactions that update the same account balance so that database consistency is preserved.
+@@ 011|Analyze|shared_verb|Identify (Analyze) the anomaly and trace its cause.
+Identify which anomaly—lost update, dirty read, or inconsistent retrieval—a given concurrent transaction schedule contains, and trace it to the interleaved operations that produce it.
+@@ 011|Create|verb_diversity|Devise; same deliverable.
+Devise a transaction scheduling approach for a university registration system that keeps data consistent when many students register at the same time.
+@@ 012|Create|obe_verb_first|Redesign is not a Create bank verb; same deliverable and constraints.
+Design a replacement structure for a software system in which a single module handles user input, database access, and report formatting, dividing it into cohesive modules with minimal coupling and specifying each module's responsibility and interface while preserving the existing functionality.
+@@ 012|Evaluate|obe_verb_first|Scenario-first opening; rank with justification.
+Rank the design improvements that would most increase the maintainability of a software system whose modules have extensive dependencies and unrelated responsibilities, and justify the order.
+@@ 013|Remember|verb_diversity|Name instead of identify.
+Name the main components involved in virtual memory management.
+@@ 013|Apply|obe_verb_first|Scenario-first opening; same values.
+Demonstrate how demand paging can support the execution of several applications that need a total of 6 GB on a computer with 4 GB of physical memory.
+@@ 013|Analyze|alignment_strengthen|Evidence-based differentiation of causes.
+Differentiate the observations that would indicate insufficient physical memory, poor locality, or excessive process activity as the cause of frequent page faults in a system.
+@@ 014|Analyze|alignment_fix|Was executing push/pop (Apply); now relationship between operations, top index, and failure conditions.
+Examine how an array-based stack's push and pop operations depend on the position of the top index, and identify which operation sequences cause overflow or underflow.
+@@ 014|Create|known_solution_create|Was the standard array stack; now a new design.
+Design a stack that stores its elements in an array but grows automatically when the array is full, specifying how push, pop, and peek behave during resizing.
+@@ 015|Apply|obe_verb_first|Leading Given-clause; Trace is not an Apply bank verb.
+Carry out the DNS resolution process for a given domain name and lookup scenario to determine the IP address returned to the client.
+@@ 015|Analyze|verb_diversity|Diagnose the fault location with evidence.
+Diagnose whether a DNS resolution failure originates in the local cache, the recursive resolver, or the authoritative name server, stating the evidence that points to each.
+@@ 015|Evaluate|operation_diversity|Weigh risks and benefits, then decide.
+Weigh the risks against the benefits of relying on a single DNS server for a university network that requires high availability, and decide whether the arrangement is acceptable.
+@@ 016|Remember|answer_in_question|Question listed the answer (root, decision nodes, branches, leaves).
+Name the structural components of a decision tree classifier.
+@@ 016|Apply|obe_verb_first|Leading Given-clause.
+Determine the predicted academic performance category for a student's attendance and assessment scores using a trained decision tree.
+@@ 016|Analyze|alignment_strengthen|Infers feature influence from tree structure.
+Analyze which features appear in the upper splits of a decision tree trained on student attendance, assignment scores, and examination results, and infer what this implies about their influence on the predicted category.
+@@ 017|Understand|verb_diversity|Describe the difference (comprehension).
+Describe how clustered and non-clustered indexes differ in the way they order and locate records in a relational table.
+@@ 017|Apply|obe_verb_first|Leading Given-clause; Select is not an Apply bank verb.
+Apply indexing principles to choose an appropriate index type for a database table that serves a frequently executed range query.
+@@ 017|Evaluate|operation_diversity|Recommend with the original two criteria.
+Recommend whether a database administrator should create several indexes on a table that handles frequent insertions and range queries, weighing retrieval performance against update overhead.
+@@ 018|Apply|obe_verb_first|Leading Given-clause.
+Calculate the number of clock cycles a five-stage pipeline needs to complete a given sequence of instructions without hazards.
+@@ 018|Analyze|verb_diversity|Categorize hazards and trace each to its cause.
+Categorize the hazards in an instruction sequence as data, control, or structural, and trace each one to the instructions and pipeline stages involved.
+@@ 018|Evaluate|shared_verb|Select (Evaluate) with justification.
+Select forwarding or pipeline stalling as the more suitable remedy for data hazards in a given processor workload, and justify the choice.
+@@ 019|Apply|obe_verb_first|Leading Given-clause; Organize is not an Apply bank verb.
+Model the development activities of a software project with frequently changing requirements as a sequence of iterative Agile sprints.
+@@ 019|Analyze|verb_diversity|Trace propagation of a change.
+Trace how a mid-project change in requirements propagates through sprint planning, product backlog management, and team coordination.
+@@ 019|Create|verb_diversity|Plan with specified timing.
+Plan an Agile project that uses sprint cycles, backlog refinement, and continuous stakeholder feedback, specifying when each activity occurs.
+@@ 020|Apply|obe_verb_first|Leading Given-clause; Assign is not an Apply bank verb.
+Implement role-based permissions for student, faculty, and administrator roles by specifying which roles may view and which may modify academic records.
+@@ 020|Analyze|verb_diversity|Scrutinize/locate.
+Scrutinize an existing university access control policy to locate excessive permissions and the paths by which a user could escalate privileges.
+@@ 021|Apply|obe_verb_first|Leading Given-clause.
+Execute merge sort and insertion sort on a given input array to obtain the sorted output.
+@@ 021|Evaluate|obe_verb_first|Leading For-clause.
+Justify whether insertion sort or merge sort is the more appropriate algorithm for sorting a small, nearly sorted dataset.
+@@ 022|Understand|operation_diversity|Summarize.
+Summarize how subnetting divides a larger IP network into smaller logical networks.
+@@ 022|Evaluate|obe_verb_first|Scenario-first opening; same authored proposal and criteria.
+Defend or reject a network administrator's proposal to allocate equal-sized /26 subnets to every department of a university network whose departments have widely different host requirements, with reference to host capacity and address wastage.
+@@ 023|Apply|obe_verb_first|Leading Given-clause.
+Calculate the precision, recall, and F1-score of a classification model from its confusion matrix.
+@@ 023|Analyze|alignment_strengthen|Was reading off differences; now attribution of an F1 difference to its error type.
+Determine whether the difference in F1-score between two classification models arises mainly from false positives or from false negatives, explaining how their evaluation results support the attribution.
+@@ 024|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Use the requirements of a university course registration system to derive its entities, attributes, and relationships.
+@@ 024|Analyze|alignment_strengthen|Adds how each modelling error distorts the data model.
+Inspect an existing ER diagram to locate missing relationships, incorrect cardinalities, and redundant entities, and explain how each error distorts the data model.
+@@ 025|Apply|obe_verb_first|Leading Given-clause.
+Determine whether a deadlock exists among the processes in a given resource allocation graph.
+@@ 025|Evaluate|obe_verb_first|Scenario-first opening.
+Assess how effectively resource ordering prevents deadlock in a system, identifying the limitations of the approach.
+@@ 025|Create|verb_diversity|Propose with explicit design rationale.
+Propose a deadlock prevention scheme for an operating system whose processes compete for limited resources, stating which necessary condition for deadlock it breaks and how.

@@ -48,6 +48,32 @@ Validation and test files stay in their respective task directories. The builder
 
 SQuAD uses its official validation split as the task test split, with an isolated validation subset held out from its official train split by context group. SQuAD oversized examples use answer-preserving context windows. The arXiv dataset's official split boundaries are retained; complete prompt-plus-target examples exceeding the configured 8192-token budget are excluded and counted in the manifest rather than silently truncating an article while retaining its abstract.
 
+## Summarization quality filter (2026-11-25)
+
+The arXiv rows come from `ccdv/arxiv-summarization`, whose conversion replaced every LaTeX math span with an `@xmathN` token and every citation with `@xcite`. The expressions were never kept. Abstract placeholders are numbered independently of the article, and rows carry no arXiv ID or title, so **no math is recoverable** from the available data, and none is invented.
+
+`scripts/build_clean_summarization_dataset.py` reads `data/multitask_bloom_rewrite_separate/` without modifying it and writes `data/multitask_bloom_rewrite_separate_sumclean_v1/`:
+
+- `bloom_rewrite/` and `qa/` are byte-identical copies, so their eligibility is unchanged.
+- `summarization/{split}.jsonl` keeps only eligible rows, with their original content, order and split.
+- `summarization/summarization_eligibility.json` records each row's status, rule reasons, placeholder counts, recovery status, row SHA-256 and provenance.
+- `summarization/summarization_exclusions.csv` is a human-readable exclusion list.
+
+The rules are defined in `summarization_quality.py`. The target abstract must be free of placeholders, LaTeX residue, appended metadata and bibliography references, and must end with a complete sentence. The input article is excluded only if it is not a paper body or more than 10% of its tokens are placeholders. Thresholds were set from the train split only.
+
+| Split | Original | Eligible | Excluded | Abstracts with `@xmath` (occurrences) |
+|---|---:|---:|---:|---:|
+| train | 1,075 | 270 | 805 | 680 (10,375) |
+| validation | 212 | 81 | 131 | 105 (397) |
+| test | 135 | 39 | 96 | 78 (262) |
+
+**Loader enforcement** (`scripts/dataset_io.py`):
+- In a directory that has an eligibility record, every summarization row must be listed as eligible, with a matching row hash and no `@xmath` in its target, or loading raises `SummarizationEligibilityError`.
+- In the legacy directory, summarization **train** rows are refused unless `allow_unaudited_summarization=True` is passed. Validation and test rows still load, so earlier evaluations can be reproduced.
+- Bloom rewriting and QA loads are unaffected.
+
+To train with summarization, pass `--dataset-dir data/multitask_bloom_rewrite_separate_sumclean_v1`. The task counts differ from the earlier runs, so results are not directly comparable with runs on the legacy directory.
+
 ## Recommended workflow
 
 Run all commands from the repository root.

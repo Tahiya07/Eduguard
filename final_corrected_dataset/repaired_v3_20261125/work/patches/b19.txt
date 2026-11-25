@@ -1,0 +1,59 @@
+#reviewed 458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,478,479,480,481,482,483
+@@ 458|Understand|verb_diversity|Describe; values kept.
+Describe how the body's temperature of 90°C approaches the surrounding temperature of 30°C over 10 minutes under the stated cooling constant.
+@@ 458|Analyze|alignment_strengthen|Decreasing cooling rate and half-excess time.
+Determine why the body cools fastest at the start and ever more slowly as it approaches 30°C, and identify the time at which its excess temperature over the surroundings has halved for a cooling constant of 0.1 min⁻¹.
+@@ 459|Understand|verb_only_pair|Interpret (comprehension); values kept.
+Interpret what a constant failure rate of 0.02 failures per hour implies about the probability that the software operates without failure over 10 hours.
+@@ 459|Analyze|verb_only_pair|Structural equivalence of rate and duration in the exponent.
+Determine why doubling the operating period from 10 hours has the same effect on reliability as doubling the failure rate of 0.02 failures per hour, and explain what this reveals about the exponential model.
+@@ 460|Remember|readback|Was reading back the stated indicators; now recall.
+Define operationalization in social research.
+@@ 461|Understand|verb_diversity|Describe; values kept.
+Describe how the initial outlay of Tk. 100,000, the cash inflows of Tk. 40,000, Tk. 50,000, and Tk. 30,000, and the 10% discount rate together determine the investment's net present value.
+@@ 461|Analyze|alignment_strengthen|Timing effect and decision sensitivity near zero NPV.
+Determine why the Tk. 30,000 inflow in year 3 adds less present value per taka than the Tk. 40,000 inflow in year 1, and identify how a small rise in the 10% discount rate would affect the accept-or-reject decision when the net present value is close to zero.
+@@ 463|Remember|answer_in_question|Question named the examples.
+Define in-situ and ex-situ conservation.
+@@ 464|Understand|verb_only_pair|Interpret; values kept.
+Interpret how the room volume of 200 m³ and the equivalent absorption area of 50 m² set the reverberation time of the room.
+@@ 464|Analyze|verb_only_pair|Diminishing returns from the inverse relationship.
+Determine why adding absorption to the room with a volume of 200 m³ and an absorption area of 50 m² produces diminishing reductions in reverberation time, using the inverse relationship in Sabine's formula.
+@@ 465|Apply|obe_verb_first|Rewrite is not an Apply bank verb.
+Modify the given SQL query to use a subquery that first selects CSE students and then joins those records with Enrollment, preserving the original output columns and join condition.
+@@ 465|Create|known_solution_create|Duplicated the Apply rewrite; now an index design with estimated benefit.
+Design an index strategy for the Student and Enrollment tables that would support the filtered join in the given query, and estimate how it reduces the records examined given 1,000 CSE students among 10,000 students and 30,000 enrollments.
+@@ 466|Understand|adjacent_level_distinction|Was the source task restated; now physiological meaning of each sign.
+Describe what each of the patient's four vital-sign measurements indicates about body function.
+@@ 467|Understand|verb_only_pair|Interpret the EOQ (comprehension); values kept.
+Interpret the economic order quantity for an annual demand of 10,000 units, an ordering cost of Tk. 200 per order, and a holding cost of Tk. 5 per unit as the order size at which annual ordering and holding costs are equal.
+@@ 467|Analyze|verb_only_pair|Square-root equivalence of demand and ordering cost.
+Determine how the company's economic order quantity would change if the ordering cost of Tk. 200 doubled, compared with a doubling of the annual demand of 10,000 units, and explain why both have the same effect.
+@@ 468|Remember|answer_in_question|Question named the two institutions.
+Name the two principal branches of government whose relationship distinguishes parliamentary from presidential systems.
+@@ 470|Understand|verb_diversity|Describe; values kept.
+Describe how a substrate concentration of 5 mmol/L and a Michaelis constant of 2 mmol/L determine the reaction velocity relative to the maximum velocity of 100 μmol/min.
+@@ 470|Analyze|alignment_strengthen|Saturation reasoning and the Km meaning.
+Determine why the reaction velocity at a substrate concentration of 5 mmol/L is well below the maximum of 100 μmol/min even though the substrate exceeds the Michaelis constant of 2 mmol/L, and identify the substrate concentration at which half the maximum velocity is reached.
+@@ 471|Remember|answer_in_question|Question named the factors.
+Define the urban heat island effect.
+@@ 471|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the three heat-island mechanisms to the stated urban conditions, stating whether each contributes to heat absorption, reduced cooling, or additional heat release.
+@@ 471|Create|shared_verb|Model (Create) with an intervention point.
+Model the urban heat island effect for the stated city as a causal network linking surface materials, vegetation cover, and human activities to higher central-district temperatures, and identify where an intervention would break the strongest link.
+@@ 472|Analyze|alignment_strengthen|Closed-form vs iterative IRR.
+Determine why the internal rate of return of the single-inflow investment can be found exactly as (12,100/10,000)^(1/2) − 1, and explain why investments with several inflows require trial and error.
+@@ 476|Remember|readback|Was reading back the stated activities; now recall.
+Define formative assessment.
+@@ 476|Create|known_solution_create|Restated the given approach; now an extended cycle design.
+Design a formative-assessment cycle for the stated course that adds a second check after feedback to confirm whether students' understanding has improved before the final examination.
+@@ 478|Analyze|alignment_fix|Was input identification; now the steep cost of the last part of the correction.
+Determine why correcting the 5 kW load from 0.7 lagging all the way to unity requires much more capacitance than correcting it to a power factor just below unity, relating this to the reactive power removed at each stage.
+@@ 481|Understand|verb_diversity|Interpret; values kept.
+Interpret what the price increase from Tk. 50 to Tk. 60 and the decrease in quantity demanded from 100 to 80 units show about consumer responsiveness.
+@@ 481|Analyze|alignment_strengthen|Asymmetry of the percentage-change method.
+Determine why the percentage-change method gives a different elasticity for a price fall from Tk. 60 to Tk. 50 than for the stated rise from Tk. 50 to Tk. 60, and explain how this affects the classification of demand.
+@@ 482|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Apply the reproduction and distribution rights protected under the applicable legal framework to the stated textbook scenario, determining which activities engage each right.
+@@ 483|Analyze|alignment_strengthen|Convergence speed and the derivative.
+Determine why the Newton–Raphson approximations for f(x)=x^3-x-2 converge rapidly from x_0=1.5, relating the speed of convergence to the size of the derivative near the root.

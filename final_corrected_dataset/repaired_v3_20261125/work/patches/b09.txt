@@ -1,0 +1,77 @@
+#reviewed 203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227
+@@ 203|Understand|shared_verb|Relate (Understand).
+Relate duty of care, breach of duty, and the claimant's loss to one another in a negligence claim.
+@@ 203|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the elements of negligence to sort the facts in the supplied scenario by their relevance to duty of care, breach of duty, and the claimant's loss.
+@@ 204|Analyze|alignment_fix|Joint sequencing was procedural; now relation of unknowns to equations.
+Determine which joints of the supplied truss can be solved first by relating the number of unknown member forces at each joint to the available equilibrium equations, and explain why the order of solution matters.
+@@ 205|Remember|readback|Was reading back the brief; now recall.
+Name the types of adjacency requirement commonly used in functional zoning.
+@@ 205|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the stated functional relationships and adjacency requirements to group the specified spaces into zones.
+@@ 205|Analyze|verb_diversity|Scrutinize.
+Scrutinize the supplied building brief to distinguish required adjacencies, functional relationships, and potential spatial conflicts among the specified spaces.
+@@ 206|Apply|obe_verb_first|Insert is not an Apply bank verb.
+Perform the insertion of the supplied keys into the hash table using the given hash function and collision-resolution method.
+@@ 207|Understand|verb_diversity|Describe.
+Describe how the number of trials, probability of success, and number of observed successes determine a binomial probability.
+@@ 207|Analyze|alignment_fix|Was input identification; now behaviour of the probability with respect to p.
+Determine how the binomial probability of the specified number of successes changes as the success probability moves away from the ratio of successes to trials, and explain why it is largest near that ratio.
+@@ 208|Analyze|alignment_strengthen|Derives the structural link between the two indices.
+Analyze why Carr's index and the Hausner ratio always rank powders in the same order, deriving the relationship between them from the bulk and tapped densities.
+@@ 208|Create|verb_diversity|Propose.
+Propose a formulation adjustment for the supplied pharmaceutical powder that improves its flowability, specifying the change made (such as glidant addition or granulation) and the target Carr's index and Hausner ratio ranges to be verified from repeat bulk and tapped density measurements.
+@@ 209|Analyze|alignment_fix|Was input identification; now how discontinuities shape the transform.
+Determine how the boundaries between the pieces of the supplied signal become exponential factors in its Laplace transform, and explain why each discontinuity contributes such a factor.
+@@ 209|Create|obe_verb_first|Express is not a Create bank verb; task now produces a new signal.
+Construct a new piecewise signal whose Laplace transform differs from that of the supplied signal only by a single exponential factor, and justify the construction using shifted unit-step functions.
+@@ 210|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Determine whether each supplied pH, turbidity, and dissolved-oxygen measurement meets its corresponding water-quality criterion.
+@@ 210|Analyze|alignment_fix|Duplicated the Apply check; now relational diagnosis.
+Relate any failing water-quality parameters in the supplied measurements to one another, and determine whether a single underlying cause could explain them.
+@@ 211|Apply|obe_verb_first|Trace is not an Apply bank verb; authored function and inputs kept.
+Run a function that sets best = 0, then, for each n in the list, sets best = n if n is even and n > best, and finally returns best, on the input lists [3, 8, 5, 12, 7] and [1, 3, 5], and state the value returned in each case.
+@@ 211|Evaluate|obe_verb_first|Debug is not an Evaluate bank verb; deliberately faulty function kept exactly.
+Validate a function that sets best = 0, then, for each n in the list, sets best = n if n is even and n > best, and finally returns best, against the specification 'return the largest even number, or None if the list contains no even number', using the test lists [3, 8, 5, 12, 7], [1, 3, 5], and [-4, -2], and justify whether the implementation is correct.
+@@ 213|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Run the supplied Java program and determine the method executed for each superclass reference that refers to a subclass object.
+@@ 213|Create|known_solution_create|Was demonstrating the standard concept; now a new subclass with predicted effect.
+Construct a new subclass for the supplied Java class hierarchy whose overridden method changes the program's output, and predict the new output when a superclass reference refers to an object of that subclass.
+@@ 214|Analyze|alignment_strengthen|Inconclusive cases and first-derivative evidence.
+Determine why the second derivative test is inconclusive at some critical points of the supplied function, and identify what the sign changes of the first derivative reveal about those points.
+@@ 215|Analyze|alignment_fix|Was input identification; now elasticity class and revenue inference.
+Determine how the signs and relative sizes of the supplied percentage changes in price and quantity demanded decide whether demand is elastic or inelastic, and infer the direction of the effect on total revenue.
+@@ 216|Understand|verb_diversity|Describe each component.
+Describe what each of consumption, investment, government expenditure, and net exports represents in aggregate expenditure.
+@@ 217|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the distinction between class, status, and power to the supplied social circumstances, stating which dimension each circumstance mainly illustrates.
+@@ 217|Create|verb_diversity|Formulate.
+Formulate a social-policy proposal for the supplied societal context that addresses inequality across class, status, and power, specifying a measure that targets each dimension.
+@@ 218|Analyze|alignment_fix|Listing nodes to change is procedural; now update-order dependency.
+Analyze why the order in which pointer connections are updated during insertion at the specified position determines whether part of the supplied linked list is lost.
+@@ 219|Analyze|alignment_strengthen|Trace/determinant relations and defectiveness.
+Investigate how the trace and determinant of the supplied matrix relate to its eigenvalues, and identify whether any repeated eigenvalue has fewer independent eigenvectors than its multiplicity.
+@@ 220|Apply|obe_verb_first|Trace is not an Apply bank verb; authored array kept.
+Carry out binary search on the sorted array [3, 8, 15, 21, 34, 42, 56, 67] to locate the value 42, using mid = ⌊(low + high)/2⌋, and state the number of iterations required.
+@@ 220|Create|known_solution_create|Was the textbook recurrence derivation; now a new variant to construct and compare.
+Construct a ternary-search variant of binary search, formulate the recurrence for its search-interval reduction, and compare its time complexity with that of binary search.
+@@ 221|Analyze|alignment_fix|Tracing calls is procedural; now growth and failure analysis.
+Analyze how the recursion depth and the number of pending multiplications in the supplied recursive factorial function grow with its input, and identify the input values that would make it fail.
+@@ 221|Create|known_solution_create|Was the textbook factorial function; now a new recursive function.
+Develop a recursive C function that computes the number of ways to arrange r of n distinct items, reusing the structure of the recursive factorial function and stating its base cases.
+@@ 222|Analyze|alignment_fix|Was input identification; now how coefficient form and initial condition shape the solution.
+Determine how the form of the coefficient function in the supplied differential equation decides its integrating factor, and explain how the initial condition fixes the constant in the general solution.
+@@ 223|Analyze|alignment_strengthen|Separates budget-line and equilibrium-condition effects.
+Determine how a change in the price of one good would shift the consumer's equilibrium under the supplied utility function and budget constraint, separating its effect on the budget constraint from its effect on the equilibrium condition.
+@@ 224|Analyze|verb_diversity|Decompose the procedure.
+Decompose the supplied university student survey procedure into its population-division and participant-selection steps, and determine which step identifies the sampling technique.
+@@ 224|Create|known_solution_create|Was following a specified method; now a combined design with justification.
+Design a sampling procedure for a university student survey that combines two of the four sampling techniques, and justify how the combination improves representativeness.
+@@ 225|Apply|obe_verb_first|Trace is not an Apply bank verb.
+Run the supplied Java program and determine the execution order of its try, catch, and finally blocks when the specified exception occurs.
+@@ 225|Create|known_solution_create|Was a standard try/catch demonstration; now a new recovery design.
+Develop a Java method that recovers from the specified exception by retrying the operation a limited number of times using try, catch, and finally blocks, and describe its behaviour when every retry fails.
+@@ 226|Create|obe_verb_first|Conjecture is not a Create bank verb.
+Hypothesize a closed-form expression for the sum of the first n positive even integers from computed cases, and prove it by mathematical induction.
+@@ 227|Apply|obe_verb_first|Interpret is not an Apply bank verb.
+Determine the position on the short-run Phillips curve that corresponds to the inflation and unemployment values in the supplied data.

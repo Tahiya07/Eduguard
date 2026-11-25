@@ -1,0 +1,65 @@
+#reviewed 406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,430,431
+@@ 406|Understand|verb_diversity|Interpret; values kept.
+Interpret the break-even point for a product selling at Tk. 500 per unit with a variable cost of Tk. 300 per unit and fixed costs of Tk. 100,000 as the sales volume at which the company earns neither profit nor loss.
+@@ 406|Analyze|alignment_strengthen|Nonlinear sensitivity of break-even to price.
+Analyze why the break-even quantity of a product selling at Tk. 500 with a variable cost of Tk. 300 and fixed costs of Tk. 100,000 rises sharply if the selling price falls toward Tk. 300, relating this to the contribution per unit.
+@@ 406|Evaluate|verb_diversity|Validate; values kept.
+Validate whether a reported break-even point of 500 units and Tk. 250,000 in sales revenue is correct for the given selling price, variable cost, and fixed costs.
+@@ 406|Create|verb_diversity|Propose; values kept.
+Propose a revised pricing and cost plan that would reduce the company's break-even quantity, starting from a selling price of Tk. 500 per unit, a variable cost of Tk. 300 per unit, and total fixed costs of Tk. 100,000, and show the resulting break-even point in units and sales revenue.
+@@ 408|Understand|verb_diversity|Interpret; values kept.
+Interpret what the rise in price from Tk. 20 to Tk. 25 and the fall in quantity demanded from 100 to 80 units indicate about the relationship between price and quantity demanded.
+@@ 408|Analyze|alignment_strengthen|Symmetry of the midpoint method and its effect on classification.
+Determine why the midpoint method gives the same elasticity whether the price rises from Tk. 20 to Tk. 25 or falls from Tk. 25 to Tk. 20, and explain how this affects the classification of the demand.
+@@ 408|Create|verb_diversity|Formulate; values kept.
+Formulate a pricing recommendation for the product that uses the midpoint price elasticity from the price rise from Tk. 20 to Tk. 25 and the fall in quantity demanded from 100 to 80 units to predict the effect on total revenue and propose a revenue-increasing price direction.
+@@ 409|Understand|verb_diversity|Describe; values kept.
+Describe the successive reductions in the amount of a 400 mg dose of a drug with a 4-hour half-life during the hours after administration.
+@@ 409|Analyze|alignment_fix|Counting half-lives is the Apply calculation; now constant fraction vs falling amount.
+Determine why the amount of drug eliminated in each successive 4-hour period after a 400 mg dose falls even though the fraction eliminated stays the same, and identify how much is eliminated during the third half-life.
+@@ 410|Understand|verb_diversity|Describe; values kept.
+Describe how the 10 kN concentrated load positioned 2 m from the left support of a 6 m beam is shared between the two support reactions.
+@@ 410|Analyze|alignment_strengthen|Moment-arm reasoning for the larger share.
+Analyze why the left support of the 6 m beam carries the larger share of the 10 kN load placed 2 m from it, relating each reaction to the moment arm of the load about the opposite support.
+@@ 411|Analyze|adjacent_level_distinction|Understand explains the good choice; Analyze tests the alternative choice.
+Determine what happens to ∫_0^1 x e^x dx if the opposite choice, u = e^x and dv = x dx, is made, and explain why that choice fails to simplify the integral.
+@@ 412|Remember|readback|Was reading back the stated requirements; now recall.
+Define an entity, an attribute, and a relationship in entity–relationship modelling.
+@@ 414|Understand|verb_diversity|Interpret; values kept.
+Interpret the measured BOD of 24 mg/L in relation to the maximum permissible limit of 30 mg/L for the wastewater sample.
+@@ 414|Analyze|alignment_strengthen|Was positioning against the threshold; now margin analysis.
+Analyze how much of the gap between the measured BOD of 24 mg/L and the 30 mg/L limit would be consumed if the organic load rose by a given fraction, and identify the rise at which the sample would fail.
+@@ 415|Understand|verb_diversity|Describe; values kept.
+Describe how the arrival and burst times of P1, P2, and P3 determine their execution sequence under FCFS scheduling.
+@@ 416|Analyze|alignment_strengthen|Detour reasoning and dependent distances.
+Determine why the shortest path from A to B passes through C rather than using the direct edge A–B = 4, and identify which other shortest distances from A depend on that detour.
+@@ 417|Understand|verb_diversity|Interpret; values kept.
+Interpret the change from a no-load secondary voltage of 240 V to a full-load secondary voltage of 228 V as the transformer's voltage regulation.
+@@ 417|Analyze|alignment_strengthen|Convention dependence of regulation.
+Determine why the voltage regulation of the transformer differs depending on whether its voltage drop is expressed relative to the 240 V no-load voltage or the 228 V full-load voltage, and identify which convention gives the larger value.
+@@ 418|Remember|readback|Was reading back the stated period; now recall.
+Define performance appraisal.
+@@ 419|Remember|answer_in_question|Question named reactants and products.
+Name the products formed when a carboxylic acid reacts with an alcohol in the presence of an acid catalyst.
+@@ 419|Apply|obe_verb_first|Write is a Create bank verb.
+Complete the balanced chemical equation for the reaction between ethanoic acid and ethanol in the presence of concentrated sulfuric acid.
+@@ 421|Analyze|alignment_fix|Was input identification; now why the inverse is integer and the singular case.
+Determine why the inverse of A=[[2, 1], [5, 3]] has integer entries, and explain what would happen to the inverse if the determinant of A were zero.
+@@ 423|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the three feasibility dimensions to the proposed university attendance-management system by stating whether the availability of existing computers, the implementation costs, and staff readiness each concern technical, economic, or operational feasibility.
+@@ 423|Create|verb_diversity|Plan.
+Plan the implementation of the proposed university attendance-management system so that it addresses the technical, economic, and operational feasibility concerns arising from the existing computers, implementation costs, and staff readiness.
+@@ 424|Analyze|alignment_strengthen|Orientation dependence; values kept.
+Determine how the magnetic force on the 0.5 m conductor carrying 4 A in a 0.2 T field would change as the conductor is rotated away from the perpendicular toward the field direction, and explain why only the perpendicular component of the field matters.
+@@ 425|Apply|obe_verb_first|Leading Using-clause; Convert is not an Apply bank verb.
+Use the relationship Ne = 590.5/tex to convert the 30 tex yarn to the English cotton count and the Ne 30 yarn to tex, and state which yarn is finer.
+@@ 427|Remember|answer_in_question|Question stated the distinction to be recalled.
+State what selective attention allows a person to do.
+@@ 427|Create|shared_verb|Model (Create); was a representation of the given situation.
+Model the student's examination situation as a sequence of attentional stages, showing where background conversations are filtered out and where an important cue could still break through.
+@@ 430|Analyze|alignment_strengthen|Squared-velocity dependence; values kept.
+Determine why the pressure drop between points 1 and 2 depends on the difference of the squared velocities rather than on the velocity difference itself, and explain the consequence of doubling the velocity from 2 m/s to 4 m/s.
+@@ 431|Understand|verb_diversity|Interpret; values kept.
+Interpret what an LD50 of 500 mg/kg and an ED50 of 50 mg/kg indicate about the separation between the drug's median lethal and median effective doses.
+@@ 431|Analyze|alignment_strengthen|Limits of a median-based index.
+Determine why two drugs with the same therapeutic index of 10 could differ in safety, relating this to the fact that an LD50 of 500 mg/kg and an ED50 of 50 mg/kg summarize only median responses.

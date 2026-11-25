@@ -1,0 +1,83 @@
+#reviewed none
+@@ 345|Apply|natural_formulation|Interrogative computation; content unchanged.
+What is the response accuracy for relevant and for irrelevant stimuli in the supplied experimental results?
+@@ 595|Apply|natural_formulation|Interrogative computation; values kept.
+What is the ultimate bearing capacity of a strip footing 1.5 m wide at a depth of 1.0 m on a purely cohesive soil with c = 50 kPa and γ = 18 kN/m³, according to Terzaghi's equation with N_c = 5.7, N_q = 1.0, and N_γ = 0?
+@@ 128|Apply|natural_formulation|Interrogative computation.
+What duty cycle does the ideal buck-converter relationship require to obtain the specified output voltage from the given input voltage?
+@@ 564|Apply|natural_formulation|Scenario then question; values kept.
+A manufacturing business has an inventory holding period of 40 days, an accounts receivable collection period of 30 days, and an accounts payable payment period of 25 days. What is its cash conversion cycle?
+@@ 355|Apply|natural_formulation|Interrogative computation.
+How many page faults do FIFO and LRU each produce for the supplied page-reference string and frame allocation?
+@@ 588|Apply|natural_formulation|Interrogative computation; values kept.
+What is the simple expenditure multiplier when the marginal propensity to consume is 0.8, using k=1/(1-MPC)?
+@@ 106|Apply|natural_formulation|Interrogative computation; values kept.
+What is the therapeutic index of a drug whose median toxic dose is 200 mg/kg and median effective dose is 20 mg/kg?
+@@ 045|Apply|natural_formulation|Interrogative computation; values kept.
+What acceleration does a 5 kg object experience under a net force of 20 N?
+@@ 321|Apply|natural_formulation|Interrogative computation; values kept.
+What is the cation exchange capacity of a soil sample whose exchangeable cations are Ca²⁺ 8, Mg²⁺ 3, K⁺ 0.5, Na⁺ 0.3, and H⁺ + Al³⁺ 2.2 cmol(+)/kg?
+@@ 114|Apply|natural_formulation|Interrogative computation; values kept.
+What is the 4-point discrete Fourier transform of the signal x[n] = {1, 2, 1, 0}? Show each term.
+@@ 146|Apply|natural_formulation|Interrogative computation.
+What is the average waiting time of the supplied processes under First-Come, First-Served and under non-preemptive Shortest Job First scheduling?
+@@ 402|Apply|natural_formulation|Interrogative computation.
+What production capacity is available, given the supplied operating time and production rate?
+@@ 447|Understand|natural_formulation|Interrogative explanation; values kept.
+Why do deposits of Tk. 5,000 not yet credited and cheques of Tk. 3,000 not yet presented cause the cash-book and bank-statement balances to differ?
+@@ 553|Understand|natural_formulation|Interrogative explanation.
+How do wavelength, slit separation, and screen distance each affect the separation between consecutive bright fringes?
+@@ 044|Understand|natural_formulation|Interrogative explanation.
+Why is establishing a base case and an inductive step sufficient to prove a statement for all positive integers?
+@@ 042|Understand|natural_formulation|Interrogative explanation.
+How do concrete and steel reinforcement work together to resist compressive and tensile stresses?
+@@ 180|Understand|natural_formulation|Interrogative explanation.
+How does the Bowditch rule distribute the closing error among traverse lines according to their lengths?
+@@ 213|Understand|natural_formulation|Interrogative explanation.
+How does runtime polymorphism determine which method executes when a superclass reference refers to a subclass object?
+@@ 362|Understand|natural_formulation|Interrogative explanation.
+How do the selling price per unit and variable cost per unit determine the contribution margin per unit?
+@@ 273|Understand|natural_formulation|Interrogative explanation.
+How can electronic communications demonstrate offer and acceptance in the formation of an electronic contract?
+@@ 559|Understand|natural_formulation|Interrogative explanation.
+How do the mass and material composition of a wall and the presence of openings affect sound insulation in a classroom?
+@@ 010|Understand|natural_formulation|Interrogative explanation.
+How do facts and IF–THEN rules enable a rule-based expert system to diagnose network connectivity problems?
+@@ 322|Analyze|natural_formulation|Interrogative analysis.
+Why is the required processing time proportional to both the D-value and the target number of log reductions, and how would the z-value enter if the processing temperature changed?
+@@ 512|Analyze|natural_formulation|Interrogative analysis; values kept.
+Why does a 4-bit Johnson counter cycle through 8 states rather than the 16 possible with four flip-flops, and what would happen if it were started from an unused state?
+@@ 313|Analyze|natural_formulation|Interrogative analysis; values kept.
+Why does adding 0.010 mol/L HCl to a buffer containing 0.10 mol/L acetic acid and 0.10 mol/L sodium acetate (pKa = 4.76) change the ratio of acetate to acetic acid only slightly, and how does this relate to the small change in pH?
+@@ 464|Analyze|natural_formulation|Interrogative analysis; values kept.
+Why does adding absorption to the room with a volume of 200 m³ and an absorption area of 50 m² give diminishing reductions in reverberation time? Relate your answer to the inverse relationship in Sabine's formula.
+@@ 584|Analyze|natural_formulation|Interrogative analysis; values kept.
+Why does the engineering stress fall from 450 MPa to 380 MPa before fracture even though the true stress keeps rising? Relate your answer to necking.
+@@ 299|Analyze|natural_formulation|Interrogative analysis.
+Why does the discharge through the venturimeter vary with the square root of the pressure difference, and how does the ratio of throat to inlet diameter affect the sensitivity of the measurement?
+@@ 285|Analyze|natural_formulation|Interrogative analysis.
+Why does a transmission gate need both an NMOS and a PMOS transistor to pass logic 0 and logic 1 without degradation, and which transistor passes each level well?
+@@ 094|Analyze|natural_formulation|Interrogative analysis.
+How sensitive is a project's net present value to changes in its projected cash flows compared with changes in the required rate of return?
+@@ 021|Remember|natural_formulation|Interrogative recall.
+What are the best-case, average-case, and worst-case time complexities of merge sort and insertion sort?
+@@ 451|Remember|natural_formulation|Interrogative recall.
+Which main types of actor are involved in implementing a public health programme?
+@@ 238|Remember|natural_formulation|Interrogative recall.
+What are the main types of shallow and deep foundations used in building construction?
+@@ 013|Remember|natural_formulation|Interrogative recall.
+Which components are involved in virtual memory management?
+@@ 528|Remember|natural_formulation|Interrogative recall.
+What are the two components of an acidic buffer prepared from a weak acid?
+@@ 003|Remember|natural_formulation|Interrogative recall.
+What are the main characteristics of TCP and UDP?
+@@ 173|Remember|natural_formulation|Interrogative recall.
+What is the general purpose of damages as a remedy for breach of contract?
+@@ 329|Remember|natural_formulation|Interrogative recall.
+What is the balance-of-power principle in international relations?
+@@ 350|Create|natural_formulation|Interrogative design task with a required product.
+How would you design a star-schema data warehouse for a retail chain's sales, product, store, and date data so that it supports integrated historical reporting and analysis? Present your schema.
+@@ 110|Create|natural_formulation|Interrogative design task; value kept.
+What façade-shading strategy would you propose for a rectangular building at about 23° N whose long façades face east and west? Specify the shading devices for each elevation according to its solar exposure.
+@@ 519|Create|natural_formulation|Interrogative design task.
+How would you lay out inlet and outlet openings in the stated classroom so that the cross-ventilation airflow path sweeps the occupied zone? Size and position the openings and justify the arrangement.

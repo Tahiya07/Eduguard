@@ -1,0 +1,15 @@
+﻿example_id,reason,related_example_id,detail
+156,redundant_duplicate,027,"Same objective, data, and level as Example 027; exclude from training/evaluation splits to avoid duplicate leakage."
+158,self_containment_row_flagged,,Apply: FLAG_OBJECTIVE_SHIFT (see self_containment_audit.csv)
+262,redundant_duplicate,187,"Same objective, data, and level as Example 187; exclude from training/evaluation splits to avoid duplicate leakage."
+319,self_containment_row_flagged,,Apply: FLAG_CONTESTED_CONTENT (see self_containment_audit.csv)
+393,self_containment_row_flagged,,Apply: FLAG_SCOPE_EXPANSION; Create: FLAG_SCOPE_EXPANSION (see self_containment_audit.csv)
+429,pending_sme_review,,Game-tree structure needs author confirmation (root value 9 as written).
+445,pending_sme_review,,Filled-in FIRST/FOLLOW sets need author confirmation.
+477,pending_sme_review,,"Heuristic is inadmissible at A and C; answer (S–A–C–G, cost 7) is still correct."
+502,redundant_duplicate,421,"Same objective, data, and level as Example 421; exclude from training/evaluation splits to avoid duplicate leakage."
+509,redundant_duplicate,472,"Same objective, data, and level as Example 472; exclude from training/evaluation splits to avoid duplicate leakage."
+517,redundant_duplicate,458,"Same objective, data, and level as Example 458; exclude from training/evaluation splits to avoid duplicate leakage."
+530,redundant_duplicate,417,"Same objective, data, and level as Example 417; exclude from training/evaluation splits to avoid duplicate leakage."
+578,redundant_duplicate,512,"Same objective, data, and level as Example 512; exclude from training/evaluation splits to avoid duplicate leakage."
+597,redundant_duplicate,457,"Same objective, data, and level as Example 457; exclude from training/evaluation splits to avoid duplicate leakage."

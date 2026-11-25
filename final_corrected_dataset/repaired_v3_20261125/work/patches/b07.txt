@@ -1,0 +1,81 @@
+#reviewed 151,152,153,154,155,157,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177
+@@ 151|Understand|verb_diversity|Interpret.
+Interpret absolute bioavailability as a comparison of the dose-normalized areas under the plasma concentration–time curve after extravascular and intravenous administration.
+@@ 151|Analyze|alignment_fix|Was input identification; now error-sensitivity analysis of the ratio.
+Determine whether a given relative error in the extravascular area under the curve or the same relative error in the intravenous area under the curve would distort the calculated absolute bioavailability more, and explain why.
+@@ 152|Analyze|alignment_strengthen|Relates operand specification to memory-access cost.
+Relate each instruction's operand specification in the supplied assembly-code sequence to the number of memory accesses it requires, and identify which addressing modes are the most costly.
+@@ 153|Understand|verb_diversity|Describe.
+Describe the legal circumstances in which a general exception may exempt a defendant from criminal liability.
+@@ 154|Analyze|alignment_fix|Was input identification; now proportional structure and the duration-dependent parameter.
+Determine why the peak runoff rate in the Rational Method changes in direct proportion to each of the runoff coefficient, rainfall intensity, and catchment area, and identify which of the three depends on the storm duration chosen.
+@@ 155|Analyze|alignment_strengthen|Hidden-edge analysis from geometry.
+Detect which features of the supplied building component appear as hidden edges in each orthographic view, and explain how the component's geometry causes this.
+@@ 155|Evaluate|verb_diversity|Validate.
+Validate whether supplied front, top, and side orthographic views accurately represent the geometry and dimensions of the building component.
+@@ 157|Understand|verb_only_pair|Was identical to the source with Explain for Analyze; now exemplification (source label 157 retained as Analyze: relating four factor classes to one decision is relational analysis).
+Describe, with an example of each, the cultural, social, personal, and psychological factors that can influence consumer purchasing decisions.
+@@ 157|Apply|obe_verb_first|Leading For-clause; authored influences kept.
+Apply the four-factor model of consumer behaviour to a consumer buying a smartphone by assigning each influence to its category: family members' opinions, monthly income, festival gift-giving customs, and a belief that the brand signals status.
+@@ 157|Create|verb_diversity|Create.
+Create a marketing campaign proposal for the specified product that targets the cultural, social, personal, and psychological factors that influence its target consumers.
+@@ 159|Analyze|verb_only_pair|Was "Examine how changes … affect"; now nonlinear dependence near unity.
+Analyze why the required capacitor-bank rating rises increasingly steeply as the target power factor approaches unity, relating the required reactive power to the tangents of the initial and target power-factor angles.
+@@ 160|Understand|shared_verb|Relate (Understand).
+Relate the water–cement ratio of a concrete mix to its strength and durability.
+@@ 160|Analyze|alignment_fix|Was a checking task (Evaluate-like); now separation of effects and governing requirement.
+Separate the effect of the supplied water–cement ratio on strength from its effect on durability, and determine which requirement governs the maximum permissible ratio for the mix.
+@@ 160|Create|verb_diversity|Adapt.
+Adapt the supplied concrete mix by adjusting its water–cement ratio to meet the specified strength and durability requirements, stating the corresponding changes in water and cement content.
+@@ 161|Remember|answer_in_question|Question named both categories.
+Name the two principal categories of drug–drug interactions.
+@@ 161|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the supplied interaction information to determine whether the interaction between the two specified drugs is pharmacokinetic or pharmacodynamic.
+@@ 161|Create|verb_diversity|Formulate.
+Formulate a co-prescribing management plan for the two specified drugs that addresses the supplied pharmacokinetic or pharmacodynamic interaction evidence, specifying dose adjustment, administration timing, and monitoring.
+@@ 163|Apply|obe_verb_first|Leading In-clause.
+Apply the concepts of burden of proof and standard of proof to a civil claim for unpaid rent to determine which party must prove non-payment and the degree of proof the court requires.
+@@ 163|Analyze|alignment_strengthen|Contrast functions and effect of failure of each.
+Contrast the functions that the burden of proof and the standard of proof perform in a civil proceeding, and determine how a failure to satisfy each would affect the outcome.
+@@ 164|Analyze|alignment_fix|Was input identification; now sensitivity explained by the form of the relationship.
+Determine why the maximum deflection of a simply supported beam under a uniformly distributed load is far more sensitive to its span than to its loading intensity or flexural rigidity, using the form of the deflection relationship.
+@@ 165|Remember|answer_in_question|Question listed the parameters.
+State the dimensional parameters that define a staircase layout.
+@@ 165|Understand|verb_diversity|Describe.
+Describe how the specified riser height, tread depth, and stair width determine the dimensional arrangement of a staircase.
+@@ 165|Analyze|alignment_strengthen|Chain of constraints.
+Analyze how the floor-to-floor height constrains the possible combinations of riser height and number of risers, and how the chosen riser height in turn limits the tread depth.
+@@ 166|Analyze|alignment_fix|Tracing value propagation is the minimax procedure (Apply); now identification of irrelevant branches.
+Identify the branches of the supplied game tree whose terminal utility values cannot affect the minimax decision at the root, and explain why they are irrelevant to it.
+@@ 167|Understand|verb_diversity|Interpret.
+Interpret what the current ratio, quick ratio, and operating cash flow each indicate about a company's short-term financial position.
+@@ 167|Analyze|shared_verb|Infer (Analyze) the source of a liquidity weakness.
+Infer from the gap between the company's current ratio and quick ratio, together with its operating cash flow, which component of working capital is responsible for any liquidity weakness.
+@@ 168|Apply|obe_verb_first|Select is not an Apply bank verb.
+Determine the coating method for a tablet that must carry an enteric (pH-dependent) polymer and an embossed logo, and state the main process stages that the method requires.
+@@ 168|Analyze|adjacent_level_distinction|Source (Understand) compares; Analyze links process steps causally to product characteristics.
+Relate the differences between the process stages of sugar coating and film coating to the differences in the products they yield, identifying which process step causes each product characteristic.
+@@ 170|Remember|answer_in_question|Question listed the four components.
+List the principal components of a campus solid-waste management plan.
+@@ 170|Understand|verb_diversity|Describe.
+Describe the role of segregation, collection, transportation, and disposal in the university campus solid-waste management process.
+@@ 170|Apply|obe_verb_first|Assign is not an Apply bank verb; authored activities kept.
+Apply the four stages of solid-waste management to place each of the following campus activities in the segregation, collection, transportation, or disposal stage: colour-coded bins in classrooms, a daily pickup route, a covered truck to a transfer station, and composting of food waste.
+@@ 170|Analyze|shared_verb|Trace failure propagation.
+Trace how a failure at the segregation stage of the university campus solid-waste process propagates through collection, transportation, and disposal.
+@@ 171|Analyze|alignment_fix|Was input identification; now slope/intercept error analysis.
+Determine how an error in the slope and an error in the intercept of the supplied calibration-curve equation would each affect the calculated concentration, and identify the absorbance range in which the intercept error matters most.
+@@ 172|Analyze|alignment_strengthen|Contrast with explanation of opposite directions.
+Contrast how increasing slip changes the rotor frequency of a three-phase induction motor with how it changes the rotor speed, and explain why the two move in opposite directions.
+@@ 173|Remember|answer_in_question|Question named damages as the remedy.
+State the general purpose of damages as a remedy for breach of contract.
+@@ 174|Analyze|alignment_fix|Was input identification; now structure of the equation and influence ranking.
+Determine which of the supplied pipe parameters enter the Darcy–Weisbach equation linearly, which enter it squared, and which inversely, and explain how this ranks their influence on frictional head loss.
+@@ 175|Remember|answer_in_question|Question listed the factors.
+List the factors that influence natural ventilation in a building.
+@@ 175|Evaluate|verb_diversity|Critically review; same authored building.
+Critically review the suitability for natural ventilation of a building with its long axis parallel to the prevailing wind and windows only on its leeward façade.
+@@ 175|Create|alignment_strengthen|A diagram of relationships is representation; now a ventilation scheme with expected airflow.
+Produce a conceptual ventilation scheme for the proposed building that positions its windows relative to its orientation and the prevailing wind direction, and show the expected airflow paths.
+@@ 176|Analyze|alignment_fix|Identifying conflicting pairs is the procedure (Apply); now causal role in cycles.
+Determine which conflicting operation pairs in the supplied transaction schedule are responsible for any cycle in its precedence graph, and explain how reordering them would change serializability.

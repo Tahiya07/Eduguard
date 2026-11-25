@@ -1,0 +1,635 @@
+{
+  "dataset": "EduGuard Bloom transformation dataset",
+  "version": "v3 (pass-3 repair)",
+  "date": "2026-11-25",
+  "derived_from": {
+    "authoritative_master": {
+      "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+      "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc",
+      "Unresolved_Questions.csv": "3eb6ad29c207fc0cb453ecc8917a1bad588f555b7a9d7ffdcee4227eed5ba312",
+      "Final_Summary.md": "c10a03c78a80dfd189bc8890d658bc8cf3980e2dfcc6a9affb7d03e937e087a6",
+      "EduGuard_600_Corrected.pdf": "a9d6f21dd58dceb38bff9be5c770e6c407a6f8aff8342434c1badc0417953dd6"
+    },
+    "v2_export_split_manifest_sha256": "0b7ae037ad09390e6294ab252af256f7af9b2674376eefeac4fba7a2ff81902c",
+    "reference_split_ids_sha256": "a2ddcbf2212c93b72c9732568cb90e61aca0034fa171fb532a36fbe99907d201"
+  },
+  "review_status": {
+    "corrections": "model-assisted (Claude); not human-verified",
+    "validation": "automated (scripts and unit tests)",
+    "human_verified_corrections": 0
+  },
+  "counts": {
+    "examples_master": 600,
+    "examples_exported": 586,
+    "usable": 341,
+    "label_and_generation_only": 245,
+    "excluded": 14,
+    "transformation_records": 2930,
+    "pass3_rewritten_records": 1378,
+    "source_label_changes": {
+      "252": {
+        "before": "Analyze",
+        "after": "Understand"
+      }
+    }
+  },
+  "not_done": [
+    "no model training",
+    "no GPU use",
+    "no model-configuration change",
+    "no change to the authoritative master or the v2 export",
+    "no git commit or push"
+  ],
+  "files": {
+    "Correction_Log_v3.csv": {
+      "sha256": "a9e89f514b51a2e16ee8620f3a685c00a0b8025760751830b603d5aed4608d84",
+      "bytes": 1285399,
+      "role": "repaired master"
+    },
+    "EXCLUSION_REGISTER_v3.csv": {
+      "sha256": "5ea42fc78cfaf436197de076cb56b4f4e9f1f251c8e5a8a915d2f56243ce7c98",
+      "bytes": 4375,
+      "role": "exclusion register"
+    },
+    "corrected_dataset_v3.json": {
+      "sha256": "11b7a383b901d5d17e757322929be9b5db180f7858f0d65d469b4a4b3c1f0e78",
+      "bytes": 824927,
+      "role": "repaired master"
+    },
+    "audits/predictability_v3.json": {
+      "sha256": "6171c65482bf558102a0799d6660ad2d6a256a4e52d43d0eb8b07608349ae513",
+      "bytes": 3736,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/alignment_candidate_flags.csv": {
+      "sha256": "3b4333c9a7e6cf15f90c2c2309f57a914a19b1d7a7b8d77d5fe1346092715c9c",
+      "bytes": 14212,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/audit_results.json": {
+      "sha256": "3a7bcd80652ba99e2566fa7a53d8e5a3ed48d6a7ddd5e699c31fe5b038561ef3",
+      "bytes": 25931,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/family_frequency_by_level.csv": {
+      "sha256": "ef83749b519747ea1b595507ee3347f058a8cf596c0982327c3a6a8af090f1ee",
+      "bytes": 2118,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/family_level_matrix.csv": {
+      "sha256": "19da931aab26b433d627c54cd8f899007d25227cdc1753995ff869658b591a91",
+      "bytes": 1474,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/low_source_overlap_candidates.csv": {
+      "sha256": "3a19f7a618e7c4d143f596593b7587319b1684735b7e73481a509fdb8405402f",
+      "bytes": 40268,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/near_identical_transformation_pairs.csv": {
+      "sha256": "98fbffc341234ff436ac6aa43874432e3e1778b48cae3c1cd9686ff008137090",
+      "bytes": 20035,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/row_level_extraction.csv": {
+      "sha256": "bd1a6bc45f1430f88dca011571d4566a499aaf766a3f7a9a09d667928dda272d",
+      "bytes": 803134,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/verb_frequency_by_level.csv": {
+      "sha256": "0b4b2fb765b913c108a3d9870187503b10b09cce9937e14694ca453ae6384ea6",
+      "bytes": 3048,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/verb_level_matrix.csv": {
+      "sha256": "8c8ab700763a0241b5f6f6dd3b16d2cdf339fa0254af6de599093b0293451292",
+      "bytes": 2846,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_extended_lexicon/verb_swap_of_source_candidates.csv": {
+      "sha256": "b41bbdb19b5cb29e090199c2489f196df43781b24e93b1e8aa67956d4fedc551",
+      "bytes": 19488,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/alignment_candidate_flags.csv": {
+      "sha256": "cfb47f6b563466109c9768e333010baa7d08f5f0f8707570a4d2a5e4eb1dc3a7",
+      "bytes": 27933,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/audit_results.json": {
+      "sha256": "478f94a8fe2228d4f1131dd614827a5fdea4274601cc77374814329d9558e9d8",
+      "bytes": 25994,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/family_frequency_by_level.csv": {
+      "sha256": "ef83749b519747ea1b595507ee3347f058a8cf596c0982327c3a6a8af090f1ee",
+      "bytes": 2118,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/family_level_matrix.csv": {
+      "sha256": "769e82b4978391ae88e0fa10ab43a67813d090b886e0e1b247166571e477c765",
+      "bytes": 1474,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/low_source_overlap_candidates.csv": {
+      "sha256": "b50999db340f78091770ba78d9927664fcd210f3921b19af2b3db3bbcbc38b8d",
+      "bytes": 40266,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/near_identical_transformation_pairs.csv": {
+      "sha256": "dae093fe444093d893cbdc0045f2187a5f462b520feda4a58419ec43d2f7c5a8",
+      "bytes": 18703,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/row_level_extraction.csv": {
+      "sha256": "b4504ae89fd949aaac86db92fdc30a82e55cba2ac2f6e937cb228f5192b822e3",
+      "bytes": 803104,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/verb_frequency_by_level.csv": {
+      "sha256": "0b4b2fb765b913c108a3d9870187503b10b09cce9937e14694ca453ae6384ea6",
+      "bytes": 3048,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/verb_level_matrix.csv": {
+      "sha256": "d4a49b0b9da56a79101c2be45069ab9e8d115a8f05d55b52b5029328f92e51ec",
+      "bytes": 2846,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v2_baseline_original_lexicon/verb_swap_of_source_candidates.csv": {
+      "sha256": "33e0880f56a65d6780d37d614a432fa1ac73c62447bf4e39fb07cba44c155438",
+      "bytes": 19777,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/alignment_candidate_flags.csv": {
+      "sha256": "2cdc951e046af79f76c88c5f5199a3793ce4929156a776f1ca8da9d8a6f0d2dc",
+      "bytes": 23045,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/audit_results.json": {
+      "sha256": "e43077ed10a654d13eb94764c94179af6be1f01d141b2bbf385cfee9b63eb0f0",
+      "bytes": 26706,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/family_frequency_by_level.csv": {
+      "sha256": "3ff8dc3b7e1486af974cfb03cebfbbc44a51352788e71c0f1960ea4ebff76eba",
+      "bytes": 1986,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/family_level_matrix.csv": {
+      "sha256": "f3d87b442d324984d3c9b3da66f525ef832b3d1afed87ecc42a5a5740f4a6d6c",
+      "bytes": 1512,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/low_source_overlap_candidates.csv": {
+      "sha256": "f0878ddee39e242fc152411aee191f82080d6317b6bef744369337fdeb84d1f3",
+      "bytes": 49390,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/near_identical_transformation_pairs.csv": {
+      "sha256": "245dc62c516fc035a56214bcfe82878ab010219455666eb94b59a751a97254ba",
+      "bytes": 10219,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/row_level_extraction.csv": {
+      "sha256": "c79cd1ad422b18bb58856ded65628538e977157d2366b8873f534612b123f3c6",
+      "bytes": 815214,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/verb_frequency_by_level.csv": {
+      "sha256": "99013e5b6d2453641671676acb14f625766ea245fb6d9396623b70169029d71c",
+      "bytes": 4427,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/verb_level_matrix.csv": {
+      "sha256": "1ec3b26938e34229241f62e8336797313db85fe81ef3b0bfeed2bd9980cb8ec8",
+      "bytes": 4528,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_extended_lexicon/verb_swap_of_source_candidates.csv": {
+      "sha256": "37634a755db101501f0d71fe2c1739c8a719dc9738a3a97d19bb48ab72c9c0fa",
+      "bytes": 11766,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/alignment_candidate_flags.csv": {
+      "sha256": "815d83301c99785a00f93c16a76538889236a8cad731a3a58b346e79c80c2cde",
+      "bytes": 63324,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/audit_results.json": {
+      "sha256": "c6f258883ed9fe9416fc45547dfc869c4db53918002a582a6619edbb00e09389",
+      "bytes": 26247,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/family_frequency_by_level.csv": {
+      "sha256": "0cc75ea8471cda2045d47d0f6739523a8515b098af2ac97fb97f7850695e9b70",
+      "bytes": 2037,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/family_level_matrix.csv": {
+      "sha256": "0e7f58fa929a971a5723d273e8d1f066a853e0be036dab3bf9f0bc041e0184d9",
+      "bytes": 1516,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/low_source_overlap_candidates.csv": {
+      "sha256": "8726253aa71ea9b1592d14629454da99df9f51ee0c17875f282d80251bb8a4a1",
+      "bytes": 49615,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/near_identical_transformation_pairs.csv": {
+      "sha256": "1284d3ec5ea4d1fa69f886d09a3d92c8bbd5aefee21cdfbba53b92257ac8c2cc",
+      "bytes": 9907,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/row_level_extraction.csv": {
+      "sha256": "feab2a22b36997ac8ad3a8b14a028fef725efc02c1050f3b27e772a3a7068be9",
+      "bytes": 810596,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/verb_frequency_by_level.csv": {
+      "sha256": "3380061600165b5f638d99c5b75765de27fe78ce2f8e93e5102e7d72ccc120b9",
+      "bytes": 3801,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/verb_level_matrix.csv": {
+      "sha256": "33201de1a47c05f6e3df7177d48406f7dd4454972805b0d5efc8873f05f5862d",
+      "bytes": 3793,
+      "role": "diagnostic audit"
+    },
+    "audits/verb_diversity_v3/v3_original_lexicon/verb_swap_of_source_candidates.csv": {
+      "sha256": "79a07212f8899d2229fd1d55e724f12001188f36c2908540825430f55c335314",
+      "bytes": 11805,
+      "role": "diagnostic audit"
+    },
+    "challenge_set/README.md": {
+      "sha256": "84957064b26a90c4d7fe6c7e27db5f4be0c34cff0756b94525e15b89bb029fdd",
+      "bytes": 1553,
+      "role": "challenge set (evaluation only)"
+    },
+    "challenge_set/challenge_items.jsonl": {
+      "sha256": "f7440c77c01302954250295b9236eef1c81bde44181305bf39046912ca1bd6cf",
+      "bytes": 328820,
+      "role": "challenge set (evaluation only)"
+    },
+    "challenge_set/challenge_manifest.json": {
+      "sha256": "7e7581870cb51c1afb07a4772e7116c4f758477ecda8e4cfa71f39521ea0e1f1",
+      "bytes": 3437,
+      "role": "challenge set (evaluation only)"
+    },
+    "challenge_set/challenge_pairs.jsonl": {
+      "sha256": "d612703cb666746e673612450464ba46002956a06967abef829db6dcca6f1004",
+      "bytes": 269512,
+      "role": "challenge set (evaluation only)"
+    },
+    "reports/QUALITY_VALIDATION_REPORT.md": {
+      "sha256": "01c5dec99566f55d158a9cc15c18916468008ee82ffdf412310ee96e4a5ceb88",
+      "bytes": 13969,
+      "role": "report"
+    },
+    "reports/SPLIT_INTEGRITY_REPORT.md": {
+      "sha256": "25e393c5d285e4fbc9792d9317e2c03d12b3d78e57502a224664dc55ae8aeb90",
+      "bytes": 1445,
+      "role": "report"
+    },
+    "reports/split_integrity_v3.json": {
+      "sha256": "cebe9cc9175f0bd09f65c18a38992e9450ec2dc2b6575b16282cf287a15c4250",
+      "bytes": 7042,
+      "role": "report"
+    },
+    "scripts/apply_repairs.py": {
+      "sha256": "6cf6c5cce549b26f25382e8d2a8cab25bb53fc7f4d9e37eae2ca150a7452300c",
+      "bytes": 12889,
+      "role": "build script"
+    },
+    "scripts/audit_verbs_v3.py": {
+      "sha256": "fddef6d2340dea5a622b6b4473b2480c601ebbd1636aae001288d7f83a0253f3",
+      "bytes": 27717,
+      "role": "build script"
+    },
+    "scripts/build_challenge_set.py": {
+      "sha256": "4bd9087f5b07397420ba8fbab0bce4855ccd8ae60e86c0f616f313105fd5078e",
+      "bytes": 9631,
+      "role": "build script"
+    },
+    "scripts/dump_batch.py": {
+      "sha256": "be503e8be254319bd849c7dfa0187f54ec86952d092303f5a8557b0abeb0ef82",
+      "bytes": 2148,
+      "role": "build script"
+    },
+    "scripts/make_training_ready_v3.py": {
+      "sha256": "47899085f52f5c261236a58fc96e314115096e617f4e38ffe4ea2aebe0c626c3",
+      "bytes": 12859,
+      "role": "build script"
+    },
+    "scripts/predictability_v3.py": {
+      "sha256": "61f2789d8ed478c981a2f52287113d2ece341f39f97399cc9118c254cc0b982f",
+      "bytes": 6359,
+      "role": "build script"
+    },
+    "scripts/split_integrity_v3.py": {
+      "sha256": "7a52237613365d54bc94afcb9ef8970afebdeab31549d32fdf62acfd30fcbbf0",
+      "bytes": 7308,
+      "role": "build script"
+    },
+    "scripts/write_manifest_v3.py": {
+      "sha256": "dc11cd45163b90bfcf914e92e33569e532e5db970f4ff9118e5017d4f0573285",
+      "bytes": 3333,
+      "role": "build script"
+    },
+    "training_ready/README.md": {
+      "sha256": "f5d75d7849a8d908c306ba6a2ac933c77a0dba44093010aa4d277ad10a0237ba",
+      "bytes": 1284,
+      "role": "training-ready export"
+    },
+    "training_ready/eligibility_reclassifications.csv": {
+      "sha256": "04d030b8d9c36d9a79288524c70487734ea90e31df4131efab7bb7988a6580fc",
+      "bytes": 6398,
+      "role": "training-ready export"
+    },
+    "training_ready/exclusions.csv": {
+      "sha256": "6aa07ff4432daf231b3315ee74dc7d13dd1a207b0296b981c4eb15082a0065fc",
+      "bytes": 1835,
+      "role": "training-ready export"
+    },
+    "training_ready/integrity_report.json": {
+      "sha256": "ed93f9dbcc61ee42e5e90f52796342973b4406b8a1e2ffd957149b775c8d4466",
+      "bytes": 6369,
+      "role": "training-ready export"
+    },
+    "training_ready/label_and_generation_only_examples.jsonl": {
+      "sha256": "b388f67699b77b720847b3c5f2effeeb68a95de3e5fb122d6f483a0fcb0e18bc",
+      "bytes": 475832,
+      "role": "training-ready export"
+    },
+    "training_ready/residual_similarity.json": {
+      "sha256": "6e5ed7caa3bcb02d3167113ef7ce2226f4dd42583ecb46acc149deed2ac46777",
+      "bytes": 5327,
+      "role": "training-ready export"
+    },
+    "training_ready/schema.json": {
+      "sha256": "fc3d27c73a6d82ef62242a32e9da2fd2b428e35145ead250164752c660e8d8c4",
+      "bytes": 13236,
+      "role": "training-ready export"
+    },
+    "training_ready/self_containment_audit.csv": {
+      "sha256": "824b1f1a75cd65f624b9efc3956730154574d57da0076a488de505a3971b211d",
+      "bytes": 94469,
+      "role": "training-ready export"
+    },
+    "training_ready/usable_examples.jsonl": {
+      "sha256": "47b72004f05f32de7ec5273385eafb3f0903c0868101304786c4bdce0d2986dc",
+      "bytes": 554715,
+      "role": "training-ready export"
+    },
+    "training_ready/answer_generation/answer_generation_manifest.json": {
+      "sha256": "c149ebfa15a435eea88cf02f153055e787305e3c4cb690f9f6706431a46d211a",
+      "bytes": 7989,
+      "role": "training-ready export"
+    },
+    "training_ready/answer_generation/test_transformation_records.jsonl": {
+      "sha256": "aaa40090781658a39e42ba5d7bc00235d08aaa2d3baef6906f2f74a423a41fd7",
+      "bytes": 155153,
+      "role": "training-ready export"
+    },
+    "training_ready/answer_generation/train_transformation_records.jsonl": {
+      "sha256": "e6b4cb91f9b15be41466eebfb7bb19b9969d2a94b0138367c0c50caf68fd2a4b",
+      "bytes": 1187049,
+      "role": "training-ready export"
+    },
+    "training_ready/answer_generation/validation_transformation_records.jsonl": {
+      "sha256": "0a91e6740a08ca8310d04be5f42a5875f2ce590d1ae5e693a3c050749d3bff9b",
+      "bytes": 159387,
+      "role": "training-ready export"
+    },
+    "training_ready/scripts/check_leakage.py": {
+      "sha256": "474c442cf57f9b1d900a040ef2316ab30b15aa1481cf46950db6fff711d6d983",
+      "bytes": 2790,
+      "role": "training-ready export"
+    },
+    "training_ready/scripts/eduguard_loader.py": {
+      "sha256": "108fc7a86422c061c18a1fd2be20f36b5dd880c5e7bba6e5f9937a8a98776dcf",
+      "bytes": 6115,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/split_manifest.json": {
+      "sha256": "2d75f2b9df2ad8f86fed04542ce37bcccc910e0561eaa09e8f3cf4ccdc5117a1",
+      "bytes": 12152,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/test_bloom_classification_records.jsonl": {
+      "sha256": "c05e136872d8ae9b37c3c4b3d47040bb09adb9e2f1c659563259209e7f6f5fce",
+      "bytes": 155466,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/test_examples.jsonl": {
+      "sha256": "99d0e12c9a7598dbd450ad414a58cc8cd83388a915e5e4cb5b01c6e51fdb4b16",
+      "bytes": 103072,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/test_transformation_records.jsonl": {
+      "sha256": "1b88116309bf429ec526c4c9ca9af5cff490ffd6b9aeb4d76479ac3062dfe528",
+      "bytes": 256013,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/train_bloom_classification_records.jsonl": {
+      "sha256": "9025ed0ba4cbbaaf1a437270d35b23fd0ac97ef8d00f33d5d89e7b555dd434f7",
+      "bytes": 1249315,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/train_examples.jsonl": {
+      "sha256": "2919765ca4d83dfdb07ccf63c7355d1f8a9e8a60333a8ca7bcde2e1df4ea2b3c",
+      "bytes": 823432,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/train_transformation_records.jsonl": {
+      "sha256": "5b06c2f85b68f4a069a301c2814ab5aaef59d66b96cd96f5dd8e420fb243ba60",
+      "bytes": 2051111,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/validation_bloom_classification_records.jsonl": {
+      "sha256": "34cc7d102d545a019cbb6f4a05ffae9c962c2457962cb0788d04516f2df643ff",
+      "bytes": 159292,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/validation_examples.jsonl": {
+      "sha256": "7171a2ed021b0278be545faa9116bd512635d6df3d8341f4a590fc0083d50f78",
+      "bytes": 104043,
+      "role": "training-ready export"
+    },
+    "training_ready/splits/validation_transformation_records.jsonl": {
+      "sha256": "bd82f368fb0d2bd42e0b412331461379492a3261b7e9a4ec72dfd0171e66670f",
+      "bytes": 259785,
+      "role": "training-ready export"
+    },
+    "training_ready/tests/reference_split_ids.json": {
+      "sha256": "a2ddcbf2212c93b72c9732568cb90e61aca0034fa171fb532a36fbe99907d201",
+      "bytes": 6640,
+      "role": "training-ready export"
+    },
+    "training_ready/tests/test_training_ready_v3.py": {
+      "sha256": "10518047616cc6de50e29a4d637001bb89083211ffcdc07242cfb6cd777cad15",
+      "bytes": 26039,
+      "role": "training-ready export"
+    },
+    "work/REPAIR_RULES.md": {
+      "sha256": "a4115129efa9c3f5c44244a1c8592fb04ad70656bdc6b593229aaf0d6a47625f",
+      "bytes": 5103,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/apply_report.json": {
+      "sha256": "ad9e6edf31b9823de9dfebb290ec643ee54d26b685a2df9cd402497e6a71c046",
+      "bytes": 4836,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/obe_verb_bank.json": {
+      "sha256": "2d4e9e7a65f667d6441731c1acfef3ce3ba3227ba5b38476d0b2f90adc558d60",
+      "bytes": 2405,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/sweep2_candidates.txt": {
+      "sha256": "20d860d2ade3799c81ec1839b5856c646e05d3569fce3d43af39660d27cf3deb",
+      "bytes": 56629,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b01.txt": {
+      "sha256": "2786bcbd68d498b7eb08e47b2221d58879a5cda92fc7e3cfedb6bb27f3eb20a4",
+      "bytes": 15588,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b02.txt": {
+      "sha256": "7322412a03ad26817136b6dafb180755d11ea16b9f993e281b81aa0ae2605c89",
+      "bytes": 15276,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b03.txt": {
+      "sha256": "ca2cb8272ccdecc85b98c20c05d0731e1cdf8183af975076571a8747bd6baf6c",
+      "bytes": 11923,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b04.txt": {
+      "sha256": "106f743d72565db55a305d24cc5a71fa4f619d2b9a83ce6927846ebe4ffa0f08",
+      "bytes": 8705,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b05.txt": {
+      "sha256": "4ee3e7512d5c3a1429726bf19cd1cf328d2ae8c5ae6968232b0e1ccd9d7998d3",
+      "bytes": 11566,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b06.txt": {
+      "sha256": "5c4be626c40064f644c7cedffe0b6034be0a788552b55eae5ad6104a5ab431c8",
+      "bytes": 9501,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b07.txt": {
+      "sha256": "7eda01ac08bd476cbe43fe50c87b22bab3c36a8d0cbeaeab6f9d9771f83409f5",
+      "bytes": 9980,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b08.txt": {
+      "sha256": "4456ab98c8147b7ab94462b673d93d1a5732c1a9314a100ecf31b593b7c25f59",
+      "bytes": 9710,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b09.txt": {
+      "sha256": "d96e8297f1b728f898d14cf52b2cb0ed13729a9a593aab7af65ea6166612dbf3",
+      "bytes": 9860,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b10.txt": {
+      "sha256": "ff0ce65ca7e12430b9ee99ff36572f3440788725b16e1c4eb4e96912457f8c6f",
+      "bytes": 11140,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b11.txt": {
+      "sha256": "4b303d347679b2eb4cdb1dbed18c2f9bf4e21a66cad45b8390c52bea62972369",
+      "bytes": 9928,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b12.txt": {
+      "sha256": "6baac65a6ea9255a00d541baeb950b7720ff66fef47f15a2d6ea1b33e940547f",
+      "bytes": 8939,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b13.txt": {
+      "sha256": "5c46aa16f0a87cc73334ddc7332556bf0a1f278886e7c4b54ea8a9f1c4787650",
+      "bytes": 7876,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b14.txt": {
+      "sha256": "ee32e58e2aa7817848e96a21ee0e731d56f82a2adff77826c016b5e4ab69ba9f",
+      "bytes": 7166,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b15.txt": {
+      "sha256": "3a74cd2d9293feea4e7f418577a21fd5e6f6f0b53ee21d6503a8f20f43c228ff",
+      "bytes": 6853,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b16.txt": {
+      "sha256": "1d57e4b1885e98ec1d3ecfc9e7f09da027ef62d497758164c35e0de86ad6d772",
+      "bytes": 6662,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b17.txt": {
+      "sha256": "9acbb94063b34abc85f7c5a6d8653d4d253841ac0af6a980362f05d439ad89b6",
+      "bytes": 8072,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b18.txt": {
+      "sha256": "6c3bfa0f52b9592119a09c34c6ee7a9a2ea98d60bb0d6337cde1b7e6477b47a0",
+      "bytes": 8046,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b19.txt": {
+      "sha256": "954a9b556b8c9e553ce7dc759ecfeb864b2a079e47e5f0ced04d9cf87d26a397",
+      "bytes": 7245,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b20.txt": {
+      "sha256": "a61a10a1793a073e5951a4b008a835bedb9e82d835294ff099056b1d4e94b47f",
+      "bytes": 9010,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b21.txt": {
+      "sha256": "4eab4bcb86cd16c245a398a40be5bd50655d071d025cc08f392fbd7889ea0736",
+      "bytes": 5628,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b22.txt": {
+      "sha256": "5f1ea7249707e1d2cc83c12fb5540598dbf765b0f7d16ea2a792f5b4e6c3f8f7",
+      "bytes": 7104,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/b23.txt": {
+      "sha256": "b322fcc6fe48d3d7cacd7c57678c603e8aedddd32d2faf6a0a12ad40e2f27653",
+      "bytes": 9286,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/s01.txt": {
+      "sha256": "7f899d3ce6631b5c86b74bd467567ec66dba97bcf566eecbc44f2fc38eaa23e1",
+      "bytes": 24208,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/s02.txt": {
+      "sha256": "e7756dfd09aea95615683a1635b667892fa76373af46a2e0f923e310fd46f79d",
+      "bytes": 24196,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/s03.txt": {
+      "sha256": "b4bb9237f8fb37bd571327dfdcb7fd49518ab23ca9d9250c73c73e436316711a",
+      "bytes": 23238,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/s04.txt": {
+      "sha256": "53fa0b6ba10ce248da37840a99ffb7d80abb294cfb019e4fcb0da5ff2d1f7f70",
+      "bytes": 47144,
+      "role": "repair working files (patches, rules, verb banks)"
+    },
+    "work/patches/s05.txt": {
+      "sha256": "c5e5c237b59ee8a21dc6e10ec7bea4455ee43b2b77c56894d32b37c6e1527366",
+      "bytes": 2769,
+      "role": "repair working files (patches, rules, verb banks)"
+    }
+  }
+}

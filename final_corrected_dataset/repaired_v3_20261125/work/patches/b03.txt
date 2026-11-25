@@ -1,0 +1,105 @@
+#reviewed 051,052,053,054,055,056,057,058,059,060,061,062,063,064,065,066,067,068,069,070,071,072,073,074,075
+@@ 051|Understand|verb_diversity|Characterize (comprehension).
+Characterize how hierarchical and decentralized organizational structures shape communication and managerial authority.
+@@ 051|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Determine an organizational structure that could speed up decision-making in a company whose decisions are delayed by multiple management levels.
+@@ 051|Create|verb_diversity|Propose.
+Propose an organizational structure for a growing company that supports effective communication, accountability, and timely decision-making.
+@@ 052|Analyze|alignment_fix|Classifying effects is Apply-level; now relational analysis of transactions.
+Analyze a series of business transactions to determine how each one changes the relationship among assets, liabilities, and owner's equity, and identify the transactions that affect only one side of the equation.
+@@ 052|Evaluate|obe_verb_first|Scenario-first opening; adds the judgement of plausibility.
+Evaluate the possible recording errors that could explain an imbalance in a company's accounting equation, and judge which explanation is most plausible.
+@@ 052|Create|verb_diversity|Compose.
+Compose a set of representative opening transactions for a newly established business and record their effects on the accounting equation.
+@@ 053|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Apply classical conditioning terms to a learning scenario in which a sound is repeatedly paired with food, naming the conditioned stimulus and the conditioned response.
+@@ 053|Analyze|verb_diversity|Distinguish stages by their evidence.
+Distinguish the acquisition, extinction, and spontaneous-recovery stages in a behavioural conditioning experiment by the changes in response that mark each stage.
+@@ 054|Understand|verb_diversity|Illustrate.
+Illustrate how continuous feedback and formative assessment help students recognize their learning gaps.
+@@ 054|Apply|obe_verb_first|Leading Given-clause; Select is not an Apply bank verb.
+Use formative assessment activities to address the learning gaps of a university course whose students perform poorly in weekly assessments, specifying which activity targets which gap.
+@@ 054|Analyze|verb_diversity|Correlate.
+Correlate students' assessment records before and after formative feedback to identify patterns of change in academic performance.
+@@ 054|Create|verb_diversity|Construct.
+Construct a formative assessment plan for a university course that integrates quizzes, feedback, and progress monitoring across the semester.
+@@ 055|Understand|verb_diversity|Discuss.
+Discuss how natural lighting, circulation, and accessibility affect the functionality of a library layout.
+@@ 055|Apply|obe_verb_first|Leading Given-clause.
+Prepare a space allocation for reading areas, book storage, and circulation routes from a given floor plan and building dimensions.
+@@ 055|Analyze|shared_verb|Identify (Analyze) conflicts and explain their causes; same authored plan.
+Identify the conflicts for accessibility, natural lighting, and movement created by a library floor plan whose only entrance is reached by stairs and whose main circulation route passes through the quiet reading area, and explain the cause of each.
+@@ 055|Evaluate|obe_verb_first|Scenario-first opening; same authored layout.
+Assess whether a proposed university library layout that places all reading areas in the windowless building core and the book stacks along the glazed perimeter satisfies accessibility and natural-lighting requirements without compromising usable space.
+@@ 056|Apply|obe_verb_first|Leading Given-clause.
+Calculate the vaccination coverage percentage for a specified community from its population and vaccination data.
+@@ 056|Evaluate|verb_diversity|Judge.
+Judge whether a vaccination programme with uneven coverage across population groups is likely to protect against widespread disease transmission.
+@@ 056|Create|verb_diversity|Formulate.
+Formulate a community vaccination outreach strategy that improves coverage among underserved population groups and supports disease prevention.
+@@ 057|Apply|obe_verb_first|Leading Given-clause.
+Calculate the heat transfer rate of a heat exchanger from the inlet and outlet temperatures and mass flow rates of its two fluids.
+@@ 057|Analyze|verb_diversity|Investigate and separate contributions.
+Investigate how changes in flow rate and inlet temperature, as recorded in heat exchanger operating data, alter its thermal performance, and separate the contribution of each.
+@@ 058|Evaluate|obe_verb_first|Scenario-first opening; same authored claim.
+Assess whether a student is justified in concluding that a series converges after applying the ratio test and obtaining a limit equal to one.
+@@ 059|Analyze|alignment_fix|Formulating equations is Apply-level; now dependency analysis.
+Determine which loops and nodes of a multi-loop circuit yield independent equations and which yield redundant ones, explaining the source of each dependency.
+@@ 059|Evaluate|obe_verb_first|Scenario-first opening; same authored equation set.
+Assess whether a student's equations for a three-loop circuit with four nodes, one KVL equation for every loop including the outer loop and one KCL equation for every node, form an independent and sufficient set for solving the unknown currents.
+@@ 060|Apply|obe_verb_first|Leading Given-clause.
+Calculate the concentration of an unknown acid from the volume and concentration of a standard base and the volume of the acid, using the balanced neutralization equation.
+@@ 060|Analyze|verb_diversity|Differentiate error types as explanations of observed spread.
+Differentiate the systematic errors from the random errors that could explain the spread of titration readings across repeated trials.
+@@ 061|Remember|obe_verb_first|Write is a Create bank verb.
+State the standard expression for the resonant frequency of a series RLC circuit.
+@@ 061|Apply|obe_verb_first|Leading For-clause; same values.
+Calculate the resonant frequency of a series RLC circuit with L=0.2H and C=50μF.
+@@ 061|Evaluate|obe_verb_first|Scenario-first opening.
+Verify whether increasing capacitance, as a designer proposes, shifts an RLC circuit toward a lower resonant frequency as intended.
+@@ 062|Apply|obe_verb_first|Leading Given-clause; Select is not an Apply bank verb.
+Determine an appropriate fiscal policy instrument for an economy experiencing rising unemployment and moderate inflation, and predict its immediate effect.
+@@ 063|Apply|obe_verb_first|Scenario-first opening; authored values kept exactly.
+Estimate the temperature of maximum activity and the temperature range over which denaturation is evident from an enzyme's activity measured at 20, 30, 37, 45, and 55 °C as 30%, 65%, 100%, 70%, and 10% of its maximum, respectively.
+@@ 064|Analyze|alignment_fix|Establishing equations is Apply-level; now load-sharing relationship.
+Decompose the loading on a simply supported beam into its effects on each support, and determine how moving a point load along the span changes the share carried by each support.
+@@ 064|Evaluate|obe_verb_first|Scenario-first opening; deliberately swapped reactions kept exactly.
+Verify whether the reactions R_A = 4 kN and R_B = 8 kN reported by a student for a 6 m simply supported beam carrying a 12 kN point load 2 m from support A satisfy both vertical-force equilibrium and moment equilibrium, and justify the conclusion.
+@@ 064|Create|known_solution_create|Was routine equation set-up; now a design with a target condition.
+Formulate a loading configuration for a simply supported beam that makes the two support reactions equal, and construct the equilibrium equations that confirm it.
+@@ 065|Apply|obe_verb_first|Scenario-first opening.
+Apply cognitive dissonance theory to predict two ways in which a student who strongly believes that cheating is wrong, but copies an assignment answer under time pressure, might reduce the resulting dissonance.
+@@ 066|Remember|obe_verb_first|Distinguish is not a Remember bank verb; now pure recall.
+Define correlation and causation.
+@@ 066|Apply|obe_verb_first|Scenario-first opening; Identify is not an Apply bank verb.
+Determine a potential confounding variable that should be considered in a study that finds a positive correlation between study hours and examination scores.
+@@ 066|Evaluate|obe_verb_first|Scenario-first opening.
+Challenge the validity of a researcher's conclusion that increased screen time causes lower academic performance, drawn only from a cross-sectional correlation, using methodological reasoning.
+@@ 067|Apply|obe_verb_first|Scenario-first opening; Select is not an Apply bank verb.
+Determine a suitable manufacturing process for a cylindrical component with a specified surface finish and dimensional tolerance.
+@@ 068|Evaluate|obe_verb_first|Scenario-first opening; same authored proof.
+Assess whether a student's proof of the product rule, which adds and subtracts f(x+h)g(x) in the difference quotient and then takes limits using the fact that a differentiable function is continuous, is valid by checking each assumption, intermediate step, and the conclusion.
+@@ 069|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Determine which administrative responsibilities could be decentralized in a local government that has limited authority over healthcare and education services.
+@@ 070|Apply|obe_verb_first|Leading Given-clause.
+Calculate the expected effluent concentration of an organic pollutant from the wastewater characteristics and a given treatment efficiency percentage.
+@@ 071|Apply|obe_verb_first|Leading Given-clause.
+Calculate the average waiting time of a set of processes with given arrival and burst times under Shortest Job First scheduling.
+@@ 072|Understand|obe_verb_first|Predict is not an Understand bank verb; Infer is.
+Infer the general direction in which a reversible reaction shifts when an external condition disturbs its equilibrium.
+@@ 072|Apply|obe_verb_first|Leading For-clause.
+Determine the direction of equilibrium shift for the reaction N_2(g)+3H_2(g)⇌2NH_3(g) when pressure is increased at constant temperature.
+@@ 072|Evaluate|obe_verb_first|Scenario-first opening.
+Judge whether increasing pressure is sufficient for a chemical plant to maximize ammonia production when temperature and operating costs are also considered.
+@@ 073|Apply|obe_verb_first|Leading Given-clause; Select is not an Apply bank verb.
+Use a course learning outcome that requires students to analyze a database schema to choose an assessment activity that measures the outcome.
+@@ 073|Analyze|verb_diversity|Detect mismatches and their effect.
+Detect mismatches between the learning outcomes, teaching activities, and examination questions of a course assessment plan, and explain how each mismatch weakens alignment.
+@@ 073|Evaluate|obe_verb_first|Scenario-first opening; same authored plan and criterion.
+Appraise whether an assessment plan that uses only a multiple-choice quiz on the definitions of normal forms provides sufficient evidence that students can design a normalized database schema, as the course learning outcome requires, using constructive alignment as the criterion.
+@@ 074|Evaluate|obe_verb_first|Scenario-first opening.
+Defend a decision on whether to accept a project that has a positive net present value but involves substantial financial uncertainty, using financial and risk considerations.
+@@ 075|Apply|obe_verb_first|Leading Given-clause.
+Calculate the proportion of each income group represented in a university cohort from enrolment statistics.
+@@ 075|Analyze|obe_verb_first|Interpret is not an Analyze bank verb.
+Analyze university enrolment data to uncover patterns of educational inequality across socioeconomic groups.

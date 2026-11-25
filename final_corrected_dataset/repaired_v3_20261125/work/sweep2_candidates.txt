@@ -1,0 +1,354 @@
+##### Understand / Explain: 367 rows, picked 122
+007|Understand| Explain why binary search reduces the search space by half after each comparison.
+012|Understand| Explain why high cohesion and low coupling generally improve software maintainability.
+016|Understand| Explain how a decision tree uses feature-based conditions to classify student academic performance.
+021|Understand| Explain how the divide-and-conquer strategy enables merge sort to achieve its time complexity.
+027|Understand| Explain how DFA states represent the progress of recognizing a required pattern in an input string.
+034|Understand| Explain how direct, fully associative, and set-associative cache mapping determine where memory blocks are stored.
+039|Understand| Explain how Boolean algebra simplification reduces the number of logic gates required to implement a combinational circuit.
+043|Understand| Explain how heat transfer, work transfer, and internal energy change are related in a closed thermodynamic system.
+048|Understand| Explain how an increase in interest rates can influence borrowing costs, business investment, and aggregate demand.
+056|Understand| Explain how increasing vaccination coverage can reduce the transmission of an infectious disease within a population.
+059|Understand| Explain how conservation of charge and conservation of energy form the basis of Kirchhoff's laws.
+071|Understand| Explain why the order in which processes receive CPU time affects average waiting time.
+077|Understand| Explain how alternating crops with different nutrient requirements can influence soil fertility and pest populations.
+088|Understand| Explain how soil bearing capacity, column loading, and permissible settlement influence the dimensions and suitability of a shallow foundation.
+100|Understand| Explain how packet loss and round-trip time variation affect TCP congestion-window adjustment during data transmission.
+109|Understand| Explain how the liquid limit and plastic limit determine the plasticity index of a soil sample.
+118|Understand| Explain how cache hits and cache misses contribute to the average memory access time of a computer system.
+124|Understand| Explain what the coefficient of uniformity and coefficient of curvature indicate about the grain-size distribution of soil.
+134|Understand| Explain how fluid density, mean velocity, pipe diameter, and dynamic viscosity determine the Reynolds number in pipe flow.
+139|Understand| Explain how series, parallel, and feedback block combinations are represented by equivalent transfer functions during block diagram reduction.
+142|Understand| Explain how supply frequency and the number of poles determine the synchronous speed of a three-phase induction motor.
+146|Understand| Explain how First-Come, First-Served and non-preemptive Shortest Job First determine the execution order of processes using arrival and burst times.
+154|Understand| Explain how the runoff coefficient, rainfall intensity, and catchment area influence the peak runoff rate according to the Rational Method.
+161|Understand| Explain the difference between pharmacokinetic and pharmacodynamic interactions in the context of the two specified drugs.
+166|Understand| Explain how the minimax algorithm uses terminal-state utility values to determine the optimal move in a two-player game tree.
+174|Understand| Explain how pipe length, diameter, flow velocity, and friction factor influence frictional head loss according to the Darcy–Weisbach equation.
+177|Understand| Explain how training-needs assessment identifies differences between employees' existing skills and required competencies.
+182|Understand| Explain how both half-cycles of the supplied sinusoidal input voltage contribute to the output waveform of a single-phase full-wave rectifier.
+186|Understand| Explain how Dijkstra's algorithm updates tentative distances when determining minimum-cost routes from the specified source node.
+194|Understand| Explain how changes in moisture content influence the dry density of soil during compaction.
+198|Understand| Explain the characteristic changes in microbial population during the lag, logarithmic, stationary, and death phases.
+204|Understand| Explain how force equilibrium at individual joints is used to determine the unknown member forces in a statically determinate plane truss.
+208|Understand| Explain how bulk density and tapped density are used to characterize pharmaceutical powder flowability through Carr's index and Hausner ratio.
+211|Understand| Explain how a Python function can examine a list of integers and determine whether an even number is present.
+214|Understand| Explain how the first and second derivatives are used to identify and classify local maximum and minimum values.
+218|Understand| Explain how nodes and next-pointer connections represent a sequence of values in a singly linked list.
+221|Understand| Explain how the base case and recursive calls work together to calculate the factorial of a non-negative integer.
+224|Understand| Explain how the selection procedures differ among simple random, stratified, systematic, and cluster sampling.
+227|Understand| Explain how the supplied short-run Phillips curve represents the relationship between inflation and unemployment.
+230|Understand| Explain how the AVG() function and GROUP BY clause calculate department-wise average salaries from employee records.
+238|Understand| Explain how the stated building and ground conditions influence the selection of a foundation type.
+241|Understand| Explain how the number of coil turns and the rate of change of magnetic flux influence the induced electromotive force.
+248|Understand| Explain how microscopic characteristics and burning behaviour differ among cotton, wool, and polyester fibres.
+256|Understand| Explain how segregation of duties, authorization, and record-keeping contribute to internal control over an organization's payment process.
+260|Understand| Explain what a favourable or adverse material cost variance indicates about actual material costs relative to standard material costs.
+271|Understand| Explain how the transmission and reception of ultrasonic waves enable a mobile robot to detect obstacles.
+274|Understand| Explain how rotation and translation transform a point from a robot's local coordinate frame to its global coordinate frame.
+277|Understand| Explain the distinction between the relevance and authenticity of electronic records as evidence.
+281|Understand| Explain how the voltage transfer characteristics represent the switching behaviour of a CMOS inverter.
+286|Understand| Explain how the output of a positive-edge-triggered D flip-flop responds to the data input at the active clock edge.
+292|Understand| Explain how competitive and non-competitive antagonists differ in their effects on agonist dose-response curves.
+295|Understand| Explain how differences in demand and supply elasticity influence the distribution of a tax burden.
+301|Understand| Explain the legal meaning of equality before law and prohibition of discrimination under the specified constitutional provisions.
+307|Understand| Explain how the derivative and initial approximation determine successive estimates of a root in the Newton–Raphson method.
+311|Understand| Explain how yarn length and mass determine yarn count under the specified numbering system.
+316|Understand| Explain why the sampling frequency must exceed twice the highest frequency component of the supplied ECG signal to avoid aliasing.
+323|Understand| Explain the relationship between the partial derivatives of the real and imaginary components in the Cauchy–Riemann equations.
+328|Understand| Explain how recorded fluid intake and output are used to determine a patient's fluid balance over an observation period.
+331|Understand| Explain how substrate concentration influences reaction velocity according to Michaelis–Menten kinetics.
+336|Understand| Explain how the proportional, integral, and derivative actions influence the overshoot, settling time, and steady-state error of the robotic system.
+341|Understand| Explain how centrifugal action separates particles from the gas stream in a cyclone separator.
+345|Understand| Explain how selective attention influences the processing of relevant and irrelevant stimuli.
+351|Understand| Explain how current, conductor length, magnetic field strength, and orientation influence the magnetic force.
+354|Understand| Explain how crop selection and growing-season sequence relate to the soil-management requirements in the supplied field conditions.
+360|Understand| Explain how the roots of the characteristic equation determine the general solution of a second-order linear homogeneous differential equation.
+364|Understand| Explain how technical, economic, and operational feasibility address different requirements of the supplied information-system proposal.
+370|Understand| Explain how member rotations, joint displacements, flexural rigidity, and fixed-end moments contribute to the slope-deflection equations for the supplied beam.
+375|Understand| Explain how the supplied job evaluation methods determine the relative worth of organizational positions.
+379|Understand| Explain how capital structure proportions, component financing costs, and the applicable tax rate influence the weighted average cost of capital.
+383|Understand| Explain how the distribution of administrative responsibilities differs from the distribution of financial authority in decentralization.
+386|Understand| Explain how a function pointer refers to a function and allows the specified arithmetic operation to be invoked indirectly.
+389|Understand| Explain how process measurements are interpreted in relation to control-chart limits when assessing statistical control.
+394|Understand| Explain how a unit hydrograph represents the direct runoff response to effective rainfall and how successive rainfall contributions combine over time.
+397|Understand| Explain how wheel rotation measurements are used to estimate changes in a mobile robot's position and orientation.
+400|Understand| Explain how mean, median, and standard deviation describe different aspects of central tendency and dispersion in the supplied sales dataset.
+404|Understand| Explain how overlaying land-use and flood-hazard layers reveals spatial relationships between land-use categories and flood-prone areas.
+411|Understand| Explain why choosing u=x and dv=e^xdx is suitable for evaluating ∫_0^1 x e^x dx using integration by parts.
+416|Understand| Explain how Dijkstra's algorithm uses the edge weights of the given graph to update the shortest known distances from vertex A.
+421|Understand| Explain how the determinant and adjugate of A=[[2, 1], [5, 3]] are used to obtain its inverse.
+424|Understand| Explain why the perpendicular orientation of the 0.5 m conductor carrying 4 A in a 0.2 T magnetic field produces the maximum magnetic force for the given current, length, and field strength.
+427|Understand| Explain how the student can focus on mathematics examination questions while filtering out the background conversations of other students.
+433|Understand| Explain how roof slope influences rainwater drainage in flat and pitched roof systems in a region receiving heavy rainfall.
+437|Understand| Explain how oral and intravenous intake and urine and other measured output contribute to the patient's net fluid balance during the 8-hour shift.
+441|Understand| Explain the administrative justification for the Partition of Bengal in 1905 and describe why the decision generated political responses.
+446|Understand| Explain how the forward-path transfer function G(s)=K/(s(s+2)(s+4)) determines the characteristic equation of the unity-feedback system.
+449|Understand| Explain how the sample mean of 53, hypothesized population mean of 50, known standard deviation of 10, and sample size of 100 are used to test the population mean.
+452|Understand| Explain how router A combines its link cost to router B with B's advertised distance to destination D when updating its routing table.
+455|Understand| Explain how openings on opposite exterior walls can support cross-ventilation when the building is exposed to prevailing winds.
+462|Understand| Explain how the link lengths of 2 m and 1 m and the target position (2,1) m constrain the possible joint configurations of the manipulator.
+468|Understand| Explain how the relationship between the executive and legislature differs between parliamentary and presidential systems, including executive selection and political accountability.
+472|Understand| Explain how the initial outlay of Tk. 10,000 and the Tk. 12,100 cash inflow received after two years determine the discount rate at which the investment's net present value becomes zero.
+476|Understand| Explain how short quizzes, feedback on incorrect answers, and opportunities to improve understanding support learning before the final examination.
+482|Understand| Explain why reproducing an entire copyrighted textbook and distributing digital copies without permission may interfere with the rights of the copyright holder.
+486|Understand| Explain how dynamic memory allocation using malloc() allows the program to store five integer inputs and why free() is required after calculating their sum.
+489|Understand| Explain how an average arrival rate of two customers per minute is used to determine the probability of exactly three arrivals during a one-minute interval.
+492|Understand| Explain how the database-normalization learning outcome, comparison activity, and justification-based assessment are intended to support the same learning objective.
+497|Understand| Explain how the initial head position of 50, the upward direction, and the cylinder boundary of 199 influence the servicing order under SCAN.
+500|Understand| Explain why a point-factor approach considers multiple job-related factors when determining the relative worth of different positions.
+505|Understand| Explain how centrifugal action separates suspended particles from an industrial gas stream inside a cyclone separator.
+508|Understand| Explain how a D-value of 2 minutes relates processing time to successive one-log reductions in the microbial population.
+512|Understand| Explain how feeding the complemented output of the last flip-flop into the first flip-flop produces successive states in the 4-bit Johnson counter.
+516|Understand| Explain why a seller's knowingly false statement about a vehicle's accident history may influence a buyer's decision to enter into a transaction.
+520|Understand| Explain how the two test cases x=5 and x=-3 exercise the statements and decision branches in the given conditional code.
+523|Understand| Explain how spindle speed, feed rate, and depth of cut influence the material removal process and the resulting surface finish during CNC turning.
+526|Understand| Explain how negotiation, economic sanctions, and international mediation can influence the behaviour of states involved in a dispute.
+531|Understand| Explain how compressional forces can deform originally layered rocks into upward-arching anticlines and downward-curving synclines.
+534|Understand| Explain how consistent test items and an appropriate number of items can contribute to the reliability of an educational assessment.
+540|Understand| Explain why exports and imports are recorded differently from foreign investment inflows and external loan repayments in the balance of payments.
+544|Understand| Explain how the FIFO assumption determines which purchase costs remain in closing inventory after 150 units are sold from the two stated purchases.
+549|Understand| Explain how the location and manner of airflow obstruction distinguish the consonant sounds /p/, /m/, /s/, and /ʃ/.
+552|Understand| Explain how borrowing host bits from the /24 network prefix creates four equal-sized subnets.
+557|Understand| Explain why the 200 ending work-in-process units contribute different equivalent-unit quantities for materials and conversion costs.
+560|Understand| Explain how the sample mean of 50, population standard deviation of 10, sample size of 100, and critical value of 1.96 determine the width of the 95% confidence interval.
+564|Understand| Explain how the time spent holding inventory and collecting receivables, together with the time allowed for paying suppliers, determines the cash conversion cycle.
+569|Understand| Explain how the equation Av=λv relates a matrix transformation to its eigenvalues and eigenvectors.
+572|Understand| Explain how compensatory damages are intended to address loss arising from a failure to perform a contractual obligation, using the supplier's failure to deliver 500 units by 1 June as the context.
+575|Understand| Explain why the FIFO method assigns the cost of the earliest purchased units to the 120 units sold before assigning costs to the remaining inventory.
+580|Understand| Explain how extracting data, standardizing its format, and loading it into a target repository prepare operational data for analytical use in a data warehouse.
+585|Understand| Explain how a checkpoint helps a database recovery system avoid processing the entire transaction log from the beginning after a system failure.
+589|Understand| Explain how the geometric form of flat, pitched, and curved roofs influences rainwater drainage and their architectural applications.
+593|Understand| Explain how the existence of paths between vertices determines whether an undirected graph is connected.
+598|Understand| Explain how linking budget allocations to service coverage, cost per vaccinated person, and annual vaccination targets can connect public expenditure with service performance.
+##### Create / Design: 287 rows, picked 58
+009|Create| Design an encryption architecture for an academic records system that uses symmetric and asymmetric encryption to protect stored and transmitted records.
+017|Create| Design an indexing strategy for a university database that supports efficient student searches and course registration queries.
+038|Create| Design a cloud deployment architecture for a university web application, specifying the service model for hosting, application deployment, and end-user access.
+053|Create| Design an ethical behavioural experiment to investigate how repeated stimulus associations influence a specific learned response.
+100|Create| Design a congestion-window adjustment policy for a TCP sender that responds differently to packet loss and to rising round-trip times, and show the window values it produces for a loss-and-delay scenario of your choice compared with standard TCP Reno.
+113|Create| Design an assay procedure for the drug solution that uses the supplied molar absorptivity and path length to convert measured absorbance into concentration, including how samples whose absorbance lies outside the linear range should be diluted and re-measured.
+130|Create| Design a water-quality monitoring plan for three sampling points with BOD values of 2 mg/L, 8 mg/L, and 40 mg/L that classifies their biodegradable organic pollution levels and specifies follow-up treatment actions for each level.
+138|Create| Design a dose-selection strategy for the drug based on the supplied dose–response data, specifying a dose range that achieves a chosen response level while avoiding the plateau region of the curve.
+146|Create| Design a CPU scheduling policy for the supplied processes that lowers the average waiting time compared with First-Come, First-Served scheduling, and show its schedule using their arrival and burst times.
+154|Create| Design a storm-drain capacity specification for the supplied catchment based on the peak runoff rate obtained from the Rational Method with its supplied runoff coefficient, rainfall intensity, and catchment area.
+168|Create| Design a coating-selection guide that recommends sugar coating or film coating for different tablet products according to their coating-process requirements, desired product characteristics, and pharmaceutical applications.
+179|Create| Design a controller modification for the supplied unity-feedback control system, such as added integral action or an adjusted gain, that reduces the steady-state error under the specified reference input to a chosen level.
+185|Create| Design a new building concept that synthesizes the relationships among form, materials, spatial organization, and functional expression identified in the two supplied modernist buildings.
+191|Create| Design an Ostwald viscometer procedure for the pharmaceutical liquid that specifies the reference fluid, temperature control, number of flow-time replicates, and how relative viscosity is computed from the supplied flow times and densities.
+204|Create| Design a modification of the supplied plane truss, such as an added member or a changed support, that reduces the force in its most highly loaded member, and show the revised joint equilibrium relationships.
+216|Create| Design a fiscal and trade policy package for the supplied economy that achieves a chosen change in aggregate expenditure, specifying the planned changes in consumption, investment, government expenditure, and net exports.
+231|Create| Design a pipelined version of the fetch–decode–execute cycle for a simple processor, specifying how successive instructions overlap and how the design handles an instruction that depends on the result of the previous one.
+243|Create| Design a genetic cross that would determine whether a tall pea plant (tall dominant over dwarf) is homozygous or heterozygous, and predict the offspring ratios for each possibility.
+259|Create| Design an integrated module-allocation framework for a manufacturing company's supplier invoices, payroll, goods receipts, and sales orders using the finance, human resources, and inventory modules, showing the data shared between modules.
+268|Create| Design a modified ideal Otto cycle, starting from a cycle with a compression ratio of 8, γ = 1.4, and an initial state of 100 kPa and 300 K, that achieves a higher thermal efficiency, and construct its pressure–volume diagram showing how each of the four processes and their state points change.
+281|Create| Design transistor sizing for a CMOS inverter with V_DD = 1.8 V that moves its switching threshold from 0.9 V to a chosen value, and explain how the voltage transfer characteristic and operating regions change.
+288|Create| Design the operating temperature range for the supplied reaction in which it is spontaneous, using its standard enthalpy change and standard entropy change to locate the temperature at which ΔG changes sign, and compare it with the specified temperature.
+305|Create| Design a poverty-measurement proposal for a country that combines an absolute and a relative poverty threshold, specifying each threshold and how households counted as poor under each would be reported.
+310|Create| Design a modified SRAM cell based on the six-transistor cell that improves read stability, specifying changes to transistor sizing or to the access-transistor arrangement, and show how the storage nodes, cross-coupled inverters, and access transistors interact in the modified design.
+332|Create| Design a reorder policy for the supplied inventory item that specifies its reorder point and a rule for adjusting safety stock when lead time varies, using the supplied demand rate, lead time, and safety stock as the baseline.
+339|Create| Design a limit-test procedure for chloride in a pharmaceutical substance, specifying the reference-standard preparation, the comparison method, and the decision rule against the prescribed limit.
+349|Create| Design a roof-construction detail that combines features of the supplied flat-roof and pitched-roof details to improve drainage and weather protection, specifying its structural arrangement.
+363|Create| Design an acoustic-treatment proposal for the supplied room that adjusts its total equivalent sound absorption area to reach a target reverberation time suited to its intended use, using its volume and current absorption area as the baseline.
+371|Create| Design an extended audit sampling plan for the supplied population that specifies the sample size, selection method, and decision rule needed to support a population-level conclusion against the specified audit criteria.
+378|Create| Design a change in the initial concentrations for the supplied reaction that increases the equilibrium concentration of a chosen product, using the equilibrium constant to predict the new equilibrium concentrations.
+387|Create| Design a test cross that would measure the recombination frequency between the specified genes, specifying the parental genotypes and how parental and recombinant offspring classes would be counted to estimate map distance.
+395|Create| Design a minimal set of additional edges that would make the supplied undirected graph connected, and show the resulting connected structure.
+407|Create| Design a minimum-gate logic circuit that implements F(A,B,C)=Σm(1,3,5,7), deriving the simplified expression that the circuit realizes.
+415|Create| Design a scheduling policy for the three processes (arrival times 0, 1, and 2 ms; burst times 5, 3, and 2 ms) that reduces the average waiting time compared with FCFS, and show its Gantt chart.
+426|Create| Design a particulate-control system for the stated industrial exhaust stream with a high gas flow rate and relatively large particles, specifying the cyclone arrangement, such as multiple cyclones in parallel, and any downstream unit required.
+433|Create| Design a roof for a building in the stated heavy-rainfall region that specifies its slope, drainage arrangement, and construction details, and justify each choice.
+443|Create| Design a revised tensile specimen for the same material and 20 kN applied force that would halve the engineering stress produced on the 100 mm² original cross-sectional area, and predict the corresponding strain over a 100 mm gauge length assuming linear elastic behaviour.
+450|Create| Design a dilution plan for the solution with molar absorptivity 150 L mol⁻¹ cm⁻¹ and concentration 0.002 mol/L, measured in a 1 cm cuvette, that brings its absorbance into a chosen measurement range, specifying the dilution factor and the expected absorbance.
+457|Create| Design a thermal process for the same microorganism, based on the inactivation from 10^6 to 10^3 cells/mL in 6 minutes at constant temperature, that achieves a chosen target final population, specifying the required processing time.
+463|Create| Design an integrated conservation plan for a threatened plant species that combines habitat protection in a national park with a botanical-garden seed bank, specifying the role of each and how plants could be reintroduced.
+470|Create| Design an enzyme assay condition for the enzyme with a maximum reaction velocity of 100 μmol/min and a Michaelis constant of 2 mmol/L that achieves a chosen fraction of the maximum velocity, specifying the required substrate concentration and comparing it with the velocity at 5 mmol/L.
+479|Create| Design a quality-control test plan for immediate-release tablets that uses disintegration-time limits to ensure timely drug dissolution, specifying the test conditions and acceptance criteria.
+488|Create| Design an ERP integration model for the manufacturing company that specifies the data each of the finance, human resources, and inventory modules writes to and reads from the shared organizational database.
+495|Create| Design a test cross to determine whether an offspring with the dominant phenotype from the Aa×Aa cross is AA or Aa, specifying the cross and the expected offspring ratios for each possibility, assuming complete dominance of allele A.
+503|Create| Design a set of accountability procedures for a parliamentary system, such as question time and confidence votes, specifying how each enforces collective ministerial responsibility to the legislature.
+511|Create| Design a recovery scenario for transaction T1 in which the system crashes before the <COMMIT T1> record is written to the log, and specify the recovery actions and the resulting values of accounts A and B.
+518|Create| Design a summary cash-flow statement for the company from the five transactions that reports the net cash flow from operating, investing, and financing activities and the overall net change in cash, and propose one financing decision that would raise the net change in cash to at least Tk. 50,000.
+525|Create| Design a Lineweaver–Burk experiment for the enzyme that would detect competitive inhibition, predicting how the y-intercept of 0.02 min/μmol and the x-intercept of -0.5 L/mmol would change in the presence of the inhibitor.
+537|Create| Design an insertion order of the same keys (10, 20, 5, 6, 12, 30, and 7) that produces a B-tree of minimum degree t=2 with fewer node splits, and show the resulting tree.
+542|Create| Design an ETL workflow for the company's sales, inventory, and finance systems that includes a validation step rejecting inconsistent records before loading.
+549|Create| Design a minimal-pair listening exercise using /p/, /m/, /s/, and /ʃ/ that contrasts their place and manner of articulation, specifying the word pairs and the articulatory feature each pair tests.
+554|Create| Design a dissolution-testing protocol for a dosage form, specifying the apparatus conditions, sampling times, and the dissolution-profile acceptance points used to judge drug-release behaviour and product quality.
+560|Create| Design a sampling plan for the population with a known standard deviation of 10 that produces a 95% confidence interval half as wide as the one obtained from the random sample of 100 observations, determining the required sample size.
+567|Create| Design an extension of the role-based access-control policy for the university information system that adds a new role of your choice and enforces separation of duties, specifying its permissions relative to the Student, Teacher, and Administrator roles.
+574|Create| Design a survey instrument that measures academic motivation through study hours per week, class attendance percentage, and frequency of voluntary academic activities, specifying each item, its response scale, and how the items combine into a motivation score.
+585|Create| Design a checkpointing schedule for a transaction-processing system that balances recovery time against the overhead of taking checkpoints, and show how recovery would proceed after a failure.
+590|Create| Design a split-horizon rule for router A's distance-vector updates in the stated network, and show how it changes the routing information A advertises to B about its route to C.
+600|Create| Design a hybrid cache-write scheme that uses write-back for most blocks but writes through selected blocks, specifying the selection rule and the sequence of operations after a processor modifies a cached block.
+##### Analyze / Determine: 161 rows, picked 40
+023|Analyze| Determine whether the difference in F1-score between two classification models arises mainly from false positives or from false negatives, explaining how their evaluation results support the attribution.
+087|Analyze| Determine how changes in the factored bending moment and in the material strengths alter the required tensile reinforcement area of the beam, and identify which change has the largest effect.
+105|Analyze| Determine how differences in velocity and elevation between two points affect the pressure at the specified point according to Bernoulli's equation.
+134|Analyze| Determine which of density, mean velocity, pipe diameter, and dynamic viscosity act on the Reynolds number in opposite directions, and explain why doubling the pipe diameter and halving the dynamic viscosity change it by the same factor.
+151|Analyze| Determine whether a given relative error in the extravascular area under the curve or the same relative error in the intravenous area under the curve would distort the calculated absolute bioavailability more, and explain why.
+174|Analyze| Determine which of the supplied pipe parameters enter the Darcy–Weisbach equation linearly, which enter it squared, and which inversely, and explain how this ranks their influence on frictional head loss.
+187|Analyze| Determine how an increase in residual value and an equal increase in acquisition cost would differ in their effects on annual straight-line depreciation, and explain the difference.
+202|Analyze| Determine which of the supplied point charges dominates the resultant electric field at the observation point and which contributions partly cancel, explaining the roles of distance and sign.
+214|Analyze| Determine why the second derivative test is inconclusive at some critical points of the supplied function, and identify what the sign changes of the first derivative reveal about those points.
+228|Analyze| Determine which point in the supplied sequence of stack operations brings the stack closest to overflow or underflow, and explain how the order of pushes and pops causes it.
+236|Analyze| Determine which of workability, strength, and durability is the governing requirement for the supplied concrete mix in the specified application, and explain how improving one property could compromise another.
+254|Analyze| Determine whether the organization's net change in cash is driven by sustainable operating activities or by one-off investing and financing flows, using the supplied cash flow statement.
+274|Analyze| Determine why the order of rotation and translation matters in the supplied coordinate transformation, and identify which part of the result depends only on the translation vector.
+289|Analyze| Determine why the influence line for the support reaction is linear, and identify the load position at which the reaction equals half of the applied load.
+302|Analyze| Determine how the relationship between the target's distance from the base and the two link lengths decides whether the supplied arm has two solutions, one solution, or none.
+314|Analyze| Determine which of the supplied resource constraints limit the feasible production decisions most, and explain how the product contributions interact with those limits.
+328|Analyze| Determine which components of the supplied intake and output records most influence the patient's net fluid balance, and identify any losses that the records may underestimate.
+343|Analyze| Determine which rows of the supplied matrix are linear combinations of others, and explain how this dependency appears in its row-echelon form.
+351|Analyze| Determine how the orientation of the supplied conductor relative to the magnetic field decides the size of the force, and identify the orientations that give the maximum and the zero force.
+363|Analyze| Determine why doubling the room volume while keeping the same equivalent absorption area doubles the reverberation time, and identify the change in absorption area that would restore the original time.
+381|Analyze| Determine which cells of the supplied observed frequency table contribute most to the chi-square statistic, and explain what their pattern reveals about the nature of any association.
+400|Analyze| Determine what the gap between the mean and the median of the supplied sales values reveals about their skewness, and identify the observations that most inflate the standard deviation.
+409|Analyze| Determine why the amount of drug eliminated in each successive 4-hour period after a 400 mg dose falls even though the fraction eliminated stays the same, and identify how much is eliminated during the third half-life.
+421|Analyze| Determine why the inverse of A=[[2, 1], [5, 3]] has integer entries, and explain what would happen to the inverse if the determinant of A were zero.
+434|Analyze| Determine why Group A's share among passing students is larger than its 60% share of all students, relating the shift to the difference between the pass probabilities of 0.8 and 0.5.
+443|Analyze| Determine why engineering stress and strain are computed from the original area and gauge length rather than the instantaneous ones, and explain how this choice would misstate the material's behaviour at large extensions.
+453|Analyze| Determine whether the soil with a liquid limit of 48% and a plastic limit of 22% plots above or below the A-line on a plasticity chart, and explain what its position indicates about its clay or silt character.
+461|Analyze| Determine why the Tk. 30,000 inflow in year 3 adds less present value per taka than the Tk. 40,000 inflow in year 1, and identify how a small rise in the 10% discount rate would affect the accept-or-reject decision when the net present value is close to zero.
+472|Analyze| Determine why the internal rate of return of the single-inflow investment can be found exactly as (12,100/10,000)^(1/2) − 1, and explain why investments with several inflows require trial and error.
+484|Analyze| Determine why a given percentage rise in selling price increases total contribution more than the same percentage rise in sales volume for a product selling at Tk. 150 with a variable cost of Tk. 90 and a volume of 2,000 units.
+493|Analyze| Determine why raising the compression ratio above 8 gives diminishing gains in ideal Otto-cycle efficiency for a specific heat ratio of 1.4, and explain how a higher specific heat ratio would change the efficiency at the same compression ratio.
+507|Analyze| Determine which of the proportional, integral, and derivative terms dominates the controller output for the stated gains and error conditions, and explain how the balance would shift as the error approaches zero.
+521|Analyze| Determine whether the patient's positive balance would persist if other measured output rose to equal the intravenous intake, and identify which single measurement has the largest influence on the result.
+536|Analyze| Determine how the two-day deadline and the team's technical knowledge pull in opposite directions when choosing between autocratic and democratic leadership, and identify which factor should dominate and why.
+543|Analyze| Determine why the friction angle affects bearing capacity through all three bearing-capacity factors while cohesion enters only one term, and explain why foundation width matters mainly for frictional soils.
+549|Analyze| Determine which pairs among /p/, /m/, /s/, and /ʃ/ share a place of articulation but differ in manner, and which share a manner but differ in place, explaining what each pairing shows.
+555|Analyze| Determine why the runoff coefficient of 0.6 is the parameter most changed by urbanization, and explain how increasing it would alter the peak runoff from the 5-hectare catchment at a rainfall intensity of 50 mm/hour.
+571|Analyze| Determine why a fourfold rise in rate for a doubling of concentration indicates a second-order dependence, and predict the factor by which the rate would change if the concentration were tripled.
+581|Analyze| Determine why erosion of an anticline exposes the oldest strata at its core while erosion of a syncline exposes the youngest, relating this to the direction in which the layers were folded.
+591|Analyze| Determine why the labour efficiency variance is valued at the standard rate of Tk. 200 per hour rather than the actual rate, and explain what an excess of actual hours over the standard hours allowed implies about production efficiency.
+##### Remember / Define: 211 rows, picked 52
+032|Remember| Define support and confidence in association rule mining.
+047|Remember| Define natural selection and identify the role of heritable variation in evolution.
+056|Remember| Define vaccination coverage and herd immunity.
+069|Remember| Define administrative decentralization and identify its major forms.
+086|Remember| Define mens rea and actus reus as elements of criminal liability.
+130|Remember| Define biochemical oxygen demand and identify what it measures in a water sample.
+148|Remember| Define solvent polarity and solubility as properties relevant to the extraction of plant constituents.
+172|Remember| Define slip and state the relationship between slip, supply frequency, and rotor frequency in a three-phase induction motor.
+194|Remember| Define optimum moisture content and maximum dry density in a soil-compaction test.
+201|Remember| Define the transition range of an acid–base indicator and identify its significance in titration.
+212|Remember| Define a pointer and state the relationship between an array name and its elements in C.
+217|Remember| Define class, status, and power as dimensions of social stratification.
+227|Remember| Define inflation and unemployment and state the relationship represented by the short-run Phillips curve.
+239|Remember| Define product positioning, target market, and distinctive product attributes.
+245|Remember| Define a confidence interval and identify the sample statistics required to estimate a population mean.
+252|Remember| Define a transaction processing system and identify its main functions in handling sales transactions.
+260|Remember| Define material cost variance.
+275|Remember| Define software copyright and software licensing.
+292|Remember| Define competitive and non-competitive receptor antagonism.
+300|Remember| Define tablet disintegration and identify the purpose of a tablet disintegration test.
+305|Remember| Define absolute poverty and relative poverty.
+317|Remember| Define intergenerational and intragenerational social mobility.
+326|Remember| Define anticlines and synclines in structural geology.
+332|Remember| Define the reorder point and identify the roles of demand during lead time and safety stock.
+345|Remember| Define selective attention.
+356|Remember| Define therapeutic drug monitoring and identify the purpose of a therapeutic range.
+362|Remember| Define contribution margin and identify the two per-unit amounts required to calculate it.
+371|Remember| Define audit sampling and identify the purpose of selecting a sample from an audit population.
+382|Remember| Define SQL injection and identify the role of untrusted input in this vulnerability.
+390|Remember| Define network address translation and identify the private and public address roles in NAT.
+400|Remember| Define mean, median, and standard deviation as descriptive statistical measures of a sales dataset.
+409|Remember| Define drug half-life and state the relationship between half-life and the elimination of a drug following first-order kinetics.
+415|Remember| Define First-Come, First-Served scheduling and state how the scheduling order is determined from process arrival times.
+423|Remember| Define technical, economic, and operational feasibility in the context of information-system development.
+437|Remember| Define fluid intake, fluid output, and net fluid balance in patient monitoring.
+447|Remember| Define a bank reconciliation statement and identify the meanings of deposits in transit and outstanding cheques.
+457|Remember| Define decimal reduction time (D-value) and state its relationship with logarithmic microbial population reduction.
+463|Remember| Define in-situ and ex-situ conservation.
+473|Remember| Define cation exchange capacity and identify positively charged plant nutrients that can be retained by soil exchange sites.
+482|Remember| Define copyright and identify reproduction and distribution as acts potentially controlled by copyright protection.
+491|Remember| Define the TCP congestion window and state the basic behaviour of the slow-start phase.
+503|Remember| Define collective ministerial responsibility.
+516|Remember| Define misrepresentation in contract law.
+523|Remember| Define spindle speed, feed rate, depth of cut, material removal rate, and surface finish in CNC turning.
+532|Remember| Define product positioning.
+541|Remember| Define a connected undirected graph and identify the meaning of a path between two vertices.
+547|Remember| Define primary succession and secondary succession and identify whether soil is initially present in each process.
+558|Remember| Define a decision tree classifier.
+569|Remember| Define an eigenvalue and eigenvector and state the characteristic equation used to determine the eigenvalues of a square matrix.
+577|Remember| Define plain weave.
+584|Remember| Define proportional limit, yield point, ultimate tensile strength, and fracture point on a ductile material's stress–strain curve.
+593|Remember| Define a connected undirected graph and state the condition that must hold between every pair of vertices.
+##### Remember / State: 189 rows, picked 47
+004|Remember| State the conditions that determine whether a resource allocation state is safe.
+017|Remember| State the definitions of clustered and non-clustered indexes.
+039|Remember| State the fundamental Boolean algebra laws used to simplify logic expressions.
+045|Remember| State Newton's second law of motion and write its mathematical expression.
+061|Remember| State the standard expression for the resonant frequency of a series RLC circuit.
+074|Remember| State the formula used to calculate the net present value of an investment project.
+090|Remember| State the principal physical and mechanical properties used to classify common building materials, and name an example of a material in each major class.
+103|Remember| State the equation used to calculate the efficiency of a single-phase transformer from its input and output power.
+111|Remember| State the ordering property that a binary search tree must satisfy for every node and its left and right subtrees.
+123|Remember| State the literal rule of statutory interpretation and identify the principle on which it is based.
+131|Remember| State the titration relationship used to calculate the concentration of an acidic pharmaceutical sample from the standard alkali concentration and titre volume.
+140|Remember| State the height-of-instrument method and identify the staff readings required to determine the reduced levels of survey points.
+147|Remember| State the possible range of Pearson's correlation coefficient and identify the values representing positive, negative, and zero linear correlation.
+159|Remember| State the relationship used to calculate the reactive power compensation required for power-factor correction.
+166|Remember| State the roles of maximizing and minimizing players in the minimax algorithm.
+174|Remember| State the Darcy–Weisbach equation used to determine frictional head loss in a pipe.
+182|Remember| State the relationship between the input voltage and output voltage of an ideal single-phase full-wave rectifier.
+191|Remember| State the relationship used to determine the relative viscosity of a liquid using an Ostwald viscometer.
+204|Remember| State the equilibrium equations used to determine member forces in a plane truss using the method of joints.
+222|Remember| State the standard form of a first-order linear differential equation and the formula for its integrating factor.
+241|Remember| State Faraday's law of electromagnetic induction and identify the physical quantities represented in its mathematical expression.
+280|Remember| State the conduct that cybercrime legislation typically treats as unauthorized access to a computer system.
+288|Remember| State the Gibbs free energy equation and identify the thermodynamic quantities used to determine reaction spontaneity.
+299|Remember| State the principle of operation of a venturimeter and identify the parameters used to calculate discharge.
+330|Remember| State the functions of the bitwise AND, OR, XOR, and left-shift operators in C.
+351|Remember| State the equation for the magnetic force on a straight current-carrying conductor and identify its variables.
+366|Remember| State the evaluation function used by the A* search algorithm and define its cost and heuristic components.
+381|Remember| State the null and alternative hypotheses used in a chi-square test of independence.
+399|Remember| State the defining characteristics of exponential and logistic population growth.
+407|Remember| State the meaning of minterms and identify how a Boolean function is represented using sum-of-minterms notation.
+416|Remember| State the principle used by Dijkstra's algorithm to determine shortest paths from a source vertex in a graph with non-negative edge weights.
+427|Remember| State what selective attention allows a person to do.
+436|Remember| State the dynamic power-dissipation equation for a CMOS inverter and identify the supply voltage, switching frequency, effective load capacitance, and activity factor.
+449|Remember| State the null and alternative hypotheses for a two-tailed one-sample z-test and identify the formula for the test statistic.
+458|Remember| State Newton's law of cooling in exponential form and identify the initial temperature, surrounding temperature, cooling constant, and elapsed time.
+467|Remember| State the economic order quantity formula and identify annual demand, ordering cost, and annual holding cost.
+478|Remember| State the relationship between real power, power factor, and reactive power, and identify the formula for the reactive power supplied by a capacitor.
+489|Remember| State the Poisson probability formula and identify the roles of the average arrival rate and the number of observed events.
+497|Remember| State the operating principle of the SCAN disk-scheduling algorithm and identify how the disk head changes direction.
+505|Remember| State the separating principle on which a cyclone separator operates.
+515|Remember| State the government expenditure multiplier formula and define the marginal propensity to consume and marginal propensity to save.
+533|Remember| State the meaning of a first-order partial derivative and identify which variable is held constant when differentiating with respect to x or y.
+542|Remember| State what the abbreviation ETL stands for in data warehousing.
+552|Remember| State the relationship between prefix length, subnet mask, and the number of host addresses in an IPv4 subnet.
+559|Remember| State the main factors that govern sound transmission through a wall.
+568|Remember| State where species are protected under in-situ and under ex-situ conservation.
+576|Remember| State the definition of a first-order partial derivative.
+##### Apply / Apply: 118 rows, picked 29
+012|Apply| Apply the coupling classification (data, stamp, control, common, and content coupling) to determine the type of coupling between two modules when one module passes a flag that selects which operation the other module performs.
+050|Apply| Apply campus waste categories to a list of waste materials, placing each material in the recycling, organic, or general waste stream.
+080|Apply| Apply operational definitions to a research objective concerning study habits and academic performance by specifying measurable indicators for both variables.
+093|Apply| Apply appraisal-method criteria to the stated workforce characteristics and performance objectives of a medium-sized organization to choose an appropriate performance appraisal method.
+115|Apply| Apply the doctrine of separation of powers to assign each of the following functions to the legislature, executive, or judiciary: enacting a budget law, enforcing traffic regulations, deciding a contract dispute, and declaring a statute unconstitutional.
+123|Apply| Apply the literal rule to interpret a supplied statutory provision according to the ordinary meaning of its words.
+135|Apply| Apply the given spatial requirements to divide the specified floor area among the living, sleeping, cooking, and sanitary functions.
+157|Apply| Apply the four-factor model of consumer behaviour to a consumer buying a smartphone by assigning each influence to its category: family members' opinions, monthly income, festival gift-giving customs, and a belief that the brand signals status.
+177|Apply| A role requires advanced spreadsheet modelling, but an employee can only enter data and use basic formulas. Apply gap analysis to identify the skill gap and assign it a training priority.
+205|Apply| Apply the stated functional relationships and adjacency requirements to group the specified spaces into zones.
+244|Apply| Apply the eutrophication sequence to fertilizer runoff entering a lake by placing the following in the order in which they occur: algal bloom, fish deaths, increased nutrient concentration, and oxygen depletion by decomposers.
+253|Apply| Apply the three feasibility categories to the supplied information system proposal by sorting its stated requirements and constraints into technical, economic, and operational concerns.
+263|Apply| Apply the five-component model of a management information system to the following items, stating the component each represents: a database server, the payroll application, employee records, the month-end payroll closing procedure, and the payroll officer.
+275|Apply| Apply the specified licence conditions to the supplied scenario to determine which software-use activities are permitted and which are restricted.
+305|Apply| Apply the definitions of absolute and relative poverty to determine which concept each measure represents: households living on less than USD 2.15 per person per day, and households with income below 50% of the national median income.
+335|Apply| Apply the state-of-mind test to the supplied misrepresentation scenarios to determine the category of each false statement.
+364|Apply| Apply the three feasibility dimensions to the supplied proposal requirements, stating which dimension each requirement concerns.
+380|Apply| Apply the stated characteristics to sort the features shown in the supplied site plan into development opportunities and constraints.
+413|Apply| A university of 2,000 students has four faculties of 800, 600, 400, and 200 students. Apply proportionate stratified sampling to determine how many students should be selected from each faculty for a sample of 200.
+426|Apply| Apply the cyclone cut-diameter relationship, in which the cut diameter decreases as inlet velocity increases, to predict how raising the inlet velocity at the stated high gas flow rate would change the collection of the relatively large particles.
+444|Apply| A manager must choose a leadership style for a team of experienced engineers who need little supervision on a long research project. Apply the characteristics of autocratic, democratic, and laissez-faire leadership to select a suitable style, and state the deciding characteristic.
+468|Apply| Apply the defining features of parliamentary and presidential systems to determine which system a country has if its head of government is chosen by the legislature and can be removed by a legislative vote of no confidence.
+482|Apply| Apply the reproduction and distribution rights protected under the applicable legal framework to the stated textbook scenario, determining which activities engage each right.
+492|Apply| Apply the principle of constructive alignment to a revised assessment that asks students only to define the normal forms, and determine whether it would still align with the outcome requiring students to evaluate database normalization choices.
+526|Apply| Apply diplomatic negotiation, economic sanctions, and international mediation to a border dispute in which talks have stalled and one state has begun building on the disputed land, recommending the order in which the instruments should be used and why.
+536|Apply| A project leader must choose a technical design within two days, and team members hold critical technical knowledge. Apply the characteristics of autocratic and democratic leadership to determine which approach the leader should use for this decision.
+547|Apply| Apply the distinction between primary and secondary succession to identify the type of succession on a new volcanic lava flow and on an abandoned rice field, and predict which site would reach a stable community sooner.
+572|Apply| Apply the concept of breach of contract to determine whether the supplier's failure to deliver the 500 units by 1 June constitutes non-performance of the stated contractual obligation.
+584|Apply| A ductile steel specimen's stress–strain curve is linear up to 250 MPa, shows a distinct yield at 270 MPa, reaches a maximum engineering stress of 450 MPa, and fractures at 380 MPa. Apply the definitions to state the proportional limit, yield point, ultimate tensile strength, and fracture stress.

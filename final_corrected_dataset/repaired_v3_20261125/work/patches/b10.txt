@@ -1,0 +1,93 @@
+#reviewed 228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252
+@@ 228|Analyze|alignment_fix|Was stepping through operations (Apply); now limiting-point analysis.
+Determine which point in the supplied sequence of stack operations brings the stack closest to overflow or underflow, and explain how the order of pushes and pops causes it.
+@@ 229|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the distinction between strategic, tactical, and operational planning to the supplied organizational activities, stating the level of each according to its purpose.
+@@ 229|Create|verb_diversity|Integrate.
+Integrate the supplied organizational activities into a coordinated planning framework with strategic, tactical, and operational levels that addresses the stated objectives.
+@@ 230|Analyze|alignment_strengthen|Join/grouping order and its effect on the result.
+Determine why joining the employee and department tables before grouping affects which departments appear in the average-salary result, and identify the attribute on which the join and the grouping must agree.
+@@ 231|Apply|obe_verb_first|Trace is not an Apply bank verb; authored instruction kept.
+Demonstrate how the instruction ADD R1, R2, R3 passes through the fetch, decode, and execute stages, stating the operation performed at each stage.
+@@ 231|Analyze|alignment_strengthen|Inter-stage dependency analysis.
+Analyze how a delay in the decode stage would affect the fetch and execute stages, and identify which stage depends on information produced by each of the others.
+@@ 232|Analyze|alignment_fix|Was input identification; now base-rate effect and sensitivity.
+Determine why a low prior probability can keep the posterior probability small even when the supplied conditional probabilities indicate an accurate test, and identify the supplied probability to which the result is most sensitive.
+@@ 233|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Use the criteria of coherence, formal language, organization, and consistency to locate unclear language, organizational problems, and inconsistencies between findings and conclusions in the supplied technical report.
+@@ 233|Analyze|alignment_strengthen|Traces the logical link between findings and conclusions.
+Trace whether each conclusion in the supplied technical report follows from its stated findings, and identify where the report's organization obscures the link.
+@@ 233|Create|obe_verb_first|Rewrite is not a Create bank verb.
+Produce a revised version of the supplied technical report that improves its coherence, formal language, organization, and consistency between findings and conclusion while preserving its original information.
+@@ 234|Analyze|alignment_fix|Was input identification; now how deactivation and direction govern the sum.
+Determine how deactivating each independent source changes the circuit seen by the specified branch, and explain how the direction of each source's contribution decides whether the contributions add or cancel.
+@@ 235|Analyze|alignment_strengthen|Contrast plus deciding process.
+Contrast how filtration, reabsorption, and secretion each move substances between the blood and the filtrate, and determine which process mainly decides whether a filtered substance appears in the urine.
+@@ 235|Create|shared_verb|Model (Create).
+Model how reduced tubular reabsorption would change urine volume and composition, linking filtration, reabsorption, and secretion in the nephron to the predicted outcome.
+@@ 236|Understand|verb_diversity|Describe.
+Describe how workability, strength, and durability influence the performance of concrete in a construction application.
+@@ 236|Apply|obe_verb_first|Match is not an Apply bank verb.
+Use the specified workability, strength, and durability requirements to test whether the supplied concrete mix properties meet each one.
+@@ 236|Analyze|alignment_strengthen|Governing requirement and trade-offs.
+Determine which of workability, strength, and durability is the governing requirement for the supplied concrete mix in the specified application, and explain how improving one property could compromise another.
+@@ 236|Create|verb_diversity|Propose.
+Propose a concrete mix that addresses the supplied workability, strength, and durability requirements for the specified construction application.
+@@ 237|Remember|answer_in_question|Question listed the three sources.
+Name the three principal sources of law.
+@@ 238|Remember|readback|Was reading back supplied details; now recall.
+Name the main types of shallow and deep foundations used in building construction.
+@@ 238|Analyze|alignment_strengthen|Eliminating conditions with reasoning.
+Determine which of the stated building and ground conditions rule out particular foundation types among the supplied foundation details, and explain the reasoning for each.
+@@ 238|Create|verb_diversity|Formulate.
+Formulate a foundation-selection proposal using the supplied foundation details and the stated building and ground conditions.
+@@ 239|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine the target market and the distinctive attributes indicated by the supplied product information.
+@@ 239|Analyze|shared_verb|Relate (Analyze) attributes to needs and find mismatches.
+Relate the supplied product's distinctive attributes to the needs and characteristics of its identified target market, and identify any attribute that does not serve those needs.
+@@ 241|Analyze|alignment_strengthen|Rate-of-change dependence and the flux-maximum case.
+Analyze why the induced electromotive force depends on the rate of change of magnetic flux rather than on the flux itself, and determine what happens to the emf at the instant the flux reaches its maximum.
+@@ 242|Create|known_solution_create|Drawing the standard mechanism is Apply-level; now a designed route with reversed regiochemistry.
+Propose a reaction route that would give the opposite regiochemistry from the supplied electrophilic addition, and explain how the change of conditions alters the intermediate.
+@@ 243|Analyze|alignment_strengthen|Explains why phenotypic and genotypic ratios differ.
+Examine the monohybrid cross Tt × Tt to determine why its phenotypic ratio differs from its genotypic ratio, tracing each ratio to how alleles separate into gametes and combine in offspring.
+@@ 244|Remember|answer_in_question|Question named the two nutrients.
+Define eutrophication and name the two nutrients most commonly responsible for it.
+@@ 244|Apply|obe_verb_first|Leading After-clause; authored events kept.
+Apply the eutrophication sequence to fertilizer runoff entering a lake by placing the following in the order in which they occur: algal bloom, fish deaths, increased nutrient concentration, and oxygen depletion by decomposers.
+@@ 244|Create|verb_diversity|Devise.
+Devise a catchment-management plan for an aquatic ecosystem that interrupts the nitrogen and phosphorus enrichment pathway leading to eutrophication, specifying measures at each stage of the causal chain.
+@@ 245|Analyze|alignment_strengthen|Procedure choice and its effect on width.
+Determine whether the supplied population assumptions call for a z-based or a t-based confidence interval, and explain how that choice and the confidence level change the width of the interval.
+@@ 246|Understand|verb_diversity|Clarify.
+Clarify why contribution per unit, rather than selling price alone, determines how many units must be sold to break even.
+@@ 246|Analyze|alignment_strengthen|Contribution margin ratio and revenue break-even.
+Determine how the break-even point in sales revenue depends on the contribution margin ratio, and explain why two products with the same contribution per unit can have different break-even revenues.
+@@ 247|Remember|readback|Was reading back the supplied plan; now recall.
+List the elements that a public policy implementation plan normally specifies.
+@@ 247|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the plan's stated objectives, administrative responsibilities, and resource requirements to organize the activities in the supplied implementation plan into a responsibility matrix.
+@@ 247|Create|verb_diversity|Adapt.
+Adapt the supplied implementation plan so that its policy objectives, administrative responsibilities, and resource allocation are aligned.
+@@ 248|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Use the given fibre-identification criteria to determine the fibre represented by the supplied microscopic characteristics and burning-test observations.
+@@ 249|Apply|obe_verb_first|Match is not an Apply bank verb.
+Determine whether the supplied thermal-processing temperature and time achieve the stated microbial-reduction requirement for the food product.
+@@ 249|Analyze|alignment_fix|Duplicated the Apply check; now temperature-time trade-off.
+Analyze the trade-off between processing temperature and processing time in achieving the stated microbial reduction, and identify why a higher temperature can allow a disproportionately shorter time.
+@@ 249|Create|verb_diversity|Formulate.
+Formulate a thermal-processing schedule for the supplied food product that addresses its stated temperature, processing-time, and microbial-reduction requirements.
+@@ 250|Remember|answer_in_question|Question named the two land-cover characteristics.
+Define the urban heat island effect and name the land-cover changes that contribute to it.
+@@ 250|Create|verb_diversity|Plan.
+Plan an urban-greening scheme for a city district that counteracts the urban heat island effect by targeting vegetation cover and built-up surfaces, specifying the measures and their expected effects.
+@@ 251|Analyze|verb_diversity|Categorize reconciling items by treatment.
+Categorize the transactions that account for the difference between the supplied cash book and bank statement balances according to whether they require an adjustment to the cash book or appear only in the reconciliation.
+@@ 252|SOURCE_LABEL|Understand|The source asks how a TPS captures, processes, and stores transactions: a process description with no relationship, cause, evidence, or assumption demand. Its Understand row was the source with only the verb changed. Prior label Analyze recorded.
+Analyze how a transaction processing system captures, processes, and stores sales transactions in a retail organization.
+@@ 252|Understand|DROP|Row duplicated the relabelled Understand source.
+-
+@@ 252|Analyze|new_row_after_relabel|Genuine analysis of functional dependency, authored from the same content.
+Analyze how a failure or delay in the capture function of a retail transaction processing system would propagate through its processing and storage functions, and identify which downstream records would become inaccurate.
+@@ 252|Apply|obe_verb_first|Assign is not an Apply bank verb; authored items kept.
+Apply the capture, processing, and storage functions of a retail transaction processing system to place each of the following: scanning a product barcode at checkout, updating the inventory quantity after the sale, and writing the sale record to the sales database.

@@ -1,0 +1,139 @@
+{
+ "patch_entries": 1412,
+ "superseded_first_pass_entries": 266,
+ "reviewed_examples": 586,
+ "eligible_examples": 586,
+ "rows_rewritten": 1410,
+ "rows_dropped": 1,
+ "source_label_changes": [
+  {
+   "id": "252",
+   "from": "Analyze",
+   "to": "Understand",
+   "reason": "The source asks how a TPS captures, processes, and stores transactions: a process description with no relationship, cause, evidence, or assumption demand. Its Understand row was the source with only the verb changed. Prior label Analyze recorded."
+  }
+ ],
+ "categories": {
+  "natural_formulation": 206,
+  "verb_diversity": 204,
+  "obe_verb_first": 197,
+  "sweep_evaluate_diversity": 124,
+  "alignment_strengthen": 115,
+  "sweep_understand_diversity": 107,
+  "sweep_remember_diversity": 82,
+  "alignment_fix": 61,
+  "answer_in_question": 54,
+  "sweep_create_diversity": 49,
+  "sweep_analyze_diversity": 37,
+  "known_solution_create": 31,
+  "sweep_apply_diversity": 28,
+  "adjacent_level_distinction": 26,
+  "readback": 26,
+  "shared_verb": 24,
+  "verb_only_pair": 17,
+  "operation_diversity": 10,
+  "challenge_review_distinction": 8,
+  "operation_fix": 2,
+  "Understand": 1,
+  "DROP": 1,
+  "new_row_after_relabel": 1,
+  "remember_pure_recall": 1
+ },
+ "rows_rewritten_by_level": {
+  "Remember": 197,
+  "Apply": 212,
+  "Analyze": 288,
+  "Evaluate": 265,
+  "Create": 201,
+  "Understand": 247
+ },
+ "obe_failures": [],
+ "structural_failures": [],
+ "number_flags": [],
+ "false_claim_value_loss": [],
+ "accepted_number_exceptions": [
+  [
+   "285",
+   "Create",
+   [
+    "2"
+   ],
+   "'2-to-1 multiplexer' is a device name in a Create design task, not data"
+  ],
+  [
+   "330",
+   "Analyze",
+   [
+    "2"
+   ],
+   "2^k is the shift-multiplication identity"
+  ],
+  [
+   "446",
+   "Analyze",
+   [
+    "0"
+   ],
+   "pole at s = 0 is read directly from G(s)=K/(s(s+2)(s+4))"
+  ],
+  [
+   "472",
+   "Analyze",
+   [
+    "1"
+   ],
+   "exponent 1/2 and the -1 follow from the stated two-year period"
+  ],
+  [
+   "512",
+   "Analyze",
+   [
+    "16",
+    "8"
+   ],
+   "2n = 8 states and 2^4 = 16 possible states follow from the stated 4 bits"
+  ],
+  [
+   "551",
+   "Analyze",
+   [
+    "4"
+   ],
+   "Simpson's one-third rule weights 1, 4, 1 are method constants"
+  ]
+ ],
+ "question_forms_by_level": {
+  "Remember": {
+   "imperative": 565,
+   "interrogative": 14
+  },
+  "Apply": {
+   "imperative": 350,
+   "scenario+task": 18,
+   "interrogative": 12
+  },
+  "Analyze": {
+   "imperative": 397,
+   "interrogative": 13,
+   "scenario+task": 3
+  },
+  "Evaluate": {
+   "imperative": 387,
+   "scenario+task": 69,
+   "interrogative": 56
+  },
+  "Create": {
+   "imperative": 533,
+   "interrogative": 3
+  },
+  "Understand": {
+   "imperative": 500,
+   "interrogative": 10
+  }
+ },
+ "master_sha256": {
+  "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+  "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc"
+ },
+ "problems": []
+}

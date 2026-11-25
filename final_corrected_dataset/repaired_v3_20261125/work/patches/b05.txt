@@ -1,0 +1,91 @@
+#reviewed 101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125
+@@ 101|Understand|verb_diversity|Describe.
+Describe how demographic, geographic, psychographic, and behavioral characteristics separate potential customers of a consumer product into distinct groups.
+@@ 101|Analyze|adjacent_level_distinction|Understand describes the separation; Analyze weighs which characteristics dominate and how they interact.
+Determine which of the demographic, geographic, psychographic, and behavioral characteristics most strongly distinguish the potential customer groups for the new consumer product, and explain how they interact in defining each group.
+@@ 101|Evaluate|verb_diversity|Critique; same authored proposal and criteria.
+Critique a proposed segmentation that divides the new consumer product's potential customers only by age group, considering the demographic, geographic, psychographic, and behavioural characteristics that may drive purchase decisions.
+@@ 102|Analyze|alignment_strengthen|Was reading off changes; now detecting rate changes and inferring phases.
+Inspect the supplied dissolution measurements across sampling times to detect where the release rate changes, and infer which phase of dissolution each change marks.
+@@ 102|Create|verb_diversity|Construct; same content.
+Construct a dissolution sampling and reporting scheme for the tablet that uses the supplied dissolution-test measurements and initial drug content to compute the percentage released at each sampling time and identifies the time at which a chosen release specification is met.
+@@ 103|Understand|verb_diversity|Relate (Understand).
+Relate the input power and output power of a single-phase transformer to its efficiency.
+@@ 103|Analyze|verb_diversity|Attribute the power difference to loss components.
+Attribute the difference between the input and output power of a single-phase transformer to its loss components, and determine how each component affects efficiency at the specified load.
+@@ 103|Create|verb_diversity|Plan; same content.
+Plan a load-testing procedure for the single-phase transformer that determines its efficiency at the specified load and at other load levels from input and output power measurements, and identifies the load at which efficiency is highest.
+@@ 104|Understand|verb_diversity|Discuss.
+Discuss the role of registration and documentation in establishing the validity of a transfer of immovable property.
+@@ 106|Evaluate|verb_diversity|Argue; same authored case.
+A drug has a therapeutic index of 10 but its toxicity dose–response curve is much steeper than its efficacy curve. Argue whether the therapeutic index alone is a sufficient indicator of the drug's safety margin.
+@@ 106|Create|verb_diversity|Formulate.
+Formulate a safety-monitoring plan for a drug with a narrow therapeutic index, specifying how dosing, plasma-level monitoring, and dose adjustments should be organized relative to its median toxic dose and median effective dose.
+@@ 107|Understand|verb_diversity|Illustrate.
+Illustrate how a linear electrical network can be represented by an equivalent voltage source and series resistance across specified load terminals.
+@@ 107|Analyze|alignment_fix|Listing procedure steps is Apply-level; now structural decomposition with reasoning.
+Decompose the specified linear electrical network into the elements that determine its Thevenin equivalent voltage and those that determine its equivalent resistance, and explain why the two quantities are found separately.
+@@ 108|Remember|answer_in_question|Question listed the three elements.
+Name the three elements that must be established to prove negligence in a tort claim.
+@@ 108|Evaluate|verb_diversity|Weigh and decide.
+Weigh the evidence of duty of care, breach of duty, and damage in a negligence claim to decide whether the claim is sufficiently supported.
+@@ 109|Analyze|alignment_strengthen|Was arithmetic observation; now attribution of differences to a specific limit.
+Compare the supplied liquid-limit and plastic-limit values of the soil samples to determine which limit accounts for the differences in their plasticity indices.
+@@ 110|Apply|obe_verb_first|Leading For-clause; authored values kept.
+Determine which façades of a rectangular building at about 23° N latitude, whose long façades face east and west, receive the most direct solar radiation in the morning, at midday, and in the afternoon.
+@@ 110|Evaluate|verb_diversity|Recommend; same authored alternatives and criterion.
+Recommend the orientation of the rectangular building at about 23° N, long axis east–west or north–south, that better reduces cooling load in a hot climate, justifying the choice by the solar exposure of each façade.
+@@ 111|Analyze|alignment_fix|Was tracing insertion (Apply); now analysis of why the order yields a balanced tree.
+Analyze why the insertion sequence 50, 30, 70, 20, 40, 60, and 80 produces a balanced binary search tree, identifying the property of the order that causes this.
+@@ 112|Analyze|verb_diversity|Investigate; same authored figures.
+A business reports assets of Tk. 800,000, liabilities of Tk. 350,000, and owner's equity of Tk. 400,000. Investigate whether these figures satisfy the accounting equation, and identify the size and possible sources of any discrepancy.
+@@ 112|Evaluate|shared_verb|Determine (Evaluate) with justification; same authored record.
+A business records a Tk. 50,000 cash purchase of equipment by increasing both its assets and its liabilities. Determine whether its records still correctly reflect the accounting equation, and justify the judgement.
+@@ 112|Create|verb_diversity|Generate; same authored targets.
+Generate a set of business transactions for a newly established business that keeps the accounting equation balanced after each transaction and ends with total assets of Tk. 500,000, liabilities of Tk. 200,000, and owner's equity of Tk. 300,000.
+@@ 113|Analyze|alignment_strengthen|Error propagation analysis.
+Distinguish how errors in absorbance, molar absorptivity, and path length would each propagate into the calculated concentration of the drug solution.
+@@ 114|Analyze|shared_verb|Determine (Analyze) plus causal explanation; authored signal kept.
+Determine which frequency components are present in the 4-point DFT of x[n] = {1, 2, 1, 0}, and explain why the component at k = 2 is zero.
+@@ 115|Understand|verb_diversity|Describe.
+Describe the respective roles of the legislature, executive, and judiciary under the doctrine of separation of powers.
+@@ 115|Analyze|obe_verb_first|Leading In-clause; authored scenario kept.
+Differentiate the functions exercised by each organ in a state where the executive issues regulations with the force of law and can appoint and remove judges at will, and identify where the separation of powers is breached.
+@@ 115|Evaluate|verb_diversity|Judge; same authored arrangement and criteria.
+Judge whether an arrangement in which the head of the executive also presides over the highest court is consistent with the doctrine of separation of powers, with reference to judicial independence and checks and balances.
+@@ 115|Create|verb_diversity|Propose.
+Propose a governance structure for a new public body that assigns rule-making, enforcement, and dispute-resolution functions to separate organs, so as to preserve the separation of powers and provide checks and balances.
+@@ 116|Analyze|verb_diversity|Correlate with extreme cases.
+Correlate the position of a moving point load with the reaction at the specified support of a simply supported beam, and identify the load positions that produce the maximum and the zero reaction.
+@@ 117|Understand|verb_diversity|Interpret.
+Interpret the architectural significance of the characteristic features of the Gothic architectural style.
+@@ 117|Evaluate|verb_diversity|Appraise; same authored building.
+Appraise whether a building with pointed-arch windows but thick load-bearing walls, barrel vaults, and no buttressing provides sufficient evidence to be classified as Gothic, with reference to the defining Gothic features.
+@@ 119|Analyze|adjacent_level_distinction|Understand explains stage characteristics; Analyze isolates the distinguishing signals between confusable stages.
+Distinguish the market signals that separate the maturity stage from the decline stage of the product life cycle, and explain why these two stages are often confused.
+@@ 119|Create|verb_diversity|Formulate.
+Formulate a marketing-strategy plan for a product that specifies how pricing, promotion, and distribution should change across the introduction, growth, maturity, and decline stages of the product life cycle.
+@@ 120|Understand|verb_diversity|Summarize.
+Summarize how moist-heat and dry-heat sterilization differ in their mechanisms and pharmaceutical applications.
+@@ 120|Apply|obe_verb_first|Leading Using-clause; Assign is not an Apply bank verb; authored items kept.
+Use the mechanisms of moist-heat and dry-heat sterilization to choose a method for each of the following: glass vials, aqueous injection solutions, anhydrous oily injection vehicles, and rubber closures.
+@@ 120|Create|shared_verb|Establish (Create).
+Establish a sterilization-selection protocol for a pharmaceutical facility that assigns moist-heat or dry-heat sterilization to different product and equipment types according to the mechanisms and applications of each method.
+@@ 121|Analyze|adjacent_level_distinction|Understand explains indicators; Analyze attributes each change to its mechanism and reversibility.
+Attribute each change observed during storage of the emulsion, namely droplet-size growth, creaming, coalescence, and phase separation, to the instability mechanism behind it, and determine which of the changes are reversible.
+@@ 121|Create|verb_diversity|Propose.
+Propose a reformulation of the emulsion that addresses the observed droplet-size growth, creaming, coalescence, and phase separation during storage, specifying the formulation changes and the stability indicators to be monitored.
+@@ 122|Analyze|verb_diversity|Map.
+Map which samples of the two supplied discrete-time signals overlap to produce each output value during convolution.
+@@ 122|Create|known_solution_create|Was the standard flip-and-shift method; now an independent verification design.
+Devise a check, independent of the flip-and-shift method, that confirms the complete output sequence obtained by convolving the two supplied discrete-time signals.
+@@ 123|Understand|verb_diversity|Paraphrase.
+Paraphrase how the literal rule directs a court to interpret statutory words according to their ordinary meaning.
+@@ 125|Remember|answer_in_question|Question listed the four space types.
+List the principal space types included in the functional zoning of a small public library.
+@@ 125|Understand|verb_diversity|Describe.
+Describe the functional relationships among the reading, reference, circulation, and service spaces of a small public library.
+@@ 125|Apply|obe_verb_first|Allocate is not an Apply bank verb; authored activities kept.
+Apply functional zoning to place each of the following library activities in the reading, reference, circulation, or service zone: borrowing and returning books, quiet study, consulting encyclopaedias, and book repair and cataloguing.
+@@ 125|Analyze|verb_diversity|Organize adjacency hierarchy.
+Organize the reading, reference, circulation, and service spaces of a small public library into a hierarchy of required adjacencies, and identify which connections are essential and which are optional.

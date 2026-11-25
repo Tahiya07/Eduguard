@@ -1,0 +1,81 @@
+#reviewed 253,254,255,256,257,258,259,260,261,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278
+@@ 253|Understand|verb_diversity|Characterize.
+Characterize how technical, economic, and operational feasibility differ when assessing an information system proposal.
+@@ 253|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Apply the three feasibility categories to the supplied information system proposal by sorting its stated requirements and constraints into technical, economic, and operational concerns.
+@@ 253|Create|verb_diversity|Formulate.
+Formulate an implementation proposal for the supplied information-system proposal that responds to its technical, economic, and operational feasibility evidence, specifying the measures needed to address any weaknesses.
+@@ 254|Analyze|adjacent_level_distinction|Source (Understand) interprets contributions; Analyze attributes the change to sustainable vs one-off flows.
+Determine whether the organization's net change in cash is driven by sustainable operating activities or by one-off investing and financing flows, using the supplied cash flow statement.
+@@ 254|Create|verb_diversity|Plan.
+Plan a cash-management strategy for the organization that uses its supplied cash flow statement to propose changes to its operating, investing, or financing activities that would improve its net change in cash.
+@@ 255|Remember|answer_in_question|Question named the three indicators.
+Name common sales performance indicators used in business intelligence dashboards.
+@@ 255|Understand|verb_diversity|Describe.
+Describe how sales revenue, sales growth, and regional sales performance support management decision-making.
+@@ 255|Analyze|alignment_strengthen|Contrast plus combined pattern.
+Contrast what sales revenue, sales growth, and regional sales performance each reveal in the supplied sales information, and identify a pattern that becomes visible only when they are combined.
+@@ 256|Remember|answer_in_question|Question named the three controls.
+Name the main types of internal control procedure used in an organization's payment process.
+@@ 257|Evaluate|verb_diversity|Recommend.
+Recommend the supplied sales price and sales volume scenario that best satisfies the stated decision criterion, justifying the choice from its projected revenue.
+@@ 258|Analyze|alignment_fix|Was input identification; now effect of completion percentage and why completed units are unaffected.
+Determine how changing the stated completion percentage of ending work-in-process inventory alters the equivalent units of production and the cost per equivalent unit, and explain why completed units are unaffected.
+@@ 259|Apply|obe_verb_first|Assign is not an Apply bank verb; authored transactions kept.
+Apply the module structure of an ERP system to place each transaction in the finance, human resources, or inventory module: posting a supplier invoice, recording a new employee's joining date, and recording goods received into the warehouse.
+@@ 260|Remember|answer_in_question|Question named the two components.
+Define material cost variance.
+@@ 260|Analyze|alignment_fix|Was reading direction and magnitude; now causal attribution with stated information gap (no data invented).
+Determine whether the supplied material cost variance is more likely to arise from price differences or from usage differences, and identify the further information needed to confirm the attribution.
+@@ 260|Create|verb_diversity|Propose.
+Propose a corrective-action plan for the supplied material cost variance that identifies possible causes of the difference between actual and standard material costs and sets out measures to reduce it.
+@@ 261|Understand|verb_diversity|Illustrate.
+Illustrate how management information contributes to planning, organizing, directing, and controlling activities within an organization.
+@@ 261|Apply|obe_verb_first|Assign is not an Apply bank verb; authored items kept.
+Apply the four management functions to each item of management information, stating which function it mainly supports: a five-year sales forecast, an organization chart showing reporting lines, a summary of a staff-motivation survey, and a monthly budget-versus-actual report.
+@@ 261|Create|verb_diversity|Construct.
+Construct a management information framework for a medium-sized company that specifies the reports needed to support planning, organizing, directing, and controlling, and their frequency.
+@@ 263|Apply|obe_verb_first|Assign is not an Apply bank verb; authored items kept.
+Apply the five-component model of a management information system to the following items, stating the component each represents: a database server, the payroll application, employee records, the month-end payroll closing procedure, and the payroll officer.
+@@ 263|Evaluate|verb_diversity|Critique; same authored system.
+Critique a payroll system that has modern hardware and software but no documented procedures or trained staff, judging how adequately it incorporates the five components of a management information system.
+@@ 264|Apply|obe_verb_first|Assign is not an Apply bank verb; authored transactions kept.
+Apply balance-of-payments accounting to record each transaction in the current account or the capital and financial account: an export of garments, remittances from workers abroad, a foreign company's purchase of a local factory, and interest paid on foreign loans.
+@@ 265|Remember|answer_in_question|Question named the three stores.
+Name the three stores of the multi-store model of memory.
+@@ 266|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine the executive accountability and separation-of-powers arrangements present in the supplied national governance scenario.
+@@ 266|Create|verb_diversity|Propose.
+Propose a reasoned governance arrangement for the supplied national scenario, choosing a parliamentary or presidential system on the basis of executive accountability and separation of powers.
+@@ 267|Analyze|alignment_fix|Was the subtraction relationship; now sensitivity to rainfall variability.
+Analyze how the share of the crop water requirement met by effective rainfall affects the sensitivity of the irrigation requirement to rainfall variability, and identify when the irrigation need becomes most uncertain.
+@@ 268|Understand|verb_only_pair|Was the source with Explain for Analyze; now direction-of-change comprehension, while the source (Analyze) requires explaining causes.
+Summarize, process by process, whether pressure and temperature rise, fall, or stay constant in an ideal Otto cycle.
+@@ 269|Apply|obe_verb_first|Classify is not an Apply bank verb.
+Use the stated reference ranges to place each of the supplied temperature, pulse rate, respiratory rate, and blood pressure measurements in the low, normal, or high band.
+@@ 269|Analyze|adjacent_level_distinction|Was the source task (Understand) restated; now relationships among abnormal signs.
+Relate the supplied patient's abnormal vital signs to one another, and infer which deviation is most likely to be driving the others.
+@@ 269|Create|verb_diversity|Plan.
+Plan nursing care for the supplied patient that prioritizes the vital signs falling outside the stated reference ranges and specifies interventions and reassessment intervals for each.
+@@ 270|Analyze|alignment_fix|Was input identification; now interpretive range and slope governance.
+Determine over what range of the independent variable the intercept of the supplied regression equation has a meaningful interpretation, and explain how the sign and size of the slope govern the change in estimates.
+@@ 271|Create|alignment_strengthen|Adds a decision design (slow/stop).
+Design an obstacle-detection procedure for a mobile robot that uses ultrasonic distance measurements to decide when to slow down and when to stop.
+@@ 272|Apply|obe_verb_first|Leading Given-clause; Write is a Create bank verb; authored declaration kept.
+Complete the statements that display the identification number, name, and CGPA of the second student in an initialized array struct Student s[3], where struct Student { int id; char name[50]; float cgpa; }.
+@@ 273|Remember|answer_in_question|Question named offer and acceptance.
+State the essential elements required for the formation of a contract.
+@@ 274|Analyze|alignment_fix|Was input identification; now order dependence and translation-only component.
+Determine why the order of rotation and translation matters in the supplied coordinate transformation, and identify which part of the result depends only on the translation vector.
+@@ 275|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Apply the specified licence conditions to the supplied scenario to determine which software-use activities are permitted and which are restricted.
+@@ 276|Analyze|alignment_strengthen|Dependency plus failure case.
+Inspect the supplied C program to determine how its file operations, integer processing, and output generation depend on one another, and identify what happens if the input file cannot be opened.
+@@ 276|Create|known_solution_create|Reproduced the source program; now an extended design.
+Develop a C program that extends the supplied file-handling program to report the count, sum, and average of the integers and to handle a missing or empty input file safely.
+@@ 277|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine which electronic records in the supplied legal dispute are relevant to the stated issue.
+@@ 278|Apply|obe_verb_first|Select is not an Apply bank verb.
+Determine whether a DC motor or a servo motor should be used for the specified robotic movement from the supplied motor characteristics and control requirements.
+@@ 278|Create|alignment_strengthen|Was a selection proposal; now a combined drive design.
+Design a drive arrangement for the specified robotic movement that uses the supplied characteristics of DC motors and servo motors where each is most effective.

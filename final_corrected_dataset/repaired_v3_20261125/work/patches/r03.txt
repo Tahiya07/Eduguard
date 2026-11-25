@@ -1,0 +1,17 @@
+#reviewed none
+@@ 147|Apply|challenge_review_distinction|Apply row repeated the Understand source (interpreting r = 0.82); now applies the strength rule to several cases.
+Rank the Pearson coefficients 0.82, −0.45, and 0.03 for three pairs of business variables by the strength of their linear relationship, and state the direction of each.
+@@ 147|Analyze|challenge_review_distinction|Analyze row only classified coefficients; now asks for attribution and alternative explanations.
+Why does a Pearson coefficient of 0.82 between monthly advertising expenditure and sales not show that advertising causes sales, and what other factors could produce such an association?
+@@ 392|Apply|challenge_review_distinction|Apply row repeated the Evaluate source (judging compliance); now a computation on the same results.
+Calculate the margin between each supplied microbial count result and its corresponding acceptance limit.
+@@ 093|Understand|challenge_review_distinction|Understand row restated the Analyze source with another verb.
+Explain in your own words what employee motivation, perceived fairness, and organizational performance each mean as outcomes of performance appraisal, giving an example of each.
+@@ 488|Understand|challenge_review_distinction|Understand row restated the Analyze source with another verb.
+Describe what a shared organizational database is, and give one example of information that the finance and inventory modules of an ERP system would both use.
+@@ 501|Understand|challenge_review_distinction|Understand row restated the Analyze source with another verb.
+Explain in your own words what it means for an antagonist to bind reversibly to the same receptor site as an agonist.
+@@ 585|Understand|challenge_review_distinction|Understand row restated the Analyze source with another verb; now exemplifying.
+Using a simple example of a transaction log with one checkpoint, explain which part of the log a recovery system can skip after a failure.
+@@ 056|Understand|challenge_review_distinction|Understand row restated the Analyze source with another verb.
+Explain what herd immunity is and why it depends on the proportion of a population that is vaccinated.

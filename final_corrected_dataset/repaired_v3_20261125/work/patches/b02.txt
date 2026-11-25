@@ -1,0 +1,127 @@
+#reviewed 026,027,028,029,030,031,032,033,034,035,036,037,038,039,040,041,042,043,044,045,046,047,048,049,050
+@@ 026|Understand|verb_diversity|Describe input/output of each phase (comprehension).
+Describe what each of lexical, syntax, and semantic analysis receives as input and produces as output during compilation.
+@@ 026|Apply|obe_verb_first|Leading Given-clause.
+Perform lexical, syntax, and semantic analysis on a given source-code statement by listing its tokens, building its syntax structure, and checking it for basic semantic errors.
+@@ 026|Create|verb_diversity|Build; adds interface specification.
+Build a simplified compiler front end for arithmetic expressions, specifying how the lexical analyser, parser, and semantic checker pass their results to one another.
+@@ 027|Apply|obe_verb_first|Leading Given-clause; Trace is not an Apply bank verb.
+Run the DFA that recognizes binary strings ending with 01 on the input string 1101, listing each state transition.
+@@ 027|Analyze|alignment_strengthen|Relates state meaning to acceptance instead of locating states.
+Determine what each state of a DFA that accepts binary strings ending with 01 records about the input read so far, and show how this explains why the accepting state is reached only after the substring 01.
+@@ 027|Evaluate|obe_verb_first|Scenario-first opening; deliberately faulty DFA kept exactly.
+Verify whether a proposed DFA over {0,1}, with start state q0, accepting state q2, and transitions q0–0→q1, q0–1→q0, q1–0→q1, q1–1→q2, q2–0→q0, and q2–1→q0, accepts every binary string ending with 01 and rejects all others, supporting the conclusion with a test string.
+@@ 028|Understand|verb_diversity|Clarify the reason (comprehension).
+Clarify why homogeneous coordinates are needed to express two-dimensional translation as a matrix multiplication when rotation can be expressed without them.
+@@ 028|Evaluate|obe_verb_first|Scenario-first opening; same authored sequences.
+Determine which of two proposed sequences rotates a square by 90° about its centre (2, 2), T(2, 2)·R(90°)·T(−2, −2) or R(90°)·T(−2, −2)·T(2, 2) with the rightmost matrix acting first, and justify the selection using the order of matrix multiplication.
+@@ 028|Create|verb_diversity|Compose a composite transformation.
+Compose a single homogeneous transformation matrix that rotates an object about an arbitrary pivot point and then translates it to a specified position, showing how it is built from simpler matrices.
+@@ 029|Understand|verb_diversity|Interpret a concept plus explanation.
+Interpret what availability means for a replicated distributed database, and explain why keeping multiple copies of data preserves it during server failures.
+@@ 029|Apply|obe_verb_first|Leading Given-clause.
+Determine which replicas of a three-replica distributed database can continue serving read requests after one replica becomes unavailable.
+@@ 029|Analyze|alignment_strengthen|Attributes each factor to the property it threatens.
+Distinguish how replica failures, network partitions, and synchronization delays each threaten data availability and data consistency in a distributed database, identifying which property each mainly affects.
+@@ 030|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Apply usability principles to a student registration interface to specify design changes that would improve navigation, feedback, and error prevention.
+@@ 030|Evaluate|operation_diversity|Prioritize with justification.
+Prioritize the usability problems of a university registration interface, justifying the order with usability principles.
+@@ 030|Create|verb_diversity|Create a revised design.
+Create a revised student registration interface that incorporates consistency, clear feedback, accessibility, and error prevention, describing its main screens.
+@@ 031|Apply|obe_verb_first|Leading Given-clause.
+Demonstrate the steps required to generate a digital signature for a given message with the sender's private key and to verify it with the corresponding public key.
+@@ 031|Analyze|verb_diversity|Contrast failure modes and identify how to tell them apart.
+Contrast what happens at each stage of digital signature verification when the message has been modified with what happens when the wrong public key is used, and identify how the two failures can be told apart.
+@@ 032|Evaluate|obe_verb_first|Scenario-first opening; same authored rules and threshold.
+Determine which rule is more useful for identifying meaningful purchasing patterns when the minimum support threshold is 5%, Rule 1, {bread}→{butter}, with 2% support and 90% confidence, or Rule 2, {milk}→{bread}, with 30% support and 60% confidence, and justify the decision using support and confidence.
+@@ 032|Create|known_solution_create|Was a restatement of the standard algorithm; now a new variant.
+Devise a modification of the Apriori procedure that reduces the number of database scans needed to find frequent itemsets, and outline the resulting algorithm.
+@@ 033|Understand|verb_diversity|Describe the control sequence.
+Describe the sequence of steps a microcontroller follows from reading a sensor value to deciding whether to activate the alarm.
+@@ 033|Apply|obe_verb_first|Leading Given-clause.
+Determine when an embedded temperature monitoring system should activate its alarm for a given set of sensor readings and a specified temperature threshold.
+@@ 033|Analyze|verb_diversity|Diagnose with stage attribution.
+Diagnose the possible causes of false alarms and missed threshold violations in an embedded temperature monitoring system, tracing each cause to the sensing, processing, or alarm stage.
+@@ 034|Apply|obe_verb_first|Leading Given-clause.
+Find the cache set and block location of a given memory address under direct mapping for a specified cache configuration.
+@@ 034|Evaluate|obe_verb_first|Scenario-first opening; recommend with justification.
+Recommend whether a processor that experiences frequent conflict misses with direct-mapped caching should switch to set-associative mapping, and justify the recommendation.
+@@ 035|Apply|obe_verb_first|Leading Given-clause.
+Calculate the critical path and total completion time of a project activity network from its task durations and dependencies.
+@@ 035|Analyze|operation_diversity|Comparison of delay effects with causal explanation.
+Compare the effect of a delay in a critical activity with the same delay in a non-critical activity on a software project's completion date, and explain why the effects differ.
+@@ 035|Create|known_solution_create|Was routine CPM scheduling; adds a designed delay-absorption plan.
+Construct a schedule for a software development project from its activity dependencies and estimated durations, including a plan for absorbing delays in critical activities.
+@@ 036|Apply|obe_verb_first|Leading Given-clause.
+Determine how locally modified cached records in a mobile application should be synchronized after network connectivity returns.
+@@ 036|Analyze|shared_verb|Determine (Analyze) conflict types and their causes.
+Determine the kinds of synchronization conflict that can arise when the same record is edited on several devices while they are offline, and the sequence of edits that produces each.
+@@ 036|Evaluate|operation_diversity|Argue a position.
+Argue for or against a last-write-wins synchronization strategy for a mobile application whose users frequently modify shared records.
+@@ 037|Remember|verb_diversity|List the execution models.
+List the main execution models used in parallel processing.
+@@ 037|Apply|obe_verb_first|Leading Given-clause; Assign is not an Apply bank verb.
+Use task decomposition to allocate the independent subtasks of a computational task across multiple processing units.
+@@ 037|Evaluate|obe_verb_first|Scenario-first opening; decide between two explanations.
+Decide whether parallelization overhead or the sequential portion of a task is the more significant limitation when additional processor cores yield only a small performance improvement, and justify the decision.
+@@ 038|Understand|verb_diversity|Classify responsibilities at comprehension level.
+Classify infrastructure, runtime environment, and application management according to whether the provider or the customer is responsible for each under IaaS, PaaS, and SaaS.
+@@ 038|Apply|obe_verb_first|Scenario-first opening; Select is not an Apply bank verb.
+Apply the cloud service model definitions to a university that wants to deploy a web application without managing the underlying operating system, and state which model it should use.
+@@ 039|Evaluate|obe_verb_first|Scenario-first opening; same authored implementations and criteria.
+Assess which of two proposed implementations of F = AB + AB'C is preferable, one realizing the expression exactly as written and the other realizing the simplified form A(B + C), considering gate count, number of logic levels, and functional equivalence.
+@@ 039|Create|known_solution_create|Was routine gate implementation; now a constrained design.
+Design a combinational circuit that realizes a specified Boolean function using only NAND gates, deriving the gate-level structure from its minimized expression.
+@@ 040|Understand|verb_diversity|Interpret representation values.
+Interpret what a high TF-IDF weight and a high cosine similarity between word embeddings each indicate about words in a document collection.
+@@ 040|Apply|obe_verb_first|Leading Given-clause; Generate is not an Apply bank verb.
+Compute TF-IDF feature vectors for a collection of academic documents for use in a text classification model.
+@@ 040|Analyze|adjacent_level_distinction|Analyze what each representation discards and its consequence.
+Contrast the information that TF-IDF vectors and word-embedding representations discard, and analyze how that difference would affect the classification of documents that express the same idea with different words.
+@@ 041|Apply|obe_verb_first|Scenario-first opening.
+Calculate the current flowing through a 4 Ω resistor connected to a 12 V DC source.
+@@ 041|Evaluate|obe_verb_first|Scenario-first opening; same proposal and aim.
+Judge whether replacing a 4 Ω resistor with an 8 Ω resistor at the same supply voltage is justified when the aim is to reduce current consumption, supporting the judgement with Ohm's law.
+@@ 042|Apply|obe_verb_first|Leading Given-clause.
+Calculate the nominal bending capacity of a reinforced concrete beam from its dimensions and material properties using the specified design equation.
+@@ 042|Analyze|alignment_strengthen|Separates two effects and their interaction.
+Separate the effects of axial load and bending moment on the stresses in a reinforced concrete column, and explain how their combination changes which face of the column is most highly stressed.
+@@ 042|Create|verb_diversity|Draft.
+Draft a preliminary reinforced concrete structural scheme for a high-rise building that accounts for the specified loading conditions.
+@@ 043|Evaluate|obe_verb_first|Scenario-first opening; deliberately false balance kept exactly.
+Assess whether a student's reported energy balance, an internal-energy increase of 20 kJ for a closed system that receives 50 kJ of heat while doing 70 kJ of work on its surroundings, is physically consistent with the first law of thermodynamics.
+@@ 044|Evaluate|obe_verb_first|Scenario-first opening; same authored argument.
+Assess whether a student's argument that 1 + 2 + … + n = n(n+1)/2 holds for all positive integers because it is true for n = 1, 2, and 3 rigorously establishes the result, using the requirements of mathematical induction.
+@@ 044|Create|obe_verb_first|Conjecture is not a Create bank verb; Hypothesize is.
+Hypothesize a closed-form formula for the sum of the cubes of the first n positive integers from computed cases, and prove it by mathematical induction.
+@@ 045|Apply|obe_verb_first|Scenario-first opening.
+Calculate the acceleration of a 5 kg object that experiences a net force of 20 N.
+@@ 045|Evaluate|obe_verb_first|Scenario-first opening; same authored diagrams.
+Determine which of two free-body diagrams correctly represents a box pulled at constant velocity across a rough floor, one showing the applied horizontal force larger than friction and the other showing the two forces equal in magnitude, and justify the selection using Newton's second law.
+@@ 045|Create|verb_diversity|Plan with controlled variables.
+Plan a laboratory investigation with a trolley that tests how acceleration depends on applied force and on mass, stating which variables you will control.
+@@ 046|Apply|obe_verb_first|Leading Given-clause.
+Calculate the average reaction rate over a specified time interval from experimental concentration and reaction-rate data.
+@@ 046|Evaluate|obe_verb_first|Scenario-first opening.
+Evaluate a researcher's proposal to accelerate a chemical reaction by raising the temperature rather than the reactant concentration, using collision theory and the experimental conditions.
+@@ 047|Apply|obe_verb_first|Leading Given-clause.
+Predict how the frequency of a particular trait may change over several generations in a population with different inherited traits and survival rates.
+@@ 047|Evaluate|verb_diversity|Judge sufficiency of evidence.
+Judge whether an observed change in a population's trait frequency is sufficient evidence of natural selection rather than genetic drift, and state what further evidence would strengthen the conclusion.
+@@ 047|Create|verb_diversity|Devise.
+Devise a controlled investigation to test how an environmental change influences natural selection in a population of organisms.
+@@ 048|Apply|obe_verb_first|Leading Given-clause; Identify is not an Apply bank verb.
+Predict the likely direction of change in investment expenditure and aggregate demand in an economic scenario involving an increase in interest rates.
+@@ 048|Analyze|verb_diversity|Trace a causal chain and compare link speed.
+Trace the transmission mechanism by which a change in interest rates reaches household consumption, business investment, and overall economic output, and identify which link is likely to respond fastest.
+@@ 048|Create|verb_diversity|Formulate.
+Formulate a monetary policy proposal for managing inflation through interest rate adjustments that takes account of the effects on investment and aggregate demand.
+@@ 049|Evaluate|obe_verb_first|Scenario-first opening.
+Assess whether a researcher's rejection of the null hypothesis at a 5% significance level establishes practical significance as well as statistical significance.
+@@ 050|Understand|verb_diversity|Relate (Understand).
+Relate the segregation of waste at source to the effectiveness of campus recycling in reducing environmental impact.
+@@ 050|Apply|obe_verb_first|Leading Given-clause; Classify is not an Apply bank verb.
+Apply campus waste categories to a list of waste materials, placing each material in the recycling, organic, or general waste stream.
+@@ 050|Analyze|alignment_strengthen|Was reading off top contributors; now decomposition plus pattern explanation.
+Decompose campus waste generation data by department and waste category to identify the combinations that contribute most to the total volume, and explain the pattern you find.

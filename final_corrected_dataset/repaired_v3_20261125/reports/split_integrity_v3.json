@@ -1,0 +1,266 @@
+{
+  "reference_split_file": {
+    "path": "../training_ready/tests/reference_split_ids.json",
+    "sha256": "a2ddcbf2212c93b72c9732568cb90e61aca0034fa171fb532a36fbe99907d201",
+    "v3_copy_identical": true
+  },
+  "splits": {
+    "train": {
+      "example_ids_identical_to_reference": true,
+      "examples": 469,
+      "groups": 323,
+      "unchanged_vs_v2": {
+        "group_id": true,
+        "eligibility": true,
+        "answer_source_available": true,
+        "authored_scenario_levels": true,
+        "deliberately_false_claim_levels": true,
+        "discipline": true,
+        "topic": true,
+        "source_question": true
+      },
+      "transformation_records": 2345,
+      "bloom_classification_records": 2814,
+      "answer_generation_records": 1350,
+      "all_records_carry_this_split": true,
+      "every_record_example_in_this_split": true,
+      "classification_label_counts": {
+        "Understand": 469,
+        "Remember": 469,
+        "Apply": 469,
+        "Analyze": 469,
+        "Evaluate": 469,
+        "Create": 469
+      },
+      "source_level_counts": {
+        "Understand": 55,
+        "Create": 40,
+        "Apply": 168,
+        "Remember": 7,
+        "Analyze": 139,
+        "Evaluate": 60
+      },
+      "pass3_rewritten_records": 1122
+    },
+    "validation": {
+      "example_ids_identical_to_reference": true,
+      "examples": 59,
+      "groups": 40,
+      "unchanged_vs_v2": {
+        "group_id": true,
+        "eligibility": true,
+        "answer_source_available": true,
+        "authored_scenario_levels": true,
+        "deliberately_false_claim_levels": true,
+        "discipline": true,
+        "topic": true,
+        "source_question": true
+      },
+      "transformation_records": 295,
+      "bloom_classification_records": 354,
+      "answer_generation_records": 180,
+      "all_records_carry_this_split": true,
+      "every_record_example_in_this_split": true,
+      "classification_label_counts": {
+        "Evaluate": 59,
+        "Remember": 59,
+        "Understand": 59,
+        "Apply": 59,
+        "Analyze": 59,
+        "Create": 59
+      },
+      "source_level_counts": {
+        "Evaluate": 10,
+        "Analyze": 16,
+        "Create": 6,
+        "Apply": 17,
+        "Understand": 10
+      },
+      "pass3_rewritten_records": 148
+    },
+    "test": {
+      "example_ids_identical_to_reference": true,
+      "examples": 58,
+      "groups": 42,
+      "unchanged_vs_v2": {
+        "group_id": true,
+        "eligibility": true,
+        "answer_source_available": true,
+        "authored_scenario_levels": true,
+        "deliberately_false_claim_levels": true,
+        "discipline": true,
+        "topic": true,
+        "source_question": true
+      },
+      "transformation_records": 290,
+      "bloom_classification_records": 348,
+      "answer_generation_records": 175,
+      "all_records_carry_this_split": true,
+      "every_record_example_in_this_split": true,
+      "classification_label_counts": {
+        "Create": 58,
+        "Remember": 58,
+        "Understand": 58,
+        "Apply": 58,
+        "Analyze": 58,
+        "Evaluate": 58
+      },
+      "source_level_counts": {
+        "Create": 4,
+        "Analyze": 18,
+        "Apply": 21,
+        "Understand": 11,
+        "Evaluate": 4
+      },
+      "pass3_rewritten_records": 138
+    }
+  },
+  "cross_split": {
+    "groups_spanning_splits": 0,
+    "identical_question_texts_across_splits": 0,
+    "check_leakage": {
+      "example_id_overlap_across_splits": 0,
+      "groups_spanning_splits": 0,
+      "identical_question_texts_across_splits": 0,
+      "max_cross_split_question_jaccard": 0.385,
+      "cross_split_pairs_at_or_above_0.35": 5
+    },
+    "top_residual_pairs": [
+      {
+        "jaccard": 0.385,
+        "id_a": "375",
+        "split_a": "train",
+        "id_b": "093",
+        "split_b": "test",
+        "topic_a": "Human Resource Management: Job Evaluation",
+        "topic_b": "Employee Performance Appraisal"
+      },
+      {
+        "jaccard": 0.364,
+        "id_a": "504",
+        "split_a": "train",
+        "id_b": "591",
+        "split_b": "test",
+        "topic_a": "Cost Accounting: Material Cost Variance",
+        "topic_b": "Cost Accounting: Labour Efficiency Variance"
+      },
+      {
+        "jaccard": 0.364,
+        "id_a": "263",
+        "split_a": "train",
+        "id_b": "170",
+        "split_b": "validation",
+        "topic_a": "Management Information Systems: Information System Components",
+        "topic_b": "Environmental Engineering: Solid Waste Management"
+      },
+      {
+        "jaccard": 0.357,
+        "id_a": "094",
+        "split_a": "train",
+        "id_b": "461",
+        "split_b": "test",
+        "topic_a": "Capital Budgeting",
+        "topic_b": "Investment Analysis: Net Present Value"
+      },
+      {
+        "jaccard": 0.357,
+        "id_a": "034",
+        "split_a": "train",
+        "id_b": "118",
+        "split_b": "test",
+        "topic_a": "Computer Architecture",
+        "topic_b": "Computer Architecture: Cache Memory"
+      },
+      {
+        "jaccard": 0.333,
+        "id_a": "576",
+        "split_a": "train",
+        "id_b": "409",
+        "split_b": "validation",
+        "topic_a": "Multivariable Calculus: Partial Derivatives",
+        "topic_b": "Pharmacology: Drug Half-Life"
+      },
+      {
+        "jaccard": 0.333,
+        "id_a": "145",
+        "split_a": "train",
+        "id_b": "238",
+        "split_b": "test",
+        "topic_a": "Building Construction: Foundation Systems",
+        "topic_b": "Building Construction: Building Foundations"
+      }
+    ],
+    "note": "Residual pairs >= 0.35 token Jaccard are different-topic items in the same discipline (e.g. roof vs foundation construction); they were already present in v2 and split assignment is pinned, so they were reviewed, not moved."
+  },
+  "challenge_set": {
+    "items": 348,
+    "pairs": 406,
+    "example_ids_in_train_or_validation": 0,
+    "groups_in_train_or_validation": 0,
+    "question_texts_identical_to_train_or_validation": 0,
+    "test_example_ids": [
+      "010",
+      "024",
+      "038",
+      "039",
+      "044",
+      "056",
+      "065",
+      "079",
+      "092",
+      "093",
+      "118",
+      "126",
+      "132",
+      "133",
+      "142",
+      "147",
+      "151",
+      "164",
+      "172",
+      "196",
+      "213",
+      "226",
+      "232",
+      "238",
+      "243",
+      "254",
+      "259",
+      "270",
+      "291",
+      "306",
+      "325",
+      "342",
+      "343",
+      "358",
+      "378",
+      "379",
+      "380",
+      "392",
+      "407",
+      "434",
+      "441",
+      "442",
+      "444",
+      "461",
+      "472",
+      "474",
+      "488",
+      "495",
+      "497",
+      "501",
+      "518",
+      "520",
+      "536",
+      "543",
+      "570",
+      "585",
+      "591",
+      "595"
+    ]
+  },
+  "label_change_effect": {
+    "252": "source label Analyze -> Understand (train split); its Understand transformation became the source level and was removed, and a new Analyze transformation was added. Split and group unchanged."
+  },
+  "RESULT": "PASS"
+}

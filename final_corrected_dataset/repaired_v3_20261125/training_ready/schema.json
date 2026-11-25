@@ -1,0 +1,441 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eduguard-bloom-transformation-training-ready-v3",
+  "title": "EduGuard Bloom transformation dataset v3 (pass-3 repaired) — training-ready record schemas",
+  "description": "Three JSONL record types. Example records appear in usable_examples.jsonl, label_and_generation_only_examples.jsonl, and splits/{train,validation,test}_examples.jsonl. Transformation records appear in splits/*_transformation_records.jsonl. Bloom classification records appear in splits/*_bloom_classification_records.jsonl. answer_generation/{split}_transformation_records.jsonl holds transformation records restricted to eligibility == usable; load them with scripts/eduguard_loader.py.",
+  "$defs": {
+    "bloomLevel": {
+      "type": "string",
+      "enum": [
+        "Remember",
+        "Understand",
+        "Apply",
+        "Analyze",
+        "Evaluate",
+        "Create"
+      ],
+      "description": "Revised Bloom's taxonomy level, judged by the cognitive operation required, not by the leading verb."
+    },
+    "exampleId": {
+      "type": "string",
+      "pattern": "^[0-9]{3}$",
+      "description": "Three-digit example ID from the 600-example master dataset."
+    },
+    "eligibility": {
+      "type": "string",
+      "enum": [
+        "usable",
+        "label_and_generation_only"
+      ],
+      "description": "usable: self-contained and technically checked. label_and_generation_only: Bloom labels and question text valid, but data needed to answer is missing."
+    },
+    "splitName": {
+      "type": "string",
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ]
+    },
+    "dataTable": {
+      "type": "object",
+      "required": [
+        "header",
+        "rows"
+      ],
+      "properties": {
+        "header": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "example": {
+      "type": "object",
+      "required": [
+        "id",
+        "discipline",
+        "topic",
+        "source_question",
+        "source_bloom_level",
+        "transformations",
+        "eligibility",
+        "answer_source_available",
+        "group_id",
+        "split",
+        "transformation_provenance",
+        "authored_scenario_levels",
+        "deliberately_false_claim_levels",
+        "pass3_rewritten_levels"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/exampleId"
+        },
+        "discipline": {
+          "type": "string",
+          "description": "Discipline or subject heading from the source title."
+        },
+        "topic": {
+          "type": "string",
+          "description": "Topic from the source title; empty string when the source title gives only a subject (Examples 001–079)."
+        },
+        "source_question": {
+          "type": "string",
+          "description": "Original question. Multi-line items (code, schedules, matrices) keep line breaks."
+        },
+        "source_bloom_level": {
+          "$ref": "#/$defs/bloomLevel"
+        },
+        "source_bloom_level_before_correction": {
+          "$ref": "#/$defs/bloomLevel",
+          "description": "Present only when the source label was corrected (068, 090, 152, 182, 226, 241; 252 in pass 3)."
+        },
+        "transformations": {
+          "type": "object",
+          "minProperties": 5,
+          "maxProperties": 5,
+          "propertyNames": {
+            "$ref": "#/$defs/bloomLevel"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Exactly five rewritten questions, one per Bloom level other than source_bloom_level, on the same content."
+        },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "answer_source_available": {
+          "type": "boolean",
+          "description": "true only for usable examples."
+        },
+        "missing_answer_source": {
+          "type": "object",
+          "required": [
+            "missing",
+            "referenced_but_absent",
+            "basis",
+            "note"
+          ],
+          "properties": {
+            "missing": {
+              "const": true
+            },
+            "referenced_but_absent": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "basis": {
+              "enum": [
+                "master_flag",
+                "export_reclassification"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "description": "Present only for label_and_generation_only examples."
+        },
+        "data_tables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dataTable"
+          },
+          "description": "Embedded source data tables (428, 442, 475, 548)."
+        },
+        "proposed_clo": {
+          "type": "string",
+          "description": "Course learning outcome text from the source (Examples 131–170)."
+        },
+        "review_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Non-blocking reviewer notes from the self-containment audit."
+        },
+        "group_id": {
+          "type": "string",
+          "pattern": "^G[0-9]{3}$",
+          "description": "Leakage group; all examples in a group are in the same split."
+        },
+        "split": {
+          "$ref": "#/$defs/splitName"
+        },
+        "transformation_provenance": {
+          "type": "object",
+          "minProperties": 5,
+          "maxProperties": 5,
+          "propertyNames": {
+            "$ref": "#/$defs/bloomLevel"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/contentProvenance"
+          },
+          "description": "Provenance of each of the five transformations."
+        },
+        "authored_scenario_levels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bloomLevel"
+          },
+          "description": "Levels whose transformation is an authored_scenario (empty if none)."
+        },
+        "deliberately_false_claim_levels": {
+          "type": "array",
+          "items": {
+            "const": "Evaluate"
+          },
+          "maxItems": 1,
+          "description": "['Evaluate'] when the Evaluate row states a deliberately false claim, else []."
+        },
+        "pass3_rewritten_levels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bloomLevel"
+          },
+          "description": "Target levels whose question text differs from v2 after passes 3 and 3.1 (model-assisted, automated checks; not human-verified)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "transformationRecord": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "example_id",
+        "group_id",
+        "split",
+        "eligibility",
+        "answer_source_available",
+        "discipline",
+        "topic",
+        "source_question",
+        "source_bloom_level",
+        "target_bloom_level",
+        "target_question",
+        "content_provenance",
+        "provenance_evidence",
+        "deliberately_false_claim",
+        "pass3_rewritten"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^[0-9]{3}-(Remember|Understand|Apply|Analyze|Evaluate|Create)$"
+        },
+        "example_id": {
+          "$ref": "#/$defs/exampleId"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "split": {
+          "$ref": "#/$defs/splitName"
+        },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "answer_source_available": {
+          "type": "boolean"
+        },
+        "discipline": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "source_question": {
+          "type": "string"
+        },
+        "source_bloom_level": {
+          "$ref": "#/$defs/bloomLevel"
+        },
+        "target_bloom_level": {
+          "$ref": "#/$defs/bloomLevel",
+          "description": "Never equal to source_bloom_level."
+        },
+        "target_question": {
+          "type": "string"
+        },
+        "content_provenance": {
+          "$ref": "#/$defs/contentProvenance"
+        },
+        "provenance_evidence": {
+          "$ref": "#/$defs/provenanceEvidence"
+        },
+        "deliberately_false_claim": {
+          "type": "boolean",
+          "description": "true only for documented deliberately false Evaluate claims; then claim_under_evaluation is present."
+        },
+        "claim_under_evaluation": {
+          "$ref": "#/$defs/claimUnderEvaluation"
+        },
+        "pass3_rewritten": {
+          "type": "boolean",
+          "description": "true when this question text was rewritten in pass 3."
+        }
+      },
+      "additionalProperties": false,
+      "description": "One source -> target-level rewrite. Also the record type of answer_generation/*.jsonl, which holds only eligibility == usable records."
+    },
+    "bloomClassificationRecord": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "example_id",
+        "group_id",
+        "split",
+        "eligibility",
+        "question",
+        "bloom_level",
+        "role",
+        "content_provenance",
+        "deliberately_false_claim",
+        "pass3_rewritten"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^[0-9]{3}-(source|Remember|Understand|Apply|Analyze|Evaluate|Create)$"
+        },
+        "example_id": {
+          "$ref": "#/$defs/exampleId"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "split": {
+          "$ref": "#/$defs/splitName"
+        },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "question": {
+          "type": "string"
+        },
+        "bloom_level": {
+          "$ref": "#/$defs/bloomLevel"
+        },
+        "role": {
+          "enum": [
+            "source",
+            "transformation"
+          ]
+        },
+        "content_provenance": {
+          "type": "string",
+          "enum": [
+            "source_question",
+            "authored_scenario",
+            "authored_evaluation_object",
+            "source_derived"
+          ]
+        },
+        "deliberately_false_claim": {
+          "type": "boolean"
+        },
+        "pass3_rewritten": {
+          "type": "boolean",
+          "description": "true when this question text was rewritten in pass 3."
+        }
+      },
+      "additionalProperties": false
+    },
+    "contentProvenance": {
+      "type": "string",
+      "enum": [
+        "authored_scenario",
+        "authored_evaluation_object",
+        "source_derived"
+      ],
+      "description": "authored_scenario: concrete scenario data written into the row because its generic source had none (listed in self_containment_audit.csv). authored_evaluation_object: Evaluate/Analyze row where a specific object to judge (claim, design, proof, value) was written in, per Correction_Log.csv. source_derived: no authored scenario or object recorded; the row rewrites the source question's own content (wording may have been edited, see Correction_Log.csv)."
+    },
+    "provenanceEvidence": {
+      "type": "object",
+      "required": [
+        "basis"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "correction_log_pass": {
+          "type": "string",
+          "enum": [
+            "1",
+            "2",
+            "1+2"
+          ]
+        },
+        "audit_verdict": {
+          "type": "string",
+          "enum": [
+            "PRESERVES"
+          ]
+        }
+      }
+    },
+    "claimUnderEvaluation": {
+      "type": "object",
+      "required": [
+        "role",
+        "is_ground_truth",
+        "evidence_type",
+        "correction_log_note",
+        "guidance"
+      ],
+      "additionalProperties": false,
+      "description": "Present only when deliberately_false_claim is true. The claim stated in target_question is deliberately wrong: it is the object the learner must judge, never ground truth. correction_log_note gives the documented correct reasoning.",
+      "properties": {
+        "role": {
+          "const": "object_of_evaluation"
+        },
+        "is_ground_truth": {
+          "const": false
+        },
+        "evidence_type": {
+          "enum": [
+            "explicit_error_detection_note",
+            "incorrect_or_flawed_object_note"
+          ]
+        },
+        "correction_log_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "guidance": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/example"
+    },
+    {
+      "$ref": "#/$defs/transformationRecord"
+    },
+    {
+      "$ref": "#/$defs/bloomClassificationRecord"
+    }
+  ]
+}

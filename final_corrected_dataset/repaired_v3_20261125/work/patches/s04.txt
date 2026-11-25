@@ -1,0 +1,453 @@
+#reviewed none
+@@ 009|Create|sweep_create_diversity|Architect.
+Architect an encryption scheme for an academic records system that uses symmetric and asymmetric encryption to protect stored and transmitted records.
+@@ 017|Create|sweep_create_diversity|Develop.
+Develop an indexing strategy for a university database that supports efficient student searches and course registration queries.
+@@ 038|Create|sweep_create_diversity|Plan.
+Plan a cloud deployment for a university web application, specifying the service model for hosting, application deployment, and end-user access.
+@@ 053|Create|sweep_create_diversity|Devise.
+Devise an ethical behavioural experiment to investigate how repeated stimulus associations influence a specific learned response.
+@@ 100|Create|sweep_create_diversity|Formulate; authored elements kept.
+Formulate a congestion-window adjustment policy for a TCP sender that responds differently to packet loss and to rising round-trip times, and show the window values it produces for a loss-and-delay scenario of your choice compared with standard TCP Reno.
+@@ 113|Create|sweep_create_diversity|Develop.
+Develop an assay procedure for the drug solution that uses the supplied molar absorptivity and path length to convert measured absorbance into concentration, including how samples whose absorbance lies outside the linear range should be diluted and re-measured.
+@@ 130|Create|sweep_create_diversity|Construct; values kept.
+Construct a water-quality monitoring plan for three sampling points with BOD values of 2 mg/L, 8 mg/L, and 40 mg/L that classifies their biodegradable organic pollution levels and specifies follow-up treatment actions for each level.
+@@ 138|Create|sweep_create_diversity|Formulate.
+Formulate a dose-selection strategy for the drug based on the supplied dose–response data, specifying a dose range that achieves a chosen response level while avoiding the plateau region of the curve.
+@@ 146|Create|sweep_create_diversity|Devise.
+Devise a CPU scheduling policy for the supplied processes that lowers the average waiting time compared with First-Come, First-Served scheduling, and show its schedule using their arrival and burst times.
+@@ 154|Create|sweep_create_diversity|Produce.
+Produce a storm-drain capacity specification for the supplied catchment based on the peak runoff rate obtained from the Rational Method with its supplied runoff coefficient, rainfall intensity, and catchment area.
+@@ 168|Create|sweep_create_diversity|Compose.
+Compose a coating-selection guide that recommends sugar coating or film coating for different tablet products according to their coating-process requirements, desired product characteristics, and pharmaceutical applications.
+@@ 179|Create|sweep_create_diversity|Engineer.
+Engineer a controller modification for the supplied unity-feedback control system, such as added integral action or an adjusted gain, that reduces the steady-state error under the specified reference input to a chosen level.
+@@ 185|Create|sweep_create_diversity|Synthesize.
+Synthesize a new building concept from the relationships among form, materials, spatial organization, and functional expression identified in the two supplied Modernist buildings.
+@@ 191|Create|sweep_create_diversity|Write a procedure.
+Write an Ostwald viscometer procedure for the pharmaceutical liquid that specifies the reference fluid, temperature control, number of flow-time replicates, and how relative viscosity is computed from the supplied flow times and densities.
+@@ 204|Create|sweep_create_diversity|Propose.
+Propose a modification of the supplied plane truss, such as an added member or a changed support, that reduces the force in its most highly loaded member, and show the revised joint equilibrium relationships.
+@@ 216|Create|sweep_create_diversity|Formulate.
+Formulate a fiscal and trade policy package for the supplied economy that achieves a chosen change in aggregate expenditure, specifying the planned changes in consumption, investment, government expenditure, and net exports.
+@@ 231|Create|sweep_create_diversity|Develop.
+Develop a pipelined version of the fetch–decode–execute cycle for a simple processor, specifying how successive instructions overlap and how the design handles an instruction that depends on the result of the previous one.
+@@ 243|Create|sweep_create_diversity|Devise; authored cross kept.
+Devise a genetic cross that would determine whether a tall pea plant (tall dominant over dwarf) is homozygous or heterozygous, and predict the offspring ratios for each possibility.
+@@ 259|Create|sweep_create_diversity|Construct.
+Construct an integrated module-allocation framework for a manufacturing company's supplier invoices, payroll, goods receipts, and sales orders using the finance, human resources, and inventory modules, showing the data shared between modules.
+@@ 268|Create|sweep_create_diversity|Adapt; values kept.
+Adapt an ideal Otto cycle with a compression ratio of 8, γ = 1.4, and an initial state of 100 kPa and 300 K into a modified cycle that achieves a higher thermal efficiency, and construct its pressure–volume diagram showing how each of the four processes and their state points change.
+@@ 281|Create|sweep_create_diversity|Engineer; values kept.
+Engineer the transistor sizing of a CMOS inverter with V_DD = 1.8 V so that its switching threshold moves from 0.9 V to a chosen value, and explain how the voltage transfer characteristic and operating regions change.
+@@ 288|Create|sweep_create_diversity|Establish (Create).
+Establish an operating temperature range for the supplied reaction in which it is spontaneous, using its standard enthalpy change and standard entropy change to locate the temperature at which ΔG changes sign, and compare it with the specified temperature.
+@@ 305|Create|sweep_create_diversity|Propose.
+Propose a poverty-measurement scheme for a country that combines an absolute and a relative poverty threshold, specifying each threshold and how households counted as poor under each would be reported.
+@@ 310|Create|sweep_create_diversity|Develop.
+Develop a modified SRAM cell based on the six-transistor cell that improves read stability, specifying changes to transistor sizing or to the access-transistor arrangement, and show how the storage nodes, cross-coupled inverters, and access transistors interact in the modified design.
+@@ 332|Create|sweep_create_diversity|Formulate.
+Formulate a reorder policy for the supplied inventory item that specifies its reorder point and a rule for adjusting safety stock when lead time varies, using the supplied demand rate, lead time, and safety stock as the baseline.
+@@ 339|Create|sweep_create_diversity|Write a procedure.
+Write a limit-test procedure for chloride in a pharmaceutical substance, specifying the reference-standard preparation, the comparison method, and the decision rule against the prescribed limit.
+@@ 349|Create|sweep_create_diversity|Combine.
+Combine features of the supplied flat-roof and pitched-roof details into a new roof-construction detail that improves drainage and weather protection, specifying its structural arrangement.
+@@ 363|Create|sweep_create_diversity|Plan.
+Plan an acoustic treatment for the supplied room that adjusts its total equivalent sound absorption area to reach a target reverberation time suited to its intended use, using its volume and current absorption area as the baseline.
+@@ 371|Create|sweep_create_diversity|Develop.
+Develop an extended audit sampling plan for the supplied population that specifies the sample size, selection method, and decision rule needed to support a population-level conclusion against the specified audit criteria.
+@@ 378|Create|sweep_create_diversity|Propose.
+Propose a change in the initial concentrations for the supplied reaction that increases the equilibrium concentration of a chosen product, using the equilibrium constant to predict the new equilibrium concentrations.
+@@ 387|Create|sweep_create_diversity|Plan.
+Plan a test cross that would measure the recombination frequency between the specified genes, specifying the parental genotypes and how parental and recombinant offspring classes would be counted to estimate map distance.
+@@ 395|Create|sweep_create_diversity|Construct.
+Construct a minimal set of additional edges that would make the supplied undirected graph connected, and show the resulting connected structure.
+@@ 407|Create|sweep_create_diversity|Build; expression kept.
+Build a minimum-gate logic circuit that implements F(A,B,C)=Σm(1,3,5,7), deriving the simplified expression that the circuit realizes.
+@@ 415|Create|sweep_create_diversity|Devise; values kept.
+Devise a scheduling policy for the three processes (arrival times 0, 1, and 2 ms; burst times 5, 3, and 2 ms) that reduces the average waiting time compared with FCFS, and show its Gantt chart.
+@@ 426|Create|sweep_create_diversity|Engineer.
+Engineer a particulate-control system for the stated industrial exhaust stream with a high gas flow rate and relatively large particles, specifying the cyclone arrangement, such as multiple cyclones in parallel, and any downstream unit required.
+@@ 433|Create|sweep_create_diversity|Develop.
+Develop a roof for a building in the stated heavy-rainfall region that specifies its slope, drainage arrangement, and construction details, and justify each choice.
+@@ 443|Create|sweep_create_diversity|Propose; values kept.
+Propose a revised tensile specimen for the same material and 20 kN applied force that would halve the engineering stress produced on the 100 mm² original cross-sectional area, and predict the corresponding strain over a 100 mm gauge length assuming linear elastic behaviour.
+@@ 450|Create|sweep_create_diversity|Formulate; values kept.
+Formulate a dilution plan for the solution with molar absorptivity 150 L mol⁻¹ cm⁻¹ and concentration 0.002 mol/L, measured in a 1 cm cuvette, that brings its absorbance into a chosen measurement range, specifying the dilution factor and the expected absorbance.
+@@ 457|Create|sweep_create_diversity|Develop; values kept.
+Develop a thermal process for the same microorganism, based on the inactivation from 10^6 to 10^3 cells/mL in 6 minutes at constant temperature, that achieves a chosen target final population, specifying the required processing time.
+@@ 463|Create|sweep_create_diversity|Integrate.
+Integrate habitat protection in a national park with a botanical-garden seed bank into a conservation plan for a threatened plant species, specifying the role of each and how plants could be reintroduced.
+@@ 470|Create|sweep_create_diversity|Establish (Create); values kept.
+Establish an enzyme assay condition for the enzyme with a maximum reaction velocity of 100 μmol/min and a Michaelis constant of 2 mmol/L that achieves a chosen fraction of the maximum velocity, specifying the required substrate concentration and comparing it with the velocity at 5 mmol/L.
+@@ 479|Create|sweep_create_diversity|Develop.
+Develop a quality-control test plan for immediate-release tablets that uses disintegration-time limits to ensure timely drug dissolution, specifying the test conditions and acceptance criteria.
+@@ 488|Create|sweep_create_diversity|Model (Create).
+Model the ERP integration of the manufacturing company by specifying the data each of the finance, human resources, and inventory modules writes to and reads from the shared organizational database.
+@@ 495|Create|sweep_create_diversity|Plan.
+Plan a test cross to determine whether an offspring with the dominant phenotype from the Aa×Aa cross is AA or Aa, specifying the cross and the expected offspring ratios for each possibility, assuming complete dominance of allele A.
+@@ 503|Create|sweep_create_diversity|Develop.
+Develop a set of accountability procedures for a parliamentary system, such as question time and confidence votes, specifying how each enforces collective ministerial responsibility to the legislature.
+@@ 511|Create|sweep_create_diversity|Construct.
+Construct a recovery scenario for transaction T1 in which the system crashes before the <COMMIT T1> record is written to the log, and specify the recovery actions and the resulting values of accounts A and B.
+@@ 518|Create|sweep_create_diversity|Produce; values kept.
+Produce a summary cash-flow statement for the company from the five transactions that reports the net cash flow from operating, investing, and financing activities and the overall net change in cash, and propose one financing decision that would raise the net change in cash to at least Tk. 50,000.
+@@ 525|Create|sweep_create_diversity|Plan; values kept.
+Plan a Lineweaver–Burk experiment for the enzyme that would detect competitive inhibition, predicting how the y-intercept of 0.02 min/μmol and the x-intercept of -0.5 L/mmol would change in the presence of the inhibitor.
+@@ 537|Create|sweep_create_diversity|Devise; values kept.
+Devise an insertion order of the same keys (10, 20, 5, 6, 12, 30, and 7) that produces a B-tree of minimum degree t=2 with fewer node splits, and show the resulting tree.
+@@ 542|Create|sweep_create_diversity|Construct.
+Construct an ETL workflow for the company's sales, inventory, and finance systems that includes a validation step rejecting inconsistent records before loading.
+@@ 549|Create|sweep_create_diversity|Compose.
+Compose a minimal-pair listening exercise using /p/, /m/, /s/, and /ʃ/ that contrasts their place and manner of articulation, specifying the word pairs and the articulatory feature each pair tests.
+@@ 554|Create|sweep_create_diversity|Develop.
+Develop a dissolution-testing protocol for a dosage form, specifying the apparatus conditions, sampling times, and the dissolution-profile acceptance points used to judge drug-release behaviour and product quality.
+@@ 560|Create|sweep_create_diversity|Plan; values kept.
+Plan a sampling scheme for the population with a known standard deviation of 10 that produces a 95% confidence interval half as wide as the one obtained from the random sample of 100 observations, determining the required sample size.
+@@ 567|Create|sweep_create_diversity|Formulate.
+Formulate an extension of the role-based access-control policy for the university information system that adds a new role of your choice and enforces separation of duties, specifying its permissions relative to the Student, Teacher, and Administrator roles.
+@@ 574|Create|sweep_create_diversity|Construct.
+Construct a survey instrument that measures academic motivation through study hours per week, class attendance percentage, and frequency of voluntary academic activities, specifying each item, its response scale, and how the items combine into a motivation score.
+@@ 585|Create|sweep_create_diversity|Propose.
+Propose a checkpointing schedule for a transaction-processing system that balances recovery time against the overhead of taking checkpoints, and show how recovery would proceed after a failure.
+@@ 590|Create|sweep_create_diversity|Formulate.
+Formulate a split-horizon rule for router A's distance-vector updates in the stated network, and show how it changes the routing information A advertises to B about its route to C.
+@@ 600|Create|sweep_create_diversity|Develop.
+Develop a hybrid cache-write scheme that uses write-back for most blocks but writes through selected blocks, specifying the selection rule and the sequence of operations after a processor modifies a cached block.
+@@ 023|Analyze|sweep_analyze_diversity|Attribute.
+Attribute the difference in F1-score between two classification models mainly to false positives or to false negatives, explaining how their evaluation results support the attribution.
+@@ 087|Analyze|sweep_analyze_diversity|Investigate.
+Investigate how changes in the factored bending moment and in the material strengths alter the required tensile reinforcement area of the beam, and identify which change has the largest effect.
+@@ 105|Analyze|sweep_analyze_diversity|Analyze.
+Analyze how differences in velocity and elevation between two points affect the pressure at the specified point according to Bernoulli's equation.
+@@ 134|Analyze|sweep_analyze_diversity|Distinguish.
+Distinguish which of density, mean velocity, pipe diameter, and dynamic viscosity act on the Reynolds number in opposite directions, and explain why doubling the pipe diameter and halving the dynamic viscosity change it by the same factor.
+@@ 151|Analyze|sweep_analyze_diversity|Compare.
+Compare the distortion of the calculated absolute bioavailability caused by a given relative error in the extravascular area under the curve with that caused by the same relative error in the intravenous area under the curve, and explain the result.
+@@ 174|Analyze|sweep_analyze_diversity|Categorize.
+Categorize the supplied pipe parameters by whether they enter the Darcy–Weisbach equation linearly, squared, or inversely, and explain how this ranks their influence on frictional head loss.
+@@ 187|Analyze|sweep_analyze_diversity|Contrast.
+Contrast the effects of an increase in residual value and an equal increase in acquisition cost on annual straight-line depreciation, and explain the difference.
+@@ 202|Analyze|sweep_analyze_diversity|Scrutinize.
+Scrutinize the contributions of the supplied point charges to the resultant electric field at the observation point to identify which dominates and which partly cancel, explaining the roles of distance and sign.
+@@ 214|Analyze|sweep_analyze_diversity|Investigate.
+Investigate why the second derivative test is inconclusive at some critical points of the supplied function, and identify what the sign changes of the first derivative reveal about those points.
+@@ 228|Analyze|sweep_analyze_diversity|Trace.
+Trace the supplied sequence of stack operations to locate the point that brings the stack closest to overflow or underflow, and explain how the order of pushes and pops causes it.
+@@ 236|Analyze|sweep_analyze_diversity|Identify (Analyze).
+Identify which of workability, strength, and durability is the governing requirement for the supplied concrete mix in the specified application, and explain how improving one property could compromise another.
+@@ 254|Analyze|sweep_analyze_diversity|Infer (Analyze).
+Infer from the supplied cash flow statement whether the organization's net change in cash is driven by sustainable operating activities or by one-off investing and financing flows.
+@@ 274|Analyze|sweep_analyze_diversity|Examine.
+Examine why the order of rotation and translation matters in the supplied coordinate transformation, and identify which part of the result depends only on the translation vector.
+@@ 289|Analyze|sweep_analyze_diversity|Analyze.
+Analyze why the influence line for the support reaction is linear, and identify the load position at which the reaction equals half of the applied load.
+@@ 302|Analyze|sweep_analyze_diversity|Relate (Analyze).
+Relate the target's distance from the base to the two link lengths to establish whether the supplied arm has two solutions, one solution, or none.
+@@ 314|Analyze|sweep_analyze_diversity|Probe.
+Probe which of the supplied resource constraints limit the feasible production decisions most, and explain how the product contributions interact with those limits.
+@@ 328|Analyze|sweep_analyze_diversity|Decompose.
+Decompose the supplied intake and output records to find the components that most influence the patient's net fluid balance, and identify any losses that the records may underestimate.
+@@ 343|Analyze|sweep_analyze_diversity|Detect.
+Detect which rows of the supplied matrix are linear combinations of others, and explain how this dependency appears in its row-echelon form.
+@@ 351|Analyze|sweep_analyze_diversity|Examine.
+Examine how the orientation of the supplied conductor relative to the magnetic field decides the size of the force, and identify the orientations that give the maximum and the zero force.
+@@ 363|Analyze|sweep_analyze_diversity|Analyze.
+Analyze why doubling the room volume while keeping the same equivalent absorption area doubles the reverberation time, and identify the change in absorption area that would restore the original time.
+@@ 381|Analyze|sweep_analyze_diversity|Dissect.
+Dissect the supplied observed frequency table to find the cells that contribute most to the chi-square statistic, and explain what their pattern reveals about the nature of any association.
+@@ 400|Analyze|sweep_analyze_diversity|Infer (Analyze).
+Infer what the gap between the mean and the median of the supplied sales values reveals about their skewness, and identify the observations that most inflate the standard deviation.
+@@ 409|Analyze|sweep_analyze_diversity|Examine.
+Examine why the amount of drug eliminated in each successive 4-hour period after a 400 mg dose falls even though the fraction eliminated stays the same, and identify how much is eliminated during the third half-life.
+@@ 421|Analyze|sweep_analyze_diversity|Investigate.
+Investigate why the inverse of A=[[2, 1], [5, 3]] has integer entries, and explain what would happen to the inverse if the determinant of A were zero.
+@@ 434|Analyze|sweep_analyze_diversity|Analyze; values kept.
+Analyze why Group A's share among passing students is larger than its 60% share of all students, relating the shift to the difference between the pass probabilities of 0.8 and 0.5.
+@@ 443|Analyze|sweep_analyze_diversity|Examine.
+Examine why engineering stress and strain are computed from the original area and gauge length rather than the instantaneous ones, and explain how this choice would misstate the material's behaviour at large extensions.
+@@ 453|Analyze|sweep_analyze_diversity|Infer (Analyze); values kept.
+Infer whether the soil with a liquid limit of 48% and a plastic limit of 22% plots above or below the A-line on a plasticity chart, and explain what its position indicates about its clay or silt character.
+@@ 461|Analyze|sweep_analyze_diversity|Compare; values kept.
+Compare the present value contributed per taka by the Tk. 30,000 inflow in year 3 with that of the Tk. 40,000 inflow in year 1, and identify how a small rise in the 10% discount rate would affect the accept-or-reject decision when the net present value is close to zero.
+@@ 472|Analyze|sweep_analyze_diversity|Examine.
+Examine why the internal rate of return of the single-inflow investment can be found exactly as (12,100/10,000)^(1/2) − 1, and explain why investments with several inflows require trial and error.
+@@ 484|Analyze|sweep_analyze_diversity|Contrast; values kept.
+Contrast the effect on total contribution of a given percentage rise in selling price with that of the same percentage rise in sales volume for a product selling at Tk. 150 with a variable cost of Tk. 90 and a volume of 2,000 units, and explain why they differ.
+@@ 493|Analyze|sweep_analyze_diversity|Analyze; values kept.
+Analyze why raising the compression ratio above 8 gives diminishing gains in ideal Otto-cycle efficiency for a specific heat ratio of 1.4, and explain how a higher specific heat ratio would change the efficiency at the same compression ratio.
+@@ 507|Analyze|sweep_analyze_diversity|Separate.
+Separate the proportional, integral, and derivative contributions to the controller output for the stated gains and error conditions, identify which dominates, and explain how the balance would shift as the error approaches zero.
+@@ 521|Analyze|sweep_analyze_diversity|Investigate.
+Investigate whether the patient's positive balance would persist if other measured output rose to equal the intravenous intake, and identify which single measurement has the largest influence on the result.
+@@ 536|Analyze|sweep_analyze_diversity|Examine; values kept.
+Examine how the two-day deadline and the team's technical knowledge pull in opposite directions when choosing between autocratic and democratic leadership, and identify which factor should dominate and why.
+@@ 543|Analyze|sweep_analyze_diversity|Analyze.
+Analyze why the friction angle affects bearing capacity through all three bearing-capacity factors while cohesion enters only one term, and explain why foundation width matters mainly for frictional soils.
+@@ 549|Analyze|sweep_analyze_diversity|Categorize.
+Categorize the pairs among /p/, /m/, /s/, and /ʃ/ into those that share a place of articulation but differ in manner and those that share a manner but differ in place, explaining what each pairing shows.
+@@ 555|Analyze|sweep_analyze_diversity|Examine; values kept.
+Examine why the runoff coefficient of 0.6 is the parameter most changed by urbanization, and explain how increasing it would alter the peak runoff from the 5-hectare catchment at a rainfall intensity of 50 mm/hour.
+@@ 571|Analyze|sweep_analyze_diversity|Infer (Analyze).
+Infer the order of the reaction from the fourfold rise in rate for a doubling of concentration, explaining the reasoning, and predict the factor by which the rate would change if the concentration were tripled.
+@@ 581|Analyze|sweep_analyze_diversity|Examine.
+Examine why erosion of an anticline exposes the oldest strata at its core while erosion of a syncline exposes the youngest, relating this to the direction in which the layers were folded.
+@@ 591|Analyze|sweep_analyze_diversity|Analyze; values kept.
+Analyze why the labour efficiency variance is valued at the standard rate of Tk. 200 per hour rather than the actual rate, and explain what an excess of actual hours over the standard hours allowed implies about production efficiency.
+@@ 032|Remember|sweep_remember_diversity|Recall.
+Recall the definitions of support and confidence in association rule mining.
+@@ 047|Remember|sweep_remember_diversity|Specify.
+Specify what natural selection is and the role heritable variation plays in it.
+@@ 056|Remember|sweep_remember_diversity|Recall.
+Recall what is meant by vaccination coverage and by herd immunity.
+@@ 069|Remember|sweep_remember_diversity|List.
+List the major forms of administrative decentralization.
+@@ 086|Remember|sweep_remember_diversity|Name.
+Name the two elements of criminal liability known as mens rea and actus reus, and state what each refers to.
+@@ 130|Remember|sweep_remember_diversity|Specify.
+Specify what biochemical oxygen demand measures in a water sample.
+@@ 148|Remember|sweep_remember_diversity|Recall.
+Recall what solvent polarity and solubility mean in the extraction of plant constituents.
+@@ 172|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the relationship between slip, supply frequency, and rotor frequency in a three-phase induction motor, and define slip.
+@@ 194|Remember|sweep_remember_diversity|Recall.
+Recall what optimum moisture content and maximum dry density mean in a soil-compaction test.
+@@ 201|Remember|sweep_remember_diversity|Specify.
+Specify what the transition range of an acid–base indicator is and the purpose it serves in selecting an indicator for a titration.
+@@ 212|Remember|sweep_remember_diversity|Recall.
+Recall what a pointer is in C and how an array name relates to the array's elements.
+@@ 217|Remember|sweep_remember_diversity|Outline.
+Outline the meanings of class, status, and power as dimensions of social stratification.
+@@ 227|Remember|sweep_remember_diversity|Recall.
+Recall the definitions of inflation and unemployment and the relationship that the short-run Phillips curve represents.
+@@ 239|Remember|sweep_remember_diversity|Outline.
+Outline what is meant by product positioning, a target market, and distinctive product attributes.
+@@ 245|Remember|sweep_remember_diversity|List.
+List the sample statistics needed to construct a confidence interval for a population mean, and define a confidence interval.
+@@ 252|Remember|sweep_remember_diversity|Name.
+Name the main functions that a transaction processing system performs when handling sales transactions.
+@@ 260|Remember|sweep_remember_diversity|Recall.
+Recall the definition of material cost variance.
+@@ 275|Remember|sweep_remember_diversity|Recall.
+Recall what software copyright and software licensing each mean.
+@@ 292|Remember|sweep_remember_diversity|Specify.
+Specify what distinguishes competitive from non-competitive receptor antagonism by definition.
+@@ 300|Remember|sweep_remember_diversity|Indicate.
+Indicate the purpose of a tablet disintegration test and what tablet disintegration refers to.
+@@ 305|Remember|sweep_remember_diversity|Recall.
+Recall the definitions of absolute poverty and relative poverty.
+@@ 317|Remember|sweep_remember_diversity|Recall.
+Recall what intergenerational and intragenerational social mobility each refer to.
+@@ 326|Remember|sweep_remember_diversity|Name.
+Name the fold types known as anticlines and synclines and state the shape that defines each.
+@@ 332|Remember|sweep_remember_diversity|Specify.
+Specify what the reorder point is and the two quantities that make it up.
+@@ 345|Remember|sweep_remember_diversity|Recall.
+Recall the meaning of selective attention.
+@@ 356|Remember|sweep_remember_diversity|Indicate.
+Indicate what therapeutic drug monitoring involves and the purpose of a therapeutic range.
+@@ 362|Remember|sweep_remember_diversity|Name.
+Name the two per-unit amounts used to calculate contribution margin, and define contribution margin.
+@@ 371|Remember|sweep_remember_diversity|Recall.
+Recall what audit sampling is and the stated purpose for which auditors select a sample from an audit population.
+@@ 382|Remember|sweep_remember_diversity|Specify.
+Specify what SQL injection is and the role untrusted input plays in it.
+@@ 390|Remember|sweep_remember_diversity|Recall.
+Recall what network address translation does and which address types it maps between.
+@@ 400|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the definitions of the mean, median, and standard deviation as descriptive measures of a dataset.
+@@ 409|Remember|sweep_remember_diversity|Recall.
+Recall the definition of drug half-life and how half-life relates to first-order elimination.
+@@ 415|Remember|sweep_remember_diversity|Specify.
+Specify the rule by which First-Come, First-Served scheduling orders processes.
+@@ 423|Remember|sweep_remember_diversity|Outline.
+Outline what technical, economic, and operational feasibility each mean in information-system development.
+@@ 437|Remember|sweep_remember_diversity|Recall.
+Recall what fluid intake, fluid output, and net fluid balance mean in patient monitoring.
+@@ 447|Remember|sweep_remember_diversity|Specify.
+Specify what a bank reconciliation statement is and what deposits in transit and outstanding cheques are.
+@@ 457|Remember|sweep_remember_diversity|Recall.
+Recall the definition of the decimal reduction time (D-value) and its relationship with logarithmic microbial population reduction.
+@@ 463|Remember|sweep_remember_diversity|Recall.
+Recall the definitions of in-situ and ex-situ conservation.
+@@ 473|Remember|sweep_remember_diversity|Name.
+Name positively charged plant nutrients that soil exchange sites can retain, and define cation exchange capacity.
+@@ 482|Remember|sweep_remember_diversity|List.
+List the acts that copyright protection typically controls, and define copyright.
+@@ 491|Remember|sweep_remember_diversity|Recall.
+Recall what the TCP congestion window is and how it behaves during the slow-start phase.
+@@ 503|Remember|sweep_remember_diversity|Recall.
+Recall the meaning of collective ministerial responsibility.
+@@ 516|Remember|sweep_remember_diversity|Recall.
+Recall the definition of misrepresentation in contract law.
+@@ 523|Remember|sweep_remember_diversity|Outline.
+Outline what spindle speed, feed rate, depth of cut, material removal rate, and surface finish mean in CNC turning.
+@@ 532|Remember|sweep_remember_diversity|Recall.
+Recall the definition of product positioning.
+@@ 541|Remember|sweep_remember_diversity|Recall.
+Recall what a connected undirected graph is and what a path between two vertices means.
+@@ 547|Remember|sweep_remember_diversity|Indicate.
+Indicate whether soil is present at the start of primary succession and of secondary succession, and define each.
+@@ 558|Remember|sweep_remember_diversity|Recall.
+Recall what a decision tree classifier is.
+@@ 569|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the characteristic equation used to find the eigenvalues of a square matrix, and define an eigenvalue and an eigenvector.
+@@ 577|Remember|sweep_remember_diversity|Recall.
+Recall the definition of plain weave.
+@@ 584|Remember|sweep_remember_diversity|Label.
+Label the proportional limit, yield point, ultimate tensile strength, and fracture point on a ductile material's stress–strain curve, stating what each marks.
+@@ 593|Remember|sweep_remember_diversity|Specify.
+Specify the condition that must hold between every pair of vertices for an undirected graph to be connected.
+@@ 004|Remember|sweep_remember_diversity|Recall.
+Recall the conditions that determine whether a resource allocation state is safe.
+@@ 017|Remember|sweep_remember_diversity|Recall.
+Recall the definitions of clustered and non-clustered indexes.
+@@ 039|Remember|sweep_remember_diversity|List.
+List the fundamental Boolean algebra laws used to simplify logic expressions.
+@@ 045|Remember|sweep_remember_diversity|Reproduce.
+Reproduce Newton's second law of motion in words and as a mathematical expression.
+@@ 061|Remember|sweep_remember_diversity|Recall.
+Recall the standard expression for the resonant frequency of a series RLC circuit.
+@@ 074|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the formula used to calculate the net present value of an investment project.
+@@ 090|Remember|sweep_remember_diversity|List.
+List the principal physical and mechanical properties used to classify common building materials, naming an example of a material in each major class.
+@@ 103|Remember|sweep_remember_diversity|Recall.
+Recall the equation used to calculate the efficiency of a single-phase transformer from its input and output power.
+@@ 111|Remember|sweep_remember_diversity|Specify.
+Specify the ordering property that a binary search tree must satisfy for every node and its left and right subtrees.
+@@ 123|Remember|sweep_remember_diversity|Recall.
+Recall the literal rule of statutory interpretation and the principle on which it is based.
+@@ 131|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the titration relationship used to calculate the concentration of an acidic pharmaceutical sample from the standard alkali concentration and titre volume.
+@@ 140|Remember|sweep_remember_diversity|Outline.
+Outline the height-of-instrument method and the staff readings it requires to determine the reduced levels of survey points.
+@@ 147|Remember|sweep_remember_diversity|Indicate.
+Indicate the possible range of Pearson's correlation coefficient and the values that represent positive, negative, and zero linear correlation.
+@@ 159|Remember|sweep_remember_diversity|Recall.
+Recall the relationship used to calculate the reactive power compensation required for power-factor correction.
+@@ 166|Remember|sweep_remember_diversity|Specify.
+Specify the roles of the maximizing and minimizing players in the minimax algorithm.
+@@ 174|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the Darcy–Weisbach equation used to determine frictional head loss in a pipe.
+@@ 182|Remember|sweep_remember_diversity|Recall.
+Recall the relationship between the input voltage and the output voltage of an ideal single-phase full-wave rectifier.
+@@ 191|Remember|sweep_remember_diversity|Recall.
+Recall the relationship used to determine the relative viscosity of a liquid with an Ostwald viscometer.
+@@ 204|Remember|sweep_remember_diversity|List.
+List the equilibrium equations used to determine member forces in a plane truss by the method of joints.
+@@ 222|Remember|sweep_remember_diversity|Recall.
+Recall the standard form of a first-order linear differential equation and the formula for its integrating factor.
+@@ 241|Remember|sweep_remember_diversity|Recall.
+Recall Faraday's law of electromagnetic induction and the physical quantities in its mathematical expression.
+@@ 280|Remember|sweep_remember_diversity|Indicate.
+Indicate the conduct that cybercrime legislation typically treats as unauthorized access to a computer system.
+@@ 288|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the Gibbs free energy equation and name the thermodynamic quantities used to judge reaction spontaneity.
+@@ 299|Remember|sweep_remember_diversity|Recall.
+Recall the principle of operation of a venturimeter and the parameters used to calculate discharge.
+@@ 330|Remember|sweep_remember_diversity|Specify.
+Specify the function of each of the bitwise AND, OR, XOR, and left-shift operators in C.
+@@ 351|Remember|sweep_remember_diversity|Recall.
+Recall the equation for the magnetic force on a straight current-carrying conductor and name its variables.
+@@ 366|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the evaluation function used by the A* search algorithm and define its cost and heuristic components.
+@@ 381|Remember|sweep_remember_diversity|Specify.
+Specify the null and alternative hypotheses used in a chi-square test of independence.
+@@ 399|Remember|sweep_remember_diversity|List.
+List the defining characteristics of exponential and of logistic population growth.
+@@ 407|Remember|sweep_remember_diversity|Recall.
+Recall what a minterm is and how sum-of-minterms notation represents a Boolean function.
+@@ 416|Remember|sweep_remember_diversity|Recall.
+Recall the principle that Dijkstra's algorithm uses to find shortest paths from a source vertex in a graph with non-negative edge weights.
+@@ 427|Remember|sweep_remember_diversity|Recall.
+Recall what selective attention allows a person to do.
+@@ 436|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the dynamic power-dissipation equation for a CMOS inverter and name each of its variables.
+@@ 449|Remember|sweep_remember_diversity|Specify.
+Specify the null and alternative hypotheses for a two-tailed one-sample z-test and the formula for its test statistic.
+@@ 458|Remember|sweep_remember_diversity|Recall.
+Recall Newton's law of cooling in exponential form and name each quantity in it.
+@@ 467|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the economic order quantity formula and name each of its inputs.
+@@ 478|Remember|sweep_remember_diversity|Recall.
+Recall the relationship between real power, power factor, and reactive power, and the formula for the reactive power supplied by a capacitor.
+@@ 489|Remember|sweep_remember_diversity|Reproduce.
+Reproduce the Poisson probability formula and name the roles of the average arrival rate and the number of observed events.
+@@ 497|Remember|sweep_remember_diversity|Outline.
+Outline the operating principle of the SCAN disk-scheduling algorithm and when the disk head changes direction.
+@@ 505|Remember|sweep_remember_diversity|Recall.
+Recall the separating principle on which a cyclone separator operates.
+@@ 515|Remember|sweep_remember_diversity|Recall.
+Recall the government expenditure multiplier formula and the definitions of the marginal propensity to consume and to save.
+@@ 533|Remember|sweep_remember_diversity|Recall.
+Recall what a first-order partial derivative is and which variable is held constant when differentiating with respect to x or y.
+@@ 542|Remember|sweep_remember_diversity|Recall.
+Recall what the abbreviation ETL stands for in data warehousing.
+@@ 552|Remember|sweep_remember_diversity|Recall.
+Recall the relationship between prefix length, subnet mask, and the number of host addresses in an IPv4 subnet.
+@@ 559|Remember|sweep_remember_diversity|List.
+List the main factors that govern sound transmission through a wall.
+@@ 568|Remember|sweep_remember_diversity|Recall.
+Recall where species are protected under in-situ and under ex-situ conservation.
+@@ 576|Remember|sweep_remember_diversity|Recall.
+Recall the definition of a first-order partial derivative.
+@@ 012|Apply|sweep_apply_diversity|Use.
+Use the coupling classification (data, stamp, control, common, and content coupling) to determine the type of coupling between two modules when one module passes a flag that selects which operation the other module performs.
+@@ 050|Apply|sweep_apply_diversity|Sort via Use.
+Use campus waste categories to place each material in a list of waste materials in the recycling, organic, or general waste stream.
+@@ 080|Apply|sweep_apply_diversity|Demonstrate.
+Demonstrate how operational definitions turn a research objective concerning study habits and academic performance into measurable indicators for both variables.
+@@ 093|Apply|sweep_apply_diversity|Use.
+Use appraisal-method criteria with the stated workforce characteristics and performance objectives of a medium-sized organization to choose an appropriate performance appraisal method.
+@@ 115|Apply|sweep_apply_diversity|Determine (Apply); authored functions kept.
+Determine which organ of government, the legislature, executive, or judiciary, performs each of the following functions under the doctrine of separation of powers: enacting a budget law, enforcing traffic regulations, deciding a contract dispute, and declaring a statute unconstitutional.
+@@ 123|Apply|sweep_apply_diversity|Perform.
+Perform a literal-rule interpretation of a supplied statutory provision according to the ordinary meaning of its words.
+@@ 135|Apply|sweep_apply_diversity|Use.
+Use the given spatial requirements to divide the specified floor area among the living, sleeping, cooking, and sanitary functions.
+@@ 157|Apply|sweep_apply_diversity|Use; authored influences kept.
+Use the four-factor model of consumer behaviour to place each influence on a consumer buying a smartphone in its category: family members' opinions, monthly income, festival gift-giving customs, and a belief that the brand signals status.
+@@ 177|Apply|sweep_apply_diversity|Carry out; authored scenario kept.
+A role requires advanced spreadsheet modelling, but an employee can only enter data and use basic formulas. Carry out a gap analysis to identify the skill gap and assign it a training priority.
+@@ 205|Apply|sweep_apply_diversity|Use.
+Use the stated functional relationships and adjacency requirements to group the specified spaces into zones.
+@@ 244|Apply|sweep_apply_diversity|Complete; authored events kept.
+Complete the eutrophication sequence for fertilizer runoff entering a lake by placing the following in the order in which they occur: algal bloom, fish deaths, increased nutrient concentration, and oxygen depletion by decomposers.
+@@ 253|Apply|sweep_apply_diversity|Use.
+Use the three feasibility categories to sort the stated requirements and constraints of the supplied information system proposal into technical, economic, and operational concerns.
+@@ 263|Apply|sweep_apply_diversity|Determine (Apply); authored items kept.
+Determine the component of a management information system that each of the following represents: a database server, the payroll application, employee records, the month-end payroll closing procedure, and the payroll officer.
+@@ 275|Apply|sweep_apply_diversity|Test.
+Test the activities in the supplied scenario against the specified licence conditions to determine which software uses are permitted and which are restricted.
+@@ 305|Apply|sweep_apply_diversity|Use; values kept.
+Use the definitions of absolute and relative poverty to determine which concept each measure represents: households living on less than USD 2.15 per person per day, and households with income below 50% of the national median income.
+@@ 335|Apply|sweep_apply_diversity|Perform.
+Perform the state-of-mind test on each supplied misrepresentation scenario to determine the category of its false statement.
+@@ 364|Apply|sweep_apply_diversity|Use.
+Use the three feasibility dimensions to state which dimension each of the supplied proposal requirements concerns.
+@@ 380|Apply|sweep_apply_diversity|Use.
+Use the stated characteristics to sort the features shown in the supplied site plan into development opportunities and constraints.
+@@ 413|Apply|sweep_apply_diversity|Calculate; values kept.
+A university of 2,000 students has four faculties of 800, 600, 400, and 200 students. Calculate how many students should be selected from each faculty for a proportionate stratified sample of 200.
+@@ 426|Apply|sweep_apply_diversity|Predict; relationship kept.
+Predict, using the cyclone cut-diameter relationship in which the cut diameter decreases as inlet velocity increases, how raising the inlet velocity at the stated high gas flow rate would change the collection of the relatively large particles.
+@@ 444|Apply|sweep_apply_diversity|Use; authored scenario kept.
+A manager must choose a leadership style for a team of experienced engineers who need little supervision on a long research project. Use the characteristics of autocratic, democratic, and laissez-faire leadership to select a suitable style, and state the deciding characteristic.
+@@ 468|Apply|sweep_apply_diversity|Determine (Apply); authored features kept.
+Determine whether a country has a parliamentary or a presidential system if its head of government is chosen by the legislature and can be removed by a legislative vote of no confidence, using the defining features of each system.
+@@ 482|Apply|sweep_apply_diversity|Use.
+Use the reproduction and distribution rights protected under the applicable legal framework to determine which activities in the stated textbook scenario engage each right.
+@@ 492|Apply|sweep_apply_diversity|Test.
+Test a revised assessment that asks students only to define the normal forms against the principle of constructive alignment, determining whether it would still align with the outcome requiring students to evaluate database normalization choices.
+@@ 526|Apply|sweep_apply_diversity|Use; authored scenario kept.
+Use diplomatic negotiation, economic sanctions, and international mediation in a border dispute in which talks have stalled and one state has begun building on the disputed land, recommending the order in which the instruments should be applied and why.
+@@ 536|Apply|sweep_apply_diversity|Use; authored scenario kept.
+A project leader must choose a technical design within two days, and team members hold critical technical knowledge. Use the characteristics of autocratic and democratic leadership to determine which approach the leader should take for this decision.
+@@ 547|Apply|sweep_apply_diversity|Use; authored sites kept.
+Use the distinction between primary and secondary succession to identify the type of succession on a new volcanic lava flow and on an abandoned rice field, and predict which site would reach a stable community sooner.
+@@ 572|Apply|sweep_apply_diversity|Determine (Apply); values kept.
+Determine whether the supplier's failure to deliver the 500 units by 1 June constitutes non-performance of the stated contractual obligation, using the concept of breach of contract.
+@@ 584|Apply|sweep_apply_diversity|Use; values kept.
+A ductile steel specimen's stress–strain curve is linear up to 250 MPa, shows a distinct yield at 270 MPa, reaches a maximum engineering stress of 450 MPa, and fractures at 380 MPa. Use the definitions to state the proportional limit, yield point, ultimate tensile strength, and fracture stress.

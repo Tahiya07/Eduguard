@@ -1,0 +1,81 @@
+#reviewed 563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,598,599,600
+@@ 563|Analyze|adjacent_level_distinction|Source (Understand) explains roles; Analyze explains the strand asymmetry.
+Determine why DNA ligase is needed far more often on the lagging strand than on the leading strand, relating this to how primase and DNA polymerase act at the replication fork.
+@@ 564|Create|verb_diversity|Propose.
+Propose a working-capital improvement plan that shortens the cash conversion cycle by changing the inventory holding, receivables collection, and payables payment periods, and show the resulting cycle length.
+@@ 565|Apply|obe_verb_first|Identify is not an Apply bank verb.
+Determine which of the seven sample means—49, 51, 52, 50, 53, 57, and 51—falls outside the stated control limits of 44 and 56.
+@@ 565|Analyze|alignment_strengthen|Drift vs random variation.
+Analyze whether the run of sample means 51, 52, 50, and 53 before the out-of-limit value of 57 suggests a gradual upward drift or random variation around the centre line of 50.
+@@ 566|Remember|operation_fix|Distinguish is not a Remember operation; now recall.
+Define water activity.
+@@ 566|Apply|obe_verb_first|Interpret is not an Apply bank verb.
+Predict the microbial stability of a food sample that has a high moisture content but a comparatively low water activity.
+@@ 567|Remember|answer_in_question|Question named the components.
+Define role-based access control.
+@@ 568|Remember|near_duplicate|Distinguishes from the related example's Remember row.
+State where species are protected under in-situ and under ex-situ conservation.
+@@ 568|Analyze|adjacent_level_distinction|Source (Understand) compares; Analyze explains what ex-situ cannot preserve and when release works.
+Determine why ex-situ conservation can preserve a species' numbers but not its ecological interactions, and identify the conditions under which a captive population can be returned to the wild successfully.
+@@ 569|Analyze|alignment_strengthen|Trace/determinant relations and diagonalizability.
+Determine why the eigenvalues of A=[[4, 1], [2, 3]] must sum to its trace and multiply to its determinant, and explain why A has two independent eigenvectors.
+@@ 571|Analyze|alignment_strengthen|Order inference and prediction.
+Determine why a fourfold rise in rate for a doubling of concentration indicates a second-order dependence, and predict the factor by which the rate would change if the concentration were tripled.
+@@ 572|Create|verb_diversity|Construct.
+Construct a structured legal argument on how compensatory damages could be considered in the stated dispute, connecting the contractual obligation, non-performance, and compensatory purpose without assuming an unprovided loss amount.
+@@ 573|Analyze|alignment_fix|Was input identification; now diameter-ratio sensitivity and the role of Cd.
+Determine why a throat half the diameter of the 0.20 m inlet makes the venturimeter far more sensitive, and explain how the 0.98 coefficient of discharge corrects the ideal Bernoulli result.
+@@ 574|Remember|answer_in_question|Question named the indicators.
+State why abstract concepts must be operationalized in social research.
+@@ 576|Remember|operation_fix|Explain is not a Remember operation.
+State the definition of a first-order partial derivative.
+@@ 576|Analyze|alignment_strengthen|Term contributions and the mixed partial.
+Determine why the term −5y contributes to f_y but not to f_x, and explain what the mixed partial derivative 6x+4y shows about how x and y interact in f(x,y)=3x^2y+2xy^2-5y.
+@@ 577|Remember|answer_in_question|Question named warp and weft.
+Define plain weave.
+@@ 577|Analyze|adjacent_level_distinction|Source (Understand) explains structure; Analyze weighs the trade-off.
+Determine why the one-over, one-under interlacement of plain weave makes it less prone to yarn slippage than weaves with longer floats, and identify the fabric property that this trade-off sacrifices.
+@@ 579|Create|alignment_strengthen|Framework restated forms; now an evidence-specifying review design.
+Design a validity review for a university examination that specifies the evidence to be collected for content representation, construct measurement, and the relationship with external criteria.
+@@ 580|Remember|obe_verb_first|Expand is not a Remember bank verb; question also listed the answer.
+Name the three stages of the process used to prepare operational data for a data warehouse.
+@@ 580|Create|alignment_strengthen|Restated the workflow; now adds exception handling.
+Design an ETL workflow for the stated data-warehouse context that detects and logs records whose dates cannot be standardized and specifies how they are corrected before loading.
+@@ 581|Analyze|adjacent_level_distinction|Source (Understand) explains geometry; Analyze explains erosion outcomes.
+Determine why erosion of an anticline exposes the oldest strata at its core while erosion of a syncline exposes the youngest, relating this to the direction in which the layers were folded.
+@@ 582|Analyze|alignment_strengthen|Dominant measurement and insensible losses.
+Determine which measurement most influences the patient's positive 24-hour balance, and explain how unmeasured insensible losses would change the interpretation of the result.
+@@ 583|Remember|answer_in_question|Question named the four instruments.
+Name the main instruments of foreign policy.
+@@ 583|Create|alignment_strengthen|Framework restated instruments; now an escalation strategy.
+Formulate a sequenced foreign-policy strategy that escalates from bilateral negotiations to multilateral diplomacy, mediation, and sanctions, specifying the trigger for each step.
+@@ 584|Analyze|adjacent_level_distinction|Source (Understand) identifies points; Analyze explains the post-UTS stress drop.
+Determine why the engineering stress falls from 450 MPa to 380 MPa before fracture even though the true stress keeps rising, relating this to necking.
+@@ 585|Create|alignment_strengthen|Conceptual workflow restated the mechanism; now a checkpoint schedule design.
+Design a checkpointing schedule for a transaction-processing system that balances recovery time against the overhead of taking checkpoints, and show how recovery would proceed after a failure.
+@@ 586|Analyze|alignment_fix|Was input identification; now proportionality and design lever.
+Determine why the generated emf is directly proportional to each of K_w, f, Φ, and T, and identify which quantity a designer can change most easily to obtain a different emf without altering the supply frequency.
+@@ 587|Remember|answer_in_question|Question named the reagent.
+Name the reagent used to produce turbidity in the chloride limit test.
+@@ 587|Apply|obe_verb_first|Interpret is not an Apply bank verb.
+Determine the outcome of the chloride limit test when the turbidity produced by a pharmaceutical sample is greater than that of its standard chloride solution.
+@@ 589|Remember|answer_in_question|Question named the three roof types.
+Name the three main roof forms used in building construction.
+@@ 591|Analyze|alignment_fix|Was input identification; now valuation basis and meaning, without revealing the answer.
+Determine why the labour efficiency variance is valued at the standard rate of Tk. 200 per hour rather than the actual rate, and explain what an excess of actual hours over the standard hours allowed implies about production efficiency.
+@@ 592|Analyze|adjacent_level_distinction|Source (Understand) explains differences; Analyze traces the cause of faster recovery.
+Determine why vegetation recovery on an abandoned ploughed field proceeds faster than colonization of bare rock, tracing the difference to the soil and seed bank already present.
+@@ 594|Remember|answer_in_question|Question named the four dimensions.
+List the feasibility dimensions used to decide whether a proposed information system should be developed.
+@@ 594|Create|alignment_strengthen|Framework restated dimensions; now a decision rule.
+Formulate a decision rule for the proposed student-information system that combines technical, economic, operational, and schedule feasibility results into a go, revise, or stop decision.
+@@ 595|Remember|answer_in_question|Question named the four parameters.
+List the parameters that influence the ultimate bearing capacity of a shallow foundation.
+@@ 595|Analyze|adjacent_level_distinction|Source (Understand) explains influences; Analyze attributes them to equation terms.
+Determine why foundation depth increases bearing capacity even on a purely cohesive soil while width does not when N_γ = 0, relating each effect to the terms of Terzaghi's equation.
+@@ 596|Remember|answer_in_question|Question named the four components.
+Name the four components of the multi-component working-memory model.
+@@ 598|Remember|answer_in_question|Question named the indicators.
+Define performance-based budgeting.
+@@ 598|Analyze|alignment_strengthen|Conflicting signals and population dependence; no answer revealed.
+Determine how service coverage, cost per vaccinated person, and target achievement could point to different funding decisions for the vaccination service, and identify which indicator depends on the size of the eligible population.

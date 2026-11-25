@@ -1,0 +1,143 @@
+{
+  "n_train": 2814,
+  "slices": {
+    "all": {
+      "n": 344,
+      "verb_only": 0.919,
+      "first_word_only": 0.907,
+      "masked_verb_nb": 0.718,
+      "full_text_nb": 0.884
+    },
+    "authored_scenario": {
+      "n": 19,
+      "verb_only": 0.947,
+      "first_word_only": 0.895,
+      "masked_verb_nb": 0.684,
+      "full_text_nb": 0.737
+    },
+    "false_claim_object": {
+      "n": 7,
+      "verb_only": 0.857,
+      "first_word_only": 1.0,
+      "masked_verb_nb": 1.0,
+      "full_text_nb": 1.0
+    },
+    "label_and_generation_only": {
+      "n": 136,
+      "verb_only": 0.868,
+      "first_word_only": 0.868,
+      "masked_verb_nb": 0.794,
+      "full_text_nb": 0.934
+    },
+    "masked_verb_nb_wrong": {
+      "n": 119,
+      "verb_only": 0.933,
+      "first_word_only": 0.916,
+      "masked_verb_nb": 0.311,
+      "full_text_nb": 0.706
+    },
+    "rare_or_unseen_verb": {
+      "n": 24,
+      "verb_only": 0.5,
+      "first_word_only": 0.5,
+      "masked_verb_nb": 0.625,
+      "full_text_nb": 0.667
+    },
+    "scenario_first": {
+      "n": 10,
+      "verb_only": 1.0,
+      "first_word_only": 0.7,
+      "masked_verb_nb": 0.6,
+      "full_text_nb": 0.9
+    },
+    "shared_bank_verb": {
+      "n": 45,
+      "verb_only": 0.667,
+      "first_word_only": 0.667,
+      "masked_verb_nb": 0.889,
+      "full_text_nb": 0.978
+    },
+    "verb_multi_level_in_train": {
+      "n": 47,
+      "verb_only": 0.596,
+      "first_word_only": 0.596,
+      "masked_verb_nb": 0.787,
+      "full_text_nb": 0.851
+    },
+    "verb_shortcut_misleads": {
+      "n": 26,
+      "verb_only": 0.385,
+      "first_word_only": 0.423,
+      "masked_verb_nb": 0.654,
+      "full_text_nb": 0.769
+    },
+    "interrogative": {
+      "n": 11,
+      "verb_only": 0.636,
+      "first_word_only": 0.727,
+      "masked_verb_nb": 0.636,
+      "full_text_nb": 0.727
+    },
+    "no_tag_easy": {
+      "n": 166,
+      "verb_only": 1.0,
+      "first_word_only": 1.0,
+      "masked_verb_nb": 0.928,
+      "full_text_nb": 0.976
+    }
+  },
+  "pairs": {
+    "verb_only": {
+      "both_correct": 0.795,
+      "order_correct": 0.927,
+      "both_correct_by_pair": {
+        "Remember-Understand": 0.897,
+        "Understand-Apply": 0.857,
+        "Apply-Analyze": 0.732,
+        "Understand-Analyze": 0.696,
+        "Analyze-Evaluate": 0.732,
+        "Evaluate-Create": 0.914,
+        "Analyze-Create": 0.732
+      }
+    },
+    "first_word_only": {
+      "both_correct": 0.77,
+      "order_correct": 0.919,
+      "both_correct_by_pair": {
+        "Remember-Understand": 0.879,
+        "Understand-Apply": 0.804,
+        "Apply-Analyze": 0.661,
+        "Understand-Analyze": 0.661,
+        "Analyze-Evaluate": 0.732,
+        "Evaluate-Create": 0.931,
+        "Analyze-Create": 0.714
+      }
+    },
+    "masked_verb_nb": {
+      "both_correct": 0.513,
+      "order_correct": 0.71,
+      "both_correct_by_pair": {
+        "Remember-Understand": 0.431,
+        "Understand-Apply": 0.357,
+        "Apply-Analyze": 0.518,
+        "Understand-Analyze": 0.411,
+        "Analyze-Evaluate": 0.643,
+        "Evaluate-Create": 0.621,
+        "Analyze-Create": 0.607
+      }
+    },
+    "full_text_nb": {
+      "both_correct": 0.747,
+      "order_correct": 0.848,
+      "both_correct_by_pair": {
+        "Remember-Understand": 0.724,
+        "Understand-Apply": 0.696,
+        "Apply-Analyze": 0.804,
+        "Understand-Analyze": 0.643,
+        "Analyze-Evaluate": 0.821,
+        "Evaluate-Create": 0.81,
+        "Analyze-Create": 0.732
+      }
+    }
+  }
+}
