@@ -1,93 +1,697 @@
 {
  "purpose": "Fixed topic plan for the 440 Medium records (352 train / 44 validation / 44 test). Generation follows it in order; the tool still rejects repeated topic names and near-duplicates. Validation/test topics are reserved and conceptually distinct from train topics.",
  "train": {
-  "CSE": ["Garbage Collection in Managed Runtimes", "Deadlock Detection, Prevention, and Avoidance", "Lexical Analysis and Regular Expressions in Compilers", "Context-Free Grammars and Parsing", "Breadth-First and Depth-First Graph Traversal", "Dijkstra's Shortest Path Algorithm", "Minimum Spanning Tree Algorithms", "Comparison Sorting Algorithms and Their Complexity", "Convolutional Neural Networks for Image Recognition", "Version Control with Git", "Containers and Virtual Machines", "Cross-Site Scripting and SQL Injection Attacks"],
-  "EEE": ["Synchronous Generators and Voltage Regulation", "Fourier Series and Frequency Spectra", "FIR and IIR Digital Filters", "The p-n Junction Diode", "Rectifier Circuits and Ripple Filtering", "Symmetrical Components and Power System Faults", "Load Flow Analysis in Power Systems", "Analog-to-Digital Converter Architectures", "Optical Fibre Communication", "Antenna Radiation Patterns and Gain", "Pulse-Width Modulated Inverters", "Speed Control of DC Motors"],
-  "Civil Engineering": ["Slope Stability Analysis", "Consolidation Settlement of Clay Soils", "Laboratory Shear Strength Tests for Soils", "Uniform Flow in Open Channels and Manning's Equation", "Prestressed Concrete", "Bolted and Welded Steel Connections", "Euler Buckling of Columns", "Analysis of Statically Determinate Trusses", "Horizontal Curves in Highway Geometric Design", "Marshall Mix Design for Bituminous Pavements", "Lateral Earth Pressure and Retaining Walls", "Pile Foundations and Load Capacity"],
-  "Mechanical Engineering": ["Heat Exchanger Analysis Using the Effectiveness-NTU Method", "Gear Geometry and Gear Trains", "Rolling-Element Bearings and Lubrication", "The Brayton Cycle and Gas Turbines", "The Rankine Cycle in Steam Power Plants", "Psychrometrics and Air-Conditioning Processes", "Free and Damped Vibration of Single-Degree-of-Freedom Systems", "Arc Welding Processes", "Additive Manufacturing Technologies", "Mohr's Circle and Stress Transformation", "Heat Treatment of Steels", "Extended Surfaces and Fin Heat Transfer"],
-  "Textile Engineering": ["Reactive Dyeing of Cotton", "Ring Spinning of Staple Yarns", "Rotor Spinning", "Weft and Warp Knitting", "Nonwoven Fabric Manufacturing", "Mercerization and Chemical Finishing of Cotton", "Instrumental Colour Measurement in Textiles", "Garment Pattern Making and Grading", "Fabric Inspection and the Four-Point System", "Yarn Count Systems", "Warp Sizing", "Technical Textiles and Their Applications", "Marker Planning and Fabric Utilization in Garment Cutting"],
-  "Pharmacy": ["Bioavailability and Bioequivalence Studies", "Ophthalmic Dosage Forms", "Physical Stability of Emulsions and Suspensions", "Phase I and Phase II Drug Metabolism", "Pharmacogenomics and Individualized Drug Therapy", "Phases of Clinical Drug Trials", "Good Manufacturing Practice in the Pharmaceutical Industry", "Preformulation Studies", "Classes of Antihypertensive Drugs", "Mechanisms of Action of Antibacterial Drugs", "Transdermal Drug Delivery", "Medication Errors and Hospital Pharmacy Practice"],
-  "Microbiology": ["Bacterial Cell Walls and Gram Staining", "Viral Replication Cycles", "Lytic and Lysogenic Cycles of Bacteriophages", "Culture Media and Aseptic Technique", "Microbial Fermentation and Respiration", "Quorum Sensing in Bacteria", "Types of Vaccines", "Pathogenic Fungi and Mycoses", "Coliform Testing of Water", "Microbial Roles in the Nitrogen Cycle", "Industrial Production of Penicillin", "Microbial Spoilage of Food"],
-  "Biotechnology": ["Polymerase Chain Reaction and Its Optimization", "Recombinant DNA Technology and Cloning Vectors", "CRISPR-Cas9 Genome Editing", "Agarose Gel Electrophoresis", "Monoclonal Antibodies and Hybridoma Technology", "Plant Tissue Culture", "Bioreactor Design and Operation", "Downstream Processing of Proteins", "DNA Sequencing Technologies", "Genetically Modified Crops", "Enzyme-Linked Immunosorbent Assay", "Viral Vectors in Gene Therapy", "Production of Biofuels from Biomass", "Stem Cells and Their Applications"],
-  "Biomedical Engineering": ["Principles of X-Ray Computed Tomography", "Magnetic Resonance Imaging", "Diagnostic Ultrasound Imaging", "Lower-Limb Prosthetics", "Biomechanics of Human Gait", "Haemodialysis and the Artificial Kidney", "Cardiac Pacemakers", "Electroencephalography and Biosignal Filtering", "Scaffolds in Tissue Engineering", "Risk Management for Medical Devices", "Non-Invasive Blood Pressure Measurement", "Cochlear Implants", "Mechanical Ventilation"],
-  "Public Health": ["Steps in an Outbreak Investigation", "Immunization Programmes and Herd Immunity", "Maternal and Child Health Indicators", "Tobacco Control Policies", "Behavioural Risk Factors for Non-Communicable Diseases", "The Health Belief Model", "Criteria for Population Screening Programmes", "Control of Dengue and Other Vector-Borne Diseases", "Water, Sanitation, and Hygiene Interventions", "Occupational Health Hazards", "Health System Financing", "Emergency Preparedness and Disaster Response"],
-  "Nutrition and Food Science": ["Micronutrient Deficiencies", "Energy Balance and Basal Metabolic Rate", "Glycaemic Index and Carbohydrate Quality", "Food Additives and Their Regulation", "Hazard Analysis and Critical Control Points", "Infant and Young Child Feeding", "Anthropometric Assessment of Malnutrition", "Water-Soluble and Fat-Soluble Vitamins", "Food Fortification", "Dietary Assessment Methods", "Functional Foods and Nutraceuticals", "Food Allergy and Intolerance", "Sensory Evaluation of Foods"],
-  "Agriculture": ["Drip and Sprinkler Irrigation", "Integrated Pest Management of Insect Pests", "Hybrid Crop Breeding", "Nutrient Management with NPK Fertilizers", "Alternate Wetting and Drying in Rice Cultivation", "Ruminant Nutrition", "Pond Aquaculture Management", "Soil Erosion and Conservation Practices", "Weed Management", "Agroforestry Systems", "Precision Agriculture", "Climate-Smart Agriculture", "Biosecurity in Poultry Production"],
-  "Environmental Science": ["Criteria Air Pollutants and the Air Quality Index", "Biodiversity Conservation Strategies", "The Global Carbon Cycle", "Stratospheric Ozone Depletion", "Acid Deposition", "Wetland Ecosystem Services", "Eutrophication of Lakes and Rivers", "Life Cycle Assessment", "Microplastic Pollution", "Environmental Noise Pollution", "Causes and Consequences of Deforestation", "Mangrove Ecosystems", "Arsenic Contamination of Groundwater", "Remote Sensing and GIS in Environmental Monitoring"],
-  "Business Administration": ["Porter's Five Forces", "SWOT Analysis and Strategic Planning", "Types of Organizational Structure", "Kotter's Model of Organizational Change", "Principled Negotiation", "Corporate Social Responsibility", "Startup Financing and Venture Capital", "Customer Relationship Management", "E-Commerce Business Models", "Foreign Market Entry Modes", "Corporate Governance", "The Balanced Scorecard"],
-  "Accounting and Finance": ["Capital Budgeting with Net Present Value and Internal Rate of Return", "Financial Ratio Analysis", "Job-Order and Process Costing", "Activity-Based Costing", "Standard Costing and Variance Analysis", "Working Capital Management", "Weighted Average Cost of Capital", "Capital Structure Theory", "Dividend Policy", "Bond Valuation and Yield", "Dividend Discount Models of Stock Valuation", "Portfolio Diversification", "Internal Control and Auditing", "Revenue Recognition under IFRS 15"],
-  "Economics": ["Comparative Advantage and International Trade", "Monetary Policy and Central Banking", "Fiscal Policy and the Multiplier", "Consumer Choice and Indifference Curves", "Short-Run and Long-Run Cost Curves", "Game Theory and Nash Equilibrium", "Externalities and Public Goods", "Exchange Rates and the Balance of Payments", "The Phillips Curve", "Measuring Gross Domestic Product", "The Solow Growth Model", "Adverse Selection and Moral Hazard"],
-  "Management": ["Expectancy Theory of Motivation", "Taylor's Scientific Management", "Weber's Theory of Bureaucracy", "Contingency Approaches to Management", "Stages of Team Development", "Conflict Management Styles", "Capacity Planning in Operations", "Lean Production and Waste Reduction", "Knowledge Management in Organizations", "Strategic Human Resource Management", "Management by Objectives", "Delegation and Employee Empowerment", "Organizational Learning"],
-  "Marketing": ["Pricing Strategies for New and Existing Products", "The Product Life Cycle", "The Extended Marketing Mix for Services", "Search Engine Optimization", "Social Media Marketing", "Integrated Marketing Communications", "Marketing Channels and Distribution", "The SERVQUAL Model of Service Quality", "Retail Management", "Customer Lifetime Value", "Sales Force Management", "Business-to-Business Marketing", "Green Marketing"],
-  "Law": ["The Doctrine of Judicial Precedent", "Negligence in the Law of Torts", "Defamation", "Consumer Protection Law", "Copyright Law", "Patent Law", "Separate Legal Personality of Companies", "Judicial Review of Administrative Action", "Employment and Labour Law", "Sources of International Law", "Bail in Criminal Procedure", "Burden and Standard of Proof"],
-  "Sociology": ["Sociological Theories of Deviance", "Agents of Socialization", "Weber's Theory of Social Action and Rationalization", "Urbanization and Urban Social Life", "Gender Roles and Gender Socialization", "Changing Family Structures", "Sociology of Religion", "Globalization and Culture", "Social Movements", "Ethnography and Qualitative Interviewing", "Demographic Transition", "Social Capital", "The Hidden Curriculum", "Symbolic Interactionism"],
-  "Psychology": ["Classical and Operant Conditioning", "Multi-Store and Working Memory Models", "Piaget's Theory of Cognitive Development", "Erikson's Psychosocial Stages", "Attachment Theory", "Cognitive Dissonance", "Conformity and Obedience", "The Big Five Personality Traits", "Theories of Intelligence", "Stress and Coping", "Cognitive Behavioural Therapy for Depression", "Sleep and Circadian Rhythms"],
-  "Education": ["Bloom's Taxonomy of Educational Objectives", "Vygotsky's Zone of Proximal Development and Scaffolding", "Universal Design for Learning", "Inclusive Education", "Classroom Management", "Tyler's Model of Curriculum Development", "Blended Learning", "The Flipped Classroom", "Problem-Based Learning", "Designing Assessment Rubrics", "Differentiated Instruction", "Metacognition and Self-Regulated Learning"],
-  "English and Linguistics": ["Krashen's Hypotheses of Second Language Acquisition", "Morphology and Word Formation", "Phrase Structure in Syntax", "Lexical Semantics and Sense Relations", "Dialect, Register, and Style", "Cohesion and Coherence in Discourse", "First Language Acquisition in Children", "Bilingualism and Code-Switching", "Literary Modernism", "English Romantic Poetry", "Postcolonial Literature", "Classical Rhetoric and Persuasion", "Historical Linguistics and Language Change"],
-  "Architecture": ["Vernacular Architecture of Bangladesh", "Principles of Urban Design", "Room Acoustics", "Green Building Rating Systems", "Islamic Architecture", "Landscape Architecture", "Affordable Housing Design", "Universal Design and Accessibility", "Gothic Architecture", "Site Analysis in Architectural Design", "Fire Safety and Means of Egress", "Green Roofs", "Adaptive Reuse of Historic Buildings"],
-  "Mathematics": ["Linear Programming and the Simplex Method", "First-Order Ordinary Differential Equations", "The Laplace Transform", "The Newton-Raphson Method", "Numerical Integration Rules", "LU Decomposition", "Divergence and Curl of Vector Fields", "Euler and Hamiltonian Paths in Graphs", "Modular Arithmetic", "Complex Numbers and Their Geometry", "Taylor Series", "Lagrange Multipliers"],
-  "Statistics": ["Hypothesis Testing and p-Values", "Simple Linear Regression", "Logistic Regression", "One-Way Analysis of Variance", "Chi-Square Tests of Independence", "Nonparametric Tests", "Correlation and Causation", "Principles of Experimental Design", "ARIMA Models for Time Series", "Survival Analysis and the Kaplan-Meier Estimator", "The Binomial and Poisson Distributions", "Statistical Power and Sample Size"],
-  "Chemistry": ["Hess's Law and Thermochemistry", "Galvanic Cells and Electrode Potentials", "Quantum Numbers and Electron Configuration", "VSEPR Theory and Molecular Geometry", "Molecular Orbital Theory", "The Ideal Gas Law and Real Gases", "Colligative Properties of Solutions", "Buffer Solutions", "SN1 and SN2 Nucleophilic Substitution", "Infrared Spectroscopy", "Principles of Green Chemistry", "Corrosion of Metals"],
-  "Physics": ["Time Dilation and Length Contraction in Special Relativity", "Newton's Laws and Free-Body Diagrams", "Simple Harmonic Motion", "The Doppler Effect", "Kinetic Theory of Gases", "Gauss's Law", "Capacitors and Dielectrics", "Thin Lenses and Image Formation", "Nuclear Binding Energy", "The Schrödinger Equation and Quantum Tunnelling", "Rotational Dynamics", "Buoyancy and Fluid Statics"]
+  "CSE": [
+   "Garbage Collection in Managed Runtimes",
+   "Deadlock Detection, Prevention, and Avoidance",
+   "Lexical Analysis and Regular Expressions in Compilers",
+   "Context-Free Grammars and Parsing",
+   "Dijkstra's Shortest Path Algorithm",
+   "Minimum Spanning Tree Algorithms",
+   "Comparison Sorting Algorithms and Their Complexity",
+   "Convolutional Neural Networks for Image Recognition",
+   "Version Control with Git",
+   "Containers and Virtual Machines",
+   "Cross-Site Scripting and SQL Injection Attacks"
+  ],
+  "EEE": [
+   "Synchronous Generators and Voltage Regulation",
+   "Fourier Series and Frequency Spectra",
+   "FIR and IIR Digital Filters",
+   "Symmetrical Components and Power System Faults",
+   "Load Flow Analysis in Power Systems",
+   "Analog-to-Digital Converter Architectures",
+   "Optical Fibre Communication",
+   "Antenna Radiation Patterns and Gain",
+   "Pulse-Width Modulated Inverters",
+   "Speed Control of DC Motors"
+  ],
+  "Civil Engineering": [
+   "Slope Stability Analysis",
+   "Consolidation Settlement of Clay Soils",
+   "Laboratory Shear Strength Tests for Soils",
+   "Uniform Flow in Open Channels and Manning's Equation",
+   "Prestressed Concrete",
+   "Bolted and Welded Steel Connections",
+   "Euler Buckling of Columns",
+   "Analysis of Statically Determinate Trusses",
+   "Marshall Mix Design for Bituminous Pavements",
+   "Lateral Earth Pressure and Retaining Walls",
+   "Pile Foundations and Load Capacity"
+  ],
+  "Mechanical Engineering": [
+   "Heat Exchanger Analysis Using the Effectiveness-NTU Method",
+   "Gear Geometry and Gear Trains",
+   "Rolling-Element Bearings and Lubrication",
+   "The Brayton Cycle and Gas Turbines",
+   "Psychrometrics and Air-Conditioning Processes",
+   "Additive Manufacturing Technologies",
+   "Mohr's Circle and Stress Transformation",
+   "Heat Treatment of Steels",
+   "Extended Surfaces and Fin Heat Transfer"
+  ],
+  "Textile Engineering": [
+   "Reactive Dyeing of Cotton",
+   "Ring Spinning of Staple Yarns",
+   "Weft and Warp Knitting",
+   "Nonwoven Fabric Manufacturing",
+   "Mercerization and Chemical Finishing of Cotton",
+   "Instrumental Colour Measurement in Textiles",
+   "Garment Pattern Making and Grading",
+   "Fabric Inspection and the Four-Point System",
+   "Yarn Count Systems",
+   "Warp Sizing",
+   "Technical Textiles and Their Applications",
+   "Marker Planning and Fabric Utilization in Garment Cutting"
+  ],
+  "Pharmacy": [
+   "Bioavailability and Bioequivalence Studies",
+   "Ophthalmic Dosage Forms",
+   "Physical Stability of Emulsions and Suspensions",
+   "Phase I and Phase II Drug Metabolism",
+   "Phases of Clinical Drug Trials",
+   "Good Manufacturing Practice in the Pharmaceutical Industry",
+   "Preformulation Studies",
+   "Classes of Antihypertensive Drugs",
+   "Mechanisms of Action of Antibacterial Drugs",
+   "Transdermal Drug Delivery"
+  ],
+  "Microbiology": [
+   "Bacterial Cell Walls and Gram Staining",
+   "Viral Replication Cycles",
+   "Lytic and Lysogenic Cycles of Bacteriophages",
+   "Culture Media and Aseptic Technique",
+   "Microbial Fermentation and Respiration",
+   "Quorum Sensing in Bacteria",
+   "Types of Vaccines",
+   "Pathogenic Fungi and Mycoses",
+   "Coliform Testing of Water",
+   "Microbial Roles in the Nitrogen Cycle",
+   "Industrial Production of Penicillin",
+   "Microbial Spoilage of Food"
+  ],
+  "Biotechnology": [
+   "Polymerase Chain Reaction and Its Optimization",
+   "Recombinant DNA Technology and Cloning Vectors",
+   "Agarose Gel Electrophoresis",
+   "Monoclonal Antibodies and Hybridoma Technology",
+   "Plant Tissue Culture",
+   "Bioreactor Design and Operation",
+   "Downstream Processing of Proteins",
+   "DNA Sequencing Technologies",
+   "Genetically Modified Crops",
+   "Enzyme-Linked Immunosorbent Assay",
+   "Viral Vectors in Gene Therapy",
+   "Production of Biofuels from Biomass",
+   "Stem Cells and Their Applications"
+  ],
+  "Biomedical Engineering": [
+   "Principles of X-Ray Computed Tomography",
+   "Magnetic Resonance Imaging",
+   "Diagnostic Ultrasound Imaging",
+   "Lower-Limb Prosthetics",
+   "Biomechanics of Human Gait",
+   "Haemodialysis and the Artificial Kidney",
+   "Cardiac Pacemakers",
+   "Electroencephalography and Biosignal Filtering",
+   "Scaffolds in Tissue Engineering",
+   "Risk Management for Medical Devices",
+   "Non-Invasive Blood Pressure Measurement",
+   "Cochlear Implants",
+   "Mechanical Ventilation"
+  ],
+  "Public Health": [
+   "Steps in an Outbreak Investigation",
+   "Immunization Programmes and Herd Immunity",
+   "Maternal and Child Health Indicators",
+   "Tobacco Control Policies",
+   "Behavioural Risk Factors for Non-Communicable Diseases",
+   "The Health Belief Model",
+   "Criteria for Population Screening Programmes",
+   "Control of Dengue and Other Vector-Borne Diseases",
+   "Water, Sanitation, and Hygiene Interventions",
+   "Occupational Health Hazards",
+   "Health System Financing",
+   "Emergency Preparedness and Disaster Response"
+  ],
+  "Nutrition and Food Science": [
+   "Micronutrient Deficiencies",
+   "Energy Balance and Basal Metabolic Rate",
+   "Glycaemic Index and Carbohydrate Quality",
+   "Food Additives and Their Regulation",
+   "Hazard Analysis and Critical Control Points",
+   "Infant and Young Child Feeding",
+   "Anthropometric Assessment of Malnutrition",
+   "Water-Soluble and Fat-Soluble Vitamins",
+   "Food Fortification",
+   "Dietary Assessment Methods",
+   "Functional Foods and Nutraceuticals",
+   "Food Allergy and Intolerance",
+   "Sensory Evaluation of Foods"
+  ],
+  "Agriculture": [
+   "Drip and Sprinkler Irrigation",
+   "Integrated Pest Management of Insect Pests",
+   "Hybrid Crop Breeding",
+   "Nutrient Management with NPK Fertilizers",
+   "Alternate Wetting and Drying in Rice Cultivation",
+   "Ruminant Nutrition",
+   "Pond Aquaculture Management",
+   "Soil Erosion and Conservation Practices",
+   "Weed Management",
+   "Agroforestry Systems",
+   "Precision Agriculture",
+   "Climate-Smart Agriculture",
+   "Biosecurity in Poultry Production"
+  ],
+  "Environmental Science": [
+   "Criteria Air Pollutants and the Air Quality Index",
+   "Biodiversity Conservation Strategies",
+   "The Global Carbon Cycle",
+   "Stratospheric Ozone Depletion",
+   "Acid Deposition",
+   "Wetland Ecosystem Services",
+   "Eutrophication of Lakes and Rivers",
+   "Life Cycle Assessment",
+   "Microplastic Pollution",
+   "Environmental Noise Pollution",
+   "Causes and Consequences of Deforestation",
+   "Mangrove Ecosystems",
+   "Arsenic Contamination of Groundwater",
+   "Remote Sensing and GIS in Environmental Monitoring"
+  ],
+  "Business Administration": [
+   "Porter's Five Forces",
+   "SWOT Analysis and Strategic Planning",
+   "Types of Organizational Structure",
+   "Kotter's Model of Organizational Change",
+   "Principled Negotiation",
+   "Corporate Social Responsibility",
+   "Startup Financing and Venture Capital",
+   "Customer Relationship Management",
+   "E-Commerce Business Models",
+   "Foreign Market Entry Modes",
+   "Corporate Governance",
+   "The Balanced Scorecard"
+  ],
+  "Accounting and Finance": [
+   "Capital Budgeting with Net Present Value and Internal Rate of Return",
+   "Financial Ratio Analysis",
+   "Job-Order and Process Costing",
+   "Activity-Based Costing",
+   "Standard Costing and Variance Analysis",
+   "Working Capital Management",
+   "Weighted Average Cost of Capital",
+   "Capital Structure Theory",
+   "Dividend Policy",
+   "Bond Valuation and Yield",
+   "Dividend Discount Models of Stock Valuation",
+   "Portfolio Diversification",
+   "Internal Control and Auditing",
+   "Revenue Recognition under IFRS 15"
+  ],
+  "Economics": [
+   "Comparative Advantage and International Trade",
+   "Monetary Policy and Central Banking",
+   "Fiscal Policy and the Multiplier",
+   "Consumer Choice and Indifference Curves",
+   "Short-Run and Long-Run Cost Curves",
+   "Game Theory and Nash Equilibrium",
+   "Externalities and Public Goods",
+   "Exchange Rates and the Balance of Payments",
+   "The Phillips Curve",
+   "Measuring Gross Domestic Product",
+   "The Solow Growth Model",
+   "Adverse Selection and Moral Hazard"
+  ],
+  "Management": [
+   "Expectancy Theory of Motivation",
+   "Taylor's Scientific Management",
+   "Weber's Theory of Bureaucracy",
+   "Contingency Approaches to Management",
+   "Stages of Team Development",
+   "Conflict Management Styles",
+   "Capacity Planning in Operations",
+   "Lean Production and Waste Reduction",
+   "Knowledge Management in Organizations",
+   "Strategic Human Resource Management",
+   "Management by Objectives",
+   "Delegation and Employee Empowerment",
+   "Organizational Learning"
+  ],
+  "Marketing": [
+   "Pricing Strategies for New and Existing Products",
+   "The Product Life Cycle",
+   "The Extended Marketing Mix for Services",
+   "Search Engine Optimization",
+   "Social Media Marketing",
+   "Integrated Marketing Communications",
+   "Marketing Channels and Distribution",
+   "The SERVQUAL Model of Service Quality",
+   "Retail Management",
+   "Customer Lifetime Value",
+   "Sales Force Management",
+   "Business-to-Business Marketing",
+   "Green Marketing"
+  ],
+  "Law": [
+   "The Doctrine of Judicial Precedent",
+   "Negligence in the Law of Torts",
+   "Defamation",
+   "Consumer Protection Law",
+   "Copyright Law",
+   "Patent Law",
+   "Separate Legal Personality of Companies",
+   "Judicial Review of Administrative Action",
+   "Employment and Labour Law",
+   "Bail in Criminal Procedure",
+   "Burden and Standard of Proof"
+  ],
+  "Sociology": [
+   "Sociological Theories of Deviance",
+   "Agents of Socialization",
+   "Weber's Theory of Social Action and Rationalization",
+   "Urbanization and Urban Social Life",
+   "Changing Family Structures",
+   "Sociology of Religion",
+   "Globalization and Culture",
+   "Social Movements",
+   "Ethnography and Qualitative Interviewing",
+   "Demographic Transition",
+   "Social Capital",
+   "The Hidden Curriculum",
+   "Symbolic Interactionism"
+  ],
+  "Psychology": [
+   "Classical and Operant Conditioning",
+   "Multi-Store and Working Memory Models",
+   "Piaget's Theory of Cognitive Development",
+   "Erikson's Psychosocial Stages",
+   "Attachment Theory",
+   "Cognitive Dissonance",
+   "Conformity and Obedience",
+   "The Big Five Personality Traits",
+   "Theories of Intelligence",
+   "Stress and Coping",
+   "Cognitive Behavioural Therapy for Depression",
+   "Sleep and Circadian Rhythms"
+  ],
+  "Education": [
+   "Bloom's Taxonomy of Educational Objectives",
+   "Vygotsky's Zone of Proximal Development and Scaffolding",
+   "Universal Design for Learning",
+   "Inclusive Education",
+   "Classroom Management",
+   "Tyler's Model of Curriculum Development",
+   "Blended Learning",
+   "The Flipped Classroom",
+   "Problem-Based Learning",
+   "Designing Assessment Rubrics",
+   "Differentiated Instruction",
+   "Metacognition and Self-Regulated Learning"
+  ],
+  "English and Linguistics": [
+   "Krashen's Hypotheses of Second Language Acquisition",
+   "Morphology and Word Formation",
+   "Phrase Structure in Syntax",
+   "Lexical Semantics and Sense Relations",
+   "Cohesion and Coherence in Discourse",
+   "First Language Acquisition in Children",
+   "Bilingualism and Code-Switching",
+   "Literary Modernism",
+   "English Romantic Poetry",
+   "Postcolonial Literature",
+   "Classical Rhetoric and Persuasion",
+   "Historical Linguistics and Language Change"
+  ],
+  "Architecture": [
+   "Vernacular Architecture of Bangladesh",
+   "Principles of Urban Design",
+   "Room Acoustics",
+   "Green Building Rating Systems",
+   "Islamic Architecture",
+   "Landscape Architecture",
+   "Affordable Housing Design",
+   "Universal Design and Accessibility",
+   "Gothic Architecture",
+   "Site Analysis in Architectural Design",
+   "Fire Safety and Means of Egress",
+   "Green Roofs",
+   "Adaptive Reuse of Historic Buildings"
+  ],
+  "Mathematics": [
+   "Linear Programming and the Simplex Method",
+   "First-Order Ordinary Differential Equations",
+   "The Laplace Transform",
+   "Numerical Integration Rules",
+   "LU Decomposition",
+   "Euler and Hamiltonian Paths in Graphs",
+   "Modular Arithmetic",
+   "Complex Numbers and Their Geometry",
+   "Taylor Series",
+   "Lagrange Multipliers"
+  ],
+  "Statistics": [
+   "Hypothesis Testing and p-Values",
+   "Simple Linear Regression",
+   "Logistic Regression",
+   "One-Way Analysis of Variance",
+   "Chi-Square Tests of Independence",
+   "Nonparametric Tests",
+   "Correlation and Causation",
+   "Principles of Experimental Design",
+   "ARIMA Models for Time Series",
+   "Survival Analysis and the Kaplan-Meier Estimator",
+   "The Binomial and Poisson Distributions",
+   "Statistical Power and Sample Size"
+  ],
+  "Chemistry": [
+   "Hess's Law and Thermochemistry",
+   "Galvanic Cells and Electrode Potentials",
+   "Quantum Numbers and Electron Configuration",
+   "VSEPR Theory and Molecular Geometry",
+   "Molecular Orbital Theory",
+   "The Ideal Gas Law and Real Gases",
+   "Colligative Properties of Solutions",
+   "Buffer Solutions",
+   "SN1 and SN2 Nucleophilic Substitution",
+   "Infrared Spectroscopy",
+   "Principles of Green Chemistry",
+   "Corrosion of Metals"
+  ],
+  "Physics": [
+   "Time Dilation and Length Contraction in Special Relativity",
+   "Newton's Laws and Free-Body Diagrams",
+   "Simple Harmonic Motion",
+   "The Doppler Effect",
+   "Kinetic Theory of Gases",
+   "Gauss's Law",
+   "Capacitors and Dielectrics",
+   "Thin Lenses and Image Formation",
+   "Nuclear Binding Energy",
+   "The Schrödinger Equation and Quantum Tunnelling",
+   "Rotational Dynamics",
+   "Buoyancy and Fluid Statics"
+  ]
  },
  "validation": {
-  "CSE": ["Big-O Notation and Asymptotic Analysis", "Recurrent Neural Networks and LSTMs"],
-  "EEE": ["Lithium-Ion Battery Energy Storage", "Wind Turbine Power Conversion"],
-  "Civil Engineering": ["Hydraulic Jumps and Energy Dissipation", "Flood Frequency Analysis"],
-  "Mechanical Engineering": ["Centrifugal Pumps and Cavitation", "Hardness Testing of Materials"],
-  "Textile Engineering": ["Textile Printing Methods"],
-  "Pharmacy": ["Insulin and Oral Antidiabetic Drugs", "Nanoparticle Drug Delivery Systems"],
-  "Microbiology": ["Probiotics and the Gut Microbiota", "Pathogenesis of Tuberculosis"],
-  "Biotechnology": ["Western Blotting"],
-  "Biomedical Engineering": ["Medical Laser Applications"],
-  "Public Health": ["Mental Health as a Public Health Priority", "Zoonoses and the One Health Approach"],
-  "Nutrition and Food Science": ["Cereal Grain Milling"],
-  "Agriculture": ["Hydroponic Crop Production"],
-  "Environmental Science": ["Coastal Erosion and Sea-Level Rise"],
-  "Business Administration": ["Franchising as a Growth Strategy", "Rational and Bounded Rationality Decision Models"],
-  "Accounting and Finance": ["Options and Futures Contracts"],
-  "Economics": ["Behavioural Economics and Heuristics", "Minimum Wage Effects in Labour Markets"],
-  "Management": ["Organizational Communication Channels"],
-  "Marketing": ["Neuromarketing"],
-  "Law": ["Trademark Law", "Data Protection and Privacy Law"],
-  "Sociology": ["Medical Sociology and the Sick Role"],
-  "Psychology": ["Gestalt Principles of Perception", "Theories of Emotion"],
-  "Education": ["Kolb's Experiential Learning Cycle", "Andragogy and Adult Learning"],
-  "English and Linguistics": ["Corpus Linguistics"],
-  "Architecture": ["Building Information Modelling"],
-  "Mathematics": ["Introductory Group Theory", "Principles of Counting in Combinatorics"],
-  "Statistics": ["Principal Component Analysis", "Handling Missing Data"],
-  "Chemistry": ["Nuclear Chemistry and Radioactive Decay", "Phase Diagrams of Pure Substances"],
-  "Physics": ["Principles of Lasers", "Superconductivity"]
+  "CSE": [
+   "Big-O Notation and Asymptotic Analysis",
+   "Recurrent Neural Networks and LSTMs"
+  ],
+  "EEE": [
+   "Lithium-Ion Battery Energy Storage",
+   "Wind Turbine Power Conversion"
+  ],
+  "Civil Engineering": [
+   "Hydraulic Jumps and Energy Dissipation",
+   "Flood Frequency Analysis"
+  ],
+  "Mechanical Engineering": [
+   "Centrifugal Pumps and Cavitation",
+   "Hardness Testing of Materials"
+  ],
+  "Textile Engineering": [
+   "Textile Printing Methods"
+  ],
+  "Pharmacy": [
+   "Insulin and Oral Antidiabetic Drugs",
+   "Nanoparticle Drug Delivery Systems"
+  ],
+  "Microbiology": [
+   "Probiotics and the Gut Microbiota",
+   "Pathogenesis of Tuberculosis"
+  ],
+  "Biotechnology": [
+   "Western Blotting"
+  ],
+  "Biomedical Engineering": [
+   "Medical Laser Applications"
+  ],
+  "Public Health": [
+   "Mental Health as a Public Health Priority",
+   "Zoonoses and the One Health Approach"
+  ],
+  "Nutrition and Food Science": [
+   "Cereal Grain Milling"
+  ],
+  "Agriculture": [
+   "Hydroponic Crop Production"
+  ],
+  "Environmental Science": [
+   "Coastal Erosion and Sea-Level Rise"
+  ],
+  "Business Administration": [
+   "Franchising as a Growth Strategy"
+  ],
+  "Accounting and Finance": [
+   "Options and Futures Contracts"
+  ],
+  "Economics": [
+   "Behavioural Economics and Heuristics",
+   "Minimum Wage Effects in Labour Markets"
+  ],
+  "Management": [
+   "Organizational Communication Channels"
+  ],
+  "Marketing": [
+   "Neuromarketing"
+  ],
+  "Law": [
+   "Trademark Law",
+   "Data Protection and Privacy Law"
+  ],
+  "Sociology": [
+   "Medical Sociology and the Sick Role"
+  ],
+  "Psychology": [
+   "Gestalt Principles of Perception",
+   "Theories of Emotion"
+  ],
+  "Education": [
+   "Kolb's Experiential Learning Cycle",
+   "Andragogy and Adult Learning"
+  ],
+  "English and Linguistics": [
+   "Corpus Linguistics"
+  ],
+  "Architecture": [
+   "Building Information Modelling"
+  ],
+  "Mathematics": [
+   "Introductory Group Theory"
+  ],
+  "Statistics": [
+   "Principal Component Analysis",
+   "Handling Missing Data"
+  ],
+  "Chemistry": [
+   "Nuclear Chemistry and Radioactive Decay",
+   "Phase Diagrams of Pure Substances"
+  ],
+  "Physics": [
+   "Principles of Lasers",
+   "Superconductivity"
+  ]
  },
  "test": {
-  "CSE": ["The Raft Consensus Algorithm", "Distance-Vector and Link-State Routing"],
-  "EEE": ["Smart Grids and Demand Response", "Microcontroller Interrupts and Timers"],
-  "Civil Engineering": ["Unit Hydrograph Theory", "Construction Cost Estimation"],
-  "Mechanical Engineering": ["Fundamentals of Robot Kinematics", "Lean Maintenance and Reliability-Centred Maintenance"],
-  "Textile Engineering": ["Sustainable Fibres and Circular Textiles"],
-  "Pharmacy": ["Opioid Analgesics", "Parenteral Nutrition Formulations"],
-  "Microbiology": ["Hospital-Acquired Infections", "The Ames Test and Microbial Mutagenesis"],
-  "Biotechnology": ["Biosensor Design"],
-  "Biomedical Engineering": ["Electrosurgical Unit Safety"],
-  "Public Health": ["Road Traffic Injury Prevention", "Health Impact of Urban Air Pollution on Children"],
-  "Nutrition and Food Science": ["Diet and the Prevention of Obesity"],
-  "Agriculture": ["Farm Mechanization in Smallholder Agriculture"],
-  "Environmental Science": ["Industrial Air Pollution Control Devices"],
-  "Business Administration": ["Business Process Reengineering", "Crisis Management in Organizations"],
-  "Accounting and Finance": ["The Capital Asset Pricing Model"],
-  "Economics": ["Remittances and Economic Development", "Keynesian Aggregate Demand"],
-  "Management": ["Time Management and Prioritization"],
-  "Marketing": ["Brand Equity Measurement"],
-  "Law": ["Environmental Law and the Polluter Pays Principle", "Cybercrime Law"],
-  "Sociology": ["Culture, Subcultures, and Countercultures"],
-  "Psychology": ["Attribution Theory", "Ethical Principles in Psychological Research"],
-  "Education": ["Gardner's Multiple Intelligences and Its Critics", "Teacher Professional Development"],
-  "English and Linguistics": ["Equivalence in Translation Theory"],
-  "Architecture": ["Passive Cooling in Tropical Architecture"],
-  "Mathematics": ["Limits and Continuity", "Fourier Transform Applications"],
-  "Statistics": ["Multiple Comparisons Corrections", "Bootstrap Resampling"],
-  "Chemistry": ["Nuclear Magnetic Resonance Spectroscopy", "Redox Titrations"],
-  "Physics": ["Kepler's Laws and Orbital Motion", "The Hall Effect"]
+  "CSE": [
+   "The Raft Consensus Algorithm",
+   "Distance-Vector and Link-State Routing"
+  ],
+  "EEE": [
+   "Smart Grids and Demand Response"
+  ],
+  "Civil Engineering": [
+   "Unit Hydrograph Theory",
+   "Construction Cost Estimation"
+  ],
+  "Mechanical Engineering": [
+   "Fundamentals of Robot Kinematics",
+   "Lean Maintenance and Reliability-Centred Maintenance"
+  ],
+  "Textile Engineering": [
+   "Sustainable Fibres and Circular Textiles"
+  ],
+  "Pharmacy": [
+   "Opioid Analgesics",
+   "Parenteral Nutrition Formulations"
+  ],
+  "Microbiology": [
+   "Hospital-Acquired Infections",
+   "The Ames Test and Microbial Mutagenesis"
+  ],
+  "Biotechnology": [
+   "Biosensor Design"
+  ],
+  "Biomedical Engineering": [
+   "Electrosurgical Unit Safety"
+  ],
+  "Public Health": [
+   "Road Traffic Injury Prevention",
+   "Health Impact of Urban Air Pollution on Children"
+  ],
+  "Nutrition and Food Science": [
+   "Diet and the Prevention of Obesity"
+  ],
+  "Agriculture": [
+   "Farm Mechanization in Smallholder Agriculture"
+  ],
+  "Environmental Science": [
+   "Industrial Air Pollution Control Devices"
+  ],
+  "Business Administration": [
+   "Business Process Reengineering"
+  ],
+  "Accounting and Finance": [
+   "The Capital Asset Pricing Model"
+  ],
+  "Economics": [
+   "Remittances and Economic Development",
+   "Keynesian Aggregate Demand"
+  ],
+  "Management": [
+   "Time Management and Prioritization"
+  ],
+  "Marketing": [
+   "Brand Equity Measurement"
+  ],
+  "Law": [
+   "Environmental Law and the Polluter Pays Principle",
+   "Cybercrime Law"
+  ],
+  "Sociology": [
+   "Culture, Subcultures, and Countercultures"
+  ],
+  "Psychology": [
+   "Attribution Theory",
+   "Ethical Principles in Psychological Research"
+  ],
+  "Education": [
+   "Gardner's Multiple Intelligences and Its Critics",
+   "Teacher Professional Development"
+  ],
+  "English and Linguistics": [
+   "Equivalence in Translation Theory"
+  ],
+  "Architecture": [
+   "Passive Cooling in Tropical Architecture"
+  ],
+  "Mathematics": [
+   "Limits and Continuity",
+   "Fourier Transform Applications"
+  ],
+  "Statistics": [
+   "Multiple Comparisons Corrections",
+   "Bootstrap Resampling"
+  ],
+  "Chemistry": [
+   "Nuclear Magnetic Resonance Spectroscopy",
+   "Redox Titrations"
+  ],
+  "Physics": [
+   "Kepler's Laws and Orbital Motion",
+   "The Hall Effect"
+  ]
+ },
+ "superseded_by_merge_2": {
+  "reason": "covered by records merged from train_2/validation_2/test_2 (see merge_log_2.json) or would leak against them",
+  "topics": {
+   "train": [
+    {
+     "department": "EEE",
+     "topic": "The p-n Junction Diode"
+    },
+    {
+     "department": "CSE",
+     "topic": "Breadth-First and Depth-First Graph Traversal"
+    },
+    {
+     "department": "Mathematics",
+     "topic": "The Newton-Raphson Method"
+    },
+    {
+     "department": "Mathematics",
+     "topic": "Divergence and Curl of Vector Fields"
+    },
+    {
+     "department": "Civil Engineering",
+     "topic": "Horizontal Curves in Highway Geometric Design"
+    },
+    {
+     "department": "Pharmacy",
+     "topic": "Medication Errors and Hospital Pharmacy Practice"
+    },
+    {
+     "department": "Law",
+     "topic": "Sources of International Law"
+    },
+    {
+     "department": "Textile Engineering",
+     "topic": "Rotor Spinning",
+     "note": "rejected at generation: near-duplicate (0.56) of UAP-SUM-0326 ring spinning"
+    },
+    {
+     "department": "Biotechnology",
+     "topic": "CRISPR-Cas9 Genome Editing",
+     "note": "removed from plan during generation"
+    },
+    {
+     "department": "EEE",
+     "topic": "Rectifier Circuits and Ripple Filtering",
+     "note": "rejected at generation: near-duplicate (0.54) of merged UAP-CURR-SUM-0589"
+    },
+    {
+     "department": "Mechanical Engineering",
+     "topic": "The Rankine Cycle in Steam Power Plants",
+     "note": "rejected at generation: near-duplicate (0.51) of UAP-SUM-0381 Brayton cycle"
+    },
+    {
+     "department": "Pharmacy",
+     "topic": "Pharmacogenomics and Individualized Drug Therapy",
+     "note": "dropped before generation: largely covered by UAP-SUM-0383 (CYP polymorphisms)"
+    },
+    {
+     "department": "Sociology",
+     "topic": "Gender Roles and Gender Socialization",
+     "note": "dropped before generation: overlaps UAP-SUM-0341 agents of socialization"
+    },
+    {
+     "department": "English and Linguistics",
+     "topic": "Dialect, Register, and Style",
+     "note": "dropped before generation: overlaps merged UAP-CURR-SUM-0657 language variation"
+    },
+    {
+     "department": "Mechanical Engineering",
+     "topic": "Free and Damped Vibration of Single-Degree-of-Freedom Systems",
+     "note": "dropped before generation: overlaps UAP-SUM-0377 simple harmonic motion"
+    },
+    {
+     "department": "Mechanical Engineering",
+     "topic": "Arc Welding Processes",
+     "note": "dropped before generation: would overlap UAP-SUM-0436 bolted and welded steel connections"
+    }
+   ],
+   "validation": [
+    {
+     "department": "Mathematics",
+     "topic": "Principles of Counting in Combinatorics"
+    },
+    {
+     "department": "Business Administration",
+     "topic": "Rational and Bounded Rationality Decision Models"
+    }
+   ],
+   "test": [
+    {
+     "department": "EEE",
+     "topic": "Microcontroller Interrupts and Timers"
+    },
+    {
+     "department": "Business Administration",
+     "topic": "Crisis Management in Organizations"
+    }
+   ]
+  }
  }
 }

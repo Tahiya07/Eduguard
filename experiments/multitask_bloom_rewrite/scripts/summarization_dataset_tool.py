@@ -64,8 +64,21 @@ def id_num(rid: str) -> int:
     return int(m.group(1))
 
 
+def is_generated(rid: str) -> bool:
+    """UAP-SUM-#### records belong to this dataset's own ID sequence; other IDs are merged external records."""
+    return re.fullmatch(r"UAP-SUM-\d{4}", rid) is not None
+
+
+def sort_key(rid: str) -> tuple:
+    return (0, id_num(rid), "") if is_generated(rid) else (1, 0, rid)
+
+
+def next_generated_id(items) -> int:
+    return max(id_num(r["id"]) for _, r in items if is_generated(r["id"])) + 1
+
+
 def category(row: dict) -> str:
-    if id_num(row["id"]) <= SHORT_LAST_ID:
+    if is_generated(row["id"]) and id_num(row["id"]) <= SHORT_LAST_ID:
         return "short"
     n = words(row["source_text"])
     for name, (lo, hi) in RANGES.items():
@@ -85,7 +98,7 @@ def load() -> dict[str, list[dict]]:
 def write(rows: dict[str, list[dict]]) -> None:
     for s in SPLITS:
         with (DIR / f"{s}.jsonl").open("w", encoding="utf-8", newline="\n") as fh:
-            for r in sorted(rows[s], key=lambda r: id_num(r["id"])):
+            for r in sorted(rows[s], key=lambda r: sort_key(r["id"])):
                 fh.write(json.dumps({k: r[k] for k in SCHEMA}, ensure_ascii=False) + "\n")
 
 
@@ -217,7 +230,7 @@ def add_batch(path: Path, cat: str, split: str) -> None:
         batch.append(r)
     if errors:
         sys.exit("batch rejected:\n  " + "\n  ".join(errors))
-    next_id = max(id_num(r["id"]) for _, r in items) + 1
+    next_id = next_generated_id(items)
     have = Counter((category(r), s) for s, r in items)
     remaining = TARGETS[cat][split] - have[(cat, split)]
     if len(batch) > remaining:
@@ -267,7 +280,7 @@ def add_batch(path: Path, cat: str, split: str) -> None:
 def print_status(rows: dict[str, list[dict]] | None = None) -> None:
     rows = rows or load()
     have = Counter((category(r), s) for s, r in flat(rows))
-    nxt = max(id_num(r["id"]) for _, r in flat(rows)) + 1
+    nxt = next_generated_id(flat(rows))
     print(f"next id: UAP-SUM-{nxt:04d}")
     for c in TARGETS:
         print(f"  {c:10s} " + "  ".join(f"{s}: {have[(c, s)]}/{TARGETS[c][s]}" for s in SPLITS))
@@ -284,7 +297,7 @@ def audit() -> None:
     rows = load()
     items = flat(rows)
     ids = [r["id"] for _, r in items]
-    nums = sorted(id_num(i) for i in ids)
+    nums = sorted(id_num(i) for i in ids if is_generated(i))
     cats = Counter((category(r), s) for s, r in items)
     src_w = [words(r["source_text"]) for _, r in items]
     sum_w = [words(r["summary"]) for _, r in items]
@@ -344,11 +357,94 @@ def audit() -> None:
                                                "duplicate_checks")}, indent=1))
 
 
+def merge_external(suffix: str, exclusions: dict[str, str], log_name: str) -> None:
+    """Merge externally supplied split files ({split}{suffix}.jsonl) without duplication.
+
+    Within the external files, records with the same topic or source similarity >= 0.80 are one group and only the
+    lowest ID is considered. A candidate is accepted only if its topic is new, its source similarity to every
+    existing and already-accepted record is below NEAR_DUP, it is not in the manual concept-overlap exclusions, it
+    keeps its own split, and no split x category target is exceeded. Original IDs and provenance metadata are kept;
+    fields outside the schema are dropped from the dataset row and preserved in the merge log.
+    """
+    rows = load()
+    items = flat(rows)
+    ext = [(s, json.loads(l)) for s in SPLITS
+           for l in (DIR / f"{s}{suffix}.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    existing_ids = {r["id"] for _, r in items}
+    sim = similarity([r["source_text"] for _, r in items] + [r["source_text"] for _, r in ext])
+    base = len(items)
+    # group near-identical external records
+    group_of: dict[int, int] = {}
+    reps: list[int] = []
+    for i in sorted(range(len(ext)), key=lambda i: ext[i][1]["id"]):
+        g = next((j for j in reps if ext[j][0] == ext[i][0] and (
+            sim[base + i, base + j] >= 0.80 or norm(ext[i][1]["topic"]) == norm(ext[j][1]["topic"]))), None)
+        if g is None:
+            reps.append(i)
+            group_of[i] = i
+        else:
+            group_of[i] = g
+    have = Counter((category(r), s) for s, r in items)
+    topics = {norm(r["topic"]): r["id"] for _, r in items}
+    accepted: list[int] = []
+    decisions: list[dict] = []
+    for i, (s, r) in enumerate(ext):
+        if group_of[i] != i:
+            decisions.append({"id": r["id"], "split": s, "decision": "rejected",
+                              "reason": f"near-identical copy of {ext[group_of[i]][1]['id']} "
+                                        f"(similarity {sim[base + i, base + group_of[i]]:.2f})"})
+    for i in reps:
+        s, r = ext[i]
+        reason = None
+        if r["id"] in existing_ids:
+            reason = "id already present"
+        elif r["id"] in exclusions:
+            reason = f"concept overlap: {exclusions[r['id']]}"
+        elif norm(r["topic"]) in topics:
+            reason = f"topic already used by {topics[norm(r['topic'])]}"
+        else:
+            row = sim[base + i, :base]
+            j = int(row.argmax())
+            acc = max(((sim[base + i, base + k], ext[k][1]["id"]) for k in accepted), default=(0.0, None))
+            if row[j] >= NEAR_DUP:
+                reason = f"near-duplicate of existing {items[j][1]['id']} (similarity {row[j]:.2f})"
+            elif acc[0] >= NEAR_DUP:
+                reason = f"near-duplicate of merged {acc[1]} (similarity {acc[0]:.2f})"
+        cat = category(r)
+        if reason is None and cat not in TARGETS:
+            reason = f"source length {words(r['source_text'])} words outside every category"
+        if reason is None and have[(cat, s)] >= TARGETS[cat][s]:
+            reason = f"{cat}/{s} target already full"
+        if reason:
+            decisions.append({"id": r["id"], "split": s, "decision": "rejected", "reason": reason})
+            continue
+        accepted.append(i)
+        have[(cat, s)] += 1
+        topics[norm(r["topic"])] = r["id"]
+        extra = {k: v for k, v in r.items() if k not in SCHEMA}
+        decisions.append({"id": r["id"], "split": s, "decision": "merged", "category": cat,
+                          **({"dropped_fields": extra} if extra else {})})
+        rows[s].append({k: r[k] for k in SCHEMA})
+    write(rows)
+    split_arr = [s for s, _ in flat(rows)]
+    log = {
+        "date": "2026-11-26", "source_files": [f"{s}{suffix}.jsonl" for s in SPLITS],
+        "rule": "one record per near-identical group (lowest id); merged only if topic is new and source similarity "
+                f"< {NEAR_DUP} to every existing and merged record, excluding manual concept overlaps; splits kept",
+        "counts": {"external_records": len(ext), "distinct_groups": len(reps), "merged": len(accepted),
+                   "merged_by_split": dict(Counter(ext[i][0] for i in accepted))},
+        "decisions": sorted(decisions, key=lambda d: d["id"]),
+    }
+    (DIR / log_name).write_text(json.dumps(log, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(json.dumps(log["counts"], indent=1))
+    print_status(rows)
+
+
 def next_topics(n: int, split: str, plan_file: Path) -> None:
     """Next n planned topics for a split not yet in the dataset, round-robin across departments."""
     plan = json.loads(plan_file.read_text(encoding="utf-8"))[split]
     done = {norm(r["topic"]) for _, r in flat(load())}
-    nxt = max(id_num(r["id"]) for _, r in flat(load())) + 1
+    nxt = next_generated_id(flat(load()))
     queue = []
     depth = max(len(v) for v in plan.values())
     for k in range(depth):
@@ -371,6 +467,10 @@ def main() -> None:
     b.add_argument("--split", required=True, choices=list(SPLITS))
     sub.add_parser("status")
     sub.add_parser("audit")
+    me = sub.add_parser("merge-external")
+    me.add_argument("--suffix", default="_2")
+    me.add_argument("--exclude", action="append", default=[], help="ID=reason (manual concept overlap)")
+    me.add_argument("--log", default="merge_log_2.json")
     nt = sub.add_parser("next-topics")
     nt.add_argument("n", type=int)
     nt.add_argument("--split", default="train", choices=list(SPLITS))
@@ -382,6 +482,8 @@ def main() -> None:
         add_batch(args.file, args.category, args.split)
     elif args.cmd == "status":
         print_status()
+    elif args.cmd == "merge-external":
+        merge_external(args.suffix, dict(e.split("=", 1) for e in args.exclude), args.log)
     elif args.cmd == "next-topics":
         next_topics(args.n, args.split, args.plan)
     else:

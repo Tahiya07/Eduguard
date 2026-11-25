@@ -1,29 +1,29 @@
 {
   "dataset": "EduGuard academic summarization (original generated academic examples)",
   "provenance": "generated_unverified: model-generated (Claude) source passages and summaries; not authentic course materials and not human-verified",
-  "generated_utc": "2026-11-25T21:13:26.923521+00:00",
+  "generated_utc": "2026-11-25T23:12:12.864495+00:00",
   "tool": "experiments/multitask_bloom_rewrite/scripts/summarization_dataset_tool.py",
-  "total_records": 309,
-  "unique_ids": 309,
+  "total_records": 473,
+  "unique_ids": 473,
   "id_range": [
     "UAP-SUM-0001",
-    "UAP-SUM-0309"
+    "UAP-SUM-0444"
   ],
   "id_gaps": [],
   "split_counts": {
-    "train": 251,
-    "validation": 29,
-    "test": 29
+    "train": 411,
+    "validation": 31,
+    "test": 31
   },
   "category_counts": {
-    "medium": 16,
+    "medium": 180,
     "short": 293
   },
   "split_by_category": {
     "medium": {
-      "train": 16,
-      "validation": 0,
-      "test": 0
+      "train": 176,
+      "validation": 2,
+      "test": 2
     },
     "short": {
       "train": 235,
@@ -74,15 +74,15 @@
   },
   "source_words": {
     "min": 149,
-    "max": 867,
-    "mean": 301.2,
-    "median": 316
+    "max": 1136,
+    "mean": 518.2,
+    "median": 346
   },
   "summary_words": {
     "min": 31,
-    "max": 218,
-    "mean": 63.7,
-    "median": 63
+    "max": 279,
+    "mean": 111.9,
+    "median": 70
   },
   "known_deviations": {
     "short_records_under_300_words": {
@@ -217,23 +217,23 @@
     "exact_duplicate_summary": 0,
     "repeated_topic_names": 23,
     "near_duplicate_threshold": 0.5,
-    "near_duplicate_pairs_any_split": 108,
+    "near_duplicate_pairs_any_split": 111,
     "max_cross_split_source_similarity": {
-      "train/validation": 0.4825,
-      "train/test": 0.4996,
-      "validation/test": 0.4194
+      "train/validation": 0.4844,
+      "train/test": 0.475,
+      "validation/test": 0.4278
     },
     "method": "max(char 3-5-gram TF-IDF cosine, word TF-IDF cosine) over source_text"
   },
   "schema_check": {
     "performed": true,
     "records_with_wrong_keys": 0,
-    "records_with_wrong_metadata": 0
+    "records_with_wrong_metadata": 29
   },
   "summary_faithfulness": "model-assisted at generation time only; not independently verified",
   "files_sha256": {
-    "train.jsonl": "de9ee1af9f15cefda7b41921ab1a67462365a93d90205fb6d7ecbb5c9e577bcd",
-    "validation.jsonl": "a0f94ccbfca00437f18997e06a5139952549e1f7d6bb83f576b38fbdaf40efa9",
-    "test.jsonl": "4ebaaafb611fee8fd92bb9f71c7823e631e83b09d97dfad0670fcbedfbb20287"
+    "train.jsonl": "62d3f2b3950a8b0c554b91e43eb9a09fc2d96bf1ee8384a24654ad12541a3581",
+    "validation.jsonl": "cf9542c1f449bf028945c848ec0b6b132f721ceb63e0b312f0ae29b3ab269363",
+    "test.jsonl": "346400e1c1fdba783de377d7dc9d1d5d50594ded7451d4963f24843f167a62a9"
   }
 }

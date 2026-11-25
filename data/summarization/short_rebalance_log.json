@@ -584,5 +584,29 @@
    "from": "test",
    "to": "train"
   }
+ ],
+ "followup_swaps": [
+  {
+   "date": "2026-11-26",
+   "reason": "two Short train/test pairs drifted just over 0.50 similarity after the corpus grew (0249/0125 second law; 0286/0175 sequential logic); swapped with isolated in-range train records (max similarity < 0.42)",
+   "moved": [
+    {
+     "id": "UAP-SUM-0125",
+     "to": "train"
+    },
+    {
+     "id": "UAP-SUM-0175",
+     "to": "train"
+    },
+    {
+     "id": "UAP-SUM-0163",
+     "to": "test"
+    },
+    {
+     "id": "UAP-SUM-0010",
+     "to": "test"
+    }
+   ]
+  }
  ]
 }

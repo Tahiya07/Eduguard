@@ -1,0 +1,1287 @@
+{
+ "date": "2026-11-26",
+ "source_files": [
+  "train_2.jsonl",
+  "validation_2.jsonl",
+  "test_2.jsonl"
+ ],
+ "rule": "one record per near-identical group (lowest id); merged only if topic is new and source similarity < 0.5 to every existing and merged record, excluding manual concept overlaps; splits kept",
+ "counts": {
+  "external_records": 210,
+  "distinct_groups": 80,
+  "merged": 29,
+  "merged_by_split": {
+   "test": 2,
+   "validation": 2,
+   "train": 25
+  }
+ },
+ "decisions": [
+  {
+   "id": "UAP-CURR-SUM-0081",
+   "split": "test",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0087",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0030 (similarity 0.65)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0100",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "concept overlap: same concept as UAP-SUM-0220 (phonetics and phonology)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0103",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0144 (similarity 0.67)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0109",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0033 (similarity 0.62)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0119",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0050 (similarity 0.65)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0121",
+   "split": "validation",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0122",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0300 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0123",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0170 (similarity 0.64)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0126",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0324 (similarity 0.66)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0128",
+   "split": "validation",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0133",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "concept overlap: same concept as UAP-SUM-0055 (dissolution testing of solid dosage forms)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0136",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0160"
+  },
+  {
+   "id": "UAP-CURR-SUM-0139",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0037"
+  },
+  {
+   "id": "UAP-CURR-SUM-0142",
+   "split": "test",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0143",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0258"
+  },
+  {
+   "id": "UAP-CURR-SUM-0587",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0187 (similarity 0.56)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0588",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0189"
+  },
+  {
+   "id": "UAP-CURR-SUM-0589",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0590",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0044 (similarity 0.63)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0591",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0001 (similarity 0.61)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0592",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0107 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0593",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0594",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0595",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0031"
+  },
+  {
+   "id": "UAP-CURR-SUM-0596",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0142 (similarity 0.62)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0597",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0598",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0599",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0600",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0601",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0003 (similarity 0.65)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0602",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0248"
+  },
+  {
+   "id": "UAP-CURR-SUM-0603",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0604",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0605",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0606",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0607",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0076 (similarity 0.61)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0608",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0065 (similarity 0.64)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0609",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0610",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0341 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0611",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "concept overlap: same concept as UAP-SUM-0309 (Krashen's hypotheses of second language acquisition)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0612",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0233"
+  },
+  {
+   "id": "UAP-CURR-SUM-0613",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0614",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0615",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0025"
+  },
+  {
+   "id": "UAP-CURR-SUM-0616",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0617",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0005 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0618",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0196"
+  },
+  {
+   "id": "UAP-CURR-SUM-0619",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0067 (similarity 0.61)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0620",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0175 (similarity 0.64)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0621",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0622",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0623",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "concept overlap: same concept as UAP-SUM-0345 (principles of urban design: connectivity and public realm)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0624",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0040 (similarity 0.64)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0625",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0626",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium",
+   "dropped_fields": {
+    "jurisdiction_note": "General international-law framing. Treaty and customary-law application may depend on the relevant instrument, state practice, and legal context."
+   }
+  },
+  {
+   "id": "UAP-CURR-SUM-0627",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0349 (similarity 0.66)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0628",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0629",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0293"
+  },
+  {
+   "id": "UAP-CURR-SUM-0630",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0317 (similarity 0.50)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0631",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium",
+   "dropped_fields": {
+    "jurisdiction_note": "General evidence-law framing. Relevance, admissibility, and exclusionary rules vary by jurisdiction and proceeding."
+   }
+  },
+  {
+   "id": "UAP-CURR-SUM-0632",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0633",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0634",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0635",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0636",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0637",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0074"
+  },
+  {
+   "id": "UAP-CURR-SUM-0638",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0221 (similarity 0.52)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0639",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0640",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0641",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0642",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of merged UAP-CURR-SUM-0628 (similarity 0.52)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0643",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0644",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0032"
+  },
+  {
+   "id": "UAP-CURR-SUM-0645",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0026 (similarity 0.64)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0646",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0647",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0648",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0649",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0650",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0208 (similarity 0.51)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0651",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0018"
+  },
+  {
+   "id": "UAP-CURR-SUM-0652",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0653",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0023 (similarity 0.70)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0654",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "concept overlap: same concepts as UAP-SUM-0342 (memory models) and UAP-SUM-0296 (conditioning)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0655",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0656",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0657",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0658",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0035 (similarity 0.58)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0659",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0108 (similarity 0.68)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0660",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of existing UAP-SUM-0346 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0661",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0009"
+  },
+  {
+   "id": "UAP-CURR-SUM-0662",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "topic already used by UAP-SUM-0081"
+  },
+  {
+   "id": "UAP-CURR-SUM-0663",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0664",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0665",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "near-duplicate of merged UAP-CURR-SUM-0633 (similarity 0.57)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0666",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "UAP-CURR-SUM-0674",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0680",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0693",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0696",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0702",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0712",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0714",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0715",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0716",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0719",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0721",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0726",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0729",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0732",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0735",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0736",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0754",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0760",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0773",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0776",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0782",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0792",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0794",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0795",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0796",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0799",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0801",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0806",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0809",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0812",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0815",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0816",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0834",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0840",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0853",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0856",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0862",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0872",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0874",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0875",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0876",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0879",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0881",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0886",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0889",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0892",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0895",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0896",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0914",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0920",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0933",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0936",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0942",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0952",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0954",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0955",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0956",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0959",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0961",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0966",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0969",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0972",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0975",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0976",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-0994",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1000",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1013",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1016",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1022",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1032",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1034",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1035",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1036",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1039",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1041",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1046",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1049",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1052",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1055",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1056",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1074",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1080",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1093",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1096",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1102",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1112",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1114",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1115",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1116",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1119",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1121",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1126",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1129",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1132",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1135",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1136",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1154",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1160",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1180",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0081 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1186",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0087 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1199",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0100 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1202",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0103 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1208",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0109 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1218",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0119 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1220",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0121 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1221",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0122 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1222",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0123 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1225",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0126 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1227",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0128 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1232",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0133 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1235",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0136 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1238",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0139 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1241",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0142 (similarity 1.00)"
+  },
+  {
+   "id": "UAP-CURR-SUM-1242",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "near-identical copy of UAP-CURR-SUM-0143 (similarity 1.00)"
+  }
+ ]
+}
