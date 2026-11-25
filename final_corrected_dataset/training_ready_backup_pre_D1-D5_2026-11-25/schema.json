@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eduguard-bloom-transformation-training-ready",
+  "title": "EduGuard Bloom transformation dataset — training-ready record schemas",
+  "description": "Three JSONL record types. Example records appear in usable_examples.jsonl, label_and_generation_only_examples.jsonl, and splits/{train,validation,test}_examples.jsonl. Transformation records appear in splits/*_transformation_records.jsonl. Bloom classification records appear in splits/*_bloom_classification_records.jsonl.",
+  "$defs": {
+    "bloomLevel": {"type": "string", "enum": ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"],
+                   "description": "Revised Bloom's taxonomy level, judged by the cognitive operation required, not by the leading verb."},
+    "exampleId": {"type": "string", "pattern": "^[0-9]{3}$", "description": "Three-digit example ID from the 600-example master dataset."},
+    "eligibility": {"type": "string", "enum": ["usable", "label_and_generation_only"],
+                    "description": "usable: self-contained and technically checked. label_and_generation_only: Bloom labels and question text valid, but data needed to answer is missing."},
+    "splitName": {"type": "string", "enum": ["train", "validation", "test"]},
+    "dataTable": {"type": "object", "required": ["header", "rows"],
+                  "properties": {"header": {"type": "array", "items": {"type": "string"}},
+                                 "rows": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}}}},
+    "example": {
+      "type": "object",
+      "required": ["id", "discipline", "topic", "source_question", "source_bloom_level", "transformations", "eligibility", "answer_source_available", "group_id", "split"],
+      "properties": {
+        "id": {"$ref": "#/$defs/exampleId"},
+        "discipline": {"type": "string", "description": "Discipline or subject heading from the source title."},
+        "topic": {"type": "string", "description": "Topic from the source title; empty string when the source title gives only a subject (Examples 001–079)."},
+        "source_question": {"type": "string", "description": "Original question. Multi-line items (code, schedules, matrices) keep line breaks."},
+        "source_bloom_level": {"$ref": "#/$defs/bloomLevel"},
+        "source_bloom_level_before_correction": {"$ref": "#/$defs/bloomLevel", "description": "Present only when the source label was corrected (068, 090, 152, 182, 226, 241)."},
+        "transformations": {
+          "type": "object", "minProperties": 5, "maxProperties": 5,
+          "propertyNames": {"$ref": "#/$defs/bloomLevel"},
+          "additionalProperties": {"type": "string", "minLength": 1},
+          "description": "Exactly five rewritten questions, one per Bloom level other than source_bloom_level, on the same content."
+        },
+        "eligibility": {"$ref": "#/$defs/eligibility"},
+        "answer_source_available": {"type": "boolean", "description": "true only for usable examples."},
+        "missing_answer_source": {
+          "type": "object", "required": ["missing", "referenced_but_absent", "basis", "note"],
+          "properties": {"missing": {"const": true},
+                         "referenced_but_absent": {"type": "array", "items": {"type": "string"}},
+                         "basis": {"enum": ["master_flag", "export_reclassification"]},
+                         "note": {"type": "string"}},
+          "description": "Present only for label_and_generation_only examples."
+        },
+        "data_tables": {"type": "array", "items": {"$ref": "#/$defs/dataTable"}, "description": "Embedded source data tables (428, 442, 475, 548)."},
+        "proposed_clo": {"type": "string", "description": "Course learning outcome text from the source (Examples 131–170)."},
+        "review_notes": {"type": "array", "items": {"type": "string"}, "description": "Non-blocking reviewer notes from the self-containment audit."},
+        "group_id": {"type": "string", "pattern": "^G[0-9]{3}$", "description": "Leakage group; all examples in a group are in the same split."},
+        "split": {"$ref": "#/$defs/splitName"}
+      },
+      "additionalProperties": false
+    },
+    "transformationRecord": {
+      "type": "object",
+      "required": ["record_id", "example_id", "group_id", "split", "eligibility", "answer_source_available", "discipline", "topic", "source_question", "source_bloom_level", "target_bloom_level", "target_question"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^[0-9]{3}-(Remember|Understand|Apply|Analyze|Evaluate|Create)$"},
+        "example_id": {"$ref": "#/$defs/exampleId"},
+        "group_id": {"type": "string"}, "split": {"$ref": "#/$defs/splitName"},
+        "eligibility": {"$ref": "#/$defs/eligibility"}, "answer_source_available": {"type": "boolean"},
+        "discipline": {"type": "string"}, "topic": {"type": "string"},
+        "source_question": {"type": "string"}, "source_bloom_level": {"$ref": "#/$defs/bloomLevel"},
+        "target_bloom_level": {"$ref": "#/$defs/bloomLevel", "description": "Never equal to source_bloom_level."},
+        "target_question": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "bloomClassificationRecord": {
+      "type": "object",
+      "required": ["record_id", "example_id", "group_id", "split", "eligibility", "question", "bloom_level", "role"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^[0-9]{3}-(source|Remember|Understand|Apply|Analyze|Evaluate|Create)$"},
+        "example_id": {"$ref": "#/$defs/exampleId"}, "group_id": {"type": "string"}, "split": {"$ref": "#/$defs/splitName"},
+        "eligibility": {"$ref": "#/$defs/eligibility"},
+        "question": {"type": "string"}, "bloom_level": {"$ref": "#/$defs/bloomLevel"},
+        "role": {"enum": ["source", "transformation"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [{"$ref": "#/$defs/example"}, {"$ref": "#/$defs/transformationRecord"}, {"$ref": "#/$defs/bloomClassificationRecord"}]
+}

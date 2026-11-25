@@ -1,0 +1,225 @@
+﻿example_a,example_b,relation,similarity,group_id,title_a,title_b
+007,021,similar_question_text_across_examples,0.417,G007,Data Structures and Algorithms,Data Structures and Algorithms
+007,220,similar_source_questions,0.5,G007,Data Structures and Algorithms,CSE — Algorithms: Binary Search
+018,377,similar_question_text_across_examples,0.667,G018,Computer Architecture,CSE — Computer Architecture: Pipelined Processor Hazards
+022,552,similar_question_text_across_examples,0.429,G021,Computer Networks,CSE — Computer Networks: IPv4 Subnetting
+035,200,similar_question_text_across_examples,0.467,G034,Software Project Management,Civil Engineering — Construction Management: Critical Path Method
+044,226,similar_source_questions,0.778,G043,Mathematics,Mathematics — Discrete Mathematics: Mathematical Induction
+052,112,similar_source_questions,0.5,G051,Accounting,BBA — Financial Accounting: Accounting Equation
+060,201,similar_question_text_across_examples,0.429,G059,Chemistry,Pharmacy — Pharmaceutical Analysis: Acid–Base Indicators
+064,480,similar_question_text_across_examples,0.4,G063,Civil Engineering,Civil Engineering — Structural Analysis: Simply Supported Beam Reactions
+071,146,similar_question_text_across_examples,0.5,G070,Computer Science — Operating Systems,CSE — Operating Systems: CPU Scheduling
+073,388,similar_question_text_across_examples,0.4,G072,Education,Education — Curriculum Studies: Constructive Alignment
+074,094,identical_question_text,1.0,G073,Finance,Financial Management — Capital Budgeting
+074,094,similar_question_text_across_examples,1.0,G073,Finance,Financial Management — Capital Budgeting
+078,385,similar_question_text_across_examples,0.417,G077,Law,Law — Administrative Law: Principles of Natural Justice
+099,559,same_subtopic,0.316,G097,Architecture — Building Acoustics: Sound Insulation,Architecture — Building Acoustics: Sound Insulation
+100,491,same_subtopic,0.24,G098,CSE — Computer Networks: Congestion Control,CSE — Computer Networks: TCP Congestion Control
+102,368,similar_question_text_across_examples,0.455,G100,Pharmacy — Pharmaceutics: Tablet Dissolution,Pharmacy — Biopharmaceutics: Dissolution Rate and Drug Absorption
+103,182,similar_question_text_across_examples,0.4,G101,EEE — Electrical Machines: Transformer Efficiency,EEE — Power Electronics: Single-Phase Full-Wave Rectifier
+105,430,same_subtopic,0.261,G103,Civil Engineering — Hydraulics: Bernoulli's Equation,Civil Engineering — Fluid Mechanics: Bernoulli's Equation
+106,431,same_subtopic,0.286,G104,Pharmacy — Pharmacology: Therapeutic Index,Pharmacy — Pharmacology: Therapeutic Index
+108,203,similar_question_text_across_examples,0.6,G106,Law — Law of Torts: Negligence,Law — Law of Torts: Negligence
+109,453,similar_source_questions,0.538,G107,Civil Engineering — Soil Mechanics: Atterberg Limits,Civil Engineering — Soil Mechanics: Atterberg Limits
+111,220,same_subtopic,0.1,G007,CSE — Data Structures and Algorithms: Binary Search Trees,CSE — Algorithms: Binary Search
+113,450,similar_question_text_across_examples,0.583,G109,Pharmacy — Pharmaceutical Analysis: Beer-Lambert Law,Pharmacy — Pharmaceutical Chemistry: Beer–Lambert Law
+115,183,similar_question_text_across_examples,0.625,G111,Law — Constitutional Law: Separation of Powers,Law — Constitutional Law: Separation of Powers
+116,289,similar_source_questions,0.5,G112,Civil Engineering — Structural Analysis: Influence Lines,Civil Engineering — Structural Analysis: Influence Lines
+118,474,same_subtopic,0.071,G114,CSE — Computer Architecture: Cache Memory,CSE — Computer Organization: Cache Memory Mapping
+125,205,same_subtopic,0.316,G121,Architecture — Design Studio: Functional Zoning,Architecture — Architectural Design Studio: Functional Zoning
+125,485,same_subtopic,0.172,G121,Architecture — Design Studio: Functional Zoning,Architecture — Building Planning: Functional Zoning
+126,213,same_subtopic,0.043,G122,CSE — Object-Oriented Programming: Inheritance,CSE — Object-Oriented Programming: Java Inheritance and Method Overriding
+126,243,same_subtopic,0.095,G122,CSE — Object-Oriented Programming: Inheritance,Biology — Genetics: Mendelian Inheritance
+126,495,same_subtopic,0.0,G122,CSE — Object-Oriented Programming: Inheritance,Biology — Genetics: Mendelian Inheritance
+127,246,similar_source_questions,0.812,G123,BBA — Financial Management: Break-Even Analysis,Accounting — Cost and Management Accounting: Break-Even Analysis
+127,362,similar_source_questions,0.438,G123,BBA — Financial Management: Break-Even Analysis,Accounting — Management Accounting: Contribution Margin
+127,406,similar_source_questions,0.458,G123,BBA — Financial Management: Break-Even Analysis,Accounting — Management Accounting: Break-Even Analysis
+129,163,same_subtopic,0.158,G125,Law — Law of Evidence: Burden of Proof,Law — Law of Evidence: Burden and Standard of Proof
+130,414,similar_question_text_across_examples,0.438,G126,Civil Engineering — Environmental Engineering: Biochemical Oxygen Demand,Environmental Science — Water Pollution: Biochemical Oxygen Demand
+142,172,similar_question_text_across_examples,0.5,G138,EEE — Electrical Machines: Three-Phase Induction Motor,EEE — Electrical Machines: Three-Phase Induction Motor
+146,415,similar_question_text_across_examples,0.417,G070,CSE — Operating Systems: CPU Scheduling,CSE — Operating Systems: CPU Scheduling
+149,169,same_subtopic,0.111,G144,EEE — Communication Systems: Amplitude Modulation,EEE — Communication Systems: Amplitude Modulation
+154,555,similar_source_questions,0.562,G149,Civil Engineering — Hydrology: Runoff Estimation,Civil Engineering — Hydrology: Rational Method
+159,478,same_subtopic,0.214,G152,EEE — Power Systems: Power Factor Correction,EEE — Power Systems: Power Factor Correction
+160,236,similar_source_questions,0.4,G153,Civil Engineering — Concrete Technology: Water–Cement Ratio,Civil Engineering — Building Materials: Concrete Properties
+170,487,same_subtopic,0.227,G161,Civil Engineering — Environmental Engineering: Solid Waste Management,Environmental Science — Waste Management: Solid Waste Management
+173,572,same_subtopic,0.128,G163,Law — Contract Law: Remedies for Breach of Contract,Law — Contract Law: Remedies for Breach of Contract
+175,455,similar_source_questions,0.611,G165,Architecture — Climate and Design: Natural Ventilation,Architecture — Environmental Design: Natural Ventilation
+175,519,same_subtopic,0.172,G165,Architecture — Climate and Design: Natural Ventilation,Architecture — Building Services: Natural Ventilation
+176,405,similar_question_text_across_examples,0.545,G166,CSE — Database Systems: Transaction Serializability,CSE — Database Systems: Transaction Serializability
+178,409,same_subtopic,0.133,G168,Pharmacy — Pharmacology: Drug Elimination Half-Life,Pharmacy — Pharmacology: Drug Half-Life
+178,539,same_subtopic,0.154,G168,Pharmacy — Pharmacology: Drug Elimination Half-Life,Pharmacy — Pharmacology: Drug Elimination Half-Life
+179,446,similar_question_text_across_examples,0.5,G169,EEE — Control Systems: Steady-State Error,EEE — Control Systems: Root Locus
+184,361,similar_question_text_across_examples,0.583,G172,Civil Engineering — Soil Mechanics: Consolidation Settlement,Civil Engineering — Geotechnical Engineering: Consolidation of Clay Soil
+186,416,similar_question_text_across_examples,0.8,G174,CSE — Computer Networks: Routing Algorithms,CSE — Data Structures: Dijkstra's Shortest-Path Algorithm
+197,467,similar_source_questions,0.588,G185,BBA — Operations Management: Economic Order Quantity,Management — Operations Management: Economic Order Quantity
+198,365,similar_source_questions,0.467,G186,Pharmacy — Pharmaceutical Microbiology: Microbial Growth Curve,Biology — Microbiology: Bacterial Growth Phases
+205,485,same_subtopic,0.107,G121,Architecture — Architectural Design Studio: Functional Zoning,Architecture — Building Planning: Functional Zoning
+207,337,similar_question_text_across_examples,0.444,G191,BBA — Business Statistics: Probability Distributions,Statistics — Probability Distributions: Poisson Distribution
+215,408,similar_question_text_across_examples,0.455,G198,Economics — Microeconomics: Price Elasticity of Demand,Economics — Microeconomics: Price Elasticity of Demand
+215,481,similar_question_text_across_examples,0.5,G198,Economics — Microeconomics: Price Elasticity of Demand,Economics — Microeconomics: Price Elasticity of Demand
+217,317,same_subtopic,0.05,G200,Sociology — Introduction to Sociology: Social Stratification,Sociology — Research Methods: Social Stratification and Mobility
+219,569,similar_source_questions,0.571,G202,Mathematics — Linear Algebra: Eigenvalues and Eigenvectors,Mathematics — Linear Algebra: Eigenvalues and Eigenvectors
+222,360,similar_source_questions,0.4,G204,Mathematics — Differential Equations: First-Order Linear Differential Equations,Mathematics — Differential Equations: Second-Order Linear Homogeneous Equations
+223,556,same_subtopic,0.208,G205,Economics — Microeconomics: Consumer Equilibrium,Economics — Microeconomics: Consumer Equilibrium
+224,413,similar_question_text_across_examples,0.714,G206,Sociology — Research Methods: Sampling Techniques,Sociology — Research Methods: Sampling Techniques
+232,434,same_subtopic,0.056,G213,Mathematics — Probability: Bayes' Theorem,Mathematics — Probability: Bayes' Theorem
+239,532,same_subtopic,0.031,G219,BBA — Marketing: Product Positioning,BBA — Marketing Management: Product Positioning
+240,355,similar_source_questions,0.368,G220,CSE — Operating Systems: Page Replacement Algorithms,CSE — Operating Systems: Page Replacement Algorithms
+241,538,similar_source_questions,0.391,G221,Physics — Electromagnetism: Faraday's Law of Electromagnetic Induction,Physics — Electromagnetism: Faraday's Law of Electromagnetic Induction
+243,495,same_subtopic,0.083,G122,Biology — Genetics: Mendelian Inheritance,Biology — Genetics: Mendelian Inheritance
+245,560,same_subtopic,0.2,G224,Statistics — Statistical Inference: Confidence Intervals,Mathematics — Statistics: Confidence Interval for a Population Mean
+246,362,similar_source_questions,0.412,G123,Accounting — Cost and Management Accounting: Break-Even Analysis,Accounting — Management Accounting: Contribution Margin
+246,406,similar_source_questions,0.565,G123,Accounting — Cost and Management Accounting: Break-Even Analysis,Accounting — Management Accounting: Break-Even Analysis
+247,451,same_subtopic,0.061,G225,Public Administration — Public Policy: Policy Implementation,Public Administration — Public Policy: Policy Implementation
+247,561,same_subtopic,0.19,G225,Public Administration — Public Policy: Policy Implementation,Public Administration — Public Policy: Policy Implementation
+249,322,similar_source_questions,0.533,G227,Food Engineering — Food Preservation: Thermal Processing,Food Engineering — Food Preservation: Thermal Processing
+249,457,same_subtopic,0.103,G227,Food Engineering — Food Preservation: Thermal Processing,Food Engineering — Food Preservation: Thermal Processing
+250,471,similar_question_text_across_examples,0.412,G228,Geography and Environment — Climatology: Urban Heat Island,Geography — Urban Geography: Urban Heat Island
+251,447,similar_question_text_across_examples,0.5,G229,Accounting — Financial Accounting: Bank Reconciliation Statement,Accounting — Financial Accounting: Bank Reconciliation
+253,364,similar_source_questions,0.6,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+253,423,similar_question_text_across_examples,0.875,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+253,594,same_subtopic,0.235,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+254,518,similar_question_text_across_examples,0.429,G232,Accounting — Financial Management: Cash Flow Statement,Accounting — Financial Accounting: Cash Flow Classification
+255,550,similar_source_questions,0.364,G233,MIS — Database Management for Business: Business Intelligence,Management Information Systems — Business Intelligence: Sales Performance Analysis
+257,496,similar_source_questions,0.417,G235,MIS — Decision Support Systems: What-If Analysis,MIS — Decision Support Systems: What-If Analysis
+258,557,similar_question_text_across_examples,0.5,G236,Accounting — Cost Accounting: Process Costing,Accounting — Management Accounting: Process Costing
+259,488,similar_question_text_across_examples,0.75,G237,MIS — Enterprise Information Systems: Enterprise Resource Planning,MIS — Enterprise Systems: ERP Integration
+260,504,similar_question_text_across_examples,0.625,G238,Accounting — Management Accounting: Variance Analysis,Accounting — Cost Accounting: Material Cost Variance
+264,454,similar_question_text_across_examples,0.75,G241,Economics — International Economics: Balance of Payments,Economics — International Economics: Balance of Payments
+264,540,same_subtopic,0.083,G241,Economics — International Economics: Balance of Payments,Economics — International Economics: Balance of Payments
+266,468,same_subtopic,0.13,G243,Political Science — Comparative Government: Parliamentary and Presidential Systems,Political Science — Comparative Government: Parliamentary and Presidential Systems
+266,503,same_subtopic,0.115,G243,Political Science — Comparative Government: Parliamentary and Presidential Systems,Political Science — Comparative Government: Parliamentary System
+267,422,same_subtopic,0.091,G244,Agriculture — Agronomy: Irrigation Scheduling,Agriculture — Crop Science: Irrigation Scheduling
+268,493,same_subtopic,0.105,G245,Mechanical Engineering — Thermodynamics: Otto Cycle,Mechanical Engineering — Thermodynamics: Otto Cycle
+269,466,similar_source_questions,0.517,G246,Nursing — Fundamentals of Nursing: Vital Signs Assessment,Nursing — Medical-Surgical Nursing: Vital Signs
+279,469,same_subtopic,0.034,G256,CSE — C Programming: Dynamic Memory Allocation,CSE — Operating Systems: Memory Allocation
+279,486,same_subtopic,0.227,G256,CSE — C Programming: Dynamic Memory Allocation,CSE — Programming Languages: C Dynamic Memory Allocation
+284,436,similar_question_text_across_examples,0.577,G261,CSE — VLSI Design: CMOS Power Dissipation,CSE — VLSI Design: CMOS Inverter Power Dissipation
+291,407,similar_source_questions,0.533,G267,EEE — Digital Electronics: Karnaugh Map Minimization,EEE — Digital Electronics: Boolean Function Minimization
+293,494,similar_source_questions,0.545,G269,Accounting — Auditing: Audit Risk Model,Accounting — Auditing: Audit Risk Model
+296,428,similar_question_text_across_examples,0.75,G272,CSE — Software Engineering: Requirements Traceability,CSE — Software Engineering: Requirements Traceability
+297,563,same_subtopic,0.167,G273,Biology — Molecular Biology: DNA Replication,Biology — Molecular Biology: DNA Replication
+299,499,similar_question_text_across_examples,0.538,G275,Mechanical Engineering — Fluid Mechanics: Venturimeter,Civil Engineering — Fluid Mechanics: Venturimeter
+299,573,similar_question_text_across_examples,0.412,G275,Mechanical Engineering — Fluid Mechanics: Venturimeter,Mechanical Engineering — Fluid Mechanics: Venturimeter
+300,479,same_subtopic,0.111,G276,Pharmacy — Pharmaceutical Technology: Tablet Disintegration,Pharmacy — Pharmaceutics: Tablet Disintegration
+302,462,similar_source_questions,0.417,G278,CSE — Robotics: Inverse Kinematics,CSE — Robotics: Inverse Kinematics of a Planar Two-Link Manipulator
+304,446,same_subtopic,0.217,G169,EEE — Control Systems: Root Locus Analysis,EEE — Control Systems: Root Locus
+307,483,same_subtopic,0.167,G282,Mathematics — Numerical Methods: Newton–Raphson Method,Mathematics — Numerical Methods: Newton–Raphson Method
+308,567,similar_question_text_across_examples,0.583,G283,MIS — Information Security Management: Access Control Models,CSE — Cybersecurity: Role-Based Access Control
+309,439,same_subtopic,0.071,G284,Environmental Science — Ecology: Energy Flow in Ecosystems,Environmental Science — Ecosystems: Energy Flow
+311,425,same_subtopic,0.211,G286,Textile Engineering — Yarn Manufacturing: Yarn Count,Textile Engineering — Textile Fibres: Yarn Count Systems
+311,490,similar_question_text_across_examples,0.6,G286,Textile Engineering — Yarn Manufacturing: Yarn Count,Textile Engineering — Textile Testing: Yarn Count
+312,579,similar_question_text_across_examples,0.429,G287,Education — Educational Assessment: Validity and Reliability,Education — Educational Assessment: Assessment Validity
+313,528,similar_source_questions,0.526,G288,Chemistry — Analytical Chemistry: Buffer Solutions,Chemistry — Physical Chemistry: Buffer Solutions
+314,440,same_subtopic,0.0,G289,Industrial Engineering — Operations Research: Linear Programming,Industrial Engineering — Operations Research: Linear Programming
+315,524,same_subtopic,0.15,G290,Public Administration — Public Finance: Government Budgeting,Public Administration — Public Finance: Government Budgeting
+318,448,same_subtopic,0.086,G292,Mechanical Engineering — Manufacturing Processes: CNC Machining,Mechanical Engineering — Manufacturing Processes: CNC Machining
+318,523,similar_question_text_across_examples,0.4,G292,Mechanical Engineering — Manufacturing Processes: CNC Machining,Mechanical Engineering — Manufacturing: CNC Turning
+320,465,same_subtopic,0.119,G293,CSE — Database Systems: Query Optimization,CSE — Database Systems: Query Optimization
+321,473,similar_source_questions,0.625,G294,Agriculture — Soil Science: Cation Exchange Capacity,Agriculture — Soil Science: Cation Exchange Capacity
+322,457,same_subtopic,0.069,G227,Food Engineering — Food Preservation: Thermal Processing,Food Engineering — Food Preservation: Thermal Processing
+324,549,similar_source_questions,0.7,G296,Linguistics — Phonetics: English Consonant Classification,Linguistics — Phonetics: English Consonant Classification
+324,599,similar_source_questions,0.7,G296,Linguistics — Phonetics: English Consonant Classification,Linguistics — Phonetics: Place and Manner of Articulation
+325,472,same_subtopic,0.154,G297,Finance — Investment Analysis: Internal Rate of Return,Finance — Financial Management: Internal Rate of Return
+326,531,same_subtopic,0.125,G298,Geology — Structural Geology: Geological Folds,Geology — Structural Geology: Geological Folds
+326,581,same_subtopic,0.125,G298,Geology — Structural Geology: Geological Folds,Geology — Structural Geology: Geological Folds
+328,437,similar_question_text_across_examples,0.5,G300,Nursing — Medical-Surgical Nursing: Fluid Balance,Nursing — Fundamentals of Nursing: Fluid Balance
+328,521,similar_question_text_across_examples,0.5,G300,Nursing — Medical-Surgical Nursing: Fluid Balance,Nursing — Fundamentals of Nursing: Fluid Balance
+328,582,same_subtopic,0.208,G300,Nursing — Medical-Surgical Nursing: Fluid Balance,Nursing — Clinical Fundamentals: Fluid Balance
+331,470,similar_source_questions,0.389,G303,Biochemistry — Enzyme Kinetics: Michaelis–Menten Model,Biochemistry — Enzyme Kinetics: Michaelis–Menten Equation
+333,443,same_subtopic,0.057,G305,Materials Science — Mechanical Properties: Stress–Strain Behaviour,Materials Science — Mechanical Properties: Stress–Strain Behaviour
+333,584,similar_source_questions,0.526,G305,Materials Science — Mechanical Properties: Stress–Strain Behaviour,Materials Science — Mechanical Properties: Stress–Strain Behaviour
+334,432,similar_question_text_across_examples,0.5,G306,Economics — Monetary Economics: Money Multiplier,Economics — Macroeconomics: Money Multiplier
+335,420,same_subtopic,0.1,G307,Law — Contract Law: Misrepresentation,Law — Contract Law: Misrepresentation
+335,516,same_subtopic,0.057,G307,Law — Contract Law: Misrepresentation,Law — Contract Law: Misrepresentation
+336,507,similar_question_text_across_examples,0.455,G308,CSE — Robotics: PID Controller Tuning,CSE — Robotics: PID Controller
+337,489,similar_question_text_across_examples,0.5,G191,Statistics — Probability Distributions: Poisson Distribution,Statistics — Probability Distributions: Poisson Distribution
+339,513,same_subtopic,0.227,G310,Pharmacy — Pharmaceutical Analysis: Limit Tests,Pharmacy — Pharmaceutical Analysis: Limit Test for Chloride
+339,587,same_subtopic,0.227,G310,Pharmacy — Pharmaceutical Analysis: Limit Tests,Pharmacy — Pharmaceutical Analysis: Chloride Limit Test
+341,426,similar_question_text_across_examples,0.615,G312,Environmental Engineering — Air Pollution Control: Cyclone Separator,Environmental Engineering — Air Pollution Control: Cyclone Separator
+341,505,similar_question_text_across_examples,0.75,G312,Environmental Engineering — Air Pollution Control: Cyclone Separator,Environmental Engineering — Air Pollution Control: Cyclone Separator
+342,444,same_subtopic,0.045,G313,Management — Organizational Behaviour: Leadership Styles,Management — Organizational Behaviour: Leadership Styles
+342,536,same_subtopic,0.08,G313,Management — Organizational Behaviour: Leadership Styles,Management — Organizational Behaviour: Leadership Styles
+345,427,similar_question_text_across_examples,0.6,G316,Psychology — Cognitive Psychology: Attention and Selective Processing,Psychology — Cognitive Psychology: Selective Attention
+346,459,same_subtopic,0.217,G317,CSE — Software Engineering: Software Reliability Estimation,CSE — Software Engineering: Software Reliability
+347,419,similar_question_text_across_examples,0.444,G318,Chemistry — Organic Chemistry: Esterification,Chemistry — Organic Chemistry: Esterification
+348,438,similar_source_questions,0.368,G319,Accounting — Cost Accounting: Job Order Costing,Accounting — Cost Accounting: Job Order Costing
+349,433,same_subtopic,0.217,G320,Architecture — Building Construction: Roof Construction Systems,Architecture — Building Construction: Roof Systems
+349,510,same_subtopic,0.143,G320,Architecture — Building Construction: Roof Construction Systems,Architecture — Building Construction: Roof Systems
+349,589,same_subtopic,0.217,G320,Architecture — Building Construction: Roof Construction Systems,Architecture — Building Construction: Roof Systems
+350,542,same_subtopic,0.115,G321,MIS — Database Management: Data Warehousing,MIS — Database Management: Data Warehousing
+350,580,same_subtopic,0.143,G321,MIS — Database Management: Data Warehousing,MIS — Business Intelligence: Data Warehousing
+351,424,similar_source_questions,0.438,G322,Physics — Electromagnetism: Magnetic Force on a Current-Carrying Conductor,Physics — Electromagnetism: Magnetic Force on a Current-Carrying Conductor
+352,526,same_subtopic,0.185,G323,International Relations — Foreign Policy Analysis: Diplomatic Instruments,International Relations — Foreign Policy: Diplomatic Instruments
+352,583,same_subtopic,0.087,G323,International Relations — Foreign Policy Analysis: Diplomatic Instruments,International Relations — Foreign Policy: Diplomatic Instruments
+353,452,same_subtopic,0.174,G324,CSE — Computer Networks: Distance-Vector Routing,CSE — Computer Networks: Distance-Vector Routing
+353,590,same_subtopic,0.185,G324,CSE — Computer Networks: Distance-Vector Routing,CSE — Computer Networks: Distance-Vector Routing
+359,460,same_subtopic,0.034,G329,Sociology — Social Research: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+359,506,same_subtopic,0.043,G329,Sociology — Social Research: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+359,574,same_subtopic,0.067,G329,Sociology — Social Research: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+362,484,similar_question_text_across_examples,0.438,G123,Accounting — Management Accounting: Contribution Margin,Accounting — Management Accounting: Contribution Margin
+363,464,similar_source_questions,0.389,G330,Architecture — Building Acoustics: Reverberation Time,Architecture — Building Acoustics: Reverberation Time
+364,423,similar_question_text_across_examples,0.6,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+364,594,similar_question_text_across_examples,0.467,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+367,586,similar_question_text_across_examples,0.4,G332,EEE — Electrical Machines: Synchronous Generator,EEE — Electrical Machines: Synchronous Generator
+368,554,similar_question_text_across_examples,0.429,G100,Pharmacy — Biopharmaceutics: Dissolution Rate and Drug Absorption,Pharmacy — Pharmaceutics: Drug Dissolution
+370,535,similar_question_text_across_examples,0.429,G334,Civil Engineering — Structural Analysis: Slope-Deflection Method,Civil Engineering — Structural Analysis: Slope-Deflection Method
+372,551,similar_question_text_across_examples,0.438,G336,Mathematics — Numerical Methods: Numerical Integration,Mathematics — Numerical Analysis: Simpson's One-Third Rule
+375,500,same_subtopic,0.222,G339,Management — Human Resource Management: Job Evaluation,BBA — Human Resource Management: Job Evaluation
+388,492,similar_question_text_across_examples,0.571,G072,Education — Curriculum Studies: Constructive Alignment,Education — Curriculum and Instruction: Constructive Alignment
+389,565,similar_question_text_across_examples,0.778,G350,Industrial Engineering — Quality Management: Statistical Process Control,Industrial Engineering — Quality Control: Control Charts
+395,541,similar_question_text_across_examples,0.6,G355,Mathematics — Discrete Mathematics: Graph Connectivity,Mathematics — Discrete Mathematics: Graph Connectivity
+395,593,similar_question_text_across_examples,0.778,G355,Mathematics — Discrete Mathematics: Graph Connectivity,Mathematics — Graph Theory: Connectivity
+406,484,similar_question_text_across_examples,0.409,G123,Accounting — Management Accounting: Break-Even Analysis,Accounting — Management Accounting: Contribution Margin
+408,481,similar_source_questions,0.583,G198,Economics — Microeconomics: Price Elasticity of Demand,Economics — Microeconomics: Price Elasticity of Demand
+409,498,similar_question_text_across_examples,0.462,G168,Pharmacy — Pharmacology: Drug Half-Life,Chemistry — Chemical Kinetics: First-Order Reaction Half-Life
+409,539,similar_source_questions,0.478,G168,Pharmacy — Pharmacology: Drug Half-Life,Pharmacy — Pharmacology: Drug Elimination Half-Life
+410,480,similar_source_questions,0.391,G063,Civil Engineering — Structural Analysis: Simply Supported Beam Reactions,Civil Engineering — Structural Analysis: Simply Supported Beam Reactions
+420,516,similar_source_questions,0.5,G307,Law — Contract Law: Misrepresentation,Law — Contract Law: Misrepresentation
+423,594,same_subtopic,0.24,G231,MIS — Systems Analysis and Design: Feasibility Study,MIS — Systems Analysis and Design: Feasibility Study
+425,490,same_subtopic,0.25,G286,Textile Engineering — Textile Fibres: Yarn Count Systems,Textile Engineering — Textile Testing: Yarn Count
+426,505,similar_question_text_across_examples,0.6,G312,Environmental Engineering — Air Pollution Control: Cyclone Separator,Environmental Engineering — Air Pollution Control: Cyclone Separator
+433,510,similar_source_questions,0.36,G320,Architecture — Building Construction: Roof Systems,Architecture — Building Construction: Roof Systems
+433,589,similar_source_questions,0.364,G320,Architecture — Building Construction: Roof Systems,Architecture — Building Construction: Roof Systems
+437,521,identical_question_text,1.0,G300,Nursing — Fundamentals of Nursing: Fluid Balance,Nursing — Fundamentals of Nursing: Fluid Balance
+437,521,similar_source_questions,0.783,G300,Nursing — Fundamentals of Nursing: Fluid Balance,Nursing — Fundamentals of Nursing: Fluid Balance
+437,582,similar_source_questions,0.64,G300,Nursing — Fundamentals of Nursing: Fluid Balance,Nursing — Clinical Fundamentals: Fluid Balance
+443,584,same_subtopic,0.135,G305,Materials Science — Mechanical Properties: Stress–Strain Behaviour,Materials Science — Mechanical Properties: Stress–Strain Behaviour
+444,536,similar_source_questions,0.417,G313,Management — Organizational Behaviour: Leadership Styles,Management — Organizational Behaviour: Leadership Styles
+449,560,similar_question_text_across_examples,0.417,G224,Statistics — Hypothesis Testing: One-Sample Z-Test,Mathematics — Statistics: Confidence Interval for a Population Mean
+451,561,same_subtopic,0.143,G225,Public Administration — Public Policy: Policy Implementation,Public Administration — Public Policy: Policy Implementation
+452,590,same_subtopic,0.25,G324,CSE — Computer Networks: Distance-Vector Routing,CSE — Computer Networks: Distance-Vector Routing
+454,540,similar_question_text_across_examples,0.5,G241,Economics — International Economics: Balance of Payments,Economics — International Economics: Balance of Payments
+455,519,same_subtopic,0.156,G165,Architecture — Environmental Design: Natural Ventilation,Architecture — Building Services: Natural Ventilation
+457,508,similar_source_questions,0.36,G227,Food Engineering — Food Preservation: Thermal Processing,Food Engineering — Thermal Processing: Microbial Inactivation
+460,506,same_subtopic,0.231,G329,Sociology — Research Methods: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+460,574,similar_source_questions,0.429,G329,Sociology — Research Methods: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+461,472,similar_source_questions,0.355,G297,Finance — Investment Analysis: Net Present Value,Finance — Financial Management: Internal Rate of Return
+462,562,similar_question_text_across_examples,0.588,G278,CSE — Robotics: Inverse Kinematics of a Planar Two-Link Manipulator,CSE — Robotics: Forward Kinematics of a Planar Robot
+468,503,same_subtopic,0.192,G243,Political Science — Comparative Government: Parliamentary and Presidential Systems,Political Science — Comparative Government: Parliamentary System
+469,486,same_subtopic,0.028,G256,CSE — Operating Systems: Memory Allocation,CSE — Programming Languages: C Dynamic Memory Allocation
+475,498,same_subtopic,0.105,G168,Chemistry — Chemical Kinetics: Reaction Order,Chemistry — Chemical Kinetics: First-Order Reaction Half-Life
+475,571,similar_question_text_across_examples,0.423,G168,Chemistry — Chemical Kinetics: Reaction Order,Chemistry — Chemical Kinetics: Reaction Order
+497,570,similar_source_questions,0.537,G378,CSE — Operating Systems: Disk Scheduling,CSE — Operating Systems: Disk Scheduling
+498,571,same_subtopic,0.125,G168,Chemistry — Chemical Kinetics: First-Order Reaction Half-Life,Chemistry — Chemical Kinetics: Reaction Order
+499,573,similar_source_questions,0.5,G275,Civil Engineering — Fluid Mechanics: Venturimeter,Mechanical Engineering — Fluid Mechanics: Venturimeter
+506,574,same_subtopic,0.172,G329,Sociology — Research Methods: Operationalization of Variables,Sociology — Research Methods: Operationalization of Variables
+510,589,same_subtopic,0.308,G320,Architecture — Building Construction: Roof Systems,Architecture — Building Construction: Roof Systems
+513,587,similar_source_questions,0.5,G310,Pharmacy — Pharmaceutical Analysis: Limit Test for Chloride,Pharmacy — Pharmaceutical Analysis: Chloride Limit Test
+515,588,similar_question_text_across_examples,0.538,G383,Economics — Macroeconomics: Fiscal Multiplier,Economics — Macroeconomics: Expenditure Multiplier
+521,582,similar_source_questions,0.615,G300,Nursing — Fundamentals of Nursing: Fluid Balance,Nursing — Clinical Fundamentals: Fluid Balance
+526,583,similar_question_text_across_examples,0.538,G323,International Relations — Foreign Policy: Diplomatic Instruments,International Relations — Foreign Policy: Diplomatic Instruments
+529,577,similar_source_questions,0.556,G388,Textile Engineering — Fabric Manufacturing: Plain Weave,Textile Engineering — Textile Structure: Plain Weave
+531,581,similar_question_text_across_examples,0.6,G298,Geology — Structural Geology: Geological Folds,Geology — Structural Geology: Geological Folds
+533,576,similar_source_questions,0.353,G389,Mathematics — Calculus: Partial Derivatives,Mathematics — Multivariable Calculus: Partial Derivatives
+541,593,similar_source_questions,0.357,G355,Mathematics — Discrete Mathematics: Graph Connectivity,Mathematics — Graph Theory: Connectivity
+542,580,similar_question_text_across_examples,0.545,G321,MIS — Database Management: Data Warehousing,MIS — Business Intelligence: Data Warehousing
+543,595,similar_source_questions,0.647,G392,Civil Engineering — Geotechnical Engineering: Soil Bearing Capacity,Civil Engineering — Geotechnical Engineering: Bearing Capacity of Shallow Foundations
+544,575,identical_question_text,1.0,G393,Accounting — Financial Accounting: Inventory Valuation,Accounting — Financial Accounting: FIFO Inventory Valuation
+544,575,similar_source_questions,0.353,G393,Accounting — Financial Accounting: Inventory Valuation,Accounting — Financial Accounting: FIFO Inventory Valuation
+545,596,similar_source_questions,0.478,G394,Psychology — Cognitive Psychology: Working Memory,Psychology — Cognitive Psychology: Working Memory
+546,600,similar_source_questions,0.524,G395,CSE — Computer Organization: Cache Write Policies,CSE — Computer Architecture: Cache Write Policies
+547,592,similar_source_questions,0.588,G396,Environmental Science — Ecosystem Ecology: Ecological Succession,Environmental Science — Ecological Succession
+549,599,identical_question_text,1.0,G296,Linguistics — Phonetics: English Consonant Classification,Linguistics — Phonetics: Place and Manner of Articulation
+549,599,similar_source_questions,1.0,G296,Linguistics — Phonetics: English Consonant Classification,Linguistics — Phonetics: Place and Manner of Articulation

@@ -1,0 +1,189 @@
+{
+  "example_id_overlap_across_splits": 0,
+  "groups_spanning_splits": 0,
+  "identical_question_texts_across_splits": 0,
+  "max_cross_split_question_jaccard": 0.364,
+  "cross_split_pairs_at_or_above_0.35": 6,
+  "top_residual_pairs": [
+    {
+      "jaccard": 0.364,
+      "id_a": "504",
+      "split_a": "train",
+      "id_b": "591",
+      "split_b": "test",
+      "topic_a": "Cost Accounting: Material Cost Variance",
+      "topic_b": "Cost Accounting: Labour Efficiency Variance"
+    },
+    {
+      "jaccard": 0.357,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "461",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Investment Analysis: Net Present Value"
+    },
+    {
+      "jaccard": 0.357,
+      "id_a": "074",
+      "split_a": "train",
+      "id_b": "461",
+      "split_b": "test",
+      "topic_a": "Finance",
+      "topic_b": "Investment Analysis: Net Present Value"
+    },
+    {
+      "jaccard": 0.357,
+      "id_a": "034",
+      "split_a": "train",
+      "id_b": "118",
+      "split_b": "test",
+      "topic_a": "Computer Architecture",
+      "topic_b": "Computer Architecture: Cache Memory"
+    },
+    {
+      "jaccard": 0.35,
+      "id_a": "088",
+      "split_a": "train",
+      "id_b": "595",
+      "split_b": "test",
+      "topic_a": "Shallow Foundation Design",
+      "topic_b": "Geotechnical Engineering: Bearing Capacity of Shallow Foundations"
+    },
+    {
+      "jaccard": 0.35,
+      "id_a": "088",
+      "split_a": "train",
+      "id_b": "543",
+      "split_b": "test",
+      "topic_a": "Shallow Foundation Design",
+      "topic_b": "Geotechnical Engineering: Soil Bearing Capacity"
+    },
+    {
+      "jaccard": 0.333,
+      "id_a": "145",
+      "split_a": "train",
+      "id_b": "238",
+      "split_b": "test",
+      "topic_a": "Building Construction: Foundation Systems",
+      "topic_b": "Building Construction: Building Foundations"
+    },
+    {
+      "jaccard": 0.32,
+      "id_a": "034",
+      "split_a": "train",
+      "id_b": "474",
+      "split_b": "test",
+      "topic_a": "Computer Architecture",
+      "topic_b": "Computer Organization: Cache Memory Mapping"
+    },
+    {
+      "jaccard": 0.318,
+      "id_a": "525",
+      "split_a": "train",
+      "id_b": "470",
+      "split_b": "validation",
+      "topic_a": "Enzyme Kinetics: Lineweaver–Burk Plot",
+      "topic_b": "Enzyme Kinetics: Michaelis–Menten Equation"
+    },
+    {
+      "jaccard": 0.318,
+      "id_a": "186",
+      "split_a": "train",
+      "id_b": "366",
+      "split_b": "validation",
+      "topic_a": "Computer Networks: Routing Algorithms",
+      "topic_b": "Artificial Intelligence: A* Search Algorithm"
+    },
+    {
+      "jaccard": 0.318,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "325",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Investment Analysis: Internal Rate of Return"
+    },
+    {
+      "jaccard": 0.312,
+      "id_a": "412",
+      "split_a": "train",
+      "id_b": "024",
+      "split_b": "test",
+      "topic_a": "Database Management: Entity–Relationship Modeling",
+      "topic_b": "Database Management Systems"
+    },
+    {
+      "jaccard": 0.312,
+      "id_a": "298",
+      "split_a": "train",
+      "id_b": "024",
+      "split_b": "test",
+      "topic_a": "Systems Analysis and Design: Data Flow Diagrams",
+      "topic_b": "Database Management Systems"
+    },
+    {
+      "jaccard": 0.312,
+      "id_a": "171",
+      "split_a": "train",
+      "id_b": "270",
+      "split_b": "test",
+      "topic_a": "Pharmaceutical Analysis: Spectrophotometric Assay",
+      "topic_b": "Statistical Methods: Correlation and Regression"
+    },
+    {
+      "jaccard": 0.304,
+      "id_a": "094",
+      "split_a": "train",
+      "id_b": "472",
+      "split_b": "test",
+      "topic_a": "Capital Budgeting",
+      "topic_b": "Financial Management: Internal Rate of Return"
+    },
+    {
+      "jaccard": 0.3,
+      "id_a": "292",
+      "split_a": "train",
+      "id_b": "501",
+      "split_b": "test",
+      "topic_a": "Pharmacology: Drug Receptor Antagonism",
+      "topic_b": "Pharmacology: Competitive Antagonism"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "525",
+      "split_a": "train",
+      "id_b": "331",
+      "split_b": "validation",
+      "topic_a": "Enzyme Kinetics: Lineweaver–Burk Plot",
+      "topic_b": "Enzyme Kinetics: Michaelis–Menten Model"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "077",
+      "split_a": "train",
+      "id_b": "354",
+      "split_b": "validation",
+      "topic_a": "Agricultural Science",
+      "topic_b": "Agronomy: Crop Rotation Planning"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "049",
+      "split_a": "train",
+      "id_b": "371",
+      "split_b": "validation",
+      "topic_a": "Statistics",
+      "topic_b": "Auditing: Audit Sampling"
+    },
+    {
+      "jaccard": 0.294,
+      "id_a": "041",
+      "split_a": "train",
+      "id_b": "132",
+      "split_b": "test",
+      "topic_a": "Electrical and Electronic Engineering",
+      "topic_b": "Electrical Circuits: Kirchhoff's Voltage Law"
+    }
+  ]
+}

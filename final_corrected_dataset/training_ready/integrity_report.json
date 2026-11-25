@@ -1,0 +1,97 @@
+{
+  "master_files_sha256": {
+    "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+    "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc",
+    "Unresolved_Questions.csv": "3eb6ad29c207fc0cb453ecc8917a1bad588f555b7a9d7ffdcee4227eed5ba312",
+    "Final_Summary.md": "c10a03c78a80dfd189bc8890d658bc8cf3980e2dfcc6a9affb7d03e937e087a6",
+    "EduGuard_600_Corrected.pdf": "a9d6f21dd58dceb38bff9be5c770e6c407a6f8aff8342434c1badc0417953dd6"
+  },
+  "master_unchanged_during_build": true,
+  "counts": {
+    "master_examples": 600,
+    "eligibility": {
+      "usable": 341,
+      "label_and_generation_only": 245,
+      "excluded": 14
+    },
+    "exclusions_by_reason": {
+      "redundant_duplicate": 8,
+      "self_containment_row_flagged": 3,
+      "pending_sme_review": 3
+    },
+    "reclassified_usable_to_label_and_generation_only": 31,
+    "self_containment_rows_audited": 152,
+    "self_containment_verdicts": {
+      "FLAG_OBJECTIVE_SHIFT": 1,
+      "FLAG_CONTESTED_CONTENT": 1,
+      "FLAG_SCOPE_EXPANSION": 2,
+      "PRESERVES": 148
+    },
+    "self_containment_rows_by_pass": {
+      "1": 2,
+      "1+2": 31,
+      "2": 119
+    },
+    "self_containment_preserves_rows_by_pass": {
+      "1": 2,
+      "1+2": 31,
+      "2": 115
+    },
+    "authored_scenario_rows_exported": 144,
+    "authored_scenario_rows_exported_by_eligibility": {
+      "usable": 143,
+      "label_and_generation_only": 1
+    },
+    "authored_scenario_rows_exported_by_pass": {
+      "1": 2,
+      "1+2": 30,
+      "2": 112
+    },
+    "authored_scenario_rows_in_excluded_examples": [
+      "156-Analyze",
+      "156-Apply",
+      "158-Analyze",
+      "158-Apply",
+      "158-Create",
+      "319-Apply",
+      "393-Apply",
+      "393-Create"
+    ],
+    "authored_evaluation_object_rows_exported": 118,
+    "deliberately_false_claim_rows_documented": 62,
+    "deliberately_false_claim_rows_exported": 59,
+    "deliberately_false_claim_rows_in_excluded_examples": [
+      "156",
+      "393",
+      "429"
+    ],
+    "answer_generation_transformation_records": {
+      "train": 1350,
+      "validation": 180,
+      "test": 175
+    }
+  },
+  "integrity_problems": [],
+  "checks": {
+    "every_eligible_example_has_one_source_question_with_valid_level": true,
+    "every_eligible_example_has_exactly_five_transformations_covering_the_other_levels": true,
+    "no_empty_or_source_identical_or_repeated_transformations": true,
+    "usable_examples_do_not_cite_supplied_material": true,
+    "no_related_pair_split_across_train_validation_test": true,
+    "excluded_examples_absent_from_all_training_exports": true,
+    "answer_generation_exports_contain_only_usable_examples": true,
+    "answer_generation_exports_contain_no_label_only_examples": true
+  },
+  "leakage": {
+    "related_pairs_found": 224,
+    "relations": {
+      "identical_question_text": 4,
+      "similar_question_text_across_examples": 73,
+      "similar_source_questions": 61,
+      "same_subtopic": 86
+    },
+    "groups": 405,
+    "multi_example_groups": 130
+  },
+  "not_validated": "These checks establish data integrity and training eligibility only. They say nothing about model performance."
+}
