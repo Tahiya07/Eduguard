@@ -19,7 +19,9 @@ for search_path in (REPO_ROOT, EXPERIMENT_DIR, SCRIPT_DIR):
     if str(search_path) not in sys.path:
         sys.path.insert(0, str(search_path))
 
-from dataset_io import TASKS, SPLITS, load_manifest, read_jsonl, validate_separate_dataset
+from dataset_io import (
+    QA_CLOSED_BOOK, TASKS, SPLITS, load_manifest, read_jsonl, task_input_text, validate_separate_dataset,
+)
 from loss_masking import tokenize_with_assistant_only_loss
 
 REQUIRED = {
@@ -36,6 +38,17 @@ REQUIRED = {
         "sft_text", "prompt_text", "generation_prompt",
     },
 }
+# Closed-book academic QA rows (qa_format="closed_book") have no context passage.
+REQUIRED_QA_CLOSED_BOOK = {
+    "task", "split", "id", "qa_format", "question", "answer", "reference_answer",
+    "sft_text", "prompt_text", "generation_prompt",
+}
+
+
+def required_fields(task: str, row: dict) -> set[str]:
+    if task == "qa" and row.get("qa_format") == QA_CLOSED_BOOK:
+        return REQUIRED_QA_CLOSED_BOOK
+    return REQUIRED[task]
 
 
 def norm(value: str) -> str:
@@ -92,7 +105,7 @@ def main() -> None:
         for task in TASKS:
             seen: set[str] = set()
             for index, row in enumerate(split_task_rows[split][task], 1):
-                missing = REQUIRED[task] - row.keys()
+                missing = required_fields(task, row) - row.keys()
                 if missing:
                     errors.append(f"{task}/{split}:{index}: missing fields {sorted(missing)}")
                 if row.get("task") != task:
@@ -119,6 +132,12 @@ def main() -> None:
                     ):
                         if marker in prompt:
                             errors.append(f"{task}/{split}:{index}: forbidden source-level marker in generation prompt")
+                elif task == "qa" and row.get("qa_format") == QA_CLOSED_BOOK:
+                    for key in ("question", "answer"):
+                        if not str(row.get(key) or "").strip():
+                            errors.append(f"{task}/{split}:{index}: empty {key}")
+                    if row.get("answer") != row.get("reference_answer"):
+                        errors.append(f"{task}/{split}:{index}: answer differs from reference_answer")
                 elif task == "qa":
                     for key in ("context", "question", "answer"):
                         if not str(row.get(key) or "").strip():
@@ -140,10 +159,9 @@ def main() -> None:
 
     # Exact normalized input overlap is checked within each task, across all
     # split boundaries; BloomShift also has group-level isolation in the loader.
-    input_fields = {"bloom_rewrite": "source_question", "qa": "context", "summarization": "article"}
-    for task, field in input_fields.items():
+    for task in TASKS:
         by_split = {
-            split: {norm(row.get(field, "")) for row in split_task_rows[split][task]}
+            split: {norm(task_input_text(task, row)) for row in split_task_rows[split][task]}
             for split in SPLITS
         }
         for left, right in (("train", "validation"), ("train", "test"), ("validation", "test")):

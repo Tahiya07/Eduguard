@@ -96,6 +96,72 @@ def verify_eduguard_bloom_rows(
     return {"kind": EDUGUARD_BLOOM_SOURCE_KIND, "rows_checked": checked, "contested_rows_excluded": len(contested)}
 
 
+# Closed-book academic QA (data/qa_eduguard_v2) as an alternative qa source.
+QA_EDUGUARD_SOURCE_KIND = "qa_eduguard_v2"
+QA_EDUGUARD_SOURCE_FILES = ("train.jsonl", "validation.jsonl", "test.jsonl", "reserve.jsonl", "dataset_manifest.json")
+QA_CLOSED_BOOK = "closed_book"
+_QA_EDUGUARD_PRESERVED_FIELDS = (
+    "id", "split", "question", "reference_answer", "discipline", "discipline_canonical", "discipline_group",
+    "topic", "qa_type", "difficulty", "answer_review",
+)
+
+
+def task_input_text(task: str, row: dict[str, Any]) -> str:
+    """The model-visible input used for cross-split exact-leakage checks."""
+    if task == "bloom_rewrite":
+        return str(row.get("source_question") or "")
+    if task == "qa":
+        if row.get("qa_format") == QA_CLOSED_BOOK:
+            return str(row.get("question") or "")
+        return str(row.get("context") or "")
+    if task == "summarization":
+        return str(row.get("article") or "")
+    raise ValueError(f"Unknown task {task!r}")
+
+
+def verify_eduguard_qa_rows(
+    source_dir: Path,
+    qa_rows_by_split: dict[str, list[dict[str, Any]]],
+) -> dict[str, Any]:
+    """Check closed-book qa rows against data/qa_eduguard_v2.
+
+    * each split holds exactly that source split's rows (reserve rows never appear);
+    * IDs, split, question, reference answer and labels are unchanged; the training target equals the reference answer;
+    * every held-out row has a model-assisted review verdict of "correct";
+    * sft_text starts with prompt_text and ends with the reference answer.
+    """
+    reserve_ids = {str(r["id"]) for r in read_jsonl(source_dir / "reserve.jsonl")}
+    checked = 0
+    for split in SPLITS:
+        expected = {str(r["id"]): r for r in read_jsonl(source_dir / f"{split}.jsonl")}
+        rows = qa_rows_by_split[split]
+        got = {str(r.get("id")): r for r in rows}
+        if got.keys() & reserve_ids:
+            raise ValueError(f"qa/{split} contains reserve (excluded) rows: {sorted(got.keys() & reserve_ids)[:3]}")
+        if set(got) != set(expected):
+            missing, extra = sorted(set(expected) - set(got)), sorted(set(got) - set(expected))
+            raise ValueError(
+                f"qa/{split} does not match the qa_eduguard_v2 source split: "
+                f"missing {missing[:3]} ({len(missing)}), unexpected {extra[:3]} ({len(extra)})."
+            )
+        for rid, row in got.items():
+            src = expected[rid]
+            if row.get("qa_format") != QA_CLOSED_BOOK:
+                raise ValueError(f"qa/{split} row {rid}: qa_format must be {QA_CLOSED_BOOK!r}.")
+            for field in _QA_EDUGUARD_PRESERVED_FIELDS:
+                if row.get(field) != src.get(field):
+                    raise ValueError(f"qa/{split} row {rid}: {field} differs from the qa_eduguard_v2 source.")
+            if row.get("answer") != src["reference_answer"]:
+                raise ValueError(f"qa/{split} row {rid}: answer differs from the source reference_answer.")
+            if split != "train" and src.get("answer_review") != "correct":
+                raise ValueError(f"qa/{split} row {rid}: held-out answer is not reviewed as correct.")
+            sft, prompt = str(row.get("sft_text") or ""), str(row.get("prompt_text") or "\0")
+            if not sft.startswith(prompt) or not sft.endswith(src["reference_answer"].strip() + "<|im_end|>"):
+                raise ValueError(f"qa/{split} row {rid}: sft_text/prompt_text are inconsistent.")
+            checked += 1
+    return {"kind": QA_EDUGUARD_SOURCE_KIND, "rows_checked": checked, "reserve_rows_excluded": len(reserve_ids)}
+
+
 def _row_sha256(row: dict[str, Any]) -> str:
     # Must match summarization_quality.row_sha256.
     return hashlib.sha256(json.dumps(row, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
@@ -316,12 +382,11 @@ def validate_separate_dataset(
                 f"BloomShift source-group leakage between {left} and {right}: {len(overlap)} groups."
             )
 
-    input_fields = {"bloom_rewrite": "source_question", "qa": "context", "summarization": "article"}
-    for task, input_field in input_fields.items():
+    for task in TASKS:
         normalized_by_split: dict[str, set[str]] = {}
         for split in SPLITS:
             normalized_by_split[split] = {
-                " ".join(str(row.get(input_field) or "").lower().split())
+                " ".join(task_input_text(task, row).lower().split())
                 for row in rows_by_task_split[task][split]
             }
         for left, right in (("train", "validation"), ("train", "test"), ("validation", "test")):
@@ -363,6 +428,29 @@ def validate_separate_dataset(
             source_dir, rows_by_task_split["bloom_rewrite"], manifest
         )
 
+    # QA source: legacy datasets carry extractive (SQuAD-style) rows and no qa_source kind; a closed-book
+    # source must be declared, fingerprinted, and row-for-row verified. Mixing formats is refused.
+    qa_source = manifest.get("qa_source") or {}
+    qa_source_check: dict[str, Any] | None = None
+    closed_book_rows = sum(
+        row.get("qa_format") == QA_CLOSED_BOOK for split in SPLITS for row in rows_by_task_split["qa"][split]
+    )
+    if qa_source.get("kind") == QA_EDUGUARD_SOURCE_KIND:
+        qa_dir = (repo_root / str(qa_source.get("path") or "")).resolve()
+        qa_hashes = qa_source.get("files_sha256") or {}
+        for name in QA_EDUGUARD_SOURCE_FILES:
+            path = qa_dir / name
+            if not path.is_file():
+                raise FileNotFoundError(f"qa_eduguard_v2 source file is missing: {path}")
+            if not qa_hashes.get(name) or sha256_file(path) != qa_hashes[name]:
+                raise ValueError(f"qa_eduguard_v2 source fingerprint mismatch for {path}.")
+        qa_source_check = verify_eduguard_qa_rows(qa_dir, rows_by_task_split["qa"])
+    elif closed_book_rows:
+        raise ValueError(
+            f"{closed_book_rows} closed-book qa rows found but the manifest does not declare "
+            f"qa_source.kind={QA_EDUGUARD_SOURCE_KIND!r}."
+        )
+
     # Summarization eligibility: enforced for every split when the dataset carries an eligibility record;
     # legacy directories are reported as unaudited (training loads of them are refused in load_split_rows).
     summarization_eligibility = {
@@ -386,6 +474,7 @@ def validate_separate_dataset(
         "bloom_source_sha256": source_hashes,
         "bloom_annotation_provenance": bloom_source.get("heldout_annotation_provenance"),
         "bloom_source_check": bloom_source_check,
+        "qa_source_check": qa_source_check,
         "training_data_policy": manifest.get("training_data_policy"),
     }
 

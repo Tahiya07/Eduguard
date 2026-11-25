@@ -1,0 +1,439 @@
+{
+  "version": "multitask_bloom_rewrite_separate_v1",
+  "storage_layout": "one_directory_per_task",
+  "seed": 42,
+  "generator_model_role": "Qwen2.5-1.5B-Instruct shared multitask generator",
+  "classifier_dataset_excluded": true,
+  "tasks": [
+    "bloom_rewrite",
+    "qa",
+    "summarization"
+  ],
+  "persisted_merged_jsonl": false,
+  "bloom_source": {
+    "kind": "eduguard_bloom_v3_1",
+    "path": "data/bloom_rewrite_eduguard_v3_1",
+    "version": "bloom_rewrite_eduguard_v3_1",
+    "files_sha256": {
+      "train.jsonl": "af032b91216c0674253d071a0cc1366d9878cd745297e00d9fa8b935658a58c9",
+      "validation.jsonl": "16fe262848a480d2b183bb6a312b90fff4916ac1ba4f18336a2a119ebc34d90b",
+      "test.jsonl": "6b63b5c3fe702cb6479f50f4c571aae5f6bb0191e725218fb5b8322a4dfb3a22",
+      "dataset_manifest.json": "fecbed6c8f52d913cfd266c086b64c2e57235cc928b18e37bcc3248738508bd1"
+    },
+    "upstream": {
+      "path": "final_corrected_dataset/repaired_v3_20261125/training_ready",
+      "split_manifest_sha256": "3cecbc81c6b408681109255f8431e440251cf5df37b1562d53116fd79444c632",
+      "master_sha256": {
+        "corrected_dataset_v3.json": "0d3c927888e1217b948997ba976a7a189465743e252748195ed1e537f85c3499",
+        "Correction_Log_v3.csv": "63c5e2474987f15755fdc89a41c673d51e041e1b0853b4c619c842548adf3e56"
+      },
+      "authoritative_master_sha256": {
+        "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+        "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc",
+        "Unresolved_Questions.csv": "3eb6ad29c207fc0cb453ecc8917a1bad588f555b7a9d7ffdcee4227eed5ba312",
+        "Final_Summary.md": "c10a03c78a80dfd189bc8890d658bc8cf3980e2dfcc6a9affb7d03e937e087a6",
+        "EduGuard_600_Corrected.pdf": "a9d6f21dd58dceb38bff9be5c770e6c407a6f8aff8342434c1badc0417953dd6"
+      }
+    },
+    "heldout_annotation_provenance": {
+      "inclusion_basis": "eduguard_v3_1_model_assisted_repair",
+      "independent_review_verified": false,
+      "warnings": [
+        "Bloom rewrites are model-assisted (Claude) and not human-verified; checks are automated.",
+        "Splits are pinned to final_corrected_dataset/training_ready/tests/reference_split_ids.json."
+      ]
+    }
+  },
+  "bloom_exclusions": {
+    "policy": "exclude rows whose gold label is contested (gold_label_contested = true) from training and evaluation",
+    "reason": "Examples 213 and 570: source labelled Analyze but the task executes a known rule (Apply); awaiting subject-matter-expert decision. See final_corrected_dataset/repaired_v3_20261125/work/challenge_review.json.",
+    "excluded_rows": [
+      {
+        "id": "eduguard_v3_1_213-Remember",
+        "split": "test",
+        "source_id": "213",
+        "target_bloom_level": "Remember"
+      },
+      {
+        "id": "eduguard_v3_1_213-Understand",
+        "split": "test",
+        "source_id": "213",
+        "target_bloom_level": "Understand"
+      },
+      {
+        "id": "eduguard_v3_1_213-Apply",
+        "split": "test",
+        "source_id": "213",
+        "target_bloom_level": "Apply"
+      },
+      {
+        "id": "eduguard_v3_1_213-Evaluate",
+        "split": "test",
+        "source_id": "213",
+        "target_bloom_level": "Evaluate"
+      },
+      {
+        "id": "eduguard_v3_1_213-Create",
+        "split": "test",
+        "source_id": "213",
+        "target_bloom_level": "Create"
+      },
+      {
+        "id": "eduguard_v3_1_570-Remember",
+        "split": "test",
+        "source_id": "570",
+        "target_bloom_level": "Remember"
+      },
+      {
+        "id": "eduguard_v3_1_570-Understand",
+        "split": "test",
+        "source_id": "570",
+        "target_bloom_level": "Understand"
+      },
+      {
+        "id": "eduguard_v3_1_570-Apply",
+        "split": "test",
+        "source_id": "570",
+        "target_bloom_level": "Apply"
+      },
+      {
+        "id": "eduguard_v3_1_570-Evaluate",
+        "split": "test",
+        "source_id": "570",
+        "target_bloom_level": "Evaluate"
+      },
+      {
+        "id": "eduguard_v3_1_570-Create",
+        "split": "test",
+        "source_id": "570",
+        "target_bloom_level": "Create"
+      }
+    ],
+    "excluded_count": 10
+  },
+  "bloom_rewrite_stats": {
+    "train": {
+      "source_rows": 2345,
+      "excluded_contested": 0,
+      "rows": 2345,
+      "source_questions": 469,
+      "usable_rows": 1350,
+      "target_level_counts": {
+        "Analyze": 330,
+        "Apply": 301,
+        "Create": 429,
+        "Evaluate": 409,
+        "Remember": 462,
+        "Understand": 414
+      }
+    },
+    "validation": {
+      "source_rows": 295,
+      "excluded_contested": 0,
+      "rows": 295,
+      "source_questions": 59,
+      "usable_rows": 180,
+      "target_level_counts": {
+        "Analyze": 43,
+        "Apply": 42,
+        "Create": 53,
+        "Evaluate": 49,
+        "Remember": 59,
+        "Understand": 49
+      }
+    },
+    "test": {
+      "source_rows": 290,
+      "excluded_contested": 10,
+      "rows": 280,
+      "source_questions": 56,
+      "usable_rows": 170,
+      "target_level_counts": {
+        "Analyze": 40,
+        "Apply": 35,
+        "Create": 52,
+        "Evaluate": 52,
+        "Remember": 56,
+        "Understand": 45
+      }
+    }
+  },
+  "qa_source": {
+    "kind": "qa_eduguard_v2",
+    "path": "data/qa_eduguard_v2",
+    "format": "closed_book: system + 'Question:' user turn -> reference_answer (no context passage)",
+    "files_sha256": {
+      "train.jsonl": "db0f2c4ad97c6adf17cc673307b0b5fde51488a54e49352df48d598c189e4776",
+      "validation.jsonl": "83136982b94f01103dfbf03484eacce52b60eabf07de3572d110d1ed96f786ad",
+      "test.jsonl": "64ccd1c9f9e66041a8ed6a3b0f64030dcbe190fa995629602b8a60b8e3919da1",
+      "reserve.jsonl": "495eefdcba2d47345f142abcf98a74d2779cf3de65e46ba4044f92bea3cd5884",
+      "dataset_manifest.json": "15e70486098d0c8f5673b5a2a7853f6e02d9ab2e4a8b52ab028271e9ddd8e012"
+    },
+    "source": {
+      "path": "data/train.jsonl",
+      "sha256": "671f07d4b3608874ad8988bab60ee07f024dd962fd501221912b85934006f1fb",
+      "rows": 1600,
+      "modified": false
+    },
+    "answer_review": {
+      "path": "experiments/multitask_bloom_rewrite/qa_review/answer_review_v2.json",
+      "sha256": "59e12d990fb7c0c261b598271d32a5ff02535ae6c230ee0b585a9c3fce4ab1a7",
+      "method": "model-assisted review (Claude): each question and reference answer read in full; arithmetic recomputed for calculation items; factual and conceptual claims checked against standard textbook knowledge. Not a human or subject-expert verification.",
+      "scope": "every row placed in validation or test by the v2 build, plus all calculation/numerical/problem_solving rows from the v1 splits; remaining train rows are not answer-reviewed"
+    },
+    "replaces": "SQuAD-style extractive QA used in eduguard_v3_1 (context/answer/answer_start)",
+    "stats": {
+      "train": {
+        "rows": 1172,
+        "discipline_group": {
+          "Computing": 532,
+          "Other Engineering and Architecture": 94,
+          "Life and Agricultural Sciences": 93,
+          "Mathematics and Statistics": 89,
+          "Physics": 80,
+          "Social Sciences, Humanities and Education": 55,
+          "Health and Medicine": 51,
+          "Electrical and Electronic Engineering": 49,
+          "Chemistry": 46,
+          "Business, Accounting and Economics": 37,
+          "Law": 23,
+          "Earth and Environmental Sciences": 23
+        },
+        "answer_review": {
+          "not_reviewed": 1014,
+          "correct": 158
+        }
+      },
+      "validation": {
+        "rows": 146,
+        "discipline_group": {
+          "Computing": 66,
+          "Other Engineering and Architecture": 12,
+          "Mathematics and Statistics": 11,
+          "Physics": 11,
+          "Life and Agricultural Sciences": 11,
+          "Social Sciences, Humanities and Education": 7,
+          "Electrical and Electronic Engineering": 6,
+          "Chemistry": 6,
+          "Health and Medicine": 6,
+          "Business, Accounting and Economics": 4,
+          "Earth and Environmental Sciences": 3,
+          "Law": 3
+        },
+        "answer_review": {
+          "correct": 146
+        }
+      },
+      "test": {
+        "rows": 147,
+        "discipline_group": {
+          "Computing": 67,
+          "Other Engineering and Architecture": 12,
+          "Life and Agricultural Sciences": 12,
+          "Mathematics and Statistics": 11,
+          "Physics": 10,
+          "Social Sciences, Humanities and Education": 7,
+          "Electrical and Electronic Engineering": 6,
+          "Health and Medicine": 6,
+          "Chemistry": 6,
+          "Business, Accounting and Economics": 4,
+          "Earth and Environmental Sciences": 3,
+          "Law": 3
+        },
+        "answer_review": {
+          "correct": 147
+        }
+      }
+    }
+  },
+  "summarization_source": {
+    "dataset": "ccdv/arxiv-summarization",
+    "official_splits_preserved": true,
+    "split_names": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "retained_train_rows_after_early_stop": 1075,
+    "prepared_train_rows": 1075,
+    "retained_validation_rows_after_early_stop": 212,
+    "prepared_validation_rows": 212,
+    "retained_test_rows_after_early_stop": 135,
+    "prepared_test_rows": 135,
+    "evaluation_sampling": {
+      "validation_target_rows": 212,
+      "test_target_rows": 135,
+      "seed_offsets": {
+        "validation": 404,
+        "test": 606
+      },
+      "policy": "Seed-shuffle each official source split and stop tokenization at the requested count; over-budget rows are skipped."
+    },
+    "long_context_policy": {
+      "max_seq_length": 8192,
+      "over_budget_examples_excluded": {
+        "train": 940,
+        "validation": 145,
+        "test": 108
+      },
+      "policy": "Exclude complete SFT sequences above the fixed token budget rather than truncating article inputs while retaining full abstracts."
+    }
+  },
+  "upstream_datasets": {
+    "qa": {
+      "dataset": "rajpurkar/squad",
+      "split_fingerprints": {
+        "train": "f1987d620e8fac37",
+        "validation": "6614e223193ae5a9"
+      },
+      "raw_split_rows": {
+        "train": 87599,
+        "validation": 10570
+      },
+      "revision_pinned": false
+    },
+    "summarization": {
+      "dataset": "ccdv/arxiv-summarization",
+      "split_fingerprints": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "raw_split_rows": {
+        "train": null,
+        "validation": null,
+        "test": null
+      },
+      "streaming": true,
+      "revision_pinned": false
+    }
+  },
+  "summarization_quality_filter": {
+    "policy_version": "arxiv_summarization_quality_v1_20261125",
+    "derived_from_dataset_dir": "data/multitask_bloom_rewrite_separate",
+    "derived_from_manifest_sha256": "f5ed31966327eb77db6c5ecf9be6aa640bb88c1de6c893d82e3afcc6b880cbf5",
+    "eligibility_file": "summarization/summarization_eligibility.json",
+    "eligibility_file_sha256": "898b421081d434debcd014cd2f1855f426c12ca66d75abe27a2d66cce912112e",
+    "counts": {
+      "train": {
+        "original": 1075,
+        "eligible": 270,
+        "excluded": 805
+      },
+      "validation": {
+        "original": 212,
+        "eligible": 81,
+        "excluded": 131
+      },
+      "test": {
+        "original": 135,
+        "eligible": 39,
+        "excluded": 96
+      }
+    },
+    "unchanged_tasks": {
+      "bloom_rewrite": "byte-identical copy",
+      "qa": "byte-identical copy"
+    },
+    "split_policy": "rows filtered within their original split; no row moved; original order kept",
+    "builder": "experiments/multitask_bloom_rewrite/scripts/build_clean_summarization_dataset.py",
+    "note": "summarization_source.* records upstream preparation history; current per-split counts are in counts."
+  },
+  "timestamp_utc": "2026-11-25T16:20:54.939782+00:00",
+  "tokenizer": {
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "max_seq_length": 8192,
+    "qa_check": {
+      "performed": true,
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "max_seq_length": 8192,
+      "qa": {
+        "train": {
+          "rows": 1172,
+          "max_sequence_tokens": 230,
+          "max_answer_tokens": 121,
+          "overlength": 0
+        },
+        "validation": {
+          "rows": 146,
+          "max_sequence_tokens": 188,
+          "max_answer_tokens": 83,
+          "overlength": 0
+        },
+        "test": {
+          "rows": 147,
+          "max_sequence_tokens": 180,
+          "max_answer_tokens": 81,
+          "overlength": 0
+        }
+      }
+    },
+    "bloom_rewrite_check": {
+      "performed": true,
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "max_seq_length": 8192,
+      "bloom_rewrite": {
+        "train": {
+          "rows": 2345,
+          "max_tokens": 1341,
+          "min_tokens": 944,
+          "overlength": 0
+        },
+        "validation": {
+          "rows": 295,
+          "max_tokens": 1309,
+          "min_tokens": 948,
+          "overlength": 0
+        },
+        "test": {
+          "rows": 280,
+          "max_tokens": 1312,
+          "min_tokens": 951,
+          "overlength": 0
+        }
+      }
+    },
+    "summarization_check": "inherited (files copied byte-for-byte)"
+  },
+  "derived_from": {
+    "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_1",
+    "manifest_sha256": "ca09133e8bee6462c5e559ed99052f084b6325ddaf8d7fb331637f6bdd55a5bb",
+    "copied_unchanged": [
+      "bloom_rewrite/*",
+      "summarization/*"
+    ]
+  },
+  "generated_files_sha256": {
+    "bloom_rewrite/test.jsonl": "ee3703b83b4e17a38303e34573865661825cac48088a387fb9e0ce7553c8c4d8",
+    "bloom_rewrite/train.jsonl": "1c8a9920f5f7c29e7991df2d45e1d6ada0e1a78c1c80c452daf594c884cb3e5f",
+    "bloom_rewrite/validation.jsonl": "44173dfd4c3fa31668e0101ff3ba74c006b9ed23d89ef3df3e9581e4042af73d",
+    "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
+    "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
+    "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+    "summarization/test.jsonl": "ac9cdc4f0ce61f2db0bfb49047c3957541463d06d2f1f376c38bdf29934379d3",
+    "summarization/train.jsonl": "59e87b77b8d4db57799832e1f1daad566f9cc7cc8c65bd32022aa21d4217b78b",
+    "summarization/validation.jsonl": "36f9e9b3b8a32622cb0849f442deea2e1f213a5891f7e53c8492ce25fe5e7ecc"
+  },
+  "counts": {
+    "train": {
+      "qa": 1172,
+      "bloom_rewrite": 2345,
+      "summarization": 270
+    },
+    "validation": {
+      "qa": 146,
+      "bloom_rewrite": 295,
+      "summarization": 81
+    },
+    "test": {
+      "qa": 147,
+      "bloom_rewrite": 280,
+      "summarization": 39
+    }
+  },
+  "notes": [
+    "No combined train.jsonl, validation.jsonl, or test.jsonl is persisted.",
+    "qa is closed-book academic QA from data/qa_eduguard_v2; bloom_rewrite and summarization are unchanged from v3.1.",
+    "QA answers are not human-verified; held-out QA answers passed a model-assisted review (see qa_source.answer_review)."
+  ]
+}

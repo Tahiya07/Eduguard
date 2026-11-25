@@ -1,0 +1,1423 @@
+{
+ "method": "model-assisted review (Claude): each question and reference answer read in full; arithmetic recomputed for calculation items; factual and conceptual claims checked against standard textbook knowledge. Not a human or subject-expert verification.",
+ "scope": "every row placed in validation or test by the v2 build, plus all calculation/numerical/problem_solving rows from the v1 splits; remaining train rows are not answer-reviewed",
+ "verdicts": [
+  "correct",
+  "unsound",
+  "incorrect"
+ ],
+ "date": "2026-11-26",
+ "reviews": {
+  "QA-0002": {
+   "verdict": "correct"
+  },
+  "QA-0004": {
+   "verdict": "correct"
+  },
+  "QA-0006": {
+   "verdict": "correct"
+  },
+  "QA-0020": {
+   "verdict": "correct"
+  },
+  "QA-0023": {
+   "verdict": "correct"
+  },
+  "QA-0026": {
+   "verdict": "correct"
+  },
+  "QA-0027": {
+   "verdict": "correct"
+  },
+  "QA-0029": {
+   "verdict": "correct"
+  },
+  "QA-0033": {
+   "verdict": "correct"
+  },
+  "QA-0039": {
+   "verdict": "correct"
+  },
+  "QA-0045": {
+   "verdict": "correct"
+  },
+  "QA-0057": {
+   "verdict": "correct"
+  },
+  "QA-0058": {
+   "verdict": "correct"
+  },
+  "QA-0059": {
+   "verdict": "correct"
+  },
+  "QA-0060": {
+   "verdict": "correct"
+  },
+  "QA-0061": {
+   "verdict": "correct"
+  },
+  "QA-0066": {
+   "verdict": "correct"
+  },
+  "QA-0073": {
+   "verdict": "correct"
+  },
+  "QA-0080": {
+   "verdict": "correct"
+  },
+  "QA-0082": {
+   "verdict": "correct"
+  },
+  "QA-0087": {
+   "verdict": "correct"
+  },
+  "QA-0088": {
+   "verdict": "correct"
+  },
+  "QA-0091": {
+   "verdict": "correct"
+  },
+  "QA-0099": {
+   "verdict": "correct"
+  },
+  "QA-0108": {
+   "verdict": "correct"
+  },
+  "QA-0114": {
+   "verdict": "correct"
+  },
+  "QA-0122": {
+   "verdict": "correct"
+  },
+  "QA-0125": {
+   "verdict": "correct"
+  },
+  "QA-0126": {
+   "verdict": "correct"
+  },
+  "QA-0127": {
+   "verdict": "correct"
+  },
+  "QA-0128": {
+   "verdict": "correct"
+  },
+  "QA-0129": {
+   "verdict": "correct"
+  },
+  "QA-0133": {
+   "verdict": "correct"
+  },
+  "QA-0135": {
+   "verdict": "correct"
+  },
+  "QA-0137": {
+   "verdict": "correct"
+  },
+  "QA-0139": {
+   "verdict": "correct"
+  },
+  "QA-0141": {
+   "verdict": "correct"
+  },
+  "QA-0142": {
+   "verdict": "correct"
+  },
+  "QA-0143": {
+   "verdict": "correct"
+  },
+  "QA-0144": {
+   "verdict": "correct"
+  },
+  "QA-0145": {
+   "verdict": "correct"
+  },
+  "QA-0146": {
+   "verdict": "correct"
+  },
+  "QA-0153": {
+   "verdict": "correct"
+  },
+  "QA-0156": {
+   "verdict": "correct"
+  },
+  "QA-0159": {
+   "verdict": "correct"
+  },
+  "QA-0161": {
+   "verdict": "correct"
+  },
+  "QA-0163": {
+   "verdict": "correct"
+  },
+  "QA-0165": {
+   "verdict": "correct"
+  },
+  "QA-0167": {
+   "verdict": "correct"
+  },
+  "QA-0173": {
+   "verdict": "correct"
+  },
+  "QA-0174": {
+   "verdict": "correct"
+  },
+  "QA-0178": {
+   "verdict": "correct"
+  },
+  "QA-0182": {
+   "verdict": "correct"
+  },
+  "QA-0191": {
+   "verdict": "correct"
+  },
+  "QA-0193": {
+   "verdict": "correct"
+  },
+  "QA-0199": {
+   "verdict": "correct"
+  },
+  "QA-0201": {
+   "verdict": "correct"
+  },
+  "QA-0208": {
+   "verdict": "correct"
+  },
+  "QA-0211": {
+   "verdict": "correct"
+  },
+  "QA-0213": {
+   "verdict": "correct"
+  },
+  "QA-0215": {
+   "verdict": "correct"
+  },
+  "QA-0217": {
+   "verdict": "correct"
+  },
+  "QA-0221": {
+   "verdict": "correct"
+  },
+  "QA-0230": {
+   "verdict": "correct"
+  },
+  "QA-0236": {
+   "verdict": "correct"
+  },
+  "QA-0241": {
+   "verdict": "correct"
+  },
+  "QA-0244": {
+   "verdict": "correct"
+  },
+  "QA-0247": {
+   "verdict": "correct"
+  },
+  "QA-0250": {
+   "verdict": "correct"
+  },
+  "QA-0270": {
+   "verdict": "correct"
+  },
+  "QA-0277": {
+   "verdict": "correct"
+  },
+  "QA-0281": {
+   "verdict": "correct"
+  },
+  "QA-0289": {
+   "verdict": "correct"
+  },
+  "QA-0291": {
+   "verdict": "correct"
+  },
+  "QA-0294": {
+   "verdict": "correct"
+  },
+  "QA-0298": {
+   "verdict": "correct"
+  },
+  "QA-0304": {
+   "verdict": "correct"
+  },
+  "QA-0306": {
+   "verdict": "correct"
+  },
+  "QA-0308": {
+   "verdict": "correct"
+  },
+  "QA-0311": {
+   "verdict": "correct"
+  },
+  "QA-0312": {
+   "verdict": "correct"
+  },
+  "QA-0313": {
+   "verdict": "correct"
+  },
+  "QA-0314": {
+   "verdict": "correct"
+  },
+  "QA-0323": {
+   "verdict": "correct"
+  },
+  "QA-0324": {
+   "verdict": "correct"
+  },
+  "QA-0328": {
+   "verdict": "correct"
+  },
+  "QA-0330": {
+   "verdict": "correct"
+  },
+  "QA-0331": {
+   "verdict": "correct"
+  },
+  "QA-0332": {
+   "verdict": "correct"
+  },
+  "QA-0333": {
+   "verdict": "correct"
+  },
+  "QA-0334": {
+   "verdict": "correct"
+  },
+  "QA-0335": {
+   "verdict": "correct"
+  },
+  "QA-0336": {
+   "verdict": "correct"
+  },
+  "QA-0339": {
+   "verdict": "correct"
+  },
+  "QA-0340": {
+   "verdict": "correct"
+  },
+  "QA-0341": {
+   "verdict": "correct"
+  },
+  "QA-0342": {
+   "verdict": "correct"
+  },
+  "QA-0344": {
+   "verdict": "correct"
+  },
+  "QA-0346": {
+   "verdict": "correct"
+  },
+  "QA-0347": {
+   "verdict": "correct"
+  },
+  "QA-0348": {
+   "verdict": "correct"
+  },
+  "QA-0349": {
+   "verdict": "correct"
+  },
+  "QA-0351": {
+   "verdict": "correct"
+  },
+  "QA-0352": {
+   "verdict": "correct"
+  },
+  "QA-0353": {
+   "verdict": "correct"
+  },
+  "QA-0354": {
+   "verdict": "correct"
+  },
+  "QA-0355": {
+   "verdict": "correct"
+  },
+  "QA-0357": {
+   "verdict": "correct"
+  },
+  "QA-0359": {
+   "verdict": "correct"
+  },
+  "QA-0361": {
+   "verdict": "correct"
+  },
+  "QA-0362": {
+   "verdict": "correct"
+  },
+  "QA-0367": {
+   "verdict": "correct"
+  },
+  "QA-0373": {
+   "verdict": "correct"
+  },
+  "QA-0381": {
+   "verdict": "correct"
+  },
+  "QA-0382": {
+   "verdict": "correct"
+  },
+  "QA-0390": {
+   "verdict": "correct"
+  },
+  "QA-0400": {
+   "verdict": "correct"
+  },
+  "QA-0406": {
+   "verdict": "correct"
+  },
+  "QA-0409": {
+   "verdict": "correct"
+  },
+  "QA-0410": {
+   "verdict": "correct"
+  },
+  "QA-0422": {
+   "verdict": "correct"
+  },
+  "QA-0425": {
+   "verdict": "correct"
+  },
+  "QA-0429": {
+   "verdict": "correct"
+  },
+  "QA-0430": {
+   "verdict": "correct"
+  },
+  "QA-0437": {
+   "verdict": "correct"
+  },
+  "QA-0444": {
+   "verdict": "correct"
+  },
+  "QA-0449": {
+   "verdict": "correct"
+  },
+  "QA-0466": {
+   "verdict": "correct"
+  },
+  "QA-0469": {
+   "verdict": "correct"
+  },
+  "QA-0472": {
+   "verdict": "correct"
+  },
+  "QA-0477": {
+   "verdict": "correct"
+  },
+  "QA-0483": {
+   "verdict": "correct"
+  },
+  "QA-0485": {
+   "verdict": "correct"
+  },
+  "QA-0487": {
+   "verdict": "correct"
+  },
+  "QA-0488": {
+   "verdict": "correct"
+  },
+  "QA-0502": {
+   "verdict": "correct"
+  },
+  "QA-0511": {
+   "verdict": "correct"
+  },
+  "QA-0513": {
+   "verdict": "correct"
+  },
+  "QA-0514": {
+   "verdict": "correct"
+  },
+  "QA-0515": {
+   "verdict": "correct"
+  },
+  "QA-0528": {
+   "verdict": "correct"
+  },
+  "QA-0529": {
+   "verdict": "correct"
+  },
+  "QA-0534": {
+   "verdict": "correct"
+  },
+  "QA-0535": {
+   "verdict": "correct"
+  },
+  "QA-0545": {
+   "verdict": "correct"
+  },
+  "QA-0549": {
+   "verdict": "correct"
+  },
+  "QA-0553": {
+   "verdict": "correct"
+  },
+  "QA-0554": {
+   "verdict": "correct"
+  },
+  "QA-0557": {
+   "verdict": "correct"
+  },
+  "QA-0558": {
+   "verdict": "correct"
+  },
+  "QA-0559": {
+   "verdict": "correct"
+  },
+  "QA-0560": {
+   "verdict": "correct"
+  },
+  "QA-0563": {
+   "verdict": "correct"
+  },
+  "QA-0564": {
+   "verdict": "correct"
+  },
+  "QA-0565": {
+   "verdict": "correct"
+  },
+  "QA-0566": {
+   "verdict": "correct"
+  },
+  "QA-0568": {
+   "verdict": "correct"
+  },
+  "QA-0573": {
+   "verdict": "correct"
+  },
+  "QA-0580": {
+   "verdict": "correct"
+  },
+  "QA-0581": {
+   "verdict": "correct"
+  },
+  "QA-0582": {
+   "verdict": "correct"
+  },
+  "QA-0584": {
+   "verdict": "correct"
+  },
+  "QA-0592": {
+   "verdict": "correct"
+  },
+  "QA-0593": {
+   "verdict": "correct"
+  },
+  "QA-0594": {
+   "verdict": "correct"
+  },
+  "QA-0598": {
+   "verdict": "correct"
+  },
+  "QA-0602": {
+   "verdict": "correct"
+  },
+  "QA-0603": {
+   "verdict": "correct"
+  },
+  "QA-0606": {
+   "verdict": "correct"
+  },
+  "QA-0608": {
+   "verdict": "correct"
+  },
+  "QA-0612": {
+   "verdict": "correct"
+  },
+  "QA-0615": {
+   "verdict": "correct"
+  },
+  "QA-0623": {
+   "verdict": "correct"
+  },
+  "QA-0624": {
+   "verdict": "correct"
+  },
+  "QA-0625": {
+   "verdict": "correct"
+  },
+  "QA-0629": {
+   "verdict": "correct"
+  },
+  "QA-0633": {
+   "verdict": "correct"
+  },
+  "QA-0635": {
+   "verdict": "correct"
+  },
+  "QA-0640": {
+   "verdict": "correct"
+  },
+  "QA-0642": {
+   "verdict": "correct"
+  },
+  "QA-0647": {
+   "verdict": "correct"
+  },
+  "QA-0649": {
+   "verdict": "correct"
+  },
+  "QA-0650": {
+   "verdict": "correct"
+  },
+  "QA-0653": {
+   "verdict": "correct"
+  },
+  "QA-0657": {
+   "verdict": "correct"
+  },
+  "QA-0660": {
+   "verdict": "correct"
+  },
+  "QA-0666": {
+   "verdict": "correct"
+  },
+  "QA-0672": {
+   "verdict": "correct"
+  },
+  "QA-0679": {
+   "verdict": "correct"
+  },
+  "QA-0680": {
+   "verdict": "correct"
+  },
+  "QA-0686": {
+   "verdict": "correct"
+  },
+  "QA-0687": {
+   "verdict": "correct"
+  },
+  "QA-0695": {
+   "verdict": "correct"
+  },
+  "QA-0701": {
+   "verdict": "correct"
+  },
+  "QA-0703": {
+   "verdict": "correct"
+  },
+  "QA-0705": {
+   "verdict": "correct"
+  },
+  "QA-0706": {
+   "verdict": "correct"
+  },
+  "QA-0710": {
+   "verdict": "correct"
+  },
+  "QA-0711": {
+   "verdict": "correct"
+  },
+  "QA-0713": {
+   "verdict": "correct"
+  },
+  "QA-0714": {
+   "verdict": "correct"
+  },
+  "QA-0717": {
+   "verdict": "correct"
+  },
+  "QA-0719": {
+   "verdict": "correct"
+  },
+  "QA-0722": {
+   "verdict": "correct"
+  },
+  "QA-0726": {
+   "verdict": "correct"
+  },
+  "QA-0727": {
+   "verdict": "correct"
+  },
+  "QA-0728": {
+   "verdict": "correct"
+  },
+  "QA-0729": {
+   "verdict": "correct"
+  },
+  "QA-0730": {
+   "verdict": "correct"
+  },
+  "QA-0731": {
+   "verdict": "correct"
+  },
+  "QA-0733": {
+   "verdict": "correct"
+  },
+  "QA-0738": {
+   "verdict": "correct"
+  },
+  "QA-0740": {
+   "verdict": "correct"
+  },
+  "QA-0743": {
+   "verdict": "correct"
+  },
+  "QA-0746": {
+   "verdict": "correct"
+  },
+  "QA-0748": {
+   "verdict": "correct"
+  },
+  "QA-0749": {
+   "verdict": "correct"
+  },
+  "QA-0750": {
+   "verdict": "correct"
+  },
+  "QA-0752": {
+   "verdict": "correct"
+  },
+  "QA-0763": {
+   "verdict": "correct"
+  },
+  "QA-0772": {
+   "verdict": "correct"
+  },
+  "QA-0774": {
+   "verdict": "correct"
+  },
+  "QA-0778": {
+   "verdict": "correct"
+  },
+  "QA-0780": {
+   "verdict": "correct"
+  },
+  "QA-0783": {
+   "verdict": "correct"
+  },
+  "QA-0784": {
+   "verdict": "correct"
+  },
+  "QA-0788": {
+   "verdict": "correct"
+  },
+  "QA-0790": {
+   "verdict": "correct"
+  },
+  "QA-0791": {
+   "verdict": "correct"
+  },
+  "QA-0793": {
+   "verdict": "correct"
+  },
+  "QA-0798": {
+   "verdict": "correct"
+  },
+  "QA-0803": {
+   "verdict": "correct"
+  },
+  "QA-0805": {
+   "verdict": "correct"
+  },
+  "QA-0808": {
+   "verdict": "correct"
+  },
+  "QA-0809": {
+   "verdict": "correct"
+  },
+  "QA-0810": {
+   "verdict": "correct"
+  },
+  "QA-0812": {
+   "verdict": "correct"
+  },
+  "QA-0813": {
+   "verdict": "correct"
+  },
+  "QA-0816": {
+   "verdict": "correct"
+  },
+  "QA-0817": {
+   "verdict": "correct"
+  },
+  "QA-0819": {
+   "verdict": "correct"
+  },
+  "QA-0820": {
+   "verdict": "correct"
+  },
+  "QA-0821": {
+   "verdict": "correct"
+  },
+  "QA-0825": {
+   "verdict": "correct"
+  },
+  "QA-0826": {
+   "verdict": "correct"
+  },
+  "QA-0827": {
+   "verdict": "correct"
+  },
+  "QA-0829": {
+   "verdict": "correct"
+  },
+  "QA-0830": {
+   "verdict": "correct"
+  },
+  "QA-0831": {
+   "verdict": "correct"
+  },
+  "QA-0832": {
+   "verdict": "correct"
+  },
+  "QA-0834": {
+   "verdict": "correct"
+  },
+  "QA-0837": {
+   "verdict": "correct"
+  },
+  "QA-0838": {
+   "verdict": "correct"
+  },
+  "QA-0855": {
+   "verdict": "correct"
+  },
+  "QA-0859": {
+   "verdict": "correct"
+  },
+  "QA-0876": {
+   "verdict": "correct"
+  },
+  "QA-0879": {
+   "verdict": "correct"
+  },
+  "QA-0885": {
+   "verdict": "correct"
+  },
+  "QA-0891": {
+   "verdict": "correct"
+  },
+  "QA-0892": {
+   "verdict": "correct"
+  },
+  "QA-0893": {
+   "verdict": "correct"
+  },
+  "QA-0908": {
+   "verdict": "correct"
+  },
+  "QA-0910": {
+   "verdict": "correct"
+  },
+  "QA-0914": {
+   "verdict": "correct"
+  },
+  "QA-0918": {
+   "verdict": "correct"
+  },
+  "QA-0925": {
+   "verdict": "correct"
+  },
+  "QA-0928": {
+   "verdict": "correct"
+  },
+  "QA-0933": {
+   "verdict": "correct"
+  },
+  "QA-0934": {
+   "verdict": "correct"
+  },
+  "QA-0935": {
+   "verdict": "correct"
+  },
+  "QA-0936": {
+   "verdict": "correct"
+  },
+  "QA-0943": {
+   "verdict": "correct"
+  },
+  "QA-0949": {
+   "verdict": "correct"
+  },
+  "QA-0950": {
+   "verdict": "correct"
+  },
+  "QA-0952": {
+   "verdict": "correct"
+  },
+  "QA-0953": {
+   "verdict": "correct"
+  },
+  "QA-0954": {
+   "verdict": "correct"
+  },
+  "QA-0958": {
+   "verdict": "correct"
+  },
+  "QA-0962": {
+   "verdict": "correct"
+  },
+  "QA-0972": {
+   "verdict": "correct"
+  },
+  "QA-0973": {
+   "verdict": "correct"
+  },
+  "QA-0976": {
+   "verdict": "correct"
+  },
+  "QA-0977": {
+   "verdict": "correct"
+  },
+  "QA-0979": {
+   "verdict": "correct"
+  },
+  "QA-0981": {
+   "verdict": "correct"
+  },
+  "QA-0982": {
+   "verdict": "correct"
+  },
+  "QA-0983": {
+   "verdict": "correct"
+  },
+  "QA-0991": {
+   "verdict": "correct"
+  },
+  "QA-0993": {
+   "verdict": "correct"
+  },
+  "QA-0996": {
+   "verdict": "correct"
+  },
+  "QA-0997": {
+   "verdict": "correct"
+  },
+  "QA-0998": {
+   "verdict": "correct"
+  },
+  "QA-1002": {
+   "verdict": "correct"
+  },
+  "QA-1003": {
+   "verdict": "correct"
+  },
+  "QA-1004": {
+   "verdict": "correct"
+  },
+  "QA-1005": {
+   "verdict": "correct"
+  },
+  "QA-1009": {
+   "verdict": "correct"
+  },
+  "QA-1012": {
+   "verdict": "correct"
+  },
+  "QA-1014": {
+   "verdict": "correct"
+  },
+  "QA-1015": {
+   "verdict": "correct"
+  },
+  "QA-1016": {
+   "verdict": "correct"
+  },
+  "QA-1017": {
+   "verdict": "correct"
+  },
+  "QA-1019": {
+   "verdict": "correct"
+  },
+  "QA-1020": {
+   "verdict": "correct"
+  },
+  "QA-1022": {
+   "verdict": "correct"
+  },
+  "QA-1023": {
+   "verdict": "correct"
+  },
+  "QA-1024": {
+   "verdict": "correct"
+  },
+  "QA-1025": {
+   "verdict": "correct"
+  },
+  "QA-1027": {
+   "verdict": "correct"
+  },
+  "QA-1029": {
+   "verdict": "correct"
+  },
+  "QA-1030": {
+   "verdict": "correct"
+  },
+  "QA-1032": {
+   "verdict": "correct"
+  },
+  "QA-1036": {
+   "verdict": "correct"
+  },
+  "QA-1037": {
+   "verdict": "correct"
+  },
+  "QA-1041": {
+   "verdict": "correct"
+  },
+  "QA-1045": {
+   "verdict": "correct"
+  },
+  "QA-1047": {
+   "verdict": "correct"
+  },
+  "QA-1048": {
+   "verdict": "correct"
+  },
+  "QA-1049": {
+   "verdict": "correct"
+  },
+  "QA-1050": {
+   "verdict": "correct"
+  },
+  "QA-1051": {
+   "verdict": "correct"
+  },
+  "QA-1053": {
+   "verdict": "correct"
+  },
+  "QA-1054": {
+   "verdict": "correct"
+  },
+  "QA-1056": {
+   "verdict": "correct"
+  },
+  "QA-1058": {
+   "verdict": "correct"
+  },
+  "QA-1063": {
+   "verdict": "correct"
+  },
+  "QA-1069": {
+   "verdict": "correct"
+  },
+  "QA-1070": {
+   "verdict": "correct"
+  },
+  "QA-1071": {
+   "verdict": "correct"
+  },
+  "QA-1072": {
+   "verdict": "correct"
+  },
+  "QA-1074": {
+   "verdict": "correct"
+  },
+  "QA-1075": {
+   "verdict": "correct"
+  },
+  "QA-1078": {
+   "verdict": "correct"
+  },
+  "QA-1079": {
+   "verdict": "correct"
+  },
+  "QA-1080": {
+   "verdict": "correct"
+  },
+  "QA-1083": {
+   "verdict": "correct"
+  },
+  "QA-1086": {
+   "verdict": "correct"
+  },
+  "QA-1090": {
+   "verdict": "correct"
+  },
+  "QA-1092": {
+   "verdict": "unsound",
+   "note": "Defines application efficiency as root-zone storage / water delivered to the field, but divides by water diverted at the source (an overall/conveyance quantity); the reference answer teaches an inconsistent definition."
+  },
+  "QA-1093": {
+   "verdict": "correct"
+  },
+  "QA-1094": {
+   "verdict": "correct"
+  },
+  "QA-1096": {
+   "verdict": "correct"
+  },
+  "QA-1097": {
+   "verdict": "correct"
+  },
+  "QA-1099": {
+   "verdict": "correct"
+  },
+  "QA-1100": {
+   "verdict": "correct"
+  },
+  "QA-1103": {
+   "verdict": "correct"
+  },
+  "QA-1107": {
+   "verdict": "correct"
+  },
+  "QA-1113": {
+   "verdict": "correct"
+  },
+  "QA-1114": {
+   "verdict": "correct"
+  },
+  "QA-1115": {
+   "verdict": "correct"
+  },
+  "QA-1116": {
+   "verdict": "correct"
+  },
+  "QA-1119": {
+   "verdict": "correct"
+  },
+  "QA-1120": {
+   "verdict": "correct"
+  },
+  "QA-1122": {
+   "verdict": "correct"
+  },
+  "QA-1128": {
+   "verdict": "correct"
+  },
+  "QA-1132": {
+   "verdict": "correct"
+  },
+  "QA-1134": {
+   "verdict": "correct"
+  },
+  "QA-1135": {
+   "verdict": "correct"
+  },
+  "QA-1142": {
+   "verdict": "correct"
+  },
+  "QA-1144": {
+   "verdict": "correct"
+  },
+  "QA-1148": {
+   "verdict": "correct"
+  },
+  "QA-1151": {
+   "verdict": "correct"
+  },
+  "QA-1154": {
+   "verdict": "correct"
+  },
+  "QA-1156": {
+   "verdict": "correct"
+  },
+  "QA-1159": {
+   "verdict": "correct"
+  },
+  "QA-1161": {
+   "verdict": "correct"
+  },
+  "QA-1163": {
+   "verdict": "correct"
+  },
+  "QA-1167": {
+   "verdict": "correct"
+  },
+  "QA-1172": {
+   "verdict": "correct"
+  },
+  "QA-1173": {
+   "verdict": "correct"
+  },
+  "QA-1179": {
+   "verdict": "correct"
+  },
+  "QA-1181": {
+   "verdict": "correct"
+  },
+  "QA-1183": {
+   "verdict": "correct"
+  },
+  "QA-1189": {
+   "verdict": "correct"
+  },
+  "QA-1190": {
+   "verdict": "correct"
+  },
+  "QA-1195": {
+   "verdict": "correct"
+  },
+  "QA-1196": {
+   "verdict": "correct"
+  },
+  "QA-1202": {
+   "verdict": "correct"
+  },
+  "QA-1210": {
+   "verdict": "correct"
+  },
+  "QA-1214": {
+   "verdict": "correct"
+  },
+  "QA-1221": {
+   "verdict": "correct"
+  },
+  "QA-1225": {
+   "verdict": "correct"
+  },
+  "QA-1240": {
+   "verdict": "correct"
+  },
+  "QA-1244": {
+   "verdict": "correct"
+  },
+  "QA-1246": {
+   "verdict": "correct"
+  },
+  "QA-1250": {
+   "verdict": "correct"
+  },
+  "QA-1251": {
+   "verdict": "correct"
+  },
+  "QA-1256": {
+   "verdict": "correct"
+  },
+  "QA-1257": {
+   "verdict": "correct"
+  },
+  "QA-1272": {
+   "verdict": "correct"
+  },
+  "QA-1294": {
+   "verdict": "correct"
+  },
+  "QA-1297": {
+   "verdict": "correct"
+  },
+  "QA-1299": {
+   "verdict": "correct"
+  },
+  "QA-1308": {
+   "verdict": "correct"
+  },
+  "QA-1311": {
+   "verdict": "correct"
+  },
+  "QA-1317": {
+   "verdict": "correct"
+  },
+  "QA-1320": {
+   "verdict": "correct"
+  },
+  "QA-1327": {
+   "verdict": "correct"
+  },
+  "QA-1330": {
+   "verdict": "correct"
+  },
+  "QA-1339": {
+   "verdict": "correct"
+  },
+  "QA-1344": {
+   "verdict": "correct"
+  },
+  "QA-1345": {
+   "verdict": "correct"
+  },
+  "QA-1347": {
+   "verdict": "correct"
+  },
+  "QA-1348": {
+   "verdict": "correct"
+  },
+  "QA-1357": {
+   "verdict": "correct"
+  },
+  "QA-1360": {
+   "verdict": "correct"
+  },
+  "QA-1362": {
+   "verdict": "correct"
+  },
+  "QA-1363": {
+   "verdict": "correct"
+  },
+  "QA-1367": {
+   "verdict": "correct"
+  },
+  "QA-1387": {
+   "verdict": "correct"
+  },
+  "QA-1394": {
+   "verdict": "correct"
+  },
+  "QA-1401": {
+   "verdict": "correct"
+  },
+  "QA-1407": {
+   "verdict": "correct"
+  },
+  "QA-1411": {
+   "verdict": "correct"
+  },
+  "QA-1413": {
+   "verdict": "correct"
+  },
+  "QA-1418": {
+   "verdict": "correct"
+  },
+  "QA-1419": {
+   "verdict": "correct"
+  },
+  "QA-1421": {
+   "verdict": "correct"
+  },
+  "QA-1424": {
+   "verdict": "correct"
+  },
+  "QA-1425": {
+   "verdict": "correct"
+  },
+  "QA-1427": {
+   "verdict": "correct"
+  },
+  "QA-1428": {
+   "verdict": "correct"
+  },
+  "QA-1430": {
+   "verdict": "correct"
+  },
+  "QA-1434": {
+   "verdict": "correct"
+  },
+  "QA-1435": {
+   "verdict": "correct"
+  },
+  "QA-1437": {
+   "verdict": "correct"
+  },
+  "QA-1438": {
+   "verdict": "correct"
+  },
+  "QA-1442": {
+   "verdict": "correct"
+  },
+  "QA-1445": {
+   "verdict": "correct"
+  },
+  "QA-1449": {
+   "verdict": "correct"
+  },
+  "QA-1453": {
+   "verdict": "correct"
+  },
+  "QA-1458": {
+   "verdict": "correct"
+  },
+  "QA-1459": {
+   "verdict": "correct"
+  },
+  "QA-1463": {
+   "verdict": "correct"
+  },
+  "QA-1464": {
+   "verdict": "correct"
+  },
+  "QA-1467": {
+   "verdict": "correct"
+  },
+  "QA-1475": {
+   "verdict": "correct"
+  },
+  "QA-1486": {
+   "verdict": "correct"
+  },
+  "QA-1499": {
+   "verdict": "correct"
+  },
+  "QA-1502": {
+   "verdict": "correct"
+  },
+  "QA-1508": {
+   "verdict": "correct"
+  },
+  "QA-1514": {
+   "verdict": "correct"
+  },
+  "QA-1516": {
+   "verdict": "correct"
+  },
+  "QA-1520": {
+   "verdict": "correct"
+  },
+  "QA-1530": {
+   "verdict": "correct"
+  },
+  "QA-1537": {
+   "verdict": "correct"
+  },
+  "QA-1538": {
+   "verdict": "correct"
+  },
+  "QA-1542": {
+   "verdict": "correct"
+  },
+  "QA-1544": {
+   "verdict": "correct"
+  },
+  "QA-1548": {
+   "verdict": "correct"
+  },
+  "QA-1550": {
+   "verdict": "correct"
+  },
+  "QA-1552": {
+   "verdict": "correct"
+  },
+  "QA-1553": {
+   "verdict": "correct"
+  },
+  "QA-1555": {
+   "verdict": "correct"
+  },
+  "QA-1557": {
+   "verdict": "correct"
+  },
+  "QA-1559": {
+   "verdict": "correct"
+  },
+  "QA-1561": {
+   "verdict": "correct"
+  },
+  "QA-1562": {
+   "verdict": "correct"
+  },
+  "QA-1565": {
+   "verdict": "correct"
+  },
+  "QA-1569": {
+   "verdict": "correct"
+  },
+  "QA-1575": {
+   "verdict": "correct"
+  },
+  "QA-1580": {
+   "verdict": "correct"
+  },
+  "QA-1582": {
+   "verdict": "correct"
+  },
+  "QA-1583": {
+   "verdict": "correct"
+  },
+  "QA-1586": {
+   "verdict": "correct"
+  },
+  "QA-1587": {
+   "verdict": "correct"
+  },
+  "QA-1588": {
+   "verdict": "correct"
+  },
+  "QA-1593": {
+   "verdict": "correct"
+  },
+  "QA-1596": {
+   "verdict": "correct"
+  },
+  "QA-1599": {
+   "verdict": "correct"
+  }
+ }
+}

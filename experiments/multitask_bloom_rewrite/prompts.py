@@ -160,6 +160,15 @@ QA_SYSTEM = (
     "Do not invent information."
 )
 
+# Closed-book academic QA (data/qa_eduguard_v2): question -> reference answer, no supplied passage.
+QA_FORMAT_EXTRACTIVE = "extractive"
+QA_FORMAT_CLOSED_BOOK = "closed_book"
+QA_CLOSED_BOOK_SYSTEM = (
+    "You are an academic question-answering assistant for university students. "
+    "Answer the question accurately and concisely, giving the key reasoning, definitions, or calculation steps. "
+    "State any assumptions the question requires. Do not invent information."
+)
+
 SUMMARIZATION_SYSTEM = (
     "You are an academic scientific summarization assistant. "
     "Summarize the provided text while preserving important factual content. "
@@ -236,6 +245,37 @@ def qa_messages(
     return messages
 
 
+def closed_book_qa_messages(
+    question: str,
+    answer: str | None = None,
+) -> list[dict[str, str]]:
+    messages = [
+        {"role": "system", "content": QA_CLOSED_BOOK_SYSTEM},
+        {"role": "user", "content": f"Question:\n{question.strip()}"},
+    ]
+    if answer is not None:
+        messages.append({"role": "assistant", "content": answer.strip()})
+    return messages
+
+
+def qa_format(record: dict[str, Any]) -> str:
+    """Rows opt in to closed-book QA explicitly; anything else is the original extractive format."""
+    fmt = record.get("qa_format", QA_FORMAT_EXTRACTIVE)
+    if fmt not in (QA_FORMAT_EXTRACTIVE, QA_FORMAT_CLOSED_BOOK):
+        raise ValueError(f"Unknown qa_format: {fmt!r}")
+    return fmt
+
+
+def _qa_record_messages(record: dict[str, Any], *, with_answer: bool) -> list[dict[str, str]]:
+    if qa_format(record) == QA_FORMAT_CLOSED_BOOK:
+        return closed_book_qa_messages(
+            record["question"], record["answer"] if with_answer else None
+        )
+    return qa_messages(
+        record["context"], record["question"], record["answer"] if with_answer else None
+    )
+
+
 def summarization_messages(
     article: str,
     abstract: str | None = None,
@@ -263,9 +303,7 @@ def build_sft_text(task: str, record: dict[str, Any]) -> str:
         assert_no_source_level_in_prompt(text)
         return text
     if task == "qa":
-        return render_chatml(
-            qa_messages(record["context"], record["question"], record["answer"])
-        )
+        return render_chatml(_qa_record_messages(record, with_answer=True))
     if task == "summarization":
         return render_chatml(
             summarization_messages(record["article"], record["abstract"])
@@ -288,7 +326,7 @@ def build_generation_prompt(task: str, record: dict[str, Any]) -> str:
         return text
     if task == "qa":
         return render_chatml(
-            qa_messages(record["context"], record["question"]),
+            _qa_record_messages(record, with_answer=False),
             add_generation_prompt=True,
         )
     if task == "summarization":
@@ -309,7 +347,7 @@ def build_prompt_only_text(task: str, record: dict[str, Any]) -> str:
         assert_no_source_level_in_prompt(text)
         return text
     if task == "qa":
-        return render_chatml(qa_messages(record["context"], record["question"]))
+        return render_chatml(_qa_record_messages(record, with_answer=False))
     if task == "summarization":
         return render_chatml(summarization_messages(record["article"]))
     raise ValueError(f"Unknown task: {task}")

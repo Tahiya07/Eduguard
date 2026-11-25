@@ -1,0 +1,381 @@
+{
+  "version": "qa_eduguard_v2",
+  "task": "academic_qa (closed-book: question -> reference_answer, no context passage)",
+  "timestamp_utc": "2026-11-25T16:07:41.695544+00:00",
+  "source": {
+    "path": "data/train.jsonl",
+    "sha256": "671f07d4b3608874ad8988bab60ee07f024dd962fd501221912b85934006f1fb",
+    "rows": 1600,
+    "modified": false
+  },
+  "audit_baseline": {
+    "path": "data/qa_eduguard_v1",
+    "files_sha256": {
+      "dataset_manifest.json": "fb974b9f4cd11ad567ea2b40109383dea873fc0835575a863b89d685ecd3c502",
+      "reserve.jsonl": "315902f2505af6269084974d7f3598fc474c4048069b031d91a39753754f7277",
+      "test.jsonl": "de5ab79a92989c71c794e1eb43b47be393bed4a77b21f06c92a9abe5477b8a8e",
+      "train.jsonl": "75e6f519b156bbc0a026f458fda7e0bd210652bed19fb6a646185e03a88d0d2c",
+      "validation.jsonl": "7417eb41448ae4b019d45d4bc3bf3d2636affcc7d45dcf1b4ffbdaaa687cb357"
+    },
+    "modified": false
+  },
+  "answer_review": {
+    "path": "experiments/multitask_bloom_rewrite/qa_review/answer_review_v2.json",
+    "sha256": "59e12d990fb7c0c261b598271d32a5ff02535ae6c230ee0b585a9c3fce4ab1a7",
+    "method": "model-assisted review (Claude): each question and reference answer read in full; arithmetic recomputed for calculation items; factual and conceptual claims checked against standard textbook knowledge. Not a human or subject-expert verification.",
+    "scope": "every row placed in validation or test by the v2 build, plus all calculation/numerical/problem_solving rows from the v1 splits; remaining train rows are not answer-reviewed"
+  },
+  "build_script": "experiments/multitask_bloom_rewrite/scripts/build_qa_eduguard_v2_splits.py",
+  "seed": 20261126,
+  "thresholds": {
+    "leakage_group_question_similarity": 0.55,
+    "redundant_twin_similarity": 0.8,
+    "similarity": "max(cosine of char_wb 3-5-gram TF-IDF, cosine of word TF-IDF) on question text"
+  },
+  "counts": {
+    "train": 1172,
+    "validation": 146,
+    "test": 147,
+    "reserve": 135
+  },
+  "ratio": {
+    "train": 0.8,
+    "validation": 0.0997,
+    "test": 0.1003
+  },
+  "reserve_reasons": {
+    "most_redundant_remaining": 71,
+    "redundant_near_twin": 54,
+    "duplicate_question": 9,
+    "answer_review_unsound": 1
+  },
+  "discipline_group_share": {
+    "source_1600": {
+      "Computing": 0.455,
+      "Life and Agricultural Sciences": 0.08,
+      "Other Engineering and Architecture": 0.0788,
+      "Mathematics and Statistics": 0.0762,
+      "Physics": 0.0712,
+      "Chemistry": 0.0444,
+      "Electrical and Electronic Engineering": 0.0431,
+      "Social Sciences, Humanities and Education": 0.0431,
+      "Health and Medicine": 0.0413,
+      "Business, Accounting and Economics": 0.0288,
+      "Law": 0.02,
+      "Earth and Environmental Sciences": 0.0181
+    },
+    "used_1465": {
+      "Computing": 0.4539,
+      "Other Engineering and Architecture": 0.0805,
+      "Life and Agricultural Sciences": 0.0792,
+      "Mathematics and Statistics": 0.0758,
+      "Physics": 0.0689,
+      "Social Sciences, Humanities and Education": 0.0471,
+      "Health and Medicine": 0.043,
+      "Electrical and Electronic Engineering": 0.0416,
+      "Chemistry": 0.0396,
+      "Business, Accounting and Economics": 0.0307,
+      "Law": 0.0198,
+      "Earth and Environmental Sciences": 0.0198
+    }
+  },
+  "leakage_groups": 1102,
+  "max_cross_split_question_similarity": {
+    "train/validation": 0.5398,
+    "train/test": 0.5495,
+    "validation/test": 0.4459
+  },
+  "files_sha256": {
+    "train.jsonl": "db0f2c4ad97c6adf17cc673307b0b5fde51488a54e49352df48d598c189e4776",
+    "validation.jsonl": "83136982b94f01103dfbf03484eacce52b60eabf07de3572d110d1ed96f786ad",
+    "test.jsonl": "64ccd1c9f9e66041a8ed6a3b0f64030dcbe190fa995629602b8a60b8e3919da1",
+    "reserve.jsonl": "495eefdcba2d47345f142abcf98a74d2779cf3de65e46ba4044f92bea3cd5884"
+  },
+  "split_stats": {
+    "train": {
+      "discipline_group": {
+        "Computing": 532,
+        "Other Engineering and Architecture": 94,
+        "Life and Agricultural Sciences": 93,
+        "Mathematics and Statistics": 89,
+        "Physics": 80,
+        "Social Sciences, Humanities and Education": 55,
+        "Health and Medicine": 51,
+        "Electrical and Electronic Engineering": 49,
+        "Chemistry": 46,
+        "Business, Accounting and Economics": 37,
+        "Law": 23,
+        "Earth and Environmental Sciences": 23
+      },
+      "discipline_canonical": {
+        "Computer Science and Engineering": 528,
+        "Physics": 80,
+        "Mathematics": 72,
+        "Biology": 54,
+        "Electrical and Electronic Engineering": 49,
+        "Chemistry": 46,
+        "Civil Engineering": 28,
+        "Law": 22,
+        "Architecture": 20,
+        "Business Administration": 19,
+        "Public Health": 19,
+        "Agriculture": 17,
+        "Statistics": 17,
+        "Economics": 16,
+        "Environmental Science": 16,
+        "Education": 13,
+        "Biomedical Engineering": 13,
+        "Psychology": 11,
+        "Pharmacy": 11,
+        "Microbiology": 11,
+        "Mechanical Engineering": 10,
+        "Engineering": 9,
+        "Social Sciences": 9,
+        "Humanities": 9,
+        "Textile Engineering": 8,
+        "Earth Science": 7,
+        "Communication": 7,
+        "Medicine": 7,
+        "Nursing": 6,
+        "Nutrition and Food Science": 5,
+        "Industrial and Production Engineering": 5,
+        "Dentistry": 5,
+        "Information Technology": 4,
+        "Health Sciences": 3,
+        "Fisheries": 3,
+        "Veterinary Science": 3,
+        "Accounting": 2,
+        "Environmental Engineering": 1,
+        "Law and Technology": 1,
+        "English": 1,
+        "Sociology": 1,
+        "Political Science": 1,
+        "International Relations": 1,
+        "Journalism and Mass Communication": 1,
+        "Bangladesh Studies": 1
+      },
+      "qa_type_canonical": {
+        "application": 282,
+        "conceptual": 257,
+        "comparative": 216,
+        "analytical": 190,
+        "calculation": 104,
+        "process": 39,
+        "explanation": 20,
+        "design": 18,
+        "diagnosis": 14,
+        "reasoning": 13,
+        "sequence": 11,
+        "interpretation": 5,
+        "classification": 2,
+        "formulation": 1
+      },
+      "difficulty_canonical": {
+        "medium": 900,
+        "easy": 140,
+        "hard": 132
+      },
+      "answer_review": {
+        "not_reviewed": 1014,
+        "correct": 158
+      }
+    },
+    "validation": {
+      "discipline_group": {
+        "Computing": 66,
+        "Other Engineering and Architecture": 12,
+        "Mathematics and Statistics": 11,
+        "Physics": 11,
+        "Life and Agricultural Sciences": 11,
+        "Social Sciences, Humanities and Education": 7,
+        "Electrical and Electronic Engineering": 6,
+        "Chemistry": 6,
+        "Health and Medicine": 6,
+        "Business, Accounting and Economics": 4,
+        "Earth and Environmental Sciences": 3,
+        "Law": 3
+      },
+      "discipline_canonical": {
+        "Computer Science and Engineering": 64,
+        "Physics": 11,
+        "Mathematics": 7,
+        "Electrical and Electronic Engineering": 6,
+        "Chemistry": 6,
+        "Biology": 6,
+        "Civil Engineering": 5,
+        "Pharmacy": 5,
+        "Mechanical Engineering": 4,
+        "Statistics": 4,
+        "Agriculture": 4,
+        "Psychology": 3,
+        "Law": 3,
+        "Engineering": 2,
+        "Information Technology": 2,
+        "Environmental Science": 2,
+        "Economics": 2,
+        "Business Administration": 2,
+        "Communication": 2,
+        "Humanities": 1,
+        "Earth Science": 1,
+        "Social Sciences": 1,
+        "Public Health": 1,
+        "Microbiology": 1,
+        "Biomedical Engineering": 1
+      },
+      "qa_type_canonical": {
+        "conceptual": 33,
+        "application": 31,
+        "analytical": 26,
+        "comparative": 24,
+        "calculation": 14,
+        "process": 5,
+        "diagnosis": 4,
+        "explanation": 3,
+        "reasoning": 2,
+        "sequence": 2,
+        "design": 2
+      },
+      "difficulty_canonical": {
+        "medium": 116,
+        "hard": 16,
+        "easy": 14
+      },
+      "answer_review": {
+        "correct": 146
+      }
+    },
+    "test": {
+      "discipline_group": {
+        "Computing": 67,
+        "Other Engineering and Architecture": 12,
+        "Life and Agricultural Sciences": 12,
+        "Mathematics and Statistics": 11,
+        "Physics": 10,
+        "Social Sciences, Humanities and Education": 7,
+        "Electrical and Electronic Engineering": 6,
+        "Health and Medicine": 6,
+        "Chemistry": 6,
+        "Business, Accounting and Economics": 4,
+        "Earth and Environmental Sciences": 3,
+        "Law": 3
+      },
+      "discipline_canonical": {
+        "Computer Science and Engineering": 67,
+        "Physics": 10,
+        "Mathematics": 10,
+        "Electrical and Electronic Engineering": 6,
+        "Chemistry": 6,
+        "Biology": 5,
+        "Social Sciences": 4,
+        "Microbiology": 4,
+        "Economics": 3,
+        "Biomedical Engineering": 3,
+        "Law": 3,
+        "Engineering": 2,
+        "Environmental Science": 2,
+        "Architecture": 2,
+        "Public Health": 2,
+        "Civil Engineering": 2,
+        "Industrial and Production Engineering": 2,
+        "Medicine": 2,
+        "Business Administration": 1,
+        "Humanities": 1,
+        "Health Sciences": 1,
+        "Earth Science": 1,
+        "Mechanical Engineering": 1,
+        "Statistics": 1,
+        "Psychology": 1,
+        "Agriculture": 1,
+        "Communication": 1,
+        "Fisheries": 1,
+        "Nutrition and Food Science": 1,
+        "Pharmacy": 1
+      },
+      "qa_type_canonical": {
+        "application": 33,
+        "conceptual": 31,
+        "comparative": 26,
+        "analytical": 25,
+        "calculation": 14,
+        "reasoning": 4,
+        "process": 4,
+        "explanation": 3,
+        "sequence": 3,
+        "design": 3,
+        "diagnosis": 1
+      },
+      "difficulty_canonical": {
+        "medium": 114,
+        "hard": 17,
+        "easy": 16
+      },
+      "answer_review": {
+        "correct": 147
+      }
+    },
+    "reserve": {
+      "discipline_group": {
+        "Computing": 63,
+        "Chemistry": 13,
+        "Physics": 13,
+        "Life and Agricultural Sciences": 12,
+        "Mathematics and Statistics": 11,
+        "Electrical and Electronic Engineering": 8,
+        "Other Engineering and Architecture": 8,
+        "Health and Medicine": 3,
+        "Law": 3,
+        "Business, Accounting and Economics": 1
+      },
+      "discipline_canonical": {
+        "Computer Science and Engineering": 61,
+        "Chemistry": 13,
+        "Physics": 13,
+        "Mathematics": 10,
+        "Electrical and Electronic Engineering": 8,
+        "Biology": 7,
+        "Engineering": 3,
+        "Law": 3,
+        "Civil Engineering": 3,
+        "Agriculture": 3,
+        "Microbiology": 2,
+        "Information Technology": 2,
+        "Economics": 1,
+        "Health Sciences": 1,
+        "Statistics": 1,
+        "Architecture": 1,
+        "Public Health": 1,
+        "Pharmacy": 1,
+        "Biomedical Engineering": 1
+      },
+      "qa_type_canonical": {
+        "comparative": 39,
+        "application": 27,
+        "conceptual": 22,
+        "calculation": 19,
+        "analytical": 16,
+        "process": 3,
+        "reasoning": 3,
+        "design": 3,
+        "explanation": 2,
+        "interpretation": 1
+      },
+      "difficulty_canonical": {
+        "medium": 104,
+        "easy": 25,
+        "hard": 6
+      },
+      "answer_review": {
+        "not_reviewed": 116,
+        "correct": 18,
+        "unsound": 1
+      }
+    }
+  },
+  "limitations": [
+    "Answers are not human-verified. answer_review is a model-assisted (Claude) review, not an expert check.",
+    "Discipline mix is kept as authored (computing-leaning, by the dataset owner's choice); splits are stratified by discipline_group.",
+    "Many disciplines have fewer than 10 rows; their held-out quota can be 0 or 1.",
+    "Near-duplicate detection is lexical (TF-IDF); paraphrases with little word overlap can still be missed.",
+    "Not wired into dataset_io.py or any training config; the existing qa task expects context/answer fields."
+  ]
+}

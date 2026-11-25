@@ -1,0 +1,83 @@
+{
+	"experiment_name": "multitask_qwen15b_eduguard_v3_2_20261126",
+	"model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+	"attn_implementation": "sdpa",
+	"gradient_checkpointing_kwargs": {
+		"use_reentrant": false
+	},
+	"preflight_min_free_vram_gb": 0.0,
+	"max_length_memory_preflight": false,
+	"model_key": "15b",
+	"dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_2",
+	"output_dir": "experiments/multitask_bloom_rewrite/models/qwen15b_multitask_lora_eduguard_v3_2_20261126",
+	"results_dir": "experiments/multitask_bloom_rewrite/results/qwen15b_lora_eduguard_v3_2_20261126",
+	"seed": 42,
+	"epochs": 3,
+	"learning_rate": 0.0001,
+	"max_seq_length": 8192,
+	"lora_r": 16,
+	"lora_alpha": 32,
+	"lora_dropout": 0.1,
+	"warmup_ratio": 0.03,
+	"weight_decay": 0.01,
+	"lr_scheduler_type": "cosine",
+	"per_device_train_batch_size": 1,
+	"per_device_eval_batch_size": 1,
+	"gradient_accumulation_steps": 16,
+	"gradient_checkpointing": true,
+	"early_stopping_patience": 2,
+	"metric_for_best_model": "eval_loss",
+	"logging_steps": 20,
+	"save_total_limit": 3,
+	"lora_target_modules": [
+		"q_proj",
+		"k_proj",
+		"v_proj",
+		"o_proj",
+		"gate_proj",
+		"up_proj",
+		"down_proj"
+	],
+	"generation": {
+		"do_sample": false,
+		"temperature": 0,
+		"top_p": 1,
+		"top_k": 0,
+		"repeat_penalty": 1,
+		"max_new_tokens": 128,
+		"max_new_tokens_by_task": {
+			"bloom_rewrite": 128,
+			"qa": 192,
+			"summarization": 256
+		},
+		"decoding": "greedy"
+	},
+	"task_sampling_weights": {
+		"bloom_rewrite": 0.5,
+		"qa": 0.25,
+		"summarization": 0.25
+	},
+	"validation_task_limits": {
+		"qa": 146,
+		"bloom_rewrite": 295,
+		"summarization": 81
+	},
+	"test_task_limits": {
+		"qa": 147,
+		"bloom_rewrite": 280,
+		"summarization": 39
+	},
+	"train_tasks": [
+		"bloom_rewrite",
+		"qa",
+		"summarization"
+	],
+	"notes": [
+		"Copy of qwen15b_multitask_bloom_priority_20261123.json; only dataset-related settings changed.",
+		"dataset_dir -> data/multitask_bloom_rewrite_separate_eduguard_v3_2: EduGuard v3.1 Bloom (contested rows excluded), closed-book academic QA from data/qa_eduguard_v2 (1172/146/147), cleaned summarization.",
+		"QA is closed-book (question -> reference answer); the SQuAD extractive QA of earlier runs is not used.",
+		"generation.max_new_tokens_by_task.qa raised 128 -> 192: the longest QA reference answer is 121 tokens.",
+		"validation_task_limits / test_task_limits equal the dataset counts, so every validation and test row is used.",
+		"Model, LoRA, optimizer, sequence length, epochs and task sampling weights are unchanged. Use fresh output/results directories."
+	]
+}
