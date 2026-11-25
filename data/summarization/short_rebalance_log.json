@@ -1,0 +1,588 @@
+{
+ "date": "2026-11-26",
+ "reason": "Short block was 235/50/8 with near-duplicates across splits; plan is 235/29/29",
+ "rule": "topic-equal or source similarity >= 0.5 records stay in one split; validation/test drawn only from isolated 300-600-word records, round-robin by department; record text unchanged",
+ "max_cross_split_similarity": 0.4983,
+ "moved": [
+  {
+   "id": "UAP-SUM-0002",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0009",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0012",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0014",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0020",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0025",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0033",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0035",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0042",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0051",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0053",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0055",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0064",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0071",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0073",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0075",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0079",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0080",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0083",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0084",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0087",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0090",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0097",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0100",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0102",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0103",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0105",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0107",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0111",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0113",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0116",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0119",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0120",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0121",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0123",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0125",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0126",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0127",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0128",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0133",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0134",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0139",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0141",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0143",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0144",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0149",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0152",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0154",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0156",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0160",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0169",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0175",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0176",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0177",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0178",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0182",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0184",
+   "from": "train",
+   "to": "test"
+  },
+  {
+   "id": "UAP-SUM-0187",
+   "from": "train",
+   "to": "validation"
+  },
+  {
+   "id": "UAP-SUM-0236",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0237",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0238",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0239",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0240",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0241",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0242",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0243",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0244",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0245",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0246",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0247",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0248",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0249",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0250",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0251",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0252",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0253",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0254",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0255",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0256",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0257",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0258",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0259",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0260",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0261",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0262",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0263",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0264",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0265",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0266",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0267",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0268",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0269",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0270",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0271",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0272",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0273",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0274",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0275",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0276",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0277",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0278",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0279",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0280",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0281",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0282",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0283",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0284",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0285",
+   "from": "validation",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0286",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0287",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0288",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0289",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0290",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0291",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0292",
+   "from": "test",
+   "to": "train"
+  },
+  {
+   "id": "UAP-SUM-0293",
+   "from": "test",
+   "to": "train"
+  }
+ ]
+}

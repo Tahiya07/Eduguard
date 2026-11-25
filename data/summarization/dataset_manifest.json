@@ -1,0 +1,239 @@
+{
+  "dataset": "EduGuard academic summarization (original generated academic examples)",
+  "provenance": "generated_unverified: model-generated (Claude) source passages and summaries; not authentic course materials and not human-verified",
+  "generated_utc": "2026-11-25T21:13:26.923521+00:00",
+  "tool": "experiments/multitask_bloom_rewrite/scripts/summarization_dataset_tool.py",
+  "total_records": 309,
+  "unique_ids": 309,
+  "id_range": [
+    "UAP-SUM-0001",
+    "UAP-SUM-0309"
+  ],
+  "id_gaps": [],
+  "split_counts": {
+    "train": 251,
+    "validation": 29,
+    "test": 29
+  },
+  "category_counts": {
+    "medium": 16,
+    "short": 293
+  },
+  "split_by_category": {
+    "medium": {
+      "train": 16,
+      "validation": 0,
+      "test": 0
+    },
+    "short": {
+      "train": 235,
+      "validation": 29,
+      "test": 29
+    }
+  },
+  "targets": {
+    "short": {
+      "train": 235,
+      "validation": 29,
+      "test": 29
+    },
+    "medium": {
+      "train": 352,
+      "validation": 44,
+      "test": 44
+    },
+    "long": {
+      "train": 410,
+      "validation": 51,
+      "test": 52
+    },
+    "very_long": {
+      "train": 175,
+      "validation": 22,
+      "test": 22
+    }
+  },
+  "complete": false,
+  "source_word_ranges": {
+    "short": [
+      300,
+      600
+    ],
+    "medium": [
+      601,
+      1200
+    ],
+    "long": [
+      1201,
+      2500
+    ],
+    "very_long": [
+      2501,
+      4000
+    ]
+  },
+  "source_words": {
+    "min": 149,
+    "max": 867,
+    "mean": 301.2,
+    "median": 316
+  },
+  "summary_words": {
+    "min": 31,
+    "max": 218,
+    "mean": 63.7,
+    "median": 63
+  },
+  "known_deviations": {
+    "short_records_under_300_words": {
+      "count": 118,
+      "ids": [
+        "UAP-SUM-0005",
+        "UAP-SUM-0007",
+        "UAP-SUM-0060",
+        "UAP-SUM-0063",
+        "UAP-SUM-0065",
+        "UAP-SUM-0066",
+        "UAP-SUM-0067",
+        "UAP-SUM-0074",
+        "UAP-SUM-0076",
+        "UAP-SUM-0077",
+        "UAP-SUM-0088",
+        "UAP-SUM-0095",
+        "UAP-SUM-0188",
+        "UAP-SUM-0189",
+        "UAP-SUM-0190",
+        "UAP-SUM-0191",
+        "UAP-SUM-0192",
+        "UAP-SUM-0193",
+        "UAP-SUM-0194",
+        "UAP-SUM-0195",
+        "UAP-SUM-0196",
+        "UAP-SUM-0197",
+        "UAP-SUM-0198",
+        "UAP-SUM-0199",
+        "UAP-SUM-0200",
+        "UAP-SUM-0201",
+        "UAP-SUM-0202",
+        "UAP-SUM-0203",
+        "UAP-SUM-0204",
+        "UAP-SUM-0205",
+        "UAP-SUM-0206",
+        "UAP-SUM-0207",
+        "UAP-SUM-0208",
+        "UAP-SUM-0209",
+        "UAP-SUM-0210",
+        "UAP-SUM-0211",
+        "UAP-SUM-0212",
+        "UAP-SUM-0213",
+        "UAP-SUM-0214",
+        "UAP-SUM-0215",
+        "UAP-SUM-0216",
+        "UAP-SUM-0217",
+        "UAP-SUM-0218",
+        "UAP-SUM-0219",
+        "UAP-SUM-0220",
+        "UAP-SUM-0221",
+        "UAP-SUM-0222",
+        "UAP-SUM-0223",
+        "UAP-SUM-0224",
+        "UAP-SUM-0225",
+        "UAP-SUM-0226",
+        "UAP-SUM-0227",
+        "UAP-SUM-0228",
+        "UAP-SUM-0229",
+        "UAP-SUM-0230",
+        "UAP-SUM-0231",
+        "UAP-SUM-0232",
+        "UAP-SUM-0233",
+        "UAP-SUM-0234",
+        "UAP-SUM-0235",
+        "UAP-SUM-0236",
+        "UAP-SUM-0237",
+        "UAP-SUM-0238",
+        "UAP-SUM-0239",
+        "UAP-SUM-0240",
+        "UAP-SUM-0241",
+        "UAP-SUM-0242",
+        "UAP-SUM-0243",
+        "UAP-SUM-0244",
+        "UAP-SUM-0245",
+        "UAP-SUM-0246",
+        "UAP-SUM-0247",
+        "UAP-SUM-0248",
+        "UAP-SUM-0249",
+        "UAP-SUM-0250",
+        "UAP-SUM-0251",
+        "UAP-SUM-0252",
+        "UAP-SUM-0253",
+        "UAP-SUM-0254",
+        "UAP-SUM-0255",
+        "UAP-SUM-0256",
+        "UAP-SUM-0257",
+        "UAP-SUM-0258",
+        "UAP-SUM-0259",
+        "UAP-SUM-0260",
+        "UAP-SUM-0261",
+        "UAP-SUM-0262",
+        "UAP-SUM-0263",
+        "UAP-SUM-0264",
+        "UAP-SUM-0265",
+        "UAP-SUM-0266",
+        "UAP-SUM-0267",
+        "UAP-SUM-0268",
+        "UAP-SUM-0269",
+        "UAP-SUM-0270",
+        "UAP-SUM-0271",
+        "UAP-SUM-0272",
+        "UAP-SUM-0273",
+        "UAP-SUM-0274",
+        "UAP-SUM-0275",
+        "UAP-SUM-0276",
+        "UAP-SUM-0277",
+        "UAP-SUM-0278",
+        "UAP-SUM-0279",
+        "UAP-SUM-0280",
+        "UAP-SUM-0281",
+        "UAP-SUM-0282",
+        "UAP-SUM-0283",
+        "UAP-SUM-0284",
+        "UAP-SUM-0285",
+        "UAP-SUM-0286",
+        "UAP-SUM-0287",
+        "UAP-SUM-0288",
+        "UAP-SUM-0289",
+        "UAP-SUM-0290",
+        "UAP-SUM-0291",
+        "UAP-SUM-0292",
+        "UAP-SUM-0293"
+      ],
+      "decision": "kept as authored by the dataset owner; all are in train"
+    }
+  },
+  "duplicate_checks": {
+    "performed": true,
+    "duplicate_ids": 0,
+    "exact_duplicate_source_text": 0,
+    "exact_duplicate_summary": 0,
+    "repeated_topic_names": 23,
+    "near_duplicate_threshold": 0.5,
+    "near_duplicate_pairs_any_split": 108,
+    "max_cross_split_source_similarity": {
+      "train/validation": 0.4825,
+      "train/test": 0.4996,
+      "validation/test": 0.4194
+    },
+    "method": "max(char 3-5-gram TF-IDF cosine, word TF-IDF cosine) over source_text"
+  },
+  "schema_check": {
+    "performed": true,
+    "records_with_wrong_keys": 0,
+    "records_with_wrong_metadata": 0
+  },
+  "summary_faithfulness": "model-assisted at generation time only; not independently verified",
+  "files_sha256": {
+    "train.jsonl": "de9ee1af9f15cefda7b41921ab1a67462365a93d90205fb6d7ecbb5c9e577bcd",
+    "validation.jsonl": "a0f94ccbfca00437f18997e06a5139952549e1f7d6bb83f576b38fbdaf40efa9",
+    "test.jsonl": "4ebaaafb611fee8fd92bb9f71c7823e631e83b09d97dfad0670fcbedfbb20287"
+  }
+}
