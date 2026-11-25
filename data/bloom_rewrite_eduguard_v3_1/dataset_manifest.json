@@ -1,0 +1,84 @@
+{
+  "version": "bloom_rewrite_eduguard_v3_1",
+  "task": "bloom_rewrite",
+  "date": "2026-11-25",
+  "status": "finalized candidate; not yet accepted (see README)",
+  "source": {
+    "path": "final_corrected_dataset/repaired_v3_20261125/training_ready",
+    "split_manifest_sha256": "3cecbc81c6b408681109255f8431e440251cf5df37b1562d53116fd79444c632",
+    "master_sha256": {
+      "corrected_dataset_v3.json": "0d3c927888e1217b948997ba976a7a189465743e252748195ed1e537f85c3499",
+      "Correction_Log_v3.csv": "63c5e2474987f15755fdc89a41c673d51e041e1b0853b4c619c842548adf3e56"
+    },
+    "authoritative_master_sha256": {
+      "corrected_dataset.json": "1dc005665cc8ccf06ae07830ef902930b12502a5102770d8fd1ee4a7478a9c08",
+      "Correction_Log.csv": "9942939cc56e15380dfcb51d24f7696c7eba189e0d9bacc88bb7259ba5d024bc",
+      "Unresolved_Questions.csv": "3eb6ad29c207fc0cb453ecc8917a1bad588f555b7a9d7ffdcee4227eed5ba312",
+      "Final_Summary.md": "c10a03c78a80dfd189bc8890d658bc8cf3980e2dfcc6a9affb7d03e937e087a6",
+      "EduGuard_600_Corrected.pdf": "a9d6f21dd58dceb38bff9be5c770e6c407a6f8aff8342434c1badc0417953dd6"
+    }
+  },
+  "splits_pinned_to": "final_corrected_dataset/training_ready/tests/reference_split_ids.json",
+  "counts": {
+    "train": {
+      "rows": 2345,
+      "examples": 469,
+      "groups": 323,
+      "usable_rows": 1350,
+      "target_level_counts": {
+        "Remember": 462,
+        "Understand": 414,
+        "Apply": 301,
+        "Analyze": 330,
+        "Evaluate": 409,
+        "Create": 429
+      }
+    },
+    "validation": {
+      "rows": 295,
+      "examples": 59,
+      "groups": 40,
+      "usable_rows": 180,
+      "target_level_counts": {
+        "Remember": 59,
+        "Understand": 49,
+        "Apply": 42,
+        "Analyze": 43,
+        "Evaluate": 49,
+        "Create": 53
+      }
+    },
+    "test": {
+      "rows": 290,
+      "examples": 58,
+      "groups": 42,
+      "usable_rows": 175,
+      "target_level_counts": {
+        "Remember": 58,
+        "Understand": 47,
+        "Apply": 37,
+        "Analyze": 40,
+        "Evaluate": 54,
+        "Create": 54
+      }
+    }
+  },
+  "files_sha256": {
+    "train.jsonl": "af032b91216c0674253d071a0cc1366d9878cd745297e00d9fa8b935658a58c9",
+    "validation.jsonl": "16fe262848a480d2b183bb6a312b90fff4916ac1ba4f18336a2a119ebc34d90b",
+    "test.jsonl": "6b63b5c3fe702cb6479f50f4c571aae5f6bb0191e725218fb5b8322a4dfb3a22"
+  },
+  "leakage": {
+    "example_or_group_overlap_across_splits": 0
+  },
+  "review": {
+    "corrections": "model-assisted (Claude); not human-verified",
+    "validation": "automated",
+    "contested_gold_label_rows": 10
+  },
+  "challenge_set": "final_corrected_dataset/repaired_v3_20261125/challenge_set (built from test; evaluation only, not copied here)",
+  "not_included": [
+    "sft_text (prompt formatting is applied by the training pipeline)",
+    "qa and summarization tasks"
+  ]
+}
