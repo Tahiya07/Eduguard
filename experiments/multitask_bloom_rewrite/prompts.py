@@ -290,6 +290,45 @@ def summarization_messages(
     return messages
 
 
+# University lecture summarization (lecture PDF/slide/notes text -> study summary). Rows opt in explicitly with
+# summarization_format="lecture"; rows without the flag keep the original scientific-article rendering.
+SUMMARIZATION_FORMAT_ARTICLE = "article"
+SUMMARIZATION_FORMAT_LECTURE = "lecture"
+LECTURE_SUMMARIZATION_SYSTEM = (
+    "You are an academic study assistant for university students. "
+    "Summarize the lecture material into coherent, moderately concise study notes. "
+    "Preserve the central topic, key concepts, definitions, technical terms, relationships, and any important "
+    "formulas, methods, or examples. Do not oversimplify, pad, or invent information."
+)
+
+
+def summarization_format(record: dict[str, Any]) -> str:
+    fmt = record.get("summarization_format", SUMMARIZATION_FORMAT_ARTICLE)
+    if fmt not in (SUMMARIZATION_FORMAT_ARTICLE, SUMMARIZATION_FORMAT_LECTURE):
+        raise ValueError(f"Unknown summarization_format: {fmt!r}")
+    return fmt
+
+
+def lecture_summarization_messages(
+    source_text: str,
+    summary: str | None = None,
+) -> list[dict[str, str]]:
+    messages = [
+        {"role": "system", "content": LECTURE_SUMMARIZATION_SYSTEM},
+        {"role": "user", "content": f"Lecture material:\n{source_text.strip()}"},
+    ]
+    if summary is not None:
+        messages.append({"role": "assistant", "content": summary.strip()})
+    return messages
+
+
+def _summarization_record_messages(record: dict[str, Any], *, with_summary: bool) -> list[dict[str, str]]:
+    summary = record["abstract"] if with_summary else None
+    if summarization_format(record) == SUMMARIZATION_FORMAT_LECTURE:
+        return lecture_summarization_messages(record["article"], summary)
+    return summarization_messages(record["article"], summary)
+
+
 def build_sft_text(task: str, record: dict[str, Any]) -> str:
     task = task.strip().lower()
     if task == "bloom_rewrite":
@@ -305,9 +344,7 @@ def build_sft_text(task: str, record: dict[str, Any]) -> str:
     if task == "qa":
         return render_chatml(_qa_record_messages(record, with_answer=True))
     if task == "summarization":
-        return render_chatml(
-            summarization_messages(record["article"], record["abstract"])
-        )
+        return render_chatml(_summarization_record_messages(record, with_summary=True))
     raise ValueError(f"Unknown task: {task}")
 
 
@@ -331,7 +368,7 @@ def build_generation_prompt(task: str, record: dict[str, Any]) -> str:
         )
     if task == "summarization":
         return render_chatml(
-            summarization_messages(record["article"]),
+            _summarization_record_messages(record, with_summary=False),
             add_generation_prompt=True,
         )
     raise ValueError(f"Unknown task: {task}")
@@ -349,5 +386,5 @@ def build_prompt_only_text(task: str, record: dict[str, Any]) -> str:
     if task == "qa":
         return render_chatml(_qa_record_messages(record, with_answer=False))
     if task == "summarization":
-        return render_chatml(summarization_messages(record["article"]))
+        return render_chatml(_summarization_record_messages(record, with_summary=False))
     raise ValueError(f"Unknown task: {task}")

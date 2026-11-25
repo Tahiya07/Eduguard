@@ -20,7 +20,7 @@ for search_path in (REPO_ROOT, EXPERIMENT_DIR, SCRIPT_DIR):
         sys.path.insert(0, str(search_path))
 
 from dataset_io import (
-    QA_CLOSED_BOOK, TASKS, SPLITS, load_manifest, read_jsonl, task_input_text, validate_separate_dataset,
+    QA_CLOSED_BOOK, SUM_LECTURE, TASKS, SPLITS, load_manifest, read_jsonl, task_input_text, validate_separate_dataset,
 )
 from loss_masking import tokenize_with_assistant_only_loss
 
@@ -45,9 +45,15 @@ REQUIRED_QA_CLOSED_BOOK = {
 }
 
 
+# Lecture summarization rows keep their source fields; article/abstract are the training input/target aliases.
+REQUIRED_SUM_LECTURE = REQUIRED["summarization"] | {"summarization_format", "source_text", "summary"}
+
+
 def required_fields(task: str, row: dict) -> set[str]:
     if task == "qa" and row.get("qa_format") == QA_CLOSED_BOOK:
         return REQUIRED_QA_CLOSED_BOOK
+    if task == "summarization" and row.get("summarization_format") == SUM_LECTURE:
+        return REQUIRED_SUM_LECTURE
     return REQUIRED[task]
 
 
@@ -156,6 +162,10 @@ def main() -> None:
                     for key in ("article", "abstract"):
                         if not str(row.get(key) or "").strip():
                             errors.append(f"{task}/{split}:{index}: empty {key}")
+                    if row.get("summarization_format") == SUM_LECTURE and (
+                        row.get("article") != row.get("source_text") or row.get("abstract") != row.get("summary")
+                    ):
+                        errors.append(f"{task}/{split}:{index}: article/abstract differ from source_text/summary")
 
     # Exact normalized input overlap is checked within each task, across all
     # split boundaries; BloomShift also has group-level isolation in the loader.

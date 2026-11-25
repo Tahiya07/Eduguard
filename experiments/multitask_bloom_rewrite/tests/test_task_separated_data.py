@@ -21,6 +21,7 @@ for item in (EXPERIMENT_DIR, SCRIPTS_DIR):
         sys.path.insert(0, str(item))
 
 import dataset_io  # noqa: E402
+import paths  # noqa: E402
 from paths import CONFIG_DIR, TASK_SEPARATED_DATA_DIR  # noqa: E402
 
 
@@ -168,7 +169,7 @@ class TestTaskSeparatedExperimentConfigs(unittest.TestCase):
             "\\", "/"
         )
         config = json.loads(
-            (CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json").read_text(encoding="utf-8")
+            (CONFIG_DIR / paths.ACTIVE_TRAINING_CONFIG).read_text(encoding="utf-8")
         )
         self.assertEqual(config["dataset_dir"].replace("\\", "/"), expected_dir)
         self.assertEqual(set(config["train_tasks"]), set(TASKS))

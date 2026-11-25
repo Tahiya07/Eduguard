@@ -83,6 +83,7 @@
       "rows_checked": 1465,
       "reserve_rows_excluded": 135
     },
+    "summarization_source_check": null,
     "training_data_policy": null
   },
   "rows": {
