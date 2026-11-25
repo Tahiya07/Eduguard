@@ -6,6 +6,9 @@ Inputs (read only, verified before use):
 Output (refuses to overwrite):
   data/multitask_bloom_rewrite_separate_eduguard_v3_2/
 
+The v3.1 input folder was deleted after this dataset was built (2026-11-26 clean-up). To rebuild, restore it first:
+  git checkout 75f6282 -- data/multitask_bloom_rewrite_separate_eduguard_v3_1
+
 QA rows replace the SQuAD-style extractive QA of v3.1. Each row keeps its qa_eduguard_v2 fields and gains
 task="qa", qa_format="closed_book", answer (= reference_answer, the training target) and the sft_text /
 prompt_text / generation_prompt rendered by prompts.py. dataset_io.validate_separate_dataset re-verifies every row

@@ -163,7 +163,7 @@ def verify_eduguard_qa_rows(
 
 
 def _row_sha256(row: dict[str, Any]) -> str:
-    # Must match summarization_quality.row_sha256.
+    # Same row hash the summarization eligibility record was written with (sha256 of sorted-key JSON).
     return hashlib.sha256(json.dumps(row, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
 
 
@@ -204,7 +204,8 @@ def enforce_summarization_eligibility(
             raise SummarizationEligibilityError(
                 f"{data_dir} has no summarization eligibility record; its summarization train rows are unaudited "
                 "(e.g. @xmath placeholders in target abstracts). Use the cleaned dataset "
-                "(build_clean_summarization_dataset.py) or pass allow_unaudited_summarization=True deliberately."
+                "(an audited dataset such as multitask_bloom_rewrite_separate_eduguard_v3_2) "
+                "or pass allow_unaudited_summarization=True deliberately."
             )
         return {"status": "unaudited_legacy", "split": split, "rows": len(rows)}
     allowed = {
@@ -261,7 +262,7 @@ def load_manifest(data_dir: Path) -> dict[str, Any]:
     if not path.is_file():
         raise FileNotFoundError(
             f"Missing dataset_manifest.json at {path}. Run "
-            "prepare_multitask_dataset_final.py first."
+            "build_eduguard_v3_2_dataset.py first."
         )
     try:
         manifest = json.loads(path.read_text(encoding="utf-8"))

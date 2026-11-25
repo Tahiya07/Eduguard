@@ -123,7 +123,7 @@ class TestLossMasking(unittest.TestCase):
 class TestTrainingConfig(unittest.TestCase):
     def test_active_separate_config_uses_prepared_dataset(self) -> None:
         config = json.loads(
-            (CONFIG_DIR / "qwen15b_multitask_separate_20261016.json").read_text(
+            (CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json").read_text(
                 encoding="utf-8"
             )
         )
@@ -133,7 +133,7 @@ class TestTrainingConfig(unittest.TestCase):
             )
         )
         self.assertEqual(config["model_id"], "Qwen/Qwen2.5-1.5B-Instruct")
-        self.assertEqual(config["dataset_dir"], "data/multitask_bloom_rewrite_separate")
+        self.assertEqual(config["dataset_dir"], "data/multitask_bloom_rewrite_separate_eduguard_v3_2")
         self.assertEqual(set(config["train_tasks"]), set(manifest["tasks"]))
         for split in ("validation", "test"):
             self.assertEqual(

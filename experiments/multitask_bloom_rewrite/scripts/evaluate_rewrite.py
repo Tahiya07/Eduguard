@@ -6,8 +6,8 @@ split after selecting a strategy. Evaluates Bloom rewrite, SQuAD QA, and arXiv
 summarization. Does not modify production code or models/qwen.gguf.
 
 Usage:
-  python evaluate_rewrite.py --config configs/experiment_A_base_prompt_only.json --condition base --split validation
-  python evaluate_rewrite.py --config configs/qwen15b_multitask_final.json --condition lora --split validation
+  python evaluate_rewrite.py --config configs/qwen15b_multitask_eduguard_v3_2_20261126.json --condition base --split validation
+  python evaluate_rewrite.py --config configs/qwen15b_multitask_eduguard_v3_2_20261126.json --condition lora --split validation
 """
 from __future__ import annotations
 
@@ -410,8 +410,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--config",
-        default=str(CONFIG_DIR / "qwen15b_multitask_final.json"),
-        help="Training JSON config (default: qwen15b_multitask_final.json)",
+        default=str(CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json"),
+        help="Training JSON config (default: qwen15b_multitask_eduguard_v3_2_20261126.json)",
     )
     parser.add_argument(
         "--condition",

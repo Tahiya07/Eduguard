@@ -57,7 +57,7 @@ def norm(value: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", default="data/multitask_bloom_rewrite_separate")
+    parser.add_argument("--data-dir", default="data/multitask_bloom_rewrite_separate_eduguard_v3_2")
     parser.add_argument("--max-length", type=int, default=8192)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     args = parser.parse_args()

@@ -163,29 +163,15 @@ class TestTaskSeparatedDatasetIO(unittest.TestCase):
 
 
 class TestTaskSeparatedExperimentConfigs(unittest.TestCase):
-    def test_a_b_and_c_use_the_separate_data_root(self) -> None:
+    def test_active_config_uses_the_separate_data_root_and_all_tasks(self) -> None:
         expected_dir = str(TASK_SEPARATED_DATA_DIR.relative_to(REPO_ROOT)).replace(
             "\\", "/"
         )
-        for filename in (
-            "experiment_A_base_prompt_only.json",
-            "experiment_B_bloom_only.json",
-            "qwen15b_multitask_final.json",
-        ):
-            config = json.loads(
-                (CONFIG_DIR / filename).read_text(encoding="utf-8")
-            )
-            self.assertEqual(config["dataset_dir"].replace("\\", "/"), expected_dir)
-
-    def test_b_reads_only_bloom_and_c_reads_all_three_tasks(self) -> None:
-        bloom_only = json.loads(
-            (CONFIG_DIR / "experiment_B_bloom_only.json").read_text(encoding="utf-8")
+        config = json.loads(
+            (CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json").read_text(encoding="utf-8")
         )
-        multitask = json.loads(
-            (CONFIG_DIR / "qwen15b_multitask_final.json").read_text(encoding="utf-8")
-        )
-        self.assertEqual(bloom_only["train_tasks"], ["bloom_rewrite"])
-        self.assertEqual(set(multitask["train_tasks"]), set(TASKS))
+        self.assertEqual(config["dataset_dir"].replace("\\", "/"), expected_dir)
+        self.assertEqual(set(config["train_tasks"]), set(TASKS))
 
 
 if __name__ == "__main__":

@@ -10,8 +10,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 EXPERIMENT_DIR = SCRIPT_DIR.parent
 REPO_ROOT = EXPERIMENT_DIR.parents[1]
 CONFIG_DIR = EXPERIMENT_DIR / "configs"
-DATA_DIR = REPO_ROOT / "data" / "multitask_bloom_rewrite_separate"
-ACTIVE_CONFIG = CONFIG_DIR / "qwen15b_multitask_separate_20261016.json"
+DATA_DIR = REPO_ROOT / "data/multitask_bloom_rewrite_separate_eduguard_v3_2"
+ACTIVE_CONFIG = CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json"
 
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
@@ -37,7 +37,7 @@ def main() -> None:
     if config:
         if config.get("model_id") != "Qwen/Qwen2.5-1.5B-Instruct":
             errors.append("active config must use Qwen/Qwen2.5-1.5B-Instruct")
-        if config.get("dataset_dir", "").replace("\\", "/") != "data/multitask_bloom_rewrite_separate":
+        if config.get("dataset_dir", "").replace("\\", "/") != "data/multitask_bloom_rewrite_separate_eduguard_v3_2":
             errors.append("active config does not point to the task-separated dataset")
         if config.get("train_tasks") != manifest.get("tasks"):
             errors.append("active config train_tasks differ from manifest tasks")

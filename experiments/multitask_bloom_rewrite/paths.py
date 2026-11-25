@@ -18,7 +18,9 @@ BLOOMSHIFT_DIR = DATA_DIR / "rewrite dataset" / "bloomshift_final_candidate"
 # Historical corpora remain available for reproducibility; they are not final inputs.
 LEGACY_BLOOM_REWRITE_DIR = DATA_DIR / "bloom_rewrite"
 MULTITASK_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite"
-TASK_SEPARATED_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite_separate"
+# Active task-separated SFT dataset: EduGuard v3.1 Bloom + closed-book academic QA + cleaned summarization.
+TASK_SEPARATED_DATA_DIR = DATA_DIR / "multitask_bloom_rewrite_separate_eduguard_v3_2"
+ACTIVE_TRAINING_CONFIG = "qwen15b_multitask_eduguard_v3_2_20261126.json"
 FIGSHARE_V1 = DATA_DIR / "figshare_bloom_v1.csv"
 
 CONFIG_DIR = EXPERIMENT_DIR / "configs"

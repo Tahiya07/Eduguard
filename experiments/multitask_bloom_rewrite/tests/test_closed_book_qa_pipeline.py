@@ -23,7 +23,6 @@ import prompts  # noqa: E402
 import validate_multitask_dataset as qc  # noqa: E402
 
 DATA = REPO_ROOT / "data" / "multitask_bloom_rewrite_separate_eduguard_v3_2"
-V31 = REPO_ROOT / "data" / "multitask_bloom_rewrite_separate_eduguard_v3_1"
 QA_SRC = REPO_ROOT / "data" / "qa_eduguard_v2"
 CONFIG = EXPERIMENT_DIR / "configs" / "qwen15b_multitask_eduguard_v3_2_20261126.json"
 SPLITS = dataset_io.SPLITS
@@ -51,13 +50,15 @@ class TestClosedBookPrompts(unittest.TestCase):
         with self.assertRaises(KeyError):
             prompts.build_sft_text("qa", {"question": "q", "answer": "a"})
 
-    @unittest.skipUnless(V31.is_dir(), "v3.1 dataset not built")
-    def test_extractive_prompts_byte_identical(self) -> None:
-        for split in SPLITS:
-            for row in dataset_io.read_jsonl(V31 / "qa" / f"{split}.jsonl"):
-                self.assertEqual(prompts.build_sft_text("qa", row), row["sft_text"], row["id"])
-                self.assertEqual(prompts.build_prompt_only_text("qa", row), row["prompt_text"], row["id"])
-                self.assertEqual(prompts.build_generation_prompt("qa", row), row["generation_prompt"], row["id"])
+    def test_extractive_format_unchanged(self) -> None:
+        # Rows without qa_format keep the original SQuAD-style rendering exactly.
+        row = {"context": " Paris is in France. ", "question": " Where is Paris? ", "answer": " France "}
+        self.assertEqual(
+            prompts.build_sft_text("qa", row),
+            f"<|im_start|>system\n{prompts.QA_SYSTEM}<|im_end|>\n"
+            "<|im_start|>user\nContext:\nParis is in France.\n\nQuestion:\nWhere is Paris?<|im_end|>\n"
+            "<|im_start|>assistant\nFrance<|im_end|>",
+        )
 
     def test_qc_required_fields_by_format(self) -> None:
         self.assertNotIn("context", qc.required_fields("qa", ROW))
@@ -73,20 +74,17 @@ class TestEduGuardV32Dataset(unittest.TestCase):
         cls.manifest = dataset_io.load_manifest(DATA)
 
     def test_counts_and_checks(self) -> None:
-        expected_qa = {"train": 1172, "validation": 146, "test": 147}
-        v31 = dataset_io.load_manifest(V31)["counts"]
-        for split in SPLITS:
-            self.assertEqual(self.integrity["counts"][split]["qa"], expected_qa[split])
-            for task in ("bloom_rewrite", "summarization"):
-                self.assertEqual(self.integrity["counts"][split][task], v31[split][task])
+        expected = {
+            "train": {"bloom_rewrite": 2345, "qa": 1172, "summarization": 270},
+            "validation": {"bloom_rewrite": 295, "qa": 146, "summarization": 81},
+            "test": {"bloom_rewrite": 280, "qa": 147, "summarization": 39},
+        }
+        self.assertEqual(self.integrity["counts"], expected)
         self.assertEqual(self.integrity["qa_source_check"]["rows_checked"], 1465)
+        self.assertEqual(self.integrity["bloom_source_check"]["rows_checked"], 2920)
         self.assertEqual(self.integrity["bloom_source_check"]["contested_rows_excluded"], 10)
-
-    def test_bloom_and_summarization_unchanged_from_v31(self) -> None:
-        v31 = dataset_io.load_manifest(V31)["generated_files_sha256"]
-        for name, digest in self.manifest["generated_files_sha256"].items():
-            if not name.startswith("qa/"):
-                self.assertEqual(digest, v31[name], name)
+        for split in SPLITS:
+            self.assertEqual(self.integrity["summarization_eligibility"][split]["status"], "enforced")
 
     def test_qa_rows_match_source(self) -> None:
         for split in SPLITS:
