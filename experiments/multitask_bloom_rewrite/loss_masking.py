@@ -83,3 +83,28 @@ def assert_assistant_only_loss(labels: list[int], prompt_len: int) -> None:
         raise AssertionError("Assistant region is empty")
     if all(x == -100 for x in labels[prompt_len:]):
         raise AssertionError("Assistant region unexpectedly fully masked")
+
+
+def slice_to_assistant_logits(inputs: dict) -> dict:
+    """Restrict a causal-LM forward to logits from the first supervised position on.
+
+    Prompt tokens are masked with -100 and the answer sits at the end of every
+    row, so full-vocabulary logits over a long prompt are wasted memory (about
+    4.4 GB in fp32 for one 7k-token row of Qwen2.5). Logit t predicts token t+1,
+    so keeping positions ``start..L-1`` with ``labels[:, start:]`` gives the same
+    loss and gradients. Uses ``logits_to_keep`` of Hugging Face causal LMs.
+    """
+    labels = inputs.get("labels")
+    if labels is None or "logits_to_keep" in inputs:
+        return inputs
+    supervised = labels.ne(-100)
+    if not bool(supervised.any(dim=1).all()):
+        return inputs
+    first = int(supervised.int().argmax(dim=1).min())
+    start = max(first - 1, 0)
+    if start == 0:
+        return inputs
+    sliced = dict(inputs)
+    sliced["labels"] = labels[:, start:]
+    sliced["logits_to_keep"] = int(labels.shape[1] - start)
+    return sliced

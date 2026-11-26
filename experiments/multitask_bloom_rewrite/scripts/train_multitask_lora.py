@@ -5,7 +5,7 @@ Loss is computed ONLY on assistant tokens (prompt masked with -100).
 Does not train GGUF. Does not modify production models.
 
 If the resource gate fails:
-    TRAINING NOT STARTED â€” INSUFFICIENT RESOURCES
+    TRAINING NOT STARTED - INSUFFICIENT RESOURCES
 """
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ from check_resources import assess, collect_resources  # noqa: E402
 from dataset_io import (  # noqa: E402
     TASKS, load_manifest, load_split_rows, validate_separate_dataset,
 )
-from loss_masking import tokenize_with_assistant_only_loss  # noqa: E402
+from loss_masking import slice_to_assistant_logits, tokenize_with_assistant_only_loss  # noqa: E402
 from paths import SEED, TASK_SEPARATED_DATA_DIR  # noqa: E402
 
 
@@ -112,8 +112,12 @@ def package_versions() -> dict:
     return versions
 
 
-def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_gb, torch):
-    """Backpropagate through the longest configured training example before Trainer starts."""
+def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_gb, torch, assistant_logits_only=False):
+    """Backpropagate through the longest configured training example before Trainer starts.
+
+    Uses the same forward as training (assistant-only logits when enabled), so it
+    measures real training memory instead of a full-vocabulary 4+ GB logits spike.
+    """
     if not torch.cuda.is_available():
         raise SystemExit("GPU memory preflight requires a CUDA device.")
     longest_row = None
@@ -138,9 +142,12 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
         for key in ("input_ids", "attention_mask", "labels")
         if key in encoded
     }
+    if assistant_logits_only:
+        inputs = slice_to_assistant_logits(inputs)
     model.train()
     model.zero_grad(set_to_none=True)
     torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
     safety_reserve = None
     try:
         reserve_bytes = int(min_free_gb * 1024**3)
@@ -151,6 +158,7 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
         if not torch.isfinite(loss).item():
             raise SystemExit("Maximum-length GPU preflight produced a non-finite loss.")
         loss.backward()
+        del loss
         torch.cuda.synchronize()
         result = {
             "example_id": longest_row.get("id"),
@@ -160,6 +168,9 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
             "device": str(safety_reserve.device),
             "status": "PASS",
             "required_headroom_gb": min_free_gb,
+            "assistant_logits_only": bool(assistant_logits_only),
+            "peak_allocated_gb_incl_reserve": round(torch.cuda.max_memory_allocated() / 1024**3, 2),
+            "peak_reserved_gb_incl_reserve": round(torch.cuda.max_memory_reserved() / 1024**3, 2),
         }
         print("MAX-LENGTH GPU MEMORY PREFLIGHT:", json.dumps(result, sort_keys=True))
         return result
@@ -239,7 +250,7 @@ def main() -> None:
     print(json.dumps(feasibility, indent=2))
     if not feasibility["feasible"] and not args.force:
         print(feasibility["verdict"])
-        print("TRAINING NOT STARTED â€” INSUFFICIENT RESOURCES")
+        print("TRAINING NOT STARTED - INSUFFICIENT RESOURCES")
         out = Path(cfg["output_dir"])
         if not out.is_absolute():
             out = REPO_ROOT / out
@@ -440,7 +451,7 @@ def main() -> None:
             TrainingArguments,
         )
     except ImportError as exc:
-        print("TRAINING NOT STARTED â€” missing training dependencies:", exc)
+        print("TRAINING NOT STARTED - missing training dependencies:", exc)
         raise SystemExit(2) from exc
 
     tokenizer = AutoTokenizer.from_pretrained(cfg["model_id"], trust_remote_code=True)
@@ -448,24 +459,72 @@ def main() -> None:
         tokenizer.pad_token = tokenizer.eos_token
 
     class JsonlChatDataset(Dataset):
+        """Tokenized once up front (same masking as before, no per-step re-tokenizing)."""
+
         def __init__(self, rows: list[dict], max_len: int) -> None:
             self.rows = rows
             self.max_len = max_len
+            self.encoded = [
+                {
+                    key: list(value)
+                    for key, value in tokenize_with_assistant_only_loss(
+                        tokenizer, row["sft_text"], row["prompt_text"], max_len
+                    ).items()
+                    if key in ("input_ids", "attention_mask", "labels")
+                }
+                for row in rows
+            ]
+            self.lengths = [len(item["input_ids"]) for item in self.encoded]
 
         def __len__(self) -> int:
             return len(self.rows)
 
         def __getitem__(self, idx: int) -> dict:
-            row = self.rows[idx]
-            return tokenize_with_assistant_only_loss(
-                tokenizer,
-                row["sft_text"],
-                row["prompt_text"],
-                self.max_len,
-            )
+            return self.encoded[idx]
+
+    def task_sample_weights(dataset: "JsonlChatDataset") -> list[float]:
+        counts = {
+            task: sum(row.get("task") == task for row in dataset.rows)
+            for task in train_tasks
+        }
+        return [task_probabilities[row["task"]] / counts[row["task"]] for row in dataset.rows]
+
+    assistant_logits_only = bool(cfg.get("assistant_logits_only", False))
+
+    from transformers import TrainerCallback
+
+    class GpuMemoryLogCallback(TrainerCallback):
+        """Add peak GPU memory to each log line; reserved near the cap = spill risk."""
+
+        def on_log(self, args, state, control, logs=None, **kwargs):
+            if logs is not None and torch.cuda.is_available():
+                logs["gpu_peak_alloc_gb"] = round(torch.cuda.max_memory_allocated() / 1024**3, 2)
+                logs["gpu_reserved_gb"] = round(torch.cuda.memory_reserved() / 1024**3, 2)
+                torch.cuda.reset_peak_memory_stats()
 
     class TaskWeightedTrainer(Trainer):
         """Optionally sample tasks at configured probabilities per epoch."""
+
+        def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
+            if assistant_logits_only:
+                inputs = slice_to_assistant_logits(inputs)
+            return super().compute_loss(
+                model, inputs, return_outputs=return_outputs, num_items_in_batch=num_items_in_batch
+            )
+
+        def get_train_dataloader(self):
+            if token_batch_sampler is None:
+                return super().get_train_dataloader()
+            from torch.utils.data import DataLoader
+
+            loader = DataLoader(
+                self.train_dataset,
+                batch_sampler=token_batch_sampler,
+                collate_fn=self.data_collator,
+                num_workers=0,
+                pin_memory=self.args.dataloader_pin_memory,
+            )
+            return self.accelerator.prepare(loader)
 
         def _get_train_sampler(self, train_dataset=None):
             if task_probabilities is None:
@@ -473,14 +532,7 @@ def main() -> None:
             dataset = self.train_dataset
             if not isinstance(dataset, JsonlChatDataset):
                 raise TypeError("Weighted task sampling requires JsonlChatDataset.")
-            counts = {
-                task: sum(row.get("task") == task for row in dataset.rows)
-                for task in train_tasks
-            }
-            sample_weights = [
-                task_probabilities[row["task"]] / counts[row["task"]]
-                for row in dataset.rows
-            ]
+            sample_weights = task_sample_weights(dataset)
             generator = torch.Generator()
             generator.manual_seed(seed)
             return WeightedRandomSampler(
@@ -495,16 +547,86 @@ def main() -> None:
     train_ds = JsonlChatDataset(train_rows, int(cfg["max_seq_length"]))
     val_ds = JsonlChatDataset(val_rows, int(cfg["max_seq_length"]))
 
+    target_samples_per_step = (
+        int(cfg["per_device_train_batch_size"])
+        * int(cfg["gradient_accumulation_steps"])
+    )
+    gradient_accumulation_steps = int(cfg["gradient_accumulation_steps"])
+    token_batching_cfg = dict(cfg.get("token_budget_batching") or {})
+    token_batch_sampler = None
+    token_batching_summary = None
+    if token_batching_cfg.get("enabled", False):
+        from token_budget_batching import TokenBudgetBatchSampler
+
+        # Default budget = longest training example, i.e. exactly what the
+        # max-length GPU preflight backpropagates, so peak memory is not raised.
+        max_tokens = int(token_batching_cfg.get("max_tokens_per_batch") or max(train_ds.lengths))
+        token_batch_sampler = TokenBudgetBatchSampler(
+            train_ds.lengths,
+            max_tokens=max_tokens,
+            max_rows=int(token_batching_cfg.get("max_rows_per_batch", 16)),
+            weights=task_sample_weights(train_ds) if task_probabilities is not None else None,
+            seed=seed,
+            megabatch_size=int(token_batching_cfg.get("megabatch_size", 256)),
+            pad_multiple=8,
+        )
+        # Keep ~the same examples per optimizer step as rows=1 x accumulation.
+        gradient_accumulation_steps = max(
+            1,
+            round(target_samples_per_step * len(token_batch_sampler) / len(train_ds)),
+        )
+        token_batching_summary = token_batch_sampler.describe()
+        token_batching_summary["gradient_accumulation_steps"] = gradient_accumulation_steps
+        token_batching_summary["approx_examples_per_optimizer_step"] = round(
+            gradient_accumulation_steps * token_batching_summary["mean_rows_per_batch"], 1
+        )
+        print("TOKEN-BUDGET BATCHING:", json.dumps(token_batching_summary))
+
     use_gradient_checkpointing = bool(cfg.get("gradient_checkpointing", True)) and device == "cuda"
     load_in_4bit = bool(cfg.get("load_in_4bit", False))
     if load_in_4bit and device != "cuda":
         raise SystemExit("4-bit QLoRA is configured but CUDA is unavailable.")
+    precision = str(cfg.get("mixed_precision", "fp16")).lower()
+    if precision not in ("fp16", "bf16"):
+        raise SystemExit("mixed_precision must be 'fp16' or 'bf16'.")
+    use_bf16 = (
+        precision == "bf16"
+        and device == "cuda"
+        and not load_in_4bit
+        and torch.cuda.is_bf16_supported()
+    )
+    if device == "cuda":
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+        # On Windows the driver silently spills VRAM into shared system RAM
+        # (sysmem fallback) instead of raising OOM, so PyTorch's cache keeps
+        # growing and training slows ~8x. Capping the allocator below physical
+        # VRAM makes it free and reuse cached blocks instead of spilling.
+        memory_fraction = cfg.get("cuda_memory_fraction")
+        if memory_fraction:
+            memory_fraction = float(memory_fraction)
+            if not 0.1 <= memory_fraction <= 1.0:
+                raise SystemExit("cuda_memory_fraction must be between 0.1 and 1.0.")
+            torch.cuda.set_per_process_memory_fraction(memory_fraction)
+            total_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
+            print(f"CUDA MEMORY CAP: {memory_fraction:.2f} x {total_gb:.2f} GB = {memory_fraction * total_gb:.2f} GB")
+    print("PRECISION:", "bf16" if use_bf16 else ("fp16" if device == "cuda" else "fp32"))
     model_kwargs = {
         "trust_remote_code": True,
-        "torch_dtype": torch.float32 if device == "cpu" else torch.float16,
+        "torch_dtype": (
+            torch.float32 if device == "cpu"
+            else torch.bfloat16 if use_bf16
+            else torch.float16
+        ),
     }
     if cfg.get("attn_implementation"):
         model_kwargs["attn_implementation"] = str(cfg["attn_implementation"])
+    sdpa_repeat_kv = bool(cfg.get("sdpa_repeat_kv_for_gqa", False)) and device == "cuda"
+    if sdpa_repeat_kv:
+        from attention_patches import force_sdpa_repeat_kv
+
+        sdpa_repeat_kv = force_sdpa_repeat_kv()
+        print("SDPA GQA: repeat KV heads so the memory-efficient kernel is used:", sdpa_repeat_kv)
     checkpointing_kwargs = dict(cfg.get("gradient_checkpointing_kwargs", {}))
     if load_in_4bit:
         try:
@@ -562,13 +684,13 @@ def main() -> None:
             int(cfg["max_seq_length"]),
             float(cfg.get("preflight_min_free_vram_gb", 2.0)),
             torch,
+            assistant_logits_only=assistant_logits_only,
         )
 
-    effective_batch_size = (
-        int(cfg["per_device_train_batch_size"])
-        * int(cfg["gradient_accumulation_steps"])
-    )
-    steps_per_epoch = math.ceil(len(train_ds) / effective_batch_size)
+    if token_batch_sampler is not None:
+        steps_per_epoch = math.ceil(len(token_batch_sampler) / gradient_accumulation_steps)
+    else:
+        steps_per_epoch = math.ceil(len(train_ds) / target_samples_per_step)
     total_steps = steps_per_epoch * int(cfg["epochs"])
     warmup_steps = int(total_steps * float(cfg["warmup_ratio"]))
 
@@ -581,7 +703,7 @@ def main() -> None:
         lr_scheduler_type=cfg.get("lr_scheduler_type", "cosine"),
         per_device_train_batch_size=int(cfg["per_device_train_batch_size"]),
         per_device_eval_batch_size=int(cfg["per_device_eval_batch_size"]),
-        gradient_accumulation_steps=int(cfg["gradient_accumulation_steps"]),
+        gradient_accumulation_steps=gradient_accumulation_steps,
         gradient_checkpointing=bool(cfg.get("gradient_checkpointing", True)),
         gradient_checkpointing_kwargs=checkpointing_kwargs or None,
         eval_strategy="epoch",
@@ -592,12 +714,16 @@ def main() -> None:
         logging_steps=int(cfg.get("logging_steps", 20)),
         save_total_limit=int(cfg.get("save_total_limit", 3)),
         seed=seed,
-        bf16=False,
-        fp16=bool(device == "cuda"),
+        bf16=use_bf16,
+        fp16=bool(device == "cuda" and not use_bf16),
         report_to=[],
         remove_unused_columns=False,
     )
-    collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True)
+    collator = DataCollatorForSeq2Seq(
+        tokenizer=tokenizer,
+        padding=True,
+        pad_to_multiple_of=8 if token_batch_sampler is not None else None,
+    )
     trainer = TaskWeightedTrainer(
         model=model,
         args=args_tr,
@@ -607,7 +733,8 @@ def main() -> None:
         callbacks=[
             EarlyStoppingCallback(
                 early_stopping_patience=int(cfg.get("early_stopping_patience", 2))
-            )
+            ),
+            *([GpuMemoryLogCallback()] if device == "cuda" else []),
         ],
     )
     # Never resume implicitly: a refreshed dataset must not silently continue
@@ -658,6 +785,10 @@ def main() -> None:
         "validation_rows_by_task": training_selection["validation_counts"],
         "resume_from_checkpoint": str(resume_path) if resume_path else None,
         "max_length_memory_preflight": preflight_result,
+        "cuda_memory_fraction": cfg.get("cuda_memory_fraction"),
+        "sdpa_repeat_kv_for_gqa": sdpa_repeat_kv,
+        "mixed_precision": "bf16" if use_bf16 else ("fp16" if device == "cuda" else "fp32"),
+        "token_budget_batching": token_batching_summary,
         "quantization": {
             "load_in_4bit": load_in_4bit,
             "quant_type": cfg.get("bnb_4bit_quant_type") if load_in_4bit else None,

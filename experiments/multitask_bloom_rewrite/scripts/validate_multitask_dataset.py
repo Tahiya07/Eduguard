@@ -23,6 +23,7 @@ from dataset_io import (
     QA_CLOSED_BOOK, SUM_LECTURE, TASKS, SPLITS, load_manifest, read_jsonl, task_input_text, validate_separate_dataset,
 )
 from loss_masking import tokenize_with_assistant_only_loss
+from paths import TASK_SEPARATED_DATA_DIR  # active dataset, set once in paths.py
 
 REQUIRED = {
     "bloom_rewrite": {
@@ -63,7 +64,7 @@ def norm(value: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir", default="data/multitask_bloom_rewrite_separate_eduguard_v3_2")
+    parser.add_argument("--data-dir", default=str(TASK_SEPARATED_DATA_DIR.relative_to(REPO_ROOT)))
     parser.add_argument("--max-length", type=int, default=8192)
     parser.add_argument("--model-id", default="Qwen/Qwen2.5-1.5B-Instruct")
     args = parser.parse_args()

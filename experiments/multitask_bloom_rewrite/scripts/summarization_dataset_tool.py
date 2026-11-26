@@ -326,6 +326,9 @@ def audit() -> None:
         "split_counts": {s: len(rows[s]) for s in SPLITS},
         "category_counts": {c: sum(v for (cc, _), v in cats.items() if cc == c) for c in sorted({c for c, _ in cats})},
         "split_by_category": {c: {s: cats[(c, s)] for s in SPLITS} for c in sorted({c for c, _ in cats})},
+        "source_type_counts": dict(Counter(r["source_type"] for _, r in items).most_common()),
+        "review_status_counts": dict(Counter(r["review_status"] for _, r in items).most_common()),
+        "source_type_by_split": {s: dict(Counter(r["source_type"] for r in rows[s]).most_common()) for s in SPLITS},
         "targets": TARGETS,
         "complete": complete,
         "source_word_ranges": RANGES,
@@ -348,7 +351,9 @@ def audit() -> None:
         },
         "schema_check": {"performed": True,
                          "records_with_wrong_keys": sum(list(r) != SCHEMA for _, r in items),
-                         "records_with_wrong_metadata": sum(any(r.get(k) != v for k, v in META.items()) for _, r in items)},
+                         "generated_records_with_wrong_metadata": sum(any(r.get(k) != v for k, v in META.items())
+                                                                      for _, r in items if is_generated(r["id"])),
+                         "external_records_keep_own_metadata": sum(not is_generated(r["id"]) for _, r in items)},
         "summary_faithfulness": "model-assisted at generation time only; not independently verified",
         "files_sha256": {f"{s}.jsonl": hashlib.sha256((DIR / f"{s}.jsonl").read_bytes()).hexdigest() for s in SPLITS},
     }

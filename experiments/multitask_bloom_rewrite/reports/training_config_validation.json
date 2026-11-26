@@ -1,49 +1,46 @@
 {
   "ok": true,
-  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_2_20261126.json",
+  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
-  "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_2",
+  "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_3",
   "dataset_integrity": {
     "summarization_eligibility": {
       "train": {
-        "status": "enforced",
+        "status": "lecture_source_hashes",
         "split": "train",
-        "rows": 270,
-        "policy_version": "arxiv_summarization_quality_v1_20261125"
+        "rows": 592
       },
       "validation": {
-        "status": "enforced",
+        "status": "lecture_source_hashes",
         "split": "validation",
-        "rows": 81,
-        "policy_version": "arxiv_summarization_quality_v1_20261125"
+        "rows": 64
       },
       "test": {
-        "status": "enforced",
+        "status": "lecture_source_hashes",
         "split": "test",
-        "rows": 39,
-        "policy_version": "arxiv_summarization_quality_v1_20261125"
+        "rows": 57
       }
     },
     "layout": "task-separated",
-    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_2\\dataset_manifest.json",
-    "manifest_sha256": "1db5cc37c4dcf196519af69e21847bec4e2b95387e05032b5e8681c186eb5430",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_3\\dataset_manifest.json",
+    "manifest_sha256": "ea9a2e954d655b69ae2faa6b1a5392bfc92b6e181e5a29544d65f40b5c163077",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
-    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_2",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_3",
     "counts": {
       "train": {
         "bloom_rewrite": 2345,
         "qa": 1172,
-        "summarization": 270
+        "summarization": 592
       },
       "validation": {
         "bloom_rewrite": 295,
         "qa": 146,
-        "summarization": 81
+        "summarization": 64
       },
       "test": {
         "bloom_rewrite": 280,
         "qa": 147,
-        "summarization": 39
+        "summarization": 57
       }
     },
     "generated_files_sha256": {
@@ -53,9 +50,9 @@
       "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
       "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
       "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
-      "summarization/test.jsonl": "ac9cdc4f0ce61f2db0bfb49047c3957541463d06d2f1f376c38bdf29934379d3",
-      "summarization/train.jsonl": "59e87b77b8d4db57799832e1f1daad566f9cc7cc8c65bd32022aa21d4217b78b",
-      "summarization/validation.jsonl": "36f9e9b3b8a32622cb0849f442deea2e1f213a5891f7e53c8492ce25fe5e7ecc"
+      "summarization/test.jsonl": "0d508ac8cef582246b018d88cbfe106fd08d547e0c4b21c236854980339872eb",
+      "summarization/train.jsonl": "ae3c049fdada87d7e4a87cf04bc6105065f6c8e36febf99f1a9ff2fd229fb97b",
+      "summarization/validation.jsonl": "101b15dfff9a3bccb2ce32f26aa4b0e02fec8237e91607075fa52aebded2799d"
     },
     "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_1",
     "bloom_source_sha256": {
@@ -82,7 +79,10 @@
       "rows_checked": 1465,
       "reserve_rows_excluded": 135
     },
-    "summarization_source_check": null,
+    "summarization_source_check": {
+      "kind": "eduguard_lecture_summarization",
+      "rows_checked": 713
+    },
     "training_data_policy": null
   },
   "errors": []

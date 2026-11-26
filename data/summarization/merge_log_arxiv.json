@@ -1,0 +1,2361 @@
+{
+ "date": "2026-11-26",
+ "source_files": [
+  "train_arxiv.jsonl",
+  "validation_arxiv.jsonl",
+  "test_arxiv.jsonl"
+ ],
+ "rule": "one record per near-identical group (lowest id); merged only if topic is new and source similarity < 0.5 to every existing and merged record, excluding manual concept overlaps; splits kept",
+ "counts": {
+  "external_records": 390,
+  "distinct_groups": 390,
+  "merged": 240,
+  "merged_by_split": {
+   "test": 26,
+   "train": 181,
+   "validation": 33
+  }
+ },
+ "decisions": [
+  {
+   "id": "arxiv_test_0000008",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 5775 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000011",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4462 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000022",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 5098 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000031",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4169 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000036",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 5023 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000040",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000046",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000058",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 5417 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000064",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000068",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000078",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000081",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000083",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000091",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4961 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000092",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000096",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000099",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000102",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000111",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4750 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000113",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000120",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4609 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000129",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000132",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000133",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 6330 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000135",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4327 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000142",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000143",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000152",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000153",
+   "split": "test",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_test_0000156",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000171",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4312 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000177",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000178",
+   "split": "test",
+   "decision": "rejected",
+   "reason": "source length 4110 words outside every category"
+  },
+  {
+   "id": "arxiv_test_0000180",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000188",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000191",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000198",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_test_0000221",
+   "split": "test",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_test_0000235",
+   "split": "test",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000010",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000014",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000024",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000035",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4499 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000044",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 407 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000049",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000053",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000072",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000074",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000080",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000087",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000088",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000092",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5209 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000101",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000113",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5605 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000118",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000120",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000127",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000133",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000140",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000145",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000153",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4573 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000160",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000170",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000183",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5418 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000200",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4019 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000205",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5010 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000219",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000222",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000227",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 6236 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000238",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000240",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000244",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5932 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000247",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000257",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5442 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000258",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000260",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000290",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5327 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000297",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4107 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000299",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000301",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000309",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000329",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4435 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000339",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000340",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4379 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000358",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4489 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000360",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000393",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000401",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4821 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000406",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000407",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4737 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000411",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000419",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000421",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000428",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4316 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000448",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000458",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000467",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000471",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000473",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000477",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000480",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000481",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000487",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000499",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000503",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000504",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000521",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000530",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000535",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000536",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000558",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000559",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4889 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000560",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000561",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4828 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000573",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000577",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000592",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4121 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000596",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4659 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000599",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4126 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000602",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000639",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000641",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000646",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000651",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4478 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000652",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000659",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0000665",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4110 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000684",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000685",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000694",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000695",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4984 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000705",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000719",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000721",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000727",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000730",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000734",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000738",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4099 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000742",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4720 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000748",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4699 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000749",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4667 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000772",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000778",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000792",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000804",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000808",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4294 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000812",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000814",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000830",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000838",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4475 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000858",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4632 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000861",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 6078 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000881",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4526 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000889",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 6131 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000893",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5307 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000894",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000898",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000905",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000908",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4035 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000922",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5113 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000923",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4362 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000929",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4743 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000936",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000944",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000947",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4477 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000948",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000953",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000964",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000968",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4165 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0000983",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0000990",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0000994",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001003",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001009",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4845 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001010",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001011",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0001018",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4655 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001027",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4776 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001041",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001042",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001045",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001063",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4200 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001067",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001075",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001081",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001102",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001109",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4751 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001120",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001126",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001129",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4471 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001138",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001142",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4733 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001144",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001153",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001162",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5289 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001166",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4727 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001187",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0001191",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001193",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5451 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001205",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001218",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4962 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001225",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001232",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5034 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001234",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001237",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001252",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001254",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4674 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001260",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0001263",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001267",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5222 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001269",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001270",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 349 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001279",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5066 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001282",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001294",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4039 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001319",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001320",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001326",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001336",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001339",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001344",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001345",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001349",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001350",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5962 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001354",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001361",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001365",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001366",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4197 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001380",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001381",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 6008 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001387",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001402",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001436",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4463 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001444",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001452",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001455",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4004 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001459",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5406 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001461",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4477 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001465",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5161 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001468",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001476",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5237 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001492",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4961 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001515",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001525",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001543",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4153 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001561",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001567",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001573",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001575",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5452 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001576",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001582",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001594",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5321 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001601",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 532 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001602",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001620",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4295 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001622",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001651",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 565 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001653",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4847 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001662",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001685",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0001689",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001693",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4907 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001702",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001704",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001724",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001725",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5611 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001730",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001733",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5018 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001738",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001746",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001751",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5322 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001753",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4990 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001771",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001779",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001803",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5251 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001804",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5831 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001805",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001809",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4633 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001816",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001817",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001824",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4404 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001825",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_train_0001834",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001836",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001842",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4631 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001843",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4159 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001856",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5191 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001859",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001872",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001873",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001876",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001877",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001884",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001888",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5766 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001892",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4313 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001914",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001926",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001929",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4290 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001954",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4628 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001967",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001982",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5607 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001988",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 4474 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0001989",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0001990",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0001994",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_train_0002000",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5767 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0002001",
+   "split": "train",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_train_0002002",
+   "split": "train",
+   "decision": "rejected",
+   "reason": "source length 5056 words outside every category"
+  },
+  {
+   "id": "arxiv_train_0002015",
+   "split": "train",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_validation_0000000",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4724 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000010",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5414 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000015",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5776 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000021",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000023",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000030",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5186 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000034",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000035",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000037",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000039",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 6177 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000040",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000046",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4681 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000050",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000052",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4719 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000061",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000070",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000071",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000074",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000083",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000087",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000090",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4490 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000094",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000097",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000104",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000110",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000115",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 348 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000116",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5594 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000119",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000121",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000129",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5392 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000135",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4353 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000145",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4997 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000153",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4736 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000154",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000155",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5881 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000157",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000163",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000166",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000178",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5685 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000181",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5510 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000182",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000186",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4816 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000191",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4083 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000196",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5202 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000198",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4473 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000200",
+   "split": "validation",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_validation_0000201",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5262 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000202",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4382 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000208",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000211",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4940 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000218",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000224",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4794 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000229",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000232",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000235",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4727 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000236",
+   "split": "validation",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000240",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000242",
+   "split": "validation",
+   "decision": "merged",
+   "category": "medium"
+  },
+  {
+   "id": "arxiv_validation_0000244",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5061 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000246",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000252",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000259",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5633 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000262",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5365 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000264",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000265",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4922 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000268",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000269",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4545 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000272",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4937 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000273",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4741 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000275",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5110 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000279",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4470 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000280",
+   "split": "validation",
+   "decision": "merged",
+   "category": "long"
+  },
+  {
+   "id": "arxiv_validation_0000282",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000287",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5596 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000300",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4028 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000306",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 4557 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000307",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000318",
+   "split": "validation",
+   "decision": "rejected",
+   "reason": "source length 5670 words outside every category"
+  },
+  {
+   "id": "arxiv_validation_0000325",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000328",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  },
+  {
+   "id": "arxiv_validation_0000341",
+   "split": "train",
+   "decision": "merged",
+   "category": "very_long"
+  }
+ ]
+}

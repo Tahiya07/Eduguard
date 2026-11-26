@@ -15,19 +15,19 @@ cd D:\\Eduguard
 .\\.venv\\Scripts\\python.exe -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO GPU')"
 
 # 1) Strict QC of the prepared, task-separated dataset
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate_eduguard_v3_2 --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/validate_multitask_dataset.py --data-dir data/multitask_bloom_rewrite_separate_eduguard_v3_3 --model-id "Qwen/Qwen2.5-1.5B-Instruct" --max-length 8192
 
 # 3) Check free VRAM for this exact 4-bit, 8192-token config
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_2_20261126.json
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/check_resources.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json
 
 # 4) Longest-example backward preflight; training must not proceed if this fails
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_2_20261126.json --dataset-dir data/multitask_bloom_rewrite_separate_eduguard_v3_2 --backward
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/sanity_check_multitask_training.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json --dataset-dir data/multitask_bloom_rewrite_separate_eduguard_v3_3 --backward
 
 # 5) Final 1.5B LoRA training
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_2_20261126.json
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/train_multitask_lora.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json
 
 # 6) Evaluate on validation for model selection; reserve test for the final chosen model
-.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_2_20261126.json --condition lora --split validation
+.\\.venv\\Scripts\\python.exe experiments/multitask_bloom_rewrite/scripts/evaluate_rewrite.py --config experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json --condition lora --split validation
 ```
 
 The follow-up experiment samples Bloom rewrite at 50% and QA/summarization at 25% each while retaining all source files and IDs. Validation/test remain task-wise held-out splits. Select on validation only; do not tune against test.
