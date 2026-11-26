@@ -1,0 +1,4 @@
+task,n,min,p25,median,p75,p99,max,over_limit
+Bloom rewriting,2345,944,974,1017,1085,1268,1341,0
+Closed-book QA,1172,80,112,120,133,168,230,0
+Summarization,592,305,555,1385,2748,6130,7217,0

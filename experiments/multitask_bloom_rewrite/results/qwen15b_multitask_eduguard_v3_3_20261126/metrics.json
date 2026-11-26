@@ -1,0 +1,577 @@
+{
+  "evaluated_utc": "2026-11-26T10:04:54.313517+00:00",
+  "condition": "lora",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_eduguard_v3_3_20261126\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_eduguard_v3_3_20261126\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  },
+  "dataset": {
+    "summarization_eligibility": {
+      "train": {
+        "status": "lecture_source_hashes",
+        "split": "train",
+        "rows": 592
+      },
+      "validation": {
+        "status": "lecture_source_hashes",
+        "split": "validation",
+        "rows": 64
+      },
+      "test": {
+        "status": "lecture_source_hashes",
+        "split": "test",
+        "rows": 57
+      }
+    },
+    "layout": "task-separated",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_3\\dataset_manifest.json",
+    "manifest_sha256": "ea9a2e954d655b69ae2faa6b1a5392bfc92b6e181e5a29544d65f40b5c163077",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_3",
+    "counts": {
+      "row_count": 505,
+      "test_count": null,
+      "validation_count": 505,
+      "by_task": {
+        "bloom_rewrite": 295,
+        "qa": 146,
+        "summarization": 64
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/test.jsonl": "ee3703b83b4e17a38303e34573865661825cac48088a387fb9e0ce7553c8c4d8",
+      "bloom_rewrite/train.jsonl": "1c8a9920f5f7c29e7991df2d45e1d6ada0e1a78c1c80c452daf594c884cb3e5f",
+      "bloom_rewrite/validation.jsonl": "44173dfd4c3fa31668e0101ff3ba74c006b9ed23d89ef3df3e9581e4042af73d",
+      "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
+      "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/test.jsonl": "0d508ac8cef582246b018d88cbfe106fd08d547e0c4b21c236854980339872eb",
+      "summarization/train.jsonl": "ae3c049fdada87d7e4a87cf04bc6105065f6c8e36febf99f1a9ff2fd229fb97b",
+      "summarization/validation.jsonl": "101b15dfff9a3bccb2ce32f26aa4b0e02fec8237e91607075fa52aebded2799d"
+    },
+    "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_1",
+    "bloom_source_sha256": {
+      "train.jsonl": "af032b91216c0674253d071a0cc1366d9878cd745297e00d9fa8b935658a58c9",
+      "validation.jsonl": "16fe262848a480d2b183bb6a312b90fff4916ac1ba4f18336a2a119ebc34d90b",
+      "test.jsonl": "6b63b5c3fe702cb6479f50f4c571aae5f6bb0191e725218fb5b8322a4dfb3a22",
+      "dataset_manifest.json": "fecbed6c8f52d913cfd266c086b64c2e57235cc928b18e37bcc3248738508bd1"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "eduguard_v3_1_model_assisted_repair",
+      "independent_review_verified": false,
+      "warnings": [
+        "Bloom rewrites are model-assisted (Claude) and not human-verified; checks are automated.",
+        "Splits are pinned to final_corrected_dataset/training_ready/tests/reference_split_ids.json."
+      ]
+    },
+    "bloom_source_check": {
+      "kind": "eduguard_bloom_v3_1",
+      "rows_checked": 2920,
+      "contested_rows_excluded": 10
+    },
+    "qa_source_check": {
+      "kind": "qa_eduguard_v2",
+      "rows_checked": 1465,
+      "reserve_rows_excluded": 135
+    },
+    "summarization_source_check": {
+      "kind": "eduguard_lecture_summarization",
+      "rows_checked": 713
+    },
+    "training_data_policy": null,
+    "summarization_eligibility_loaded": {
+      "status": "lecture_source_hashes",
+      "split": "validation",
+      "rows": 64
+    },
+    "split": "validation",
+    "split_counts_loaded": {
+      "bloom_rewrite": 295,
+      "qa": 146,
+      "summarization": 64
+    },
+    "split_file_sha256": {
+      "bloom_rewrite/validation.jsonl": "44173dfd4c3fa31668e0101ff3ba74c006b9ed23d89ef3df3e9581e4042af73d",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/validation.jsonl": "101b15dfff9a3bccb2ce32f26aa4b0e02fec8237e91607075fa52aebded2799d"
+    },
+    "loaded_tasks": [
+      "bloom_rewrite",
+      "qa",
+      "summarization"
+    ],
+    "combined_in_memory_only": true,
+    "dataset_hash": "ea9a2e954d655b69ae2faa6b1a5392bfc92b6e181e5a29544d65f40b5c163077",
+    "file_sha256": {
+      "bloom_rewrite/validation.jsonl": "44173dfd4c3fa31668e0101ff3ba74c006b9ed23d89ef3df3e9581e4042af73d",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/validation.jsonl": "101b15dfff9a3bccb2ce32f26aa4b0e02fec8237e91607075fa52aebded2799d"
+    },
+    "test_manifest_path": null,
+    "validation_manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_3\\dataset_manifest.json",
+    "full_source_split_unchanged": true,
+    "corpus_physically_task_separated": true
+  },
+  "evaluation_subset": {
+    "full_task_counts": {
+      "bloom_rewrite": 295,
+      "qa": 146,
+      "summarization": 64
+    },
+    "evaluated_task_counts": {
+      "bloom_rewrite": 295,
+      "qa": 146,
+      "summarization": 64
+    },
+    "evaluated_total": 505,
+    "manifest_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_3_20261126\\evaluation_subset_manifest.json"
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.0,
+    "max_new_tokens": 128,
+    "max_new_tokens_by_task": {
+      "bloom_rewrite": 128,
+      "qa": 192,
+      "summarization": 560
+    },
+    "decoding": "greedy",
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "classifier_dir": "C:\\Eduguard\\models\\qwen_bloom_merged0.5B",
+    "smoke_ok": true,
+    "smoke_error": null,
+    "smoke_prediction": {
+      "predicted_level": "Evaluate",
+      "confidence": 0.9614
+    }
+  },
+  "classifier_call_stats": {
+    "n_ok": 295,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 295,
+      "accuracy": 0.816949,
+      "macro_precision": 0.879909,
+      "macro_recall": 0.83494,
+      "macro_f1": 0.814095,
+      "weighted_f1": 0.801747,
+      "per_level": {
+        "Remember": {
+          "precision": 1.0,
+          "recall": 0.305085,
+          "f1": 0.467532,
+          "support": 59
+        },
+        "Understand": {
+          "precision": 0.533333,
+          "recall": 0.979592,
+          "f1": 0.690647,
+          "support": 49
+        },
+        "Apply": {
+          "precision": 0.8125,
+          "recall": 0.928571,
+          "f1": 0.866667,
+          "support": 42
+        },
+        "Analyze": {
+          "precision": 0.972973,
+          "recall": 0.837209,
+          "f1": 0.9,
+          "support": 43
+        },
+        "Evaluate": {
+          "precision": 0.979167,
+          "recall": 0.959184,
+          "f1": 0.969072,
+          "support": 49
+        },
+        "Create": {
+          "precision": 0.981481,
+          "recall": 1.0,
+          "f1": 0.990654,
+          "support": 53
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 18,
+          "Understand": 41,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 48,
+          "Apply": 0,
+          "Analyze": 1,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 1,
+          "Apply": 39,
+          "Analyze": 0,
+          "Evaluate": 1,
+          "Create": 1,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 7,
+          "Analyze": 36,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 2,
+          "Analyze": 0,
+          "Evaluate": 47,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 53,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "format_valid_rate": 0.857627,
+      "semantic_valid_rate": 0.484746,
+      "cognitive_valid_rate": 0.857627,
+      "classifier_match_rate": 0.816949,
+      "fully_validated_rewrite_rate": 0.349153,
+      "trivial_transform_rate": 0.0,
+      "meta_response_rate": 0.0,
+      "answer_output_rate": 0.142373,
+      "empty_output_rate": 0.0,
+      "interrogative_valid_rate": 0.010169,
+      "imperative_valid_rate": 0.847458,
+      "question_form_valid_rate": 0.857627,
+      "mean_output_chars": 166.94,
+      "mean_semantic_similarity": 0.217735,
+      "classifier_confidence_min": 0.5
+    },
+    "per_level": {
+      "Remember": {
+        "precision": 1.0,
+        "recall": 0.305085,
+        "f1": 0.467532,
+        "support": 59
+      },
+      "Understand": {
+        "precision": 0.533333,
+        "recall": 0.979592,
+        "f1": 0.690647,
+        "support": 49
+      },
+      "Apply": {
+        "precision": 0.8125,
+        "recall": 0.928571,
+        "f1": 0.866667,
+        "support": 42
+      },
+      "Analyze": {
+        "precision": 0.972973,
+        "recall": 0.837209,
+        "f1": 0.9,
+        "support": 43
+      },
+      "Evaluate": {
+        "precision": 0.979167,
+        "recall": 0.959184,
+        "f1": 0.969072,
+        "support": 49
+      },
+      "Create": {
+        "precision": 0.981481,
+        "recall": 1.0,
+        "f1": 0.990654,
+        "support": 53
+      }
+    }
+  },
+  "qa": {
+    "closed_book": {
+      "token_f1": 0.341543,
+      "exact_match": 0.0,
+      "n": 146,
+      "rouge1": 0.38545,
+      "rouge2": 0.121605,
+      "rougeL": 0.275394,
+      "bertscore": {
+        "available": false,
+        "reason": "bert_score not installed"
+      },
+      "by_qa_type": {
+        "analytical": {
+          "n": 26,
+          "rouge1": 0.343829,
+          "rouge2": 0.084254,
+          "rougeL": 0.226724
+        },
+        "application": {
+          "n": 31,
+          "rouge1": 0.378426,
+          "rouge2": 0.11451,
+          "rougeL": 0.256449
+        },
+        "calculation": {
+          "n": 14,
+          "rouge1": 0.495461,
+          "rouge2": 0.264851,
+          "rougeL": 0.43239
+        },
+        "comparative": {
+          "n": 24,
+          "rouge1": 0.414972,
+          "rouge2": 0.145803,
+          "rougeL": 0.314562
+        },
+        "conceptual": {
+          "n": 33,
+          "rouge1": 0.375177,
+          "rouge2": 0.101448,
+          "rougeL": 0.263606
+        },
+        "design": {
+          "n": 2,
+          "rouge1": 0.397634,
+          "rouge2": 0.081146,
+          "rougeL": 0.2098
+        },
+        "diagnosis": {
+          "n": 4,
+          "rouge1": 0.277709,
+          "rouge2": 0.052485,
+          "rougeL": 0.188096
+        },
+        "explanation": {
+          "n": 3,
+          "rouge1": 0.435978,
+          "rouge2": 0.159755,
+          "rougeL": 0.313292
+        },
+        "process": {
+          "n": 5,
+          "rouge1": 0.351151,
+          "rouge2": 0.083131,
+          "rougeL": 0.19819
+        },
+        "reasoning": {
+          "n": 2,
+          "rouge1": 0.2865,
+          "rouge2": 0.011111,
+          "rougeL": 0.184246
+        },
+        "sequence": {
+          "n": 2,
+          "rouge1": 0.392774,
+          "rouge2": 0.084746,
+          "rougeL": 0.294747
+        }
+      },
+      "by_discipline_group": {
+        "Business, Accounting and Economics": {
+          "n": 4,
+          "rouge1": 0.507067,
+          "rouge2": 0.257341,
+          "rougeL": 0.437258
+        },
+        "Chemistry": {
+          "n": 6,
+          "rouge1": 0.442939,
+          "rouge2": 0.153574,
+          "rougeL": 0.374827
+        },
+        "Computing": {
+          "n": 66,
+          "rouge1": 0.350726,
+          "rouge2": 0.08416,
+          "rougeL": 0.233529
+        },
+        "Earth and Environmental Sciences": {
+          "n": 3,
+          "rouge1": 0.422683,
+          "rouge2": 0.127298,
+          "rougeL": 0.297747
+        },
+        "Electrical and Electronic Engineering": {
+          "n": 6,
+          "rouge1": 0.385233,
+          "rouge2": 0.08527,
+          "rougeL": 0.245486
+        },
+        "Health and Medicine": {
+          "n": 6,
+          "rouge1": 0.352761,
+          "rouge2": 0.092904,
+          "rougeL": 0.270158
+        },
+        "Law": {
+          "n": 3,
+          "rouge1": 0.393149,
+          "rouge2": 0.131805,
+          "rougeL": 0.288332
+        },
+        "Life and Agricultural Sciences": {
+          "n": 11,
+          "rouge1": 0.40832,
+          "rouge2": 0.124414,
+          "rougeL": 0.286791
+        },
+        "Mathematics and Statistics": {
+          "n": 11,
+          "rouge1": 0.385824,
+          "rouge2": 0.176557,
+          "rougeL": 0.287794
+        },
+        "Other Engineering and Architecture": {
+          "n": 12,
+          "rouge1": 0.402969,
+          "rouge2": 0.113876,
+          "rougeL": 0.26743
+        },
+        "Physics": {
+          "n": 11,
+          "rouge1": 0.470321,
+          "rouge2": 0.261518,
+          "rougeL": 0.423918
+        },
+        "Social Sciences, Humanities and Education": {
+          "n": 7,
+          "rouge1": 0.403098,
+          "rouge2": 0.121236,
+          "rougeL": 0.250252
+        }
+      }
+    },
+    "squad": {
+      "n": 146,
+      "exact_match": 0.0,
+      "f1": 0.341543
+    },
+    "eduguard_rag_qa": {
+      "available": false,
+      "reason": "No EduGuard RAG QA benchmark file found in repository"
+    }
+  },
+  "summarization": {
+    "n": 64,
+    "rouge1": 0.44896,
+    "rouge2": 0.160309,
+    "rougeL": 0.299383,
+    "by_source_type": {
+      "arxiv_scientific_article": {
+        "n": 33,
+        "rouge1": 0.429629,
+        "rouge2": 0.163951,
+        "rougeL": 0.269923
+      },
+      "lecture_slide_text_style": {
+        "n": 2,
+        "rouge1": 0.514932,
+        "rouge2": 0.235115,
+        "rougeL": 0.359879
+      },
+      "original_academic_example": {
+        "n": 29,
+        "rouge1": 0.466408,
+        "rouge2": 0.151006,
+        "rougeL": 0.328736
+      }
+    },
+    "by_length_category": {
+      "long": {
+        "n": 9,
+        "rouge1": 0.370343,
+        "rouge2": 0.135151,
+        "rougeL": 0.223262
+      },
+      "medium": {
+        "n": 4,
+        "rouge1": 0.500311,
+        "rouge2": 0.178802,
+        "rougeL": 0.326404
+      },
+      "short": {
+        "n": 29,
+        "rouge1": 0.466408,
+        "rouge2": 0.151006,
+        "rougeL": 0.328736
+      },
+      "very_long": {
+        "n": 22,
+        "rouge1": 0.448785,
+        "rouge2": 0.179502,
+        "rougeL": 0.28692
+      }
+    },
+    "empty_predictions": 0
+  },
+  "bertscore": {
+    "available": false,
+    "reason": "bert_score not installed"
+  },
+  "latency": {
+    "model_load_s": 10.14,
+    "per_example": {
+      "mean": 6.674042,
+      "p50": 5.189575,
+      "p95": 17.455791,
+      "min": 1.458977,
+      "max": 58.609224
+    }
+  },
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 2294.79,
+    "uss_mb": 2025.43,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_memory_allocated_mb": 3977.42,
+    "gpu_memory_reserved_mb": 6910.0
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "b812fa1aeaa852a4db4e522c912dede72c41f2db",
+  "deployment_recommendation": "INCONCLUSIVE"
+}

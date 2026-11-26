@@ -19,6 +19,22 @@ class CheckpointInfo:
     checkpoint_selection: str
 
 
+def eval_dtype() -> torch.dtype:
+    """Match training precision: bf16 on GPUs that support it (Qwen2.5 can overflow in fp16)."""
+    if not torch.cuda.is_available():
+        return torch.float32
+    return torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+
+
+def _enable_efficient_gqa_attention() -> None:
+    """Same SDPA kernel fix as training (mathematically identical, linear memory)."""
+    try:
+        from attention_patches import force_sdpa_repeat_kv
+    except ImportError:
+        return
+    force_sdpa_repeat_kv()
+
+
 def _find_best_checkpoint_dir(output_dir: Path) -> Path | None:
     best = output_dir / "best_adapter"
     if (best / "adapter_config.json").is_file():
@@ -138,7 +154,7 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
     from prompts import bloom_messages, render_chatml
 
     load_start = time.perf_counter()
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+    dtype = eval_dtype()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if info.condition == "base":
@@ -201,9 +217,11 @@ class HFGenerator:
     def __init__(self, info: CheckpointInfo, max_seq_length: int) -> None:
         from transformers import AutoModelForCausalLM
 
+        _enable_efficient_gqa_attention()
+
         self.max_seq_length = max_seq_length
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+        dtype = eval_dtype()
         if info.condition == "base":
             self.tokenizer = _load_tokenizer(info.base_model_id)
             self.model = AutoModelForCausalLM.from_pretrained(

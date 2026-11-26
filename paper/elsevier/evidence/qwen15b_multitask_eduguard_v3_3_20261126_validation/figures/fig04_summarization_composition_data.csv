@@ -1,0 +1,13 @@
+length_category,source_type,records
+short,original_academic_example,293
+short,arxiv_scientific_article,0
+short,lecture_slide_text_style,0
+medium,original_academic_example,151
+medium,arxiv_scientific_article,15
+medium,lecture_slide_text_style,29
+long,original_academic_example,0
+long,arxiv_scientific_article,63
+long,lecture_slide_text_style,0
+very_long,original_academic_example,0
+very_long,arxiv_scientific_article,162
+very_long,lecture_slide_text_style,0

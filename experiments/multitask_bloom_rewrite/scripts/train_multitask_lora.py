@@ -112,11 +112,23 @@ def package_versions() -> dict:
     return versions
 
 
-def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_gb, torch, assistant_logits_only=False):
-    """Backpropagate through the longest configured training example before Trainer starts.
+def run_gpu_memory_preflight(
+    model,
+    tokenizer,
+    train_rows,
+    max_length,
+    min_free_gb,
+    torch,
+    assistant_logits_only=False,
+    loss_fn=None,
+    extra_batches=(),
+):
+    """Backpropagate through worst-case training inputs before Trainer starts.
 
-    Uses the same forward as training (assistant-only logits when enabled), so it
-    measures real training memory instead of a full-vocabulary 4+ GB logits spike.
+    Always runs the longest training example. ``extra_batches`` adds collated
+    multi-row batches (e.g. the largest token-budget batches of the epoch plan),
+    because a batch of many medium rows can need more memory than one long row.
+    ``loss_fn(model, inputs)`` must be the loss used in training.
     """
     if not torch.cuda.is_available():
         raise SystemExit("GPU memory preflight requires a CUDA device.")
@@ -137,29 +149,48 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
     encoded = tokenize_with_assistant_only_loss(
         tokenizer, longest_row["sft_text"], longest_row["prompt_text"], max_length
     )
-    inputs = {
-        key: torch.tensor([encoded[key]], dtype=torch.long, device="cuda")
-        for key in ("input_ids", "attention_mask", "labels")
-        if key in encoded
-    }
-    if assistant_logits_only:
-        inputs = slice_to_assistant_logits(inputs)
+    cases = [(
+        f"longest row {longest_row.get('id')} ({longest_tokens} tokens)",
+        {key: [encoded[key]] for key in ("input_ids", "attention_mask", "labels") if key in encoded},
+    )]
+    cases.extend(extra_batches)
+
+    def default_loss(m, inputs):
+        if assistant_logits_only:
+            inputs = slice_to_assistant_logits(inputs)
+        return m(**inputs).loss
+
+    loss_fn = loss_fn or default_loss
     model.train()
     model.zero_grad(set_to_none=True)
     torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
     safety_reserve = None
+    case_results = []
+    label = cases[0][0]
     try:
         reserve_bytes = int(min_free_gb * 1024**3)
         safety_reserve = torch.empty(
             reserve_bytes, dtype=torch.uint8, device="cuda"
         )
-        loss = model(**inputs).loss
-        if not torch.isfinite(loss).item():
-            raise SystemExit("Maximum-length GPU preflight produced a non-finite loss.")
-        loss.backward()
-        del loss
-        torch.cuda.synchronize()
+        for label, batch in cases:
+            inputs = {
+                key: torch.tensor(value, dtype=torch.long, device="cuda")
+                for key, value in batch.items()
+            }
+            torch.cuda.reset_peak_memory_stats()
+            loss = loss_fn(model, inputs)
+            if not torch.isfinite(loss).item():
+                raise SystemExit(f"GPU preflight produced a non-finite loss on {label}.")
+            loss.backward()
+            del loss, inputs
+            torch.cuda.synchronize()
+            model.zero_grad(set_to_none=True)
+            case_results.append({
+                "case": label,
+                "shape": [len(batch["input_ids"]), len(batch["input_ids"][0])],
+                "peak_allocated_gb_incl_reserve": round(torch.cuda.max_memory_allocated() / 1024**3, 2),
+            })
         result = {
             "example_id": longest_row.get("id"),
             "sequence_tokens": longest_tokens,
@@ -169,21 +200,21 @@ def run_gpu_memory_preflight(model, tokenizer, train_rows, max_length, min_free_
             "status": "PASS",
             "required_headroom_gb": min_free_gb,
             "assistant_logits_only": bool(assistant_logits_only),
-            "peak_allocated_gb_incl_reserve": round(torch.cuda.max_memory_allocated() / 1024**3, 2),
+            "cases": case_results,
+            "peak_allocated_gb_incl_reserve": max(c["peak_allocated_gb_incl_reserve"] for c in case_results),
             "peak_reserved_gb_incl_reserve": round(torch.cuda.max_memory_reserved() / 1024**3, 2),
         }
-        print("MAX-LENGTH GPU MEMORY PREFLIGHT:", json.dumps(result, sort_keys=True))
+        print("GPU MEMORY PREFLIGHT:", json.dumps(result, sort_keys=True))
         return result
     except torch.cuda.OutOfMemoryError as exc:
         raise SystemExit(
-            f"GPU memory preflight OOMed on the longest training example "
-            f"({longest_tokens} tokens, id={longest_row.get('id')}) while holding "
+            f"GPU memory preflight OOMed on {label} while holding "
             f"the {min_free_gb:.2f} GB safety reserve. "
-            "Training has not started; use a GPU with more VRAM or a validated shorter-context recipe."
+            "Training has not started; lower token_budget_batching.max_rows_per_batch / "
+            "max_tokens_per_batch or loss_chunk_tokens."
         ) from exc
     finally:
         model.zero_grad(set_to_none=True)
-        del inputs
         if safety_reserve is not None:
             del safety_reserve
         torch.cuda.empty_cache()
@@ -490,6 +521,12 @@ def main() -> None:
         return [task_probabilities[row["task"]] / counts[row["task"]] for row in dataset.rows]
 
     assistant_logits_only = bool(cfg.get("assistant_logits_only", False))
+    # Preferred: LM head + cross-entropy only on supervised tokens, in checkpointed
+    # chunks, so logits memory no longer depends on batch shape (see chunked_lm_loss.py).
+    chunked_supervised_loss = bool(cfg.get("chunked_supervised_loss", False))
+    loss_chunk_tokens = int(cfg.get("loss_chunk_tokens", 1024))
+    if chunked_supervised_loss:
+        from chunked_lm_loss import supervised_token_loss
 
     from transformers import TrainerCallback
 
@@ -498,14 +535,38 @@ def main() -> None:
 
         def on_log(self, args, state, control, logs=None, **kwargs):
             if logs is not None and torch.cuda.is_available():
-                logs["gpu_peak_alloc_gb"] = round(torch.cuda.max_memory_allocated() / 1024**3, 2)
-                logs["gpu_reserved_gb"] = round(torch.cuda.memory_reserved() / 1024**3, 2)
+                mem = {
+                    "gpu_peak_alloc_gb": round(torch.cuda.max_memory_allocated() / 1024**3, 2),
+                    "gpu_reserved_gb": round(torch.cuda.memory_reserved() / 1024**3, 2),
+                }
+                logs.update(mem)
+                # Trainer appends a copy of `logs` to log_history before callbacks
+                # run, so also record memory there (used for paper figures).
+                if state.log_history and state.log_history[-1].get("step") == state.global_step:
+                    state.log_history[-1].update(mem)
                 torch.cuda.reset_peak_memory_stats()
 
     class TaskWeightedTrainer(Trainer):
         """Optionally sample tasks at configured probabilities per epoch."""
 
         def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
+            if chunked_supervised_loss and inputs.get("labels") is not None:
+                with self.accelerator.autocast():
+                    loss = supervised_token_loss(
+                        model,
+                        inputs["input_ids"],
+                        inputs["labels"],
+                        attention_mask=inputs.get("attention_mask"),
+                        num_items_in_batch=num_items_in_batch,
+                        chunk_size=loss_chunk_tokens,
+                    )
+                if (
+                    self.args.average_tokens_across_devices
+                    and self.model_accepts_loss_kwargs
+                    and num_items_in_batch is not None
+                ):
+                    loss = loss * self.accelerator.num_processes
+                return (loss, {"loss": loss}) if return_outputs else loss
             if assistant_logits_only:
                 inputs = slice_to_assistant_logits(inputs)
             return super().compute_loss(
@@ -677,6 +738,47 @@ def main() -> None:
     model.print_trainable_parameters()
     preflight_result = None
     if device == "cuda" and bool(cfg.get("max_length_memory_preflight", True)):
+        extra_batches = []
+        if token_batch_sampler is not None:
+            # Worst multi-row batches over every planned epoch: most padded
+            # tokens, most rows, most supervised (answer) tokens.
+            from token_budget_batching import padded_length
+
+            planned = [
+                batch
+                for epoch in range(int(math.ceil(float(cfg["epochs"]))))
+                for batch in token_batch_sampler.epoch_plan(epoch)
+                if len(batch) > 1
+            ]
+
+            def padded_tokens(batch):
+                return padded_length(max(train_ds.lengths[i] for i in batch), 8) * len(batch)
+
+            def answer_tokens(batch):
+                return sum(sum(x != -100 for x in train_ds.encoded[i]["labels"]) for i in batch)
+
+            chosen = []
+            for name, key in (("most padded tokens", padded_tokens), ("most rows", len), ("most answer tokens", answer_tokens)):
+                batch = max(planned, key=key) if planned else None
+                if batch is not None and batch not in [c[1] for c in chosen]:
+                    chosen.append((name, batch))
+            preflight_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True, pad_to_multiple_of=8)
+            for name, batch in chosen:
+                collated = preflight_collator([train_ds[i] for i in batch])
+                extra_batches.append((
+                    f"batch with {name} ({len(batch)} rows, {padded_tokens(batch)} padded tokens, {answer_tokens(batch)} answer tokens)",
+                    {key: collated[key].tolist() for key in ("input_ids", "attention_mask", "labels")},
+                ))
+        preflight_loss_fn = None
+        if chunked_supervised_loss:
+            autocast_dtype = torch.bfloat16 if use_bf16 else torch.float16
+
+            def preflight_loss_fn(m, inputs):
+                with torch.autocast("cuda", dtype=autocast_dtype):
+                    return supervised_token_loss(
+                        m, inputs["input_ids"], inputs["labels"],
+                        attention_mask=inputs.get("attention_mask"), chunk_size=loss_chunk_tokens,
+                    )
         preflight_result = run_gpu_memory_preflight(
             model,
             tokenizer,
@@ -685,6 +787,8 @@ def main() -> None:
             float(cfg.get("preflight_min_free_vram_gb", 2.0)),
             torch,
             assistant_logits_only=assistant_logits_only,
+            loss_fn=preflight_loss_fn,
+            extra_batches=extra_batches,
         )
 
     if token_batch_sampler is not None:
@@ -706,13 +810,19 @@ def main() -> None:
         gradient_accumulation_steps=gradient_accumulation_steps,
         gradient_checkpointing=bool(cfg.get("gradient_checkpointing", True)),
         gradient_checkpointing_kwargs=checkpointing_kwargs or None,
-        eval_strategy="epoch",
-        save_strategy="epoch",
+        # Optional finer checkpoint selection: evaluate/save every `eval_steps`
+        # optimizer steps instead of once per epoch (validation loss can turn
+        # upward within the first epoch). save_total_limit=0 keeps every
+        # checkpoint for per_task_validation_loss.py.
+        eval_strategy="steps" if cfg.get("eval_steps") else "epoch",
+        save_strategy="steps" if cfg.get("eval_steps") else "epoch",
+        eval_steps=int(cfg["eval_steps"]) if cfg.get("eval_steps") else None,
+        save_steps=int(cfg["eval_steps"]) if cfg.get("eval_steps") else None,
         load_best_model_at_end=True,
         metric_for_best_model=cfg.get("metric_for_best_model", "eval_loss"),
         greater_is_better=False,
         logging_steps=int(cfg.get("logging_steps", 20)),
-        save_total_limit=int(cfg.get("save_total_limit", 3)),
+        save_total_limit=(int(cfg.get("save_total_limit", 3)) or None),
         seed=seed,
         bf16=use_bf16,
         fp16=bool(device == "cuda" and not use_bf16),
@@ -764,6 +874,22 @@ def main() -> None:
     train_result = trainer.train(resume_from_checkpoint=str(resume_path) if resume_path else None)
     trainer.save_model(str(output_dir / "best_adapter"))
     tokenizer.save_pretrained(str(output_dir / "best_adapter"))
+    # Full loss / learning-rate / GPU-memory history for paper figures
+    # (scripts/build_paper_evidence.py reads it).
+    trainer.save_state()
+    (results_dir / "trainer_log_history.json").write_text(
+        json.dumps(
+            {
+                "log_history": trainer.state.log_history,
+                "best_metric": trainer.state.best_metric,
+                "best_model_checkpoint": trainer.state.best_model_checkpoint,
+                "global_step": trainer.state.global_step,
+                "num_train_epochs": cfg["epochs"],
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     meta = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "config": cfg,
@@ -787,6 +913,7 @@ def main() -> None:
         "max_length_memory_preflight": preflight_result,
         "cuda_memory_fraction": cfg.get("cuda_memory_fraction"),
         "sdpa_repeat_kv_for_gqa": sdpa_repeat_kv,
+        "chunked_supervised_loss": chunked_supervised_loss,
         "mixed_precision": "bf16" if use_bf16 else ("fp16" if device == "cuda" else "fp32"),
         "token_budget_batching": token_batching_summary,
         "quantization": {

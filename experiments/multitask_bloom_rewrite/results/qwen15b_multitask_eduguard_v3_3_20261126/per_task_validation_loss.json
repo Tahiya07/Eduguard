@@ -1,0 +1,41 @@
+{
+  "split": "validation",
+  "results": [
+    {
+      "checkpoint": "base (no adapter)",
+      "epoch": null,
+      "pooled": 2.3137,
+      "bloom_rewrite": 2.3413,
+      "qa": 2.7131,
+      "summarization": 1.9445,
+      "is_best_adapter": false
+    },
+    {
+      "checkpoint": "checkpoint-255",
+      "epoch": 1.0,
+      "pooled": 1.4148,
+      "bloom_rewrite": 1.2124,
+      "qa": 1.621,
+      "summarization": 1.4905,
+      "is_best_adapter": true
+    },
+    {
+      "checkpoint": "checkpoint-510",
+      "epoch": 2.0,
+      "pooled": 1.481,
+      "bloom_rewrite": 1.231,
+      "qa": 1.6638,
+      "summarization": 1.6347,
+      "is_best_adapter": false
+    },
+    {
+      "checkpoint": "checkpoint-765",
+      "epoch": 3.0,
+      "pooled": 1.4985,
+      "bloom_rewrite": 1.2367,
+      "qa": 1.6618,
+      "summarization": 1.683,
+      "is_best_adapter": false
+    }
+  ]
+}

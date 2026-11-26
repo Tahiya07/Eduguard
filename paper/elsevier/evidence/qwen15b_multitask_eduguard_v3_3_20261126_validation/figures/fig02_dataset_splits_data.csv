@@ -1,0 +1,10 @@
+task,split,rows
+Bloom rewriting,train,2345
+Bloom rewriting,validation,295
+Bloom rewriting,test,280
+Closed-book QA,train,1172
+Closed-book QA,validation,146
+Closed-book QA,test,147
+Summarization,train,592
+Summarization,validation,64
+Summarization,test,57

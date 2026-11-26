@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Bloom rewriting checks applied identically to model and human reference rewrites (validation).}
+\label{tab:t7_bloom_model_vs_reference}
+\begin{tabular}{lrr}
+\toprule
+Measure & EduGuard LoRA & Human reference \\
+\midrule
+Format check passed & 0.8576 & 0.9525 \\
+Topic check passed (word overlap) & 0.4847 & 0.7085 \\
+Cognitive check passed & 0.8576 & 0.9525 \\
+Flagged declarative & 0.1424 & 0.0475 \\
+Classifier agrees with requested level & 0.8169 & 0.7525 \\
+Topic preserved (bge-m3, train-calibrated) & 0.9254 & 0.9458 \\
+near\_copy\_of\_source & 0.0542 & 0.0441 \\
+Fully validated (original definition) & 0.3492 & n/a \\
+Fully validated (calibrated definition) & 0.7627 & n/a \\
+\bottomrule
+\end{tabular}
+\end{table}

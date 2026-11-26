@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_3_20261126.json",
+  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_4_20261126.json",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
   "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_3",
   "dataset_integrity": {

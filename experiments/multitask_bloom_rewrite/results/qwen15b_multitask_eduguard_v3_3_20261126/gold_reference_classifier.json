@@ -1,0 +1,1477 @@
+[
+ {
+  "id": "eduguard_v3_1_003-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.8647
+ },
+ {
+  "id": "eduguard_v3_1_003-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9595
+ },
+ {
+  "id": "eduguard_v3_1_003-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9561
+ },
+ {
+  "id": "eduguard_v3_1_003-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.4451
+ },
+ {
+  "id": "eduguard_v3_1_003-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8013
+ },
+ {
+  "id": "eduguard_v3_1_005-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9604
+ },
+ {
+  "id": "eduguard_v3_1_005-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9492
+ },
+ {
+  "id": "eduguard_v3_1_005-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9458
+ },
+ {
+  "id": "eduguard_v3_1_005-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7778
+ },
+ {
+  "id": "eduguard_v3_1_005-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8755
+ },
+ {
+  "id": "eduguard_v3_1_013-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9619
+ },
+ {
+  "id": "eduguard_v3_1_013-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9829
+ },
+ {
+  "id": "eduguard_v3_1_013-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.958
+ },
+ {
+  "id": "eduguard_v3_1_013-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.896
+ },
+ {
+  "id": "eduguard_v3_1_013-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8682
+ },
+ {
+  "id": "eduguard_v3_1_016-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9346
+ },
+ {
+  "id": "eduguard_v3_1_016-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9697
+ },
+ {
+  "id": "eduguard_v3_1_016-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9219
+ },
+ {
+  "id": "eduguard_v3_1_016-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9546
+ },
+ {
+  "id": "eduguard_v3_1_016-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8853
+ },
+ {
+  "id": "eduguard_v3_1_032-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9517
+ },
+ {
+  "id": "eduguard_v3_1_032-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9189
+ },
+ {
+  "id": "eduguard_v3_1_032-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9502
+ },
+ {
+  "id": "eduguard_v3_1_032-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.8936
+ },
+ {
+  "id": "eduguard_v3_1_032-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8735
+ },
+ {
+  "id": "eduguard_v3_1_037-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9507
+ },
+ {
+  "id": "eduguard_v3_1_037-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8428
+ },
+ {
+  "id": "eduguard_v3_1_037-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9399
+ },
+ {
+  "id": "eduguard_v3_1_037-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9409
+ },
+ {
+  "id": "eduguard_v3_1_037-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9663
+ },
+ {
+  "id": "eduguard_v3_1_063-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9624
+ },
+ {
+  "id": "eduguard_v3_1_063-Apply",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.5371
+ },
+ {
+  "id": "eduguard_v3_1_063-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9517
+ },
+ {
+  "id": "eduguard_v3_1_063-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9526
+ },
+ {
+  "id": "eduguard_v3_1_063-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8906
+ },
+ {
+  "id": "eduguard_v3_1_098-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9585
+ },
+ {
+  "id": "eduguard_v3_1_098-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9399
+ },
+ {
+  "id": "eduguard_v3_1_098-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9468
+ },
+ {
+  "id": "eduguard_v3_1_098-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.4185
+ },
+ {
+  "id": "eduguard_v3_1_098-Understand",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.6133
+ },
+ {
+  "id": "eduguard_v3_1_100-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9453
+ },
+ {
+  "id": "eduguard_v3_1_100-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9487
+ },
+ {
+  "id": "eduguard_v3_1_100-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8892
+ },
+ {
+  "id": "eduguard_v3_1_100-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.812
+ },
+ {
+  "id": "eduguard_v3_1_100-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8999
+ },
+ {
+  "id": "eduguard_v3_1_104-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7285
+ },
+ {
+  "id": "eduguard_v3_1_104-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.5557
+ },
+ {
+  "id": "eduguard_v3_1_104-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9438
+ },
+ {
+  "id": "eduguard_v3_1_104-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.8647
+ },
+ {
+  "id": "eduguard_v3_1_104-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8735
+ },
+ {
+  "id": "eduguard_v3_1_143-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9717
+ },
+ {
+  "id": "eduguard_v3_1_143-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7363
+ },
+ {
+  "id": "eduguard_v3_1_143-Create",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.5576
+ },
+ {
+  "id": "eduguard_v3_1_143-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9458
+ },
+ {
+  "id": "eduguard_v3_1_143-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7827
+ },
+ {
+  "id": "eduguard_v3_1_160-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.519
+ },
+ {
+  "id": "eduguard_v3_1_160-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9385
+ },
+ {
+  "id": "eduguard_v3_1_160-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.6519
+ },
+ {
+  "id": "eduguard_v3_1_160-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8438
+ },
+ {
+  "id": "eduguard_v3_1_160-Understand",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7539
+ },
+ {
+  "id": "eduguard_v3_1_170-Analyze",
+  "gold_pred": "Understand",
+  "gold_conf": 0.6875
+ },
+ {
+  "id": "eduguard_v3_1_170-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9038
+ },
+ {
+  "id": "eduguard_v3_1_170-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9497
+ },
+ {
+  "id": "eduguard_v3_1_170-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9639
+ },
+ {
+  "id": "eduguard_v3_1_170-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8818
+ },
+ {
+  "id": "eduguard_v3_1_178-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9141
+ },
+ {
+  "id": "eduguard_v3_1_178-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.939
+ },
+ {
+  "id": "eduguard_v3_1_178-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.5942
+ },
+ {
+  "id": "eduguard_v3_1_178-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.7949
+ },
+ {
+  "id": "eduguard_v3_1_178-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9526
+ },
+ {
+  "id": "eduguard_v3_1_206-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8696
+ },
+ {
+  "id": "eduguard_v3_1_206-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.874
+ },
+ {
+  "id": "eduguard_v3_1_206-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8179
+ },
+ {
+  "id": "eduguard_v3_1_206-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8418
+ },
+ {
+  "id": "eduguard_v3_1_206-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8613
+ },
+ {
+  "id": "eduguard_v3_1_218-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9482
+ },
+ {
+  "id": "eduguard_v3_1_218-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9116
+ },
+ {
+  "id": "eduguard_v3_1_218-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9053
+ },
+ {
+  "id": "eduguard_v3_1_218-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8389
+ },
+ {
+  "id": "eduguard_v3_1_218-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8384
+ },
+ {
+  "id": "eduguard_v3_1_222-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9551
+ },
+ {
+  "id": "eduguard_v3_1_222-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7705
+ },
+ {
+  "id": "eduguard_v3_1_222-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9146
+ },
+ {
+  "id": "eduguard_v3_1_222-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.6851
+ },
+ {
+  "id": "eduguard_v3_1_222-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8267
+ },
+ {
+  "id": "eduguard_v3_1_229-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8735
+ },
+ {
+  "id": "eduguard_v3_1_229-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.896
+ },
+ {
+  "id": "eduguard_v3_1_229-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9521
+ },
+ {
+  "id": "eduguard_v3_1_229-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9644
+ },
+ {
+  "id": "eduguard_v3_1_229-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8589
+ },
+ {
+  "id": "eduguard_v3_1_234-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9106
+ },
+ {
+  "id": "eduguard_v3_1_234-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8794
+ },
+ {
+  "id": "eduguard_v3_1_234-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.647
+ },
+ {
+  "id": "eduguard_v3_1_234-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8379
+ },
+ {
+  "id": "eduguard_v3_1_234-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7827
+ },
+ {
+  "id": "eduguard_v3_1_236-Analyze",
+  "gold_pred": "Understand",
+  "gold_conf": 0.5449
+ },
+ {
+  "id": "eduguard_v3_1_236-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.6328
+ },
+ {
+  "id": "eduguard_v3_1_236-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9658
+ },
+ {
+  "id": "eduguard_v3_1_236-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9038
+ },
+ {
+  "id": "eduguard_v3_1_236-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8877
+ },
+ {
+  "id": "eduguard_v3_1_247-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9565
+ },
+ {
+  "id": "eduguard_v3_1_247-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8662
+ },
+ {
+  "id": "eduguard_v3_1_247-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.396
+ },
+ {
+  "id": "eduguard_v3_1_247-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9604
+ },
+ {
+  "id": "eduguard_v3_1_247-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8765
+ },
+ {
+  "id": "eduguard_v3_1_261-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9087
+ },
+ {
+  "id": "eduguard_v3_1_261-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.6978
+ },
+ {
+  "id": "eduguard_v3_1_261-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9575
+ },
+ {
+  "id": "eduguard_v3_1_261-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9624
+ },
+ {
+  "id": "eduguard_v3_1_261-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8975
+ },
+ {
+  "id": "eduguard_v3_1_269-Analyze",
+  "gold_pred": "Create",
+  "gold_conf": 0.3611
+ },
+ {
+  "id": "eduguard_v3_1_269-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8247
+ },
+ {
+  "id": "eduguard_v3_1_269-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.4536
+ },
+ {
+  "id": "eduguard_v3_1_269-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9497
+ },
+ {
+  "id": "eduguard_v3_1_269-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9673
+ },
+ {
+  "id": "eduguard_v3_1_274-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9585
+ },
+ {
+  "id": "eduguard_v3_1_274-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9434
+ },
+ {
+  "id": "eduguard_v3_1_274-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.873
+ },
+ {
+  "id": "eduguard_v3_1_274-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9624
+ },
+ {
+  "id": "eduguard_v3_1_274-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8657
+ },
+ {
+  "id": "eduguard_v3_1_287-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9385
+ },
+ {
+  "id": "eduguard_v3_1_287-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9424
+ },
+ {
+  "id": "eduguard_v3_1_287-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8809
+ },
+ {
+  "id": "eduguard_v3_1_287-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.5918
+ },
+ {
+  "id": "eduguard_v3_1_287-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.6997
+ },
+ {
+  "id": "eduguard_v3_1_300-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9346
+ },
+ {
+  "id": "eduguard_v3_1_300-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7788
+ },
+ {
+  "id": "eduguard_v3_1_300-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9556
+ },
+ {
+  "id": "eduguard_v3_1_300-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8198
+ },
+ {
+  "id": "eduguard_v3_1_300-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7847
+ },
+ {
+  "id": "eduguard_v3_1_313-Analyze",
+  "gold_pred": "Understand",
+  "gold_conf": 0.4258
+ },
+ {
+  "id": "eduguard_v3_1_313-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9341
+ },
+ {
+  "id": "eduguard_v3_1_313-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9097
+ },
+ {
+  "id": "eduguard_v3_1_313-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9214
+ },
+ {
+  "id": "eduguard_v3_1_313-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8853
+ },
+ {
+  "id": "eduguard_v3_1_314-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.8672
+ },
+ {
+  "id": "eduguard_v3_1_314-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.7075
+ },
+ {
+  "id": "eduguard_v3_1_314-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9209
+ },
+ {
+  "id": "eduguard_v3_1_314-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9634
+ },
+ {
+  "id": "eduguard_v3_1_314-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8926
+ },
+ {
+  "id": "eduguard_v3_1_331-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9487
+ },
+ {
+  "id": "eduguard_v3_1_331-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9351
+ },
+ {
+  "id": "eduguard_v3_1_331-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8965
+ },
+ {
+  "id": "eduguard_v3_1_331-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.793
+ },
+ {
+  "id": "eduguard_v3_1_331-Understand",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8433
+ },
+ {
+  "id": "eduguard_v3_1_345-Apply",
+  "gold_pred": "Understand",
+  "gold_conf": 0.4849
+ },
+ {
+  "id": "eduguard_v3_1_345-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8853
+ },
+ {
+  "id": "eduguard_v3_1_345-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9048
+ },
+ {
+  "id": "eduguard_v3_1_345-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9619
+ },
+ {
+  "id": "eduguard_v3_1_345-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8691
+ },
+ {
+  "id": "eduguard_v3_1_354-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9653
+ },
+ {
+  "id": "eduguard_v3_1_354-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9736
+ },
+ {
+  "id": "eduguard_v3_1_354-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9526
+ },
+ {
+  "id": "eduguard_v3_1_354-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.896
+ },
+ {
+  "id": "eduguard_v3_1_354-Understand",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9233
+ },
+ {
+  "id": "eduguard_v3_1_360-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.938
+ },
+ {
+  "id": "eduguard_v3_1_360-Create",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.4116
+ },
+ {
+  "id": "eduguard_v3_1_360-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8965
+ },
+ {
+  "id": "eduguard_v3_1_360-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.8398
+ },
+ {
+  "id": "eduguard_v3_1_360-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.877
+ },
+ {
+  "id": "eduguard_v3_1_366-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.5464
+ },
+ {
+  "id": "eduguard_v3_1_366-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.7539
+ },
+ {
+  "id": "eduguard_v3_1_366-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9136
+ },
+ {
+  "id": "eduguard_v3_1_366-Remember",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.6284
+ },
+ {
+  "id": "eduguard_v3_1_366-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7319
+ },
+ {
+  "id": "eduguard_v3_1_371-Analyze",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.6025
+ },
+ {
+  "id": "eduguard_v3_1_371-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9536
+ },
+ {
+  "id": "eduguard_v3_1_371-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9507
+ },
+ {
+  "id": "eduguard_v3_1_371-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.5928
+ },
+ {
+  "id": "eduguard_v3_1_371-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8828
+ },
+ {
+  "id": "eduguard_v3_1_372-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.814
+ },
+ {
+  "id": "eduguard_v3_1_372-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8799
+ },
+ {
+  "id": "eduguard_v3_1_372-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8525
+ },
+ {
+  "id": "eduguard_v3_1_372-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7886
+ },
+ {
+  "id": "eduguard_v3_1_372-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.854
+ },
+ {
+  "id": "eduguard_v3_1_386-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9097
+ },
+ {
+  "id": "eduguard_v3_1_386-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9663
+ },
+ {
+  "id": "eduguard_v3_1_386-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9507
+ },
+ {
+  "id": "eduguard_v3_1_386-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8311
+ },
+ {
+  "id": "eduguard_v3_1_386-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.876
+ },
+ {
+  "id": "eduguard_v3_1_401-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9644
+ },
+ {
+  "id": "eduguard_v3_1_401-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9419
+ },
+ {
+  "id": "eduguard_v3_1_401-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9175
+ },
+ {
+  "id": "eduguard_v3_1_401-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9429
+ },
+ {
+  "id": "eduguard_v3_1_401-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8359
+ },
+ {
+  "id": "eduguard_v3_1_409-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.96
+ },
+ {
+  "id": "eduguard_v3_1_409-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9438
+ },
+ {
+  "id": "eduguard_v3_1_409-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8237
+ },
+ {
+  "id": "eduguard_v3_1_409-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.707
+ },
+ {
+  "id": "eduguard_v3_1_409-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8555
+ },
+ {
+  "id": "eduguard_v3_1_427-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9072
+ },
+ {
+  "id": "eduguard_v3_1_427-Create",
+  "gold_pred": "Apply",
+  "gold_conf": 0.6992
+ },
+ {
+  "id": "eduguard_v3_1_427-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.896
+ },
+ {
+  "id": "eduguard_v3_1_427-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.8979
+ },
+ {
+  "id": "eduguard_v3_1_427-Understand",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.5947
+ },
+ {
+  "id": "eduguard_v3_1_440-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9116
+ },
+ {
+  "id": "eduguard_v3_1_440-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9604
+ },
+ {
+  "id": "eduguard_v3_1_440-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9404
+ },
+ {
+  "id": "eduguard_v3_1_440-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7554
+ },
+ {
+  "id": "eduguard_v3_1_440-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8691
+ },
+ {
+  "id": "eduguard_v3_1_451-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8496
+ },
+ {
+  "id": "eduguard_v3_1_451-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8154
+ },
+ {
+  "id": "eduguard_v3_1_451-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9536
+ },
+ {
+  "id": "eduguard_v3_1_451-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.8667
+ },
+ {
+  "id": "eduguard_v3_1_451-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8872
+ },
+ {
+  "id": "eduguard_v3_1_458-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9399
+ },
+ {
+  "id": "eduguard_v3_1_458-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9058
+ },
+ {
+  "id": "eduguard_v3_1_458-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8413
+ },
+ {
+  "id": "eduguard_v3_1_458-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8179
+ },
+ {
+  "id": "eduguard_v3_1_458-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8052
+ },
+ {
+  "id": "eduguard_v3_1_466-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9155
+ },
+ {
+  "id": "eduguard_v3_1_466-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8711
+ },
+ {
+  "id": "eduguard_v3_1_466-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9507
+ },
+ {
+  "id": "eduguard_v3_1_466-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.7852
+ },
+ {
+  "id": "eduguard_v3_1_466-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8726
+ },
+ {
+  "id": "eduguard_v3_1_470-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.4109
+ },
+ {
+  "id": "eduguard_v3_1_470-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9185
+ },
+ {
+  "id": "eduguard_v3_1_470-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.853
+ },
+ {
+  "id": "eduguard_v3_1_470-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7017
+ },
+ {
+  "id": "eduguard_v3_1_470-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8066
+ },
+ {
+  "id": "eduguard_v3_1_475-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.938
+ },
+ {
+  "id": "eduguard_v3_1_475-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.5698
+ },
+ {
+  "id": "eduguard_v3_1_475-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9336
+ },
+ {
+  "id": "eduguard_v3_1_475-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8672
+ },
+ {
+  "id": "eduguard_v3_1_475-Understand",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.3845
+ },
+ {
+  "id": "eduguard_v3_1_479-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9658
+ },
+ {
+  "id": "eduguard_v3_1_479-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8848
+ },
+ {
+  "id": "eduguard_v3_1_479-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9316
+ },
+ {
+  "id": "eduguard_v3_1_479-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9097
+ },
+ {
+  "id": "eduguard_v3_1_479-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.854
+ },
+ {
+  "id": "eduguard_v3_1_487-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.3308
+ },
+ {
+  "id": "eduguard_v3_1_487-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8833
+ },
+ {
+  "id": "eduguard_v3_1_487-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9434
+ },
+ {
+  "id": "eduguard_v3_1_487-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7832
+ },
+ {
+  "id": "eduguard_v3_1_487-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8613
+ },
+ {
+  "id": "eduguard_v3_1_491-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9683
+ },
+ {
+  "id": "eduguard_v3_1_491-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.6709
+ },
+ {
+  "id": "eduguard_v3_1_491-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8716
+ },
+ {
+  "id": "eduguard_v3_1_491-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7915
+ },
+ {
+  "id": "eduguard_v3_1_491-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.875
+ },
+ {
+  "id": "eduguard_v3_1_498-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8408
+ },
+ {
+  "id": "eduguard_v3_1_498-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9126
+ },
+ {
+  "id": "eduguard_v3_1_498-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9307
+ },
+ {
+  "id": "eduguard_v3_1_498-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8516
+ },
+ {
+  "id": "eduguard_v3_1_498-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8545
+ },
+ {
+  "id": "eduguard_v3_1_512-Analyze",
+  "gold_pred": "Understand",
+  "gold_conf": 0.3904
+ },
+ {
+  "id": "eduguard_v3_1_512-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9297
+ },
+ {
+  "id": "eduguard_v3_1_512-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.6738
+ },
+ {
+  "id": "eduguard_v3_1_512-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8403
+ },
+ {
+  "id": "eduguard_v3_1_512-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.769
+ },
+ {
+  "id": "eduguard_v3_1_522-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9741
+ },
+ {
+  "id": "eduguard_v3_1_522-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.7749
+ },
+ {
+  "id": "eduguard_v3_1_522-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8379
+ },
+ {
+  "id": "eduguard_v3_1_522-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7529
+ },
+ {
+  "id": "eduguard_v3_1_522-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7832
+ },
+ {
+  "id": "eduguard_v3_1_528-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9639
+ },
+ {
+  "id": "eduguard_v3_1_528-Apply",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8057
+ },
+ {
+  "id": "eduguard_v3_1_528-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.8979
+ },
+ {
+  "id": "eduguard_v3_1_528-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.959
+ },
+ {
+  "id": "eduguard_v3_1_528-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8721
+ },
+ {
+  "id": "eduguard_v3_1_539-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8867
+ },
+ {
+  "id": "eduguard_v3_1_539-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9116
+ },
+ {
+  "id": "eduguard_v3_1_539-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.875
+ },
+ {
+  "id": "eduguard_v3_1_539-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8213
+ },
+ {
+  "id": "eduguard_v3_1_539-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8843
+ },
+ {
+  "id": "eduguard_v3_1_546-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8779
+ },
+ {
+  "id": "eduguard_v3_1_546-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.8438
+ },
+ {
+  "id": "eduguard_v3_1_546-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9189
+ },
+ {
+  "id": "eduguard_v3_1_546-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.5527
+ },
+ {
+  "id": "eduguard_v3_1_546-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8628
+ },
+ {
+  "id": "eduguard_v3_1_551-Analyze",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9541
+ },
+ {
+  "id": "eduguard_v3_1_551-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.5903
+ },
+ {
+  "id": "eduguard_v3_1_551-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8545
+ },
+ {
+  "id": "eduguard_v3_1_551-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.6851
+ },
+ {
+  "id": "eduguard_v3_1_551-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8242
+ },
+ {
+  "id": "eduguard_v3_1_561-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9629
+ },
+ {
+  "id": "eduguard_v3_1_561-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9131
+ },
+ {
+  "id": "eduguard_v3_1_561-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9365
+ },
+ {
+  "id": "eduguard_v3_1_561-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9575
+ },
+ {
+  "id": "eduguard_v3_1_561-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8823
+ },
+ {
+  "id": "eduguard_v3_1_566-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.4661
+ },
+ {
+  "id": "eduguard_v3_1_566-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9355
+ },
+ {
+  "id": "eduguard_v3_1_566-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.9268
+ },
+ {
+  "id": "eduguard_v3_1_566-Remember",
+  "gold_pred": "Remember",
+  "gold_conf": 0.9624
+ },
+ {
+  "id": "eduguard_v3_1_566-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8672
+ },
+ {
+  "id": "eduguard_v3_1_571-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.2366
+ },
+ {
+  "id": "eduguard_v3_1_571-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.7085
+ },
+ {
+  "id": "eduguard_v3_1_571-Evaluate",
+  "gold_pred": "Evaluate",
+  "gold_conf": 0.8066
+ },
+ {
+  "id": "eduguard_v3_1_571-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8296
+ },
+ {
+  "id": "eduguard_v3_1_571-Understand",
+  "gold_pred": "Understand",
+  "gold_conf": 0.8901
+ },
+ {
+  "id": "eduguard_v3_1_600-Analyze",
+  "gold_pred": "Analyze",
+  "gold_conf": 0.9668
+ },
+ {
+  "id": "eduguard_v3_1_600-Apply",
+  "gold_pred": "Apply",
+  "gold_conf": 0.9668
+ },
+ {
+  "id": "eduguard_v3_1_600-Create",
+  "gold_pred": "Create",
+  "gold_conf": 0.9575
+ },
+ {
+  "id": "eduguard_v3_1_600-Evaluate",
+  "gold_pred": "Create",
+  "gold_conf": 0.5156
+ },
+ {
+  "id": "eduguard_v3_1_600-Remember",
+  "gold_pred": "Understand",
+  "gold_conf": 0.7764
+ }
+]

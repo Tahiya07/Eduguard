@@ -1,0 +1,5 @@
+Task,Train,Validation,Test,Total
+Bloom rewriting,2345,295,280,2920
+Closed-book QA,1172,146,147,1465
+Summarization,592,64,57,713
+Total,4109,505,484,5098

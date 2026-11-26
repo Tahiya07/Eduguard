@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 """Evaluate the shared Qwen model using task-separated validation or test files.
 
-Defaults to validation for the A/B/C/D model-selection sequence. Only run the test
-split after selecting a strategy. Evaluates Bloom rewrite, SQuAD QA, and arXiv
-summarization. Does not modify production code or models/qwen.gguf.
+Defaults to validation for model selection. Only run the test split after
+selecting a strategy. Evaluates Bloom rewrite, closed-book academic QA
+(free-form reference answers) and academic/lecture summarization. Does not
+modify production code or models/qwen.gguf.
 
-Usage:
-  python evaluate_rewrite.py --config configs/qwen15b_multitask_eduguard_v3_2_20261126.json --condition base --split validation
-  python evaluate_rewrite.py --config configs/qwen15b_multitask_eduguard_v3_2_20261126.json --condition lora --split validation
+Usage (default --config is paths.ACTIVE_TRAINING_CONFIG):
+  python evaluate_rewrite.py --condition base --split validation
+  python evaluate_rewrite.py --condition lora --split validation
 """
 from __future__ import annotations
 
@@ -58,6 +59,7 @@ from eval_model import (  # noqa: E402
     validate_checkpoint,
 )
 from paths import (  # noqa: E402
+    ACTIVE_TRAINING_CONFIG,
     CONFIG_DIR,
     HUMAN_EVAL_DIR,
     TASK_SEPARATED_DATA_DIR,
@@ -136,6 +138,48 @@ def generation_config_for_task(gen_cfg: dict[str, Any], task: str) -> dict[str, 
     task_cfg = dict(gen_cfg)
     task_cfg["max_new_tokens"] = int(task_caps[task])
     return task_cfg
+
+
+SUMMARY_LENGTH_BINS = ((600, "short"), (1200, "medium"), (2500, "long"), (4000, "very_long"))
+
+
+def summary_length_category(source_text: str) -> str:
+    """Dataset length categories by whitespace words of the source (short <= 600)."""
+    words = len(source_text.split())
+    for upper, name in SUMMARY_LENGTH_BINS:
+        if words <= upper:
+            return name
+    return "over_4000"
+
+
+def grouped_rouge(records: list[dict[str, Any]], key: str) -> dict[str, Any]:
+    groups: dict[str, list[tuple[str, str]]] = {}
+    for r in records:
+        groups.setdefault(str(r.get(key) or "unknown"), []).append((r["prediction"], r["reference"]))
+    return {name: rouge_scores(pairs) for name, pairs in sorted(groups.items())}
+
+
+def safe_bertscore(pairs: list[tuple[str, str]]) -> dict[str, Any] | None:
+    try:
+        return optional_bertscore(pairs)
+    except Exception as exc:  # optional secondary metric must not discard core results
+        return {"available": False, "error": f"{type(exc).__name__}: {exc}"}
+
+
+def bertscore_text(result: dict[str, Any] | None) -> str:
+    result = result or {}
+    if result.get("available"):
+        return str(result.get("f1"))
+    return f"not computed ({result.get('reason') or result.get('error') or 'no pairs'})"
+
+
+def grouped_table(title: str, groups: dict[str, Any] | None) -> list[str]:
+    if not groups:
+        return []
+    lines = [f"| {title} | N | ROUGE-1 | ROUGE-2 | ROUGE-L |", "|---|---:|---:|---:|---:|"]
+    for name, v in groups.items():
+        lines.append(f"| {name} | {v.get('n')} | {v.get('rouge1')} | {v.get('rouge2')} | {v.get('rougeL')} |")
+    return lines + [""]
 
 
 def classify_failure(record: dict[str, Any]) -> str:
@@ -267,9 +311,12 @@ def evaluate_qa_row(
     return {
         "id": row.get("id", row.get("example_id")),
         "task": TASK_QA,
+        "qa_format": row.get("qa_format"),
+        "qa_type": row.get("qa_type_canonical") or row.get("qa_type"),
+        "discipline_group": row.get("discipline_group"),
         "context": row.get("context"),
         "question": row.get("question"),
-        "reference": row.get("answer"),
+        "reference": row.get("reference_answer") or row.get("answer"),
         "prediction": prediction,
         "latency_s": round(latency, 6),
     }
@@ -286,6 +333,8 @@ def evaluate_sum_row(
     return {
         "id": row.get("id", row.get("example_id")),
         "task": TASK_SUMMARIZATION,
+        "source_type": row.get("source_type"),
+        "length_category": summary_length_category(row.get("article") or ""),
         "article": row.get("article"),
         "reference": row.get("abstract"),
         "prediction": prediction,
@@ -296,9 +345,11 @@ def evaluate_sum_row(
 def results_dir_for(cfg: dict[str, Any], condition: str) -> Path:
     key = cfg.get("model_key", "model")
     if condition == "base":
+        # Never share a folder with the LoRA run: base results would overwrite
+        # predictions.jsonl / metrics.json of the trained adapter.
         configured_results = cfg.get("results_dir")
         if configured_results:
-            return Path(configured_results)
+            return Path(str(configured_results).rstrip("/\\") + "_base")
         return EXPERIMENT_DIR / "results" / f"qwen{key}_base"
     return Path(cfg.get("results_dir", EXPERIMENT_DIR / "results" / f"qwen{key}_lora"))
 
@@ -342,6 +393,9 @@ def write_report(
 ) -> None:
     b = metrics.get("bloom", {})
     q = metrics.get("qa", {}).get("squad", {})
+    qc = metrics.get("qa", {}).get("closed_book", {})
+    sb = metrics.get("bertscore") or {}
+    qb = qc.get("bertscore") or {}
     s = metrics.get("summarization", {})
     lat = metrics.get("latency", {})
     res = metrics.get("resources", {})
@@ -370,18 +424,26 @@ def write_report(
         f"- Cognitive validity rate: {b.get('rates', {}).get('cognitive_valid_rate')}",
         f"- Trivial transform rate: {b.get('rates', {}).get('trivial_transform_rate')}",
         "",
-        f"## QA (SQuAD {dataset_meta.get('split', 'held-out')})",
+        f"## Closed-book academic QA (held-out {dataset_meta.get('split', 'split')})",
         "",
         f"- N: {q.get('n')}",
-        f"- Exact Match: {q.get('exact_match')}",
+        f"- ROUGE-1 / ROUGE-2 / ROUGE-L: {qc.get('rouge1')} / {qc.get('rouge2')} / {qc.get('rougeL')}",
+        f"- BERTScore F1: {bertscore_text(qb)}",
         f"- Token F1: {q.get('f1')}",
+        f"- Exact match: {q.get('exact_match')} (free-form references; expected near 0)",
         "",
-        f"## Summarization (arXiv {dataset_meta.get('split', 'held-out')})",
+        f"## Academic / lecture summarization (held-out {dataset_meta.get('split', 'split')})",
         "",
         f"- N: {s.get('n')}",
         f"- ROUGE-1: {s.get('rouge1')}",
         f"- ROUGE-2: {s.get('rouge2')}",
         f"- ROUGE-L: {s.get('rougeL')}",
+        f"- BERTScore F1: {bertscore_text(sb)}",
+        f"- Empty predictions: {s.get('empty_predictions')}",
+        "",
+        *grouped_table("Source type", s.get("by_source_type")),
+        *grouped_table("Length category", s.get("by_length_category")),
+        "Bloom target accuracy is agreement with a fixed 0.5B Bloom classifier, not human ground truth.",
         "",
         "## Efficiency",
         "",
@@ -410,8 +472,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--config",
-        default=str(CONFIG_DIR / "qwen15b_multitask_eduguard_v3_2_20261126.json"),
-        help="Training JSON config (default: qwen15b_multitask_eduguard_v3_2_20261126.json)",
+        default=str(CONFIG_DIR / ACTIVE_TRAINING_CONFIG),
+        help=f"Training JSON config (default: active config {ACTIVE_TRAINING_CONFIG})",
     )
     parser.add_argument(
         "--condition",
@@ -743,15 +805,23 @@ def main() -> None:
 
     qa_pairs = [(r["prediction"], r["reference"]) for r in qa_preds]
     squad_qa = aggregate_qa_metrics(qa_pairs)
+    # Closed-book references are free-form explanations, so exact match is near
+    # zero by construction; ROUGE and BERTScore are the primary QA metrics and
+    # token F1 is kept for comparability.
+    qa_closed_book = {
+        "token_f1": squad_qa.get("f1"),
+        "exact_match": squad_qa.get("exact_match"),
+        **rouge_scores(qa_pairs),
+        "bertscore": safe_bertscore(qa_pairs),
+        "by_qa_type": grouped_rouge(qa_preds, "qa_type"),
+        "by_discipline_group": grouped_rouge(qa_preds, "discipline_group"),
+    }
     sum_pairs = [(r["prediction"], r["reference"]) for r in sum_preds]
     sum_metrics = rouge_scores(sum_pairs)
-    try:
-        bert = optional_bertscore(sum_pairs)
-    except Exception as exc:  # optional secondary metric must not discard core results
-        bert = {
-            "available": False,
-            "error": f"{type(exc).__name__}: {exc}",
-        }
+    sum_metrics["by_source_type"] = grouped_rouge(sum_preds, "source_type")
+    sum_metrics["by_length_category"] = grouped_rouge(sum_preds, "length_category")
+    sum_metrics["empty_predictions"] = sum(not r["prediction"] for r in sum_preds)
+    bert = safe_bertscore(sum_pairs)
 
     metrics: dict[str, Any] = {
         "evaluated_utc": datetime.now(timezone.utc).isoformat(),
@@ -772,6 +842,7 @@ def main() -> None:
             "per_level": bloom_class.get("per_level"),
         },
         "qa": {
+            "closed_book": qa_closed_book,
             "squad": squad_qa,
             "eduguard_rag_qa": {
                 "available": False,
@@ -844,6 +915,38 @@ def main() -> None:
     print("EVALUATION COMPLETE")
     print("Results:", out_dir)
     print(json.dumps(metrics, indent=2))
+
+    # Journal evidence pack (figures, tables, CIs, examples). Built from the
+    # files just written; a failure here never invalidates the evaluation.
+    if not args.limit and not args.tasks and not args.output_dir:
+        try:
+            from augment_evaluation import augment
+
+            augment(out_dir, cfg_path)
+            print("Calibrated additions:", out_dir / "evaluation_report_extended.md")
+        except Exception as exc:  # noqa: BLE001
+            print(f"WARNING: calibrated additions not computed ({type(exc).__name__}: {exc}). "
+                  "Run scripts/augment_evaluation.py manually.")
+        try:
+            from build_paper_evidence import build as build_evidence
+
+            def absolute(path: Path) -> Path:
+                path = Path(path)
+                return path if path.is_absolute() else REPO_ROOT / path
+
+            evidence_dir = build_evidence(
+                cfg_path, args.split,
+                absolute(results_dir_for(cfg, "lora")),
+                absolute(cfg.get("base_results_dir") or results_dir_for(cfg, "base")),
+                None,
+            )
+            print("Paper evidence pack:", evidence_dir)
+        except Exception as exc:  # noqa: BLE001
+            print(f"WARNING: evidence pack not built ({type(exc).__name__}: {exc}). "
+                  "Run scripts/build_paper_evidence.py manually.")
+    else:
+        print("Evidence pack skipped (partial run: --limit/--tasks/--output-dir). "
+              "Run scripts/build_paper_evidence.py after a full evaluation.")
 
 
 if __name__ == "__main__":

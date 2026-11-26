@@ -1,0 +1,4730 @@
+{
+  "generated_utc": "2026-11-26T11:51:00.090509+00:00",
+  "split": "validation",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_3_20261126_base",
+  "embedding_model": "BAAI/bge-m3",
+  "calibration": "5th percentile over train-split references",
+  "bloom": {
+    "reference_based": {
+      "rougeL_to_reference_mean": 0.2899,
+      "embedding_sim_to_reference_mean": 0.7334,
+      "near_copy_threshold_source_rougeL": 0.5778
+    },
+    "per_row": [
+      {
+        "id": "eduguard_v3_1_003-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3256,
+        "ref_embedding_sim": 0.8468,
+        "source_rougeL": 0.4651,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_003-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1702,
+        "ref_embedding_sim": 0.6836,
+        "source_rougeL": 0.3111,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_003-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5333,
+        "ref_embedding_sim": 0.8125,
+        "source_rougeL": 0.4,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_003-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1765,
+        "ref_embedding_sim": 0.6424,
+        "source_rougeL": 0.6364,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_003-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "ref_embedding_sim": 0.593,
+        "source_rougeL": 0.6,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_005-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1237,
+        "ref_embedding_sim": 0.5736,
+        "source_rougeL": 0.1798,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_005-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1538,
+        "ref_embedding_sim": 0.5943,
+        "source_rougeL": 0.3333,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_005-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "ref_embedding_sim": 0.7324,
+        "source_rougeL": 0.7647,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_005-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1765,
+        "ref_embedding_sim": 0.5786,
+        "source_rougeL": 0.7879,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_005-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "ref_embedding_sim": 0.7849,
+        "source_rougeL": 0.7879,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_013-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.125,
+        "ref_embedding_sim": 0.6012,
+        "source_rougeL": 0.2703,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_013-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2051,
+        "ref_embedding_sim": 0.6238,
+        "source_rougeL": 0.6923,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_013-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0909,
+        "ref_embedding_sim": 0.6904,
+        "source_rougeL": 0.186,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_013-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1481,
+        "ref_embedding_sim": 0.6499,
+        "source_rougeL": 0.7879,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_013-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.48,
+        "ref_embedding_sim": 0.7406,
+        "source_rougeL": 0.64,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_016-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2985,
+        "ref_embedding_sim": 0.6931,
+        "source_rougeL": 0.2353,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_016-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "ref_embedding_sim": 0.8274,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_016-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3571,
+        "ref_embedding_sim": 0.7584,
+        "source_rougeL": 0.6,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_016-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0,
+        "ref_embedding_sim": 0.4539,
+        "source_rougeL": 0.5625,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_016-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.8214,
+        "source_rougeL": 0.8205,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_032-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1333,
+        "ref_embedding_sim": 0.6972,
+        "source_rougeL": 0.3913,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_032-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2264,
+        "ref_embedding_sim": 0.7912,
+        "source_rougeL": 0.4348,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_032-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1127,
+        "ref_embedding_sim": 0.4681,
+        "source_rougeL": 0.6341,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_032-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1333,
+        "ref_embedding_sim": 0.5126,
+        "source_rougeL": 0.5556,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_032-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.35,
+        "ref_embedding_sim": 0.783,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_037-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0851,
+        "ref_embedding_sim": 0.6626,
+        "source_rougeL": 0.2791,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_037-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2941,
+        "ref_embedding_sim": 0.5143,
+        "source_rougeL": 0.4,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_037-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "ref_embedding_sim": 0.7535,
+        "source_rougeL": 0.3571,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_037-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0833,
+        "ref_embedding_sim": 0.7005,
+        "source_rougeL": 0.2667,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_037-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "ref_embedding_sim": 0.6529,
+        "source_rougeL": 0.2581,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_063-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2353,
+        "ref_embedding_sim": 0.7137,
+        "source_rougeL": 0.3125,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_063-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1613,
+        "ref_embedding_sim": 0.6876,
+        "source_rougeL": 0.2162,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_063-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4878,
+        "ref_embedding_sim": 0.9131,
+        "source_rougeL": 0.1667,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_063-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.15,
+        "ref_embedding_sim": 0.5156,
+        "source_rougeL": 0.2326,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_063-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "ref_embedding_sim": 0.8812,
+        "source_rougeL": 0.2857,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_098-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.8499,
+        "source_rougeL": 0.4211,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_098-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4286,
+        "ref_embedding_sim": 0.7933,
+        "source_rougeL": 0.439,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_098-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2807,
+        "ref_embedding_sim": 0.761,
+        "source_rougeL": 0.32,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_098-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "ref_embedding_sim": 0.8542,
+        "source_rougeL": 0.6829,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_098-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.8718,
+        "ref_embedding_sim": 0.9718,
+        "source_rougeL": 0.4324,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_100-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1449,
+        "ref_embedding_sim": 0.6507,
+        "source_rougeL": 0.3243,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_100-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2687,
+        "ref_embedding_sim": 0.8249,
+        "source_rougeL": 0.4878,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_100-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0937,
+        "ref_embedding_sim": 0.5347,
+        "source_rougeL": 0.4878,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_100-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2941,
+        "ref_embedding_sim": 0.7861,
+        "source_rougeL": 0.5405,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_100-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "ref_embedding_sim": 0.8648,
+        "source_rougeL": 0.7568,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_104-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.45,
+        "ref_embedding_sim": 0.8936,
+        "source_rougeL": 0.3158,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_104-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2667,
+        "ref_embedding_sim": 0.7042,
+        "source_rougeL": 0.3043,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_104-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.6716,
+        "source_rougeL": 0.3,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_104-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4571,
+        "ref_embedding_sim": 0.8998,
+        "source_rougeL": 0.8,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_104-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.359,
+        "ref_embedding_sim": 0.8443,
+        "source_rougeL": 0.65,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_143-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0674,
+        "ref_embedding_sim": 0.6952,
+        "source_rougeL": 0.2899,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_143-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "ref_embedding_sim": 0.744,
+        "source_rougeL": 0.5333,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_143-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1408,
+        "ref_embedding_sim": 0.6127,
+        "source_rougeL": 0.254,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_143-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2979,
+        "ref_embedding_sim": 0.6473,
+        "source_rougeL": 0.7097,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_143-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.802,
+        "source_rougeL": 0.7222,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_160-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3462,
+        "ref_embedding_sim": 0.7715,
+        "source_rougeL": 0.4091,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_160-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2791,
+        "ref_embedding_sim": 0.8094,
+        "source_rougeL": 0.4255,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_160-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4706,
+        "ref_embedding_sim": 0.7956,
+        "source_rougeL": 0.5581,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_160-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4118,
+        "ref_embedding_sim": 0.896,
+        "source_rougeL": 0.5946,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_160-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5789,
+        "ref_embedding_sim": 0.8826,
+        "source_rougeL": 0.5909,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_170-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3077,
+        "ref_embedding_sim": 0.7897,
+        "source_rougeL": 0.3673,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_170-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2051,
+        "ref_embedding_sim": 0.7789,
+        "source_rougeL": 0.5098,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_170-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.225,
+        "ref_embedding_sim": 0.7708,
+        "source_rougeL": 0.4615,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_170-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.359,
+        "ref_embedding_sim": 0.8162,
+        "source_rougeL": 0.6522,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_170-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "ref_embedding_sim": 0.8699,
+        "source_rougeL": 0.7083,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_178-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1724,
+        "ref_embedding_sim": 0.869,
+        "source_rougeL": 0.6222,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_178-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2791,
+        "ref_embedding_sim": 0.6768,
+        "source_rougeL": 0.5106,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_178-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2162,
+        "ref_embedding_sim": 0.805,
+        "source_rougeL": 0.4583,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_178-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1277,
+        "ref_embedding_sim": 0.5263,
+        "source_rougeL": 0.2791,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_178-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3684,
+        "ref_embedding_sim": 0.6966,
+        "source_rougeL": 0.7308,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_206-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "ref_embedding_sim": 0.6996,
+        "source_rougeL": 0.2333,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_206-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2712,
+        "ref_embedding_sim": 0.7954,
+        "source_rougeL": 0.3333,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_206-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2381,
+        "ref_embedding_sim": 0.6754,
+        "source_rougeL": 0.3043,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_206-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3556,
+        "ref_embedding_sim": 0.8732,
+        "source_rougeL": 0.44,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_206-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3902,
+        "ref_embedding_sim": 0.8789,
+        "source_rougeL": 0.2609,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_218-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.32,
+        "ref_embedding_sim": 0.6868,
+        "source_rougeL": 0.5106,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_218-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.359,
+        "ref_embedding_sim": 0.7539,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_218-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2909,
+        "ref_embedding_sim": 0.7895,
+        "source_rougeL": 0.3273,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_218-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3043,
+        "ref_embedding_sim": 0.7341,
+        "source_rougeL": 0.7843,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_218-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2727,
+        "ref_embedding_sim": 0.7878,
+        "source_rougeL": 0.8,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_222-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2909,
+        "ref_embedding_sim": 0.7147,
+        "source_rougeL": 0.4651,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_222-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4138,
+        "ref_embedding_sim": 0.8902,
+        "source_rougeL": 0.7143,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_222-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "ref_embedding_sim": 0.6563,
+        "source_rougeL": 0.6222,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_222-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.381,
+        "ref_embedding_sim": 0.8059,
+        "source_rougeL": 0.4286,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_222-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2951,
+        "ref_embedding_sim": 0.7424,
+        "source_rougeL": 0.5763,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_229-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1923,
+        "ref_embedding_sim": 0.7174,
+        "source_rougeL": 0.2326,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_229-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "ref_embedding_sim": 0.8405,
+        "source_rougeL": 0.4242,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_229-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2632,
+        "ref_embedding_sim": 0.6584,
+        "source_rougeL": 0.4865,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_229-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4545,
+        "ref_embedding_sim": 0.7898,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_229-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "ref_embedding_sim": 0.799,
+        "source_rougeL": 0.4516,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_234-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1967,
+        "ref_embedding_sim": 0.6794,
+        "source_rougeL": 0.36,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_234-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2903,
+        "ref_embedding_sim": 0.8116,
+        "source_rougeL": 0.549,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_234-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1842,
+        "ref_embedding_sim": 0.5927,
+        "source_rougeL": 0.7907,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_234-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "ref_embedding_sim": 0.7515,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_234-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.36,
+        "ref_embedding_sim": 0.7515,
+        "source_rougeL": 0.625,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_236-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2308,
+        "ref_embedding_sim": 0.8342,
+        "source_rougeL": 0.5909,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_236-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3265,
+        "ref_embedding_sim": 0.8262,
+        "source_rougeL": 0.4314,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_236-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3137,
+        "ref_embedding_sim": 0.8047,
+        "source_rougeL": 0.3333,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_236-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1875,
+        "ref_embedding_sim": 0.7062,
+        "source_rougeL": 0.2727,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_236-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "ref_embedding_sim": 0.8295,
+        "source_rougeL": 0.4348,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_247-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.45,
+        "ref_embedding_sim": 0.8778,
+        "source_rougeL": 0.6857,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_247-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3396,
+        "ref_embedding_sim": 0.7295,
+        "source_rougeL": 0.4889,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_247-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.8631,
+        "source_rougeL": 0.5455,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_247-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2326,
+        "ref_embedding_sim": 0.7174,
+        "source_rougeL": 0.5,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_247-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5625,
+        "ref_embedding_sim": 0.8442,
+        "source_rougeL": 0.7059,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_261-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1644,
+        "ref_embedding_sim": 0.6772,
+        "source_rougeL": 0.4,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_261-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.137,
+        "ref_embedding_sim": 0.6049,
+        "source_rougeL": 0.0323,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_261-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1951,
+        "ref_embedding_sim": 0.6045,
+        "source_rougeL": 0.4444,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_261-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "ref_embedding_sim": 0.7214,
+        "source_rougeL": 0.75,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_261-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6,
+        "ref_embedding_sim": 0.8911,
+        "source_rougeL": 0.75,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_269-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1923,
+        "ref_embedding_sim": 0.7177,
+        "source_rougeL": 0.4444,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_269-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "ref_embedding_sim": 0.7409,
+        "source_rougeL": 0.3396,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_269-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2745,
+        "ref_embedding_sim": 0.6933,
+        "source_rougeL": 0.32,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_269-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.7538,
+        "source_rougeL": 0.2857,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_269-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "ref_embedding_sim": 0.5938,
+        "source_rougeL": 0.5957,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_274-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "ref_embedding_sim": 0.6911,
+        "source_rougeL": 0.75,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_274-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3768,
+        "ref_embedding_sim": 0.7765,
+        "source_rougeL": 0.5246,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_274-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.24,
+        "ref_embedding_sim": 0.6853,
+        "source_rougeL": 0.6071,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_274-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5217,
+        "ref_embedding_sim": 0.7871,
+        "source_rougeL": 0.8727,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_274-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5833,
+        "ref_embedding_sim": 0.8979,
+        "source_rougeL": 0.9057,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_287-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3881,
+        "ref_embedding_sim": 0.8108,
+        "source_rougeL": 0.6557,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_287-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.8047,
+        "source_rougeL": 0.5263,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_287-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4364,
+        "ref_embedding_sim": 0.7724,
+        "source_rougeL": 0.7458,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_287-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.359,
+        "ref_embedding_sim": 0.8004,
+        "source_rougeL": 0.6087,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_287-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4286,
+        "ref_embedding_sim": 0.8923,
+        "source_rougeL": 0.8235,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_300-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "ref_embedding_sim": 0.7917,
+        "source_rougeL": 0.4848,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_300-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "ref_embedding_sim": 0.9005,
+        "source_rougeL": 0.4615,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_300-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "ref_embedding_sim": 0.7646,
+        "source_rougeL": 0.2581,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_300-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "ref_embedding_sim": 0.6928,
+        "source_rougeL": 0.2564,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_300-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3256,
+        "ref_embedding_sim": 0.7861,
+        "source_rougeL": 0.4324,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_313-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1707,
+        "ref_embedding_sim": 0.5707,
+        "source_rougeL": 0.3529,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_313-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1379,
+        "ref_embedding_sim": 0.6374,
+        "source_rougeL": 0.6154,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_313-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2078,
+        "ref_embedding_sim": 0.7219,
+        "source_rougeL": 0.2712,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_313-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0896,
+        "ref_embedding_sim": 0.6219,
+        "source_rougeL": 0.4865,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_313-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3182,
+        "ref_embedding_sim": 0.7673,
+        "source_rougeL": 0.6383,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_314-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.24,
+        "ref_embedding_sim": 0.6539,
+        "source_rougeL": 0.2979,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_314-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1579,
+        "ref_embedding_sim": 0.6129,
+        "source_rougeL": 0.2051,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_314-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "ref_embedding_sim": 0.7669,
+        "source_rougeL": 0.64,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_314-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3256,
+        "ref_embedding_sim": 0.6796,
+        "source_rougeL": 0.3774,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_314-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "ref_embedding_sim": 0.8554,
+        "source_rougeL": 0.75,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_331-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.771,
+        "source_rougeL": 0.4545,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_331-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1754,
+        "ref_embedding_sim": 0.7249,
+        "source_rougeL": 0.381,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_331-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2286,
+        "ref_embedding_sim": 0.6398,
+        "source_rougeL": 0.25,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_331-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2778,
+        "ref_embedding_sim": 0.6536,
+        "source_rougeL": 0.3721,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_331-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5625,
+        "ref_embedding_sim": 0.8752,
+        "source_rougeL": 0.7317,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_345-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4211,
+        "ref_embedding_sim": 0.6953,
+        "source_rougeL": 0.5,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_345-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1053,
+        "ref_embedding_sim": 0.6207,
+        "source_rougeL": 0.1429,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_345-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5652,
+        "ref_embedding_sim": 0.8178,
+        "source_rougeL": 0.5581,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_345-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.087,
+        "ref_embedding_sim": 0.4522,
+        "source_rougeL": 0.2286,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_345-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4667,
+        "ref_embedding_sim": 0.8798,
+        "source_rougeL": 0.5556,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_354-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6087,
+        "ref_embedding_sim": 0.834,
+        "source_rougeL": 0.4889,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_354-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4103,
+        "ref_embedding_sim": 0.816,
+        "source_rougeL": 0.5366,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_354-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "ref_embedding_sim": 0.7702,
+        "source_rougeL": 0.2727,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_354-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.7328,
+        "source_rougeL": 0.6222,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_354-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.7558,
+        "source_rougeL": 0.8,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_360-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "ref_embedding_sim": 0.5922,
+        "source_rougeL": 0.4545,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_360-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3729,
+        "ref_embedding_sim": 0.7212,
+        "source_rougeL": 0.6341,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_360-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.36,
+        "ref_embedding_sim": 0.7795,
+        "source_rougeL": 0.5283,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_360-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.254,
+        "ref_embedding_sim": 0.657,
+        "source_rougeL": 0.3385,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_360-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.381,
+        "ref_embedding_sim": 0.7481,
+        "source_rougeL": 0.75,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_366-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2927,
+        "ref_embedding_sim": 0.6364,
+        "source_rougeL": 0.2545,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_366-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3939,
+        "ref_embedding_sim": 0.8395,
+        "source_rougeL": 0.4375,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_366-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2264,
+        "ref_embedding_sim": 0.82,
+        "source_rougeL": 0.254,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_366-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2712,
+        "ref_embedding_sim": 0.7176,
+        "source_rougeL": 0.5278,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_366-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2759,
+        "ref_embedding_sim": 0.7513,
+        "source_rougeL": 0.5352,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_371-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4186,
+        "ref_embedding_sim": 0.8517,
+        "source_rougeL": 0.5652,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_371-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1579,
+        "ref_embedding_sim": 0.5108,
+        "source_rougeL": 0.5532,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_371-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2069,
+        "ref_embedding_sim": 0.8274,
+        "source_rougeL": 0.4082,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_371-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1961,
+        "ref_embedding_sim": 0.7419,
+        "source_rougeL": 0.4727,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_371-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "ref_embedding_sim": 0.8111,
+        "source_rougeL": 0.6222,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_372-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2623,
+        "ref_embedding_sim": 0.7361,
+        "source_rougeL": 0.3448,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_372-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4242,
+        "ref_embedding_sim": 0.8492,
+        "source_rougeL": 0.6667,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_372-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "ref_embedding_sim": 0.8647,
+        "source_rougeL": 0.4643,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_372-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4231,
+        "ref_embedding_sim": 0.7748,
+        "source_rougeL": 0.6182,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_372-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "ref_embedding_sim": 0.6517,
+        "source_rougeL": 0.3492,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_386-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1786,
+        "ref_embedding_sim": 0.6801,
+        "source_rougeL": 0.3529,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_386-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1455,
+        "ref_embedding_sim": 0.6342,
+        "source_rougeL": 0.3279,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_386-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2286,
+        "ref_embedding_sim": 0.762,
+        "source_rougeL": 0.3529,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_386-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "ref_embedding_sim": 0.6332,
+        "source_rougeL": 0.2273,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_386-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2692,
+        "ref_embedding_sim": 0.8171,
+        "source_rougeL": 0.4528,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_401-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2432,
+        "ref_embedding_sim": 0.627,
+        "source_rougeL": 0.68,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_401-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1875,
+        "ref_embedding_sim": 0.6117,
+        "source_rougeL": 0.5,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_401-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3582,
+        "ref_embedding_sim": 0.8076,
+        "source_rougeL": 0.3846,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_401-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1579,
+        "ref_embedding_sim": 0.5922,
+        "source_rougeL": 0.5714,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_401-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.125,
+        "ref_embedding_sim": 0.5906,
+        "source_rougeL": 0.5641,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_409-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2817,
+        "ref_embedding_sim": 0.7797,
+        "source_rougeL": 0.3077,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_409-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2195,
+        "ref_embedding_sim": 0.7158,
+        "source_rougeL": 0.2727,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_409-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2368,
+        "ref_embedding_sim": 0.7352,
+        "source_rougeL": 0.3733,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_409-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3636,
+        "ref_embedding_sim": 0.7196,
+        "source_rougeL": 0.5667,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_409-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3137,
+        "ref_embedding_sim": 0.783,
+        "source_rougeL": 0.4561,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_427-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1695,
+        "ref_embedding_sim": 0.5799,
+        "source_rougeL": 0.8077,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_427-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2254,
+        "ref_embedding_sim": 0.6832,
+        "source_rougeL": 0.2188,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_427-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2778,
+        "ref_embedding_sim": 0.7985,
+        "source_rougeL": 0.359,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_427-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.125,
+        "ref_embedding_sim": 0.6122,
+        "source_rougeL": 0.383,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_427-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2222,
+        "ref_embedding_sim": 0.7623,
+        "source_rougeL": 0.3415,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_440-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3158,
+        "ref_embedding_sim": 0.6582,
+        "source_rougeL": 0.3385,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_440-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2927,
+        "ref_embedding_sim": 0.8382,
+        "source_rougeL": 0.3881,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_440-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2712,
+        "ref_embedding_sim": 0.771,
+        "source_rougeL": 0.5246,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_440-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1622,
+        "ref_embedding_sim": 0.6185,
+        "source_rougeL": 0.3678,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_440-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5938,
+        "ref_embedding_sim": 0.7792,
+        "source_rougeL": 0.8438,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_451-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1404,
+        "ref_embedding_sim": 0.6497,
+        "source_rougeL": 0.3438,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_451-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3077,
+        "ref_embedding_sim": 0.803,
+        "source_rougeL": 0.3421,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_451-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2449,
+        "ref_embedding_sim": 0.6833,
+        "source_rougeL": 0.4,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_451-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1765,
+        "ref_embedding_sim": 0.6109,
+        "source_rougeL": 0.3509,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_451-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.35,
+        "ref_embedding_sim": 0.7564,
+        "source_rougeL": 0.3509,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_458-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2791,
+        "ref_embedding_sim": 0.82,
+        "source_rougeL": 0.4634,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_458-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3659,
+        "ref_embedding_sim": 0.8472,
+        "source_rougeL": 0.7733,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_458-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3143,
+        "ref_embedding_sim": 0.7868,
+        "source_rougeL": 0.7013,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_458-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2182,
+        "ref_embedding_sim": 0.6307,
+        "source_rougeL": 0.6579,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_458-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4194,
+        "ref_embedding_sim": 0.8138,
+        "source_rougeL": 0.5946,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_466-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2697,
+        "ref_embedding_sim": 0.7541,
+        "source_rougeL": 0.419,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_466-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5243,
+        "ref_embedding_sim": 0.8598,
+        "source_rougeL": 0.4118,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_466-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2456,
+        "ref_embedding_sim": 0.5915,
+        "source_rougeL": 0.3056,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_466-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3284,
+        "ref_embedding_sim": 0.8037,
+        "source_rougeL": 0.5833,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_466-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "ref_embedding_sim": 0.5247,
+        "source_rougeL": 0.303,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_470-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1875,
+        "ref_embedding_sim": 0.605,
+        "source_rougeL": 0.4151,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_470-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1333,
+        "ref_embedding_sim": 0.6276,
+        "source_rougeL": 0.2581,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_470-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "ref_embedding_sim": 0.6021,
+        "source_rougeL": 0.3051,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_470-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3636,
+        "ref_embedding_sim": 0.7601,
+        "source_rougeL": 0.2222,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_470-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3889,
+        "ref_embedding_sim": 0.8654,
+        "source_rougeL": 0.5385,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_475-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3226,
+        "ref_embedding_sim": 0.7258,
+        "source_rougeL": 0.3385,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_475-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2903,
+        "ref_embedding_sim": 0.6961,
+        "source_rougeL": 0.3043,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_475-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2083,
+        "ref_embedding_sim": 0.5743,
+        "source_rougeL": 0.5532,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_475-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3111,
+        "ref_embedding_sim": 0.6626,
+        "source_rougeL": 0.8372,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_475-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2812,
+        "ref_embedding_sim": 0.6102,
+        "source_rougeL": 0.8261,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_479-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1356,
+        "ref_embedding_sim": 0.7267,
+        "source_rougeL": 0.2623,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_479-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1389,
+        "ref_embedding_sim": 0.6976,
+        "source_rougeL": 0.3846,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_479-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1795,
+        "ref_embedding_sim": 0.7618,
+        "source_rougeL": 0.1644,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_479-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3673,
+        "ref_embedding_sim": 0.8121,
+        "source_rougeL": 0.4255,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_479-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1695,
+        "ref_embedding_sim": 0.7933,
+        "source_rougeL": 0.4,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_487-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3509,
+        "ref_embedding_sim": 0.7512,
+        "source_rougeL": 0.918,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_487-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1639,
+        "ref_embedding_sim": 0.6181,
+        "source_rougeL": 0.2326,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_487-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2963,
+        "ref_embedding_sim": 0.8074,
+        "source_rougeL": 0.6747,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_487-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2642,
+        "ref_embedding_sim": 0.8182,
+        "source_rougeL": 0.8485,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_487-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3667,
+        "ref_embedding_sim": 0.8724,
+        "source_rougeL": 0.7887,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_491-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2619,
+        "ref_embedding_sim": 0.752,
+        "source_rougeL": 0.6933,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_491-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.241,
+        "ref_embedding_sim": 0.6981,
+        "source_rougeL": 0.1316,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_491-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3784,
+        "ref_embedding_sim": 0.7039,
+        "source_rougeL": 0.5195,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_491-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3077,
+        "ref_embedding_sim": 0.7305,
+        "source_rougeL": 0.8116,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_491-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7302,
+        "ref_embedding_sim": 0.8744,
+        "source_rougeL": 0.8696,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_498-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2903,
+        "ref_embedding_sim": 0.788,
+        "source_rougeL": 0.3922,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_498-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3385,
+        "ref_embedding_sim": 0.7333,
+        "source_rougeL": 0.549,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_498-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3019,
+        "ref_embedding_sim": 0.7085,
+        "source_rougeL": 0.5769,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_498-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "ref_embedding_sim": 0.8176,
+        "source_rougeL": 0.5417,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_498-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.48,
+        "ref_embedding_sim": 0.7556,
+        "source_rougeL": 0.8462,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_512-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2564,
+        "ref_embedding_sim": 0.7189,
+        "source_rougeL": 0.5682,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_512-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3457,
+        "ref_embedding_sim": 0.6851,
+        "source_rougeL": 0.8046,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_512-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0984,
+        "ref_embedding_sim": 0.4445,
+        "source_rougeL": 0.5122,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_512-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1639,
+        "ref_embedding_sim": 0.6076,
+        "source_rougeL": 0.9176,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_512-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3939,
+        "ref_embedding_sim": 0.8689,
+        "source_rougeL": 0.7317,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_522-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3243,
+        "ref_embedding_sim": 0.7727,
+        "source_rougeL": 0.3818,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_522-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2378,
+        "ref_embedding_sim": 0.7456,
+        "source_rougeL": 0.4564,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_522-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2017,
+        "ref_embedding_sim": 0.6792,
+        "source_rougeL": 0.5503,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_522-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3556,
+        "ref_embedding_sim": 0.5991,
+        "source_rougeL": 0.2326,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_522-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2316,
+        "ref_embedding_sim": 0.7089,
+        "source_rougeL": 0.7813,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_528-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4643,
+        "ref_embedding_sim": 0.7571,
+        "source_rougeL": 0.6316,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_528-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2623,
+        "ref_embedding_sim": 0.7441,
+        "source_rougeL": 0.5357,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_528-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2524,
+        "ref_embedding_sim": 0.7619,
+        "source_rougeL": 0.1915,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_528-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "ref_embedding_sim": 0.7402,
+        "source_rougeL": 0.6545,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_528-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2917,
+        "ref_embedding_sim": 0.6943,
+        "source_rougeL": 0.6333,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_539-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1765,
+        "ref_embedding_sim": 0.7018,
+        "source_rougeL": 0.3279,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_539-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3488,
+        "ref_embedding_sim": 0.7652,
+        "source_rougeL": 0.6154,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_539-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3158,
+        "ref_embedding_sim": 0.7436,
+        "source_rougeL": 0.4324,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_539-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2796,
+        "ref_embedding_sim": 0.8066,
+        "source_rougeL": 0.3232,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_539-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "ref_embedding_sim": 0.7674,
+        "source_rougeL": 0.4478,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_546-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2188,
+        "ref_embedding_sim": 0.736,
+        "source_rougeL": 0.6786,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_546-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "ref_embedding_sim": 0.8157,
+        "source_rougeL": 0.5397,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_546-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4923,
+        "ref_embedding_sim": 0.8427,
+        "source_rougeL": 0.7869,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_546-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1923,
+        "ref_embedding_sim": 0.766,
+        "source_rougeL": 0.3922,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_546-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "ref_embedding_sim": 0.7917,
+        "source_rougeL": 0.8276,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_551-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4906,
+        "ref_embedding_sim": 0.6841,
+        "source_rougeL": 0.4186,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_551-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3158,
+        "ref_embedding_sim": 0.7461,
+        "source_rougeL": 0.3704,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_551-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "ref_embedding_sim": 0.7287,
+        "source_rougeL": 0.2456,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_551-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.2667,
+        "ref_embedding_sim": 0.5215,
+        "source_rougeL": 0.1143,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_551-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.7539,
+        "source_rougeL": 0.4091,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_561-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0727,
+        "ref_embedding_sim": 0.4691,
+        "source_rougeL": 0.2105,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_561-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "ref_embedding_sim": 0.7594,
+        "source_rougeL": 0.4783,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_561-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "ref_embedding_sim": 0.7638,
+        "source_rougeL": 0.7111,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_561-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "ref_embedding_sim": 0.7706,
+        "source_rougeL": 0.4651,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_561-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5116,
+        "ref_embedding_sim": 0.8413,
+        "source_rougeL": 0.8,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_566-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "ref_embedding_sim": 0.7384,
+        "source_rougeL": 0.459,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_566-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2812,
+        "ref_embedding_sim": 0.7921,
+        "source_rougeL": 0.3571,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_566-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "ref_embedding_sim": 0.6887,
+        "source_rougeL": 0.4516,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_566-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "ref_embedding_sim": 0.5656,
+        "source_rougeL": 0.52,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_566-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.36,
+        "ref_embedding_sim": 0.8073,
+        "source_rougeL": 0.6786,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_571-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2308,
+        "ref_embedding_sim": 0.6152,
+        "source_rougeL": 0.1944,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_571-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "ref_embedding_sim": 0.6871,
+        "source_rougeL": 0.2532,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_571-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1188,
+        "ref_embedding_sim": 0.6496,
+        "source_rougeL": 0.5401,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_571-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1707,
+        "ref_embedding_sim": 0.6746,
+        "source_rougeL": 0.8276,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_571-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3404,
+        "ref_embedding_sim": 0.7441,
+        "source_rougeL": 0.3659,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_600-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5263,
+        "ref_embedding_sim": 0.8046,
+        "source_rougeL": 0.8475,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_600-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2745,
+        "ref_embedding_sim": 0.7598,
+        "source_rougeL": 0.8065,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_600-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2571,
+        "ref_embedding_sim": 0.7079,
+        "source_rougeL": 0.6562,
+        "near_copy": true
+      },
+      {
+        "id": "eduguard_v3_1_600-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2264,
+        "ref_embedding_sim": 0.7758,
+        "source_rougeL": 0.4615,
+        "near_copy": false
+      },
+      {
+        "id": "eduguard_v3_1_600-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4906,
+        "ref_embedding_sim": 0.8928,
+        "source_rougeL": 0.6774,
+        "near_copy": true
+      }
+    ],
+    "n": 295,
+    "model_vs_reference": {
+      "format_valid": {
+        "model": 0.9966,
+        "reference": 0.9525
+      },
+      "semantic_valid_jaccard": {
+        "model": 0.8441,
+        "reference": 0.7085
+      },
+      "cognitive_valid": {
+        "model": 0.9966,
+        "reference": 0.9525
+      },
+      "answer_or_declarative_flag": {
+        "model": 0.0034,
+        "reference": 0.0475
+      },
+      "classifier_target_match": {
+        "model": 0.6102,
+        "reference": 0.7525
+      },
+      "topic_preserved_embedding": {
+        "model": 0.9966,
+        "reference": 0.9458
+      },
+      "near_copy_of_source": {
+        "model": 0.3288,
+        "reference": 0.0441
+      }
+    },
+    "per_level": {
+      "Remember": {
+        "n": 59,
+        "model_target_accuracy": 0.0169,
+        "reference_target_accuracy": 0.4407
+      },
+      "Understand": {
+        "n": 49,
+        "model_target_accuracy": 0.6939,
+        "reference_target_accuracy": 0.8776
+      },
+      "Apply": {
+        "n": 42,
+        "model_target_accuracy": 0.7381,
+        "reference_target_accuracy": 0.9286
+      },
+      "Analyze": {
+        "n": 43,
+        "model_target_accuracy": 0.4651,
+        "reference_target_accuracy": 0.4884
+      },
+      "Evaluate": {
+        "n": 49,
+        "model_target_accuracy": 0.8571,
+        "reference_target_accuracy": 0.9796
+      },
+      "Create": {
+        "n": 53,
+        "model_target_accuracy": 0.9811,
+        "reference_target_accuracy": 0.8491
+      }
+    },
+    "topic_similarity": {
+      "threshold": 0.5836,
+      "train_reference_median": 0.763,
+      "model_median": 0.8584,
+      "reference_median": 0.7645,
+      "jaccard_fail_but_embedding_pass": 45
+    },
+    "fully_validated_original": 0.4847,
+    "fully_validated_calibrated": 0.6,
+    "calibrated_definition": "classifier target match (conf >= 0.5) AND embedding topic preserved AND not trivial AND (format valid OR scenario-first Evaluate item flagged declarative)",
+    "declarative_flags_on_evaluate": 1
+  },
+  "qa": {
+    "n": 146,
+    "embedding_similarity_to_reference": {
+      "mean": 0.803,
+      "median": 0.8119
+    },
+    "keypoint_coverage": {
+      "mean": 0.9199,
+      "rows_with_key_points": 146,
+      "threshold": 0.5033,
+      "full_coverage_rate": 0.7466,
+      "zero_coverage_rate": 0.0
+    },
+    "length_insensitive": {
+      "rougeL_lc": 0.2156,
+      "rouge2_lc": 0.0844,
+      "rouge1_recall": 0.6362,
+      "rouge2_recall": 0.1865,
+      "median_output_words": 146.0,
+      "median_reference_words": 31.5,
+      "markdown_outputs": 119
+    },
+    "per_row": [
+      {
+        "id": "QA-0004",
+        "embedding_sim": 0.7303,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.125,
+        "rouge2_lc": 0.0645,
+        "rouge1_recall": 0.6471,
+        "rouge2_recall": 0.1818
+      },
+      {
+        "id": "QA-0020",
+        "embedding_sim": 0.8624,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1446,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.7381,
+        "rouge2_recall": 0.1951
+      },
+      {
+        "id": "QA-0033",
+        "embedding_sim": 0.8426,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.209,
+        "rouge2_lc": 0.0606,
+        "rouge1_recall": 0.4154,
+        "rouge2_recall": 0.1406
+      },
+      {
+        "id": "QA-0045",
+        "embedding_sim": 0.8144,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1111,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.619,
+        "rouge2_recall": 0.2
+      },
+      {
+        "id": "QA-0058",
+        "embedding_sim": 0.8463,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1961,
+        "rouge2_lc": 0.04,
+        "rouge1_recall": 0.5577,
+        "rouge2_recall": 0.0784
+      },
+      {
+        "id": "QA-0059",
+        "embedding_sim": 0.7934,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1682,
+        "rouge2_lc": 0.0762,
+        "rouge1_recall": 0.5556,
+        "rouge2_recall": 0.0943
+      },
+      {
+        "id": "QA-0060",
+        "embedding_sim": 0.8812,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2017,
+        "rouge2_lc": 0.1197,
+        "rouge1_recall": 0.5333,
+        "rouge2_recall": 0.1864
+      },
+      {
+        "id": "QA-0073",
+        "embedding_sim": 0.7665,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2222,
+        "rouge2_lc": 0.1649,
+        "rouge1_recall": 0.6531,
+        "rouge2_recall": 0.2292
+      },
+      {
+        "id": "QA-0080",
+        "embedding_sim": 0.8132,
+        "keypoint_coverage": 0.5,
+        "rougeL_lc": 0.1818,
+        "rouge2_lc": 0.0412,
+        "rouge1_recall": 0.5926,
+        "rouge2_recall": 0.2453
+      },
+      {
+        "id": "QA-0108",
+        "embedding_sim": 0.8106,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3191,
+        "rouge2_lc": 0.087,
+        "rouge1_recall": 0.5745,
+        "rouge2_recall": 0.087
+      },
+      {
+        "id": "QA-0114",
+        "embedding_sim": 0.7906,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1353,
+        "rouge2_lc": 0.0458,
+        "rouge1_recall": 0.4559,
+        "rouge2_recall": 0.0597
+      },
+      {
+        "id": "QA-0125",
+        "embedding_sim": 0.8503,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1695,
+        "rouge2_lc": 0.0172,
+        "rouge1_recall": 0.4483,
+        "rouge2_recall": 0.0526
+      },
+      {
+        "id": "QA-0139",
+        "embedding_sim": 0.8544,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2136,
+        "rouge2_lc": 0.0198,
+        "rouge1_recall": 0.52,
+        "rouge2_recall": 0.0612
+      },
+      {
+        "id": "QA-0141",
+        "embedding_sim": 0.8713,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.241,
+        "rouge2_lc": 0.0988,
+        "rouge1_recall": 0.5238,
+        "rouge2_recall": 0.1951
+      },
+      {
+        "id": "QA-0143",
+        "embedding_sim": 0.8389,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2637,
+        "rouge2_lc": 0.0674,
+        "rouge1_recall": 0.6444,
+        "rouge2_recall": 0.0682
+      },
+      {
+        "id": "QA-0173",
+        "embedding_sim": 0.9082,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2692,
+        "rouge2_lc": 0.1176,
+        "rouge1_recall": 0.6038,
+        "rouge2_recall": 0.1154
+      },
+      {
+        "id": "QA-0199",
+        "embedding_sim": 0.7972,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1463,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5366,
+        "rouge2_recall": 0.025
+      },
+      {
+        "id": "QA-0211",
+        "embedding_sim": 0.7769,
+        "keypoint_coverage": 0.5,
+        "rougeL_lc": 0.2667,
+        "rouge2_lc": 0.1359,
+        "rouge1_recall": 0.7037,
+        "rouge2_recall": 0.2075
+      },
+      {
+        "id": "QA-0213",
+        "embedding_sim": 0.7989,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2637,
+        "rouge2_lc": 0.1124,
+        "rouge1_recall": 0.6136,
+        "rouge2_recall": 0.1395
+      },
+      {
+        "id": "QA-0215",
+        "embedding_sim": 0.8388,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.172,
+        "rouge2_lc": 0.044,
+        "rouge1_recall": 0.4792,
+        "rouge2_recall": 0.0851
+      },
+      {
+        "id": "QA-0217",
+        "embedding_sim": 0.7442,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1087,
+        "rouge2_lc": 0.0222,
+        "rouge1_recall": 0.3696,
+        "rouge2_recall": 0.0222
+      },
+      {
+        "id": "QA-0221",
+        "embedding_sim": 0.7969,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1649,
+        "rouge2_lc": 0.0842,
+        "rouge1_recall": 0.6327,
+        "rouge2_recall": 0.1458
+      },
+      {
+        "id": "QA-0250",
+        "embedding_sim": 0.6962,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1915,
+        "rouge2_lc": 0.0652,
+        "rouge1_recall": 0.5319,
+        "rouge2_recall": 0.1304
+      },
+      {
+        "id": "QA-0270",
+        "embedding_sim": 0.8495,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.0842,
+        "rouge2_lc": 0.0215,
+        "rouge1_recall": 0.4043,
+        "rouge2_recall": 0.0652
+      },
+      {
+        "id": "QA-0281",
+        "embedding_sim": 0.8255,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.198,
+        "rouge2_lc": 0.0404,
+        "rouge1_recall": 0.4314,
+        "rouge2_recall": 0.04
+      },
+      {
+        "id": "QA-0289",
+        "embedding_sim": 0.8789,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1869,
+        "rouge2_lc": 0.0571,
+        "rouge1_recall": 0.5,
+        "rouge2_recall": 0.1321
+      },
+      {
+        "id": "QA-0291",
+        "embedding_sim": 0.8201,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1224,
+        "rouge2_lc": 0.0208,
+        "rouge1_recall": 0.4286,
+        "rouge2_recall": 0.0833
+      },
+      {
+        "id": "QA-0333",
+        "embedding_sim": 0.809,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2222,
+        "rouge2_lc": 0.0682,
+        "rouge1_recall": 0.6667,
+        "rouge2_recall": 0.1702
+      },
+      {
+        "id": "QA-0335",
+        "embedding_sim": 0.8214,
+        "keypoint_coverage": 0.5,
+        "rougeL_lc": 0.2917,
+        "rouge2_lc": 0.087,
+        "rouge1_recall": 0.6429,
+        "rouge2_recall": 0.1481
+      },
+      {
+        "id": "QA-0353",
+        "embedding_sim": 0.8129,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.125,
+        "rouge2_lc": 0.0667,
+        "rouge1_recall": 0.8,
+        "rouge2_recall": 0.2632
+      },
+      {
+        "id": "QA-0390",
+        "embedding_sim": 0.8711,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2281,
+        "rouge2_lc": 0.1071,
+        "rouge1_recall": 0.7018,
+        "rouge2_recall": 0.2679
+      },
+      {
+        "id": "QA-0400",
+        "embedding_sim": 0.7684,
+        "keypoint_coverage": 0.5,
+        "rougeL_lc": 0.1333,
+        "rouge2_lc": 0.0227,
+        "rouge1_recall": 0.5778,
+        "rouge2_recall": 0.0682
+      },
+      {
+        "id": "QA-0466",
+        "embedding_sim": 0.6666,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1224,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5833,
+        "rouge2_recall": 0.2174
+      },
+      {
+        "id": "QA-0472",
+        "embedding_sim": 0.8399,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1587,
+        "rouge2_lc": 0.0328,
+        "rouge1_recall": 0.6562,
+        "rouge2_recall": 0.1935
+      },
+      {
+        "id": "QA-0483",
+        "embedding_sim": 0.7641,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1724,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.8214,
+        "rouge2_recall": 0.1852
+      },
+      {
+        "id": "QA-0514",
+        "embedding_sim": 0.7514,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.16,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.7059,
+        "rouge2_recall": 0.375
+      },
+      {
+        "id": "QA-0515",
+        "embedding_sim": 0.5875,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.8235,
+        "rouge2_recall": 0.4375
+      },
+      {
+        "id": "QA-0549",
+        "embedding_sim": 0.8036,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.24,
+        "rouge2_lc": 0.0417,
+        "rouge1_recall": 0.56,
+        "rouge2_recall": 0.125
+      },
+      {
+        "id": "QA-0563",
+        "embedding_sim": 0.7532,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2,
+        "rouge2_lc": 0.1667,
+        "rouge1_recall": 0.75,
+        "rouge2_recall": 0.4074
+      },
+      {
+        "id": "QA-0573",
+        "embedding_sim": 0.8189,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2069,
+        "rouge2_lc": 0.0714,
+        "rouge1_recall": 0.6552,
+        "rouge2_recall": 0.0714
+      },
+      {
+        "id": "QA-0580",
+        "embedding_sim": 0.8699,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.4074,
+        "rouge2_lc": 0.3462,
+        "rouge1_recall": 0.8519,
+        "rouge2_recall": 0.5769
+      },
+      {
+        "id": "QA-0594",
+        "embedding_sim": 0.7616,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.1509,
+        "rouge2_lc": 0.0392,
+        "rouge1_recall": 0.5769,
+        "rouge2_recall": 0.08
+      },
+      {
+        "id": "QA-0598",
+        "embedding_sim": 0.634,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.0952,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.3333,
+        "rouge2_recall": 0.0625
+      },
+      {
+        "id": "QA-0602",
+        "embedding_sim": 0.8184,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.15,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.75,
+        "rouge2_recall": 0.1579
+      },
+      {
+        "id": "QA-0603",
+        "embedding_sim": 0.8878,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2105,
+        "rouge2_lc": 0.1622,
+        "rouge1_recall": 0.8205,
+        "rouge2_recall": 0.3684
+      },
+      {
+        "id": "QA-0608",
+        "embedding_sim": 0.8221,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.24,
+        "rouge2_lc": 0.0548,
+        "rouge1_recall": 0.6486,
+        "rouge2_recall": 0.1389
+      },
+      {
+        "id": "QA-0650",
+        "embedding_sim": 0.8305,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1728,
+        "rouge2_lc": 0.0506,
+        "rouge1_recall": 0.6053,
+        "rouge2_recall": 0.1081
+      },
+      {
+        "id": "QA-0653",
+        "embedding_sim": 0.6732,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1739,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.6154,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "QA-0657",
+        "embedding_sim": 0.8986,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2264,
+        "rouge2_lc": 0.1961,
+        "rouge1_recall": 0.963,
+        "rouge2_recall": 0.5769
+      },
+      {
+        "id": "QA-0672",
+        "embedding_sim": 0.7964,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3056,
+        "rouge2_lc": 0.1714,
+        "rouge1_recall": 0.7778,
+        "rouge2_recall": 0.2571
+      },
+      {
+        "id": "QA-0706",
+        "embedding_sim": 0.7046,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.0909,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5152,
+        "rouge2_recall": 0.0625
+      },
+      {
+        "id": "QA-0710",
+        "embedding_sim": 0.7409,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1333,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5526,
+        "rouge2_recall": 0.0811
+      },
+      {
+        "id": "QA-0711",
+        "embedding_sim": 0.8174,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.25,
+        "rouge2_lc": 0.0968,
+        "rouge1_recall": 0.6562,
+        "rouge2_recall": 0.0968
+      },
+      {
+        "id": "QA-0717",
+        "embedding_sim": 0.8815,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3333,
+        "rouge2_lc": 0.2,
+        "rouge1_recall": 0.6944,
+        "rouge2_recall": 0.4
+      },
+      {
+        "id": "QA-0729",
+        "embedding_sim": 0.8884,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3438,
+        "rouge2_lc": 0.1935,
+        "rouge1_recall": 0.625,
+        "rouge2_recall": 0.2258
+      },
+      {
+        "id": "QA-0733",
+        "embedding_sim": 0.7942,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2319,
+        "rouge2_lc": 0.1194,
+        "rouge1_recall": 0.6,
+        "rouge2_recall": 0.2353
+      },
+      {
+        "id": "QA-0743",
+        "embedding_sim": 0.85,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1455,
+        "rouge2_lc": 0.0377,
+        "rouge1_recall": 0.7143,
+        "rouge2_recall": 0.1111
+      },
+      {
+        "id": "QA-0746",
+        "embedding_sim": 0.7088,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1176,
+        "rouge2_lc": 0.0303,
+        "rouge1_recall": 0.6176,
+        "rouge2_recall": 0.2424
+      },
+      {
+        "id": "QA-0749",
+        "embedding_sim": 0.8109,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1975,
+        "rouge2_lc": 0.1013,
+        "rouge1_recall": 0.6098,
+        "rouge2_recall": 0.2
+      },
+      {
+        "id": "QA-0750",
+        "embedding_sim": 0.8393,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2368,
+        "rouge2_lc": 0.1081,
+        "rouge1_recall": 0.5263,
+        "rouge2_recall": 0.1622
+      },
+      {
+        "id": "QA-0752",
+        "embedding_sim": 0.7385,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2258,
+        "rouge2_lc": 0.0667,
+        "rouge1_recall": 0.6452,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "QA-0772",
+        "embedding_sim": 0.7214,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2188,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.625,
+        "rouge2_recall": 0.0
+      },
+      {
+        "id": "QA-0778",
+        "embedding_sim": 0.8794,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.25,
+        "rouge2_lc": 0.0857,
+        "rouge1_recall": 0.6389,
+        "rouge2_recall": 0.1714
+      },
+      {
+        "id": "QA-0784",
+        "embedding_sim": 0.86,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2258,
+        "rouge2_lc": 0.0667,
+        "rouge1_recall": 0.6562,
+        "rouge2_recall": 0.129
+      },
+      {
+        "id": "QA-0790",
+        "embedding_sim": 0.9096,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2545,
+        "rouge2_lc": 0.1132,
+        "rouge1_recall": 0.6429,
+        "rouge2_recall": 0.2593
+      },
+      {
+        "id": "QA-0791",
+        "embedding_sim": 0.8965,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3548,
+        "rouge2_lc": 0.2,
+        "rouge1_recall": 0.9032,
+        "rouge2_recall": 0.4333
+      },
+      {
+        "id": "QA-0798",
+        "embedding_sim": 0.799,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2821,
+        "rouge2_lc": 0.1316,
+        "rouge1_recall": 0.6923,
+        "rouge2_recall": 0.1316
+      },
+      {
+        "id": "QA-0805",
+        "embedding_sim": 0.78,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3103,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.6207,
+        "rouge2_recall": 0.2143
+      },
+      {
+        "id": "QA-0827",
+        "embedding_sim": 0.7255,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1667,
+        "rouge2_lc": 0.0909,
+        "rouge1_recall": 0.625,
+        "rouge2_recall": 0.1333
+      },
+      {
+        "id": "QA-0830",
+        "embedding_sim": 0.8132,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1852,
+        "rouge2_lc": 0.0769,
+        "rouge1_recall": 0.7778,
+        "rouge2_recall": 0.2308
+      },
+      {
+        "id": "QA-0832",
+        "embedding_sim": 0.8995,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3284,
+        "rouge2_lc": 0.1846,
+        "rouge1_recall": 0.8485,
+        "rouge2_recall": 0.4688
+      },
+      {
+        "id": "QA-0834",
+        "embedding_sim": 0.886,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3636,
+        "rouge2_lc": 0.1875,
+        "rouge1_recall": 0.6061,
+        "rouge2_recall": 0.1875
+      },
+      {
+        "id": "QA-0838",
+        "embedding_sim": 0.7819,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.25,
+        "rouge2_lc": 0.0968,
+        "rouge1_recall": 0.6562,
+        "rouge2_recall": 0.0968
+      },
+      {
+        "id": "QA-0855",
+        "embedding_sim": 0.7634,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2333,
+        "rouge2_lc": 0.0345,
+        "rouge1_recall": 0.6333,
+        "rouge2_recall": 0.2069
+      },
+      {
+        "id": "QA-0891",
+        "embedding_sim": 0.87,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.4286,
+        "rouge2_lc": 0.1471,
+        "rouge1_recall": 0.7143,
+        "rouge2_recall": 0.2647
+      },
+      {
+        "id": "QA-0893",
+        "embedding_sim": 0.8849,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2778,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.7778,
+        "rouge2_recall": 0.3714
+      },
+      {
+        "id": "QA-0908",
+        "embedding_sim": 0.8065,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3,
+        "rouge2_lc": 0.2051,
+        "rouge1_recall": 0.6829,
+        "rouge2_recall": 0.425
+      },
+      {
+        "id": "QA-0910",
+        "embedding_sim": 0.7753,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1714,
+        "rouge2_lc": 0.0588,
+        "rouge1_recall": 0.5714,
+        "rouge2_recall": 0.1471
+      },
+      {
+        "id": "QA-0918",
+        "embedding_sim": 0.8097,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.127,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.4688,
+        "rouge2_recall": 0.0968
+      },
+      {
+        "id": "QA-0933",
+        "embedding_sim": 0.8421,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2059,
+        "rouge2_lc": 0.0606,
+        "rouge1_recall": 0.5588,
+        "rouge2_recall": 0.0606
+      },
+      {
+        "id": "QA-0934",
+        "embedding_sim": 0.851,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2105,
+        "rouge2_lc": 0.0727,
+        "rouge1_recall": 0.6207,
+        "rouge2_recall": 0.1071
+      },
+      {
+        "id": "QA-0935",
+        "embedding_sim": 0.8957,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.386,
+        "rouge2_lc": 0.1818,
+        "rouge1_recall": 0.6429,
+        "rouge2_recall": 0.2593
+      },
+      {
+        "id": "QA-0949",
+        "embedding_sim": 0.8767,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3056,
+        "rouge2_lc": 0.1714,
+        "rouge1_recall": 0.6667,
+        "rouge2_recall": 0.2286
+      },
+      {
+        "id": "QA-0950",
+        "embedding_sim": 0.8022,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1935,
+        "rouge2_lc": 0.0333,
+        "rouge1_recall": 0.4194,
+        "rouge2_recall": 0.0333
+      },
+      {
+        "id": "QA-0958",
+        "embedding_sim": 0.8266,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1389,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5556,
+        "rouge2_recall": 0.0571
+      },
+      {
+        "id": "QA-0973",
+        "embedding_sim": 0.7783,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1429,
+        "rouge2_lc": 0.0741,
+        "rouge1_recall": 0.75,
+        "rouge2_recall": 0.1852
+      },
+      {
+        "id": "QA-0976",
+        "embedding_sim": 0.7887,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1846,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.6364,
+        "rouge2_recall": 0.0938
+      },
+      {
+        "id": "QA-0981",
+        "embedding_sim": 0.862,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3,
+        "rouge2_lc": 0.1724,
+        "rouge1_recall": 0.6333,
+        "rouge2_recall": 0.2414
+      },
+      {
+        "id": "QA-0982",
+        "embedding_sim": 0.8207,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.0678,
+        "rouge2_lc": 0.0351,
+        "rouge1_recall": 0.6552,
+        "rouge2_recall": 0.1071
+      },
+      {
+        "id": "QA-1002",
+        "embedding_sim": 0.8607,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3571,
+        "rouge2_lc": 0.2195,
+        "rouge1_recall": 0.7857,
+        "rouge2_recall": 0.3415
+      },
+      {
+        "id": "QA-1003",
+        "embedding_sim": 0.8509,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.1644,
+        "rouge2_lc": 0.0282,
+        "rouge1_recall": 0.6486,
+        "rouge2_recall": 0.1944
+      },
+      {
+        "id": "QA-1004",
+        "embedding_sim": 0.6466,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2632,
+        "rouge2_lc": 0.1667,
+        "rouge1_recall": 0.619,
+        "rouge2_recall": 0.2
+      },
+      {
+        "id": "QA-1009",
+        "embedding_sim": 0.7462,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2759,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.7143,
+        "rouge2_recall": 0.2593
+      },
+      {
+        "id": "QA-1014",
+        "embedding_sim": 0.8134,
+        "keypoint_coverage": 0.8,
+        "rougeL_lc": 0.3571,
+        "rouge2_lc": 0.1111,
+        "rouge1_recall": 0.7143,
+        "rouge2_recall": 0.2963
+      },
+      {
+        "id": "QA-1023",
+        "embedding_sim": 0.8228,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.129,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.4839,
+        "rouge2_recall": 0.0333
+      },
+      {
+        "id": "QA-1041",
+        "embedding_sim": 0.7234,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2,
+        "rouge2_lc": 0.0526,
+        "rouge1_recall": 0.7,
+        "rouge2_recall": 0.1053
+      },
+      {
+        "id": "QA-1054",
+        "embedding_sim": 0.7778,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2169,
+        "rouge2_lc": 0.0494,
+        "rouge1_recall": 0.6744,
+        "rouge2_recall": 0.119
+      },
+      {
+        "id": "QA-1072",
+        "embedding_sim": 0.8368,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3137,
+        "rouge2_lc": 0.1224,
+        "rouge1_recall": 0.6667,
+        "rouge2_recall": 0.1739
+      },
+      {
+        "id": "QA-1093",
+        "embedding_sim": 0.8108,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.2078,
+        "rouge2_lc": 0.0267,
+        "rouge1_recall": 0.7436,
+        "rouge2_recall": 0.0526
+      },
+      {
+        "id": "QA-1094",
+        "embedding_sim": 0.7995,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.16,
+        "rouge2_lc": 0.1096,
+        "rouge1_recall": 0.7027,
+        "rouge2_recall": 0.3889
+      },
+      {
+        "id": "QA-1115",
+        "embedding_sim": 0.7475,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1892,
+        "rouge2_lc": 0.1111,
+        "rouge1_recall": 0.6316,
+        "rouge2_recall": 0.2703
+      },
+      {
+        "id": "QA-1119",
+        "embedding_sim": 0.8974,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.4444,
+        "rouge2_lc": 0.3846,
+        "rouge1_recall": 0.8889,
+        "rouge2_recall": 0.6538
+      },
+      {
+        "id": "QA-1120",
+        "embedding_sim": 0.8883,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2326,
+        "rouge2_lc": 0.0976,
+        "rouge1_recall": 0.9524,
+        "rouge2_recall": 0.55
+      },
+      {
+        "id": "QA-1128",
+        "embedding_sim": 0.8144,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1562,
+        "rouge2_lc": 0.0323,
+        "rouge1_recall": 0.6129,
+        "rouge2_recall": 0.1
+      },
+      {
+        "id": "QA-1142",
+        "embedding_sim": 0.7728,
+        "keypoint_coverage": 0.75,
+        "rougeL_lc": 0.1818,
+        "rouge2_lc": 0.0267,
+        "rouge1_recall": 0.575,
+        "rouge2_recall": 0.0769
+      },
+      {
+        "id": "QA-1179",
+        "embedding_sim": 0.7198,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1053,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5,
+        "rouge2_recall": 0.037
+      },
+      {
+        "id": "QA-1189",
+        "embedding_sim": 0.6573,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.16,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.56,
+        "rouge2_recall": 0.0417
+      },
+      {
+        "id": "QA-1202",
+        "embedding_sim": 0.7741,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2857,
+        "rouge2_lc": 0.2128,
+        "rouge1_recall": 0.84,
+        "rouge2_recall": 0.2917
+      },
+      {
+        "id": "QA-1214",
+        "embedding_sim": 0.7877,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1569,
+        "rouge2_lc": 0.0408,
+        "rouge1_recall": 0.75,
+        "rouge2_recall": 0.1111
+      },
+      {
+        "id": "QA-1240",
+        "embedding_sim": 0.835,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2667,
+        "rouge2_lc": 0.0345,
+        "rouge1_recall": 0.6667,
+        "rouge2_recall": 0.1034
+      },
+      {
+        "id": "QA-1244",
+        "embedding_sim": 0.7418,
+        "keypoint_coverage": 0.3333333333333333,
+        "rougeL_lc": 0.1316,
+        "rouge2_lc": 0.0541,
+        "rouge1_recall": 0.3784,
+        "rouge2_recall": 0.1111
+      },
+      {
+        "id": "QA-1246",
+        "embedding_sim": 0.7779,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.12,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.64,
+        "rouge2_recall": 0.0417
+      },
+      {
+        "id": "QA-1256",
+        "embedding_sim": 0.7973,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2182,
+        "rouge2_lc": 0.0755,
+        "rouge1_recall": 0.5185,
+        "rouge2_recall": 0.1538
+      },
+      {
+        "id": "QA-1257",
+        "embedding_sim": 0.8605,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1918,
+        "rouge2_lc": 0.169,
+        "rouge1_recall": 0.5676,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "QA-1272",
+        "embedding_sim": 0.7873,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3729,
+        "rouge2_lc": 0.2105,
+        "rouge1_recall": 0.7667,
+        "rouge2_recall": 0.3103
+      },
+      {
+        "id": "QA-1297",
+        "embedding_sim": 0.7559,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1154,
+        "rouge2_lc": 0.04,
+        "rouge1_recall": 0.5,
+        "rouge2_recall": 0.08
+      },
+      {
+        "id": "QA-1299",
+        "embedding_sim": 0.8622,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.186,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.8636,
+        "rouge2_recall": 0.2857
+      },
+      {
+        "id": "QA-1317",
+        "embedding_sim": 0.7526,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2029,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.6286,
+        "rouge2_recall": 0.0588
+      },
+      {
+        "id": "QA-1357",
+        "embedding_sim": 0.838,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3385,
+        "rouge2_lc": 0.254,
+        "rouge1_recall": 0.8788,
+        "rouge2_recall": 0.4688
+      },
+      {
+        "id": "QA-1362",
+        "embedding_sim": 0.8659,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.3279,
+        "rouge2_lc": 0.2373,
+        "rouge1_recall": 0.6774,
+        "rouge2_recall": 0.3
+      },
+      {
+        "id": "QA-1363",
+        "embedding_sim": 0.873,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2692,
+        "rouge2_lc": 0.2,
+        "rouge1_recall": 0.8,
+        "rouge2_recall": 0.2917
+      },
+      {
+        "id": "QA-1407",
+        "embedding_sim": 0.8257,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2083,
+        "rouge2_lc": 0.087,
+        "rouge1_recall": 0.5417,
+        "rouge2_recall": 0.1304
+      },
+      {
+        "id": "QA-1411",
+        "embedding_sim": 0.7996,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2667,
+        "rouge2_lc": 0.25,
+        "rouge1_recall": 0.6667,
+        "rouge2_recall": 0.2955
+      },
+      {
+        "id": "QA-1419",
+        "embedding_sim": 0.7639,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2029,
+        "rouge2_lc": 0.0896,
+        "rouge1_recall": 0.6571,
+        "rouge2_recall": 0.1471
+      },
+      {
+        "id": "QA-1421",
+        "embedding_sim": 0.8173,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.241,
+        "rouge2_lc": 0.0741,
+        "rouge1_recall": 0.6,
+        "rouge2_recall": 0.1795
+      },
+      {
+        "id": "QA-1428",
+        "embedding_sim": 0.7165,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2692,
+        "rouge2_lc": 0.08,
+        "rouge1_recall": 0.6154,
+        "rouge2_recall": 0.28
+      },
+      {
+        "id": "QA-1430",
+        "embedding_sim": 0.8335,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1739,
+        "rouge2_lc": 0.0455,
+        "rouge1_recall": 0.6957,
+        "rouge2_recall": 0.2273
+      },
+      {
+        "id": "QA-1434",
+        "embedding_sim": 0.8208,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1569,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.6154,
+        "rouge2_recall": 0.0
+      },
+      {
+        "id": "QA-1438",
+        "embedding_sim": 0.853,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2121,
+        "rouge2_lc": 0.125,
+        "rouge1_recall": 0.697,
+        "rouge2_recall": 0.1875
+      },
+      {
+        "id": "QA-1449",
+        "embedding_sim": 0.7571,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2593,
+        "rouge2_lc": 0.1154,
+        "rouge1_recall": 0.7037,
+        "rouge2_recall": 0.1538
+      },
+      {
+        "id": "QA-1453",
+        "embedding_sim": 0.6529,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1818,
+        "rouge2_lc": 0.0755,
+        "rouge1_recall": 0.5357,
+        "rouge2_recall": 0.1111
+      },
+      {
+        "id": "QA-1458",
+        "embedding_sim": 0.7109,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2439,
+        "rouge2_lc": 0.0513,
+        "rouge1_recall": 0.5714,
+        "rouge2_recall": 0.2
+      },
+      {
+        "id": "QA-1459",
+        "embedding_sim": 0.7619,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.7619,
+        "rouge2_recall": 0.45
+      },
+      {
+        "id": "QA-1463",
+        "embedding_sim": 0.7854,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2133,
+        "rouge2_lc": 0.0274,
+        "rouge1_recall": 0.4211,
+        "rouge2_recall": 0.0811
+      },
+      {
+        "id": "QA-1467",
+        "embedding_sim": 0.8067,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3704,
+        "rouge2_lc": 0.1538,
+        "rouge1_recall": 0.6429,
+        "rouge2_recall": 0.1481
+      },
+      {
+        "id": "QA-1475",
+        "embedding_sim": 0.8196,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1765,
+        "rouge2_lc": 0.1515,
+        "rouge1_recall": 0.5882,
+        "rouge2_recall": 0.1515
+      },
+      {
+        "id": "QA-1542",
+        "embedding_sim": 0.8573,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2295,
+        "rouge2_lc": 0.0678,
+        "rouge1_recall": 0.6774,
+        "rouge2_recall": 0.3333
+      },
+      {
+        "id": "QA-1544",
+        "embedding_sim": 0.8732,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.3448,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.7667,
+        "rouge2_recall": 0.2759
+      },
+      {
+        "id": "QA-1553",
+        "embedding_sim": 0.6926,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1644,
+        "rouge2_lc": 0.0563,
+        "rouge1_recall": 0.5455,
+        "rouge2_recall": 0.1875
+      },
+      {
+        "id": "QA-1561",
+        "embedding_sim": 0.7862,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2188,
+        "rouge2_lc": 0.0968,
+        "rouge1_recall": 0.5806,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "QA-1569",
+        "embedding_sim": 0.7137,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2192,
+        "rouge2_lc": 0.0282,
+        "rouge1_recall": 0.6486,
+        "rouge2_recall": 0.1111
+      },
+      {
+        "id": "QA-1582",
+        "embedding_sim": 0.8429,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2105,
+        "rouge2_lc": 0.0811,
+        "rouge1_recall": 0.5789,
+        "rouge2_recall": 0.1351
+      },
+      {
+        "id": "QA-1586",
+        "embedding_sim": 0.8302,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.1935,
+        "rouge2_lc": 0.1,
+        "rouge1_recall": 0.7097,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "QA-1587",
+        "embedding_sim": 0.7759,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.2162,
+        "rouge2_lc": 0.1111,
+        "rouge1_recall": 0.6111,
+        "rouge2_recall": 0.1714
+      },
+      {
+        "id": "QA-1588",
+        "embedding_sim": 0.8552,
+        "keypoint_coverage": 0.6666666666666666,
+        "rougeL_lc": 0.2909,
+        "rouge2_lc": 0.0755,
+        "rouge1_recall": 0.6429,
+        "rouge2_recall": 0.2222
+      },
+      {
+        "id": "QA-1593",
+        "embedding_sim": 0.6533,
+        "keypoint_coverage": 1.0,
+        "rougeL_lc": 0.0678,
+        "rouge2_lc": 0.0,
+        "rouge1_recall": 0.5172,
+        "rouge2_recall": 0.0357
+      }
+    ]
+  },
+  "summarization": {
+    "n": 64,
+    "embedding_similarity_to_reference": {
+      "mean": 0.7888,
+      "median": 0.8127,
+      "by_source_type": {
+        "arxiv_scientific_article": {
+          "n": 33,
+          "mean": 0.7353
+        },
+        "lecture_slide_text_style": {
+          "n": 2,
+          "mean": 0.8621
+        },
+        "original_academic_example": {
+          "n": 29,
+          "mean": 0.8446
+        }
+      }
+    },
+    "rougeLsum": {
+      "mean": 0.3057,
+      "note": "summary-level ROUGE-L over newline-separated sentences, as reported for arXiv in the literature"
+    },
+    "length_insensitive": {
+      "rougeL_lc": 0.214,
+      "rouge2_lc": 0.1025,
+      "rouge1_recall": 0.6737,
+      "rouge2_recall": 0.1942,
+      "median_output_words": 282.5,
+      "median_reference_words": 73.5,
+      "markdown_outputs": 64
+    },
+    "per_row": [
+      {
+        "id": "UAP-CURR-SUM-0121",
+        "embedding_sim": 0.863,
+        "rougeLsum": 0.4412,
+        "rougeL_lc": 0.3525,
+        "rouge2_lc": 0.281,
+        "rouge1_recall": 0.8943,
+        "rouge2_recall": 0.5
+      },
+      {
+        "id": "UAP-CURR-SUM-0128",
+        "embedding_sim": 0.8612,
+        "rougeLsum": 0.3732,
+        "rougeL_lc": 0.251,
+        "rouge2_lc": 0.2055,
+        "rouge1_recall": 0.712,
+        "rouge2_recall": 0.3065
+      },
+      {
+        "id": "UAP-SUM-0002",
+        "embedding_sim": 0.8548,
+        "rougeLsum": 0.3097,
+        "rougeL_lc": 0.2835,
+        "rouge2_lc": 0.128,
+        "rouge1_recall": 0.7794,
+        "rouge2_recall": 0.194
+      },
+      {
+        "id": "UAP-SUM-0012",
+        "embedding_sim": 0.7936,
+        "rougeLsum": 0.3462,
+        "rougeL_lc": 0.2812,
+        "rouge2_lc": 0.0794,
+        "rouge1_recall": 0.7015,
+        "rouge2_recall": 0.1667
+      },
+      {
+        "id": "UAP-SUM-0014",
+        "embedding_sim": 0.8385,
+        "rougeLsum": 0.284,
+        "rougeL_lc": 0.3115,
+        "rouge2_lc": 0.0833,
+        "rouge1_recall": 0.7692,
+        "rouge2_recall": 0.1719
+      },
+      {
+        "id": "UAP-SUM-0020",
+        "embedding_sim": 0.8523,
+        "rougeLsum": 0.346,
+        "rougeL_lc": 0.1818,
+        "rouge2_lc": 0.1077,
+        "rouge1_recall": 0.7794,
+        "rouge2_recall": 0.1642
+      },
+      {
+        "id": "UAP-SUM-0025",
+        "embedding_sim": 0.8402,
+        "rougeLsum": 0.2934,
+        "rougeL_lc": 0.2256,
+        "rouge2_lc": 0.0763,
+        "rouge1_recall": 0.8406,
+        "rouge2_recall": 0.1471
+      },
+      {
+        "id": "UAP-SUM-0033",
+        "embedding_sim": 0.8285,
+        "rougeLsum": 0.294,
+        "rougeL_lc": 0.2222,
+        "rouge2_lc": 0.1353,
+        "rouge1_recall": 0.8028,
+        "rouge2_recall": 0.2286
+      },
+      {
+        "id": "UAP-SUM-0035",
+        "embedding_sim": 0.8356,
+        "rougeLsum": 0.3436,
+        "rougeL_lc": 0.2031,
+        "rouge2_lc": 0.0317,
+        "rouge1_recall": 0.8857,
+        "rouge2_recall": 0.2464
+      },
+      {
+        "id": "UAP-SUM-0042",
+        "embedding_sim": 0.827,
+        "rougeLsum": 0.3814,
+        "rougeL_lc": 0.3007,
+        "rouge2_lc": 0.0795,
+        "rouge1_recall": 0.5732,
+        "rouge2_recall": 0.0988
+      },
+      {
+        "id": "UAP-SUM-0064",
+        "embedding_sim": 0.8115,
+        "rougeLsum": 0.2975,
+        "rougeL_lc": 0.2203,
+        "rouge2_lc": 0.0345,
+        "rouge1_recall": 0.8065,
+        "rouge2_recall": 0.1967
+      },
+      {
+        "id": "UAP-SUM-0073",
+        "embedding_sim": 0.8221,
+        "rougeLsum": 0.3006,
+        "rougeL_lc": 0.2632,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.9032,
+        "rouge2_recall": 0.2623
+      },
+      {
+        "id": "UAP-SUM-0075",
+        "embedding_sim": 0.8641,
+        "rougeLsum": 0.2663,
+        "rougeL_lc": 0.2124,
+        "rouge2_lc": 0.1081,
+        "rouge1_recall": 0.8966,
+        "rouge2_recall": 0.3333
+      },
+      {
+        "id": "UAP-SUM-0084",
+        "embedding_sim": 0.8221,
+        "rougeLsum": 0.3083,
+        "rougeL_lc": 0.2295,
+        "rouge2_lc": 0.0833,
+        "rouge1_recall": 0.7778,
+        "rouge2_recall": 0.1452
+      },
+      {
+        "id": "UAP-SUM-0087",
+        "embedding_sim": 0.8784,
+        "rougeLsum": 0.2848,
+        "rougeL_lc": 0.1406,
+        "rouge2_lc": 0.0317,
+        "rouge1_recall": 0.7273,
+        "rouge2_recall": 0.1077
+      },
+      {
+        "id": "UAP-SUM-0100",
+        "embedding_sim": 0.826,
+        "rougeLsum": 0.3056,
+        "rougeL_lc": 0.1746,
+        "rouge2_lc": 0.0645,
+        "rouge1_recall": 0.806,
+        "rouge2_recall": 0.2121
+      },
+      {
+        "id": "UAP-SUM-0105",
+        "embedding_sim": 0.8448,
+        "rougeLsum": 0.2873,
+        "rougeL_lc": 0.256,
+        "rouge2_lc": 0.0813,
+        "rouge1_recall": 0.8308,
+        "rouge2_recall": 0.2812
+      },
+      {
+        "id": "UAP-SUM-0107",
+        "embedding_sim": 0.8597,
+        "rougeLsum": 0.3323,
+        "rougeL_lc": 0.2336,
+        "rouge2_lc": 0.0889,
+        "rouge1_recall": 0.7361,
+        "rouge2_recall": 0.1831
+      },
+      {
+        "id": "UAP-SUM-0113",
+        "embedding_sim": 0.8576,
+        "rougeLsum": 0.2676,
+        "rougeL_lc": 0.1846,
+        "rouge2_lc": 0.0625,
+        "rouge1_recall": 0.6324,
+        "rouge2_recall": 0.1642
+      },
+      {
+        "id": "UAP-SUM-0116",
+        "embedding_sim": 0.7902,
+        "rougeLsum": 0.355,
+        "rougeL_lc": 0.2281,
+        "rouge2_lc": 0.0714,
+        "rouge1_recall": 0.7333,
+        "rouge2_recall": 0.1525
+      },
+      {
+        "id": "UAP-SUM-0119",
+        "embedding_sim": 0.8704,
+        "rougeLsum": 0.282,
+        "rougeL_lc": 0.2439,
+        "rouge2_lc": 0.0992,
+        "rouge1_recall": 0.7344,
+        "rouge2_recall": 0.1587
+      },
+      {
+        "id": "UAP-SUM-0126",
+        "embedding_sim": 0.8798,
+        "rougeLsum": 0.2879,
+        "rougeL_lc": 0.3089,
+        "rouge2_lc": 0.1488,
+        "rouge1_recall": 0.7258,
+        "rouge2_recall": 0.1639
+      },
+      {
+        "id": "UAP-SUM-0134",
+        "embedding_sim": 0.8855,
+        "rougeLsum": 0.3365,
+        "rougeL_lc": 0.2222,
+        "rouge2_lc": 0.1127,
+        "rouge1_recall": 0.7368,
+        "rouge2_recall": 0.1867
+      },
+      {
+        "id": "UAP-SUM-0139",
+        "embedding_sim": 0.8434,
+        "rougeLsum": 0.2776,
+        "rougeL_lc": 0.1467,
+        "rouge2_lc": 0.0541,
+        "rouge1_recall": 0.7089,
+        "rouge2_recall": 0.1282
+      },
+      {
+        "id": "UAP-SUM-0154",
+        "embedding_sim": 0.8799,
+        "rougeLsum": 0.288,
+        "rougeL_lc": 0.3594,
+        "rouge2_lc": 0.2698,
+        "rouge1_recall": 0.8529,
+        "rouge2_recall": 0.5075
+      },
+      {
+        "id": "UAP-SUM-0156",
+        "embedding_sim": 0.8801,
+        "rougeLsum": 0.3289,
+        "rougeL_lc": 0.2362,
+        "rouge2_lc": 0.096,
+        "rouge1_recall": 0.6567,
+        "rouge2_recall": 0.1818
+      },
+      {
+        "id": "UAP-SUM-0160",
+        "embedding_sim": 0.8396,
+        "rougeLsum": 0.2727,
+        "rougeL_lc": 0.1525,
+        "rouge2_lc": 0.0862,
+        "rouge1_recall": 0.7302,
+        "rouge2_recall": 0.2419
+      },
+      {
+        "id": "UAP-SUM-0176",
+        "embedding_sim": 0.8626,
+        "rougeLsum": 0.3475,
+        "rougeL_lc": 0.2879,
+        "rouge2_lc": 0.1538,
+        "rouge1_recall": 0.7,
+        "rouge2_recall": 0.2029
+      },
+      {
+        "id": "UAP-SUM-0177",
+        "embedding_sim": 0.8606,
+        "rougeLsum": 0.3169,
+        "rougeL_lc": 0.3607,
+        "rouge2_lc": 0.1833,
+        "rouge1_recall": 0.7419,
+        "rouge2_recall": 0.3115
+      },
+      {
+        "id": "UAP-SUM-0178",
+        "embedding_sim": 0.8191,
+        "rougeLsum": 0.2857,
+        "rougeL_lc": 0.2273,
+        "rouge2_lc": 0.1077,
+        "rouge1_recall": 0.7647,
+        "rouge2_recall": 0.1343
+      },
+      {
+        "id": "UAP-SUM-0187",
+        "embedding_sim": 0.8262,
+        "rougeLsum": 0.2985,
+        "rougeL_lc": 0.2333,
+        "rouge2_lc": 0.0678,
+        "rouge1_recall": 0.8571,
+        "rouge2_recall": 0.2097
+      },
+      {
+        "id": "arxiv_validation_0000021",
+        "embedding_sim": 0.8307,
+        "rougeLsum": 0.3774,
+        "rougeL_lc": 0.2165,
+        "rouge2_lc": 0.1324,
+        "rouge1_recall": 0.5385,
+        "rouge2_recall": 0.1598
+      },
+      {
+        "id": "arxiv_validation_0000023",
+        "embedding_sim": 0.7221,
+        "rougeLsum": 0.3696,
+        "rougeL_lc": 0.2192,
+        "rouge2_lc": 0.1448,
+        "rouge1_recall": 0.5177,
+        "rouge2_recall": 0.15
+      },
+      {
+        "id": "arxiv_validation_0000034",
+        "embedding_sim": 0.7576,
+        "rougeLsum": 0.2366,
+        "rougeL_lc": 0.2174,
+        "rouge2_lc": 0.0735,
+        "rouge1_recall": 0.7385,
+        "rouge2_recall": 0.3594
+      },
+      {
+        "id": "arxiv_validation_0000035",
+        "embedding_sim": 0.7578,
+        "rougeLsum": 0.3922,
+        "rougeL_lc": 0.2,
+        "rouge2_lc": 0.1031,
+        "rouge1_recall": 0.5233,
+        "rouge2_recall": 0.1146
+      },
+      {
+        "id": "arxiv_validation_0000037",
+        "embedding_sim": 0.6355,
+        "rougeLsum": 0.2991,
+        "rougeL_lc": 0.1702,
+        "rouge2_lc": 0.0618,
+        "rouge1_recall": 0.4495,
+        "rouge2_recall": 0.0914
+      },
+      {
+        "id": "arxiv_validation_0000040",
+        "embedding_sim": 0.7377,
+        "rougeLsum": 0.2187,
+        "rougeL_lc": 0.1429,
+        "rouge2_lc": 0.0333,
+        "rouge1_recall": 0.5556,
+        "rouge2_recall": 0.1011
+      },
+      {
+        "id": "arxiv_validation_0000050",
+        "embedding_sim": 0.7548,
+        "rougeLsum": 0.2857,
+        "rougeL_lc": 0.1373,
+        "rouge2_lc": 0.0866,
+        "rouge1_recall": 0.5877,
+        "rouge2_recall": 0.1327
+      },
+      {
+        "id": "arxiv_validation_0000061",
+        "embedding_sim": 0.7591,
+        "rougeLsum": 0.3437,
+        "rougeL_lc": 0.1651,
+        "rouge2_lc": 0.0831,
+        "rouge1_recall": 0.4348,
+        "rouge2_recall": 0.0949
+      },
+      {
+        "id": "arxiv_validation_0000070",
+        "embedding_sim": 0.7822,
+        "rougeLsum": 0.2776,
+        "rougeL_lc": 0.2051,
+        "rouge2_lc": 0.1429,
+        "rouge1_recall": 0.6111,
+        "rouge2_recall": 0.2254
+      },
+      {
+        "id": "arxiv_validation_0000071",
+        "embedding_sim": 0.7388,
+        "rougeLsum": 0.3784,
+        "rougeL_lc": 0.1484,
+        "rouge2_lc": 0.0649,
+        "rouge1_recall": 0.557,
+        "rouge2_recall": 0.1847
+      },
+      {
+        "id": "arxiv_validation_0000074",
+        "embedding_sim": 0.692,
+        "rougeLsum": 0.2637,
+        "rougeL_lc": 0.1974,
+        "rouge2_lc": 0.1333,
+        "rouge1_recall": 0.7838,
+        "rouge2_recall": 0.2329
+      },
+      {
+        "id": "arxiv_validation_0000083",
+        "embedding_sim": 0.791,
+        "rougeLsum": 0.2217,
+        "rougeL_lc": 0.1829,
+        "rouge2_lc": 0.0462,
+        "rouge1_recall": 0.6471,
+        "rouge2_recall": 0.0952
+      },
+      {
+        "id": "arxiv_validation_0000087",
+        "embedding_sim": 0.7731,
+        "rougeLsum": 0.2957,
+        "rougeL_lc": 0.1875,
+        "rouge2_lc": 0.0991,
+        "rouge1_recall": 0.5327,
+        "rouge2_recall": 0.1604
+      },
+      {
+        "id": "arxiv_validation_0000094",
+        "embedding_sim": 0.6937,
+        "rougeLsum": 0.197,
+        "rougeL_lc": 0.2174,
+        "rouge2_lc": 0.1176,
+        "rouge1_recall": 0.5821,
+        "rouge2_recall": 0.2121
+      },
+      {
+        "id": "arxiv_validation_0000097",
+        "embedding_sim": 0.6865,
+        "rougeLsum": 0.3051,
+        "rougeL_lc": 0.1639,
+        "rouge2_lc": 0.0744,
+        "rouge1_recall": 0.575,
+        "rouge2_recall": 0.1681
+      },
+      {
+        "id": "arxiv_validation_0000104",
+        "embedding_sim": 0.6785,
+        "rougeLsum": 0.3274,
+        "rougeL_lc": 0.1689,
+        "rouge2_lc": 0.1156,
+        "rouge1_recall": 0.6377,
+        "rouge2_recall": 0.1971
+      },
+      {
+        "id": "arxiv_validation_0000110",
+        "embedding_sim": 0.6216,
+        "rougeLsum": 0.3413,
+        "rougeL_lc": 0.1555,
+        "rouge2_lc": 0.0781,
+        "rouge1_recall": 0.3443,
+        "rouge2_recall": 0.0741
+      },
+      {
+        "id": "arxiv_validation_0000119",
+        "embedding_sim": 0.6797,
+        "rougeLsum": 0.2078,
+        "rougeL_lc": 0.1549,
+        "rouge2_lc": 0.0286,
+        "rouge1_recall": 0.6418,
+        "rouge2_recall": 0.197
+      },
+      {
+        "id": "arxiv_validation_0000121",
+        "embedding_sim": 0.6417,
+        "rougeLsum": 0.2552,
+        "rougeL_lc": 0.1339,
+        "rouge2_lc": 0.0631,
+        "rouge1_recall": 0.5179,
+        "rouge2_recall": 0.0901
+      },
+      {
+        "id": "arxiv_validation_0000154",
+        "embedding_sim": 0.7645,
+        "rougeLsum": 0.3241,
+        "rougeL_lc": 0.3012,
+        "rouge2_lc": 0.1636,
+        "rouge1_recall": 0.5366,
+        "rouge2_recall": 0.1656
+      },
+      {
+        "id": "arxiv_validation_0000157",
+        "embedding_sim": 0.7602,
+        "rougeLsum": 0.3114,
+        "rougeL_lc": 0.1466,
+        "rouge2_lc": 0.0783,
+        "rouge1_recall": 0.6204,
+        "rouge2_recall": 0.1776
+      },
+      {
+        "id": "arxiv_validation_0000163",
+        "embedding_sim": 0.7021,
+        "rougeLsum": 0.3377,
+        "rougeL_lc": 0.2038,
+        "rouge2_lc": 0.097,
+        "rouge1_recall": 0.4633,
+        "rouge2_recall": 0.125
+      },
+      {
+        "id": "arxiv_validation_0000166",
+        "embedding_sim": 0.8137,
+        "rougeLsum": 0.3117,
+        "rougeL_lc": 0.3168,
+        "rouge2_lc": 0.31,
+        "rouge1_recall": 0.7419,
+        "rouge2_recall": 0.3696
+      },
+      {
+        "id": "arxiv_validation_0000182",
+        "embedding_sim": 0.7311,
+        "rougeLsum": 0.2443,
+        "rougeL_lc": 0.1074,
+        "rouge2_lc": 0.0544,
+        "rouge1_recall": 0.7123,
+        "rouge2_recall": 0.1944
+      },
+      {
+        "id": "arxiv_validation_0000200",
+        "embedding_sim": 0.8116,
+        "rougeLsum": 0.3544,
+        "rougeL_lc": 0.2426,
+        "rouge2_lc": 0.0741,
+        "rouge1_recall": 0.5833,
+        "rouge2_recall": 0.1069
+      },
+      {
+        "id": "arxiv_validation_0000208",
+        "embedding_sim": 0.843,
+        "rougeLsum": 0.3365,
+        "rougeL_lc": 0.3316,
+        "rouge2_lc": 0.2919,
+        "rouge1_recall": 0.7191,
+        "rouge2_recall": 0.3523
+      },
+      {
+        "id": "arxiv_validation_0000218",
+        "embedding_sim": 0.8475,
+        "rougeLsum": 0.3218,
+        "rougeL_lc": 0.1818,
+        "rouge2_lc": 0.1122,
+        "rouge1_recall": 0.6484,
+        "rouge2_recall": 0.1556
+      },
+      {
+        "id": "arxiv_validation_0000229",
+        "embedding_sim": 0.7991,
+        "rougeLsum": 0.3133,
+        "rougeL_lc": 0.1837,
+        "rouge2_lc": 0.0753,
+        "rouge1_recall": 0.493,
+        "rouge2_recall": 0.0993
+      },
+      {
+        "id": "arxiv_validation_0000232",
+        "embedding_sim": 0.6879,
+        "rougeLsum": 0.287,
+        "rougeL_lc": 0.1552,
+        "rouge2_lc": 0.0877,
+        "rouge1_recall": 0.625,
+        "rouge2_recall": 0.2182
+      },
+      {
+        "id": "arxiv_validation_0000236",
+        "embedding_sim": 0.683,
+        "rougeLsum": 0.3503,
+        "rougeL_lc": 0.0977,
+        "rouge2_lc": 0.0455,
+        "rouge1_recall": 0.5224,
+        "rouge2_recall": 0.2105
+      },
+      {
+        "id": "arxiv_validation_0000240",
+        "embedding_sim": 0.7163,
+        "rougeLsum": 0.1378,
+        "rougeL_lc": 0.1593,
+        "rouge2_lc": 0.036,
+        "rouge1_recall": 0.5536,
+        "rouge2_recall": 0.0909
+      },
+      {
+        "id": "arxiv_validation_0000242",
+        "embedding_sim": 0.6034,
+        "rougeLsum": 0.2602,
+        "rougeL_lc": 0.1493,
+        "rouge2_lc": 0.0152,
+        "rouge1_recall": 0.7612,
+        "rouge2_recall": 0.3182
+      },
+      {
+        "id": "arxiv_validation_0000280",
+        "embedding_sim": 0.7687,
+        "rougeLsum": 0.3405,
+        "rougeL_lc": 0.2,
+        "rouge2_lc": 0.0805,
+        "rouge1_recall": 0.5638,
+        "rouge2_recall": 0.1149
+      }
+    ],
+    "length_ratio_median": 3.324,
+    "lowercase_tokenized_style_outputs": 0
+  },
+  "latency_by_task": {
+    "bloom_rewrite": {
+      "n": 295,
+      "mean_s": 2.481,
+      "p50_s": 2.201,
+      "p95_s": 4.311
+    },
+    "qa": {
+      "n": 146,
+      "mean_s": 12.56,
+      "p50_s": 12.671,
+      "p95_s": 12.796
+    },
+    "summarization": {
+      "n": 64,
+      "mean_s": 29.288,
+      "p50_s": 29.641,
+      "p95_s": 36.839
+    }
+  },
+  "human_eval_sheets": {
+    "qa": {
+      "path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_3_20261126_base\\human_eval_qa.csv",
+      "items": 62,
+      "stratified_by": "qa_type"
+    },
+    "summarization": {
+      "path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_3_20261126_base\\human_eval_summarization.csv",
+      "items": 40,
+      "stratified_by": "source_type"
+    }
+  }
+}

@@ -79,7 +79,8 @@
 		"2026-11-26 speed: token_budget_batching packs similar-length rows under a budget equal to the longest train row (no truncation; max_seq_length unchanged); gradient accumulation is derived so ~16 examples per optimizer step are kept. mixed_precision bf16 (Qwen2.5 native) replaces fp16. attn_implementation stays sdpa (fused attention, faster than eager).",
 		"2026-11-26 memory: assistant_logits_only computes LM-head logits only from the first answer token (logits_to_keep); identical loss, removes the ~4.4 GB fp32 full-prompt logits that overflowed VRAM into Windows shared memory.",
 		"2026-11-26 memory: cuda_memory_fraction 0.8 (~12.8 GB of 16 GB) caps the PyTorch allocator below physical VRAM so Windows sysmem fallback never engages; the max-length preflight runs under the same cap.",
-		"2026-11-26 attention: sdpa_repeat_kv_for_gqa repeats Qwen2.5 KV heads before SDPA. This torch build has no flash attention, so enable_gqa fell back to the O(L^2) math kernel (7,217-token row: 10.3 GB activations, 7.3 s fwd+bwd); with repeat_kv the memory-efficient kernel runs (2.2 GB, 2.4 s). Same math transformers uses whenever a mask is present."
+		"2026-11-26 attention: sdpa_repeat_kv_for_gqa repeats Qwen2.5 KV heads before SDPA. This torch build has no flash attention, so enable_gqa fell back to the O(L^2) math kernel (7,217-token row: 10.3 GB activations, 7.3 s fwd+bwd); with repeat_kv the memory-efficient kernel runs (2.2 GB, 2.4 s). Same math transformers uses whenever a mask is present.",
+		"2026-11-26 memory: chunked_supervised_loss applies the LM head + cross-entropy only to answer tokens in checkpointed 1,024-token chunks (same loss: token sum / num_items_in_batch). Fixes an OOM at step 210 where a multi-row batch still needed 3.2 GB of fp32 logits under assistant_logits_only. The GPU preflight now also backpropagates the worst multi-row batches of the epoch plan."
 	],
 	"mixed_precision": "bf16",
 	"token_budget_batching": {
@@ -90,5 +91,7 @@
 	},
 	"assistant_logits_only": true,
 	"cuda_memory_fraction": 0.8,
-	"sdpa_repeat_kv_for_gqa": true
+	"sdpa_repeat_kv_for_gqa": true,
+	"chunked_supervised_loss": true,
+	"loss_chunk_tokens": 1024
 }
