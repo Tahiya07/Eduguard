@@ -10,6 +10,31 @@ from typing import Any, Callable
 import torch
 
 
+class RepeatedSpanStop:
+    """Stopping criterion: stop when the last `n` generated tokens already occurred earlier in the output.
+
+    Only generated tokens are checked (copying phrases from the prompt is allowed). A verbatim repeat of a long
+    span is a degenerate greedy-decoding loop; after stopping, the output is cut back to before the repeat.
+    """
+
+    def __init__(self, prompt_len: int, n: int) -> None:
+        self.prompt_len, self.n = prompt_len, n
+        self.seen: set[tuple[int, ...]] = set()
+        self.repeat_start: int | None = None
+
+    def __call__(self, input_ids: torch.Tensor, scores: Any = None, **kwargs: Any) -> torch.Tensor:
+        gen = input_ids[0, self.prompt_len:].tolist()
+        stop = False
+        if len(gen) >= self.n:
+            tail = tuple(gen[-self.n:])
+            if tail in self.seen:
+                self.repeat_start = len(gen) - self.n
+                stop = True
+            else:
+                self.seen.add(tail)
+        return torch.full((input_ids.shape[0],), stop, dtype=torch.bool, device=input_ids.device)
+
+
 @dataclass
 class CheckpointInfo:
     condition: str
@@ -260,14 +285,25 @@ class HFGenerator:
         if gen_kwargs["do_sample"]:
             gen_kwargs["temperature"] = float(gen_cfg.get("temperature", 0.0))
             gen_kwargs["top_p"] = float(gen_cfg.get("top_p", 1.0))
+        guard = None
+        loop_n = int(gen_cfg.get("loop_guard_ngram") or 0)
+        if loop_n > 0:
+            from transformers import StoppingCriteriaList
+
+            guard = RepeatedSpanStop(inputs["input_ids"].shape[1], loop_n)
+            gen_kwargs["stopping_criteria"] = StoppingCriteriaList([guard])
         with torch.no_grad():
             out = self.model.generate(**inputs, **gen_kwargs)
         new_tokens = out[0][inputs["input_ids"].shape[1] :]
+        self.last_loop_stopped = bool(guard and guard.repeat_start is not None)
+        if self.last_loop_stopped:
+            new_tokens = new_tokens[: guard.repeat_start]
         # Output length of the last call; it hit the cap if it used every allowed token without emitting EOS.
         eos_ids = {self.tokenizer.eos_token_id, self.tokenizer.pad_token_id}
         self.last_output_tokens = int(len(new_tokens))
         self.last_hit_token_limit = bool(
-            self.last_output_tokens >= gen_kwargs["max_new_tokens"]
+            not self.last_loop_stopped
+            and self.last_output_tokens >= gen_kwargs["max_new_tokens"]
             and int(new_tokens[-1]) not in eos_ids
         )
         return self.tokenizer.decode(new_tokens, skip_special_tokens=True)

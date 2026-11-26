@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_7_20261126.json",
+  "active_config": "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_8_20261127.json",
   "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
-  "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_7",
+  "dataset_dir": "data/multitask_bloom_rewrite_separate_eduguard_v3_8",
   "dataset_integrity": {
     "summarization_eligibility": {
       "train": {
@@ -22,10 +22,10 @@
       }
     },
     "layout": "task-separated",
-    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_7\\dataset_manifest.json",
-    "manifest_sha256": "08eef49752b2f6ef3fbb2a968f47fe7947d22bfe8a0ed573b9c22f8367db3516",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_8\\dataset_manifest.json",
+    "manifest_sha256": "66daa2ca3a02202d6aba1f8c7fc8f66cbb2111902983e61697cc7874ac4ddec8",
     "manifest_version": "multitask_bloom_rewrite_separate_v1",
-    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_7",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_8",
     "counts": {
       "train": {
         "bloom_rewrite": 2735,
@@ -44,22 +44,22 @@
       }
     },
     "generated_files_sha256": {
-      "bloom_rewrite/test.jsonl": "e448ddbd353ffec587fcdd0d85d53a4bae592f8d19e4787e4fea42ae675b1057",
-      "bloom_rewrite/train.jsonl": "b302c8f0f8a65cccc05f3db3c17fc3538a9837d52441e6cdfe6c5b3e6c6580a4",
-      "bloom_rewrite/validation.jsonl": "e2b34bfd3abdd77619e82c45ac6f74db28833d582bf52a9e21842da4a443c0b6",
+      "bloom_rewrite/test.jsonl": "6cdc56109a5e079180167df8e602dc073ff1e34717bf3296e6e1672eb16e6c88",
+      "bloom_rewrite/train.jsonl": "1586a7832b3bfb59cd591a290603e775ffb6777935fb1ce394a5cc82e14c28ac",
+      "bloom_rewrite/validation.jsonl": "9d386e1eb69816dcb22316f4ebb9a1aa11355a5f2fddf606076b6bd350423be7",
       "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
       "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
       "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
       "summarization/test.jsonl": "3b51a4f876b063ab870a08ad52290f39949937df954f74c0e8bea347f5ccb595",
-      "summarization/train.jsonl": "7a2b01c4450c2a4bbec79e0fb4f16af84ff8453ae8cc01aa5feba6708a9f6f0e",
+      "summarization/train.jsonl": "7ebf4404ea341d4d59f30129f44dd21f8fc8f23ddf3be3ce6b4ceb859c932cf5",
       "summarization/validation.jsonl": "36dc8a8225a75d6aed6e1d08a6b472e8b25b5dbb9d986f951fed4199683fbe1d"
     },
-    "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_2",
+    "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_3",
     "bloom_source_sha256": {
-      "train.jsonl": "d9336b3de40063e069c020a9ee2b92732726e7ed46636120455c62861927e39e",
-      "validation.jsonl": "526ce7c1ed37f54a4ce68c46901a4af4b2ae4c26d9b96e3dabbe9e58ddac2a2c",
-      "test.jsonl": "f0060fcab0344542ab9c3733669335558635b88658330c91c955f82784d90873",
-      "dataset_manifest.json": "e0a429d79fb38009b442b9ea28aeea34201b118d0d914c6b3419d21717d15d2a"
+      "train.jsonl": "1fa9f62af2920bb74843bd3676ef0e834fb61eb7381dbd8616dd94e32a4f98cd",
+      "validation.jsonl": "f12751f5a7ad8e74a79742de8bd773e72d8996299a4f29210f938d347f239b4b",
+      "test.jsonl": "9d01cb8ee73e7581515b9194c52be1a4d987d7b39bef59871cb9f242fa06a7a5",
+      "dataset_manifest.json": "335c3542037cb8579bc656cf23749d17942cf73b934aae5785832c18768018e5"
     },
     "bloom_annotation_provenance": {
       "inclusion_basis": "eduguard_v3_1_model_assisted_repair",

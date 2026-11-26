@@ -3,6 +3,8 @@
 Usage (repository root, project venv; bge-m3 runs on CPU unless --gpu):
   python -I experiments/multitask_bloom_rewrite/scripts/build_bloom_v3_2.py \
       [--src data/bloom_rewrite_eduguard_v3_1] [--out data/bloom_rewrite_eduguard_v3_2]
+  v3.3 = v3.2 plus the Remember-level corrections (pivots are rebuilt from the corrected rows):
+  python -I experiments/multitask_bloom_rewrite/scripts/build_bloom_v3_2.py --out data/bloom_rewrite_eduguard_v3_3       --version bloom_rewrite_eduguard_v3_3       --extra-corrections experiments/multitask_bloom_rewrite/data_corrections/bloom_v3_3_corrections.json
 
 1. Corrections (experiments/multitask_bloom_rewrite/data_corrections/bloom_v3_2_corrections.json), reviewed row by
    row: rewrites that referred to "supplied / given / stated / specified" material the question does not contain are
@@ -85,6 +87,9 @@ def main() -> None:
     ap.add_argument("--src", type=Path, default=Path("data/bloom_rewrite_eduguard_v3_1"))
     ap.add_argument("--out", type=Path, default=Path("data/bloom_rewrite_eduguard_v3_2"))
     ap.add_argument("--gpu", action="store_true")
+    ap.add_argument("--extra-corrections", type=Path, nargs="*", default=[],
+                    help="further corrections files applied after bloom_v3_2_corrections.json (a later file wins per id)")
+    ap.add_argument("--version", default="bloom_rewrite_eduguard_v3_2")
     args = ap.parse_args()
     src, out = REPO_ROOT / args.src, REPO_ROOT / args.out
     if out.exists():
@@ -94,6 +99,9 @@ def main() -> None:
     rows = {s: [json.loads(l) for l in (src / f"{s}.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
             for s in SPLITS}
     corr = json.loads(CORRECTIONS.read_text(encoding="utf-8"))
+    extra_files = [REPO_ROOT / f for f in args.extra_corrections]
+    for f in extra_files:
+        corr.update(json.loads(f.read_text(encoding="utf-8")))
     ids = {r["id"] for s in SPLITS for r in rows[s]}
     missing = sorted(set(corr) - ids)
     if missing:
@@ -251,12 +259,15 @@ def main() -> None:
             "contested_rows": sum(r.get("gold_label_contested") is True for r in allrows),
         }
     shutil.copy2(CORRECTIONS, out / "corrections_v3_2.json")
+    for f in extra_files:
+        shutil.copy2(f, out / f.name)
     manifest = {
-        "version": "bloom_rewrite_eduguard_v3_2", "task": "bloom_rewrite", "date": dt.date.today().isoformat(),
+        "version": args.version, "task": "bloom_rewrite", "date": dt.date.today().isoformat(),
         "derived_from": {"path": args.src.as_posix(), "files_sha256": {f"{s}.jsonl": hashlib.sha256(
             (src / f"{s}.jsonl").read_bytes()).hexdigest() for s in SPLITS}},
         "tool": "experiments/multitask_bloom_rewrite/scripts/build_bloom_v3_2.py", "seed": SEED,
         "changes": {"corrections": dict(stats), "corrections_file": "corrections_v3_2.json",
+                    "extra_corrections_files": [f.name for f in extra_files],
                     "pivot_rule": {"floor_train_rows_per_source_level": FLOOR_TRAIN, "max_pivots_per_source": MAX_PIVOTS_PER_SOURCE,
                                    "similarity_model": "BAAI/bge-m3", "similarity_floor": round(sim_floor, 4),
                                    "similarity_floor_percentile_of_direct_pairs": SIM_PERCENTILE,

@@ -150,17 +150,20 @@ def output_length_fields(generator: Any) -> dict[str, Any]:
     return {
         "output_tokens": getattr(generator, "last_output_tokens", None),
         "hit_token_limit": getattr(generator, "last_hit_token_limit", None),
+        "loop_stopped": getattr(generator, "last_loop_stopped", None),
     }
 
 
 def token_limit_summary(records: list[dict[str, Any]], cap: int) -> dict[str, Any]:
     tokens = [r["output_tokens"] for r in records if r.get("output_tokens") is not None]
     hit = sum(1 for r in records if r.get("hit_token_limit"))
+    loops = sum(1 for r in records if r.get("loop_stopped"))
     return {
         "max_new_tokens": cap,
         "n": len(records),
         "hit_token_limit": hit,
         "hit_token_limit_rate": round(hit / len(records), 6) if records else None,
+        "loop_stopped": loops,
         "max_output_tokens": max(tokens) if tokens else None,
         "mean_output_tokens": round(sum(tokens) / len(tokens), 2) if tokens else None,
     }
@@ -465,11 +468,14 @@ def write_report(
         "",
         *grouped_table("Source type", s.get("by_source_type")),
         *grouped_table("Length category", s.get("by_length_category")),
-        "## Output length (generation stopped by max_new_tokens without EOS)",
+        "## Output length",
         "",
-        "| Task | Cap | N | Hit cap | Max tokens | Mean tokens |",
-        "|---|---:|---:|---:|---:|---:|",
-        *[f"| {t} | {v.get('max_new_tokens')} | {v.get('n')} | {v.get('hit_token_limit')} | "
+        f"Hit cap = stopped by max_new_tokens without EOS. Loop stopped = a verbatim repeat of "
+        f"{metrics.get('generation', {}).get('loop_guard_ngram')} generated tokens was cut (0 = guard off).",
+        "",
+        "| Task | Cap | N | Hit cap | Loop stopped | Max tokens | Mean tokens |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+        *[f"| {t} | {v.get('max_new_tokens')} | {v.get('n')} | {v.get('hit_token_limit')} | {v.get('loop_stopped')} | "
           f"{v.get('max_output_tokens')} | {v.get('mean_output_tokens')} |"
           for t, v in metrics.get("output_length", {}).items()],
         "",
@@ -588,6 +594,8 @@ def main() -> None:
             "max_new_tokens_by_task", {}
         ),
         "decoding": "greedy",
+        # stop a verbatim repeat of this many generated tokens (degenerate loop); 0 disables
+        "loop_guard_ngram": int(cfg.get("generation", {}).get("loop_guard_ngram", 0)),
         "seed": SEED,
     }
     gen_cfg.update({k: v for k, v in gen_frozen.items() if k != "notes"})

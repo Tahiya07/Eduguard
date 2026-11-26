@@ -1,0 +1,894 @@
+{
+ "eduguard_v3_1_006-Apply": {
+  "target_rewrite": "Perform addition, subtraction, AND, and OR on two 4-bit binary operands of your choice the way an ALU would, showing each result and any carry or borrow produced.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_007-Apply": {
+  "target_rewrite": "Use binary search to locate a chosen value in a sorted array of eight integers that you construct, showing each comparison and how the search interval shrinks.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_011-Analyze": {
+  "target_rewrite": "Trace how interleaving the read and write operations of two concurrent transactions on the same data item can produce a lost update, a dirty read, and an inconsistent retrieval, and identify the interleaving responsible for each anomaly.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_015-Apply": {
+  "target_rewrite": "Trace, step by step, how a recursive resolver with an empty cache resolves www.example.com into an IP address, naming each server it queries and what each server returns.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_018-Apply": {
+  "target_rewrite": "Calculate the number of clock cycles an ideal five-stage pipeline needs to complete n instructions without hazards, and compute the result for n = 10.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_018-Evaluate": {
+  "target_rewrite": "Judge whether forwarding or pipeline stalling is the better remedy for read-after-write data hazards in a five-stage pipeline, weighing the throughput gained against the hardware added, and justify your choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_021-Apply": {
+  "target_rewrite": "Execute merge sort and insertion sort on an unsorted array of eight integers that you choose, showing the intermediate steps of each algorithm until the sorted output is obtained.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_025-Apply": {
+  "target_rewrite": "Determine whether deadlock exists in a resource allocation graph that you construct with three processes and three single-instance resources by checking the graph for a cycle.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_026-Apply": {
+  "target_rewrite": "Perform lexical, syntax, and semantic analysis on the statement int total = count + 5; by listing its tokens, building its parse tree, and checking it for semantic errors.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_028-Create": {
+  "target_rewrite": "Compose a single homogeneous transformation matrix that rotates an object by an angle θ about a pivot point (px, py) and then translates it by (tx, ty), showing how it is built from simpler matrices.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_031-Apply": {
+  "target_rewrite": "Demonstrate the steps required to generate a digital signature for a message with the sender's private key and to verify it with the corresponding public key.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_034-Apply": {
+  "target_rewrite": "Find the cache line and block offset of a memory address of your choice in a direct-mapped cache with 64 lines and 16-byte blocks, showing how the address bits are divided into tag, index, and offset.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_035-Remember": {
+  "target_rewrite": "Define the critical path and activity slack in project scheduling.",
+  "reason": "level_alignment: 'identify the meaning of' asked for interpretation; reduced to retrieval"
+ },
+ "eduguard_v3_1_039-Create": {
+  "target_rewrite": "Design a combinational circuit that realizes a Boolean function of three variables of your choice using only NAND gates, deriving the gate-level structure from its minimized expression.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_041-Create": {
+  "target_rewrite": "Design a DC resistive circuit that draws 2 A from a 12 V source using a series-parallel combination of resistors, and verify the design with Ohm's law.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_042-Apply": {
+  "target_rewrite": "Calculate the nominal bending capacity of a singly reinforced concrete beam from its width, effective depth, steel area, and material strengths using the rectangular stress-block method.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_042-Create": {
+  "target_rewrite": "Draft a preliminary reinforced concrete structural scheme for a high-rise building that resists gravity, wind, and seismic loads, identifying its lateral load-resisting system and principal member types.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_046-Apply": {
+  "target_rewrite": "Calculate the average reaction rate between two time points from a concentration-time data set that you construct, and show how the rate changes as the reaction proceeds.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_049-Create": {
+  "target_rewrite": "Formulate a hypothesis-testing procedure to investigate whether the average examination score of a university student population differs from a benchmark of 65 marks.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_055-Apply": {
+  "target_rewrite": "Prepare a space allocation for reading areas, book storage, and circulation routes in a 30 m by 20 m single-storey library, stating the floor area assigned to each.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_056-Apply": {
+  "target_rewrite": "Calculate the vaccination coverage of a community from the number of vaccinated people and its total population, and compare the result with the herd-immunity threshold for a disease whose basic reproduction number is 4.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_057-Create": {
+  "target_rewrite": "Develop a heat exchanger configuration that recovers heat from hot exhaust gas to preheat process water, selecting the flow arrangement and estimating the heat-transfer area needed with the effectiveness-NTU method.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_065-Analyze": {
+  "target_rewrite": "Differentiate between attitude change, behaviour change, and self-justification as responses to the cognitive dissonance felt by a smoker who knows that smoking is harmful.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_067-Analyze": {
+  "target_rewrite": "Contrast the dimensional accuracy, material waste, and production limitations of CNC machining and additive manufacturing for producing high-precision metal components.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_067-Apply": {
+  "target_rewrite": "Determine a suitable manufacturing process for a steel shaft that requires a surface roughness of Ra 0.4 µm and a diameter tolerance of ±0.01 mm, and give the reason for your choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_067-Create": {
+  "target_rewrite": "Devise a manufacturing process plan for a high-precision aluminium bearing housing, sequencing the machining, finishing, and inspection operations needed to hold its tight tolerances.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_070-Apply": {
+  "target_rewrite": "Calculate the effluent BOD of wastewater with an influent BOD of 250 mg/L treated by a process that removes 85% of it, and state whether the effluent meets a 30 mg/L discharge limit.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_079-Apply": {
+  "target_rewrite": "Calculate the relative volatility of a binary mixture from the equilibrium mole fractions of its more volatile component in the vapour and liquid phases.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_079-Create": {
+  "target_rewrite": "Plan a preliminary distillation configuration for separating a binary mixture of ethanol and water, specifying the column type, feed location, reflux arrangement, and the purity limit set by its azeotrope.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_082-Apply": {
+  "target_rewrite": "Use first-order degradation kinetics to estimate the drug concentration remaining in a temperature-sensitive formulation after its expected storage period from its initial concentration and its degradation rate constant at the proposed storage temperature.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_083-Apply": {
+  "target_rewrite": "Determine the percentage overshoot and settling time of a second-order feedback control system from its damping ratio and natural frequency at a chosen proportional gain.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_083-Evaluate": {
+  "target_rewrite": "Judge whether increasing the proportional gain of a feedback control system is a worthwhile way to reduce steady-state error, weighing its effect on overshoot, settling time, and stability.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_084-Apply": {
+  "target_rewrite": "Determine the voltage rise at the end of a distribution feeder when a rooftop photovoltaic system's generation exceeds the local load, using the feeder's resistance and reactance and the net power exported.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_085-Apply": {
+  "target_rewrite": "Apply the relevant constitutional principles to determine whether a public authority's ban on a peaceful protest march is a legally permissible restriction on freedom of expression.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_086-Apply": {
+  "target_rewrite": "Apply the relevant principles of criminal liability to classify a defendant's conduct and mental state when the defendant deliberately struck another person, causing death, without evidence of an intention to kill.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_089-Apply": {
+  "target_rewrite": "Determine appropriate building orientation, window placement, and shading devices for a residential building in a hot-humid climate to limit solar heat gain while promoting natural ventilation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_090-Apply": {
+  "target_rewrite": "Determine a suitable building material for a load-bearing exterior wall from the principal physical and mechanical properties of concrete, steel, timber, and masonry.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_090-Create": {
+  "target_rewrite": "Create a material-selection schedule for a two-storey residential building that assigns an appropriate material to its foundation, frame, walls, and roof, giving the property that justifies each choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_090-Evaluate": {
+  "target_rewrite": "Justify the choice between steel and timber for the roof structure of a large-span sports hall by weighing their strength, durability, weight, and fire performance.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_091-Apply": {
+  "target_rewrite": "Apply threshold-based and region-based segmentation to an image of your choice with uneven illumination and obtain the foreground regions each method produces.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_092-Apply": {
+  "target_rewrite": "Prepare test cases for a safety-critical software module that check its functional correctness, its behaviour at boundary values, its fault handling, and regression after changes.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_093-Apply": {
+  "target_rewrite": "Use criteria such as motivation, fairness, and alignment with organizational performance to choose an appropriate performance appraisal method for a medium-sized organization, and give the reason for the choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_096-Apply": {
+  "target_rewrite": "Calculate the voltage gain and operating point of a common-emitter BJT amplifier using its circuit parameters and transistor characteristics.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_096-Create": {
+  "target_rewrite": "Design a voltage-divider bias network for a common-emitter BJT amplifier that sets a chosen operating point and achieves a target voltage gain, using the transistor's characteristics.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_096-Evaluate": {
+  "target_rewrite": "Judge whether placing the operating point of a common-emitter BJT amplifier at the middle of its load line is the best choice for maximum undistorted output swing, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_097-Create": {
+  "target_rewrite": "Construct a reasoned legal argument on whether a valid contract is formed when the offeree replies to an offer with modified terms and the offeror does not respond.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_098-Apply": {
+  "target_rewrite": "Determine the level of service of an urban road segment from its traffic volume, capacity, and operating speed using the volume-to-capacity ratio.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_099-Apply": {
+  "target_rewrite": "Predict which of a single-leaf brick wall and a lightweight plasterboard partition transmits more sound between adjacent rooms, using the mass law and their construction details.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_099-Evaluate": {
+  "target_rewrite": "Judge whether a double-leaf stud wall with an insulated cavity provides better sound insulation between adjacent rooms than a single solid masonry wall of the same mass, and justify the choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_104-Apply": {
+  "target_rewrite": "Apply the registration and documentation requirements for transferring immovable property to determine whether an unregistered sale deed signed by both parties completes a valid transfer.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_108-Analyze": {
+  "target_rewrite": "Distinguish the evidence a claimant would need to establish duty of care, breach of duty, and damage in a negligence claim, and explain how each element depends on the others.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_108-Apply": {
+  "target_rewrite": "Apply the elements of duty of care, breach of duty, and damage to determine whether negligence is established when a shop owner leaves a spilled liquid unmarked and a customer slips and is injured.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_123-Apply": {
+  "target_rewrite": "Perform a literal-rule interpretation of a statutory provision of your choice according to the ordinary meaning of its words, and state the outcome it produces.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_123-Create": {
+  "target_rewrite": "Draft a model statutory provision whose wording avoids an ambiguous or absurd result under the literal rule, and explain how the drafting achieves the provision's intended purpose.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_123-Evaluate": {
+  "target_rewrite": "Judge whether the literal rule produces a legally defensible interpretation when the ordinary meaning of a statutory provision leads to an ambiguous or absurd outcome, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_127-Create": {
+  "target_rewrite": "Propose a cost-reduction or pricing plan that lowers a business's break-even quantity, showing through its fixed costs, selling price per unit, and variable cost per unit how each measure changes the break-even point.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_127-Evaluate": {
+  "target_rewrite": "Assess whether the break-even point in units is a reliable target for a business whose variable cost per unit rises with output, and justify your assessment.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_129-Remember": {
+  "target_rewrite": "State the standard of proof applicable to civil disputes and define the balance of probabilities.",
+  "reason": "level_alignment: 'identify the meaning of' asked for interpretation; reduced to retrieval"
+ },
+ "eduguard_v3_1_132-Analyze": {
+  "target_rewrite": "Separate the voltage rises from the voltage drops in a closed loop containing two voltage sources and three resistors, and determine how the polarity of each source decides the sign it takes in the Kirchhoff voltage-law equation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_134-Create": {
+  "target_rewrite": "Design a pipe-flow arrangement for a fluid that keeps the flow laminar by specifying the maximum mean velocity or pipe diameter permitted, using its density and dynamic viscosity.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_134-Evaluate": {
+  "target_rewrite": "Judge whether the Reynolds number alone is a reliable criterion for deciding whether flow in a circular pipe is laminar or turbulent, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_142-Create": {
+  "target_rewrite": "Design a motor-selection guide that specifies the number of poles needed to obtain a chosen operating speed range from a three-phase induction motor on 50 Hz and 60 Hz supplies.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_142-Evaluate": {
+  "target_rewrite": "Judge whether the synchronous speed alone is a reliable indicator of the actual running speed of a three-phase induction motor, and justify your judgement using slip.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_144-Create": {
+  "target_rewrite": "Design a speed-limit proposal for a level road section with limited sight distance by finding the highest speed whose stopping sight distance, from the reaction time and coefficient of longitudinal friction, fits within the available distance.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_144-Evaluate": {
+  "target_rewrite": "Assess whether a stopping sight distance calculated for a level road with a single coefficient of longitudinal friction remains adequate in wet conditions, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_167-Apply": {
+  "target_rewrite": "Calculate a company's current ratio and quick ratio from its current assets, inventories, and current liabilities.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_167-Create": {
+  "target_rewrite": "Design a working-capital improvement plan for a company that sets a target current ratio, quick ratio, and operating cash flow, and specifies the actions needed to reach each target.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_187-Create": {
+  "target_rewrite": "Design an alternative depreciation plan for an asset using the reducing-balance method, and compare its pattern of annual expense and carrying amount with the straight-line schedule over the asset's useful life.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_187-Evaluate": {
+  "target_rewrite": "Judge whether the straight-line method gives a realistic annual depreciation expense for an asset that loses most of its value in its early years, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_226-Understand": {
+  "target_rewrite": "Explain why establishing a base case and an inductive step proves that the sum of the first n positive odd integers equals n^2 for all positive integers n.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_406-Evaluate": {
+  "target_rewrite": "Validate whether a reported break-even point of 500 units and Tk. 250,000 in sales revenue is correct for a product selling at Tk. 500 per unit with a variable cost of Tk. 300 per unit and total fixed costs of Tk. 100,000.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_407-Analyze": {
+  "target_rewrite": "Examine the binary representations of minterms 1, 3, 5, and 7 of F(A,B,C) to identify which variables remain constant and which change across those input combinations.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_407-Evaluate": {
+  "target_rewrite": "Check whether the simplified expression F = C is equivalent to F(A,B,C) = Σm(1,3,5,7) by testing every input combination.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_408-Evaluate": {
+  "target_rewrite": "Verify whether classifying demand as unit elastic is justified by the midpoint elasticity when the price of a product rises from Tk. 20 to Tk. 25 and its quantity demanded falls from 100 units to 80 units.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_414-Analyze": {
+  "target_rewrite": "Analyze how much of the margin between a measured BOD of 24 mg/L and a 30 mg/L limit would be consumed if the organic load rose by 10%, 20%, or 30%, and identify the percentage rise at which the sample would fail.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_416-Evaluate": {
+  "target_rewrite": "Validate the proposed shortest distances from vertex A (A = 0, B = 3, C = 2, D = 8, E = 10) in an undirected graph with edges A–B = 4, A–C = 2, B–C = 1, B–D = 5, C–D = 8, C–E = 10, and D–E = 2, justifying each value with the available paths.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_416-Understand": {
+  "target_rewrite": "Describe how Dijkstra's algorithm uses the edge weights to update the shortest known distances from vertex A in an undirected graph with edges A–B = 4, A–C = 2, B–C = 1, B–D = 5, C–D = 8, C–E = 10, and D–E = 2.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_418-Apply": {
+  "target_rewrite": "An employee's monthly performance ratings for the year average 3.8 out of 5, but the most recent month's rating is 2.5. Determine the annual rating a supervisor who assesses only the most recent month would give, and compare it with the rating a full-year assessment would give.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_418-Create": {
+  "target_rewrite": "Develop a revised annual appraisal approach that stops supervisors from rating employees solely on the most recent month's performance while keeping the full-year assessment scope.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_419-Evaluate": {
+  "target_rewrite": "Judge whether the equation CH_3COOH + C_2H_5OH ⇌ CH_3COOC_2H_5 + H_2O correctly represents the reaction of ethanoic acid with ethanol in the presence of concentrated sulfuric acid, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_420-Analyze": {
+  "target_rewrite": "Examine the relationship between a seller's knowledge of a used vehicle's accident history, the false statement that it has never been in an accident, and the buyer's reliance on that statement in establishing actionable misrepresentation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_420-Apply": {
+  "target_rewrite": "Apply the elements of fraudulent misrepresentation to a used-vehicle sale in which the seller knowingly and falsely states that the vehicle has never been in an accident and the buyer relies on that statement, and determine the remedies available to the buyer.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_420-Create": {
+  "target_rewrite": "Draft a claim for a buyer who purchased a used vehicle relying on the seller's knowingly false statement that it had never been in an accident, specifying the elements of misrepresentation to be pleaded, the supporting facts, and the remedy sought.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_424-Understand": {
+  "target_rewrite": "Clarify why a straight conductor of length 0.5 m carrying 4 A experiences the maximum magnetic force when it is perpendicular to a uniform 0.2 T magnetic field.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_430-Evaluate": {
+  "target_rewrite": "Check whether a proposed pressure of 194 kPa at point 2 is correct for a horizontal pipe in which the pressure at point 1 is 200 kPa, the velocity rises from 2 m/s to 4 m/s, and the fluid density is 1,000 kg/m³, and decide whether to accept it.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_430-Understand": {
+  "target_rewrite": "Explain how an increase in fluid velocity from 2 m/s to 4 m/s affects the pressure in a horizontal pipe carrying steady, incompressible, frictionless flow, according to Bernoulli's principle.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_431-Evaluate": {
+  "target_rewrite": "Verify whether a reported therapeutic index of 10 is correct for a drug with an LD50 of 500 mg/kg and an ED50 of 50 mg/kg, and assess what the value indicates about the drug's safety.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_432-Create": {
+  "target_rewrite": "Design a reserve-requirement proposal that limits the maximum change in the money supply from a new Tk. 100,000 deposit to a chosen target, starting from a 20% required reserve ratio and assuming banks lend all excess reserves and the public holds no cash.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_432-Evaluate": {
+  "target_rewrite": "Validate a reported maximum change in the money supply of Tk. 500,000 from a new Tk. 100,000 deposit when the required reserve ratio is 20%, banks lend all excess reserves, and the public holds no cash.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_433-Create": {
+  "target_rewrite": "Develop a roof design for a building in a region with heavy rainfall that specifies its slope, drainage arrangement, and construction details, and justify each choice.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_433-Evaluate": {
+  "target_rewrite": "Recommend a flat or a pitched roof for a building in a region with heavy rainfall, justifying the choice by rainwater drainage, roof slope, and construction requirements.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_436-Analyze": {
+  "target_rewrite": "Determine which of the 1.8 V supply, 100 MHz switching frequency, 10 pF load capacitance, and 0.5 activity factor of a CMOS inverter gives the greatest reduction in dynamic power when each is reduced by the same percentage, and explain why.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_436-Evaluate": {
+  "target_rewrite": "Is a reported dynamic power dissipation of 0.81 mW correct for a CMOS inverter operating at 1.8 V and 100 MHz with a 10 pF load and an activity factor of 0.5? Check it with the dynamic power equation P = αC_LV_DD^2f.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_436-Understand": {
+  "target_rewrite": "Describe how the supply voltage, switching frequency, load capacitance, and activity factor influence the dynamic power dissipation of a CMOS inverter operating at 1.8 V and 100 MHz with a 10 pF load and an activity factor of 0.5.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_437-Evaluate": {
+  "target_rewrite": "Verify whether a reported positive net fluid balance of 200 mL is correct for an 8-hour shift with 600 mL oral intake, 500 mL intravenous intake, 800 mL urine output, and 100 mL other measured output.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_438-Analyze": {
+  "target_rewrite": "Analyze how applying overhead at 80% of direct labour cost makes direct labour count twice in the total manufacturing cost of Job 105 (direct materials Tk. 20,000, direct labour Tk. 15,000), and explain why an increase in direct labour raises the total cost by more than the increase itself.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_438-Evaluate": {
+  "target_rewrite": "Judge whether a reported total manufacturing cost of Tk. 47,000 is correct for Job 105 with direct materials of Tk. 20,000, direct labour of Tk. 15,000, and overhead applied at 80% of direct labour cost.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_439-Apply": {
+  "target_rewrite": "Calculate the energy available at each trophic level of a grass, grasshopper, frog, and snake food chain in which the grass holds 10,000 kJ of available energy, using the 10% energy-transfer rule.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_440-Evaluate": {
+  "target_rewrite": "Does the proposed solution x = 10, y = 20 maximize Z = 40x + 30y subject to 2x + y ≤ 40, x + 2y ≤ 50, x ≥ 0, and y ≥ 0? Justify your answer by testing the constraints and comparing the objective at the corner points.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_450-Analyze": {
+  "target_rewrite": "Determine why doubling either the concentration or the path length of a solution with a molar absorptivity of 150 L mol⁻¹ cm⁻¹ doubles its absorbance under the Beer–Lambert law, and explain why the law may stop holding at high concentrations.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_450-Evaluate": {
+  "target_rewrite": "Verify whether a reported absorbance of 0.30 is correct for a solution with a molar absorptivity of 150 L mol⁻¹ cm⁻¹, a concentration of 0.002 mol/L, and a 1 cm path length.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_451-Apply": {
+  "target_rewrite": "Apply a responsibility-assignment approach to a vaccination programme in which the central government provides funding, local authorities organize vaccination centres, and healthcare workers administer vaccines, identifying who is responsible and who is accountable for funding, centre staffing, and reporting coverage.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_451-Create": {
+  "target_rewrite": "Develop an implementation-coordination framework for a public vaccination programme that sets out the responsibilities and working relationships of the central government, local authorities, and healthcare workers.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_451-Evaluate": {
+  "target_rewrite": "Appraise a division of responsibilities in which the central government funds a public vaccination programme, local authorities organize vaccination centres, and healthcare workers administer vaccines, judging how well it supports coordinated implementation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_453-Evaluate": {
+  "target_rewrite": "Is a reported plasticity index of 26% correct for a soil with a liquid limit of 48% and a plastic limit of 22%, and is describing the soil as highly plastic justified by Burmister's ranges (PI 20–40% indicates high plasticity)? Give reasons for both judgements.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_455-Apply": {
+  "target_rewrite": "Determine which openings act as inlets and which as outlets in a rectangular building with windows on opposite exterior walls when the prevailing wind blows perpendicular to one of those walls.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_455-Create": {
+  "target_rewrite": "Design a natural-ventilation layout for a rectangular building with windows on opposite exterior walls that relates its orientation and window placement to the prevailing wind direction.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_455-Evaluate": {
+  "target_rewrite": "Critique windows on opposite exterior walls as a means of cross-ventilating a rectangular building, considering how the building's orientation to the prevailing wind affects the result.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_456-Understand": {
+  "target_rewrite": "Explain how the dependencies StudentID → StudentName, CourseID → CourseName, and (StudentID, CourseID) → Grade determine the attributes of the relation STUDENT_COURSE(StudentID, StudentName, CourseID, CourseName, Grade).",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_458-Evaluate": {
+  "target_rewrite": "Verify whether a reported temperature of approximately 52.1°C after 10 minutes is consistent with Newton's law of cooling for a body initially at 90°C in surroundings at 30°C with a cooling constant of 0.1 min⁻¹.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_458-Understand": {
+  "target_rewrite": "Describe how, under Newton's law of cooling with a cooling constant of 0.1 min⁻¹, a body at 90°C approaches the surrounding temperature of 30°C over 10 minutes.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_459-Evaluate": {
+  "target_rewrite": "Check a reported reliability of approximately 0.819 for a system with a constant failure rate of 0.02 failures per hour over a 10-hour operating period under the exponential reliability model, and decide whether it is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_460-Evaluate": {
+  "target_rewrite": "Assess whether weekly study hours, class attendance percentage, and participation in classroom discussions provide a reasonable operational representation of academic engagement, considering what each indicator measures.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_461-Evaluate": {
+  "target_rewrite": "Decide whether an investment with an initial outlay of Tk. 100,000 and cash inflows of Tk. 40,000, Tk. 50,000, and Tk. 30,000 at the ends of years 1 to 3 should be accepted after checking whether a reported net present value of approximately Tk. 225 at a 10% discount rate is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_466-Evaluate": {
+  "target_rewrite": "Assess whether the conclusion that a patient has an elevated temperature, pulse rate, and respiratory rate with blood pressure in the normal range is supported by readings of 38.5°C, 110 beats per minute, 24 breaths per minute, and 120/80 mmHg.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_467-Evaluate": {
+  "target_rewrite": "Validate a proposed economic order quantity of approximately 894 units for a company with annual demand of 10,000 units, an ordering cost of Tk. 200 per order, and an annual holding cost of Tk. 5 per unit.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_470-Evaluate": {
+  "target_rewrite": "Verify whether a reported reaction velocity of approximately 71.43 μmol/min is correct for an enzyme with a maximum velocity of 100 μmol/min and a Michaelis constant of 2 mmol/L at a substrate concentration of 5 mmol/L.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_471-Apply": {
+  "target_rewrite": "Apply the three urban heat island mechanisms to a central business district with dark paved surfaces, little vegetation, and dense traffic, stating whether each condition contributes to heat absorption, reduced cooling, or additional heat release.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_471-Create": {
+  "target_rewrite": "Build a causal model of the urban heat island effect that links surface materials, vegetation cover, and human activities to higher temperatures in a city's central business district, and identify where an intervention would break the strongest link.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_476-Create": {
+  "target_rewrite": "Design a formative-assessment cycle of short post-lesson quizzes with feedback on incorrect answers that adds a second check after the feedback to confirm whether students' understanding has improved before the final examination.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_478-Evaluate": {
+  "target_rewrite": "Verify whether a proposed parallel capacitor of approximately 72.7 μF correctly raises the power factor of a 5 kW, 230 V, 50 Hz single-phase load from 0.7 lagging to unity.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_478-Understand": {
+  "target_rewrite": "Explain how a capacitor connected in parallel with a 5 kW, 230 V, 50 Hz single-phase load compensates its lagging reactive power and raises its power factor from 0.7 lagging to unity.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_480-Evaluate": {
+  "target_rewrite": "Verify whether proposed reactions of 12 kN at each support satisfy vertical-force and moment equilibrium for a 6 m simply supported beam carrying a uniformly distributed load of 4 kN/m over its entire span.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_481-Analyze": {
+  "target_rewrite": "Determine why the percentage-change method gives a different elasticity for a price fall from Tk. 60 to Tk. 50 than for a rise from Tk. 50 to Tk. 60 when quantity demanded moves between 100 and 80 units, and explain how this affects the classification of demand.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_481-Evaluate": {
+  "target_rewrite": "Appraise a reported price elasticity of demand of −1 for a price rise from Tk. 50 to Tk. 60 that reduces quantity demanded from 100 to 80 units under the percentage-change method, and judge what the result indicates about demand responsiveness.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_482-Apply": {
+  "target_rewrite": "Use the reproduction and distribution rights protected by copyright law to determine which right is engaged when an entire textbook is copied without the copyright holder's permission and which is engaged when digital copies are given to students.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_482-Evaluate": {
+  "target_rewrite": "Assess whether reproducing an entire copyrighted textbook and distributing digital copies to students without the copyright holder's permission should be treated as potential copyright infringement, and justify your assessment.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_484-Analyze": {
+  "target_rewrite": "Contrast the effect on total contribution of a 10% rise in selling price with that of a 10% rise in sales volume for a product selling 2,000 units at Tk. 150 per unit with a variable cost of Tk. 90 per unit, and explain why they differ.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_484-Evaluate": {
+  "target_rewrite": "Verify whether a reported total contribution of Tk. 120,000 is correct for 2,000 units sold at Tk. 150 per unit with variable costs of Tk. 90 per unit.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_485-Create": {
+  "target_rewrite": "Design a functional-zoning layout for a university library that positions its reading areas, book stacks, administrative offices, and service counter to minimize conflicting user movements and keep routes accessible.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_486-Analyze": {
+  "target_rewrite": "Determine what would go wrong at each stage of a C program that allocates an array of five integers with malloc(), sums five inputs, and frees the memory, if the malloc() call failed or free() were omitted, and identify which failure is detectable at run time.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_486-Apply": {
+  "target_rewrite": "Demonstrate, step by step, how a C program uses malloc() to allocate an array of five integers, stores five inputs, computes their sum, and releases the memory with free().",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_486-Evaluate": {
+  "target_rewrite": "Assess whether a C program that allocates space for five integers with malloc(), reads five values, calculates their sum, and calls free() without checking whether malloc() succeeded is robust, and justify your assessment.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_487-Analyze": {
+  "target_rewrite": "Trace how contamination of biodegradable waste with non-biodegradable items at a campus collection point would affect the downstream composting and recycling stages.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_487-Apply": {
+  "target_rewrite": "Apply a campus waste-management approach that composts biodegradable waste and recycles recyclable non-biodegradable materials to food scraps, plastic bottles, garden trimmings, and aluminium cans, stating the route each follows.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_487-Create": {
+  "target_rewrite": "Design a campus waste-management process that extends source separation, composting, and recycling with a stage for non-recyclable non-biodegradable waste, showing how each waste stream is handled.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_487-Understand": {
+  "target_rewrite": "Explain how separating biodegradable and non-biodegradable waste at campus collection points supports the composting of biodegradable waste and the recycling of non-biodegradable materials.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_488-Evaluate": {
+  "target_rewrite": "Judge whether integrating the finance, human resources, and inventory functions of a manufacturing company through a shared ERP database can reduce information silos, and justify your judgement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_489-Evaluate": {
+  "target_rewrite": "Verify whether a reported probability of approximately 0.1804 is correct for exactly three customer arrivals in one minute when arrivals follow a Poisson distribution with an average rate of two customers per minute.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_491-Create": {
+  "target_rewrite": "Design a congestion-window growth plan for a TCP connection whose window grows from 1 to 2, 4, and 8 MSS in slow start and switches to congestion avoidance at a threshold of your choice, and show the window size over the following transmission rounds.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_493-Evaluate": {
+  "target_rewrite": "Verify whether a reported thermal efficiency of approximately 56.5% is consistent with an ideal Otto cycle having a compression ratio of 8 and a specific heat ratio of 1.4.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_494-Evaluate": {
+  "target_rewrite": "Validate a reported audit risk of 3% for inherent risk of 60%, control risk of 50%, and detection risk of 10% using the audit risk model.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_495-Evaluate": {
+  "target_rewrite": "Verify whether a genotype ratio of 1 AA : 2 Aa : 1 aa and a phenotype ratio of 3 dominant : 1 recessive are consistent with a cross between two heterozygous parents, Aa × Aa, with complete dominance of A over a.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_495-Remember": {
+  "target_rewrite": "Define homozygous, heterozygous, genotype, and phenotype as they apply to a cross between two heterozygous parents, Aa × Aa.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_496-Create": {
+  "target_rewrite": "Design a what-if analysis model for a decision support system that tests several selling prices with their projected quantities under Revenue = Price × Quantity and identifies the price that maximizes projected sales revenue.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_496-Understand": {
+  "target_rewrite": "Explain how what-if analysis in a decision support system lets a decision-maker examine the effect of changing a product's selling price on projected sales revenue through the relationship Revenue = Price × Quantity.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_497-Create": {
+  "target_rewrite": "Design a servicing order for disk requests at cylinders 82, 170, 43, 140, 24, and 16, with the head initially at cylinder 50 on a 0–199 cylinder disk, that produces less total head movement than SCAN, and compare the two movements.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_497-Evaluate": {
+  "target_rewrite": "Verify whether the servicing sequence 82, 140, 170, 43, 24, 16 and a total head movement of 332 cylinders are correct for SCAN on a 0–199 cylinder disk with the head at 50 moving upward to cylinder 199 before reversing.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_498-Evaluate": {
+  "target_rewrite": "Judge whether a reported half-life of approximately 19.8 minutes is consistent with the first-order half-life equation for a rate constant of 0.035 min^(-1).",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_499-Create": {
+  "target_rewrite": "Design a modified throat diameter for a horizontal venturimeter with a 10 cm inlet so that the discharge measured with a 5 cm throat and a 12 kPa pressure difference produces a larger pressure difference of your choice, taking water density as 1000 kg/m^3 and the discharge coefficient as 0.98.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_499-Evaluate": {
+  "target_rewrite": "Verify whether a reported discharge of approximately 0.0143 m^3/s is consistent with a horizontal venturimeter having a 10 cm inlet, a 5 cm throat, a 12 kPa pressure difference, water of density 1000 kg/m^3, and a discharge coefficient of 0.98.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_501-Evaluate": {
+  "target_rewrite": "Assess whether the conclusion that a reversible competitive antagonist reduces agonist potency without reducing the attainable maximum response is consistent with its binding to the same receptor site as the agonist.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_504-Analyze": {
+  "target_rewrite": "Examine the separate effects of the quantity difference and the price difference on the material cost variance when the standard is 500 kg at Tk. 20 per kg and the actual usage is 520 kg at Tk. 22 per kg.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_504-Evaluate": {
+  "target_rewrite": "Verify whether a reported material cost variance of Tk. 1,440 adverse is correct when the standard is 500 kg at Tk. 20 per kg and the actual usage is 520 kg at Tk. 22 per kg.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_505-Evaluate": {
+  "target_rewrite": "Is increasing gas velocity alone a sufficient strategy for improving cyclone collection efficiency? Evaluate this view, considering its relationship with centrifugal action and particle size.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_507-Analyze": {
+  "target_rewrite": "Separate the proportional, integral, and derivative contributions to the output of a PID controller with K_p = 2, K_i = 0.5, and K_d = 1 when e(t) = 3, the accumulated error is 2, and the error derivative is 0.4, identify which term dominates, and explain how the balance would shift as the error approaches zero.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_507-Create": {
+  "target_rewrite": "Design modified PID gains for a robot motor-control system that achieve a target controller output of your choice when e(t) = 3, the error derivative is 0.4, and the accumulated error is 2, starting from K_p = 2, K_i = 0.5, and K_d = 1.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_507-Evaluate": {
+  "target_rewrite": "Check a reported output of 7.4 for a PID controller with K_p = 2, K_i = 0.5, and K_d = 1 when e(t) = 3, the accumulated error is 2, and the error derivative is 0.4, and decide whether it is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_510-Apply": {
+  "target_rewrite": "Apply rainwater drainage, maintenance access, and usable roof space as considerations to pitched and flat roof options for a university building in a hot, humid, high-rainfall climate, stating the implication of each roof for each consideration.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_510-Create": {
+  "target_rewrite": "Design a hybrid roof for a university building in a hot, humid, high-rainfall climate that combines pitched and flat sections to provide drainage, maintenance access, and usable roof space, and justify the arrangement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_510-Evaluate": {
+  "target_rewrite": "Assess whether a pitched or a flat roof is more suitable for a university building in a hot, humid, high-rainfall climate by weighing rainwater drainage, maintenance access, and usable roof space.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_511-Evaluate": {
+  "target_rewrite": "Appraise the decision to redo transaction T1 and keep balances of Tk. 4,000 in accounts A and B when the write-ahead log holds <START T1>, <T1, A, 5000, 4000>, <T1, B, 3000, 4000>, and <COMMIT T1>, and the system crashes before the updated pages are confirmed on disk.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_511-Remember": {
+  "target_rewrite": "State the purpose of a commit record in write-ahead logging and identify the before-image and after-image in the log record <T1, A, 5000, 4000>.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_512-Evaluate": {
+  "target_rewrite": "Verify whether the proposed state sequence 0000, 1000, 1100, 1110, 1111, 0111, 0011, 0001 is correct for a 4-bit Johnson counter initialized to 0000 in which the complemented output of the last flip-flop feeds the first.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_514-Evaluate": {
+  "target_rewrite": "Verify whether a proposed optimum cycle length of 84 seconds is consistent with Webster's formula for a fixed-time signal with a total lost time of 12 seconds per cycle and a sum of critical flow ratios of 0.75.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_515-Evaluate": {
+  "target_rewrite": "Is a reported government expenditure multiplier of 5 consistent with a marginal propensity to consume of 0.8 and a marginal propensity to save of 0.2 in a simple economy? Explain your verdict.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_516-Apply": {
+  "target_rewrite": "Apply the general elements of misrepresentation to a used-vehicle sale in which the seller, knowing the vehicle was damaged in a collision, states that it has never been in an accident and the buyer relies on that statement, identifying the statement, its falsity, the seller's knowledge, and the buyer's reliance.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_516-Create": {
+  "target_rewrite": "Construct a structured legal argument on whether a seller's statement that a used vehicle has never been in an accident, made while knowing it was damaged in a collision and relied on by the buyer, constitutes misrepresentation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_519-Create": {
+  "target_rewrite": "How would you lay out the inlet and outlet openings of a naturally ventilated classroom so that the cross-ventilation airflow path sweeps the occupied zone? Position and size the openings relative to the wind direction and justify the arrangement.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_519-Evaluate": {
+  "target_rewrite": "Assess whether placing inlet and outlet openings on opposite walls is an effective arrangement for cross-ventilation in a naturally ventilated classroom, considering wind direction and the airflow path through the occupied space.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_521-Evaluate": {
+  "target_rewrite": "Verify whether a reported net fluid balance of +200 mL is correct for an eight-hour shift with 600 mL oral intake, 500 mL intravenous intake, 700 mL urine output, and 200 mL other measured output.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_522-Evaluate": {
+  "target_rewrite": "Validate the conclusion that a training program significantly changes the scores of five students (before: 60, 65, 70, 68, 72; after: 65, 68, 72, 70, 75) at the 5% level by comparing the absolute paired t-statistic with the critical value t_(0.025,4) = 2.776.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_522-Remember": {
+  "target_rewrite": "State the paired-sample t-test statistic and define the paired differences, mean difference, and standard error it uses.",
+  "reason": "level_alignment: 'identify the meaning of' asked for interpretation; reduced to retrieval"
+ },
+ "eduguard_v3_1_525-Evaluate": {
+  "target_rewrite": "Verify whether the reported values V_max = 50 μmol/min and K_m = 2 mmol/L are consistent with a Lineweaver–Burk plot whose y-intercept is 0.02 min/μmol and x-intercept is -0.5 L/mmol.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_526-Create": {
+  "target_rewrite": "Develop a peaceful-settlement strategy for a dispute between two states that combines diplomatic negotiation, economic sanctions, and international mediation, explaining the intended role and sequencing of each instrument.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_528-Evaluate": {
+  "target_rewrite": "Assess whether the claim that adding a small amount of sodium hydroxide to an acetic acid–sodium acetate buffer leaves its pH completely unchanged is chemically justified.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_531-Evaluate": {
+  "target_rewrite": "Assess whether identifying an upward-arching fold with the oldest strata at its core as a syncline is consistent with how compressional folding arranges rock layers, and justify your assessment.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_533-Create": {
+  "target_rewrite": "Devise a function of two variables, different from f(x,y)=x^2y+3xy^2, whose first-order partial derivatives at the point (1, 1) equal those of f, and verify your function by differentiating it.",
+  "reason": "level_alignment: computing a tangent-plane equation is an Apply task; replaced with a construction task"
+ },
+ "eduguard_v3_1_533-Evaluate": {
+  "target_rewrite": "Validate the proposed derivatives f_x = 2xy + 3y^2 and f_y = x^2 + 6xy for f(x,y) = x^2y + 3xy^2 by differentiating with respect to each variable.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_536-Evaluate": {
+  "target_rewrite": "Assess whether autocratic or democratic leadership is more appropriate for a project team that needs substantial employee participation in decisions, weighing participation, the distribution of decision-making authority, and the leader's directing role.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_537-Understand": {
+  "target_rewrite": "Explain how node splitting maintains the key-ordering and minimum-degree properties of a B-tree of minimum degree t = 2 as the keys 10, 20, 5, 6, 12, 30, and 7 are inserted in that order.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_538-Evaluate": {
+  "target_rewrite": "Is a reported induced electromotive force of 40 V correct for a 200-turn coil whose flux per turn falls uniformly from 0.05 Wb to 0.01 Wb in 0.2 seconds? Show the check behind your answer.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_540-Evaluate": {
+  "target_rewrite": "Appraise a balance-of-payments report that records exports and imports in the current account, foreign investment inflows in the financial account, and external loan repayments as current-account payments, judging whether each classification is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_541-Analyze": {
+  "target_rewrite": "Determine how many edges could be removed from the five-vertex cycle with edges (A,B), (B,C), (C,D), (D,E), and (E,A) while keeping the graph connected, and explain why removing any single edge never disconnects it.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_541-Evaluate": {
+  "target_rewrite": "Verify whether the proposed path A–E–D establishes connectivity between A and D in the undirected graph with edges (A,B), (B,C), (C,D), (D,E), and (E,A).",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_541-Understand": {
+  "target_rewrite": "Explain how the existence of paths among vertices determines whether the undirected graph with vertices {A, B, C, D, E} and edges {(A,B), (B,C), (C,D), (D,E), (E,A)} is connected.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_544-Analyze": {
+  "target_rewrite": "Determine why the units remaining after a business buys 100 units at Tk. 20, then 100 units at Tk. 24, and sells 150 units are valued at the later price under FIFO, and explain how their value would differ under the weighted-average method.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_544-Evaluate": {
+  "target_rewrite": "Judge whether a reported closing inventory value of Tk. 1,200 is correct under FIFO for a business that buys 100 units at Tk. 20, then 100 units at Tk. 24, and sells 150 units.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_544-Understand": {
+  "target_rewrite": "Describe how the FIFO assumption determines which purchase costs remain in closing inventory when a business buys 100 units at Tk. 20 and then 100 units at Tk. 24 and sells 150 units.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_547-Create": {
+  "target_rewrite": "Develop a restoration plan for a site cleared by a landslide down to bare rock, stating whether primary or secondary succession would occur and the interventions that would accelerate community development on a site with no soil.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_550-Create": {
+  "target_rewrite": "Design a business intelligence dashboard that combines monthly sales revenue, sales volume, and regional performance indicators so that a drop in sales in one region can be traced to its cause.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_551-Evaluate": {
+  "target_rewrite": "Verify whether a reported approximation of 14/3 is correct for ∫_0^2 (x^2+1)dx using Simpson's one-third rule with two equal subintervals.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_551-Understand": {
+  "target_rewrite": "Explain how the function values at the endpoints and the midpoint are weighted when Simpson's one-third rule with two subintervals approximates ∫_0^2 (x^2+1)dx.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_553-Evaluate": {
+  "target_rewrite": "Verify whether a reported fringe width of 3 mm is consistent with Young's double-slit experiment using light of wavelength 600 nm, a slit separation of 0.3 mm, and a slit-to-screen distance of 1.5 m.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_555-Evaluate": {
+  "target_rewrite": "Verify whether a reported peak runoff rate of approximately 0.417 m^3/s is consistent with the Rational Method for a 5-hectare urban catchment with a runoff coefficient of 0.6 and a rainfall intensity of 50 mm/hour.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_557-Evaluate": {
+  "target_rewrite": "Verify whether reported equivalent units of 1,000 for materials and 900 for conversion costs are correct under the weighted-average method when 800 units are completed and 200 units in ending work in process are 100% complete for materials and 50% complete for conversion.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_559-Apply": {
+  "target_rewrite": "Determine which external-wall modification would most directly reduce sound transmission into a university classroom through an untreated opening, using the effects of wall mass, material properties, and openings.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_562-Analyze": {
+  "target_rewrite": "Examine the contribution of each link to the end-effector coordinates of a two-link planar robot with link lengths 4 and 3 units and joint angles 30° and 60°, distinguishing the first link's orientation from the second link's cumulative orientation.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_562-Evaluate": {
+  "target_rewrite": "Are the reported end-effector coordinates x ≈ 3.23 units and y ≈ 5.20 units correct for a two-link planar robot with link lengths 4 and 3 units and joint angles 30° and 60°, using x = L_1cosθ_1 + L_2cos(θ_1+θ_2) and y = L_1sinθ_1 + L_2sin(θ_1+θ_2)? Explain your verdict.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_563-Evaluate": {
+  "target_rewrite": "Assess whether a proposed replication sequence in which DNA polymerase extends new strands before primase synthesizes the RNA primers is consistent with the roles of helicase, primase, DNA polymerase, and DNA ligase at a replication fork.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_564-Evaluate": {
+  "target_rewrite": "Judge whether extending the accounts payable payment period while keeping the inventory holding and receivables collection periods unchanged reduces a manufacturing business's cash conversion cycle, and justify the conclusion.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_569-Evaluate": {
+  "target_rewrite": "Verify whether the proposed eigenvalues 5 and 2 satisfy the characteristic equation of the matrix A = [[4, 1], [2, 3]], and assess whether their corresponding eigenvectors satisfy Av = λv.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_570-Create": {
+  "target_rewrite": "Design a request-servicing order using a variant of SCAN, such as C-SCAN or LOOK, for requests at cylinders 82, 140, 170, 199, 43, 24, and 16 with the head starting at 50 on a 0–199 cylinder disk, and compare its total head movement with that of SCAN.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_570-Evaluate": {
+  "target_rewrite": "Validate the servicing sequence 82, 140, 170, 199, 43, 24, 16 for SCAN on a 0–199 cylinder disk with the head starting at 50 and moving upward, including movement to the upper boundary before reversing direction.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_570-Remember": {
+  "target_rewrite": "Define the SCAN disk-scheduling algorithm and state the rule it follows when the head reaches a disk-cylinder boundary.",
+  "reason": "level_alignment: 'identify the significance of' asked for interpretation; reduced to retrieval"
+ },
+ "eduguard_v3_1_573-Create": {
+  "target_rewrite": "Design a modified throat diameter for a horizontal venturimeter with a 0.20 m inlet that would produce a pressure difference larger than 12 kPa at the same discharge, taking the coefficient of discharge as 0.98 and water density as 1000 kg/m³.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_573-Evaluate": {
+  "target_rewrite": "Check a reported discharge of approximately 0.039 m^3/s for a horizontal venturimeter with a 0.20 m inlet, a 0.10 m throat, a 12 kPa pressure difference, a coefficient of discharge of 0.98, and water of density 1000 kg/m³, and decide whether it is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_574-Evaluate": {
+  "target_rewrite": "Assess whether study hours per week, class attendance percentage, and frequency of voluntary academic activities adequately represent academic motivation, considering whether they capture observable engagement without measuring every dimension of the concept.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_575-Evaluate": {
+  "target_rewrite": "Judge whether a reported cost of goods sold of Tk. 2,500 and ending inventory of Tk. 1,500 are consistent with FIFO for a business that buys 100 units at Tk. 20, then 80 units at Tk. 25, and sells 120 units.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_575-Remember": {
+  "target_rewrite": "State the order in which the FIFO method assigns the costs of earlier and later purchases to cost of goods sold and to ending inventory.",
+  "reason": "duplicate_target: identical to eduguard_v3_1_544-Remember; rewritten for its own source"
+ },
+ "eduguard_v3_1_576-Create": {
+  "target_rewrite": "Devise a function of two variables, different from f(x,y)=3x^2y+2xy^2-5y, whose first-order partial derivatives at the point (1, 2) equal those of f, and verify your function by differentiating it.",
+  "reason": "level_alignment: computing a tangent-plane equation is an Apply task; replaced with a construction task"
+ },
+ "eduguard_v3_1_576-Evaluate": {
+  "target_rewrite": "Verify whether the proposed derivatives f_x = 6xy + 2y^2 and f_y = 3x^2 + 4xy - 5 are correct for f(x,y) = 3x^2y + 2xy^2 - 5y.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_580-Create": {
+  "target_rewrite": "Design an ETL workflow for loading operational data into a data warehouse that detects and logs records whose dates cannot be standardized and specifies how they are corrected before loading.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_580-Evaluate": {
+  "target_rewrite": "Critique loading operational data directly into a data warehouse without standardizing inconsistent formats, judging the consequences for data quality and later analysis.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_582-Evaluate": {
+  "target_rewrite": "Is a reported net fluid balance of +300 mL correct for a patient whose 24-hour oral intake is 1,200 mL, intravenous intake is 800 mL, urine output is 1,500 mL, and other measured losses are 200 mL? Explain your verdict.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_583-Understand": {
+  "target_rewrite": "Explain how bilateral negotiations, multilateral diplomacy, economic sanctions, and diplomatic mediation can each be used to pursue a state's foreign-policy objectives through different forms of engagement or pressure.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_586-Evaluate": {
+  "target_rewrite": "Validate a reported generated emf of 999 V per phase for a synchronous generator with a flux per pole of 0.05 Wb, a frequency of 50 Hz, 100 series turns per phase, and a winding factor of 0.9, using E = 4.44K_wfΦT.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_590-Apply": {
+  "target_rewrite": "Calculate the cost from router A to router C through router B when the A–B link costs 2 and B advertises a cost of 3 to C, and compare it with A's direct cost of 7 to C.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_590-Create": {
+  "target_rewrite": "Formulate a split-horizon rule for distance-vector updates in a network where router A reaches router C through router B (A–B cost 2, B–C cost 3), and show how it changes the routing information A advertises to B about its route to C.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_590-Evaluate": {
+  "target_rewrite": "Decide whether router A, with a direct cost of 7 to router C, should switch to the route through router B when the A–B link costs 2 and B advertises a cost of 3 to C, justifying the decision with the distance-vector update rule.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_591-Evaluate": {
+  "target_rewrite": "Verify whether a reported labour efficiency variance of Tk. 10,000 adverse is correct when the standard time is 4 hours per unit, 100 units are produced in 450 actual hours, and the standard rate is Tk. 200 per hour.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_593-Evaluate": {
+  "target_rewrite": "Verify whether the claim that the undirected graph with vertices {A, B, C, D, E} and edges {A,B}, {B,C}, {C,D}, and {D,E} has two connected components is correct.",
+  "reason": "phantom_reference: the v3.1 rewrite referred to supplied, given, stated or specified material that the question does not contain; rewritten to be self-contained at the same level and topic"
+ },
+ "eduguard_v3_1_599-Remember": {
+  "target_rewrite": "List the places of articulation and the manners of articulation used to classify English consonant sounds.",
+  "reason": "duplicate_target: identical to eduguard_v3_1_549-Remember; rewritten for its own source"
+ }
+}

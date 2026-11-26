@@ -1,0 +1,627 @@
+{
+  "dataset": "EduGuard academic summarization v3.1 (v3 with thin train departments rebalanced)",
+  "generated_utc": "2026-11-26T20:59:48.722291+00:00",
+  "tools": [
+    "experiments/multitask_bloom_rewrite/scripts/clean_summarization_dataset.py",
+    "experiments/multitask_bloom_rewrite/scripts/import_openstax_summarization.py",
+    "experiments/multitask_bloom_rewrite/scripts/build_summarization_v3.py",
+    "experiments/multitask_bloom_rewrite/scripts/topup_summarization_v3_1.py"
+  ],
+  "seed": 20261126,
+  "plan": {
+    "train": 1172,
+    "validation": 146,
+    "test": 147
+  },
+  "split_counts": {
+    "train": 1172,
+    "validation": 146,
+    "test": 147
+  },
+  "length_category_by_split": {
+    "train": {
+      "short": 240,
+      "medium": 352,
+      "long": 412,
+      "very_long": 168
+    },
+    "validation": {
+      "short": 29,
+      "medium": 44,
+      "long": 51,
+      "very_long": 22
+    },
+    "test": {
+      "short": 29,
+      "medium": 44,
+      "long": 52,
+      "very_long": 22
+    }
+  },
+  "train_category_substitutions": {
+    "very_long->long": 2
+  },
+  "source_type_by_split": {
+    "train": {
+      "lecture_slide_text_style": 18,
+      "original_academic_example": 411,
+      "openstax_textbook_section": 743
+    },
+    "validation": {
+      "lecture_slide_text_style": 1,
+      "original_academic_example": 29,
+      "openstax_textbook_section": 116
+    },
+    "test": {
+      "lecture_slide_text_style": 2,
+      "original_academic_example": 29,
+      "openstax_textbook_section": 116
+    }
+  },
+  "department_by_split": {
+    "train": {
+      "Business Administration": 122,
+      "Psychology": 122,
+      "History": 74,
+      "Sociology": 71,
+      "Economics": 68,
+      "Physics": 67,
+      "Microbiology": 66,
+      "Accounting and Finance": 58,
+      "CSE": 49,
+      "Biology": 45,
+      "Political Science": 40,
+      "Civil Engineering": 38,
+      "Philosophy": 35,
+      "Pharmacy": 31,
+      "Public Health": 30,
+      "EEE": 29,
+      "Chemistry": 23,
+      "Biomedical Science": 23,
+      "Mechanical Engineering": 22,
+      "Law": 17,
+      "Agriculture": 15,
+      "Architecture": 12,
+      "Textile Engineering": 11,
+      "Environmental Science": 11,
+      "Nutrition and Food Science": 11,
+      "Mathematics": 10,
+      "Biomedical Engineering": 10,
+      "Statistics": 10,
+      "Education": 10,
+      "Biotechnology": 6,
+      "Electrical and Electronic Engineering": 5,
+      "Computer Science and Engineering": 5,
+      "Marketing": 5,
+      "English and Linguistics": 5,
+      "Management": 5,
+      "English": 4,
+      "Basic Science and Humanities": 2,
+      "Law and Human Rights": 2,
+      "Finance": 1,
+      "Information Systems": 1,
+      "Information Technology": 1
+    },
+    "validation": {
+      "Business Administration": 22,
+      "Psychology": 12,
+      "History": 12,
+      "Accounting and Finance": 11,
+      "Economics": 10,
+      "Biology": 9,
+      "Political Science": 8,
+      "Microbiology": 7,
+      "CSE": 6,
+      "Chemistry": 6,
+      "Public Health": 6,
+      "Biomedical Science": 5,
+      "Civil Engineering": 4,
+      "Physics": 4,
+      "Philosophy": 4,
+      "Computer Science and Engineering": 3,
+      "Sociology": 3,
+      "Mathematics": 2,
+      "EEE": 2,
+      "Mechanical Engineering": 2,
+      "Pharmacy": 1,
+      "Nutrition and Food Science": 1,
+      "English": 1,
+      "Architecture": 1,
+      "Textile Engineering": 1,
+      "Accounting": 1,
+      "Information Technology": 1,
+      "Environmental Science": 1
+    },
+    "test": {
+      "Business Administration": 29,
+      "Psychology": 17,
+      "History": 15,
+      "Economics": 9,
+      "Political Science": 8,
+      "Accounting and Finance": 8,
+      "Public Health": 5,
+      "Chemistry": 5,
+      "Sociology": 5,
+      "CSE": 4,
+      "Physics": 4,
+      "Mechanical Engineering": 4,
+      "Biomedical Science": 4,
+      "Biology": 4,
+      "Electrical and Electronic Engineering": 3,
+      "Pharmacy": 3,
+      "Education": 3,
+      "Microbiology": 3,
+      "English": 2,
+      "Nutrition and Food Science": 2,
+      "Philosophy": 2,
+      "EEE": 1,
+      "Biomedical Engineering": 1,
+      "Textile Engineering": 1,
+      "Statistics": 1,
+      "Agriculture": 1,
+      "Architecture": 1,
+      "Computer Science and Engineering": 1,
+      "Public Administration": 1
+    }
+  },
+  "openstax": {
+    "rows": 975,
+    "books_by_split": {
+      "train": {
+        "Additive Manufacturing Essentials": 4,
+        "Astronomy 2e": 55,
+        "Biology 2e": 6,
+        "Business Ethics": 23,
+        "Chemistry 2e": 2,
+        "Entrepreneurship": 15,
+        "Foundations of Information Systems": 6,
+        "Introduction to Anthropology": 14,
+        "Introduction to Behavioral Neuroscience": 41,
+        "Introduction to Business 2e": 48,
+        "Introduction to Philosophy 2e": 35,
+        "Introduction to Political Science": 6,
+        "Introduction to Sociology 3e": 49,
+        "Lifespan Development": 38,
+        "Microbiology": 54,
+        "Organic Chemistry": 10,
+        "Organizational Behavior": 52,
+        "Population Health for Nurses": 16,
+        "Principles of Accounting, Volume 1: Financial Accounting": 9,
+        "Principles of Accounting, Volume 2: Managerial Accounting": 16,
+        "Principles of Economics 3e": 56,
+        "Principles of Finance 2e": 28,
+        "Principles of Management": 28,
+        "Psychology 2e": 58,
+        "U.S. History": 74
+      },
+      "validation": {
+        "Additive Manufacturing Essentials": 2,
+        "American Government 4e": 4,
+        "Anatomy and Physiology 2e": 5,
+        "Astronomy 2e": 4,
+        "Biology 2e": 6,
+        "Biology for AP® Courses 2e": 1,
+        "Business Ethics": 4,
+        "Chemistry 2e": 2,
+        "Chemistry: Atoms First 2e": 1,
+        "Concepts of Biology": 2,
+        "Entrepreneurship": 4,
+        "Foundations of Information Systems": 4,
+        "Introduction to Anthropology": 2,
+        "Introduction to Behavioral Neuroscience": 3,
+        "Introduction to Business 2e": 8,
+        "Introduction to Philosophy 2e": 4,
+        "Introduction to Political Science": 4,
+        "Introduction to Sociology 3e": 1,
+        "Lifespan Development": 4,
+        "Microbiology": 5,
+        "Organic Chemistry": 1,
+        "Organizational Behavior": 3,
+        "Population Health for Nurses": 4,
+        "Principles of Accounting, Volume 1: Financial Accounting": 4,
+        "Principles of Accounting, Volume 2: Managerial Accounting": 3,
+        "Principles of Economics 3e": 8,
+        "Principles of Finance 2e": 4,
+        "Principles of Management": 1,
+        "Principles of Microeconomics for AP® Courses 2e": 1,
+        "Psychology 2e": 5,
+        "U.S. History": 4,
+        "World History Volume 1, to 1500": 4,
+        "World History Volume 2, from 1400": 4
+      },
+      "test": {
+        "Additive Manufacturing Essentials": 2,
+        "American Government 4e": 4,
+        "Anatomy and Physiology 2e": 4,
+        "Astronomy 2e": 3,
+        "Biology 2e": 4,
+        "Business Ethics": 6,
+        "Chemistry 2e": 3,
+        "Entrepreneurship": 1,
+        "Foundations of Information Systems": 2,
+        "Introduction to Anthropology": 2,
+        "Introduction to Behavioral Neuroscience": 5,
+        "Introduction to Business 2e": 8,
+        "Introduction to Philosophy 2e": 2,
+        "Introduction to Political Science": 4,
+        "Introduction to Sociology 3e": 3,
+        "Lifespan Development": 5,
+        "Microbiology": 3,
+        "Organic Chemistry": 1,
+        "Organizational Behavior": 7,
+        "Population Health for Nurses": 4,
+        "Principles of Accounting, Volume 1: Financial Accounting": 4,
+        "Principles of Accounting, Volume 2: Managerial Accounting": 3,
+        "Principles of Economics 3e": 8,
+        "Principles of Finance 2e": 1,
+        "Principles of Management": 5,
+        "Psychology 2e": 7,
+        "U.S. History": 7,
+        "World History Volume 2, from 1400": 8
+      }
+    },
+    "licenses": {
+      "http://creativecommons.org/licenses/by-nc-sa/4.0/": 975
+    },
+    "repositories": [
+      {
+        "repo": "https://github.com/openstax/osbooks-additive-manufacturing.git",
+        "commit": "461b9c36ac43"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-american-government.git",
+        "commit": "a26772452419"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-anatomy-physiology.git",
+        "commit": "f27376234076"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-astronomy.git",
+        "commit": "dff6acf8df59"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-biology-bundle.git",
+        "commit": "bc1be223bd23"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-business-ethics.git",
+        "commit": "37c6dbe07bd9"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-chemistry-bundle.git",
+        "commit": "78b742a7fed1"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-entrepreneurship.git",
+        "commit": "2ac8635c0711"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-foundations-information-systems.git",
+        "commit": "057882c68a78"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-introduction-anthropology.git",
+        "commit": "e466666414f1"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-introduction-business.git",
+        "commit": "2a839877ab89"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-introduction-philosophy.git",
+        "commit": "a0dbb585086d"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-introduction-political-science.git",
+        "commit": "61afbf50d27b"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-introduction-sociology.git",
+        "commit": "ab8839c5c534"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-lifespan-development.git",
+        "commit": "ebed4ae43c26"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-microbiology.git",
+        "commit": "ccd8e2339acd"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-neuroscience.git",
+        "commit": "6164a769d700"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-nursing-external-bundle.git",
+        "commit": "128c6c3e0ee6"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-organic-chemistry.git",
+        "commit": "72cb625c8ffd"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-principles-accounting-bundle.git",
+        "commit": "2165bf6454c0"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-principles-economics-bundle.git",
+        "commit": "cf93bf19bbbc"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-principles-finance.git",
+        "commit": "e3e5135ae36e"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-principles-of-management-bundle.git",
+        "commit": "f2b749648a17"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-psychology.git",
+        "commit": "43035bcc5dd2"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-us-history.git",
+        "commit": "c05b860a035f"
+      },
+      {
+        "repo": "https://github.com/openstax/osbooks-world-history.git",
+        "commit": "c0dd82697bc2"
+      }
+    ],
+    "candidates": 2623,
+    "eligible": 2166,
+    "filter_rejections": {
+      "source length outside medium..very_long": 325,
+      "summary/source ratio outside 2.5-40%": 98,
+      "summary < 40 words": 34
+    },
+    "excluded_near_duplicate_of_v2": 55,
+    "attribution": "Content from OpenStax textbooks (Rice University), https://openstax.org, used under the licence stated per row (CC BY-NC-SA 4.0 or CC BY 4.0). Text was converted from CNXML: figures, tables, boxed features, exercises and citations were removed; the summary is the author-written section summary."
+  },
+  "checks": {
+    "unique_ids": true,
+    "exact_duplicate_source": 0,
+    "exact_duplicate_summary": 0,
+    "max_cross_split_similarity": {
+      "train/validation": 0.4956,
+      "train/test": 0.4879,
+      "validation/test": 0.4357
+    },
+    "near_duplicate_threshold": 0.5,
+    "summary_ratio_max": 0.381,
+    "source_words_max": 3964,
+    "summary_words_median": {
+      "train": 104.0,
+      "validation": 89.0,
+      "test": 86
+    }
+  },
+  "files_sha256": {
+    "train.jsonl": "eeb834b83365568d8b16369f3758335b0df8ef052cc33885544b0a546ff1a5f9",
+    "validation.jsonl": "374d15c6dbbcb435904ab1bca0346a36a86b3a97270f22cc0d4942d46760818e",
+    "test.jsonl": "153f3002067e8e942ce7cf44fbfea39171d51156146dbb2a3e1efa1464abb0d8"
+  },
+  "derived_from": {
+    "path": "data/summarization_v3",
+    "files_sha256": {
+      "train.jsonl": "b629963ace2106d6442293392d9cc8c06abd90d059583742e058e3ebbfe09fdd",
+      "validation.jsonl": "374d15c6dbbcb435904ab1bca0346a36a86b3a97270f22cc0d4942d46760818e",
+      "test.jsonl": "153f3002067e8e942ce7cf44fbfea39171d51156146dbb2a3e1efa1464abb0d8"
+    }
+  },
+  "rebalance": {
+    "reason": "repetition loops on Biology validation sections; Biology had 6 train rows vs 9 validation rows",
+    "rule": "departments with train < 5 x validation rows topped up to that (max 60); equal number of same-category OpenStax train rows removed from ['Business Administration', 'Psychology']",
+    "added_ids": [
+      "OSX-SUM-0976",
+      "OSX-SUM-0977",
+      "OSX-SUM-0978",
+      "OSX-SUM-0979",
+      "OSX-SUM-0980",
+      "OSX-SUM-0981",
+      "OSX-SUM-0982",
+      "OSX-SUM-0983",
+      "OSX-SUM-0984",
+      "OSX-SUM-0985",
+      "OSX-SUM-0986",
+      "OSX-SUM-0987",
+      "OSX-SUM-0988",
+      "OSX-SUM-0989",
+      "OSX-SUM-0990",
+      "OSX-SUM-0991",
+      "OSX-SUM-0992",
+      "OSX-SUM-0993",
+      "OSX-SUM-0994",
+      "OSX-SUM-0995",
+      "OSX-SUM-0996",
+      "OSX-SUM-0997",
+      "OSX-SUM-0998",
+      "OSX-SUM-0999",
+      "OSX-SUM-1000",
+      "OSX-SUM-1001",
+      "OSX-SUM-1002",
+      "OSX-SUM-1003",
+      "OSX-SUM-1004",
+      "OSX-SUM-1005",
+      "OSX-SUM-1006",
+      "OSX-SUM-1007",
+      "OSX-SUM-1008",
+      "OSX-SUM-1009",
+      "OSX-SUM-1010",
+      "OSX-SUM-1011",
+      "OSX-SUM-1012",
+      "OSX-SUM-1013",
+      "OSX-SUM-1014",
+      "OSX-SUM-1015",
+      "OSX-SUM-1016",
+      "OSX-SUM-1017",
+      "OSX-SUM-1018",
+      "OSX-SUM-1019",
+      "OSX-SUM-1020",
+      "OSX-SUM-1021",
+      "OSX-SUM-1022",
+      "OSX-SUM-1023",
+      "OSX-SUM-1024",
+      "OSX-SUM-1025",
+      "OSX-SUM-1026",
+      "OSX-SUM-1027",
+      "OSX-SUM-1028",
+      "OSX-SUM-1029",
+      "OSX-SUM-1030",
+      "OSX-SUM-1031",
+      "OSX-SUM-1032",
+      "OSX-SUM-1033",
+      "OSX-SUM-1034",
+      "OSX-SUM-1035",
+      "OSX-SUM-1036",
+      "OSX-SUM-1037",
+      "OSX-SUM-1038",
+      "OSX-SUM-1039",
+      "OSX-SUM-1040",
+      "OSX-SUM-1041",
+      "OSX-SUM-1042",
+      "OSX-SUM-1043",
+      "OSX-SUM-1044",
+      "OSX-SUM-1045",
+      "OSX-SUM-1046",
+      "OSX-SUM-1047",
+      "OSX-SUM-1048",
+      "OSX-SUM-1049",
+      "OSX-SUM-1050",
+      "OSX-SUM-1051",
+      "OSX-SUM-1052",
+      "OSX-SUM-1053",
+      "OSX-SUM-1054",
+      "OSX-SUM-1055",
+      "OSX-SUM-1056",
+      "OSX-SUM-1057",
+      "OSX-SUM-1058",
+      "OSX-SUM-1059",
+      "OSX-SUM-1060",
+      "OSX-SUM-1061",
+      "OSX-SUM-1062",
+      "OSX-SUM-1063",
+      "OSX-SUM-1064",
+      "OSX-SUM-1065",
+      "OSX-SUM-1066",
+      "OSX-SUM-1067",
+      "OSX-SUM-1068",
+      "OSX-SUM-1069",
+      "OSX-SUM-1070",
+      "OSX-SUM-1071",
+      "OSX-SUM-1072"
+    ],
+    "removed_ids": [
+      "OSX-SUM-0066",
+      "OSX-SUM-0069",
+      "OSX-SUM-0071",
+      "OSX-SUM-0074",
+      "OSX-SUM-0076",
+      "OSX-SUM-0077",
+      "OSX-SUM-0078",
+      "OSX-SUM-0079",
+      "OSX-SUM-0080",
+      "OSX-SUM-0081",
+      "OSX-SUM-0082",
+      "OSX-SUM-0085",
+      "OSX-SUM-0088",
+      "OSX-SUM-0091",
+      "OSX-SUM-0092",
+      "OSX-SUM-0097",
+      "OSX-SUM-0099",
+      "OSX-SUM-0102",
+      "OSX-SUM-0103",
+      "OSX-SUM-0105",
+      "OSX-SUM-0132",
+      "OSX-SUM-0138",
+      "OSX-SUM-0159",
+      "OSX-SUM-0161",
+      "OSX-SUM-0166",
+      "OSX-SUM-0173",
+      "OSX-SUM-0176",
+      "OSX-SUM-0178",
+      "OSX-SUM-0179",
+      "OSX-SUM-0183",
+      "OSX-SUM-0184",
+      "OSX-SUM-0185",
+      "OSX-SUM-0186",
+      "OSX-SUM-0187",
+      "OSX-SUM-0191",
+      "OSX-SUM-0192",
+      "OSX-SUM-0193",
+      "OSX-SUM-0194",
+      "OSX-SUM-0195",
+      "OSX-SUM-0201",
+      "OSX-SUM-0202",
+      "OSX-SUM-0206",
+      "OSX-SUM-0207",
+      "OSX-SUM-0209",
+      "OSX-SUM-0214",
+      "OSX-SUM-0327",
+      "OSX-SUM-0328",
+      "OSX-SUM-0336",
+      "OSX-SUM-0340",
+      "OSX-SUM-0407",
+      "OSX-SUM-0408",
+      "OSX-SUM-0409",
+      "OSX-SUM-0413",
+      "OSX-SUM-0414",
+      "OSX-SUM-0415",
+      "OSX-SUM-0417",
+      "OSX-SUM-0419",
+      "OSX-SUM-0420",
+      "OSX-SUM-0421",
+      "OSX-SUM-0423",
+      "OSX-SUM-0426",
+      "OSX-SUM-0428",
+      "OSX-SUM-0430",
+      "OSX-SUM-0433",
+      "OSX-SUM-0434",
+      "OSX-SUM-0435",
+      "OSX-SUM-0436",
+      "OSX-SUM-0437",
+      "OSX-SUM-0439",
+      "OSX-SUM-0447",
+      "OSX-SUM-0450",
+      "OSX-SUM-0452",
+      "OSX-SUM-0453",
+      "OSX-SUM-0454",
+      "OSX-SUM-0584",
+      "OSX-SUM-0585",
+      "OSX-SUM-0586",
+      "OSX-SUM-0587",
+      "OSX-SUM-0591",
+      "OSX-SUM-0596",
+      "OSX-SUM-0597",
+      "OSX-SUM-0599",
+      "OSX-SUM-0600",
+      "OSX-SUM-0603",
+      "OSX-SUM-0604",
+      "OSX-SUM-0607",
+      "OSX-SUM-0614",
+      "OSX-SUM-0616",
+      "OSX-SUM-0620",
+      "OSX-SUM-0622",
+      "OSX-SUM-0636",
+      "OSX-SUM-0641",
+      "OSX-SUM-0646",
+      "OSX-SUM-0656",
+      "OSX-SUM-0660",
+      "OSX-SUM-0663",
+      "OSX-SUM-0667"
+    ],
+    "added_by_department": {
+      "Political Science": 34,
+      "Biomedical Science": 23,
+      "Biology": 39,
+      "Public Health": 1
+    },
+    "removed_by_department": {
+      "Business Administration": 77,
+      "Psychology": 20
+    },
+    "validation_and_test": "unchanged (byte-identical rows)",
+    "seed": 20261127
+  }
+}
