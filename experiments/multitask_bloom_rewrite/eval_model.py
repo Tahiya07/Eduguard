@@ -263,6 +263,13 @@ class HFGenerator:
         with torch.no_grad():
             out = self.model.generate(**inputs, **gen_kwargs)
         new_tokens = out[0][inputs["input_ids"].shape[1] :]
+        # Output length of the last call; it hit the cap if it used every allowed token without emitting EOS.
+        eos_ids = {self.tokenizer.eos_token_id, self.tokenizer.pad_token_id}
+        self.last_output_tokens = int(len(new_tokens))
+        self.last_hit_token_limit = bool(
+            self.last_output_tokens >= gen_kwargs["max_new_tokens"]
+            and int(new_tokens[-1]) not in eos_ids
+        )
         return self.tokenizer.decode(new_tokens, skip_special_tokens=True)
 
 

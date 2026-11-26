@@ -1,0 +1,8 @@
+Question type,N,EduGuard LoRA ROUGE-L [95% CI]
+conceptual,33,"0.266 [0.238, 0.295]"
+application,31,"0.256 [0.223, 0.291]"
+analytical,26,"0.245 [0.210, 0.284]"
+comparative,24,"0.309 [0.262, 0.363]"
+calculation,14,"0.463 [0.402, 0.524]"
+process,5,"0.250 [0.194, 0.307]"
+other (n<5 each),13,"0.232 [0.192, 0.272]"

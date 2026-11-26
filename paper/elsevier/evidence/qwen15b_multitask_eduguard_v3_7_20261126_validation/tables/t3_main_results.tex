@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Held-out validation results. 95\% percentile bootstrap CIs (2000 resamples); paired bootstrap for the difference.}
+\label{tab:t3_main_results}
+\begin{tabular}{lrrrrr}
+\toprule
+Metric & N & Base [95\% CI] & LoRA [95\% CI] & Delta LoRA-base [95\% CI] & Bootstrap p \\
+\midrule
+Bloom target accuracy & 341 & n/a & 0.839 [0.801, 0.877] & n/a & n/a \\
+Bloom fully validated (calibrated) & 341 & n/a & 0.768 [0.721, 0.812] & n/a & n/a \\
+Bloom ROUGE-L to reference rewrite & 341 & n/a & 0.326 [0.310, 0.342] & n/a & n/a \\
+Bloom near-copy of source (lower is better) & 341 & n/a & 0.050 [0.029, 0.073] & n/a & n/a \\
+QA ROUGE-L & 146 & n/a & 0.282 [0.264, 0.302] & n/a & n/a \\
+QA ROUGE-L, length-controlled & 146 & n/a & 0.281 [0.262, 0.300] & n/a & n/a \\
+QA bge-m3 similarity to reference & 146 & n/a & 0.822 [0.810, 0.834] & n/a & n/a \\
+Summarization ROUGE-1 & 146 & n/a & 0.389 [0.371, 0.407] & n/a & n/a \\
+Summarization ROUGE-2 & 146 & n/a & 0.123 [0.107, 0.139] & n/a & n/a \\
+Summarization ROUGE-Lsum & 146 & n/a & 0.354 [0.336, 0.371] & n/a & n/a \\
+Summarization bge-m3 similarity to reference & 146 & n/a & 0.832 [0.821, 0.843] & n/a & n/a \\
+\bottomrule
+\end{tabular}
+\end{table}

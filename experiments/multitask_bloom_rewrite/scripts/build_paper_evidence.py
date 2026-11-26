@@ -46,9 +46,10 @@ TASK_LABEL = {"bloom_rewrite": "Bloom rewriting", "qa": "Closed-book QA", "summa
 SPLITS = ["train", "validation", "test"]
 LENGTH_ORDER = ["short", "medium", "long", "very_long"]
 SOURCE_LABEL = {
+    "openstax_textbook_section": "OpenStax textbook",
     "original_academic_example": "Authored academic",
-    "arxiv_scientific_article": "arXiv article",
     "lecture_slide_text_style": "Lecture slides",
+    "arxiv_scientific_article": "arXiv article",  # older datasets (v3_4 and earlier)
 }
 
 # Palette: validated categorical slots 1-3 (dataviz reference palette; all-pairs
@@ -233,21 +234,13 @@ def rouge(pred: str, ref: str) -> dict[str, float]:
     return {k: s[k].fmeasure for k in ("rouge1", "rouge2", "rougeL")}
 
 
-def token_f1(pred: str, ref: str) -> float:
-    from eval_metrics import qa_token_f1
-    return qa_token_f1(pred, ref)
-
-
 def score_predictions(preds: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Attach per-example scores (same scorer settings as evaluate_rewrite.py)."""
     for r in preds:
         if r["task"] in ("qa", "summarization"):
             r.update(rouge(r.get("prediction") or "", r.get("reference") or ""))
-            if r["task"] == "qa":
-                r["token_f1"] = token_f1(r.get("prediction") or "", r.get("reference") or "")
         else:
             r["target_match_f"] = float(bool(r.get("target_match")))
-            r["fully_validated_f"] = float(bool(r.get("fully_validated")))
     return preds
 
 
@@ -299,8 +292,7 @@ def load_condition(results_dir: Path | None, pack: Pack) -> list[dict[str, Any]]
                                 "near_copy_f": float(row["near_copy"])}
         for task in ("qa", "summarization"):
             for row in (ext.get(task) or {}).get("per_row", []):
-                extra[row["id"]] = {k: row[k] for k in ("embedding_sim", "keypoint_coverage", "rougeLsum", "rougeL_lc", "rouge2_lc",
-                                                        "rouge1_recall", "rouge2_recall") if k in row}
+                extra[row["id"]] = {k: row[k] for k in ("embedding_sim", "rougeLsum", "rougeL_lc") if k in row}
         for r in preds:
             r.update(extra.get(r["id"], {}))
     else:
@@ -470,20 +462,12 @@ def results_figures(plt, pack: Pack, conds: dict[str, list[dict[str, Any]]], spl
         ("Bloom fully validated (calibrated)", "bloom_rewrite", "calibrated_full_f", True),
         ("Bloom ROUGE-L to reference rewrite", "bloom_rewrite", "ref_rougeL", True),
         ("Bloom near-copy of source (lower is better)", "bloom_rewrite", "near_copy_f", False),
-        ("Bloom fully validated (original word-overlap check)", "bloom_rewrite", "fully_validated_f", False),
         ("QA ROUGE-L", "qa", "rougeL", True),
-        ("QA key-point coverage (favours long outputs)", "qa", "keypoint_coverage", False),
-        ("QA bge-m3 similarity to reference", "qa", "embedding_sim", False),
-        ("QA token F1", "qa", "token_f1", False),
         ("QA ROUGE-L, length-controlled", "qa", "rougeL_lc", True),
-        ("QA ROUGE-1 recall (favours long outputs)", "qa", "rouge1_recall", False),
+        ("QA bge-m3 similarity to reference", "qa", "embedding_sim", False),
         ("Summarization ROUGE-1", "summarization", "rouge1", True),
         ("Summarization ROUGE-2", "summarization", "rouge2", True),
         ("Summarization ROUGE-Lsum", "summarization", "rougeLsum", True),
-        ("Summarization ROUGE-L", "summarization", "rougeL", False),
-        ("Summarization ROUGE-L, length-controlled", "summarization", "rougeL_lc", False),
-        ("Summarization ROUGE-2, length-controlled", "summarization", "rouge2_lc", False),
-        ("Summarization ROUGE-1 recall (favours long outputs)", "summarization", "rouge1_recall", False),
         ("Summarization bge-m3 similarity to reference", "summarization", "embedding_sim", False),
     ]
     headline = [
@@ -605,7 +589,8 @@ def results_figures(plt, pack: Pack, conds: dict[str, list[dict[str, Any]]], spl
                     ["source_level", "target_level", "target_accuracy", "n"],
                     [[s, t, cell[(s, t)][0], cell[(s, t)][1]] for s in LEVELS for t in LEVELS if cell[(s, t)][1]])
 
-        fails = {c: Counter(r.get("failure_category") for r in by[c]["bloom_rewrite"] if not r.get("fully_validated")) for c in order}
+        failed = lambda r: not r["calibrated_full_f"] if "calibrated_full_f" in r else not r.get("fully_validated")
+        fails = {c: Counter(r.get("failure_category") or "OTHER" for r in by[c]["bloom_rewrite"] if failed(r)) for c in order}
         cats = sorted({k for f in fails.values() for k in f if k}, key=lambda k: -fails[main_cond].get(k, 0))
         if cats:
             fig, ax = plt.subplots(figsize=(SINGLE_COL_IN, 0.35 * len(cats) + 0.7))
@@ -725,22 +710,21 @@ def calibration_figures(plt, pack: Pack, ext: dict[str, Any], split: str) -> Non
                     ["target_level", "n", "model_agreement", "reference_agreement"],
                     [[lv, per[lv]["n"], per[lv]["model_target_accuracy"], per[lv]["reference_target_accuracy"]] for lv in LEVELS])
     names = {"classifier_target_match": "Classifier agrees with requested level", "format_valid": "Format check passed",
-             "semantic_valid_jaccard": "Topic check passed (word overlap)", "topic_preserved_embedding": "Topic preserved (bge-m3, train-calibrated)",
-             "cognitive_valid": "Cognitive check passed", "answer_or_declarative_flag": "Flagged declarative"}
+             "topic_preserved_embedding": "Topic preserved (bge-m3, train-calibrated)",
+             "near_copy_of_source": "Near-copy of source (lower is better)"}
     rows = [[names.get(k, k), v["model"], v["reference"]] for k, v in b["model_vs_reference"].items()]
-    rows += [["Fully validated (original definition)", b["fully_validated_original"], "n/a"],
-             ["Fully validated (calibrated definition)", b["fully_validated_calibrated"], "n/a"]]
+    rows += [["Fully validated (calibrated definition)", b["fully_validated_calibrated"], "n/a"]]
     pack.table("t7_bloom_model_vs_reference", ["Measure", "EduGuard LoRA", "Human reference"], rows,
                f"Bloom rewriting checks applied identically to model and human reference rewrites ({split}).")
     q, s = ext.get("qa"), ext.get("summarization")
     sem_rows = []
     if q:
-        sem_rows += [["Closed-book QA", q["n"], q["embedding_similarity_to_reference"]["mean"], q["keypoint_coverage"]["mean"]]]
+        sem_rows += [["Closed-book QA", q["n"], q["embedding_similarity_to_reference"]]]
     if s:
-        sem_rows += [["Summarization", s["n"], s["embedding_similarity_to_reference"]["mean"], "n/a"]]
+        sem_rows += [["Summarization", s["n"], s["embedding_similarity_to_reference"]]]
     if sem_rows:
-        pack.table("t8_semantic_agreement", ["Task", "N", "bge-m3 similarity to reference (mean)", "Key-point coverage (mean)"], sem_rows,
-                   f"Embedding-based agreement with references ({split}); key-point threshold calibrated on train-split references.")
+        pack.table("t8_semantic_agreement", ["Task", "N", "bge-m3 similarity to reference (mean)"], sem_rows,
+                   f"Embedding-based agreement with references ({split}).")
 
 
 def qualitative_examples(pack: Pack, conds: dict[str, list[dict[str, Any]]], split: str, k: int = 3) -> None:
@@ -753,8 +737,9 @@ def qualitative_examples(pack: Pack, conds: dict[str, list[dict[str, Any]]], spl
             idx = sorted({len(recs) - 1, len(recs) // 2, 0})[::-1]
             picked += [(task, label, recs[i]) for label, i in zip(("highest ROUGE-L", "median ROUGE-L", "lowest ROUGE-L"), idx)]
     bloom = [r for r in conds[main] if r["task"] == "bloom_rewrite"]
-    ok = [r for r in bloom if r.get("fully_validated")]
-    bad = [r for r in bloom if not r.get("fully_validated")]
+    passed = (lambda r: bool(r["calibrated_full_f"])) if all("calibrated_full_f" in r for r in bloom) else (lambda r: bool(r.get("fully_validated")))
+    ok = [r for r in bloom if passed(r)]
+    bad = [r for r in bloom if not passed(r)]
     rng = random.Random(BOOT_SEED)
     picked += [("bloom_rewrite", "fully validated (random)", r) for r in rng.sample(ok, min(k, len(ok)))]
     picked += [("bloom_rewrite", "failed validation (random)", r) for r in rng.sample(bad, min(k, len(bad)))]

@@ -5,19 +5,15 @@ The original metrics are left untouched. This adds measurements that make them
 interpretable, each computed the same way for the model and for the human
 reference outputs:
 
-1. Reference ceilings (Bloom). The fixed 0.5B Bloom classifier and the rule
-   validators are applied to the gold reference rewrites. A model rate is then
-   read against what the human references achieve under the same instrument.
-2. Embedding topic preservation (Bloom). Cosine similarity of BAAI/bge-m3 dense
-   embeddings (CLS, L2-normalised) between source question and rewrite. The
-   threshold is the 5th percentile over TRAIN-split reference rewrites, so it is
-   fixed before looking at validation/test outputs. Replaces nothing; the Jaccard
-   "semantic_valid" check is kept and reported next to it.
-3. Semantic similarity to the reference (QA, summarization): bge-m3 cosine of
-   prediction vs reference (BERTScore is not installed offline).
-4. QA key-point coverage: share of a row's reference key points whose best
-   bge-m3 match among the prediction's sentences reaches a threshold calibrated on
-   TRAIN-split reference answers (5th percentile of their own key-point matches).
+1. Reference ceilings (Bloom). The fixed 0.5B Bloom classifier and the format
+   check are applied to the gold reference rewrites, so a model rate can be read
+   against what the human references achieve under the same instrument.
+2. Embedding topic preservation (Bloom). bge-m3 cosine between source question
+   and rewrite; threshold = 5th percentile over TRAIN-split reference rewrites.
+   Near-copy rate and ROUGE-L to the reference rewrite guard against copying.
+3. QA: bge-m3 similarity to the reference and ROUGE-L after cutting the output
+   to the reference length (so verbosity cannot change the score).
+4. Summarization: ROUGE-Lsum and bge-m3 similarity to the reference.
 5. Per-task latency.
 6. Blinded human-rating sheets for QA correctness and summary faithfulness
    (stratified, seeded), because ROUGE cannot detect factual errors.
@@ -94,11 +90,6 @@ def sentences(text: str) -> list[str]:
     return parts or [text or ""]
 
 
-def keypoint_scores(emb: Embedder, keypoints: list[str], answer: str) -> list[float]:
-    """Best cosine between each key point and any sentence of the answer."""
-    sents = sentences(answer)
-    ek, es = emb.encode(keypoints), emb.encode(sents)
-    return [max(float((k * s).sum()) for s in es) for k in ek]
 
 
 _SCORER = None
@@ -128,9 +119,6 @@ def length_controlled(pred: str, ref: str) -> dict[str, float]:
     return {"rougeL_lc": s["rougeL"].fmeasure, "rouge2_lc": s["rouge2"].fmeasure}
 
 
-def recall_scores(pred: str, ref: str) -> dict[str, float]:
-    s = _scorer3().score(ref or "", pred or "")
-    return {"rouge1_recall": s["rouge1"].recall, "rouge2_recall": s["rouge2"].recall}
 
 
 _SCORER3 = None
@@ -144,15 +132,6 @@ def _scorer3():
     return _SCORER3
 
 
-def length_block(recs: list[dict[str, Any]], cap: int | None) -> tuple[dict[str, Any], list[dict[str, float]]]:
-    rows = [{**length_controlled(r["prediction"], r["reference"]), **recall_scores(r["prediction"], r["reference"])} for r in recs]
-    agg = {k: round(st.mean(x[k] for x in rows), 4) for k in rows[0]} if rows else {}
-    agg["median_output_words"] = st.median(len(r["prediction"].split()) for r in recs) if recs else None
-    agg["median_reference_words"] = st.median(len(r["reference"].split()) for r in recs) if recs else None
-    agg["markdown_outputs"] = sum(1 for r in recs if strip_markdown(r["prediction"]) != (r["prediction"] or ""))
-    if cap:
-        agg["output_token_cap"] = cap
-    return agg, rows
 
 
 def rouge_lsum(pred: str, ref: str) -> float:
@@ -195,10 +174,6 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
         gold_val = [validate_bloom_example(r["source_question"], r["target_bloom_level"], r["reference"]) for r in bloom]
         ceilings = {
             "format_valid": (rate([r["format_valid"] for r in bloom]), rate([g.format_valid for g in gold_val])),
-            "semantic_valid_jaccard": (rate([r["semantic_valid"] for r in bloom]), rate([g.semantic_valid for g in gold_val])),
-            "cognitive_valid": (rate([r["cognitive_valid"] for r in bloom]), rate([g.cognitive_valid for g in gold_val])),
-            "answer_or_declarative_flag": (rate([r.get("answer_output", False) for r in bloom]),
-                                           rate(["answer_or_declarative" in (g.rejection_reason or "") for g in gold_val])),
         }
         gold_cls = None
         if not skip_classifier:
@@ -229,12 +204,10 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
             and (r["format_valid"] or r["target_bloom_level"] == "Evaluate" and r.get("answer_output"))
             for r, t in zip(bloom, topic_model)
         ]
-        jaccard_fail_embed_pass = sum(1 for r, t in zip(bloom, topic_model) if not r["semantic_valid"] and t)
 
         # Reference-based scores: agreement with the teacher-written rewrite for
         # the same source and target level. Copying the source cannot game these.
         ref_rl = [rouge_l(r["prediction"], r["reference"]) for r in bloom]
-        ref_sim = emb.cos([r["prediction"] for r in bloom], [r["reference"] for r in bloom])
         # Near-copy: rewrite closer (ROUGE-L) to its source than 95% of train
         # reference rewrites are to theirs.
         copy_thr = percentile([rouge_l(r["target_rewrite"], r["source_question"]) for r in train_bloom], 100 - CALIBRATION_PERCENTILE)
@@ -244,13 +217,12 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
         ceilings["near_copy_of_source"] = (rate(near_copy), rate([x > copy_thr for x in gold_src_rl]))
         per_row_bloom = [
             {"id": r["id"], "calibrated_full": bool(c), "topic_embedding": bool(t), "ref_rougeL": round(a, 4),
-             "ref_embedding_sim": round(s, 4), "source_rougeL": round(x, 4), "near_copy": bool(n)}
-            for r, c, t, a, s, x, n in zip(bloom, calibrated_full, topic_model, ref_rl, ref_sim, src_rl, near_copy)
+             "source_rougeL": round(x, 4), "near_copy": bool(n)}
+            for r, c, t, a, x, n in zip(bloom, calibrated_full, topic_model, ref_rl, src_rl, near_copy)
         ]
         out["bloom"] = {
             "reference_based": {
                 "rougeL_to_reference_mean": round(st.mean(ref_rl), 4),
-                "embedding_sim_to_reference_mean": round(st.mean(ref_sim), 4),
                 "near_copy_threshold_source_rougeL": round(copy_thr, 4),
             },
             "per_row": per_row_bloom,
@@ -262,59 +234,39 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
                 "train_reference_median": round(st.median(train_sims), 4),
                 "model_median": round(st.median(model_sims), 4),
                 "reference_median": round(st.median(gold_sims), 4),
-                "jaccard_fail_but_embedding_pass": jaccard_fail_embed_pass,
             },
-            "fully_validated_original": rate([bool(r["fully_validated"]) for r in bloom]),
             "fully_validated_calibrated": rate(calibrated_full),
             "calibrated_definition": "classifier target match (conf >= 0.5) AND embedding topic preserved AND not trivial AND (format valid OR scenario-first Evaluate item flagged declarative)",
-            "declarative_flags_on_evaluate": sum(1 for r in bloom if r.get("answer_output") and r["target_bloom_level"] == "Evaluate"),
         }
 
-    # ---- QA: embedding similarity + key-point coverage
+    # ---- QA: ROUGE-L after removing Markdown and cutting to the reference length, so a verbose
+    # system (the base model often runs to the token cap) is not rewarded or penalised for length.
     if qa:
-        train_qa = [r for r in train if r["task"] == "qa" and r.get("key_points")]
-        calib = [s for r in train_qa[:400] for s in keypoint_scores(emb, list(r["key_points"]), r["reference_answer"])]
-        kp_thr = percentile(calib, CALIBRATION_PERCENTILE)
+        lc = [length_controlled(r["prediction"], r["reference"]) for r in qa]
         sims = emb.cos([r["prediction"] for r in qa], [r["reference"] for r in qa])
-        coverage, per_row = [], []
-        for r, s in zip(qa, sims):
-            kps = list(rows.get(r["id"], {}).get("key_points") or [])
-            scores = keypoint_scores(emb, kps, r["prediction"]) if kps else []
-            cov = sum(x >= kp_thr for x in scores) / len(scores) if scores else None
-            if cov is not None:
-                coverage.append(cov)
-            per_row.append({"id": r["id"], "embedding_sim": round(s, 4), "keypoint_coverage": cov})
-        qa_len, qa_len_rows = length_block(qa, None)
-        for row, extra in zip(per_row, qa_len_rows):
-            row.update({k: round(v, 4) for k, v in extra.items()})
         out["qa"] = {
             "n": len(qa),
-            "embedding_similarity_to_reference": {"mean": round(st.mean(sims), 4), "median": round(st.median(sims), 4)},
-            "keypoint_coverage": {"mean": round(st.mean(coverage), 4) if coverage else None, "rows_with_key_points": len(coverage),
-                                  "threshold": round(kp_thr, 4), "full_coverage_rate": rate([c >= 0.999 for c in coverage]),
-                                  "zero_coverage_rate": rate([c == 0 for c in coverage])},
-            "length_insensitive": qa_len,
-            "per_row": per_row,
+            "embedding_similarity_to_reference": round(st.mean(sims), 4),
+            "rougeL_length_controlled": round(st.mean(x["rougeL_lc"] for x in lc), 4),
+            "median_output_words": st.median(len(r["prediction"].split()) for r in qa),
+            "median_reference_words": st.median(len(r["reference"].split()) for r in qa),
+            "per_row": [{"id": r["id"], "rougeL_lc": round(x["rougeL_lc"], 4), "embedding_sim": round(e, 4)}
+                        for r, x, e in zip(qa, lc, sims)],
         }
 
-    # ---- Summarization: embedding similarity by source type
+    # ---- Summarization: summary-level ROUGE-Lsum (the standard long-document summarization score)
     if summ:
-        sims = emb.cos([r["prediction"] for r in summ], [r["reference"] for r in summ])
         lsum = [rouge_lsum(r["prediction"], r["reference"]) for r in summ]
-        by = {}
-        for st_name in sorted({r.get("source_type") for r in summ}):
-            v = [s for r, s in zip(summ, sims) if r.get("source_type") == st_name]
-            by[str(st_name)] = {"n": len(v), "mean": round(st.mean(v), 4)}
+        sims = emb.cos([r["prediction"] for r in summ], [r["reference"] for r in summ])
         out["summarization"] = {
             "n": len(summ),
-            "embedding_similarity_to_reference": {"mean": round(st.mean(sims), 4), "median": round(st.median(sims), 4), "by_source_type": by},
+            "embedding_similarity_to_reference": round(st.mean(sims), 4),
             "rougeLsum": {"mean": round(st.mean(lsum), 4),
-                          "note": "summary-level ROUGE-L over newline-separated sentences, as reported for arXiv in the literature"},
-            "length_insensitive": length_block(summ, None)[0],
-            "per_row": [{"id": r["id"], "embedding_sim": round(s, 4), "rougeLsum": round(x, 4), **{k: round(v, 4) for k, v in e.items()}}
-                        for r, s, x, e in zip(summ, sims, lsum, length_block(summ, None)[1])],
-            "length_ratio_median": round(st.median(len(r["prediction"].split()) / max(1, len(r["reference"].split())) for r in summ), 3),
-            "lowercase_tokenized_style_outputs": sum(1 for r in summ if " , " in r["prediction"] or r["prediction"] == r["prediction"].lower()),
+                          "note": "summary-level ROUGE-L over newline-separated sentences"},
+            "median_output_words": st.median(len(r["prediction"].split()) for r in summ),
+            "median_reference_words": st.median(len(r["reference"].split()) for r in summ),
+            "per_row": [{"id": r["id"], "rougeLsum": round(x, 4), "embedding_sim": round(e, 4)}
+                        for r, x, e in zip(summ, lsum, sims)],
         }
 
     # ---- Latency per task
@@ -357,13 +309,6 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
     return out
 
 
-def length_lines(li: dict[str, Any]) -> list[str]:
-    if not li:
-        return []
-    return [f"- Length check: median output {li['median_output_words']} words vs reference {li['median_reference_words']}; "
-            f"{li['markdown_outputs']} outputs use Markdown.",
-            f"- Length-controlled (Markdown removed, cut to reference length): ROUGE-L {li['rougeL_lc']}, ROUGE-2 {li['rouge2_lc']}. "
-            f"Recall (favours longer outputs): ROUGE-1 {li['rouge1_recall']}, ROUGE-2 {li['rouge2_recall']}."]
 
 
 def write_report(results_dir: Path, metrics: dict[str, Any], ext: dict[str, Any]) -> None:
@@ -375,43 +320,32 @@ def write_report(results_dir: Path, metrics: dict[str, Any], ext: dict[str, Any]
         L += ["## Bloom rewriting: model vs. reference under the same instruments", "",
               "| Measure | Model | Human reference |", "|---|---:|---:|"]
         names = {"classifier_target_match": "Classifier agrees with requested level", "format_valid": "Format check passed",
-                 "semantic_valid_jaccard": "Topic check passed (word overlap, original)",
                  "topic_preserved_embedding": f"Topic preserved (bge-m3, threshold {b['topic_similarity']['threshold']})",
-                 "cognitive_valid": "Cognitive check passed", "answer_or_declarative_flag": "Flagged declarative",
                  "near_copy_of_source": f"Near-copy of source (ROUGE-L > {b['reference_based']['near_copy_threshold_source_rougeL']})"}
         for k, v in b["model_vs_reference"].items():
             L.append(f"| {names.get(k, k)} | {v['model']} | {v['reference']} |")
         rb = b["reference_based"]
-        L += ["", f"- Agreement with the teacher-written rewrite for the same target level: ROUGE-L {rb['rougeL_to_reference_mean']}, "
-              f"bge-m3 similarity {rb['embedding_sim_to_reference_mean']}. These cannot be raised by copying the source; "
-              "the word-overlap topic check can, so it is not used to compare systems.",
-              f"- Fully validated: original {b['fully_validated_original']} → calibrated {b['fully_validated_calibrated']} "
-              f"({b['calibrated_definition']}).",
-              f"- {b['topic_similarity']['jaccard_fail_but_embedding_pass']} rewrites fail the word-overlap topic check but pass the embedding check.",
-              f"- {b['declarative_flags_on_evaluate']} 'declarative' flags are scenario-first Evaluate items (a stated claim to judge), a valid item style in the dataset.", "",
+        L += ["", f"- Agreement with the teacher-written rewrite for the same target level: ROUGE-L {rb['rougeL_to_reference_mean']} "
+              "(cannot be raised by copying the source).",
+              f"- Fully validated (calibrated): {b['fully_validated_calibrated']} ({b['calibrated_definition']}).", "",
               "| Target level | N | Model accuracy | Reference accuracy (classifier ceiling) |", "|---|---:|---:|---:|"]
         for lv, v in b["per_level"].items():
             L.append(f"| {lv} | {v['n']} | {v['model_target_accuracy']} | {v['reference_target_accuracy']} |")
         L += ["", "Where the reference accuracy is low (the classifier misreads the human rewrite), a low model accuracy is a measurement limit, not a model failure.", ""]
     q = ext.get("qa")
     if q:
-        kc = q["keypoint_coverage"]
-        L += ["## Closed-book QA: semantic agreement", "",
-              f"- bge-m3 similarity to reference: mean {q['embedding_similarity_to_reference']['mean']}, median {q['embedding_similarity_to_reference']['median']}",
-              f"- Key-point coverage (threshold {kc['threshold']}, calibrated on train references): mean {kc['mean']}; "
-              f"all key points covered {kc['full_coverage_rate']}; none covered {kc['zero_coverage_rate']} (n={kc['rows_with_key_points']})",
-              "- Neither measure detects factual errors stated fluently; see `human_eval_qa.csv`.",
-              *length_lines(q.get("length_insensitive", {})), ""]
+        L += ["## Closed-book QA", "",
+              f"- bge-m3 similarity to the reference answer: {q['embedding_similarity_to_reference']}",
+              f"- ROUGE-L with Markdown removed and the output cut to the reference length: {q['rougeL_length_controlled']}",
+              f"- Median output {q['median_output_words']} words vs reference {q['median_reference_words']}.",
+              "- Factual correctness is not measured automatically; see `human_eval_qa.csv`.", ""]
     s = ext.get("summarization")
     if s:
-        L += ["## Summarization: semantic agreement", "",
-              f"- bge-m3 similarity to reference: mean {s['embedding_similarity_to_reference']['mean']}, median {s['embedding_similarity_to_reference']['median']}",
-              *[f"  - {k}: {v['mean']} (n={v['n']})" for k, v in s["embedding_similarity_to_reference"]["by_source_type"].items()],
-              f"- ROUGE-Lsum (summary-level, comparable with arXiv literature): {s['rougeLsum']['mean']}",
-              f"- Median length ratio (output/reference words): {s['length_ratio_median']}",
-              f"- Outputs in lower-cased tokenized arXiv style: {s['lowercase_tokenized_style_outputs']} of {s['n']} (they mirror the arXiv references).",
-              "- Faithfulness is not measured automatically; see `human_eval_summarization.csv`.",
-              *length_lines(s.get("length_insensitive", {})), ""]
+        L += ["## Summarization", "",
+              f"- ROUGE-Lsum (summary-level): {s['rougeLsum']['mean']}",
+              f"- bge-m3 similarity to the reference summary: {s['embedding_similarity_to_reference']}",
+              f"- Median output {s['median_output_words']} words vs reference {s['median_reference_words']}.",
+              "- Faithfulness is not measured automatically; see `human_eval_summarization.csv`.", ""]
     L += ["## Latency per task", "", "| Task | N | Mean (s) | P50 (s) | P95 (s) |", "|---|---:|---:|---:|---:|"]
     L += [f"| {t} | {v['n']} | {v['mean_s']} | {v['p50_s']} | {v['p95_s']} |" for t, v in ext["latency_by_task"].items()]
     L += ["", "## Human evaluation sheets", ""]

@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Summarization ROUGE-L by source type and length category (validation).}
+\label{tab:t5_summarization_breakdown}
+\begin{tabular}{lrrrr}
+\toprule
+Grouping & Group & N & Condition & ROUGE-L [95\% CI] \\
+\midrule
+source type & OpenStax textbook & 116 & EduGuard LoRA & 0.224 [0.208, 0.243] \\
+source type & Authored academic & 29 & EduGuard LoRA & 0.339 [0.313, 0.364] \\
+source type & Lecture slides & 1 & EduGuard LoRA & 0.252 [0.252, 0.252] \\
+length category & Short & 29 & EduGuard LoRA & 0.339 [0.313, 0.364] \\
+length category & Medium & 44 & EduGuard LoRA & 0.229 [0.205, 0.255] \\
+length category & Long & 51 & EduGuard LoRA & 0.223 [0.195, 0.254] \\
+length category & Very long & 22 & EduGuard LoRA & 0.219 [0.190, 0.249] \\
+\bottomrule
+\end{tabular}
+\end{table}

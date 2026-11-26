@@ -41,13 +41,11 @@ from eval_classifier import ClassifierCallStats, load_classifier  # noqa: E402
 from eval_dataset import load_evaluation_split  # noqa: E402
 from eval_metrics import (  # noqa: E402
     CLASSIFIER_CONFIDENCE_MIN,
-    aggregate_qa_metrics,
     bloom_classification_metrics,
     bloom_rates,
     canonical_bloom,
     failure_analysis,
     latency_summary,
-    optional_bertscore,
     rouge_scores,
     source_target_matrix,
 )
@@ -130,6 +128,44 @@ def clean_generation(text: str) -> str:
     return re.sub(r"\s+", " ", cleaned.strip().strip('"').strip("'"))
 
 
+# Metrics reported in metrics.json / evaluation_report.md. Per-row flags stay in predictions.jsonl;
+# word-overlap topic, cognitive-keyword, interrogative/imperative and per-flag rates are diagnostics only.
+BLOOM_REPORTED_RATES = (
+    "classifier_match_rate",          # target-level accuracy (fixed classifier)
+    "format_valid_rate",              # output is a single exam question/task
+    "trivial_transform_rate",         # verb swap only (lower is better)
+)
+# The per-row "fully_validated" flag uses a word-overlap topic check that rejects good rewrites; the reported
+# combined rate is the calibrated one (bge-m3 topic check) in metrics_extended.json.
+CLASSIFICATION_REPORTED = ("n", "accuracy", "macro_f1", "per_level", "confusion_matrix")
+
+
+def reported_bloom_rates(records: list[dict[str, Any]]) -> dict[str, Any]:
+    rates = bloom_rates(records)
+    return {k: rates[k] for k in BLOOM_REPORTED_RATES}
+
+
+def output_length_fields(generator: Any) -> dict[str, Any]:
+    """Tokens generated and whether the output was cut off by max_new_tokens (no EOS)."""
+    return {
+        "output_tokens": getattr(generator, "last_output_tokens", None),
+        "hit_token_limit": getattr(generator, "last_hit_token_limit", None),
+    }
+
+
+def token_limit_summary(records: list[dict[str, Any]], cap: int) -> dict[str, Any]:
+    tokens = [r["output_tokens"] for r in records if r.get("output_tokens") is not None]
+    hit = sum(1 for r in records if r.get("hit_token_limit"))
+    return {
+        "max_new_tokens": cap,
+        "n": len(records),
+        "hit_token_limit": hit,
+        "hit_token_limit_rate": round(hit / len(records), 6) if records else None,
+        "max_output_tokens": max(tokens) if tokens else None,
+        "mean_output_tokens": round(sum(tokens) / len(tokens), 2) if tokens else None,
+    }
+
+
 def generation_config_for_task(gen_cfg: dict[str, Any], task: str) -> dict[str, Any]:
     """Apply an optional task-specific output cap without changing other decoding settings."""
     task_caps = gen_cfg.get("max_new_tokens_by_task", {})
@@ -157,20 +193,6 @@ def grouped_rouge(records: list[dict[str, Any]], key: str) -> dict[str, Any]:
     for r in records:
         groups.setdefault(str(r.get(key) or "unknown"), []).append((r["prediction"], r["reference"]))
     return {name: rouge_scores(pairs) for name, pairs in sorted(groups.items())}
-
-
-def safe_bertscore(pairs: list[tuple[str, str]]) -> dict[str, Any] | None:
-    try:
-        return optional_bertscore(pairs)
-    except Exception as exc:  # optional secondary metric must not discard core results
-        return {"available": False, "error": f"{type(exc).__name__}: {exc}"}
-
-
-def bertscore_text(result: dict[str, Any] | None) -> str:
-    result = result or {}
-    if result.get("available"):
-        return str(result.get("f1"))
-    return f"not computed ({result.get('reason') or result.get('error') or 'no pairs'})"
 
 
 def grouped_table(title: str, groups: dict[str, Any] | None) -> list[str]:
@@ -228,6 +250,7 @@ def evaluate_bloom_row(
     raw = generator.generate(prompt, generation_config_for_task(gen_cfg, TASK_BLOOM))
     latency = time.perf_counter() - t0
     prediction = clean_generation(raw)
+    length_fields = output_length_fields(generator)
 
     validation = validate_bloom_example(
         row["source_question"], row["target_bloom_level"], prediction
@@ -295,6 +318,7 @@ def evaluate_bloom_row(
         "classifier_confidence": clf_conf,
         "target_match": target_match,
         "fully_validated": fully_validated,
+        **length_fields,
         "latency_s": round(latency, 6),
     }
     rec["failure_category"] = classify_failure(rec) if not fully_validated else ""
@@ -319,6 +343,7 @@ def evaluate_qa_row(
         "question": row.get("question"),
         "reference": row.get("reference_answer") or row.get("answer"),
         "prediction": prediction,
+        **output_length_fields(generator),
         "latency_s": round(latency, 6),
     }
 
@@ -339,6 +364,7 @@ def evaluate_sum_row(
         "article": row.get("article"),
         "reference": row.get("abstract"),
         "prediction": prediction,
+        **output_length_fields(generator),
         "latency_s": round(latency, 6),
     }
 
@@ -393,13 +419,11 @@ def write_report(
     checkpoint_info: dict[str, Any],
 ) -> None:
     b = metrics.get("bloom", {})
-    q = metrics.get("qa", {}).get("squad", {})
     qc = metrics.get("qa", {}).get("closed_book", {})
-    sb = metrics.get("bertscore") or {}
-    qb = qc.get("bertscore") or {}
     s = metrics.get("summarization", {})
     lat = metrics.get("latency", {})
-    res = metrics.get("resources", {})
+    pair_lines = [f"| {pt} | {v.get('n')} | {v.get('classifier_match_rate')} | {v.get('format_valid_rate')} |"
+                  for pt, v in (b.get("by_pair_type") or {}).items()]
     lines = [
         "# Multi-task Evaluation Report",
         "",
@@ -419,19 +443,17 @@ def write_report(
         f"- N: {b.get('classification', {}).get('n')}",
         f"- Target accuracy: {b.get('classification', {}).get('accuracy')}",
         f"- Macro-F1: {b.get('classification', {}).get('macro_f1')}",
-        f"- Weighted-F1: {b.get('classification', {}).get('weighted_f1')}",
-        f"- Fully validated rate: {b.get('rates', {}).get('fully_validated_rewrite_rate')}",
-        f"- Semantic preservation rate: {b.get('rates', {}).get('semantic_valid_rate')}",
-        f"- Cognitive validity rate: {b.get('rates', {}).get('cognitive_valid_rate')}",
-        f"- Trivial transform rate: {b.get('rates', {}).get('trivial_transform_rate')}",
+        f"- Format valid rate: {b.get('rates', {}).get('format_valid_rate')}",
+        f"- Trivial transform rate (lower is better): {b.get('rates', {}).get('trivial_transform_rate')}",
+        "- Topic preservation, near-copy rate, fully validated (calibrated), agreement with the reference rewrite and the classifier's accuracy "
+        "on the reference rewrites: `evaluation_report_extended.md` (QA and summarization semantic similarity too).",
         "",
+        *(["| Pair type | N | Target accuracy | Format valid |", "|---|---:|---:|---:|", *pair_lines, ""]
+          if pair_lines else []),
         f"## Closed-book academic QA (held-out {dataset_meta.get('split', 'split')})",
         "",
-        f"- N: {q.get('n')}",
+        f"- N: {qc.get('n')}",
         f"- ROUGE-1 / ROUGE-2 / ROUGE-L: {qc.get('rouge1')} / {qc.get('rouge2')} / {qc.get('rougeL')}",
-        f"- BERTScore F1: {bertscore_text(qb)}",
-        f"- Token F1: {q.get('f1')}",
-        f"- Exact match: {q.get('exact_match')} (free-form references; expected near 0)",
         "",
         f"## Academic / lecture summarization (held-out {dataset_meta.get('split', 'split')})",
         "",
@@ -439,27 +461,24 @@ def write_report(
         f"- ROUGE-1: {s.get('rouge1')}",
         f"- ROUGE-2: {s.get('rouge2')}",
         f"- ROUGE-L: {s.get('rougeL')}",
-        f"- BERTScore F1: {bertscore_text(sb)}",
         f"- Empty predictions: {s.get('empty_predictions')}",
         "",
         *grouped_table("Source type", s.get("by_source_type")),
         *grouped_table("Length category", s.get("by_length_category")),
+        "## Output length (generation stopped by max_new_tokens without EOS)",
+        "",
+        "| Task | Cap | N | Hit cap | Max tokens | Mean tokens |",
+        "|---|---:|---:|---:|---:|---:|",
+        *[f"| {t} | {v.get('max_new_tokens')} | {v.get('n')} | {v.get('hit_token_limit')} | "
+          f"{v.get('max_output_tokens')} | {v.get('mean_output_tokens')} |"
+          for t, v in metrics.get("output_length", {}).items()],
+        "",
         "Bloom target accuracy is agreement with a fixed 0.5B Bloom classifier, not human ground truth.",
         "",
         "## Efficiency",
         "",
         f"- Mean latency (s): {lat.get('per_example', {}).get('mean')}",
-        f"- P50: {lat.get('per_example', {}).get('p50')}",
-        f"- P95: {lat.get('per_example', {}).get('p95')}",
-        f"- Model load time (s): {lat.get('model_load_s')}",
-        f"- RSS (MB): {res.get('rss_mb')}",
-        f"- USS (MB): {res.get('uss_mb')}",
-        f"- GPU memory allocated (MB): {res.get('gpu_memory_allocated_mb')}",
-        "",
-        "## Deployment recommendation",
-        "",
-        "**INCONCLUSIVE** — compare prompt-only, Bloom-only LoRA, the existing multitask LoRA, "
-        "and task-balanced LoRA under identical split IDs, prompts, and decoding parameters.",
+        f"- P95 latency (s): {lat.get('per_example', {}).get('p95')}",
         "",
         f"Checkpoint: `{checkpoint_info.get('resolved_path')}`",
         "",
@@ -484,8 +503,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--dataset-dir",
-        default=str(TASK_SEPARATED_DATA_DIR),
-        help="Root of the task-separated dataset directory (contains one subdirectory per task plus dataset_manifest.json)",
+        default=None,
+        help="Root of the task-separated dataset directory (contains one subdirectory per task plus "
+             "dataset_manifest.json). Default: the config's dataset_dir, else paths.TASK_SEPARATED_DATA_DIR.",
     )
     parser.add_argument(
         "--adapter-path",
@@ -573,7 +593,8 @@ def main() -> None:
     gen_cfg.update({k: v for k, v in gen_frozen.items() if k != "notes"})
     set_seed(int(gen_cfg.get("seed", SEED)))
 
-    data_dir = Path(args.dataset_dir)
+    # The model must be scored on the dataset it was trained with, so default to the config's dataset_dir.
+    data_dir = Path(args.dataset_dir or cfg.get("dataset_dir") or TASK_SEPARATED_DATA_DIR)
     if not data_dir.is_absolute():
         data_dir = REPO_ROOT / data_dir
 
@@ -799,30 +820,23 @@ def main() -> None:
 
     y_true = [r["target_bloom_level"] for r in bloom_preds]
     y_pred = [r.get("classifier_prediction") or "MISSING" for r in bloom_preds]
-    bloom_class = bloom_classification_metrics(y_true, y_pred)
-    bloom_rate = bloom_rates(bloom_preds)
+    bloom_class = {k: v for k, v in bloom_classification_metrics(y_true, y_pred).items() if k in CLASSIFICATION_REPORTED}
+    bloom_rate = reported_bloom_rates(bloom_preds)
     st_matrix = source_target_matrix(bloom_preds)
     failures = failure_analysis(bloom_preds)
 
     qa_pairs = [(r["prediction"], r["reference"]) for r in qa_preds]
-    squad_qa = aggregate_qa_metrics(qa_pairs)
-    # Closed-book references are free-form explanations, so exact match is near
-    # zero by construction; ROUGE and BERTScore are the primary QA metrics and
-    # token F1 is kept for comparability.
+    # Closed-book references are free-form explanations: exact match is ~0 by construction and
+    # token F1 duplicates ROUGE-1, so ROUGE and BERTScore are the reported QA metrics.
     qa_closed_book = {
-        "token_f1": squad_qa.get("f1"),
-        "exact_match": squad_qa.get("exact_match"),
         **rouge_scores(qa_pairs),
-        "bertscore": safe_bertscore(qa_pairs),
         "by_qa_type": grouped_rouge(qa_preds, "qa_type"),
-        "by_discipline_group": grouped_rouge(qa_preds, "discipline_group"),
     }
     sum_pairs = [(r["prediction"], r["reference"]) for r in sum_preds]
     sum_metrics = rouge_scores(sum_pairs)
     sum_metrics["by_source_type"] = grouped_rouge(sum_preds, "source_type")
     sum_metrics["by_length_category"] = grouped_rouge(sum_preds, "length_category")
     sum_metrics["empty_predictions"] = sum(not r["prediction"] for r in sum_preds)
-    bert = safe_bertscore(sum_pairs)
 
     metrics: dict[str, Any] = {
         "evaluated_utc": datetime.now(timezone.utc).isoformat(),
@@ -842,28 +856,22 @@ def main() -> None:
             "rates": bloom_rate,
             # direct = original source question -> gold rewrite; pivot = one gold rewrite used as the source of
             # another member of its group (covers rare source levels, e.g. Remember-level inputs)
-            "by_pair_type": {pt: {"n": len(rs), **bloom_rates(rs)} for pt in sorted({r["pair_type"] for r in bloom_preds})
+            "by_pair_type": {pt: {"n": len(rs), **reported_bloom_rates(rs)} for pt in sorted({r["pair_type"] for r in bloom_preds})
                              for rs in [[r for r in bloom_preds if r["pair_type"] == pt]]},
-            "per_level": bloom_class.get("per_level"),
         },
-        "qa": {
-            "closed_book": qa_closed_book,
-            "squad": squad_qa,
-            "eduguard_rag_qa": {
-                "available": False,
-                "reason": "No EduGuard RAG QA benchmark file found in repository",
-            },
-        },
+        "qa": {"closed_book": qa_closed_book},
         "summarization": sum_metrics,
-        "bertscore": bert,
+        "output_length": {
+            task: token_limit_summary(recs, int(generation_config_for_task(gen_cfg, task)["max_new_tokens"]))
+            for task, recs in ((TASK_BLOOM, bloom_preds), (TASK_QA, qa_preds), (TASK_SUMMARIZATION, sum_preds))
+            if recs
+        },
         "latency": {
             "model_load_s": load_time,
             "per_example": latency_summary(latencies),
         },
-        "resources": resources,
         "package_versions": package_versions(),
         "git_commit": git_commit(),
-        "deployment_recommendation": "INCONCLUSIVE",
     }
 
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
