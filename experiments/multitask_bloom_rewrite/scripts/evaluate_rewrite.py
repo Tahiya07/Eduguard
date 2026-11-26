@@ -276,6 +276,7 @@ def evaluate_bloom_row(
         "source_question": row["source_question"],
         "source_bloom_level": row.get("source_bloom_level"),
         "target_bloom_level": row["target_bloom_level"],
+        "pair_type": row.get("pair_type", "direct"),
         "reference": row.get("target_rewrite"),
         "prediction": prediction,
         "format_valid": validation.format_valid,
@@ -839,6 +840,10 @@ def main() -> None:
         "bloom": {
             "classification": bloom_class,
             "rates": bloom_rate,
+            # direct = original source question -> gold rewrite; pivot = one gold rewrite used as the source of
+            # another member of its group (covers rare source levels, e.g. Remember-level inputs)
+            "by_pair_type": {pt: {"n": len(rs), **bloom_rates(rs)} for pt in sorted({r["pair_type"] for r in bloom_preds})
+                             for rs in [[r for r in bloom_preds if r["pair_type"] == pt]]},
             "per_level": bloom_class.get("per_level"),
         },
         "qa": {

@@ -1,0 +1,134 @@
+{
+  "dataset": "EduGuard academic summarization v2 (cleaned from the owner-edited data/summarization)",
+  "generated_utc": "2026-11-26T15:09:39.483574+00:00",
+  "tool": "experiments/multitask_bloom_rewrite/scripts/clean_summarization_dataset.py",
+  "input_sha256": {
+    "train.jsonl": "8d3cd198a8fda9f617433d160454b490498eed69e13d521f0028e284a5c1f03d",
+    "validation.jsonl": "60681234e45c60484b43b249ba90358475666f702584e7879c0c978ada70d3d7",
+    "test.jsonl": "c38c16b44c720c1e692d094c0b2e6e30da955d2b8625e5e71e1e5d682c44cf61"
+  },
+  "input_rows": {
+    "train": 1479,
+    "validation": 72,
+    "test": 76
+  },
+  "split_counts": {
+    "train": 429,
+    "validation": 30,
+    "test": 31
+  },
+  "plan": {
+    "train": 1172,
+    "validation": 146,
+    "test": 147
+  },
+  "shortfall_vs_plan": {
+    "train": 743,
+    "validation": 116,
+    "test": 116
+  },
+  "length_category_by_split": {
+    "train": {
+      "short": 240,
+      "medium": 169,
+      "long": 20
+    },
+    "validation": {
+      "short": 29,
+      "medium": 1
+    },
+    "test": {
+      "short": 29,
+      "medium": 2
+    }
+  },
+  "source_type_by_split": {
+    "train": {
+      "original_academic_example": 411,
+      "lecture_slide_text_style": 18
+    },
+    "validation": {
+      "original_academic_example": 29,
+      "lecture_slide_text_style": 1
+    },
+    "test": {
+      "original_academic_example": 29,
+      "lecture_slide_text_style": 2
+    }
+  },
+  "review_status_counts": {
+    "generated_unverified": 444,
+    "curriculum_verification_pending": 21,
+    "owner_added_unverified": 25
+  },
+  "new_rows_kept": [
+    "UAP-SUM-0445",
+    "UAP-SUM-0446",
+    "UAP-SUM-0448",
+    "UAP-SUM-0449",
+    "UAP-SUM-0450",
+    "UAP-SUM-0451",
+    "UAP-SUM-0452",
+    "UAP-SUM-0454",
+    "UAP-SUM-0455",
+    "UAP-SUM-0456",
+    "UAP-SUM-0458",
+    "UAP-SUM-0459",
+    "UAP-SUM-0461",
+    "UAP-SUM-0462",
+    "UAP-SUM-0463",
+    "UAP-SUM-0464",
+    "UAP-SUM-0465",
+    "UAP-SUM-0466",
+    "UAP-SUM-0467",
+    "UAP-SUM-0468",
+    "UAP-SUM-0487",
+    "UAP-SUM-0488",
+    "UAP-SUM-0489",
+    "UAP-SUM-0490",
+    "UAP-SUM-0492"
+  ],
+  "dropped_rows": 1137,
+  "dropped_by_reason": {
+    "summary # words > # of #-word source": 586,
+    "rendered SFT copy of a raw row (duplicate)": 376,
+    "template padding: # of source sentences are boilerplate repeated across >= # rows": 164,
+    "summary is a verbatim lead of the source (extractive copy)": 8,
+    "near duplicate of # (similarity #)": 3
+  },
+  "checks": {
+    "unique_ids": true,
+    "exact_duplicate_source": 0,
+    "exact_duplicate_summary": 0,
+    "max_cross_split_similarity": {
+      "train/validation": 0.4873,
+      "train/test": 0.4759,
+      "validation/test": 0.4278
+    },
+    "near_duplicate_threshold": 0.5,
+    "max_summary_ratio": 0.381,
+    "boilerplate_rule": {
+      "min_rows": 5,
+      "max_share": 0.05
+    }
+  },
+  "source_words": {
+    "train": {
+      "median": 358,
+      "max": 1994
+    },
+    "validation": {
+      "median": 335.5,
+      "max": 917
+    },
+    "test": {
+      "median": 338,
+      "max": 1043
+    }
+  },
+  "files_sha256": {
+    "train.jsonl": "d75f43da33bc455c6ce9ee3468ccc7d59774d2fc5acb80460e151b9c7426ca35",
+    "validation.jsonl": "404465cee6846388aec7e77652046abdd9b6f18a03bf0caa96a040a51b8cf1bd",
+    "test.jsonl": "81f867d8433c5cf2e4b616bba9d3d18f7ff371ce385f45da2f37002cfcb401f7"
+  }
+}

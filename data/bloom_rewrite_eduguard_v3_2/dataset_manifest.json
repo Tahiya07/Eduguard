@@ -1,0 +1,130 @@
+{
+ "version": "bloom_rewrite_eduguard_v3_2",
+ "task": "bloom_rewrite",
+ "date": "2026-11-26",
+ "derived_from": {
+  "path": "data/bloom_rewrite_eduguard_v3_1",
+  "files_sha256": {
+   "train.jsonl": "af032b91216c0674253d071a0cc1366d9878cd745297e00d9fa8b935658a58c9",
+   "validation.jsonl": "16fe262848a480d2b183bb6a312b90fff4916ac1ba4f18336a2a119ebc34d90b",
+   "test.jsonl": "6b63b5c3fe702cb6479f50f4c571aae5f6bb0191e725218fb5b8322a4dfb3a22"
+  }
+ },
+ "tool": "experiments/multitask_bloom_rewrite/scripts/build_bloom_v3_2.py",
+ "seed": 20261126,
+ "changes": {
+  "corrections": {
+   "analyze_verb": 113,
+   "corrected:phantom_reference": 215,
+   "corrected:level_alignment": 6,
+   "corrected:duplicate_target": 2
+  },
+  "corrections_file": "corrections_v3_2.json",
+  "pivot_rule": {
+   "floor_train_rows_per_source_level": 300,
+   "max_pivots_per_source": 2,
+   "similarity_model": "BAAI/bge-m3",
+   "similarity_floor": 0.6262,
+   "similarity_floor_percentile_of_direct_pairs": 10,
+   "target_filters": [
+    "not contested",
+    "not deliberately false",
+    "source_derived provenance",
+    "no number absent from the pivot source",
+    "no supplied/given/stated reference absent from the pivot source"
+   ]
+  }
+ },
+ "counts": {
+  "train": {
+   "rows": 2735,
+   "direct_rows": 2345,
+   "pivot_rows": 390,
+   "source_questions": 469,
+   "revised_direct_rows": 258,
+   "source_level_counts": {
+    "Understand": 300,
+    "Create": 300,
+    "Apply": 840,
+    "Remember": 300,
+    "Analyze": 695,
+    "Evaluate": 300
+   },
+   "target_level_counts": {
+    "Remember": 487,
+    "Apply": 379,
+    "Analyze": 408,
+    "Evaluate": 487,
+    "Create": 487,
+    "Understand": 487
+   },
+   "transformation_pairs": 30,
+   "min_rows_per_transformation_pair": 60,
+   "contested_rows": 0
+  },
+  "validation": {
+   "rows": 341,
+   "direct_rows": 295,
+   "pivot_rows": 46,
+   "source_questions": 59,
+   "revised_direct_rows": 36,
+   "source_level_counts": {
+    "Evaluate": 50,
+    "Analyze": 80,
+    "Create": 38,
+    "Apply": 85,
+    "Understand": 50,
+    "Remember": 38
+   },
+   "target_level_counts": {
+    "Remember": 61,
+    "Understand": 59,
+    "Apply": 52,
+    "Analyze": 52,
+    "Create": 60,
+    "Evaluate": 57
+   },
+   "transformation_pairs": 30,
+   "min_rows_per_transformation_pair": 7,
+   "contested_rows": 0
+  },
+  "test": {
+   "rows": 361,
+   "direct_rows": 290,
+   "pivot_rows": 71,
+   "source_questions": 58,
+   "revised_direct_rows": 36,
+   "source_level_counts": {
+    "Create": 37,
+    "Analyze": 90,
+    "Apply": 105,
+    "Understand": 55,
+    "Evaluate": 37,
+    "Remember": 37
+   },
+   "target_level_counts": {
+    "Remember": 66,
+    "Understand": 63,
+    "Apply": 51,
+    "Analyze": 53,
+    "Evaluate": 64,
+    "Create": 64
+   },
+   "transformation_pairs": 30,
+   "min_rows_per_transformation_pair": 7,
+   "contested_rows": 10
+  }
+ },
+ "files_sha256": {
+  "train.jsonl": "d9336b3de40063e069c020a9ee2b92732726e7ed46636120455c62861927e39e",
+  "validation.jsonl": "526ce7c1ed37f54a4ce68c46901a4af4b2ae4c26d9b96e3dabbe9e58ddac2a2c",
+  "test.jsonl": "f0060fcab0344542ab9c3733669335558635b88658330c91c955f82784d90873"
+ },
+ "leakage": {
+  "pivots_stay_in_group_split": true
+ },
+ "review": {
+  "corrections": "model-assisted (Claude), reviewed row by row; not human-verified",
+  "contested_gold_label_rows": 10
+ }
+}

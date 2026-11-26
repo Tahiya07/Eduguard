@@ -3,7 +3,7 @@ $Root = Resolve-Path (Join-Path $PSScriptRoot "..\..\..")
 Set-Location $Root
 
 $Py = if (Test-Path ".venv\Scripts\python.exe") { ".venv\Scripts\python.exe" } else { "python" }
-$Config = "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_4_20261126.json"
+$Config = "experiments/multitask_bloom_rewrite/configs/qwen15b_multitask_eduguard_v3_7_20261126.json"
 
 Write-Host "=== EduGuard Bloom-prioritized 1.5B follow-up ==="
 Write-Host "Dataset: data/multitask_bloom_rewrite_separate_eduguard_v3_3"

@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "data_layout": "task-separated",
+  "persisted_merged_jsonl": false,
+  "max_seq_length": 8192,
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "integrity": {
+    "summarization_eligibility": {
+      "train": {
+        "status": "lecture_source_hashes",
+        "split": "train",
+        "rows": 1172
+      },
+      "validation": {
+        "status": "lecture_source_hashes",
+        "split": "validation",
+        "rows": 146
+      },
+      "test": {
+        "status": "lecture_source_hashes",
+        "split": "test",
+        "rows": 147
+      }
+    },
+    "layout": "task-separated",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_7\\dataset_manifest.json",
+    "manifest_sha256": "08eef49752b2f6ef3fbb2a968f47fe7947d22bfe8a0ed573b9c22f8367db3516",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_7",
+    "counts": {
+      "train": {
+        "bloom_rewrite": 2735,
+        "qa": 1172,
+        "summarization": 1172
+      },
+      "validation": {
+        "bloom_rewrite": 341,
+        "qa": 146,
+        "summarization": 146
+      },
+      "test": {
+        "bloom_rewrite": 351,
+        "qa": 147,
+        "summarization": 147
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/test.jsonl": "e448ddbd353ffec587fcdd0d85d53a4bae592f8d19e4787e4fea42ae675b1057",
+      "bloom_rewrite/train.jsonl": "b302c8f0f8a65cccc05f3db3c17fc3538a9837d52441e6cdfe6c5b3e6c6580a4",
+      "bloom_rewrite/validation.jsonl": "e2b34bfd3abdd77619e82c45ac6f74db28833d582bf52a9e21842da4a443c0b6",
+      "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
+      "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/test.jsonl": "3b51a4f876b063ab870a08ad52290f39949937df954f74c0e8bea347f5ccb595",
+      "summarization/train.jsonl": "7a2b01c4450c2a4bbec79e0fb4f16af84ff8453ae8cc01aa5feba6708a9f6f0e",
+      "summarization/validation.jsonl": "36dc8a8225a75d6aed6e1d08a6b472e8b25b5dbb9d986f951fed4199683fbe1d"
+    },
+    "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_2",
+    "bloom_source_sha256": {
+      "train.jsonl": "d9336b3de40063e069c020a9ee2b92732726e7ed46636120455c62861927e39e",
+      "validation.jsonl": "526ce7c1ed37f54a4ce68c46901a4af4b2ae4c26d9b96e3dabbe9e58ddac2a2c",
+      "test.jsonl": "f0060fcab0344542ab9c3733669335558635b88658330c91c955f82784d90873",
+      "dataset_manifest.json": "e0a429d79fb38009b442b9ea28aeea34201b118d0d914c6b3419d21717d15d2a"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "eduguard_v3_1_model_assisted_repair",
+      "independent_review_verified": false,
+      "warnings": [
+        "Bloom rewrites are model-assisted (Claude) and not human-verified; checks are automated.",
+        "Splits are pinned to final_corrected_dataset/training_ready/tests/reference_split_ids.json."
+      ]
+    },
+    "bloom_source_check": {
+      "kind": "eduguard_bloom_v3_1",
+      "rows_checked": 3427,
+      "contested_rows_excluded": 10
+    },
+    "qa_source_check": {
+      "kind": "qa_eduguard_v2",
+      "rows_checked": 1465,
+      "reserve_rows_excluded": 135
+    },
+    "summarization_source_check": {
+      "kind": "eduguard_lecture_summarization",
+      "rows_checked": 1465
+    },
+    "training_data_policy": null
+  },
+  "rows": {
+    "train": 5079,
+    "validation": 633,
+    "test": 645
+  },
+  "task_counts": {
+    "train": {
+      "bloom_rewrite": 2735,
+      "qa": 1172,
+      "summarization": 1172
+    },
+    "validation": {
+      "bloom_rewrite": 341,
+      "qa": 146,
+      "summarization": 146
+    },
+    "test": {
+      "bloom_rewrite": 351,
+      "qa": 147,
+      "summarization": 147
+    }
+  },
+  "train_mix": {
+    "bloom_rewrite": 0.538492,
+    "qa": 0.230754,
+    "summarization": 0.230754
+  },
+  "token_length_stats": {
+    "train": {
+      "count": 5079,
+      "min": 80,
+      "p50": 1004,
+      "p95": 2905,
+      "p99": 4464,
+      "max": 5911,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "validation": {
+      "count": 633,
+      "min": 100,
+      "p50": 1002,
+      "p95": 2917,
+      "p99": 4364,
+      "max": 5575,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    },
+    "test": {
+      "count": 645,
+      "min": 94,
+      "p50": 1011,
+      "p95": 3061,
+      "p99": 4503,
+      "max": 5479,
+      "over_max_seq_length": 0,
+      "prompt_at_or_over_max_seq_length": 0
+    }
+  },
+  "loss_mask_checks": 6357,
+  "errors": [],
+  "error_count": 0
+}

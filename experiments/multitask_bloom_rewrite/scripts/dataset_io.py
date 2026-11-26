@@ -359,8 +359,13 @@ def load_manifest(data_dir: Path) -> dict[str, Any]:
 def validate_separate_dataset(
     data_dir: Path,
     repo_root: Path | None = None,
+    check_summarization_source: bool = True,
 ) -> dict[str, Any]:
-    """Fail closed unless every task/split file matches the manifest fingerprints."""
+    """Fail closed unless every task/split file matches the manifest fingerprints.
+
+    check_summarization_source=False skips only the lecture-summarization source re-verification; it is for
+    attach_summarization_dataset.py, which uses a base dataset solely for its bloom_rewrite/qa files and replaces
+    the summarization task. Training and evaluation loads always use the default (full check)."""
     data_dir = data_dir.resolve()
     repo_root = (repo_root or REPO_ROOT).resolve()
     manifest_path = data_dir / "dataset_manifest.json"
@@ -538,7 +543,7 @@ def validate_separate_dataset(
     # Lecture summarization source: fingerprinted source splits, verified row for row.
     sum_source = manifest.get("summarization_source") or {}
     summarization_source_check: dict[str, Any] | None = None
-    if sum_source.get("kind") == SUM_LECTURE_SOURCE_KIND:
+    if check_summarization_source and sum_source.get("kind") == SUM_LECTURE_SOURCE_KIND:
         sum_dir = (repo_root / str(sum_source.get("path") or "")).resolve()
         sum_hashes = sum_source.get("files_sha256") or {}
         for name in LECTURE_SOURCE_FILES:

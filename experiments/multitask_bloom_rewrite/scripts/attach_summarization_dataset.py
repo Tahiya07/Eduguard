@@ -151,7 +151,9 @@ def main() -> None:
         sys.exit(f"{new_cfg_path} already exists; refusing to overwrite.")
 
     # 1. verify inputs
-    base_integrity = dataset_io.validate_separate_dataset(base)
+    # the base contributes only bloom_rewrite/ and qa/ (byte-for-byte, hash-checked below); its old summarization
+    # source is replaced, so that source's fingerprint is not required to match
+    base_integrity = dataset_io.validate_separate_dataset(base, check_summarization_source=False)
     base_manifest = dataset_io.load_manifest(base)
     source_rows, near = check_source(source, args.require_review_status, args.near_dup_threshold)
     source_hashes = {name: dataset_io.sha256_file(source / name) for name in dataset_io.LECTURE_SOURCE_FILES}
