@@ -1,0 +1,27 @@
+{
+  "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+  "precision": "4bit",
+  "split": "validation",
+  "qa": {
+    "n": 146,
+    "reference_judged_correct": 1,
+    "other_rows_reference_judged_incorrect": 1
+  },
+  "summarization": {
+    "n": 40,
+    "reference_judged_faithful": 1,
+    "other_rows_summary_judged_unfaithful": 0.275
+  },
+  "bloom_rewrite": {
+    "n": 341,
+    "reference_level_accuracy": 0.7683,
+    "reference_per_level": {
+      "Remember": 0.623,
+      "Understand": 0.9492,
+      "Apply": 0.9423,
+      "Analyze": 0.8077,
+      "Evaluate": 0.6316,
+      "Create": 0.6833
+    }
+  }
+}

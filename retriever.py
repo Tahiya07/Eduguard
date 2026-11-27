@@ -138,6 +138,7 @@ class PrivacyRetriever:
                     passage_prefix=profile.passage_prefix,
                     max_length=profile.max_length,
                     encode_batch_size=profile.encode_batch_size,
+                    hf_fallback=getattr(profile, "hf_fallback", None),
                 )
                 _ENCODER_CACHE[cache_key] = encoder
             self._model = encoder

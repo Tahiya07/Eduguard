@@ -18,6 +18,8 @@ def main() -> None:
     parser.add_argument("--base-model", required=True)
     parser.add_argument("--adapter", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--dtype", default="float32", choices=["float32", "bfloat16"],
+                        help="Merge precision (float32 = exact LoRA merge; GGUF conversion then writes f16)")
     args = parser.parse_args()
     adapter = Path(args.adapter)
     output = Path(args.output)
@@ -37,9 +39,8 @@ def main() -> None:
         raise SystemExit(2) from exc
 
     print("Loading base:", args.base_model)
-    base = AutoModelForCausalLM.from_pretrained(
-        args.base_model, trust_remote_code=True, torch_dtype=torch.float32
-    )
+    dtype = getattr(torch, args.dtype)
+    base = AutoModelForCausalLM.from_pretrained(args.base_model, trust_remote_code=True, dtype=dtype)
     tok = AutoTokenizer.from_pretrained(args.base_model, trust_remote_code=True)
     print("Loading adapter:", adapter)
     model = PeftModel.from_pretrained(base, str(adapter))
@@ -48,11 +49,12 @@ def main() -> None:
     output.mkdir(parents=True, exist_ok=True)
     merged.save_pretrained(str(output))
     tok.save_pretrained(str(output))
-    _ = AutoModelForCausalLM.from_pretrained(str(output), trust_remote_code=True)
+    _ = AutoModelForCausalLM.from_pretrained(str(output), trust_remote_code=True, dtype=dtype)
     meta = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "base_model": args.base_model,
         "adapter": str(adapter),
+        "merge_dtype": args.dtype,
         "output": str(output),
         "verified_reload": True,
         "note": "Original HF base weights in cache are preserved; merged copy is separate.",

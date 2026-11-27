@@ -270,6 +270,47 @@ def _token_set(text: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", _normalize(text)))
 
 
+_GROUNDING_STOPWORDS = frozenset(
+    "the a an and or but of to in on at by for with from into as is are was were be been being this that these those "
+    "it its they them their there here which who whom whose what when where why how than then so such can could may "
+    "might must should would will shall do does did not no also very more most other some any each both all only own "
+    "same just about over under between because while during before after above below up down out off again further "
+    "once if into your you we our us i me my he she his her".split()
+)
+
+
+def _content_stems(text: str) -> set[str]:
+    """Content words cut to a 5-letter stem, so 'organizes'/'organizing' and 'tables'/'table' match."""
+    words = re.findall(r"[a-z0-9]+", _normalize(text))
+    return {w[:5] for w in words if len(w) > 2 and w not in _GROUNDING_STOPWORDS}
+
+
+def keep_supported_sentences(answer: str, chunk_texts: Sequence[str], *, min_support: float = 0.6) -> str:
+    """Keep only sentences whose content words mostly appear in the notes; refuse if none remain.
+
+    Used when the user has uploaded notes: an answer must come from them, so a sentence built
+    from outside knowledge (e.g. "The capital of France is Paris." against OS notes) is dropped.
+    """
+    text = (answer or "").strip()
+    if not text or text == _REFUSAL:
+        return _REFUSAL
+    source = set()
+    for chunk in chunk_texts:
+        source |= _content_stems(chunk)
+    kept = []
+    for sentence in re.split(r"(?<=[.!?])\s+", text):
+        stems = _content_stems(sentence)
+        if len(stems) < 3:  # too short to judge (e.g. "Yes."): keep with its neighbours
+            kept.append(sentence)
+            continue
+        if len(stems & source) / len(stems) >= min_support:
+            kept.append(sentence)
+    result = " ".join(s for s in kept if s).strip()
+    if not result or len(_content_stems(result)) == 0:
+        return _REFUSAL
+    return result
+
+
 def chunk_copy_ratio(answer: str, chunk_texts: Sequence[str]) -> float:
     """Fraction of answer tokens that appear in the best-matching source chunk."""
     ans = _token_set(answer)
@@ -290,8 +331,18 @@ def sanitize_rag_answer(
     chunk_texts: Sequence[str],
     *,
     max_copy_ratio: float = 0.88,
+    on_copy: str = "refuse",
+    max_sentences: int = 3,
 ) -> str:
-    """Strip verbatim chunk dumps; refuse when the model only pasted context."""
+    """Strip context echoes ([n] labels, "Context:" lines) and handle near-verbatim copies.
+
+    on_copy="refuse" (summaries): a near-verbatim dump becomes the refusal, so the caller's
+    extractive fallback takes over.
+    on_copy="trim" (question answering): a short answer that reuses the notes' wording is the
+    correct, grounded answer and is kept; a long verbatim dump is cut to its first
+    ``max_sentences`` sentences instead of being thrown away. Protected-content screening is
+    done separately by PrivacyGuard, not here.
+    """
     text = (answer or "").strip()
     if not text:
         return _REFUSAL
@@ -314,6 +365,12 @@ def sanitize_rag_answer(
     text = re.sub(r"\[\d+\]\s*", "", text).strip()
 
     ratio = chunk_copy_ratio(text, chunk_texts)
+    if on_copy == "trim":
+        # Faithful answers from short notes naturally overlap them; only shorten real passage dumps.
+        if ratio >= max_copy_ratio and len(text.split()) > 60:
+            sentences = re.split(r"(?<=[.!?])\s+", text)
+            text = " ".join(sentences[:max_sentences]).strip()
+        return text or _REFUSAL
     # Refuse only when the model dumped a long passage with almost no rewriting.
     if ratio >= max_copy_ratio and len(_token_set(text)) >= 20:
         return _REFUSAL

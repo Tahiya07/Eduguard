@@ -78,7 +78,7 @@ except Exception:  # pragma: no cover
 # Phase-1 module (unchanged; imported as-is)
 from retriever import PrivacyRetriever, RetrievalResult
 from multi_slm import get_task_profile, resolve_slm_model_path
-from rag_utils import filter_relevant_chunks, sanitize_rag_answer, trim_chunks_for_context
+from rag_utils import filter_relevant_chunks, keep_supported_sentences, sanitize_rag_answer, trim_chunks_for_context
 
 # ----------------------------------------------------------------------------
 # Logging
@@ -232,6 +232,8 @@ class RAGGenerator:
         seed: int = DEFAULT_SEED,
         llm: Optional[Llama] = None,
         task_id: str = "academic_qa",
+        n_threads_batch: Optional[int] = None,
+        prompt_cache_mb: int = 0,
     ) -> None:
         if not isinstance(retriever, PrivacyRetriever):
             raise TypeError("retriever must be a PrivacyRetriever instance")
@@ -280,6 +282,7 @@ class RAGGenerator:
                 model_path=str(mp),
                 n_ctx=self.n_ctx,
                 n_threads=self.n_threads,
+                n_threads_batch=int(n_threads_batch or self.n_threads),
                 n_gpu_layers=0,
                 seed=self.seed,
                 use_mmap=True,
@@ -287,6 +290,12 @@ class RAGGenerator:
                 verbose=False,
                 logits_all=False,
             )
+            if prompt_cache_mb > 0:
+                from llama_cpp import LlamaRAMCache
+
+                # Restores the longest cached prompt prefix (e.g. a task's system prompt)
+                # instead of re-evaluating it on the CPU; decoding stays greedy.
+                self.llm.set_cache(LlamaRAMCache(capacity_bytes=int(prompt_cache_mb) * 1024 * 1024))
 
     # ------------------------------------------------------------------ #
     # Bloom level handling
@@ -339,7 +348,9 @@ class RAGGenerator:
             "[COGNITIVE LEVEL]\n"
             f"Bloom level = {bl}. {BLOOM_INSTRUCTIONS[bl]}\n\n"
             "[INSTRUCTION]\n"
-            "Answer the question directly in your own words using only the context above. "
+            "Answer the question directly using only facts stated in the context above. "
+            "Do not add facts, examples, names, or details that are not in the context, even if you know them. "
+            "If the context does not answer the question, reply exactly: I don't know based on the provided context. "
             "Do not copy long passages verbatim. Do not repeat the [n] labels."
             + (f"\n{str(safety_instruction).strip()}" if safety_instruction and str(safety_instruction).strip() else "")
         )
@@ -391,12 +402,8 @@ class RAGGenerator:
         # Keep reset + generation in one critical section: the KV cache and
         # sampler state belong to this single shared model instance.
         with self.inference_lock:
-            reset_fn = getattr(self.llm, "reset", None)
-            if callable(reset_fn):
-                try:
-                    reset_fn()
-                except Exception as e:  # pragma: no cover - defensive
-                    logger.warning(f"llm.reset() failed: {e}")
+            # No llm.reset(): llama-cpp reuses the matching prompt prefix already in the
+            # KV cache, which skips re-reading shared instructions on CPU.
 
             t0 = time.perf_counter()
             check_cancelled()
@@ -515,7 +522,10 @@ class RAGGenerator:
 
             text = sanitize_summary_answer(text, chunk_texts, finish_reason=finish_reason)
         else:
-            text = sanitize_rag_answer(text, chunk_texts)
+            # QA: keep grounded answers even when they reuse the notes' wording (see sanitize_rag_answer).
+            text = sanitize_rag_answer(text, chunk_texts, on_copy="trim")
+            # Notes were supplied: drop sentences the notes do not support.
+            text = keep_supported_sentences(text, chunk_texts)
         return GenerationOutput(
             answer=text,
             chunks=norm,

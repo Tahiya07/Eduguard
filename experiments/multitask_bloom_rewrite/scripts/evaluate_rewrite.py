@@ -50,7 +50,9 @@ from eval_metrics import (  # noqa: E402
     source_target_matrix,
 )
 from eval_model import (  # noqa: E402
+    GGUFGenerator,
     HFGenerator,
+    gguf_file_info,
     resolve_checkpoint,
     sample_resources,
     set_seed,
@@ -374,8 +376,25 @@ def evaluate_sum_row(
     }
 
 
-def results_dir_for(cfg: dict[str, Any], condition: str) -> Path:
+def results_dir_for(cfg: dict[str, Any], condition: str, gguf_path: str | None = None,
+                    split: str = "validation") -> Path:
+    """Results folder per condition; test-split runs get a separate "_test" folder.
+
+    Previously validation and test wrote to the same folder, so a test run overwrote the
+    validation predictions and metrics.
+    """
+    path = _results_dir_for_condition(cfg, condition, gguf_path)
+    return Path(str(path).rstrip("/\\") + "_test") if split == "test" else path
+
+
+def _results_dir_for_condition(cfg: dict[str, Any], condition: str, gguf_path: str | None = None) -> Path:
     key = cfg.get("model_key", "model")
+    if condition == "gguf":
+        # e.g. <results_dir>_gguf_q4_k_m; never shares a folder with the HF LoRA/base runs
+        stem = Path(gguf_path or "model.gguf").stem.lower()
+        tag = next((q for q in ("q4_k_m", "q4_k_s", "q5_k_m", "q6_k", "q8_0", "q4_0", "bf16", "f16") if q in stem), stem)
+        configured_results = cfg.get("results_dir") or str(EXPERIMENT_DIR / "results" / f"qwen{key}_lora")
+        return Path(str(configured_results).rstrip("/\\") + f"_gguf_{tag}")
     if condition == "base":
         # Never share a folder with the LoRA run: base results would overwrite
         # predictions.jsonl / metrics.json of the trained adapter.
@@ -507,9 +526,37 @@ def main() -> None:
     )
     parser.add_argument(
         "--condition",
-        choices=["base", "lora"],
+        choices=["base", "lora", "gguf"],
         default="lora",
-        help="Evaluate base HF model or trained LoRA adapter",
+        help="Evaluate base HF model, trained LoRA adapter, or a GGUF export of it (--gguf PATH)",
+    )
+    parser.add_argument(
+        "--gguf",
+        default=None,
+        help="GGUF file for --condition gguf (e.g. the Q4_K_M export of best_adapter)",
+    )
+    parser.add_argument(
+        "--gguf-lora",
+        default=None,
+        help="LoRA adapter GGUF applied at runtime on top of --gguf (e.g. the app's blended rewrite model)",
+    )
+    parser.add_argument(
+        "--gguf-lora-scale",
+        type=float,
+        default=1.0,
+        help="Strength of --gguf-lora (1.0 = full adapter, 0.5 = the app's rewrite setting)",
+    )
+    parser.add_argument(
+        "--gguf-threads",
+        type=int,
+        default=None,
+        help="llama.cpp decode threads for --condition gguf (default: min(8, physical cores))",
+    )
+    parser.add_argument(
+        "--gpu-layers",
+        type=int,
+        default=0,
+        help="GGUF layers offloaded to GPU (0 = CPU-only, the deployment setting; needs a CUDA build of llama-cpp-python)",
     )
     parser.add_argument(
         "--dataset-dir",
@@ -633,7 +680,11 @@ def main() -> None:
     print(json.dumps(dataset_meta, indent=2))
 
     try:
-        ckpt = resolve_checkpoint(cfg, args.condition, adapter_override=args.adapter_path)
+        ckpt = resolve_checkpoint(
+            cfg, args.condition,
+            adapter_override=(str(Path(args.gguf).resolve()) if args.gguf else None)
+            if args.condition == "gguf" else args.adapter_path,
+        )
     except FileNotFoundError as exc:
         print("EVALUATION NOT STARTED —", exc)
         raise SystemExit(2) from exc
@@ -645,12 +696,48 @@ def main() -> None:
         "resolved_path": ckpt.resolved_path,
         "checkpoint_selection": ckpt.checkpoint_selection,
     }
+    if ckpt.condition == "gguf":
+        ckpt_info["gguf"] = gguf_file_info(ckpt.resolved_path)
+        if args.gguf_lora:
+            ckpt_info["gguf_lora"] = {"path": str(Path(args.gguf_lora).resolve()), "scale": args.gguf_lora_scale}
     print("Checkpoint:", json.dumps(ckpt_info, indent=2))
 
+    gguf_generator = None
     try:
-        smoke = validate_checkpoint(
-            ckpt, int(cfg.get("max_seq_length", 8192)), gen_cfg
-        )
+        if ckpt.condition == "gguf":
+            # Load once; the smoke test and the evaluation share this instance.
+            from prompts import bloom_messages, render_chatml
+
+            caps = [int(v) for v in (gen_cfg.get("max_new_tokens_by_task") or {}).values()]
+            load_start = time.perf_counter()
+            gguf_generator = GGUFGenerator(
+                ckpt.resolved_path, ckpt.base_model_id, int(cfg.get("max_seq_length", 8192)),
+                max(caps + [int(gen_cfg.get("max_new_tokens", 128))]),
+                n_threads=args.gguf_threads, n_gpu_layers=args.gpu_layers,
+                lora_path=str(Path(args.gguf_lora).resolve()) if args.gguf_lora else None,
+                lora_scale=args.gguf_lora_scale,
+            )
+            gguf_load_s = time.perf_counter() - load_start
+            smoke_prompt = render_chatml(bloom_messages("Define osmosis.", "Understand"), add_generation_prompt=True)
+            parity = gguf_generator.tokenizer_parity(smoke_prompt)
+            smoke_text = gguf_generator.generate(smoke_prompt, {"max_new_tokens": 32}).strip()
+            if not smoke_text:
+                raise RuntimeError("Smoke generation returned empty output")
+            smoke = {
+                "load_time_s": round(gguf_load_s, 4),
+                "smoke_output_chars": len(smoke_text),
+                "smoke_output": smoke_text[:160],
+                "device": f"llama.cpp (gpu_layers={args.gpu_layers})",
+                "n_ctx": gguf_generator.n_ctx,
+                "threads": {"decode": gguf_generator.n_threads, "batch": gguf_generator.n_threads_batch},
+                # informational: the evaluation always feeds the HF tokenizer's ids, so this cannot skew scores
+                "llama_tokenizer_matches_hf": parity,
+            }
+            ckpt_info["gguf_runtime"] = {k: smoke[k] for k in ("n_ctx", "threads", "device")}
+        else:
+            smoke = validate_checkpoint(
+                ckpt, int(cfg.get("max_seq_length", 8192)), gen_cfg
+            )
     except Exception as exc:
         print("EVALUATION NOT STARTED — checkpoint validation failed:", exc)
         raise SystemExit(2) from exc
@@ -660,7 +747,10 @@ def main() -> None:
         print("Smoke-only mode complete.")
         return
 
-    out_dir = Path(args.output_dir) if args.output_dir else results_dir_for(cfg, args.condition)
+    out_dir = Path(args.output_dir) if args.output_dir else results_dir_for(cfg, args.condition, ckpt.resolved_path, args.split)
+    if not args.output_dir and args.condition == "gguf" and args.gguf_lora:
+        # e.g. <results>_gguf_q4_k_m_blend050: never shares a folder with the plain GGUF run
+        out_dir = Path(str(out_dir) + f"_blend{round(args.gguf_lora_scale * 100):03d}")
     if not out_dir.is_absolute():
         out_dir = REPO_ROOT / out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -685,8 +775,11 @@ def main() -> None:
             json.dumps({k: v for k, v in clf_meta.items() if k != "smoke_traceback"}, indent=2),
         )
 
-    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)),
-                            load_in_4bit=bool(cfg.get("eval_load_in_4bit", False)))
+    if gguf_generator is not None:
+        generator = gguf_generator
+    else:
+        generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)),
+                                load_in_4bit=bool(cfg.get("eval_load_in_4bit", False)))
 
     bloom_rows = [r for r in test_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
     qa_rows = [r for r in test_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
@@ -982,6 +1075,8 @@ def main() -> None:
             except Exception as exc:  # noqa: BLE001
                 print(f"WARNING: judge not run ({type(exc).__name__}: {exc}). Run scripts/judge_evaluation.py manually.")
         try:
+            if args.condition == "gguf":
+                raise RuntimeError("skipped for GGUF runs (the evidence pack compares the HF LoRA and base runs)")
             from build_paper_evidence import build as build_evidence
 
             def absolute(path: Path) -> Path:
@@ -990,8 +1085,9 @@ def main() -> None:
 
             evidence_dir = build_evidence(
                 cfg_path, args.split,
-                absolute(results_dir_for(cfg, "lora")),
-                absolute(cfg.get("base_results_dir") or results_dir_for(cfg, "base")),
+                absolute(results_dir_for(cfg, "lora", split=args.split)),
+                absolute((cfg.get("base_results_dir") if args.split == "validation" else None)
+                         or results_dir_for(cfg, "base", split=args.split)),
                 None,
             )
             print("Paper evidence pack:", evidence_dir)

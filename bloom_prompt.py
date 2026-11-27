@@ -407,6 +407,7 @@ def _get_llm():
             "model_path": str(model_path),
             "n_ctx": n_ctx,
             "n_threads": threads,
+            "n_threads_batch": max(threads, int(os.environ.get("GENERATOR_BATCH_THREADS", str(threads)))),
             "n_gpu_layers": n_gpu_layers,
             "use_mmap": True,
             "use_mlock": False,
@@ -432,12 +433,7 @@ def _generate_rewrite(prompt: str, *, llm=None, max_tokens: int | None = None) -
 
     limit = int(max_tokens or os.environ.get("GENERATOR_MODERATION_TOKENS", "64"))
     model = llm if llm is not None else _get_llm()
-    reset = getattr(model, "reset", None)
-    if callable(reset):
-        try:
-            reset()
-        except Exception:
-            pass
+    # No reset(): llama-cpp reuses the shared prompt prefix already in the KV cache.
     t0 = _time.perf_counter()
     check_cancelled()
     output = model(
@@ -612,12 +608,7 @@ def generate_v3_rewrite(
 
     logger = logging.getLogger(__name__)
     limit = int(max_tokens if max_tokens is not None else V3_REWRITE_MAX_TOKENS)
-    reset = getattr(llm, "reset", None)
-    if callable(reset):
-        try:
-            reset()
-        except Exception:
-            pass
+    # No reset(): llama-cpp reuses the shared prompt prefix already in the KV cache.
     check_cancelled()
     started = time.perf_counter()
     output = llm(
@@ -1061,6 +1052,7 @@ def rewrite_to_target_level(
     predictor=None,
     predictor_error: str = "",
     max_tokens: int | None = None,
+    suggest_verb: bool = True,
 ) -> TargetRewriteResult:
     """Generate one target-level rewrite without post-generation classifier gating.
 
@@ -1073,7 +1065,9 @@ def rewrite_to_target_level(
     prompts = _load_v3_prompts()
     candidates = prompts.select_action_verbs(question, target_level)
     model = llm if llm is not None else _get_llm()
-    selected_verb = candidates[0] if candidates else ""
+    # suggest_verb=False reproduces the exact prompt the v3.9 model was trained on
+    # ("Start with a suitable action verb ..."), instead of injecting one suggested verb.
+    selected_verb = candidates[0] if (candidates and suggest_verb) else ""
     prompt = build_v3_target_rewrite_prompt(
         question, target_level, selected_action_verb=selected_verb
     )

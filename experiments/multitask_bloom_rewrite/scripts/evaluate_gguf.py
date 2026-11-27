@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 """
+LEGACY (v3-era data): use `evaluate_rewrite.py --condition gguf --gguf PATH` for v3.9+ models.
+This script reads the old flat dataset fields (answer/article/abstract), uses one 128-token cap and a
+512-token context, and has no loop guard, so its numbers are not comparable with the v3.9 HF results.
+
 Evaluate a GGUF multitask Qwen model on the locked held-out TEST split.
 
 This is a separate evaluator from evaluate_rewrite.py so that the HF
@@ -572,6 +576,8 @@ def main() -> None:
     )
 
     args = parser.parse_args()
+    print("NOTE: legacy evaluator. For v3.9+ use: evaluate_rewrite.py --condition gguf --gguf PATH "
+          "(same data, prompts, per-task caps, loop guard and metrics as the HF run).")
 
     gguf = Path(args.gguf)
 

@@ -189,9 +189,20 @@ def resolve_checkpoint(
     cfg: dict[str, Any], condition: str, *, adapter_override: str | None = None
 ) -> CheckpointInfo:
     condition = condition.lower().strip()
-    if condition not in {"base", "lora"}:
-        raise ValueError(f"condition must be base or lora, got {condition!r}")
+    if condition not in {"base", "lora", "gguf"}:
+        raise ValueError(f"condition must be base, lora or gguf, got {condition!r}")
     base_id = cfg["model_id"]
+    if condition == "gguf":
+        gguf = Path(adapter_override or "")
+        if not adapter_override or not gguf.is_file():
+            raise FileNotFoundError(f"GGUF file not found: {gguf} (pass --gguf PATH)")
+        return CheckpointInfo(
+            condition="gguf",
+            base_model_id=base_id,
+            adapter_path=None,
+            resolved_path=str(gguf.resolve()),
+            checkpoint_selection="gguf_export_of_best_adapter",
+        )
     if condition == "base":
         return CheckpointInfo(
             condition="base",
@@ -371,6 +382,120 @@ class HFGenerator:
             return self.tokenizer.decode(new_tokens, skip_special_tokens=True)
         self.last_output_tokens = len(self.tokenizer(text, add_special_tokens=False)["input_ids"])
         return text
+
+
+class GGUFGenerator:
+    """llama.cpp backend with the same decoding contract as HFGenerator.
+
+    Parity with the HF evaluation is deliberate so the only difference measured is quantization:
+    * the prompt is tokenized with the same HF tokenizer and those exact token ids are fed to llama.cpp;
+    * greedy decoding, the same per-task max_new_tokens, stop at EOS (<|im_end|> / <|endoftext|>);
+    * the same LoopGuard object decides span/template stops, and the same trimming is applied.
+    """
+
+    def __init__(self, gguf_path: str | Path, base_model_id: str, max_seq_length: int,
+                 max_new_tokens_cap: int, n_threads: int | None = None, n_gpu_layers: int = 0,
+                 lora_path: str | None = None, lora_scale: float = 1.0) -> None:
+        import os
+
+        from llama_cpp import Llama
+
+        self.max_seq_length = max_seq_length
+        self.device = torch.device("cpu") if n_gpu_layers == 0 else torch.device("cuda")
+        self.tokenizer = _load_tokenizer(base_model_id)
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        try:
+            import psutil
+
+            physical = psutil.cpu_count(logical=False) or (os.cpu_count() or 8)
+        except ImportError:
+            physical = os.cpu_count() or 8
+        decode_threads = int(n_threads or min(8, physical))
+        # The prompt may use the full max_seq_length and still needs room for the longest task cap.
+        self.n_ctx = int(max_seq_length + max_new_tokens_cap + 16)
+        self.llm = Llama(
+            model_path=str(gguf_path), n_ctx=self.n_ctx, n_threads=decode_threads,
+            n_threads_batch=max(decode_threads, physical), n_gpu_layers=n_gpu_layers,
+            use_mmap=True, verbose=False,
+            # A LoRA GGUF applied at runtime at the given strength (the app's blended rewrite model).
+            **({"lora_path": str(lora_path), "lora_scale": float(lora_scale)} if lora_path else {}),
+        )
+        stop_ids = {self.llm.token_eos(), self.tokenizer.eos_token_id, self.tokenizer.pad_token_id}
+        for tok in ("<|im_end|>", "<|endoftext|>"):
+            tid = self.tokenizer.convert_tokens_to_ids(tok)
+            if isinstance(tid, int) and tid >= 0:
+                stop_ids.add(tid)
+        self.stop_ids = {int(t) for t in stop_ids if t is not None}
+        self.n_threads, self.n_threads_batch = decode_threads, max(decode_threads, physical)
+
+    def tokenizer_parity(self, prompt: str) -> bool:
+        """True when llama.cpp's own tokenizer agrees with the HF ids for this prompt."""
+        hf_ids = self.tokenizer(prompt, add_special_tokens=False)["input_ids"]
+        return list(self.llm.tokenize(prompt.encode("utf-8"), add_bos=False, special=True)) == list(hf_ids)
+
+    def generate(self, prompt: str, gen_cfg: dict[str, Any]) -> str:
+        ids = self.tokenizer(prompt, truncation=True, max_length=self.max_seq_length,
+                             add_special_tokens=False)["input_ids"]
+        max_new = int(gen_cfg.get("max_new_tokens", 128))
+        guard = None
+        loop_n = int(gen_cfg.get("loop_guard_ngram") or 0)
+        sentence_run = int(gen_cfg.get("loop_guard_sentence_run") or 0)
+        if loop_n > 0 or sentence_run > 0:
+            guard = LoopGuard(self.tokenizer, len(ids), loop_n, sentence_run,
+                              int(gen_cfg.get("loop_guard_prefix_words") or 6))
+        gen: list[int] = []
+        hit_eos = False
+        for tok in self.llm.generate(ids, temp=0.0, top_k=1, top_p=1.0, min_p=0.0, repeat_penalty=1.0):
+            if int(tok) in self.stop_ids:
+                hit_eos = True
+                break
+            gen.append(int(tok))
+            if guard is not None and bool(guard(torch.tensor([ids + gen]))[0]):
+                break
+            if len(gen) >= max_new:
+                break
+        self.last_loop_reason = guard.reason if guard else None
+        self.last_loop_stopped = self.last_loop_reason is not None
+        self.last_hit_token_limit = bool(not self.last_loop_stopped and not hit_eos and len(gen) >= max_new)
+        if self.last_loop_reason == "span":
+            text = trim_to_sentence(self.tokenizer.decode(gen[: guard.repeat_start], skip_special_tokens=True))
+        elif self.last_loop_reason == "template":
+            text = guard.keep_text
+        else:
+            self.last_output_tokens = len(gen)
+            return self.tokenizer.decode(gen, skip_special_tokens=True)
+        self.last_output_tokens = len(self.tokenizer(text, add_special_tokens=False)["input_ids"])
+        return text
+
+
+def gguf_file_info(path: str | Path) -> dict[str, Any]:
+    """Name, quantization type and size of a GGUF file, read from its header (no weights loaded)."""
+    info: dict[str, Any] = {"path": str(path), "size_bytes": Path(path).stat().st_size}
+    try:
+        from gguf import GGUFReader
+
+        reader = GGUFReader(str(path))
+
+        def field(key: str) -> Any:
+            f = reader.fields.get(key)
+            if f is None:
+                return None
+            part = f.parts[f.data[0]]
+            return bytes(part).decode("utf-8", "replace") if part.dtype.kind == "u" and part.dtype.itemsize == 1 \
+                else part.tolist()[0]
+
+        file_types = {0: "F32", 1: "F16", 7: "Q8_0", 2: "Q4_0", 15: "Q4_K_M", 14: "Q4_K_S", 17: "Q5_K_M", 18: "Q6_K", 32: "BF16"}
+        ftype = field("general.file_type")
+        info.update({
+            "name": field("general.name"),
+            "architecture": field("general.architecture"),
+            "file_type": file_types.get(ftype, ftype),
+            "imatrix_dataset": field("quantize.imatrix.dataset"),
+        })
+    except Exception as exc:  # metadata is informative only
+        info["metadata_error"] = f"{type(exc).__name__}: {exc}"
+    return info
 
 
 def set_seed(seed: int) -> None:

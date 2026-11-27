@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Literal
 
+BloomLevel = Literal["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
+
 class LoginRequest(BaseModel): role: Literal["student", "teacher"]; access_code: str = Field(min_length=1, max_length=200)
 class TextRequest(BaseModel): question: str = Field(min_length=1, max_length=4000); scope: Literal["public", "protected"] = "public"; top_k: int = Field(default=4, ge=1, le=8)
 class ChatTurn(BaseModel):
@@ -15,6 +17,10 @@ class ModerationReviewRequest(BaseModel):
     question: str = Field(min_length=1, max_length=4000)
     decision: Literal["approved", "needs_revision", "rejected"]
     notes: str = Field(default="", max_length=2000)
+    # Teacher-confirmed Bloom level of the question; saved locally for federated rounds.
+    bloom_level: BloomLevel | None = None
+    predicted_level: BloomLevel | None = None
+    predicted_confidence: float | None = Field(default=None, ge=0.0, le=1.0)
 class TargetRewriteRequest(BaseModel):
     question: str = Field(min_length=1, max_length=4000)
     target_level: Literal["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]

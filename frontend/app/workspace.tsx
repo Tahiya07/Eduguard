@@ -1,8 +1,13 @@
 ﻿"use client";
 
 import dynamic from "next/dynamic";
+import VideoHero from "./video-hero";
+import WaitingGame from "./waiting-game";
+import ErrorModal, { errorTitle } from "./error-modal";
+import type { HeroClip } from "./video-hero";
+import { clearSession, saveSession, useSession } from "./session";
 
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 async function apiFetch(
@@ -56,6 +61,17 @@ const clips = [
   ["Initial_scene_final.mp4", "Make it yours", "Private and on-device."],
 ] as const;
 
+const STUDENT_CLIPS: HeroClip[] = clips.map(([file, title, caption]) => ({
+  src: `/student-videos/${file}`,
+  title,
+  caption,
+}));
+
+function scrollToId(id: string, focusId?: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (focusId) window.setTimeout(() => document.getElementById(focusId)?.focus({ preventScroll: true }), 350);
+}
+
 type Role = "student" | "teacher";
 type Msg = { role: "user" | "assistant"; content: string };
 type Bloom = { level: string; confidence: number };
@@ -106,169 +122,6 @@ function useElapsed(active: boolean) {
   }, [active]);
 
   return elapsed;
-}
-
-function WaitingGame({ active }: { active: boolean }) {
-  const [score, setScore] = useState(0);
-  const [streak, setStreak] = useState(0);
-  const [bestScore, setBestScore] = useState(0);
-  const [objects, setObjects] = useState<Array<{ id: number; x: number; type: string; duration: number }>>([]);
-  const objectIdCounter = useRef(0);
-  const spawnIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const prefersReducedMotion = useRef(false);
-
-  // Check for reduced motion preference
-  useEffect(() => {
-    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }, []);
-
-  // Game difficulty based on score
-  const getSpawnRate = () => {
-    if (score < 15) return 1800;
-    if (score < 35) return 1400;
-    return 1000;
-  };
-
-  const getFallDuration = () => {
-    if (score < 15) return 4 + Math.random() * 2;
-    if (score < 35) return 3 + Math.random() * 1.5;
-    return 2 + Math.random() * 1;
-  };
-
-  // Spawn new objects
-  const spawnObject = useCallback(() => {
-    if (!active || prefersReducedMotion.current) return;
-
-    const types = ['star', 'dot', 'dot', 'book'];
-    const type = types[Math.floor(Math.random() * types.length)];
-    const isFocusToken = Math.random() < 0.12; // 12% chance for focus token
-
-    const newObject = {
-      id: objectIdCounter.current++,
-      x: Math.random() * 80 + 10, // 10-90% width
-      type: isFocusToken ? 'focus' : type,
-      duration: getFallDuration()
-    };
-
-    setObjects(prev => [...prev.slice(-5), newObject]); // Keep max 6 objects on screen
-  }, [active, score]);
-
-  // Spawn loop
-  useEffect(() => {
-    if (!active || prefersReducedMotion.current) {
-      if (spawnIntervalRef.current) {
-        clearInterval(spawnIntervalRef.current);
-        spawnIntervalRef.current = null;
-      }
-      return;
-    }
-
-    const spawnRate = getSpawnRate();
-    spawnIntervalRef.current = setInterval(spawnObject, spawnRate);
-
-    return () => {
-      if (spawnIntervalRef.current) {
-        clearInterval(spawnIntervalRef.current);
-        spawnIntervalRef.current = null;
-      }
-    };
-  }, [active, score, spawnObject]);
-
-  // Handle object catch
-  const handleCatch = useCallback((objectId: number, type: string) => {
-    if (!active) return; // Prevent catching after game stops
-    
-    setObjects(prev => prev.filter(obj => obj.id !== objectId));
-    
-    const points = type === 'focus' ? 3 : 1;
-    setScore(prev => prev + points);
-    setStreak(prev => prev + 1);
-  }, [active]);
-
-  // Update best score when score changes
-  useEffect(() => {
-    if (score > bestScore) {
-      setBestScore(score);
-    }
-  }, [score, bestScore]);
-
-  // Handle object miss (animation end)
-  const handleMiss = () => {
-    setStreak(0);
-  };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (spawnIntervalRef.current) {
-        clearInterval(spawnIntervalRef.current);
-      }
-    };
-  }, []);
-
-  // Reset game when not active
-  useEffect(() => {
-    if (!active) {
-      setScore(0);
-      setStreak(0);
-      setObjects([]);
-      if (spawnIntervalRef.current) {
-        clearInterval(spawnIntervalRef.current);
-        spawnIntervalRef.current = null;
-      }
-    }
-  }, [active]);
-
-  if (!active) return null;
-
-  if (prefersReducedMotion.current) {
-    return (
-      <div className="waiting-game-container">
-        <p className="waiting-game-message">Processing your request...</p>
-      </div>
-    );
-  }
-
-  const icons = {
-   star: '✦',
-    dot: '•',
-    book: '📖',
-    focus: '⚡'
-  };
-
-  return (
-    <div className="waiting-game-container">
-      <div className="waiting-game-header">
-        <span className="waiting-game-title">Focus Catch</span>
-        <div className="waiting-game-stats">
-          <span>Score {score}</span>
-          {streak > 1 && <span>• Streak {streak}</span>}
-          {bestScore > 0 && <span>• Best {bestScore}</span>}
-        </div>
-      </div>
-      <div className="waiting-game-area">
-        {objects.map(obj => (
-          <button
-            key={obj.id}
-            className="waiting-game-object"
-            style={{
-              left: `${obj.x}%`,
-              animationDuration: `${obj.duration}s`,
-            }}
-            onClick={() => handleCatch(obj.id, obj.type)}
-            onAnimationEnd={handleMiss}
-            aria-label={`Catch ${obj.type}`}
-          >
-            {icons[obj.type as keyof typeof icons]}
-          </button>
-        ))}
-        <div className="waiting-game-catcher">
-          <span>CATCH</span>
-        </div>
-      </div>
-      <p className="waiting-game-instruction">Catch the falling ideas</p>
-    </div>
-  );
 }
 
 function Loading({
@@ -369,11 +222,19 @@ const TeacherStudio = dynamic(() => import("./teacher-studio"), {
 
 export default function Workspace({ role }: { role: Role }) {
   const [token, setToken] = useState("");
+  // Restore this tab's session so navigating Home <-> workspace keeps the same server workspace.
+  const session = useSession();
+  useEffect(() => {
+    setToken(session && session.role === role ? session.token : "");
+  }, [session, role]);
   const [code, setCode] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [q, setQ] = useState("");
   const [history, setHistory] = useState<Msg[]>([]);
+  const [mode, setMode] = useState<"ask" | "summary">("ask");
+  const [materials, setMaterials] = useState<{ id: string; name: string }[]>([]);
+  const threadRef = useRef<HTMLDivElement>(null);
   const [busy, setBusy] = useState("");
   const operationController = useRef<ReturnType<typeof createOperation> | null>(null);
   const cancelOperation = useCallback(() => {
@@ -384,9 +245,14 @@ export default function Workspace({ role }: { role: Role }) {
     setSuccess({ show: false, message: "", elapsed: 0 });
   }, [token]);
   const [error, setError] = useState("");
-  const [clip, setClip] = useState<(typeof clips)[number] | null>(null);
   const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
   const operationElapsed = useElapsed(!!busy);
+
+  // Keep the newest message in view (declared before any early return to keep hook order stable).
+  useEffect(() => {
+    const el = threadRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [history.length, busy]);
 
   async function call(path: string, body: object) {
     const active = operationController.current;
@@ -401,6 +267,10 @@ export default function Workspace({ role }: { role: Role }) {
       signal: active?.controller.signal,
     });
     const d = await r.json();
+    if (r.status === 401 && token) {
+      clearSession();
+      throw Error("Your session expired. Please enter your access code again.");
+    }
     if (!r.ok) throw Error(d.detail || "The local service could not complete this request.");
     return d;
   }
@@ -410,8 +280,9 @@ export default function Workspace({ role }: { role: Role }) {
     setBusy("Opening workspace...");
     setError("");
     try {
-      const session = await call("/auth/session", { role, access_code: code });
-      setToken(session.access_token);
+      const started = await call("/auth/session", { role, access_code: code });
+      setToken(started.access_token);
+      saveSession({ token: started.access_token, role });
     } catch (e) {
       setError(String(e).replace("Error: ", ""));
     } finally {
@@ -433,6 +304,8 @@ export default function Workspace({ role }: { role: Role }) {
         scope: "public",
         content_type: "study_material",
       });
+      setMaterials((m) => [...m, { id: crypto.randomUUID(), name: `Pasted notes (${text.trim().split(/\s+/).length} words)` }]);
+      setText("");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       if (!(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
@@ -466,7 +339,17 @@ export default function Workspace({ role }: { role: Role }) {
         body: f,
         signal: operation.controller.signal,
       });
-      if (!r.ok) throw Error("Upload failed");
+      if (r.status === 401) {
+        clearSession();
+        throw Error("Your session expired. Please enter your access code again.");
+      }
+      if (!r.ok) {
+        // Show the service's own reason (e.g. OCR missing) instead of a generic message.
+        const detail = await r.json().then((d) => d?.detail).catch(() => null);
+        throw Error(detail || "Upload failed. Supported files: PDF, TXT, MD, CSV, JPG and PNG.");
+      }
+      setMaterials((m) => [...m, { id: crypto.randomUUID(), name: file.name }]);
+      setFile(null);
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
@@ -479,6 +362,26 @@ export default function Workspace({ role }: { role: Role }) {
         if (!operation.controller.signal.aborted) setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
         setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
       }
+    }
+  }
+
+  async function clearNotes() {
+    setError("");
+    try {
+      const r = await apiFetch(`${API}/documents/clear?scope=public`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (r.status === 401) {
+        clearSession();
+        throw Error("Your session expired. Please enter your access code again.");
+      }
+      if (!r.ok) throw Error("Could not remove the material. Please try again.");
+      setMaterials([]);
+      setSuccess({ show: true, message: "Material removed", elapsed: 0 });
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 1500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -556,9 +459,7 @@ export default function Workspace({ role }: { role: Role }) {
               Use your locally configured access code. Nothing leaves this device.
             </p>
             {form}
-            {error && (
-              <p className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">{error}</p>
-            )}
+            {error && <ErrorModal title={errorTitle(error)} message={error} onClose={() => setError("")} />}
           </section>
         </section>
       </main>
@@ -598,9 +499,7 @@ export default function Workspace({ role }: { role: Role }) {
               Use your teacher access code to open the protected moderation tools.
             </p>
             {form}
-            {error && (
-              <p className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">{error}</p>
-            )}
+            {error && <ErrorModal title={errorTitle(error)} message={error} onClose={() => setError("")} />}
           </section>
         </section>
       </main>
@@ -612,100 +511,106 @@ export default function Workspace({ role }: { role: Role }) {
   const showIndexingOverlay = !!busy && isIndexingBusy(busy);
   const showModelLoading = !!busy && isModelBusy(busy);
   const showSuccess = success.show && !busy;
+  const isSummary = mode === "summary";
+  const examples = [
+    "What is the difference between TCP and UDP?",
+    "Explain how a hash table handles collisions.",
+    "Explain opportunity cost with an example.",
+  ];
+
+  function send() {
+    if (!busy && q.trim()) void ask(isSummary);
+  }
+
+  // Ask: Enter sends, Shift+Enter adds a line. Summarize: long pasted text, so Ctrl+Enter sends.
+  function onComposerKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key !== "Enter") return;
+    if (isSummary ? e.ctrlKey || e.metaKey : !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  }
 
   return (
     <main className="page-wrap fade-in">
-      <header className="mb-8">
-        <p className="eyebrow">Student learning studio</p>
-        <h1 className="display mt-3 text-4xl font-extrabold">Student workspace</h1>
-        <p className="section-copy">
-          Build understanding privately with a local model or your own material.
-        </p>
-      </header>
+      <VideoHero
+        eyebrow="Student learning studio"
+        title={<>A quieter space<br /><span>to make progress.</span></>}
+        description="Ask study questions, summarize your reading and bring your own notes. The assistant runs privately on this computer, so nothing you type leaves it."
+        actions={
+          <>
+            <button type="button" className="btn-primary" onClick={() => scrollToId("study-assistant", "student-input")}>
+              Start asking →
+            </button>
+            <button type="button" className="btn-secondary" onClick={() => scrollToId("your-notes")}>
+              Add your notes
+            </button>
+          </>
+        }
+        trust={["Private", "Offline", "On this device"]}
+        clips={STUDENT_CLIPS}
+      />
 
-      <section className="learning-reel">
-        <div className="learning-reel-heading">
+
+      <ol className="guide-steps" aria-label="How to use the workspace">
+        <li>
+          <b>1</b>
           <div>
-            <p className="eyebrow">Your learning rhythm</p>
-            <h2 className="section-title">Small moments, real momentum.</h2>
+            <strong>Ask or summarize</strong>
+            <span>Type a question, or switch to Summarize and paste text.</span>
           </div>
-          <p>Select a moment to watch it in full.</p>
-        </div>
-        <div className="learning-reel-track">
-          {clips.map((item, i) => (
-            <button
-              type="button"
-              className="learning-reel-card learning-reel-button"
-              key={item[0]}
-              onClick={() => setClip(item)}
-              aria-label={`Watch ${item[1]}`}
-            >
-              <video
-                src={`/student-videos/${item[0]}`}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload={i < 2 ? "auto" : "metadata"}
-              />
-              <div className="learning-reel-overlay">
-                <span>0{i + 1}</span>
-                <h3>{item[1]}</h3>
-                <p>{item[2]}</p>
-                <b>Watch ➡</b>
+        </li>
+        <li>
+          <b>2</b>
+          <div>
+            <strong>Add your notes (optional)</strong>
+            <span>Upload or paste course notes so answers use them.</span>
+          </div>
+        </li>
+        <li>
+          <b>3</b>
+          <div>
+            <strong>Read and follow up</strong>
+            <span>Ask a follow-up in the same conversation. Nothing leaves this device.</span>
+          </div>
+        </li>
+      </ol>
+
+      <div className="grid gap-5 lg:grid-cols-[1.15fr_.85fr]">
+        <section id="study-assistant" className="glass-card lift student-chat-card rounded-[26px] p-5 sm:p-7" aria-labelledby="chat-heading">
+          <div className="field-row">
+            <h2 id="chat-heading" className="section-title">Study assistant</h2>
+            {history.length > 0 && (
+              <button type="button" className="btn-quiet" disabled={!!busy} onClick={() => setHistory([])}>
+                New conversation
+              </button>
+            )}
+          </div>
+
+          <div className="student-chat-thread" ref={threadRef} aria-live="polite">
+            {history.length === 0 && !showModelLoading ? (
+              <div className="student-chat-empty">
+                <p>Start with a question about your course. For example:</p>
+                <div className="example-chips">
+                  {examples.map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      className="example-chip"
+                      onClick={() => {
+                        setMode("ask");
+                        setQ(ex);
+                      }}
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <div className="grid gap-5 lg:grid-cols-[.92fr_1.08fr]">
-        <section className="glass-card lift rounded-[26px] p-5 sm:p-7">
-          <h2 className="section-title">Course material</h2>
-          <p className="section-copy">Index a file or paste text into your authorized local corpus.</p>
-          <div className="mt-6 grid gap-4">
-            <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
-              <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
-                {file ? file.name : "Choose a learning document"}
-              </span>
-              <input
-                className="sr-only"
-                type="file"
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-              />
-            </label>
-            <button className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-              Upload and index file
-            </button>
-            <textarea
-              className="min-h-32"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Paste learning material to index..."
-            />
-            <button className="btn-primary" disabled={!!busy || !text.trim()} onClick={index}>
-              Index pasted material
-            </button>
-          </div>
-        </section>
-
-        <section className="glass-card lift student-chat-card rounded-[26px] p-5 sm:p-7">
-          <h2 className="section-title">Ask anything</h2>
-          <div className="student-chat-thread" aria-live="polite">
-            {history.length === 0 ? (
-              <p className="student-chat-empty">Your local conversations stay in this session.</p>
             ) : (
               history.map((m, i) => (
+                // Messages are append-only, so position is a stable identity here.
+                // biome-ignore lint/suspicious/noArrayIndexKey: append-only list
                 <article key={i} className={`student-message ${m.role}`}>
                   <p className="student-message-label">{m.role === "user" ? "You" : "Assistant"}</p>
                   <p className="student-message-content">{m.content}</p>
@@ -714,53 +619,122 @@ export default function Workspace({ role }: { role: Role }) {
             )}
             {showModelLoading && <ChatLoading label={busy} />}
           </div>
-          <div className="mt-6 grid gap-4">
-            <label>
-              Question or text to summarize
-              <textarea
-                className="mt-1 min-h-32"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Ask a question or paste text to summarize..."
-              />
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <button className="btn-primary" disabled={!!busy || !q.trim()} onClick={() => ask()}>
-                Send
+
+          <div className="mt-6 grid gap-3">
+            <div className="ui-tabs" role="tablist" aria-label="What do you want to do?">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={!isSummary}
+                aria-controls="composer"
+                className="ui-tab"
+                onClick={() => setMode("ask")}
+              >
+                Ask a question
               </button>
-              <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => ask(true)}>
-                Summarize
+              <button
+                type="button"
+                role="tab"
+                aria-selected={isSummary}
+                aria-controls="composer"
+                className="ui-tab"
+                onClick={() => setMode("summary")}
+              >
+                Summarize text
               </button>
             </div>
+            <div id="composer" role="tabpanel">
+              <label htmlFor="student-input">
+                {isSummary ? "Text to summarize" : "Your question"}
+              </label>
+              <textarea
+                id="student-input"
+                className={`mt-1 ${isSummary ? "min-h-40" : "min-h-24"}`}
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                onKeyDown={onComposerKeyDown}
+                placeholder={
+                  isSummary
+                    ? "Paste a passage or your notes. To summarize an uploaded file, type “Summarize my notes”."
+                    : "e.g. Why is binary search faster than linear search?"
+                }
+              />
+            </div>
+            <div className="field-row">
+              <span className="kbd-hint">
+                {isSummary ? (
+                  <>Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to summarize</>
+                ) : (
+                  <>Press <kbd>Enter</kbd> to send · <kbd>Shift</kbd> + <kbd>Enter</kbd> for a new line</>
+                )}
+              </span>
+              <button type="button" className="btn-primary" disabled={!!busy || !q.trim()} onClick={send}>
+                {isSummary ? "Summarize" : "Send"} →
+              </button>
+            </div>
+            {error && <ErrorModal title={errorTitle(error)} message={error} onClose={() => setError("")} />}
+          </div>
+        </section>
+
+        <section id="your-notes" className="glass-card lift rounded-[26px] p-5 sm:p-7" aria-labelledby="notes-heading">
+          <h2 id="notes-heading" className="section-title">
+            Your notes <span className="optional-tag">Optional</span>
+          </h2>
+          <p className="section-copy">
+            Add course material and the assistant will answer only from it. You can skip this and
+            just ask. Remove your notes to go back to general answers.
+          </p>
+          <div className="mt-6 grid gap-4">
+            <div className="grid gap-3">
+              <p className="step-label"><b>A</b>Upload a file</p>
+              <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
+                <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                  {file ? file.name : "Choose a document"}
+                </span>
+                <span className="field-hint">PDF, TXT, MD, CSV, or a JPG/PNG photo of your notes</span>
+                <input
+                  className="sr-only"
+                  type="file"
+                  accept=".pdf,.txt,.md,.csv,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+              </label>
+              <button type="button" className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
+                Add file
+              </button>
+            </div>
+            <div className="grid gap-3">
+              <label htmlFor="student-notes" className="step-label"><b>B</b>Or paste text</label>
+              <textarea
+                id="student-notes"
+                className="min-h-28"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Paste notes or a textbook section…"
+              />
+              <button type="button" className="btn-secondary" disabled={!!busy || !text.trim()} onClick={index}>
+                Add pasted notes
+              </button>
+            </div>
+            {materials.length > 0 && (
+              <div>
+                <p className="step-label">Ready to use</p>
+                <ul className="material-list">
+                  {materials.map((m) => <li key={m.id}>{m.name}</li>)}
+                </ul>
+              </div>
+            )}
+            <button type="button" className="btn-quiet justify-self-start" disabled={!!busy} onClick={clearNotes}>
+              Remove all notes
+            </button>
           </div>
         </section>
       </div>
-
-      {clip && (
-        <div
-          className="reel-dialog-backdrop"
-          role="dialog"
-          aria-modal="true"
-          aria-label={clip[1]}
-          onClick={() => setClip(null)}
-        >
-          <section className="reel-dialog" onClick={(e) => e.stopPropagation()}>
-            <button className="reel-close" onClick={() => setClip(null)} aria-label="Close video">
-              ×
-            </button>
-            <video src={`/student-videos/${clip[0]}`} controls autoPlay playsInline />
-            <div>
-              <p className="eyebrow">Learning moment</p>
-              <h2 className="section-title">{clip[1]}</h2>
-              <p className="section-copy">{clip[2]}</p>
-            </div>
-          </section>
-        </div>
-      )}
-
-      {error && (
-        <p className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">{error}</p>
-      )}
 
       {showIndexingOverlay && (
         <Loading
@@ -782,4 +756,3 @@ export default function Workspace({ role }: { role: Role }) {
     </main>
   );
 }
-

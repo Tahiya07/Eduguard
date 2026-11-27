@@ -62,8 +62,11 @@ class StableTextEncoder:
         passage_prefix: str = "",
         max_length: int = 384,
         encode_batch_size: int = 12,
+        hf_fallback: Optional[str] = None,
     ) -> None:
         self.model_name = model_name
+        self.hf_fallback = hf_fallback
+        self.model_ref: Optional[str] = None
         self.device = device
         self.local_files_only = bool(local_files_only)
         self.n_features = int(n_features)
@@ -85,30 +88,49 @@ class StableTextEncoder:
         self._init_backend()
 
     def _init_backend(self) -> None:
-        model_ref = resolve_local_transformers_path(self.model_name) or self.model_name
-        try:
-            self._tokenizer = AutoTokenizer.from_pretrained(
-                model_ref,
-                local_files_only=self.local_files_only,
-            )
-            self._model = AutoModel.from_pretrained(
-                model_ref,
-                local_files_only=self.local_files_only,
-            )
-            if torch is not None:
-                self._model.to(self.device)
-                self._model.eval()
-            self.backend = "transformers"
-            logger.info("StableTextEncoder backend=transformers model=%s", model_ref)
-        except Exception as exc:
-            self._tokenizer = None
-            self._model = None
-            self.backend = "hashing"
-            logger.warning(
-                "StableTextEncoder falling back to hashing backend for '%s': %s",
-                self.model_name,
-                exc,
-            )
+        """Try the configured model, then the Hugging Face fallback, then the hashing encoder.
+
+        Order: local folder (e.g. models/bge-small) -> HF cache copy of ``hf_fallback``
+        -> download ``hf_fallback`` from Hugging Face (only when not in HF offline mode)
+        -> hashing. The fallback has the same embedding size, so stored indexes stay compatible.
+        """
+        offline = os.environ.get("HF_HUB_OFFLINE", "0").strip().lower() in {"1", "true", "yes"}
+        candidates = [self.model_name]
+        if self.hf_fallback and self.hf_fallback != self.model_name:
+            candidates.append(self.hf_fallback)
+        errors: list[str] = []
+        for name in candidates:
+            local_ref = resolve_local_transformers_path(name)
+            may_download = name == self.hf_fallback and local_ref is None and not offline
+            if local_ref is None and not may_download and name != self.model_name:
+                errors.append(f"{name}: not in the Hugging Face cache (offline mode)")
+                continue
+            ref = local_ref or name
+            local_only = self.local_files_only and not may_download
+            try:
+                self._tokenizer = AutoTokenizer.from_pretrained(ref, local_files_only=local_only)
+                self._model = AutoModel.from_pretrained(ref, local_files_only=local_only)
+                if torch is not None:
+                    self._model.to(self.device)
+                    self._model.eval()
+                self.backend = "transformers"
+                self.model_ref = ref
+                if name != self.model_name:
+                    logger.info("StableTextEncoder: %r not found; using Hugging Face fallback %s (%s)",
+                                self.model_name, name, ref)
+                else:
+                    logger.info("StableTextEncoder backend=transformers model=%s", ref)
+                return
+            except Exception as exc:
+                errors.append(f"{name}: {exc}")
+                self._tokenizer = None
+                self._model = None
+        self.backend = "hashing"
+        logger.warning(
+            "StableTextEncoder falling back to hashing backend (tried %s). To use BGE offline, download it once: "
+            "python -c \"from huggingface_hub import snapshot_download; snapshot_download('%s')\"",
+            "; ".join(errors), self.hf_fallback or self.model_name,
+        )
 
     def _apply_prefix(
         self,

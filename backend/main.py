@@ -61,7 +61,9 @@ def cancel_running_operation(operation_id: str, session: dict = Depends(current_
     return {"cancelled": cancel_operation(operation_id), "operation_id": operation_id}
 
 @app.get("/health")
-def health(): return {"status": "ok", "offline_mode": settings.offline_mode}
+def health():
+    # Public and non-sensitive: lets the UI show whether the local models are still warming up.
+    return {"status": "ok", "offline_mode": settings.offline_mode, "models": service._warmup_state.get("state", "idle")}
 @app.get("/models/status")
 def models_status(session: dict = Depends(current_session)): return service.status()
 @app.post("/models/load-bloom")
@@ -75,6 +77,9 @@ def login(body: LoginRequest):
     return {"access_token": create_token(body.role), "role": body.role}
 @app.post("/documents/index")
 def index_text(body: IndexTextRequest, session: dict = Depends(current_session), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.index_text(session["sid"], session["role"], body.text, body.name, body.scope, body.content_type))
+@app.post("/documents/clear")
+def clear_documents(scope: str = "public", session: dict = Depends(current_session)):
+    return service.clear_documents(session["sid"], session["role"], scope)
 @app.post("/documents/upload")
 async def upload(file: UploadFile = File(...), scope: str = Form("public"), content_type: str = Form("study_material"), session: dict = Depends(current_session), operation_id: str = Header(default="", alias="X-Operation-ID")):
     payload = await file.read()
@@ -98,7 +103,14 @@ def linguistic_moderate(body: BloomRequest, session: dict = Depends(require_teac
 @app.post("/teacher/exam/target-rewrite")
 def target_rewrite(body: TargetRewriteRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.target_level_rewrite(session["sid"], body.question, body.target_level))
 @app.post("/teacher/exam/review")
-def review_exam(body: ModerationReviewRequest, session: dict = Depends(require_teacher)): return service.record_moderation_review(session["sid"], body.question, body.decision, body.notes)
+def review_exam(body: ModerationReviewRequest, session: dict = Depends(require_teacher)):
+    return service.record_moderation_review(
+        session["sid"], body.question, body.decision, body.notes,
+        bloom_level=body.bloom_level, predicted_level=body.predicted_level,
+        predicted_confidence=body.predicted_confidence,
+    )
+@app.get("/teacher/federated/labels")
+def federated_labels(session: dict = Depends(require_teacher)): return service.federated_label_status()
 @app.post("/qa")
 def qa(body: TextRequest, session: dict = Depends(current_session), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.answer(session["sid"], session["role"], body.question, body.scope, body.top_k))
 @app.post("/chat")

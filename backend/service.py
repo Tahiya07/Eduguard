@@ -1,8 +1,9 @@
 ﻿from __future__ import annotations
-import os, threading, time
+import os, re, threading, time
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
+import logging
 import psutil
 
 # Keep API import time small: ML, OCR, embedding, and generation modules are
@@ -11,7 +12,41 @@ from bloom_model_profiles import get_profile
 from bloom_policy import compose_instruction
 from role_access import Role, check_retriever_binding
 from .config import settings
+from .label_store import LocalLabelStore
 from operation_control import check_cancelled, llama_stopping_criteria
+
+logger = logging.getLogger(__name__)
+
+_ML_IMPORT_LOCK = threading.Lock()
+_ML_IMPORTED = False
+
+
+def _ensure_ml_imports() -> None:
+    """Import the ML stack once, in one thread.
+
+    transformers builds its public names lazily; when the warm-up thread and the first request
+    imported it at the same time, one of them saw a half-initialised module ("cannot import name
+    'AutoModel' from 'transformers'") and the request failed with a 500. Every entry point that
+    may touch models calls this first, so the import happens exactly once and others wait for it.
+    """
+    global _ML_IMPORTED
+    if _ML_IMPORTED:
+        return
+    with _ML_IMPORT_LOCK:
+        if _ML_IMPORTED:
+            return
+        import transformers  # noqa: F401
+        from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer  # noqa: F401
+        import peft  # noqa: F401
+
+        import bloom_prompt  # noqa: F401  (imports predict_bloom -> peft/transformers)
+        import models  # noqa: F401  (llama-cpp generator)
+        _ML_IMPORTED = True
+
+
+NOTES_NOT_COVERED = (
+    "Your uploaded notes don't cover this question, so I can't answer it from them. Try rephrasing it, or ask about a topic that is in your notes."
+)
 
 class FrameworkService:
     """One application layer: role checks precede every corpus/model operation."""
@@ -20,6 +55,9 @@ class FrameworkService:
         self._workspaces: dict[str, dict[str, Any]] = {}
         self._bloom: QwenBloomPredictor | None = None
         self._generator: RAGGenerator | None = None
+        self._label_store: LocalLabelStore | None = None
+        self._rewrite_llm: Any = None  # None = not loaded yet, False = unavailable
+        self._rewrite_lock = threading.RLock()
         self._lock = threading.RLock()
         self._warmup_state: dict[str, Any] = {
             "state": "idle",
@@ -37,6 +75,7 @@ class FrameworkService:
         return self._ingestor_instance
 
     def workspace(self, sid: str) -> dict[str, Any]:
+        _ensure_ml_imports()
         with self._lock:
             if sid not in self._workspaces:
                 # Load the retriever only when a session first needs retrieval.
@@ -48,6 +87,24 @@ class FrameworkService:
                 protected = PrivacyRetriever(lambda_privacy=0.5, encoder_profile=settings.retrieval_encoder)
                 self._workspaces[sid] = {"public": public, "protected": protected, "chunks": {"public": [], "protected": []}, "moderation_reviews": []}
             return self._workspaces[sid]
+
+    def clear_documents(self, sid: str, role: str, scope: str) -> dict[str, Any]:
+        """Remove this session's uploaded material for one scope; chat falls back to general answers."""
+        import shutil
+
+        self._authorize_scope(role, scope)
+        from retriever import PrivacyRetriever
+
+        with self._lock:
+            ws = self.workspace(sid)
+            removed = len(ws["chunks"][scope])
+            ws["chunks"][scope] = []
+            ws[scope] = PrivacyRetriever(lambda_privacy=0.1 if scope == "public" else 0.5,
+                                         encoder_profile=settings.retrieval_encoder)
+        store = settings.data_dir / sid / scope
+        if store.is_dir():
+            shutil.rmtree(store, ignore_errors=True)
+        return {"cleared_chunks": removed, "scope": scope}
 
     def _bloom_path(self) -> Path:
         root = Path(__file__).resolve().parents[1]
@@ -70,6 +127,7 @@ class FrameworkService:
         return self._checkpoint_has_weights(path), str(path)
 
     def bloom(self):
+        _ensure_ml_imports()
         from predict_bloom import QwenBloomPredictor
         with self._lock:
             if self._bloom is None:
@@ -140,6 +198,7 @@ class FrameworkService:
         finally: path.unlink(missing_ok=True)
 
     def _generator_instance(self, retriever: PrivacyRetriever):
+        _ensure_ml_imports()
         # llama-cpp-python and its runtime dependencies are not needed to serve
         # health, auth, status, or document metadata endpoints.
         from models import RAGGenerator
@@ -160,6 +219,8 @@ class FrameworkService:
                     n_ctx=settings.generator_context_tokens,
                     n_threads=settings.generator_threads,
                     max_tokens=settings.generator_answer_tokens,
+                    n_threads_batch=settings.generator_batch_threads,
+                    prompt_cache_mb=settings.generator_prompt_cache_mb,
                 )
             return self._generator
 
@@ -332,7 +393,17 @@ class FrameworkService:
             )
             chunks, _ = _apply_retrieval_governor(pool, "qa", question, top_k, retriever)
             task = question
-            summary_min_cosine = 0.22
+            # Notes are uploaded, so answers must come from them. BGE similarities sit on a higher
+            # scale than the keyword-hashing fallback, which keeps its old cut-off.
+            uses_bge = getattr(retriever.model, "backend", "") == "transformers"
+            summary_min_cosine = settings.notes_min_relevance if uses_bge else 0.22
+            best = max((float(getattr(c, "cosine", 0.0) or 0.0) for c in chunks), default=0.0)
+            if best < summary_min_cosine:
+                logger.info("Notes do not cover the question (best similarity %.3f < %.2f)", best, summary_min_cosine)
+                return {
+                    "answer": NOTES_NOT_COVERED, "refused": False, "privacy_status": "safe", "sources": [],
+                    "metadata": {"context_chunks": 0, "not_in_notes": True, "best_similarity": round(best, 3)},
+                }
             max_chars_per_chunk = 700
             max_total_chars = 2800
 
@@ -372,7 +443,11 @@ class FrameworkService:
             if summary
             else self._sources(result.chunks)
         )
-        response = {"answer": result.answer, "refused": False, "privacy_status": "safe", "sources": response_sources, "metadata": metadata}
+        answer_text = result.answer
+        if not summary and answer_text.strip() == "I don't know based on the provided context.":
+            answer_text, response_sources = NOTES_NOT_COVERED, []
+            metadata["not_in_notes"] = True
+        response = {"answer": answer_text, "refused": False, "privacy_status": "safe", "sources": response_sources, "metadata": metadata}
         if role == "teacher" and not summary:
             response["bloom"] = bloom
         return response
@@ -387,12 +462,6 @@ class FrameworkService:
         def generate_rewrite(prompt: str) -> tuple[str, str, float]:
             started = time.perf_counter()
             with generator.inference_lock:
-                reset = getattr(generator.llm, "reset", None)
-                if callable(reset):
-                    try:
-                        reset()
-                    except Exception:
-                        pass
                 check_cancelled()
                 output = generator.llm(
                     prompt,
@@ -439,6 +508,32 @@ class FrameworkService:
         except Exception as e:
             raise RuntimeError(f"Linguistic moderation failed: {str(e)}")
 
+    def _rewrite_model(self):
+        """Base GGUF + v3.9 LoRA at reduced strength, used for Bloom rewrites (None if unavailable)."""
+        with self._lock:
+            if self._rewrite_llm is None:
+                root = Path(__file__).resolve().parents[1]
+
+                def resolve(p: str) -> Path:
+                    path = Path(p or "")
+                    return path if path.is_absolute() else (root / path).resolve()
+
+                base, lora = resolve(settings.generator_rewrite_base_path), resolve(settings.generator_rewrite_lora_path)
+                scale = float(settings.generator_rewrite_lora_scale)
+                if scale <= 0 or not base.is_file() or not lora.is_file():
+                    logger.info("Blended rewrite model disabled (scale=%s, base=%s, lora=%s)", scale, base.is_file(), lora.is_file())
+                    self._rewrite_llm = False
+                else:
+                    from llama_cpp import Llama
+
+                    self._rewrite_llm = Llama(
+                        model_path=str(base), lora_path=str(lora), lora_scale=scale,
+                        n_ctx=settings.generator_context_tokens, n_threads=settings.generator_threads,
+                        n_threads_batch=settings.generator_batch_threads, n_gpu_layers=0, use_mmap=True, verbose=False,
+                    )
+                    logger.info("Loaded rewrite model: %s + LoRA %s at scale %.2f", base.name, lora.name, scale)
+            return self._rewrite_llm or None
+
     def target_level_rewrite(self, sid: str, question: str, target_level: str) -> dict[str, Any]:
         """Generate a teacher-requested Bloom rewrite without classifier re-scoring."""
         if not question.strip():
@@ -454,16 +549,45 @@ class FrameworkService:
         generator = self._generator_instance(self.workspace(sid)["public"])
         generator_ready_elapsed = time.perf_counter() - acquire_started
         inference_started = time.perf_counter()
-        # One concise exam question rarely needs 64 generated tokens. Keep the
-        # interactive path bounded even if a local .env has a larger value.
-        rewrite_token_limit = max(1, min(settings.generator_rewrite_tokens, 48))
-        with generator.inference_lock:
-            result = rewrite_to_target_level(
-                question,
-                target_level,
-                llm=generator.llm,
-                max_tokens=rewrite_token_limit,
-            )
+        # Rewrites: median 27 tokens, p99 60 (v3.9). The former hard cap of 48 cut long
+        # Create/Evaluate rewrites mid-sentence; the setting (default 96) now applies as given.
+        rewrite_token_limit = max(1, int(settings.generator_rewrite_tokens))
+
+        def attempt(llm, lock):
+            with lock:
+                return rewrite_to_target_level(
+                    question, target_level, llm=llm, max_tokens=rewrite_token_limit, suggest_verb=False,
+                )
+
+        def level_of(text: str) -> str | None:
+            # Only when the teacher classifier is already loaded (it is, in Teacher Studio); never load it here.
+            if not text or self._bloom is None:
+                return None
+            try:
+                return str(self._bloom.predict(text).get("prediction") or "") or None
+            except Exception as exc:  # the check is advisory
+                logger.warning("Rewrite level check skipped: %s", exc)
+                return None
+
+        def invents_material(text: str) -> bool:
+            # Full-strength v3.9 tends to refer to "the supplied X" that the question never gave.
+            return bool(re.search(r"\b(?:the|a|an)\s+supplied\b", text, re.I)) and "supplied" not in question.lower()
+
+        def acceptable(res) -> bool:
+            text = (res.rewritten or "").strip()
+            return bool(text) and level_of(text) == target_level and not invents_material(text)
+
+        blended = self._rewrite_model()
+        source = "base+lora" if blended is not None else "v3.9"
+        if blended is not None:
+            result = attempt(blended, self._rewrite_lock)
+            if self._bloom is not None and not acceptable(result):
+                # Fall back to full-strength v3.9 (best level accuracy) and keep whichever version passes.
+                fallback = attempt(generator.llm, generator.inference_lock)
+                if acceptable(fallback) or (not (result.rewritten or "").strip() and (fallback.rewritten or "").strip()):
+                    result, source = fallback, "v3.9"
+        else:
+            result = attempt(generator.llm, generator.inference_lock)
         generation_elapsed = time.perf_counter() - inference_started
         logger.info(
             "Target Bloom rewrite timings: generator_acquire=%.2fs generation_and_validation=%.2fs "
@@ -490,11 +614,45 @@ class FrameworkService:
             "original": question,
             "rewritten": result.rewritten,
             "target_level": target_level,
+            "generator": source,
             "needs_review": result.needs_review,
             "review_note": result.note or None,
             "privacy_status": "teacher_authorized",
             "type": "target_level_rewrite",
         }
+
+    def _prime_prompt_cache(self, generator) -> list[str]:
+        """Read each task's long, fixed instruction prefix once at startup.
+
+        With the RAM prompt cache, later requests restore these prefixes instead of
+        re-reading 500+ instruction tokens on the CPU. Failures only cost speed.
+        """
+        if settings.generator_prompt_cache_mb <= 0:
+            return []
+        primed: list[str] = []
+        try:
+            from bloom_prompt import build_v3_target_rewrite_prompt
+            from models import LOCAL_CHAT_SYSTEM_PROMPT, SUMMARY_SYSTEM_PROMPT
+
+            prompts = {
+                "target_rewrite": build_v3_target_rewrite_prompt("What is a cell?", "Analyze", selected_action_verb=""),
+                "question_answering": generator._to_chatml(
+                    "[TASK MODE: QUESTION ANSWERING / CONVERSATION ONLY] Answer the latest user request.",
+                    system_prompt=LOCAL_CHAT_SYSTEM_PROMPT,
+                ),
+                "summarization": generator._to_chatml(
+                    "[TASK MODE: SUMMARIZATION ONLY]", system_prompt=SUMMARY_SYSTEM_PROMPT,
+                ),
+            }
+            for name, prompt in prompts.items():
+                started = time.perf_counter()
+                with generator.inference_lock:
+                    generator.llm(prompt, max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
+                primed.append(name)
+                logger.info("Primed %s prompt cache in %.1fs", name, time.perf_counter() - started)
+        except Exception as exc:  # pragma: no cover - speed optimization only
+            logger.warning("Prompt-cache priming skipped: %s", exc)
+        return primed
 
     def warmup(self) -> dict[str, Any]:
         """Load and smoke-test the shared GGUF after the API starts.
@@ -503,6 +661,7 @@ class FrameworkService:
         loading them at startup would add substantial CPU/RAM cost for features
         that are not required by every session.
         """
+        _ensure_ml_imports()
         with self._lock:
             # Avoid duplicate warmups if startup hooks or an operator trigger it twice.
             if self._warmup_state["state"] == "loading":
@@ -520,14 +679,21 @@ class FrameworkService:
         try:
             # Empty public retriever does not load BGE until .model is touched.
             generator = self._generator_instance(self.workspace("_warmup")["public"])
-            reset = getattr(generator.llm, "reset", None)
-            if callable(reset):
-                try:
-                    reset()
-                except Exception:
-                    pass
             with generator.inference_lock:
                 generator.llm("Ready.", max_tokens=1, temperature=0.0, top_p=1.0, top_k=0, echo=False)
+            report["primed_prompts"] = self._prime_prompt_cache(generator)
+            # Load and warm the blended rewrite model too, so the first teacher rewrite is not slow.
+            try:
+                blended = self._rewrite_model()
+                if blended is not None:
+                    from bloom_prompt import build_v3_target_rewrite_prompt
+
+                    with self._rewrite_lock:
+                        blended(build_v3_target_rewrite_prompt("What is a cell?", "Analyze", selected_action_verb=""),
+                                max_tokens=1, temperature=0.0, top_k=1, echo=False)
+                    report["rewrite_model"] = "base+lora"
+            except Exception as exc:  # optional speed-up only
+                logger.warning("Rewrite model warm-up skipped: %s", exc)
             report["generator"] = True
             report["generator_path"] = Path(str(generator.model_path)).name
             report["state"] = "ready"
@@ -550,10 +716,40 @@ class FrameworkService:
                 })
         return report
 
-    def record_moderation_review(self, sid: str, question: str, decision: str, notes: str) -> dict[str, Any]:
-        item = {"question": question, "decision": decision, "notes": notes.strip(), "reviewed_at": int(time.time())}
+    def record_moderation_review(
+        self,
+        sid: str,
+        question: str,
+        decision: str,
+        notes: str,
+        bloom_level: str | None = None,
+        predicted_level: str | None = None,
+        predicted_confidence: float | None = None,
+    ) -> dict[str, Any]:
+        item: dict[str, Any] = {"question": question, "decision": decision, "notes": notes.strip(), "reviewed_at": int(time.time())}
         self.workspace(sid)["moderation_reviews"].append(item)
+        # A teacher-confirmed level is a training label for local federated rounds.
+        # It is stored on this machine only; notes are never stored with it.
+        if bloom_level and settings.fl_collect_labels:
+            row = self.label_store().add(
+                question, bloom_level, predicted_level=predicted_level,
+                predicted_confidence=predicted_confidence, decision=decision,
+            )
+            item["saved_for_federated_training"] = True
+            item["teacher_corrected"] = row["teacher_corrected"]
+            item["local_label_count"] = self.label_store().stats()["n_labels"]
+        else:
+            item["saved_for_federated_training"] = False
         return item
+
+    def label_store(self) -> LocalLabelStore:
+        with self._lock:
+            if self._label_store is None:
+                self._label_store = LocalLabelStore(settings.fl_label_store, settings.fl_site_id)
+            return self._label_store
+
+    def federated_label_status(self) -> dict[str, Any]:
+        return {"collecting": settings.fl_collect_labels, **self.label_store().stats()}
 
     def status(self) -> dict[str, Any]:
         # Do not import the ingestion/OCR stack just to render status. OCR

@@ -91,6 +91,9 @@ checkpoint-*/
 # ===========================
 data/vector_store/
 data/web_sessions/
+# teacher-confirmed exam questions for local federated rounds: never commit
+data/federated_local/
+artifacts/federated/live/
 federated/updates/
 # Federated training artifacts (research only)
 artifacts/federated/bundles/
@@ -131,3 +134,6 @@ scripts/fydp/
 
 # Generated multitask dataset artifacts
 data/multitask_bloom_rewrite_final/*.jsonl
+
+# llama.cpp source checkout used only for GGUF conversion
+third_party/

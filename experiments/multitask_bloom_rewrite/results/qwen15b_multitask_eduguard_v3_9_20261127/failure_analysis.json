@@ -1,0 +1,9 @@
+{
+  "failure_counts": {
+    "TOPIC_DRIFT": 199,
+    "DECLARATIVE_OUTPUT": 1,
+    "WRONG_TARGET_LEVEL": 7,
+    "LOW_CONFIDENCE": 1
+  },
+  "n_failures": 208
+}

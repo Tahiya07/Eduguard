@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-11-27T16:00:39.580429+00:00",
+  "seed": 42,
+  "raters": 2,
+  "counts": {
+    "bloom_rewrite_rows": 144,
+    "bloom_sources": 48,
+    "qa_rows": 124,
+    "summarization_rows": 82
+  },
+  "systems": {
+    "lora": "eduguard_v3_9_lora",
+    "base": "base_qwen2.5_1.5b_instruct",
+    "reference": "reference_rewrite"
+  },
+  "sampling": {
+    "bloom_rewrite": "8 validation sources per requested level (random.Random(42).sample, sorted by id)",
+    "qa": "the 62 items of results/.../human_eval_qa.csv (stratified by qa_type, seed 42)",
+    "summarization": "the 41 items of results/.../human_eval_summarization.csv (stratified by source_type, seed 42)"
+  },
+  "blinding": "rows shuffled with the same seed; system identity only in 04_annotation_key_DO_NOT_SHARE.csv",
+  "inputs_sha256": {
+    "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_validation_backup\\human_eval_predictions.jsonl": "c8e142c642ce4f8f91bb44f19b5083f098e3c85835bc7f625a55ab9ed981761d",
+    "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_base_validation_backup\\predictions.jsonl": "9c547f3c77e4566b1b9e293cf72b8e44fd2a5cf97b5d661bae0c944d1698f44c",
+    "data\\multitask_bloom_rewrite_separate_eduguard_v3_9\\bloom_rewrite\\validation.jsonl": "9d386e1eb69816dcb22316f4ebb9a1aa11355a5f2fddf606076b6bd350423be7",
+    "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_validation_backup\\human_eval_qa.csv": "0fd2dd3e3947cadb41faf9b152eafa9109f218c621ada9a1b70f7107924bc86d",
+    "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_validation_backup\\human_eval_summarization.csv": "9866f73f39fc0685bb4cee7e3e975e685ce2780b1c8c416b9c64730ac3971454"
+  },
+  "files": [
+    "01_bloom_rewrite_R1.csv",
+    "01_bloom_rewrite_R2.csv",
+    "02_qa_R1.csv",
+    "02_qa_R2.csv",
+    "03_summarization_R1.csv",
+    "03_summarization_R2.csv",
+    "04_annotation_key_DO_NOT_SHARE.csv",
+    "05_codebook.csv"
+  ]
+}

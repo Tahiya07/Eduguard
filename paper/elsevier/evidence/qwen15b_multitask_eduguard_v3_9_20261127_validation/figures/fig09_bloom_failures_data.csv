@@ -1,0 +1,5 @@
+condition,failure_category,count
+lora,TOPIC_DRIFT,58
+lora,WRONG_TARGET_LEVEL,7
+lora,DECLARATIVE_OUTPUT,1
+lora,LOW_CONFIDENCE,1

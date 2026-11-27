@@ -12,17 +12,27 @@ $env:TRANSFORMERS_OFFLINE = "1"
 $env:HF_DATASETS_OFFLINE = "1"
 $env:OFFLINE_MODE = "true"
 
-$env:GENERATOR_MODEL_PATH = Join-Path $root "models\qwen15b_multitask_v3_q4_k_m.gguf"
+# v3.9 multitask generator (Q4_K_M export of best_adapter, verified by convert_to_gguf.py)
+$env:GENERATOR_MODEL_PATH = Join-Path $root "models\gguf\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf"
 if (-not $env:GENERATOR_THREADS) { $env:GENERATOR_THREADS = "8" }
-if (-not $env:GENERATOR_CONTEXT_TOKENS) { $env:GENERATOR_CONTEXT_TOKENS = "512" }
-if (-not $env:GENERATOR_ANSWER_TOKENS) { $env:GENERATOR_ANSWER_TOKENS = "64" }
-if (-not $env:GENERATOR_SUMMARY_TOKENS) { $env:GENERATOR_SUMMARY_TOKENS = "80" }
-if (-not $env:GENERATOR_MODERATION_TOKENS) { $env:GENERATOR_MODERATION_TOKENS = "64" }
-if (-not $env:GENERATOR_REWRITE_TOKENS) { $env:GENERATOR_REWRITE_TOKENS = "64" }
+# Token budgets sized from measured v3.9 outputs (median / p99 tokens): rewrite 27 / 60, QA 45 / 107,
+# summary 106 / 431. A cap only bounds the worst case (generation stops at end-of-turn), so these do
+# not slow typical requests; caps below p99 cut answers mid-sentence and force summary re-generation.
+if (-not $env:GENERATOR_CONTEXT_TOKENS) { $env:GENERATOR_CONTEXT_TOKENS = "4096" }  # long summary prompt + 384-token summary
+if (-not $env:GENERATOR_ANSWER_TOKENS) { $env:GENERATOR_ANSWER_TOKENS = "160" }
+if (-not $env:GENERATOR_SUMMARY_TOKENS) { $env:GENERATOR_SUMMARY_TOKENS = "384" }
+if (-not $env:GENERATOR_MODERATION_TOKENS) { $env:GENERATOR_MODERATION_TOKENS = "96" }
+if (-not $env:GENERATOR_REWRITE_TOKENS) { $env:GENERATOR_REWRITE_TOKENS = "96" }
 
 # Final Bloom classifier: FedProx IID r20 best (Qwen2.5-0.5B).
 $env:BLOOM_MODEL_DIR = Join-Path $root "models\qwen_bloom_federated0.5B_fedprox_iid_r20_best_r20_merged"
-$env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
+# Retrieval encoder: local models\bge-small if present, otherwise the "bge-small" profile falls back
+# to BAAI/bge-small-en-v1.5 from the Hugging Face cache (same model, same 384-dim embeddings).
+if (Test-Path (Join-Path $root "models\bge-small")) {
+    $env:RETRIEVAL_ENCODER = Join-Path $root "models\bge-small"
+} else {
+    $env:RETRIEVAL_ENCODER = "bge-small"
+}
 
 $env:CORS_ORIGINS = "http://127.0.0.1:3000,http://localhost:3000"
 $env:NEXT_PUBLIC_API_URL = "http://127.0.0.1:8000"
@@ -32,11 +42,16 @@ if (-not (Test-Path $python)) {
 }
 
 if (-not (Test-Path $env:GENERATOR_MODEL_PATH)) {
-    throw "Qwen model missing."
+    throw "Qwen model missing at $($env:GENERATOR_MODEL_PATH)."
 }
 
 if (-not (Test-Path (Join-Path $root "models\bge-small"))) {
-    throw "BGE model missing."
+    $hfBge = Join-Path $env:USERPROFILE ".cache\huggingface\hub\models--BAAI--bge-small-en-v1.5"
+    if (Test-Path $hfBge) {
+        Write-Host "models\bge-small not found; using BAAI/bge-small-en-v1.5 from the Hugging Face cache."
+    } else {
+        Write-Warning "No BGE encoder found; document search falls back to keyword hashing. Download it once with: .venv\Scripts\python.exe -c `"from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-small-en-v1.5')`""
+    }
 }
 
 if (-not (Test-Path (Join-Path $env:BLOOM_MODEL_DIR "config.json"))) {

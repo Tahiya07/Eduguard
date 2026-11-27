@@ -1,0 +1,185 @@
+{
+  "generated_utc": "2026-11-27T14:59:59.811798+00:00",
+  "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+  "precision": "4bit",
+  "condition": "base",
+  "split": "validation",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_base",
+  "calibration_file": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127\\judge_calibration_validation.json",
+  "results": {
+    "qa": {
+      "accuracy": {
+        "mean": 0.9521,
+        "ci95": [
+          0.9178,
+          0.9863
+        ],
+        "n": 146
+      },
+      "lenient_accuracy": {
+        "mean": 0.9932,
+        "ci95": [
+          0.9795,
+          1.0
+        ],
+        "n": 146
+      },
+      "verdicts": {
+        "correct": 139,
+        "partially_correct": 6,
+        "incorrect": 1
+      },
+      "unparsed": 0,
+      "accuracy_by_qa_type": {
+        "analytical": {
+          "n": 26,
+          "accuracy": 0.9615
+        },
+        "application": {
+          "n": 31,
+          "accuracy": 0.9677
+        },
+        "calculation": {
+          "n": 14,
+          "accuracy": 0.9286
+        },
+        "comparative": {
+          "n": 24,
+          "accuracy": 1.0
+        },
+        "conceptual": {
+          "n": 33,
+          "accuracy": 0.9394
+        },
+        "design": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "diagnosis": {
+          "n": 4,
+          "accuracy": 1.0
+        },
+        "explanation": {
+          "n": 3,
+          "accuracy": 0.6667
+        },
+        "process": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "reasoning": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "sequence": {
+          "n": 2,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "summarization": {
+      "faithful_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 146
+      },
+      "acceptable_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 146
+      },
+      "mean_coverage_1_5": 4.205,
+      "unparsed": 0
+    },
+    "bloom_rewrite": {
+      "level_accuracy": {
+        "mean": 0.6012,
+        "ci95": [
+          0.5484,
+          0.654
+        ],
+        "n": 341
+      },
+      "topic_kept_rate": {
+        "mean": 0.9971,
+        "ci95": [
+          0.9912,
+          1.0
+        ],
+        "n": 341
+      },
+      "judge_and_classifier_agree_on_target": {
+        "mean": 0.5367,
+        "ci95": [
+          0.4839,
+          0.5894
+        ],
+        "n": 341
+      },
+      "per_level": {
+        "Remember": {
+          "n": 61,
+          "accuracy": 0.0492
+        },
+        "Understand": {
+          "n": 59,
+          "accuracy": 0.8983
+        },
+        "Apply": {
+          "n": 52,
+          "accuracy": 0.6154
+        },
+        "Analyze": {
+          "n": 52,
+          "accuracy": 0.2885
+        },
+        "Evaluate": {
+          "n": 57,
+          "accuracy": 0.8421
+        },
+        "Create": {
+          "n": 60,
+          "accuracy": 0.9
+        }
+      },
+      "unparsed": 0
+    }
+  },
+  "calibration": {
+    "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit",
+    "split": "validation",
+    "qa": {
+      "n": 146,
+      "reference_judged_correct": 1,
+      "other_rows_reference_judged_incorrect": 1
+    },
+    "summarization": {
+      "n": 40,
+      "reference_judged_faithful": 1,
+      "other_rows_summary_judged_unfaithful": 0.275
+    },
+    "bloom_rewrite": {
+      "n": 341,
+      "reference_level_accuracy": 0.7683,
+      "reference_per_level": {
+        "Remember": 0.623,
+        "Understand": 0.9492,
+        "Apply": 0.9423,
+        "Analyze": 0.8077,
+        "Evaluate": 0.6316,
+        "Create": 0.6833
+      }
+    }
+  },
+  "reliable": {
+    "qa": true,
+    "summarization": false
+  }
+}

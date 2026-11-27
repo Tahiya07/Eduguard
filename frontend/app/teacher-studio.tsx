@@ -1,7 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ComponentType } from "react";
+import type { ComponentType, KeyboardEvent } from "react";
+import VideoHero from "./video-hero";
+import type { HeroClip } from "./video-hero";
+import { clearSession } from "./session";
+import ErrorModal, { errorTitle } from "./error-modal";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -100,60 +104,112 @@ type LoadingProps = {
   onCancel?: () => void;
 };
 
+type Action = "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary";
+type ToolId = "classify" | "rewrite" | "linguistic" | "summary" | "qa";
+
+const BLOOM_LEVELS = [
+  { level: "Remember", code: "C1", hint: "Recall facts and terms" },
+  { level: "Understand", code: "C2", hint: "Explain ideas in own words" },
+  { level: "Apply", code: "C3", hint: "Use knowledge in a new case" },
+  { level: "Analyze", code: "C4", hint: "Break down, compare, relate" },
+  { level: "Evaluate", code: "C5", hint: "Judge and justify a position" },
+  { level: "Create", code: "C6", hint: "Design or produce something new" },
+] as const;
+
+const TEACHER_CLIPS: HeroClip[] = [
+  { src: "/teacher-moderation-workflow.mp4", title: "Moderation workflow", caption: "Check a level, rewrite it, confirm the result." },
+  { src: "/mechanism-teacher-workflow.mp4", title: "Teacher workflow", caption: "How the tools fit into exam preparation." },
+  { src: "/mechanism-privacy-guard.mp4", title: "Privacy guard", caption: "Protected material stays with teachers." },
+  { src: "/mechanism-local-university.mp4", title: "Runs locally", caption: "Every model runs on this computer, offline." },
+];
+
+function scrollToId(id: string, focusId?: string) {
+  const el = document.getElementById(id);
+  if (el instanceof HTMLDetailsElement) el.open = true;
+  el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (focusId) window.setTimeout(() => document.getElementById(focusId)?.focus({ preventScroll: true }), 350);
+}
+
+// One tool = one clear job, one input meaning, one primary button.
+const TOOLS: {
+  id: ToolId;
+  label: string;
+  action: Action;
+  needsClassifier: boolean;
+  intro: string;
+  inputLabel: string;
+  placeholder: string;
+  hint: string;
+}[] = [
+  {
+    id: "classify",
+    label: "Check Bloom level",
+    action: "classify",
+    needsClassifier: true,
+    intro: "Find out which Bloom level a question tests. You can then confirm or correct the result.",
+    inputLabel: "Exam or assessment question",
+    placeholder: "e.g. Explain how a deadlock can occur between two processes.",
+    hint: "Enter one question at a time.",
+  },
+  {
+    id: "rewrite",
+    label: "Rewrite to a level",
+    action: "target-rewrite",
+    needsClassifier: false,
+    intro: "Rewrite a question so it tests a different Bloom level while keeping the same topic.",
+    inputLabel: "Question to rewrite",
+    placeholder: "e.g. List the seven layers of the OSI model.",
+    hint: "Then pick the level you want below.",
+  },
+  {
+    id: "linguistic",
+    label: "Improve wording",
+    action: "linguistic",
+    needsClassifier: true,
+    intro: "Make a question clearer and grammatically correct without changing what it asks.",
+    inputLabel: "Question to improve",
+    placeholder: "e.g. explain how do a stack and queue differs in there order of removing items",
+    hint: "The meaning and the Bloom level stay the same.",
+  },
+  {
+    id: "summary",
+    label: "Summarize text",
+    action: "summary",
+    needsClassifier: false,
+    intro: "Get a short, faithful summary of academic text such as lecture notes or a textbook section.",
+    inputLabel: "Text to summarize",
+    placeholder: "Paste a passage, lecture notes or a textbook section…",
+    hint: "To summarize a whole file instead, add it under “Reference material” above and type “Summarize the document”.",
+  },
+  {
+    id: "qa",
+    label: "Ask the model",
+    action: "qa",
+    needsClassifier: true,
+    intro: "Ask a subject question and get a concise answer from the local model.",
+    inputLabel: "Your question",
+    placeholder: "e.g. What is the purpose of normalization in database design?",
+    hint: "Works without any uploaded material. Answers can be wrong, so check them before use.",
+  },
+];
+
 function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComponent: ComponentType<LoadingProps> }) {
   const [q, setQ] = useState("");
+  const [tool, setTool] = useState<ToolId>("classify");
   const [bloom, setBloom] = useState<Bloom | null>(null);
   const [mod, setMod] = useState<Moderation | null>(null);
   const [linguisticMod, setLinguisticMod] = useState<{ original: string; improved: string } | null>(null);
   const [targetRewrite, setTargetRewrite] = useState<{ original: string; rewritten: string; target_level: string } | null>(null);
   const [targetLevel, setTargetLevel] = useState("Analyze");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    }
-
-    if (dropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [dropdownOpen]);
-
-  // Calculate dropdown position when opening
-  const handleDropdownToggle = () => {
-    if (!dropdownOpen && triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      const dropdownHeight = 280; // Approximate height of dropdown menu
-      const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - rect.bottom;
-      
-      let topPosition;
-      if (spaceBelow < dropdownHeight + 20) {
-        // Not enough space below, position above the button
-        topPosition = rect.top - dropdownHeight - 8;
-      } else {
-        // Enough space below, position below the button
-        topPosition = rect.bottom + 8;
-      }
-      
-      setDropdownPosition({
-        top: topPosition,
-        left: rect.left
-      });
-    }
-    setDropdownOpen(!dropdownOpen);
-  };
+  // Teacher-confirmed Bloom level, saved on this machine for federated training rounds.
+  const [confirmLevel, setConfirmLevel] = useState("");
+  const [labelNote, setLabelNote] = useState("");
+  const [labelSaving, setLabelSaving] = useState(false);
   const [answer, setAnswer] = useState("");
   const [summary, setSummary] = useState("");
   const [busy, setBusy] = useState("");
   const operationController = useRef<ReturnType<typeof createOperation> | null>(null);
+  const resultsRef = useRef<HTMLElement>(null);
   const cancelOperation = useCallback(() => {
     const active = operationController.current;
     operationController.current = null;
@@ -164,13 +220,16 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
   const [error, setError] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [materials, setMaterials] = useState<{ id: string; name: string }[]>([]);
   const [success, setSuccess] = useState<{ show: boolean; message: string; elapsed: number }>({ show: false, message: "", elapsed: 0 });
   const operationElapsed = useElapsed(!!busy);
   const [classifierLoaded, setClassifierLoaded] = useState(false);
+  const [classifierFailed, setClassifierFailed] = useState(false);
   const [classifierLoadAttempt, setClassifierLoadAttempt] = useState(0);
 
   async function loadBloomClassifier() {
     // Load silently in the background; do not replace or block the teacher UI.
+    setClassifierFailed(false);
     try {
       const response = await apiFetch(`${API}/models/load-bloom`, {
         method: "POST",
@@ -181,6 +240,7 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
       setClassifierLoaded(true);
     } catch (e) {
       // Surface only failures so the teacher can retry; successful loading is silent.
+      setClassifierFailed(true);
       setError(String(e).replace("Error: ", ""));
     }
   }
@@ -192,43 +252,29 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [classifierLoadAttempt, token]);
 
-  // Clear previous output when input changes
+  function clearOutputs() {
+    setBloom(null);
+    setConfirmLevel("");
+    setLabelNote("");
+    setMod(null);
+    setLinguisticMod(null);
+    setTargetRewrite(null);
+    setAnswer("");
+    setSummary("");
+    setError("");
+    setSuccess({ show: false, message: "", elapsed: 0 });
+  }
+
+  // Previous results describe the previous text, so clear them when the text changes.
   const handleQuestionChange = (newQuestion: string) => {
     setQ(newQuestion);
-    // Clear all previous outputs when question changes
-    setBloom(null);
-    setMod(null);
-    setLinguisticMod(null);
-    setTargetRewrite(null);
-    setAnswer("");
-    setSummary("");
-    setError("");
-    setSuccess({ show: false, message: "", elapsed: 0 });
+    clearOutputs();
   };
 
-  // Clear previous output when target level changes
-  const handleTargetLevelChange = (newLevel: string) => {
-    setTargetLevel(newLevel);
-    setDropdownOpen(false);
-    // Clear only target rewrite output when target level changes
-    setTargetRewrite(null);
-    setError("");
-    setSuccess({ show: false, message: "", elapsed: 0 });
-    // Also clear any previous validation-related states
-    setBloom(null);
-    setMod(null);
-    setLinguisticMod(null);
-    setAnswer("");
-    setSummary("");
-  };
-
-  // Handle target level selection and auto-trigger rewrite
   const handleTargetLevelSelect = (level: string) => {
-    handleTargetLevelChange(level);
-    // Auto-trigger rewrite after selection
-    if (q.trim()) {
-      run("target-rewrite", level);
-    }
+    setTargetLevel(level);
+    setTargetRewrite(null);
+    setError("");
   };
 
   async function req(path: string, body: object) {
@@ -244,23 +290,50 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
       signal: active?.controller.signal,
     });
     const d = await r.json();
+    if (r.status === 401) {
+      clearSession();  // returns to the access-code screen
+      throw Error("Your session expired. Please enter your access code again.");
+    }
     if (!r.ok) throw Error(d.detail || "The local service could not complete this request.");
     return d;
   }
 
-  async function run(action: "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary", explicitTargetLevel?: string) {
+  async function saveConfirmedLevel(predicted: string) {
+    const chosen = confirmLevel || predicted;
+    if (!q.trim() || !chosen) return;
+    setLabelSaving(true);
+    setLabelNote("");
+    try {
+      const r = await apiFetch(`${API}/teacher/exam/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          question: q,
+          decision: "approved",
+          bloom_level: chosen,
+          predicted_level: predicted,
+          predicted_confidence: bloom?.confidence ?? null,
+        }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw Error(d.detail || "Could not save the confirmed level.");
+      setLabelNote(
+        d.saved_for_federated_training
+          ? `Saved on this computer only (${d.local_label_count} confirmed questions). Used in the next local training round.`
+          : "Review recorded. Label collection is turned off on this computer.",
+      );
+    } catch (e) {
+      setLabelNote(e instanceof Error ? e.message : "Could not save the confirmed level.");
+    } finally {
+      setLabelSaving(false);
+    }
+  }
+
+  async function run(action: Action, explicitTargetLevel?: string) {
     // Target rewrites no longer use classifier re-scoring, so they can run while the classifier loads.
     if (!q.trim() || (!classifierLoaded && action !== "summary" && action !== "target-rewrite")) return;
 
-    // Clear previous outputs when starting a new task
-    setBloom(null);
-    setMod(null);
-    setLinguisticMod(null);
-    setTargetRewrite(null);
-    setAnswer("");
-    setSummary("");
-    setError("");
-    setSuccess({ show: false, message: "", elapsed: 0 });
+    clearOutputs();
 
     const labels = {
       classify: "Classifying the question",
@@ -302,10 +375,9 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         setSuccess({ show: true, message: successMessages.linguistic, elapsed: operationElapsed });
       }
       if (action === "target-rewrite") {
-        // Use explicit target level if provided (from click), otherwise use state
         const effectiveTargetLevel = explicitTargetLevel || targetLevel;
         const d = await req("/teacher/exam/target-rewrite", { question: q, target_level: effectiveTargetLevel });
-        
+
         if (!d.rewritten) {
           setError(d.error || "Could not generate a rewrite.");
           setTargetRewrite(null);
@@ -319,19 +391,17 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         }
       }
       if (action === "qa") {
-        const hasContent = !!text.trim() || !!file;
-        const scope = hasContent ? "public" : "public";
-        const d = await req("/qa", { question: q, scope, top_k: 4 });
+        const d = await req("/qa", { question: q, scope: "public", top_k: 4 });
         setAnswer(d.answer);
         setSuccess({ show: true, message: successMessages.qa, elapsed: operationElapsed });
       }
       if (action === "summary") {
-        const hasContent = !!text.trim() || !!file;
-        const scope = hasContent ? "public" : "public";
-        const d = await req("/summarize", { question: q, scope, top_k: 4 });
+        const d = await req("/summarize", { question: q, scope: "public", top_k: 4 });
         setSummary(d.answer);
         setSuccess({ show: true, message: successMessages.summary, elapsed: operationElapsed });
       }
+      // Bring the result into view on smaller screens.
+      window.setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
     } catch (e) {
       if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
     } finally {
@@ -343,6 +413,26 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         setSuccess(prev => ({ ...prev, elapsed: finalElapsed }));
         setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 2000);
       }
+    }
+  }
+
+  async function clearNotes() {
+    setError("");
+    try {
+      const r = await apiFetch(`${API}/documents/clear?scope=public`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (r.status === 401) {
+        clearSession();
+        throw Error("Your session expired. Please enter your access code again.");
+      }
+      if (!r.ok) throw Error("Could not remove the material. Please try again.");
+      setMaterials([]);
+      setSuccess({ show: true, message: "Material removed", elapsed: 0 });
+      setTimeout(() => setSuccess({ show: false, message: "", elapsed: 0 }), 1500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -360,6 +450,8 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         scope: "public",
         content_type: "study_material",
       });
+      setMaterials((m) => [...m, { id: crypto.randomUUID(), name: `Pasted text (${text.trim().split(/\s+/).length} words)` }]);
+      setText("");
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
@@ -393,7 +485,17 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         body: f,
         signal: operation.controller.signal,
       });
-      if (!r.ok) throw Error("Upload failed");
+      if (r.status === 401) {
+        clearSession();
+        throw Error("Your session expired. Please enter your access code again.");
+      }
+      if (!r.ok) {
+        // Show the service's own reason (e.g. OCR missing) instead of a generic message.
+        const detail = await r.json().then((d) => d?.detail).catch(() => null);
+        throw Error(detail || "Upload failed. Supported files: PDF, TXT, MD, CSV, JPG and PNG.");
+      }
+      setMaterials((m) => [...m, { id: crypto.randomUUID(), name: file.name }]);
+      setFile(null);
       setSuccess({ show: true, message: "Indexing complete", elapsed: operationElapsed });
     } catch (e) {
       if (operationController.current === operation && !(e instanceof DOMException && e.name === "AbortError")) setError(String(e).replace("Error: ", ""));
@@ -409,283 +511,339 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
     }
   }
 
+  const activeTool = TOOLS.find((t) => t.id === tool) ?? TOOLS[0];
+  const waitingForClassifier = activeTool.needsClassifier && !classifierLoaded;
+  const canRun = !busy && !!q.trim() && !waitingForClassifier;
+  const primaryLabel = tool === "rewrite" ? `Rewrite to ${targetLevel}` : activeTool.label;
+  const runActiveTool = () => {
+    if (canRun) void run(activeTool.action);
+  };
+  const onQuestionKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      runActiveTool();
+    }
+  };
+
   const level = mod?.bloom_level || bloom?.level;
+  const hasResults = !!(level || mod || linguisticMod || targetRewrite?.rewritten || answer || summary);
   const loadingHint =
     busy === "Classifying the question" || busy === "Preparing moderation guidance"
       ? "Reviewing the question against local Bloom guidance."
       : "Your local model is preparing a grounded response.";
   const showSuccess = success.show && !busy;
+  const classifierStatus = classifierLoaded
+    ? { cls: "ready", text: "Bloom classifier ready" }
+    : classifierFailed
+      ? { cls: "error", text: "Bloom classifier unavailable" }
+      : { cls: "", text: "Loading Bloom classifier…" };
 
   return (
     <main className="page-wrap fade-in teacher-workspace">
-      <section className="teacher-hero glass-card rounded-[30px] p-5 sm:p-8">
-        <div className="teacher-hero-copy">
-          <p className="eyebrow">Protected moderation studio</p>
-          <h1 className="display">
-            Question moderation,
-            <br />
-            <span>with academic intent intact.</span>
-          </h1>
-          <p>
-            Classify Bloom level, review a higher-order rewrite, summarize source material, or ask
-            the local model for support.
-          </p>
-          <div className="teacher-hero-steps">
-            <span>01 Classify</span>
-            <span>02 Moderate</span>
-            <span>03 Review</span>
+      <VideoHero
+        eyebrow="Protected moderation studio"
+        title={<>Question moderation,<br /><span>with academic intent intact.</span></>}
+        description="Check the Bloom level of a question, rewrite it to another level, improve its wording, summarize text or ask the local model. Everything runs on this computer."
+        actions={
+          <>
+            <button type="button" className="btn-primary" onClick={() => scrollToId("question-workspace", "teacher-input")}>
+              Start with a question →
+            </button>
+            <button type="button" className="btn-secondary" onClick={() => scrollToId("reference-material")}>
+              Add reference material
+            </button>
+          </>
+        }
+        trust={["01 Enter a question", "02 Pick a tool", "03 Review & confirm"]}
+        clips={TEACHER_CLIPS}
+      />
+
+      <details id="reference-material" className="optional-panel glass-card mb-5 rounded-[26px] p-5 sm:p-7" open>
+        <summary>
+          <div>
+            <h2 className="section-title">
+              Reference material <span className="optional-tag">Optional</span>
+            </h2>
+            <p className="section-copy">
+              Add course documents first if you want “Summarize text” and “Ask the model” to use them. Not needed for the Bloom tools, so you can collapse this and go straight to your question.
+            </p>
+          </div>
+          <svg className="chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </summary>
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <div className="grid gap-3 content-start">
+            <p className="step-label"><b>A</b>Upload a file</p>
+            <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
+              <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                {file ? file.name : "Choose a document"}
+              </span>
+              <span className="field-hint">PDF, TXT, MD, CSV, JPG or PNG</span>
+              <input
+                className="sr-only"
+                type="file"
+                accept=".pdf,.txt,.md,.csv,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
+            </label>
+            <button type="button" className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
+              Add file
+            </button>
+          </div>
+          <div className="grid gap-3 content-start">
+            <label htmlFor="teacher-material" className="step-label"><b>B</b>Or paste text</label>
+            <textarea
+              id="teacher-material"
+              className="min-h-32"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Paste lecture notes or a textbook section…"
+            />
+            <button type="button" className="btn-secondary" disabled={!!busy || !text.trim()} onClick={index}>
+              Add pasted text
+            </button>
           </div>
         </div>
-        <video
-          className="teacher-hero-video"
-          src="/teacher-moderation-workflow.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          controls
-          preload="metadata"
-        />
-      </section>
+        {materials.length > 0 && (
+          <div className="mt-5">
+            <p className="step-label">Added in this session</p>
+            <ul className="material-list">
+              {materials.map((m) => <li key={m.id}>{m.name}</li>)}
+            </ul>
+          </div>
+        )}
+        <button type="button" className="btn-quiet mt-4" disabled={!!busy} onClick={clearNotes}>
+          Remove all material
+        </button>
+      </details>
 
-
-      <section className="glass-card rounded-[26px] p-5 sm:p-7">
-        <h2 className="section-title">Course material</h2>
-        <p className="section-copy">Index a file or paste text into your authorized local corpus.</p>
-        <div className="mt-6 grid gap-4">
-          <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
-            <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-              {file ? file.name : "Choose a learning document"}
-            </span>
-            <input
-              className="sr-only"
-              type="file"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-          </label>
-          <button className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="17 8 12 3 7 8" />
-              <line x1="12" y1="3" x2="12" y2="15" />
-            </svg>
-            Upload and index file
-          </button>
-          <textarea
-            className="min-h-32"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Paste learning material to index..."
-          />
-          <button className="btn-primary" disabled={!!busy || !text.trim()} onClick={index}>
-            Index pasted material
-          </button>
+      <section id="question-workspace" className="teacher-console guided glass-card rounded-[26px] p-5 sm:p-7" aria-labelledby="tool-heading">
+        <div className="field-row">
+          <div>
+            <p className="eyebrow">Question workspace</p>
+            <h2 id="tool-heading" className="section-title mt-3">What would you like to do?</h2>
+          </div>
+          <span className={`inline-status ${classifierStatus.cls}`} role="status">
+            <i aria-hidden="true" />
+            {classifierStatus.text}
+          </span>
         </div>
-      </section>
-      <section className="teacher-console glass-card rounded-[26px] p-5 sm:p-7">
+
         <div>
-          <p className="eyebrow">Question workspace</p>
-          <h2 className="section-title mt-3">Bring a question into focus.</h2>
+          <p className="step-label"><b>1</b>Choose a tool</p>
+          <div className="ui-tabs" role="tablist" aria-label="Teacher tools">
+            {TOOLS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                id={`tab-${t.id}`}
+                aria-selected={tool === t.id}
+                aria-controls="tool-panel"
+                className="ui-tab"
+                onClick={() => setTool(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
-        <label className="teacher-question-label">
-          Assessment question or academic text
-          <textarea
-            value={q}
-            onChange={(e) => handleQuestionChange(e.target.value)}
-            placeholder="e.g. Explain how formative assessment improves student learning."
-          />
-        </label>
-        <div className="teacher-actions">
-          <button className="btn-primary" disabled={!!busy || !q.trim()} onClick={() => run("classify")}>
-            Classify level
-          </button>
-          <button
-            className="btn-secondary"
-            disabled={!!busy || !q.trim()}
-            onClick={() => run("linguistic")}
-          >
-            Moderate question
-          </button>
-          <div className="teacher-rewrite-dropdown" ref={dropdownRef}>
-            <button
-              className="btn-secondary dropdown-trigger"
-              ref={triggerRef}
-              disabled={!!busy || !q.trim()}
-              onClick={handleDropdownToggle}
-            >
-              <span>Target Level Rewrite</span>
-              <svg 
-                className={`dropdown-arrow ${dropdownOpen ? 'open' : ''}`} 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-            {dropdownOpen && (
-              <div 
-                className="dropdown-menu glass-card"
-                style={{
-                  position: 'fixed',
-                  top: `${dropdownPosition.top}px`,
-                  left: `${dropdownPosition.left}px`
-                }}
-              >
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Remember")}
-                  disabled={!!busy}
-                >
-                  <span>Remember</span>
-                  <span className="dropdown-item-sub">C1</span>
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Understand")}
-                  disabled={!!busy}
-                >
-                  <span>Understand</span>
-                  <span className="dropdown-item-sub">C2</span>
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Apply")}
-                  disabled={!!busy}
-                >
-                  <span>Apply</span>
-                  <span className="dropdown-item-sub">C3</span>
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Analyze")}
-                  disabled={!!busy}
-                >
-                  <span>Analyze</span>
-                  <span className="dropdown-item-sub">C4</span>
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Evaluate")}
-                  disabled={!!busy}
-                >
-                  <span>Evaluate</span>
-                  <span className="dropdown-item-sub">C5</span>
-                </button>
-                <button 
-                  className="dropdown-item"
-                  onClick={() => handleTargetLevelSelect("Create")}
-                  disabled={!!busy}
-                >
-                  <span>Create</span>
-                  <span className="dropdown-item-sub">C6</span>
-                </button>
+
+        <div id="tool-panel" role="tabpanel" aria-labelledby={`tab-${tool}`} className="tool-panel">
+          <p className="tool-intro">{activeTool.intro}</p>
+
+          <div>
+            <label htmlFor="teacher-input" className="step-label"><b>2</b>{activeTool.inputLabel}</label>
+            <textarea
+              id="teacher-input"
+              className={tool === "summary" ? "min-h-48" : "min-h-32"}
+              value={q}
+              onChange={(e) => handleQuestionChange(e.target.value)}
+              onKeyDown={onQuestionKeyDown}
+              placeholder={activeTool.placeholder}
+              aria-describedby="teacher-input-hint"
+            />
+            <span id="teacher-input-hint" className="field-hint">{activeTool.hint}</span>
+          </div>
+
+          {tool === "rewrite" && (
+            <fieldset>
+              <legend className="step-label"><b>3</b>Target Bloom level</legend>
+              <div className="level-grid">
+                {BLOOM_LEVELS.map((l) => (
+                  <button
+                    key={l.level}
+                    type="button"
+                    className="level-chip"
+                    aria-pressed={targetLevel === l.level}
+                    onClick={() => handleTargetLevelSelect(l.level)}
+                    disabled={!!busy}
+                  >
+                    <strong>{l.level} <small className="text-[#66819e]">{l.code}</small></strong>
+                    <span>{l.hint}</span>
+                  </button>
+                ))}
               </div>
+            </fieldset>
+          )}
+
+          <div className="field-row">
+            <span className="kbd-hint">
+              {waitingForClassifier
+                ? "This tool becomes available when the Bloom classifier has loaded."
+                : !q.trim()
+                  ? `Enter ${tool === "summary" ? "some text" : "a question"} to continue.`
+                  : <>Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</>}
+            </span>
+            <button type="button" className="btn-primary" disabled={!canRun} onClick={runActiveTool}>
+              {primaryLabel} →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section ref={resultsRef} className="mt-5" aria-live="polite" aria-label="Results">
+        {!hasResults ? (
+          <div className="results-empty">
+            Results appear here. Nothing is sent outside this computer.
+          </div>
+        ) : (
+          <div className="teacher-results">
+            {level && (
+              <article className="glass-card teacher-result-card rounded-[22px] p-5">
+                <p className="eyebrow">Bloom classification</p>
+                <div className="teacher-level">
+                  <strong>{level}</strong>
+                  <span>
+                    {bloom
+                      ? `${Math.round(bloom.confidence * 100)}% confidence`
+                      : "Classified locally"}
+                  </span>
+                </div>
+                <p className="section-copy">
+                  Is this right? Confirm it, or choose the correct level. Confirmed levels stay on this
+                  computer and help improve the classifier.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  <label htmlFor="confirm-level" className="sr-only">
+                    Correct Bloom level
+                  </label>
+                  <select
+                    id="confirm-level"
+                    style={{ width: "auto" }}
+                    value={confirmLevel || level}
+                    onChange={(e) => {
+                      setConfirmLevel(e.target.value);
+                      setLabelNote("");
+                    }}
+                  >
+                    {BLOOM_LEVELS.map((l) => (
+                      <option key={l.level} value={l.level}>
+                        {l.level} ({l.code})
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    disabled={labelSaving}
+                    onClick={() => saveConfirmedLevel(level)}
+                  >
+                    {labelSaving ? "Saving…" : (confirmLevel && confirmLevel !== level) ? "Save correction" : "Confirm level"}
+                  </button>
+                </div>
+                {labelNote && <p className="field-hint" role="status">{labelNote}</p>}
+              </article>
+            )}
+            {mod && (
+              <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
+                <p className="eyebrow">Higher level rewrite suggestion</p>
+                <h2 className="section-title mt-2">Elevate to {mod.target_higher_level}</h2>
+                <p className="teacher-reason">{mod.reason}</p>
+                <div className="teacher-rewrite">
+                  <span>Suggested rewrite</span>
+                  <p>{mod.higher_level_rewrite}</p>
+                </div>
+              </article>
+            )}
+            {linguisticMod && (
+              <article className="glass-card teacher-result-card rounded-[22px] p-5">
+                <p className="eyebrow">Improved wording</p>
+                <div className="teacher-comparison">
+                  <div>
+                    <span className="text-sm font-semibold text-[#66819e]">Original</span>
+                    <p className="mt-2 text-sm leading-relaxed">{linguisticMod.original}</p>
+                  </div>
+                  <div className="text-center text-2xl text-[#416ce4]" aria-hidden="true">→</div>
+                  <div>
+                    <span className="text-sm font-semibold text-[#29795f]">Improved</span>
+                    <p className="mt-2 text-sm leading-relaxed">{linguisticMod.improved}</p>
+                  </div>
+                </div>
+                <button type="button" className="btn-quiet mt-3" onClick={() => handleQuestionChange(linguisticMod.improved)}>
+                  Use improved version
+                </button>
+              </article>
+            )}
+            {targetRewrite?.rewritten && (
+              <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
+                <p className="eyebrow">Target level rewrite</p>
+                <h2 className="section-title mt-2">Rewritten for {targetRewrite.target_level}</h2>
+                <div className="teacher-rewrite">
+                  <span>Original</span>
+                  <p className="text-sm text-gray-600">{targetRewrite.original}</p>
+                </div>
+                <div className="teacher-rewrite">
+                  <span>Rewritten</span>
+                  <p>{targetRewrite.rewritten}</p>
+                </div>
+                <p className="field-hint">Check the rewrite before use. To verify its level, paste it into “Check Bloom level”.</p>
+              </article>
+            )}
+            {summary && (
+              <article className="glass-card teacher-result-card rounded-[22px] p-5">
+                <p className="eyebrow">Local summary</p>
+                <p className="teacher-answer">{summary}</p>
+              </article>
+            )}
+            {answer && (
+              <article className="glass-card teacher-result-card rounded-[22px] p-5">
+                <p className="eyebrow">Answer from the local model</p>
+                <p className="teacher-answer">{answer}</p>
+              </article>
             )}
           </div>
-          <button className="btn-secondary" disabled={!!busy || !q.trim()} onClick={() => run("summary")}>
-            Summarize
-          </button>
-          <button className="btn-quiet" disabled={!!busy || !q.trim()} onClick={() => run("qa")}>
-            Ask model →
-          </button>
-        </div>
+        )}
       </section>
 
-      {(level || mod || linguisticMod || targetRewrite || answer || summary) && (
-        <section className="teacher-results">
-          {level && (
-            <article className="glass-card teacher-result-card rounded-[22px] p-5">
-              <p className="eyebrow">Bloom classification</p>
-              <div className="teacher-level">
-                <strong>{level}</strong>
-                <span>
-                  {bloom
-                    ? `${Math.round(bloom.confidence * 100)}% confidence`
-                    : "Classified locally"}
-                </span>
-              </div>
-              <p className="section-copy">
-                Use this level as the starting point for a proportionate assessment task.
-              </p>
-            </article>
-          )}
-          {mod && (
-            <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
-              <p className="eyebrow">Higher level rewrite suggestion</p>
-              <h2 className="section-title mt-2">Elevate to {mod.target_higher_level}</h2>
-              <p className="teacher-reason">{mod.reason}</p>
-              <div className="teacher-rewrite">
-                <span>Suggested rewrite</span>
-                <p>{mod.higher_level_rewrite}</p>
-              </div>
-            </article>
-          )}
-          {linguisticMod && (
-            <article className="glass-card teacher-result-card rounded-[22px] p-5">
-              <p className="eyebrow">Linguistic moderation</p>
-              <div className="teacher-comparison">
-                <div>
-                  <span className="text-sm font-semibold text-[#66819e]">Original</span>
-                  <p className="mt-2 text-sm leading-relaxed">{linguisticMod.original}</p>
-                </div>
-                <div className="text-center text-2xl text-[#416ce4]">→</div>
-                <div>
-                  <span className="text-sm font-semibold text-[#29795f]">Improved</span>
-                  <p className="mt-2 text-sm leading-relaxed">{linguisticMod.improved}</p>
-                </div>
-              </div>
-            </article>
-          )}
-          {targetRewrite && targetRewrite.rewritten && (
-            <article className="glass-card teacher-result-card teacher-rewrite-card rounded-[22px] p-5">
-              <p className="eyebrow">Target level rewrite</p>
-              <div className="flex items-center gap-3 mt-2">
-                <h2 className="section-title">Rewritten for {targetRewrite.target_level}</h2>
-              </div>
-              <div className="teacher-rewrite">
-                <span>Original</span>
-                <p className="text-sm text-gray-600">{targetRewrite.original}</p>
-              </div>
-              <div className="teacher-rewrite">
-                <span>Rewritten</span>
-                <p>{targetRewrite.rewritten}</p>
-              </div>
-            </article>
-          )}
-          {summary && (
-            <article className="glass-card teacher-result-card rounded-[22px] p-5">
-              <p className="eyebrow">Local summary</p>
-              <p className="teacher-answer">{summary}</p>
-            </article>
-          )}
-          {answer && (
-            <article className="glass-card teacher-result-card rounded-[22px] p-5">
-              <p className="eyebrow">Q&A with the model</p>
-              <p className="teacher-answer">{answer}</p>
-            </article>
-          )}
-        </section>
+      {error && (
+        <ErrorModal
+          title={errorTitle(error)}
+          message={error}
+          onClose={() => setError("")}
+          action={
+            !classifierLoaded && !busy ? (
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setError("");
+                  setClassifierLoadAttempt((attempt) => attempt + 1);
+                }}
+              >
+                Retry loading
+              </button>
+            ) : undefined
+          }
+        />
       )}
 
-      {error && (
-        <div className="mt-4 rounded-xl bg-red-50/70 p-3 text-sm text-[#a03d49]">
-          <p>{error}</p>
-          {!classifierLoaded && !busy && (
-            <button type="button" className="btn-secondary mt-3" onClick={() => setClassifierLoadAttempt((attempt) => attempt + 1)}>
-              Retry classifier loading
-            </button>
-          )}
-        </div>
-      )}
 
       {busy && <LoadingComponent label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} />}
       {showSuccess && <LoadingComponent label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}

@@ -1,0 +1,28 @@
+\begin{table}[t]
+\centering
+\caption{Held-out validation results. 95\% percentile bootstrap CIs (2000 resamples); paired bootstrap for the difference.}
+\label{tab:t3_main_results}
+\begin{tabular}{lrrrrr}
+\toprule
+Metric & N & Base [95\% CI] & LoRA [95\% CI] & Delta LoRA-base [95\% CI] & Bootstrap p \\
+\midrule
+Bloom target accuracy & 341 & n/a & 0.927 [0.897, 0.953] & n/a & n/a \\
+Bloom level accuracy (7B judge) & 341 & n/a & 0.780 [0.736, 0.824] & n/a & n/a \\
+Bloom fully validated (calibrated) & 341 & n/a & 0.804 [0.760, 0.845] & n/a & n/a \\
+Bloom ROUGE-L to reference rewrite & 341 & n/a & 0.306 [0.291, 0.321] & n/a & n/a \\
+Bloom BERTScore F1 to reference rewrite & 341 & n/a & 0.377 [0.359, 0.394] & n/a & n/a \\
+Bloom near-copy of source (lower is better) & 341 & n/a & 0.032 [0.015, 0.053] & n/a & n/a \\
+QA accuracy (7B judge) & 146 & n/a & 0.644 [0.568, 0.719] & n/a & n/a \\
+QA lenient accuracy (7B judge) & 146 & n/a & 0.973 [0.945, 0.993] & n/a & n/a \\
+QA ROUGE-L & 146 & n/a & 0.266 [0.249, 0.284] & n/a & n/a \\
+QA ROUGE-L, length-controlled & 146 & n/a & 0.274 [0.256, 0.293] & n/a & n/a \\
+QA bge-m3 similarity to reference & 146 & n/a & 0.820 [0.808, 0.831] & n/a & n/a \\
+QA BERTScore F1 & 146 & n/a & 0.343 [0.326, 0.361] & n/a & n/a \\
+Summarization ROUGE-1 & 146 & n/a & 0.395 [0.376, 0.412] & n/a & n/a \\
+Summarization ROUGE-2 & 146 & n/a & 0.120 [0.105, 0.134] & n/a & n/a \\
+Summarization ROUGE-Lsum & 146 & n/a & 0.357 [0.339, 0.374] & n/a & n/a \\
+Summarization bge-m3 similarity to reference & 146 & n/a & 0.835 [0.824, 0.845] & n/a & n/a \\
+Summarization BERTScore F1 & 146 & n/a & 0.268 [0.247, 0.289] & n/a & n/a \\
+\bottomrule
+\end{tabular}
+\end{table}

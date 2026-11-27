@@ -16,6 +16,8 @@ class RetrievalEncoderProfile:
     max_length: int = 384
     encode_batch_size: int = 12
     display_name: str = ""
+    # Hugging Face model used when model_name (a local folder) is missing; same architecture and size.
+    hf_fallback: str | None = None
 
     @property
     def label(self) -> str:
@@ -34,6 +36,7 @@ RETRIEVAL_ENCODER_PROFILES: dict[str, RetrievalEncoderProfile] = {
         max_length=384,
         encode_batch_size=12,
         display_name="BGE-small-en-v1.5 (recommended, CPU)",
+        hf_fallback="BAAI/bge-small-en-v1.5",
     ),
     "minilm": RetrievalEncoderProfile(
         key="minilm",

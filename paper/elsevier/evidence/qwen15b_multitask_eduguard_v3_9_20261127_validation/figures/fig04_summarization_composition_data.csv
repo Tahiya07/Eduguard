@@ -1,0 +1,13 @@
+length_category,source_type,records
+short,openstax_textbook_section,0
+short,original_academic_example,298
+short,lecture_slide_text_style,0
+medium,openstax_textbook_section,268
+medium,original_academic_example,151
+medium,lecture_slide_text_style,21
+long,openstax_textbook_section,495
+long,original_academic_example,20
+long,lecture_slide_text_style,0
+very_long,openstax_textbook_section,212
+very_long,original_academic_example,0
+very_long,lecture_slide_text_style,0
