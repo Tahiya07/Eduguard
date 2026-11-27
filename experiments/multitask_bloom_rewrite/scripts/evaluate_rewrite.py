@@ -568,6 +568,13 @@ def main() -> None:
         help="Restrict to specific tasks",
     )
     parser.add_argument(
+        "--judge",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Score the predictions with the local LLM judge (scripts/judge_evaluation.py) after generation. "
+             "Default: config judge.enabled.",
+    )
+    parser.add_argument(
         "--smoke-only",
         action="store_true",
         help="Only validate checkpoint and dataset assertions; no full eval",
@@ -678,7 +685,8 @@ def main() -> None:
             json.dumps({k: v for k, v in clf_meta.items() if k != "smoke_traceback"}, indent=2),
         )
 
-    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)))
+    generator = HFGenerator(ckpt, int(cfg.get("max_seq_length", 512)),
+                            load_in_4bit=bool(cfg.get("eval_load_in_4bit", False)))
 
     bloom_rows = [r for r in test_rows if r["task"] == TASK_BLOOM and TASK_BLOOM in task_filter]
     qa_rows = [r for r in test_rows if r["task"] == TASK_QA and TASK_QA in task_filter]
@@ -955,6 +963,24 @@ def main() -> None:
         except Exception as exc:  # noqa: BLE001
             print(f"WARNING: calibrated additions not computed ({type(exc).__name__}: {exc}). "
                   "Run scripts/augment_evaluation.py manually.")
+        judge_cfg = cfg.get("judge", {})
+        if args.judge if args.judge is not None else judge_cfg.get("enabled", False):
+            try:
+                import gc
+
+                import torch
+                from judge_evaluation import JUDGE_MODEL, run as run_judge
+
+                del generator  # free the evaluated model before loading the judge
+                gc.collect()
+                torch.cuda.empty_cache()
+                lora_dir = Path(results_dir_for(cfg, "lora"))
+                lora_dir = lora_dir if lora_dir.is_absolute() else REPO_ROOT / lora_dir
+                run_judge(out_dir, lora_dir / f"judge_calibration_{args.split}.json",
+                          judge_cfg.get("model", JUDGE_MODEL), judge_cfg.get("precision", "4bit"), args.condition)
+                print("Judge report:", out_dir / "judge_report.md")
+            except Exception as exc:  # noqa: BLE001
+                print(f"WARNING: judge not run ({type(exc).__name__}: {exc}). Run scripts/judge_evaluation.py manually.")
         try:
             from build_paper_evidence import build as build_evidence
 

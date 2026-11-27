@@ -653,7 +653,6 @@ def main() -> None:
     use_bf16 = (
         precision == "bf16"
         and device == "cuda"
-        and not load_in_4bit
         and torch.cuda.is_bf16_supported()
     )
     if device == "cuda":
@@ -699,9 +698,12 @@ def main() -> None:
                 "This config requires 4-bit QLoRA. Install bitsandbytes in the active "
                 "GPU environment with: python -m pip install bitsandbytes"
             ) from exc
-        compute_dtype = torch.float16
-        if cfg.get("bnb_4bit_compute_dtype", "float16") != "float16":
-            raise SystemExit("This QLoRA config currently supports only float16 compute.")
+        compute_name = str(cfg.get("bnb_4bit_compute_dtype", "float16"))
+        if compute_name not in ("float16", "bfloat16"):
+            raise SystemExit("bnb_4bit_compute_dtype must be 'float16' or 'bfloat16'.")
+        if (compute_name == "bfloat16") != use_bf16:
+            raise SystemExit("bnb_4bit_compute_dtype must match mixed_precision (bfloat16 <-> bf16, float16 <-> fp16).")
+        compute_dtype = torch.bfloat16 if compute_name == "bfloat16" else torch.float16
         model_kwargs["quantization_config"] = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type=str(cfg.get("bnb_4bit_quant_type", "nf4")),

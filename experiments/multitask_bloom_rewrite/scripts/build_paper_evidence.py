@@ -299,6 +299,22 @@ def load_condition(results_dir: Path | None, pack: Pack) -> list[dict[str, Any]]
             r.update(extra.get(r["id"], {}))
     else:
         pack.skipped.append(f"{results_dir.name}: no metrics_extended.json (run augment_evaluation.py) - calibrated metrics omitted")
+    # LLM-judge accuracy (judge_evaluation.py); a task is used only if the judge passed its reliability check
+    jm_path, jp_path = results_dir / "judge_metrics.json", results_dir / "judge_predictions.jsonl"
+    if jm_path.is_file() and jp_path.is_file():
+        jm = json.loads(jm_path.read_text(encoding="utf-8"))
+        ok = {t for t, good in (jm.get("reliable") or {}).items() if good} | {"bloom_rewrite"}
+        dropped = sorted(set(jm.get("reliable") or {}) - ok)
+        if dropped:
+            pack.skipped.append(f"{results_dir.name}: judge not reliable for {dropped} - judge accuracy omitted there")
+        pack.add_input(jm_path)
+        model = jm.get("judge_model")
+        keys = ("judge_correct_f", "judge_lenient_f", "judge_faithful_f", "judge_acceptable_f", "judge_level_match_f")
+        jrows = {d["id"]: d for d in read_jsonl(jp_path) if d.get("judge_model") == model and d.get("task") in ok}
+        for r in preds:
+            d = jrows.get(r["id"])
+            if d:
+                r.update({k: d[k] for k in keys if k in d})
     return preds
 
 
@@ -461,14 +477,19 @@ def results_figures(plt, pack: Pack, conds: dict[str, list[dict[str, Any]]], spl
     # the source (the original word-overlap "fully validated" rate can be).
     candidates = [
         ("Bloom target accuracy", "bloom_rewrite", "target_match_f", True),
+        ("Bloom level accuracy (7B judge)", "bloom_rewrite", "judge_level_match_f", False),
         ("Bloom fully validated (calibrated)", "bloom_rewrite", "calibrated_full_f", True),
         ("Bloom ROUGE-L to reference rewrite", "bloom_rewrite", "ref_rougeL", True),
         ("Bloom BERTScore F1 to reference rewrite", "bloom_rewrite", "bertscore_f1", False),
         ("Bloom near-copy of source (lower is better)", "bloom_rewrite", "near_copy_f", False),
+        ("QA accuracy (7B judge)", "qa", "judge_correct_f", False),
+        ("QA lenient accuracy (7B judge)", "qa", "judge_lenient_f", False),
         ("QA ROUGE-L", "qa", "rougeL", True),
         ("QA ROUGE-L, length-controlled", "qa", "rougeL_lc", True),
         ("QA bge-m3 similarity to reference", "qa", "embedding_sim", False),
         ("QA BERTScore F1", "qa", "bertscore_f1", False),
+        ("Summarization faithful (7B judge)", "summarization", "judge_faithful_f", False),
+        ("Summarization acceptable (7B judge)", "summarization", "judge_acceptable_f", False),
         ("Summarization ROUGE-1", "summarization", "rouge1", True),
         ("Summarization ROUGE-2", "summarization", "rouge2", True),
         ("Summarization ROUGE-Lsum", "summarization", "rougeLsum", True),

@@ -286,7 +286,7 @@ def validate_checkpoint(info: CheckpointInfo, max_seq_length: int, gen_cfg: dict
 
 
 class HFGenerator:
-    def __init__(self, info: CheckpointInfo, max_seq_length: int) -> None:
+    def __init__(self, info: CheckpointInfo, max_seq_length: int, load_in_4bit: bool = False) -> None:
         from transformers import AutoModelForCausalLM
 
         _enable_efficient_gqa_attention()
@@ -294,11 +294,21 @@ class HFGenerator:
         self.max_seq_length = max_seq_length
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         dtype = eval_dtype()
+        load_kwargs: dict[str, Any] = {"trust_remote_code": True, "torch_dtype": dtype}
+        if load_in_4bit:
+            # same NF4 quantization as QLoRA training; base and LoRA are loaded identically
+            if self.device.type != "cuda":
+                raise SystemExit("eval_load_in_4bit needs a CUDA GPU.")
+            from transformers import BitsAndBytesConfig
+
+            load_kwargs["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
+                bnb_4bit_compute_dtype=dtype)
+            load_kwargs["device_map"] = {"": 0}
+        self.load_in_4bit = load_in_4bit
         if info.condition == "base":
             self.tokenizer = _load_tokenizer(info.base_model_id)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                info.base_model_id, trust_remote_code=True, torch_dtype=dtype
-            )
+            self.model = AutoModelForCausalLM.from_pretrained(info.base_model_id, **load_kwargs)
         else:
             assert info.adapter_path is not None
             adapter_cfg = json.loads(
@@ -306,14 +316,13 @@ class HFGenerator:
             )
             base_id = adapter_cfg.get("base_model_name_or_path", info.base_model_id)
             self.tokenizer = _load_tokenizer(base_id)
-            base = AutoModelForCausalLM.from_pretrained(
-                base_id, trust_remote_code=True, torch_dtype=dtype
-            )
+            base = AutoModelForCausalLM.from_pretrained(base_id, **load_kwargs)
             self.model = _load_peft_adapter(base, info.adapter_path)
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         self.model.eval()
-        self.model.to(self.device)
+        if not load_in_4bit:
+            self.model.to(self.device)
 
     def generate(self, prompt: str, gen_cfg: dict[str, Any]) -> str:
         inputs = self.tokenizer(
