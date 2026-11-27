@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Closed-book QA ROUGE-L by question type (validation).}
+\label{tab:t6_qa_by_type}
+\begin{tabular}{lrrr}
+\toprule
+Question type & N & Base Qwen2.5-1.5B ROUGE-L [95\% CI] & EduGuard LoRA ROUGE-L [95\% CI] \\
+\midrule
+conceptual & 33 & 0.152 [0.139, 0.165] & 0.263 [0.233, 0.292] \\
+application & 31 & 0.152 [0.136, 0.175] & 0.258 [0.229, 0.293] \\
+analytical & 26 & 0.143 [0.130, 0.157] & 0.248 [0.210, 0.288] \\
+comparative & 24 & 0.176 [0.158, 0.195] & 0.302 [0.259, 0.347] \\
+calculation & 14 & 0.196 [0.164, 0.229] & 0.386 [0.321, 0.453] \\
+process & 5 & 0.161 [0.112, 0.209] & 0.238 [0.179, 0.300] \\
+other (n<5 each) & 13 & 0.164 [0.138, 0.192] & 0.221 [0.197, 0.247] \\
+\bottomrule
+\end{tabular}
+\end{table}

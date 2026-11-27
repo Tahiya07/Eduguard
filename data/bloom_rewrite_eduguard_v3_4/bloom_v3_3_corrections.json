@@ -1,0 +1,170 @@
+{
+ "eduguard_v3_1_047-Remember": {
+  "target_rewrite": "Define natural selection and name the kind of variation it acts on.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_116-Remember": {
+  "target_rewrite": "Define an influence line for the reaction at a support of a simply supported beam.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_152-Remember": {
+  "target_rewrite": "List the common microprocessor addressing modes and name where each one locates its operand.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_176-Remember": {
+  "target_rewrite": "State the conditions under which two operations from different transactions conflict, and name the graph used to test conflict serializability.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_200-Remember": {
+  "target_rewrite": "Define the critical path in project scheduling and name the two activity attributes used to find it.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_212-Remember": {
+  "target_rewrite": "Define a pointer in C and state which element's address an array name holds.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_227-Remember": {
+  "target_rewrite": "Define inflation and unemployment, and name the curve that plots their short-run trade-off.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_228-Remember": {
+  "target_rewrite": "Define the push and pop operations of an array-based stack and name the variable that marks the top element.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_257-Remember": {
+  "target_rewrite": "What is what-if analysis in a decision support system?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_258-Remember": {
+  "target_rewrite": "Define equivalent units of production and name the percentage used to convert partly completed units in process costing.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_272-Remember": {
+  "target_rewrite": "Write the general syntax of a struct declaration in C and name the term for the variables it groups.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_296-Remember": {
+  "target_rewrite": "Define requirements traceability and name the artifacts to which requirements are linked.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_303-Remember": {
+  "target_rewrite": "Define taxable income and state the formula that relates it to gross income and allowable deductions.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_304-Remember": {
+  "target_rewrite": "What is the root locus of a control system?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_339-Remember": {
+  "target_rewrite": "Define a pharmaceutical limit test and name two impurities commonly controlled by limit tests.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_350-Remember": {
+  "target_rewrite": "Define a data warehouse and list its four defining characteristics.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_359-Remember": {
+  "target_rewrite": "What is an operational definition in social research?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_368-Remember": {
+  "target_rewrite": "What is drug dissolution in an orally administered dosage form?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_382-Remember": {
+  "target_rewrite": "Define SQL injection and name the type of input through which it is carried out.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_394-Remember": {
+  "target_rewrite": "Define a unit hydrograph and state the depth of effective rainfall on which it is based.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_397-Remember": {
+  "target_rewrite": "Define robot odometry and name the sensor readings it uses to estimate motion.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_406-Remember": {
+  "target_rewrite": "Write the break-even formula in units, naming its fixed-cost, selling-price, and variable-cost terms.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_457-Remember": {
+  "target_rewrite": "What is the decimal reduction time (D-value) in microbial inactivation?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_469-Remember": {
+  "target_rewrite": "What is the first-fit memory-allocation strategy?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_527-Remember": {
+  "target_rewrite": "Define three-address code and name the kind of variables a compiler introduces to hold its intermediate results.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_560-Remember": {
+  "target_rewrite": "State the confidence-interval formula for a population mean when the population standard deviation is known, naming each symbol in it.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_573-Remember": {
+  "target_rewrite": "State the discharge relationship for a venturimeter in terms of inlet area, throat area, pressure difference, fluid density, and coefficient of discharge.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_590-Remember": {
+  "target_rewrite": "Define distance-vector routing and name the information that neighbouring routers exchange in it.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_592-Remember": {
+  "target_rewrite": "Define primary and secondary ecological succession, stating whether soil is present at the start of each.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_218-Remember": {
+  "target_rewrite": "Name the two fields of a singly linked-list node.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_234-Remember": {
+  "target_rewrite": "State the superposition theorem and name what replaces an inactive independent voltage source and an inactive current source.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_409-Remember": {
+  "target_rewrite": "Define drug half-life and state the half-life formula for first-order elimination.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_491-Remember": {
+  "target_rewrite": "Define the TCP congestion window and state its initial size at the start of slow start.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_512-Remember": {
+  "target_rewrite": "Define a Johnson counter and name the flip-flop output that is fed back to its first stage.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_546-Remember": {
+  "target_rewrite": "Define write-through and write-back cache policies and name the bit that marks a modified cache line.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_133-Remember": {
+  "target_rewrite": "What is consideration in contract law?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_243-Remember": {
+  "target_rewrite": "State Mendel's law of segregation.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_291-Remember": {
+  "target_rewrite": "State the allowed group sizes in a Karnaugh map and the number of variables in which adjacent cells differ.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_343-Remember": {
+  "target_rewrite": "What is the rank of a matrix?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_358-Remember": {
+  "target_rewrite": "Name the type of flip-flop commonly used in an asynchronous counter and the signal that clocks each later stage.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_407-Remember": {
+  "target_rewrite": "Define a minterm and write the sum-of-minterms notation for a Boolean function.",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ },
+ "eduguard_v3_1_585-Remember": {
+  "target_rewrite": "What is a database checkpoint?",
+  "reason": "level_alignment_remember: interpretive clause (role / how / relationship / what it represents) made pure recall; opening varied"
+ }
+}

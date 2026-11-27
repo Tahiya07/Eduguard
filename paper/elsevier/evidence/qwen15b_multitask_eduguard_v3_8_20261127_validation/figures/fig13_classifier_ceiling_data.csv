@@ -1,0 +1,7 @@
+target_level,n,model_agreement,reference_agreement
+Remember,61,0.2623,0.4426
+Understand,59,0.9492,0.8475
+Apply,52,0.9038,0.9231
+Analyze,52,0.9423,0.7692
+Evaluate,57,0.9825,0.9825
+Create,60,0.9833,0.85

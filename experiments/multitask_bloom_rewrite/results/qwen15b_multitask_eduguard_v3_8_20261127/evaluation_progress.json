@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "updated_utc": "2026-11-27T05:36:54.251318+00:00",
+  "output_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_8_20261127",
+  "predictions_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_8_20261127\\predictions.jsonl",
+  "completed": {
+    "bloom_rewrite": 341,
+    "qa": 146,
+    "summarization": 146
+  },
+  "expected": {
+    "bloom_rewrite": 341,
+    "qa": 146,
+    "summarization": 146
+  },
+  "total_completed": 633,
+  "total_expected": 633,
+  "metrics_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_8_20261127\\metrics.json",
+  "report_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_8_20261127\\evaluation_report.md",
+  "checkpoint": {
+    "condition": "lora",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_eduguard_v3_8_20261127\\best_adapter",
+    "resolved_path": "experiments\\multitask_bloom_rewrite\\models\\qwen15b_multitask_eduguard_v3_8_20261127\\best_adapter",
+    "checkpoint_selection": "validation_loss_only"
+  }
+}

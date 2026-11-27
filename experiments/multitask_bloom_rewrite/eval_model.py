@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -10,28 +11,74 @@ from typing import Any, Callable
 import torch
 
 
-class RepeatedSpanStop:
-    """Stopping criterion: stop when the last `n` generated tokens already occurred earlier in the output.
+# end of a complete sentence: terminal punctuation (plus closing quotes/brackets) followed by whitespace or the end
+_SENT_END = re.compile(r"[.!?]+[\"')\]]*(?=\s|$)")
 
-    Only generated tokens are checked (copying phrases from the prompt is allowed). A verbatim repeat of a long
-    span is a degenerate greedy-decoding loop; after stopping, the output is cut back to before the repeat.
+
+def sentence_spans(text: str) -> list[tuple[int, int]]:
+    """(start, end) character spans of the complete sentences in `text`; a trailing fragment is not included."""
+    spans, start = [], 0
+    for m in _SENT_END.finditer(text):
+        spans.append((start, m.end()))
+        start = m.end()
+    return spans
+
+
+def trim_to_sentence(text: str) -> str:
+    """Drop a trailing sentence fragment (keeps the text unchanged if it has no complete sentence)."""
+    spans = sentence_spans(text)
+    return text[: spans[-1][1]] if spans else text
+
+
+def _opening(sentence: str, k: int) -> tuple[str, ...] | None:
+    w = re.findall(r"\w+", sentence.lower())
+    return tuple(w[:k]) if len(w) >= k else None
+
+
+class LoopGuard:
+    """Stopping criterion for degenerate greedy-decoding loops in the generated text (the prompt is not checked).
+
+    * span: the last `ngram` generated tokens already occurred earlier in the output (verbatim repeat);
+      the output is cut back to before the repeat, then to the last complete sentence.
+    * template: the last `sentence_run` complete sentences all start with the same `prefix_words` words
+      ("X is a way to make a product sanitary. X is a way to make a product hygienic. ..."); only the first
+      sentence of the run is kept.
     """
 
-    def __init__(self, prompt_len: int, n: int) -> None:
-        self.prompt_len, self.n = prompt_len, n
+    def __init__(self, tokenizer: Any, prompt_len: int, ngram: int, sentence_run: int = 0, prefix_words: int = 6) -> None:
+        self.tokenizer, self.prompt_len = tokenizer, prompt_len
+        self.ngram, self.sentence_run, self.prefix_words = ngram, sentence_run, prefix_words
         self.seen: set[tuple[int, ...]] = set()
+        self.reason: str | None = None
         self.repeat_start: int | None = None
+        self.keep_text: str | None = None
+
+    def _template_cut(self, gen: list[int]) -> str | None:
+        if not re.search(r"[.!?]", self.tokenizer.decode(gen[-1:], skip_special_tokens=True)):
+            return None  # sentences can only have closed on a punctuation token
+        text = self.tokenizer.decode(gen, skip_special_tokens=True)
+        spans = sentence_spans(text)
+        if len(spans) < self.sentence_run:
+            return None
+        run = spans[-self.sentence_run:]
+        first = _opening(text[run[0][0]:run[0][1]], self.prefix_words)
+        if first and all(_opening(text[a:b], self.prefix_words) == first for a, b in run[1:]):
+            return text[: run[0][1]]
+        return None
 
     def __call__(self, input_ids: torch.Tensor, scores: Any = None, **kwargs: Any) -> torch.Tensor:
         gen = input_ids[0, self.prompt_len:].tolist()
         stop = False
-        if len(gen) >= self.n:
-            tail = tuple(gen[-self.n:])
+        if self.ngram > 0 and len(gen) >= self.ngram:
+            tail = tuple(gen[-self.ngram:])
             if tail in self.seen:
-                self.repeat_start = len(gen) - self.n
-                stop = True
+                self.reason, self.repeat_start, stop = "span", len(gen) - self.ngram, True
             else:
                 self.seen.add(tail)
+        if not stop and self.sentence_run > 0 and gen:
+            keep = self._template_cut(gen)
+            if keep is not None:
+                self.reason, self.keep_text, stop = "template", keep, True
         return torch.full((input_ids.shape[0],), stop, dtype=torch.bool, device=input_ids.device)
 
 
@@ -287,26 +334,34 @@ class HFGenerator:
             gen_kwargs["top_p"] = float(gen_cfg.get("top_p", 1.0))
         guard = None
         loop_n = int(gen_cfg.get("loop_guard_ngram") or 0)
-        if loop_n > 0:
+        sentence_run = int(gen_cfg.get("loop_guard_sentence_run") or 0)
+        if loop_n > 0 or sentence_run > 0:
             from transformers import StoppingCriteriaList
 
-            guard = RepeatedSpanStop(inputs["input_ids"].shape[1], loop_n)
+            guard = LoopGuard(self.tokenizer, inputs["input_ids"].shape[1], loop_n, sentence_run,
+                              int(gen_cfg.get("loop_guard_prefix_words") or 6))
             gen_kwargs["stopping_criteria"] = StoppingCriteriaList([guard])
         with torch.no_grad():
             out = self.model.generate(**inputs, **gen_kwargs)
         new_tokens = out[0][inputs["input_ids"].shape[1] :]
-        self.last_loop_stopped = bool(guard and guard.repeat_start is not None)
-        if self.last_loop_stopped:
-            new_tokens = new_tokens[: guard.repeat_start]
+        self.last_loop_reason = guard.reason if guard else None
+        self.last_loop_stopped = self.last_loop_reason is not None
         # Output length of the last call; it hit the cap if it used every allowed token without emitting EOS.
         eos_ids = {self.tokenizer.eos_token_id, self.tokenizer.pad_token_id}
-        self.last_output_tokens = int(len(new_tokens))
         self.last_hit_token_limit = bool(
             not self.last_loop_stopped
-            and self.last_output_tokens >= gen_kwargs["max_new_tokens"]
+            and len(new_tokens) >= gen_kwargs["max_new_tokens"]
             and int(new_tokens[-1]) not in eos_ids
         )
-        return self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        if self.last_loop_reason == "span":
+            text = trim_to_sentence(self.tokenizer.decode(new_tokens[: guard.repeat_start], skip_special_tokens=True))
+        elif self.last_loop_reason == "template":
+            text = guard.keep_text
+        else:
+            self.last_output_tokens = int(len(new_tokens))
+            return self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        self.last_output_tokens = len(self.tokenizer(text, add_special_tokens=False)["input_ids"])
+        return text
 
 
 def set_seed(seed: int) -> None:

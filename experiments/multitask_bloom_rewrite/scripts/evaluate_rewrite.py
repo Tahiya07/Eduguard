@@ -151,6 +151,7 @@ def output_length_fields(generator: Any) -> dict[str, Any]:
         "output_tokens": getattr(generator, "last_output_tokens", None),
         "hit_token_limit": getattr(generator, "last_hit_token_limit", None),
         "loop_stopped": getattr(generator, "last_loop_stopped", None),
+        "loop_reason": getattr(generator, "last_loop_reason", None),
     }
 
 
@@ -164,6 +165,7 @@ def token_limit_summary(records: list[dict[str, Any]], cap: int) -> dict[str, An
         "hit_token_limit": hit,
         "hit_token_limit_rate": round(hit / len(records), 6) if records else None,
         "loop_stopped": loops,
+        "loop_stopped_by_reason": dict(Counter(r["loop_reason"] for r in records if r.get("loop_reason"))),
         "max_output_tokens": max(tokens) if tokens else None,
         "mean_output_tokens": round(sum(tokens) / len(tokens), 2) if tokens else None,
     }
@@ -470,8 +472,10 @@ def write_report(
         *grouped_table("Length category", s.get("by_length_category")),
         "## Output length",
         "",
-        f"Hit cap = stopped by max_new_tokens without EOS. Loop stopped = a verbatim repeat of "
-        f"{metrics.get('generation', {}).get('loop_guard_ngram')} generated tokens was cut (0 = guard off).",
+        f"Hit cap = stopped by max_new_tokens without EOS. Loop stopped = output cut at a degenerate loop: a verbatim "
+        f"repeat of {metrics.get('generation', {}).get('loop_guard_ngram')} generated tokens (cut to the last full "
+        f"sentence) or {metrics.get('generation', {}).get('loop_guard_sentence_run')} consecutive sentences opening with "
+        f"the same {metrics.get('generation', {}).get('loop_guard_prefix_words')} words (first kept); 0 = check off.",
         "",
         "| Task | Cap | N | Hit cap | Loop stopped | Max tokens | Mean tokens |",
         "|---|---:|---:|---:|---:|---:|---:|",
@@ -596,6 +600,9 @@ def main() -> None:
         "decoding": "greedy",
         # stop a verbatim repeat of this many generated tokens (degenerate loop); 0 disables
         "loop_guard_ngram": int(cfg.get("generation", {}).get("loop_guard_ngram", 0)),
+        # stop when this many consecutive sentences open with the same loop_guard_prefix_words words; 0 disables
+        "loop_guard_sentence_run": int(cfg.get("generation", {}).get("loop_guard_sentence_run", 0)),
+        "loop_guard_prefix_words": int(cfg.get("generation", {}).get("loop_guard_prefix_words", 6)),
         "seed": SEED,
     }
     gen_cfg.update({k: v for k, v in gen_frozen.items() if k != "notes"})

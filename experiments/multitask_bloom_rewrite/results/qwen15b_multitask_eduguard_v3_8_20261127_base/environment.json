@@ -1,0 +1,27 @@
+{
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": null
+  },
+  "git_commit": "ed37ecc5d83464d4ca43291351a4050b00bb7618",
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 2268.86,
+    "uss_mb": 2001.93,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_memory_allocated_mb": 3906.99,
+    "gpu_memory_reserved_mb": 5632.0
+  },
+  "checkpoint": {
+    "condition": "base",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": null,
+    "resolved_path": "Qwen/Qwen2.5-1.5B-Instruct",
+    "checkpoint_selection": "n/a_base_model"
+  }
+}

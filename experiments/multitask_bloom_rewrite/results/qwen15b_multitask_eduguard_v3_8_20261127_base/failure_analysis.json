@@ -1,0 +1,11 @@
+{
+  "failure_counts": {
+    "TOPIC_DRIFT": 58,
+    "WRONG_TARGET_LEVEL": 114,
+    "LOW_CONFIDENCE": 4,
+    "DECLARATIVE_OUTPUT": 1,
+    "META_RESPONSE": 1,
+    "TRIVIAL_VERB_SWAP": 1
+  },
+  "n_failures": 179
+}

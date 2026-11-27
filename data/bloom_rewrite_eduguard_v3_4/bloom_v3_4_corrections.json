@@ -1,0 +1,998 @@
+{
+ "eduguard_v3_1_007-Remember": {
+  "target_rewrite": "Recall the worst-case time complexity of binary search.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_008-Remember": {
+  "target_rewrite": "Name the components used to calculate an effective address in base and offset addressing.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_009-Remember": {
+  "target_rewrite": "List the keys used in symmetric and asymmetric encryption.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_012-Remember": {
+  "target_rewrite": "Recall the definitions of coupling and cohesion in software module design.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_014-Remember": {
+  "target_rewrite": "List the operations supported by a stack data structure.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_021-Remember": {
+  "target_rewrite": "Recall the worst-case time complexity of merge sort.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_022-Remember": {
+  "target_rewrite": "Name the three parts of an IPv4 address that subnetting works with.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_027-Remember": {
+  "target_rewrite": "List the five formal components of a deterministic finite automaton.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_029-Remember": {
+  "target_rewrite": "List the major types of data replication used in distributed databases.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_031-Remember": {
+  "target_rewrite": "Which keys and hash function are used to generate and verify a digital signature?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_035-Remember": {
+  "target_rewrite": "What is the critical path in project scheduling?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_040-Remember": {
+  "target_rewrite": "What does the abbreviation TF-IDF stand for?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_041-Remember": {
+  "target_rewrite": "What are the SI units of voltage, current, and resistance?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_042-Remember": {
+  "target_rewrite": "List the principal components of reinforced concrete.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_045-Remember": {
+  "target_rewrite": "State Newton's second law of motion as a mathematical expression.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_046-Remember": {
+  "target_rewrite": "What is the SI unit of reaction rate?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_047-Remember": {
+  "target_rewrite": "Name the kind of variation that natural selection acts on.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_049-Remember": {
+  "target_rewrite": "What symbols are used for the null hypothesis, the alternative hypothesis, and the significance level?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_055-Remember": {
+  "target_rewrite": "List the major spatial and environmental considerations in university library planning.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_057-Remember": {
+  "target_rewrite": "Name the factors used to determine the performance of a heat exchanger.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_058-Remember": {
+  "target_rewrite": "Name two tests used to determine the convergence of an infinite series.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_060-Remember": {
+  "target_rewrite": "List the apparatus used in an acid-base titration.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_075-Remember": {
+  "target_rewrite": "List the major dimensions of social stratification.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_076-Remember": {
+  "target_rewrite": "Name the principal waves and intervals of a standard ECG waveform.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_080-Remember": {
+  "target_rewrite": "Name the two kinds of variables in a quantitative correlational study.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_081-Remember": {
+  "target_rewrite": "State the formula for the maintenance dose in terms of clearance, target steady-state concentration, dosing interval, and bioavailability.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_082-Remember": {
+  "target_rewrite": "List the major environmental factors that affect the stability of temperature-sensitive pharmaceutical formulations.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_086-Remember": {
+  "target_rewrite": "Name the two elements of criminal liability.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_087-Remember": {
+  "target_rewrite": "List the material properties and design parameters needed to determine the tensile reinforcement area of a reinforced concrete beam.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_088-Remember": {
+  "target_rewrite": "List the soil and loading parameters required for the design of a shallow foundation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_089-Remember": {
+  "target_rewrite": "List the passive design elements used to control solar heat gain in hot-humid residential buildings.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_090-Remember": {
+  "target_rewrite": "List the principal physical and mechanical properties of building materials.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_091-Remember": {
+  "target_rewrite": "Name two methods of image segmentation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_096-Remember": {
+  "target_rewrite": "Recall the voltage-gain expression of a common-emitter BJT amplifier.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_099-Remember": {
+  "target_rewrite": "List the wall-construction characteristics that affect sound transmission between adjacent rooms.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_103-Remember": {
+  "target_rewrite": "What is the equation for the efficiency of a single-phase transformer?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_105-Remember": {
+  "target_rewrite": "Recall Bernoulli's equation for steady flow.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_107-Remember": {
+  "target_rewrite": "Name the two quantities in a Thevenin equivalent circuit.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_109-Remember": {
+  "target_rewrite": "Recall the equation for the plasticity index of a soil.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_111-Remember": {
+  "target_rewrite": "State the ordering property of a binary search tree.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_113-Remember": {
+  "target_rewrite": "What is the Beer-Lambert law equation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_114-Remember": {
+  "target_rewrite": "State the mathematical expression of the discrete Fourier transform.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_116-Remember": {
+  "target_rewrite": "What is an influence line?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_120-Remember": {
+  "target_rewrite": "Name the two methods of heat sterilization used in pharmaceutical practice.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_122-Remember": {
+  "target_rewrite": "Recall the discrete-time convolution sum.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_123-Remember": {
+  "target_rewrite": "What is the literal rule of statutory interpretation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_130-Remember": {
+  "target_rewrite": "What does the abbreviation BOD stand for in water-quality testing?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_131-Remember": {
+  "target_rewrite": "Recall the formula for the concentration of an acid titrated with a standard alkali.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_134-Remember": {
+  "target_rewrite": "Write the equation for the Reynolds number in pipe flow.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_136-Remember": {
+  "target_rewrite": "List the relational algebra operations used to retrieve student names from the Student, Enrollment, and Course relations.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_137-Remember": {
+  "target_rewrite": "What is meant by delegation of authority?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_138-Remember": {
+  "target_rewrite": "Name the two variables plotted on a dose–response curve.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_140-Remember": {
+  "target_rewrite": "List the staff readings used in the height-of-instrument method.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_144-Remember": {
+  "target_rewrite": "Write the equation for stopping sight distance on a level road.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_145-Remember": {
+  "target_rewrite": "List the main types of foundation systems used for buildings.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_154-Remember": {
+  "target_rewrite": "State the Rational Method equation for peak runoff.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_155-Remember": {
+  "target_rewrite": "Name the three principal views used in orthographic projection.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_162-Remember": {
+  "target_rewrite": "How many distinct states does a modulo-6 counter have?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_166-Remember": {
+  "target_rewrite": "Name the two players in the minimax algorithm.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_167-Remember": {
+  "target_rewrite": "Recall the formulas for the current ratio and the quick ratio.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_171-Remember": {
+  "target_rewrite": "What is the general form of a linear calibration-curve equation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_174-Remember": {
+  "target_rewrite": "State the Darcy–Weisbach equation for frictional head loss in a pipe.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_176-Remember": {
+  "target_rewrite": "Name the graph used to test conflict serializability.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_177-Remember": {
+  "target_rewrite": "What does the abbreviation TNA stand for in human resource management?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_180-Remember": {
+  "target_rewrite": "Name the two measurements adjusted by the Bowditch rule in a closed traverse.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_181-Remember": {
+  "target_rewrite": "List the formulation variables in the supplied dissolution-test results.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_182-Remember": {
+  "target_rewrite": "Recall the average output voltage of an ideal single-phase full-wave rectifier in terms of the peak input voltage.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_184-Remember": {
+  "target_rewrite": "Recall the equation for primary consolidation settlement of a normally consolidated clay layer.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_186-Remember": {
+  "target_rewrite": "Name the data structure commonly used to implement Dijkstra's algorithm efficiently.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_187-Remember": {
+  "target_rewrite": "What is the straight-line depreciation formula?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_189-Remember": {
+  "target_rewrite": "What is the fundamental frequency of a periodic signal?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_190-Remember": {
+  "target_rewrite": "Recall the definitions of saturation flow and lost time in traffic signal design.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_191-Remember": {
+  "target_rewrite": "State the equation used to determine relative viscosity with an Ostwald viscometer.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_192-Remember": {
+  "target_rewrite": "What is the depletion region in a PN junction diode?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_194-Remember": {
+  "target_rewrite": "What do the abbreviations OMC and MDD stand for in a soil-compaction test?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_197-Remember": {
+  "target_rewrite": "Recall the economic order quantity formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_199-Remember": {
+  "target_rewrite": "Name the two main types of measurement error.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_200-Remember": {
+  "target_rewrite": "What is the critical path in a project network?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_201-Remember": {
+  "target_rewrite": "What is the transition range of an acid–base indicator?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_202-Remember": {
+  "target_rewrite": "Write Coulomb's law.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_207-Remember": {
+  "target_rewrite": "What is the probability mass function of the binomial distribution?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_211-Remember": {
+  "target_rewrite": "Which Python keyword is used to define a function?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_212-Remember": {
+  "target_rewrite": "Which element's address does an array name hold in C?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_214-Remember": {
+  "target_rewrite": "What is a critical point of a differentiable function?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_215-Remember": {
+  "target_rewrite": "State the percentage-change formula for price elasticity of demand.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_217-Remember": {
+  "target_rewrite": "Name the three dimensions of social stratification identified by Max Weber.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_219-Remember": {
+  "target_rewrite": "Recall the characteristic equation of a square matrix.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_220-Remember": {
+  "target_rewrite": "What is the worst-case time complexity of binary search?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_221-Remember": {
+  "target_rewrite": "Name the two cases that every recursive function must contain.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_223-Remember": {
+  "target_rewrite": "What is meant by consumer equilibrium?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_225-Remember": {
+  "target_rewrite": "Name the three blocks used in Java exception handling.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_227-Remember": {
+  "target_rewrite": "Name the curve that plots the short-run trade-off between inflation and unemployment.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_228-Remember": {
+  "target_rewrite": "Name the variable that marks the top element of an array-based stack.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_230-Remember": {
+  "target_rewrite": "Which SQL clause groups rows that have the same value in a column?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_233-Remember": {
+  "target_rewrite": "List the principal sections of a formal technical report.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_239-Remember": {
+  "target_rewrite": "What is meant by product positioning?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_240-Remember": {
+  "target_rewrite": "What is a page fault?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_241-Remember": {
+  "target_rewrite": "What is Faraday's law of electromagnetic induction?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_242-Remember": {
+  "target_rewrite": "What is an electrophile?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_244-Remember": {
+  "target_rewrite": "Name the two nutrients most commonly responsible for eutrophication.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_248-Remember": {
+  "target_rewrite": "Name the burning-test smell of cotton, wool, and polyester fibres.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_249-Remember": {
+  "target_rewrite": "Name the two variables that define a thermal process.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_250-Remember": {
+  "target_rewrite": "Name the land-cover changes that contribute to the urban heat island effect.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_251-Remember": {
+  "target_rewrite": "What is meant by an outstanding deposit and an outstanding payment?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_258-Remember": {
+  "target_rewrite": "What is meant by equivalent units of production?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_271-Remember": {
+  "target_rewrite": "Name the physical quantity an ultrasonic sensor measures to find the distance to an obstacle.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_272-Remember": {
+  "target_rewrite": "Recall the general syntax of a struct declaration in C.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_277-Remember": {
+  "target_rewrite": "List examples of electronic records that may be presented in legal proceedings.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_278-Remember": {
+  "target_rewrite": "Name two types of motors used in robotic movement.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_279-Remember": {
+  "target_rewrite": "Which C function frees dynamically allocated memory?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_281-Remember": {
+  "target_rewrite": "Name the two axes of the voltage transfer characteristic of a CMOS inverter.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_282-Remember": {
+  "target_rewrite": "State the Boolean expression of a two-input NAND gate.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_285-Remember": {
+  "target_rewrite": "Name the two transistor types in a CMOS transmission gate.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_288-Remember": {
+  "target_rewrite": "Recall the Gibbs free energy equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_289-Remember": {
+  "target_rewrite": "Name the structural response plotted on an influence line for a support reaction.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_292-Remember": {
+  "target_rewrite": "Name the two types of receptor antagonism.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_293-Remember": {
+  "target_rewrite": "Write the audit risk model.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_296-Remember": {
+  "target_rewrite": "List the artifacts to which requirements are linked in a requirements traceability matrix.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_299-Remember": {
+  "target_rewrite": "What is the equation for discharge through a venturimeter?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_302-Remember": {
+  "target_rewrite": "Recall the definitions of forward kinematics and inverse kinematics.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_303-Remember": {
+  "target_rewrite": "State the formula for taxable income in terms of gross income and allowable deductions.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_307-Remember": {
+  "target_rewrite": "Recall the Newton–Raphson iteration formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_308-Remember": {
+  "target_rewrite": "List the principal components of role-based access control.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_310-Remember": {
+  "target_rewrite": "Name the transistors in a conventional six-transistor SRAM cell.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_311-Remember": {
+  "target_rewrite": "Name the two yarn numbering systems.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_312-Remember": {
+  "target_rewrite": "Recall the definitions of validity and reliability in educational assessment.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_316-Remember": {
+  "target_rewrite": "What is the Nyquist sampling criterion?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_321-Remember": {
+  "target_rewrite": "What does the abbreviation CEC stand for in soil science?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_322-Remember": {
+  "target_rewrite": "Name the thermal resistance parameters used in food preservation calculations.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_323-Remember": {
+  "target_rewrite": "What are the Cauchy–Riemann equations?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_326-Remember": {
+  "target_rewrite": "Name the two basic types of folds in rock layers.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_327-Remember": {
+  "target_rewrite": "What is a token in compiler design?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_330-Remember": {
+  "target_rewrite": "List the C symbols for the bitwise AND, OR, XOR, and left-shift operators.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_332-Remember": {
+  "target_rewrite": "Write the formula for the reorder point.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_336-Remember": {
+  "target_rewrite": "Name the three gains in a PID controller.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_337-Remember": {
+  "target_rewrite": "State the probability mass function of the Poisson distribution.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_339-Remember": {
+  "target_rewrite": "Name two impurities commonly controlled by pharmaceutical limit tests.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_341-Remember": {
+  "target_rewrite": "List the main components of a cyclone separator.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_344-Remember": {
+  "target_rewrite": "List the principal layers of a flexible pavement.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_346-Remember": {
+  "target_rewrite": "What is the unit of software failure rate?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_347-Remember": {
+  "target_rewrite": "Name the functional groups of a carboxylic acid, an alcohol, and an ester.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_351-Remember": {
+  "target_rewrite": "Recall the equation for the magnetic force on a straight current-carrying conductor.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_353-Remember": {
+  "target_rewrite": "List the information that each router keeps in distance-vector routing.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_355-Remember": {
+  "target_rewrite": "Which page does the FIFO page replacement algorithm replace?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_356-Remember": {
+  "target_rewrite": "What is a therapeutic range?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_363-Remember": {
+  "target_rewrite": "What is Sabine's equation for reverberation time?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_367-Remember": {
+  "target_rewrite": "List the electrical parameters in the per-phase generated-emf equation of a synchronous generator.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_369-Remember": {
+  "target_rewrite": "Name the two markets in equilibrium along the IS curve and the LM curve.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_370-Remember": {
+  "target_rewrite": "State the slope-deflection equations for a beam member.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_374-Remember": {
+  "target_rewrite": "How many control points does a cubic Bézier curve have?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_377-Remember": {
+  "target_rewrite": "Name the three types of hazards in a pipelined processor.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_381-Remember": {
+  "target_rewrite": "Recall the null hypothesis of a chi-square test of independence.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_382-Remember": {
+  "target_rewrite": "What is SQL injection?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_384-Remember": {
+  "target_rewrite": "Name the four main components of a basic Rankine cycle.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_390-Remember": {
+  "target_rewrite": "What does the abbreviation NAT stand for in computer networking?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_391-Remember": {
+  "target_rewrite": "State the number of bits in the region code used by the Cohen–Sutherland line-clipping algorithm.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_394-Remember": {
+  "target_rewrite": "What is the depth of effective rainfall on which a unit hydrograph is based?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_395-Remember": {
+  "target_rewrite": "What is a connected graph?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_397-Remember": {
+  "target_rewrite": "Name the sensor readings used by robot odometry to estimate motion.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_402-Remember": {
+  "target_rewrite": "What is meant by production capacity?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_403-Remember": {
+  "target_rewrite": "Recall the Gauss–Seidel iteration formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_405-Remember": {
+  "target_rewrite": "Name the two types of database operations that can conflict between transactions.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_406-Remember": {
+  "target_rewrite": "What is the break-even formula in units?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_408-Remember": {
+  "target_rewrite": "State the midpoint formula for price elasticity of demand.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_410-Remember": {
+  "target_rewrite": "List the equations of static equilibrium for a planar structure.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_411-Remember": {
+  "target_rewrite": "Recall the integration-by-parts formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_414-Remember": {
+  "target_rewrite": "What is the full name of BOD in wastewater testing?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_415-Remember": {
+  "target_rewrite": "Which process does First-Come, First-Served scheduling run first?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_416-Remember": {
+  "target_rewrite": "Recall the rule by which Dijkstra's algorithm selects the next vertex.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_417-Remember": {
+  "target_rewrite": "What is the formula for transformer voltage regulation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_419-Remember": {
+  "target_rewrite": "Name the products of esterification.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_420-Remember": {
+  "target_rewrite": "What is the definition of misrepresentation in contract law?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_421-Remember": {
+  "target_rewrite": "Name the two quantities used to calculate the inverse of a square matrix.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_423-Remember": {
+  "target_rewrite": "Name the three types of feasibility studied in information-system development.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_424-Remember": {
+  "target_rewrite": "Recall the equation for the magnetic force on a current-carrying conductor in a magnetic field.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_426-Remember": {
+  "target_rewrite": "List the principal components of a cyclone separator.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_428-Remember": {
+  "target_rewrite": "What is meant by requirements traceability?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_430-Remember": {
+  "target_rewrite": "State Bernoulli's equation for steady, incompressible, frictionless flow.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_431-Remember": {
+  "target_rewrite": "State the formula for the therapeutic index in terms of LD50 and ED50.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_432-Remember": {
+  "target_rewrite": "Recall the formula for the simple money multiplier.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_433-Remember": {
+  "target_rewrite": "What is the typical minimum slope of a pitched roof?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_436-Remember": {
+  "target_rewrite": "Recall the dynamic power-dissipation equation for a CMOS inverter.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_439-Remember": {
+  "target_rewrite": "What is the 10% energy-transfer rule?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_443-Remember": {
+  "target_rewrite": "State the formulas for engineering stress and engineering strain.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_446-Remember": {
+  "target_rewrite": "Recall the characteristic equation of a unity-feedback control system.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_447-Remember": {
+  "target_rewrite": "What is meant by deposits in transit and outstanding cheques?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_449-Remember": {
+  "target_rewrite": "What is the formula for the test statistic of a one-sample z-test?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_450-Remember": {
+  "target_rewrite": "State the Beer–Lambert law equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_452-Remember": {
+  "target_rewrite": "Recall the distance-vector routing update equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_456-Remember": {
+  "target_rewrite": "Recall the definition of a functional dependency in relational database design.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_459-Remember": {
+  "target_rewrite": "Recall the exponential reliability equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_462-Remember": {
+  "target_rewrite": "List the inverse-kinematics equations of a planar two-link manipulator.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_464-Remember": {
+  "target_rewrite": "State Sabine's formula for reverberation time.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_465-Remember": {
+  "target_rewrite": "Which SQL clause filters the rows returned by a query?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_467-Remember": {
+  "target_rewrite": "State the economic order quantity formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_473-Remember": {
+  "target_rewrite": "Name positively charged plant nutrients that soil exchange sites can retain.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_478-Remember": {
+  "target_rewrite": "What is the formula for the reactive power supplied by a capacitor?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_480-Remember": {
+  "target_rewrite": "List the static equilibrium equations used to calculate the support reactions of a simply supported beam.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_481-Remember": {
+  "target_rewrite": "Recall the formula for price elasticity of demand.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_483-Remember": {
+  "target_rewrite": "State the Newton–Raphson iteration formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_484-Remember": {
+  "target_rewrite": "Write the formula for contribution margin per unit.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_489-Remember": {
+  "target_rewrite": "What is the Poisson probability formula?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_490-Remember": {
+  "target_rewrite": "What is the tex count of a yarn?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_493-Remember": {
+  "target_rewrite": "State the thermal-efficiency equation for an ideal Otto cycle.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_499-Remember": {
+  "target_rewrite": "Recall the discharge equation for a venturimeter.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_504-Remember": {
+  "target_rewrite": "Write the material cost variance formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_506-Remember": {
+  "target_rewrite": "Recall the definition of operationalization in social research.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_507-Remember": {
+  "target_rewrite": "What is the PID controller output equation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_511-Remember": {
+  "target_rewrite": "What is a commit record in write-ahead logging?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_513-Remember": {
+  "target_rewrite": "Name the reagent added to produce turbidity in the limit test for chloride.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_514-Remember": {
+  "target_rewrite": "Write Webster's optimum cycle-length formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_515-Remember": {
+  "target_rewrite": "State the government expenditure multiplier formula.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_523-Remember": {
+  "target_rewrite": "List the cutting parameters set in CNC turning.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_525-Remember": {
+  "target_rewrite": "Recall the Lineweaver–Burk equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_527-Remember": {
+  "target_rewrite": "Name the kind of variables a compiler introduces to hold intermediate results in three-address code.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_531-Remember": {
+  "target_rewrite": "What is an anticline?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_533-Remember": {
+  "target_rewrite": "Name the variable held constant when finding the partial derivative of f(x, y) with respect to x.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_535-Remember": {
+  "target_rewrite": "What are the slope-deflection equations for a prismatic beam member?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_537-Remember": {
+  "target_rewrite": "State the maximum number of keys in a node of a B-tree of minimum degree t=2.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_538-Remember": {
+  "target_rewrite": "Recall Faraday's law of electromagnetic induction.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_540-Remember": {
+  "target_rewrite": "Name the major components of the balance of payments.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_541-Remember": {
+  "target_rewrite": "What is a path between two vertices of a graph?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_544-Remember": {
+  "target_rewrite": "What does the abbreviation FIFO stand for in inventory valuation?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_547-Remember": {
+  "target_rewrite": "Is soil present at the start of primary succession?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_548-Remember": {
+  "target_rewrite": "What is a balanced transportation problem?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_549-Remember": {
+  "target_rewrite": "Name the places of articulation of English consonants.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_552-Remember": {
+  "target_rewrite": "How many host addresses does a /24 IPv4 subnet contain?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_553-Remember": {
+  "target_rewrite": "Recall the fringe-width equation for Young's double-slit experiment.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_556-Remember": {
+  "target_rewrite": "Recall the condition for consumer equilibrium with two goods.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_557-Remember": {
+  "target_rewrite": "Recall the definition of equivalent units of production.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_560-Remember": {
+  "target_rewrite": "State the confidence-interval formula for a population mean when the population standard deviation is known.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_562-Remember": {
+  "target_rewrite": "Recall the forward-kinematics equations of a two-link planar robot.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_563-Remember": {
+  "target_rewrite": "Name the enzymes involved in DNA replication at a replication fork.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_564-Remember": {
+  "target_rewrite": "Write the cash conversion cycle equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_565-Remember": {
+  "target_rewrite": "Name the three lines drawn on an X-control chart.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_569-Remember": {
+  "target_rewrite": "What is the characteristic equation of a square matrix?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_572-Remember": {
+  "target_rewrite": "What is meant by breach of contract?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_573-Remember": {
+  "target_rewrite": "State the discharge relationship for a venturimeter.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_574-Remember": {
+  "target_rewrite": "What is the definition of operationalization of variables?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_575-Remember": {
+  "target_rewrite": "Which purchase costs does the FIFO method assign first to cost of goods sold?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_581-Remember": {
+  "target_rewrite": "What is a syncline?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_582-Remember": {
+  "target_rewrite": "Recall the relationship used to calculate net fluid balance.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_584-Remember": {
+  "target_rewrite": "Name the four key points on a ductile material's stress–strain curve.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_586-Remember": {
+  "target_rewrite": "Recall the emf equation of a synchronous generator.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_588-Remember": {
+  "target_rewrite": "State the simple expenditure multiplier equation.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_590-Remember": {
+  "target_rewrite": "Name the information that neighbouring routers exchange in distance-vector routing.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_592-Remember": {
+  "target_rewrite": "Is soil present at the start of secondary succession?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_593-Remember": {
+  "target_rewrite": "What is a connected undirected graph?",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ },
+ "eduguard_v3_1_599-Remember": {
+  "target_rewrite": "List the manners of articulation used to classify English consonant sounds.",
+  "reason": "level_alignment_remember_v3_4: single recall ask (no compound 'and identify/describe' clause); wording checked against the fixed evaluation classifier"
+ }
+}
