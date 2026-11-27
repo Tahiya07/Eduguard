@@ -290,9 +290,11 @@ def load_condition(results_dir: Path | None, pack: Pack) -> list[dict[str, Any]]
         for row in (ext.get("bloom") or {}).get("per_row", []):
             extra[row["id"]] = {"calibrated_full_f": float(row["calibrated_full"]), "ref_rougeL": row["ref_rougeL"],
                                 "near_copy_f": float(row["near_copy"])}
+            if "bertscore_f1" in row:
+                extra[row["id"]]["bertscore_f1"] = row["bertscore_f1"]
         for task in ("qa", "summarization"):
             for row in (ext.get(task) or {}).get("per_row", []):
-                extra[row["id"]] = {k: row[k] for k in ("embedding_sim", "rougeLsum", "rougeL_lc") if k in row}
+                extra[row["id"]] = {k: row[k] for k in ("embedding_sim", "bertscore_f1", "rougeLsum", "rougeL_lc") if k in row}
         for r in preds:
             r.update(extra.get(r["id"], {}))
     else:
@@ -461,14 +463,17 @@ def results_figures(plt, pack: Pack, conds: dict[str, list[dict[str, Any]]], spl
         ("Bloom target accuracy", "bloom_rewrite", "target_match_f", True),
         ("Bloom fully validated (calibrated)", "bloom_rewrite", "calibrated_full_f", True),
         ("Bloom ROUGE-L to reference rewrite", "bloom_rewrite", "ref_rougeL", True),
+        ("Bloom BERTScore F1 to reference rewrite", "bloom_rewrite", "bertscore_f1", False),
         ("Bloom near-copy of source (lower is better)", "bloom_rewrite", "near_copy_f", False),
         ("QA ROUGE-L", "qa", "rougeL", True),
         ("QA ROUGE-L, length-controlled", "qa", "rougeL_lc", True),
         ("QA bge-m3 similarity to reference", "qa", "embedding_sim", False),
+        ("QA BERTScore F1", "qa", "bertscore_f1", False),
         ("Summarization ROUGE-1", "summarization", "rouge1", True),
         ("Summarization ROUGE-2", "summarization", "rouge2", True),
         ("Summarization ROUGE-Lsum", "summarization", "rougeLsum", True),
         ("Summarization bge-m3 similarity to reference", "summarization", "embedding_sim", False),
+        ("Summarization BERTScore F1", "summarization", "bertscore_f1", False),
     ]
     headline = [
         (name, task, key) for name, task, key, _ in candidates
@@ -719,11 +724,11 @@ def calibration_figures(plt, pack: Pack, ext: dict[str, Any], split: str) -> Non
     q, s = ext.get("qa"), ext.get("summarization")
     sem_rows = []
     if q:
-        sem_rows += [["Closed-book QA", q["n"], q["embedding_similarity_to_reference"]]]
+        sem_rows += [["Closed-book QA", q["n"], q["embedding_similarity_to_reference"], q.get("bertscore_f1", "n/a")]]
     if s:
-        sem_rows += [["Summarization", s["n"], s["embedding_similarity_to_reference"]]]
+        sem_rows += [["Summarization", s["n"], s["embedding_similarity_to_reference"], s.get("bertscore_f1", "n/a")]]
     if sem_rows:
-        pack.table("t8_semantic_agreement", ["Task", "N", "bge-m3 similarity to reference (mean)"], sem_rows,
+        pack.table("t8_semantic_agreement", ["Task", "N", "bge-m3 similarity to reference (mean)", "BERTScore F1 (rescaled, mean)"], sem_rows,
                    f"Embedding-based agreement with references ({split}).")
 
 

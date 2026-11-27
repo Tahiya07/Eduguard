@@ -79,12 +79,18 @@ def optional_bertscore(pairs: list[tuple[str, str]]) -> dict[str, Any] | None:
         from bert_score import score as bert_score_fn
     except ImportError:
         return {"available": False, "reason": "bert_score not installed"}
+    import torch
+
     preds, refs = zip(*pairs)
+    # same settings as augment_evaluation.bertscore_f1: roberta-large (bert_score's English default), rescaled
     p, r, f1 = bert_score_fn(
-        list(preds), list(refs), lang="en", verbose=False, device="cpu"
+        list(preds), list(refs), model_type="roberta-large", lang="en", rescale_with_baseline=True,
+        verbose=False, device="cuda" if torch.cuda.is_available() else "cpu",
     )
     return {
         "available": True,
+        "model": "roberta-large",
+        "rescaled_with_baseline": True,
         "precision": round(float(p.mean()), 6),
         "recall": round(float(r.mean()), 6),
         "f1": round(float(f1.mean()), 6),

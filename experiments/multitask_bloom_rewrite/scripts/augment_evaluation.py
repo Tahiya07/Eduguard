@@ -11,9 +11,12 @@ reference outputs:
 2. Embedding topic preservation (Bloom). bge-m3 cosine between source question
    and rewrite; threshold = 5th percentile over TRAIN-split reference rewrites.
    Near-copy rate and ROUGE-L to the reference rewrite guard against copying.
-3. QA: bge-m3 similarity to the reference and ROUGE-L after cutting the output
-   to the reference length (so verbosity cannot change the score).
-4. Summarization: ROUGE-Lsum and bge-m3 similarity to the reference.
+3. QA: bge-m3 similarity and BERTScore F1 to the reference, and ROUGE-L after
+   cutting the output to the reference length (so verbosity cannot change the score).
+4. Summarization: ROUGE-Lsum, bge-m3 similarity and BERTScore F1 to the reference.
+   BERTScore (Bloom rewrites too): roberta-large, layer 17, F1 rescaled with the
+   official English baseline (bert_score defaults); inputs longer than 512 tokens
+   are truncated by the scorer.
 5. Per-task latency.
 6. Blinded human-rating sheets for QA correctness and summary faithfulness
    (stratified, seeded), because ROUGE cannot detect factual errors.
@@ -48,6 +51,7 @@ for p in (EXPERIMENT_DIR, SCRIPT_DIR, REPO_ROOT):
 
 LEVELS = ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
 EMBED_MODEL = "BAAI/bge-m3"
+BERTSCORE_MODEL = "roberta-large"  # bert_score's default English model (layer 17)
 CALIBRATION_PERCENTILE = 5
 HUMAN_SAMPLE = {"qa": 60, "summarization": 40}
 SEED = 42
@@ -83,6 +87,17 @@ class Embedder:
     def cos(self, a: list[str], b: list[str]) -> list[float]:
         ea, eb = self.encode(a), self.encode(b)
         return [float((x * y).sum()) for x, y in zip(ea, eb)]
+
+
+def bertscore_f1(preds: list[str], refs: list[str]) -> list[float]:
+    """Rescaled BERTScore F1 per pair (bert_score defaults for English)."""
+    import torch
+    from bert_score import score
+
+    _, _, f1 = score([p or "" for p in preds], [r or "" for r in refs], model_type=BERTSCORE_MODEL, lang="en",
+                     rescale_with_baseline=True, batch_size=16, verbose=False,
+                     device="cuda" if torch.cuda.is_available() else "cpu")
+    return [float(x) for x in f1]
 
 
 def sentences(text: str) -> list[str]:
@@ -166,6 +181,7 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
     summ = [r for r in preds if r["task"] == "summarization"]
     out: dict[str, Any] = {"generated_utc": datetime.now(timezone.utc).isoformat(), "split": split,
                            "results_dir": str(results_dir), "embedding_model": EMBED_MODEL,
+                           "bertscore": {"model": BERTSCORE_MODEL, "rescale_with_baseline": True, "lang": "en"},
                            "calibration": f"{CALIBRATION_PERCENTILE}th percentile over train-split references"}
     emb = Embedder()
 
@@ -208,6 +224,7 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
         # Reference-based scores: agreement with the teacher-written rewrite for
         # the same source and target level. Copying the source cannot game these.
         ref_rl = [rouge_l(r["prediction"], r["reference"]) for r in bloom]
+        ref_bs = bertscore_f1([r["prediction"] for r in bloom], [r["reference"] for r in bloom])
         # Near-copy: rewrite closer (ROUGE-L) to its source than 95% of train
         # reference rewrites are to theirs.
         copy_thr = percentile([rouge_l(r["target_rewrite"], r["source_question"]) for r in train_bloom], 100 - CALIBRATION_PERCENTILE)
@@ -217,12 +234,13 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
         ceilings["near_copy_of_source"] = (rate(near_copy), rate([x > copy_thr for x in gold_src_rl]))
         per_row_bloom = [
             {"id": r["id"], "calibrated_full": bool(c), "topic_embedding": bool(t), "ref_rougeL": round(a, 4),
-             "source_rougeL": round(x, 4), "near_copy": bool(n)}
-            for r, c, t, a, x, n in zip(bloom, calibrated_full, topic_model, ref_rl, src_rl, near_copy)
+             "source_rougeL": round(x, 4), "near_copy": bool(n), "bertscore_f1": round(f, 4)}
+            for r, c, t, a, x, n, f in zip(bloom, calibrated_full, topic_model, ref_rl, src_rl, near_copy, ref_bs)
         ]
         out["bloom"] = {
             "reference_based": {
                 "rougeL_to_reference_mean": round(st.mean(ref_rl), 4),
+                "bertscore_f1_to_reference_mean": round(st.mean(ref_bs), 4),
                 "near_copy_threshold_source_rougeL": round(copy_thr, 4),
             },
             "per_row": per_row_bloom,
@@ -244,29 +262,33 @@ def augment(results_dir: Path, config_path: Path, skip_classifier: bool = False)
     if qa:
         lc = [length_controlled(r["prediction"], r["reference"]) for r in qa]
         sims = emb.cos([r["prediction"] for r in qa], [r["reference"] for r in qa])
+        bs = bertscore_f1([r["prediction"] for r in qa], [r["reference"] for r in qa])
         out["qa"] = {
             "n": len(qa),
             "embedding_similarity_to_reference": round(st.mean(sims), 4),
+            "bertscore_f1": round(st.mean(bs), 4),
             "rougeL_length_controlled": round(st.mean(x["rougeL_lc"] for x in lc), 4),
             "median_output_words": st.median(len(r["prediction"].split()) for r in qa),
             "median_reference_words": st.median(len(r["reference"].split()) for r in qa),
-            "per_row": [{"id": r["id"], "rougeL_lc": round(x["rougeL_lc"], 4), "embedding_sim": round(e, 4)}
-                        for r, x, e in zip(qa, lc, sims)],
+            "per_row": [{"id": r["id"], "rougeL_lc": round(x["rougeL_lc"], 4), "embedding_sim": round(e, 4),
+                         "bertscore_f1": round(f, 4)} for r, x, e, f in zip(qa, lc, sims, bs)],
         }
 
     # ---- Summarization: summary-level ROUGE-Lsum (the standard long-document summarization score)
     if summ:
         lsum = [rouge_lsum(r["prediction"], r["reference"]) for r in summ]
         sims = emb.cos([r["prediction"] for r in summ], [r["reference"] for r in summ])
+        bs = bertscore_f1([r["prediction"] for r in summ], [r["reference"] for r in summ])
         out["summarization"] = {
             "n": len(summ),
             "embedding_similarity_to_reference": round(st.mean(sims), 4),
+            "bertscore_f1": round(st.mean(bs), 4),
             "rougeLsum": {"mean": round(st.mean(lsum), 4),
                           "note": "summary-level ROUGE-L over newline-separated sentences"},
             "median_output_words": st.median(len(r["prediction"].split()) for r in summ),
             "median_reference_words": st.median(len(r["reference"].split()) for r in summ),
-            "per_row": [{"id": r["id"], "rougeLsum": round(x, 4), "embedding_sim": round(e, 4)}
-                        for r, x, e in zip(summ, lsum, sims)],
+            "per_row": [{"id": r["id"], "rougeLsum": round(x, 4), "embedding_sim": round(e, 4),
+                         "bertscore_f1": round(f, 4)} for r, x, e, f in zip(summ, lsum, sims, bs)],
         }
 
     # ---- Latency per task
@@ -327,6 +349,7 @@ def write_report(results_dir: Path, metrics: dict[str, Any], ext: dict[str, Any]
         rb = b["reference_based"]
         L += ["", f"- Agreement with the teacher-written rewrite for the same target level: ROUGE-L {rb['rougeL_to_reference_mean']} "
               "(cannot be raised by copying the source).",
+              f"- BERTScore F1 (rescaled) to the teacher-written rewrite: {rb.get('bertscore_f1_to_reference_mean')}",
               f"- Fully validated (calibrated): {b['fully_validated_calibrated']} ({b['calibrated_definition']}).", "",
               "| Target level | N | Model accuracy | Reference accuracy (classifier ceiling) |", "|---|---:|---:|---:|"]
         for lv, v in b["per_level"].items():
@@ -336,6 +359,7 @@ def write_report(results_dir: Path, metrics: dict[str, Any], ext: dict[str, Any]
     if q:
         L += ["## Closed-book QA", "",
               f"- bge-m3 similarity to the reference answer: {q['embedding_similarity_to_reference']}",
+              f"- BERTScore F1 (roberta-large, rescaled) to the reference answer: {q.get('bertscore_f1')}",
               f"- ROUGE-L with Markdown removed and the output cut to the reference length: {q['rougeL_length_controlled']}",
               f"- Median output {q['median_output_words']} words vs reference {q['median_reference_words']}.",
               "- Factual correctness is not measured automatically; see `human_eval_qa.csv`.", ""]
@@ -344,6 +368,7 @@ def write_report(results_dir: Path, metrics: dict[str, Any], ext: dict[str, Any]
         L += ["## Summarization", "",
               f"- ROUGE-Lsum (summary-level): {s['rougeLsum']['mean']}",
               f"- bge-m3 similarity to the reference summary: {s['embedding_similarity_to_reference']}",
+              f"- BERTScore F1 (roberta-large, rescaled; inputs over 512 tokens truncated) to the reference summary: {s.get('bertscore_f1')}",
               f"- Median output {s['median_output_words']} words vs reference {s['median_reference_words']}.",
               "- Faithfulness is not measured automatically; see `human_eval_summarization.csv`.", ""]
     L += ["## Latency per task", "", "| Task | N | Mean (s) | P50 (s) | P95 (s) |", "|---|---:|---:|---:|---:|"]

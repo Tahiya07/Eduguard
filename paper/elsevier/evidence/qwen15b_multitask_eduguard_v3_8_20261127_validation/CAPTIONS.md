@@ -1,6 +1,6 @@
 # Draft figure and table captions
 
-Run `qwen15b_multitask_eduguard_v3_8_20261127`, split `validation`. Generated 2026-11-27T07:52:11.793663+00:00.
+Run `qwen15b_multitask_eduguard_v3_8_20261127`, split `validation`. Generated 2026-11-27T08:06:40.422980+00:00.
 
 - **figures/fig01_training_curves**: Training and validation loss (assistant tokens only) and learning-rate schedule. The adapter with the lowest validation loss (epoch 1, 1.360) was retained as the final model.
 - **figures/figS1_gpu_memory**: Peak allocated and reserved GPU memory per logging interval during training (RTX 4080, 16 GB).

@@ -1,3 +1,3 @@
-Task,N,bge-m3 similarity to reference (mean)
-Closed-book QA,146,0.8238
-Summarization,146,0.8334
+Task,N,bge-m3 similarity to reference (mean),"BERTScore F1 (rescaled, mean)"
+Closed-book QA,146,0.8238,0.3452
+Summarization,146,0.8334,0.2545
