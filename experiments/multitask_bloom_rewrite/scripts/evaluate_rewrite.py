@@ -553,6 +553,13 @@ def main() -> None:
         help="llama.cpp decode threads for --condition gguf (default: min(8, physical cores))",
     )
     parser.add_argument(
+        "--repeat-penalty",
+        type=float,
+        default=1.0,
+        help="llama.cpp repeat penalty for --condition gguf (default 1.0 = off, as in all reported runs). "
+             "Experiment only; recorded in metrics.json under generation.",
+    )
+    parser.add_argument(
         "--gpu-layers",
         type=int,
         default=0,
@@ -646,7 +653,7 @@ def main() -> None:
         "temperature": 0.0,
         "top_p": 1.0,
         "top_k": 0,
-        "repeat_penalty": 1.0,
+        "repeat_penalty": float(getattr(args, "repeat_penalty", 1.0) or 1.0),
         "max_new_tokens": int(cfg.get("generation", {}).get("max_new_tokens", 128)),
         "max_new_tokens_by_task": cfg.get("generation", {}).get(
             "max_new_tokens_by_task", {}
@@ -660,6 +667,9 @@ def main() -> None:
         "seed": SEED,
     }
     gen_cfg.update({k: v for k, v in gen_frozen.items() if k != "notes"})
+    # An explicit --repeat-penalty must win over the frozen generation.json (which pins 1.0).
+    if float(getattr(args, "repeat_penalty", 1.0) or 1.0) != 1.0:
+        gen_cfg["repeat_penalty"] = float(args.repeat_penalty)
     set_seed(int(gen_cfg.get("seed", SEED)))
 
     # The model must be scored on the dataset it was trained with, so default to the config's dataset_dir.

@@ -43,6 +43,7 @@ from __future__ import annotations
 import logging
 import os
 import random
+import re
 import sys
 import threading
 import time
@@ -124,6 +125,61 @@ SYSTEM_PROMPT = (
     "If the context does not contain enough information, reply exactly: "
     "\"I don't know based on the provided context.\""
 )
+
+# The exact summarization prompt the v3.9 generator was trained on (every training example used it).
+# Must stay identical to LECTURE_SUMMARIZATION_SYSTEM in experiments/multitask_bloom_rewrite/prompts.py
+# (checked by tests/test_summary_format.py). A different, longer prompt was measured to be ~2x slower
+# with no better summaries.
+TRAINED_SUMMARY_SYSTEM_PROMPT = (
+    "You are an academic study assistant for university students. "
+    "Summarize the lecture material into coherent, moderately concise study notes. "
+    "Preserve the central topic, key concepts, definitions, technical terms, relationships, and any important "
+    "formulas, methods, or examples. Do not oversimplify, pad, or invent information."
+)
+
+
+def trained_summary_chatml(source_text: str) -> str:
+    return (
+        f"<|im_start|>system\n{TRAINED_SUMMARY_SYSTEM_PROMPT}<|im_end|>\n"
+        f"<|im_start|>user\nLecture material:\n{source_text.strip()}<|im_end|>\n"
+        "<|im_start|>assistant\n"
+    )
+
+
+# Short passages: the trained summary prompt (learned on lecture-length material) tends to copy a
+# sentence back verbatim. This prompt asks for a shorter, reworded version and measured better.
+CONDENSE_SYSTEM_PROMPT = (
+    "You condense text. Write a shorter version that keeps every key idea but uses fewer words "
+    "and your own phrasing."
+)
+SHORT_SOURCE_WORDS = 120
+
+
+def condense_chatml(source_text: str) -> str:
+    return (
+        f"<|im_start|>system\n{CONDENSE_SYSTEM_PROMPT}<|im_end|>\n"
+        f"<|im_start|>user\n{source_text.strip()}<|im_end|>\n"
+        "<|im_start|>assistant\n"
+    )
+
+
+def verbatim_share(summary: str, source_text: str) -> float:
+    """Share of the summary's sentences (5+ words) that appear word for word in the source."""
+    norm = lambda t: re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).strip()
+    src = norm(source_text)
+    sentences = [norm(x) for x in re.split(r"(?<=[.!?])\s+", summary or "") if len(norm(x).split()) >= 5]
+    return sum(x in src for x in sentences) / len(sentences) if sentences else 0.0
+
+
+# The 4-bit model often lifts whole sentences from the source (38% of 8-word spans vs 12% for bf16).
+# At or above this share of copied sentences, the summary is retried with the rewording prompt.
+VERBATIM_RETRY_SHARE = 0.5
+
+
+def is_verbatim_copy(summary: str, source_text: str) -> bool:
+    """True when at least half of the summary's sentences are copied word for word from the source."""
+    return verbatim_share(summary, source_text) >= VERBATIM_RETRY_SHARE
+
 
 SUMMARY_SYSTEM_PROMPT = (
     "You are EduGuard's careful, source-faithful document summarizer. TASK LOCK: summarize only the supplied source; "
@@ -234,7 +290,12 @@ class RAGGenerator:
         task_id: str = "academic_qa",
         n_threads_batch: Optional[int] = None,
         prompt_cache_mb: int = 0,
+        n_gpu_layers: int = 0,
+        summary_repeat_penalty: float = 1.0,
     ) -> None:
+        # Summaries only. On the 4-bit model, 1.1 cut repetition loops from 27 to 7 of 146 validation
+        # summaries (bf16: 6) and verbatim copying from 38% to 25% (bf16: 12%), with ROUGE-L at the bf16 level.
+        self.summary_repeat_penalty = float(summary_repeat_penalty or 1.0)
         if not isinstance(retriever, PrivacyRetriever):
             raise TypeError("retriever must be a PrivacyRetriever instance")
         if n_ctx < 256:
@@ -283,7 +344,9 @@ class RAGGenerator:
                 n_ctx=self.n_ctx,
                 n_threads=self.n_threads,
                 n_threads_batch=int(n_threads_batch or self.n_threads),
-                n_gpu_layers=0,
+                # -1 = all layers on the GPU when this llama.cpp build has GPU support; a CPU-only
+                # build ignores it and runs on the CPU, so one setting works on every machine.
+                n_gpu_layers=int(n_gpu_layers),
                 seed=self.seed,
                 use_mmap=True,
                 use_mlock=False,
@@ -321,6 +384,7 @@ class RAGGenerator:
         chunks: Sequence[Union[RetrievalResult, str]],
         bloom_level: str,
         safety_instruction: Optional[str] = None,
+        key_sentences: Optional[Sequence[str]] = None,
     ) -> str:
         """Build the structured RAG prompt body (without ChatML wrapping)."""
         if not isinstance(query, str) or not query.strip():
@@ -343,7 +407,9 @@ class RAGGenerator:
             "generate new questions, or output a Bloom label.\n\n"
             "[BOUNDED CONTEXT]\n"
             f"{ctx_str}\n\n"
-            "[QUESTION]\n"
+            + (("[MOST RELEVANT SENTENCES FROM THE CONTEXT]\n" + "\n".join(f"- {s}" for s in key_sentences) + "\n\n")
+               if key_sentences else "")
+            + "[QUESTION]\n"
             f"{query.strip()}\n\n"
             "[COGNITIVE LEVEL]\n"
             f"Bloom level = {bl}. {BLOOM_INSTRUCTIONS[bl]}\n\n"
@@ -392,11 +458,31 @@ class RAGGenerator:
             f"<|im_start|>assistant\n"
         )
 
+    def summarize_text(self, source_text: str, *, max_tokens: Optional[int] = None) -> tuple[str, float, str]:
+        """Summarize pasted text; returns (summary, seconds, finish_reason).
+
+        Lecture-length text uses the trained summary prompt. Short passages, and any summary that only
+        repeats source sentences word for word, use the condense prompt instead.
+        """
+        if len(source_text.split()) < SHORT_SOURCE_WORDS:
+            return self._run_chatml(condense_chatml(source_text), max_tokens=max_tokens,
+                                    repeat_penalty=self.summary_repeat_penalty)
+        text, elapsed, reason = self._run_chatml(trained_summary_chatml(source_text), max_tokens=max_tokens,
+                                                 repeat_penalty=self.summary_repeat_penalty)
+        if is_verbatim_copy(text, source_text):
+            retry, elapsed2, reason2 = self._run_chatml(condense_chatml(source_text), max_tokens=max_tokens,
+                                                        repeat_penalty=self.summary_repeat_penalty)
+            # Keep the reworded attempt if it copies less than the first one.
+            if retry.strip() and verbatim_share(retry, source_text) < verbatim_share(text, source_text):
+                return retry, elapsed + elapsed2, reason2
+        return text, elapsed, reason
+
     def _run_chatml(
         self,
         chatml: str,
         *,
         max_tokens: Optional[int] = None,
+        repeat_penalty: float = 1.0,
     ) -> tuple[str, float, str]:
         """Run deterministic CPU inference and retain the model's stop reason."""
         # Keep reset + generation in one critical section: the KV cache and
@@ -414,7 +500,7 @@ class RAGGenerator:
                 temperature=0.0,
                 top_p=1.0,
                 top_k=0,
-                repeat_penalty=1.0,
+                repeat_penalty=float(repeat_penalty or 1.0),
                 stop=["<|im_end|>", "<|im_start|>"],
                 echo=False,
                 seed=self.seed,
@@ -446,8 +532,14 @@ class RAGGenerator:
         max_chars_per_chunk: int = 700,
         max_total_chars: int = 2800,
         summary_mode: bool = False,
+        support_texts: Optional[Sequence[str]] = None,
+        key_sentences: Optional[Sequence[str]] = None,
     ) -> GenerationOutput:
-        """Run generation from caller-supplied context chunks."""
+        """Run generation from caller-supplied context chunks.
+
+        support_texts: all of the user's notes. A QA sentence is kept if the notes support it, which
+        is checked against the whole notes, not only the few chunks that fit in the prompt.
+        """
         if not isinstance(query, str) or not query.strip():
             raise ValueError("query must be a non-empty string")
         bl = self._norm_bloom(bloom_level)
@@ -482,15 +574,19 @@ class RAGGenerator:
             )
 
         if summary_mode:
-            prompt = self.build_summary_prompt(query, norm, safety_instruction=safety_instruction)
-            chatml = self._to_chatml(prompt, system_prompt=SUMMARY_SYSTEM_PROMPT)
+            # Training-format prompt: the source text only. Format requests ("5 bullets") are applied
+            # afterwards by summary_format.apply_format, because the model was trained on paragraphs.
+            prompt = "\n\n".join(c.text.strip() for c in norm if (c.text or "").strip())
+            chatml = trained_summary_chatml(prompt)
         else:
-            prompt = self.build_prompt(query, norm, bl, safety_instruction=safety_instruction)
+            prompt = self.build_prompt(query, norm, bl, safety_instruction=safety_instruction,
+                                       key_sentences=key_sentences)
             chatml = self._to_chatml(prompt)
         effective_max_tokens = int(max_tokens or self.max_tokens)
         text, elapsed, finish_reason = self._run_chatml(
             chatml,
             max_tokens=effective_max_tokens,
+            repeat_penalty=self.summary_repeat_penalty if summary_mode else 1.0,
         )
         check_cancelled()
         chunk_texts = [c.text for c in norm]
@@ -508,6 +604,7 @@ class RAGGenerator:
                 retry_text, retry_elapsed, retry_reason = self._run_chatml(
                     chatml,
                     max_tokens=retry_tokens,
+                    repeat_penalty=self.summary_repeat_penalty,
                 )
                 elapsed += retry_elapsed
                 if retry_text.strip() and retry_reason != "length":
@@ -525,7 +622,7 @@ class RAGGenerator:
             # QA: keep grounded answers even when they reuse the notes' wording (see sanitize_rag_answer).
             text = sanitize_rag_answer(text, chunk_texts, on_copy="trim")
             # Notes were supplied: drop sentences the notes do not support.
-            text = keep_supported_sentences(text, chunk_texts)
+            text = keep_supported_sentences(text, list(support_texts) if support_texts else chunk_texts)
         return GenerationOutput(
             answer=text,
             chunks=norm,

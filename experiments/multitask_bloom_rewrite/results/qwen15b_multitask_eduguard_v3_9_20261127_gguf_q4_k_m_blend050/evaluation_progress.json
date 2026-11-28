@@ -1,10 +1,10 @@
 {
-  "status": "running",
-  "updated_utc": "2026-11-27T16:32:05.825129+00:00",
+  "status": "complete",
+  "updated_utc": "2026-11-27T16:42:28.617479+00:00",
   "output_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_blend050",
   "predictions_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_blend050\\predictions.jsonl",
   "completed": {
-    "bloom_rewrite": 245,
+    "bloom_rewrite": 341,
     "qa": 0,
     "summarization": 0
   },
@@ -13,8 +13,10 @@
     "qa": 0,
     "summarization": 0
   },
-  "total_completed": 245,
+  "total_completed": 341,
   "total_expected": 341,
+  "metrics_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_blend050\\metrics.json",
+  "report_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_blend050\\evaluation_report.md",
   "checkpoint": {
     "condition": "gguf",
     "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",

@@ -1,0 +1,215 @@
+{
+  "cells": {
+    "C1\u2192C2": {
+      "source_level": "Remember",
+      "target_level": "Understand",
+      "n": 8,
+      "target_accuracy": 0.75,
+      "fully_validated_rate": 0.5
+    },
+    "C1\u2192C3": {
+      "source_level": "Remember",
+      "target_level": "Apply",
+      "n": 8,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.5
+    },
+    "C1\u2192C4": {
+      "source_level": "Remember",
+      "target_level": "Analyze",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.857143
+    },
+    "C1\u2192C5": {
+      "source_level": "Remember",
+      "target_level": "Evaluate",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.714286
+    },
+    "C1\u2192C6": {
+      "source_level": "Remember",
+      "target_level": "Create",
+      "n": 7,
+      "target_accuracy": 0.857143,
+      "fully_validated_rate": 0.714286
+    },
+    "C2\u2192C1": {
+      "source_level": "Understand",
+      "target_level": "Remember",
+      "n": 11,
+      "target_accuracy": 0.636364,
+      "fully_validated_rate": 0.363636
+    },
+    "C2\u2192C3": {
+      "source_level": "Understand",
+      "target_level": "Apply",
+      "n": 11,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.818182
+    },
+    "C2\u2192C4": {
+      "source_level": "Understand",
+      "target_level": "Analyze",
+      "n": 11,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.818182
+    },
+    "C2\u2192C5": {
+      "source_level": "Understand",
+      "target_level": "Evaluate",
+      "n": 11,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.636364
+    },
+    "C2\u2192C6": {
+      "source_level": "Understand",
+      "target_level": "Create",
+      "n": 11,
+      "target_accuracy": 0.818182,
+      "fully_validated_rate": 0.636364
+    },
+    "C3\u2192C1": {
+      "source_level": "Apply",
+      "target_level": "Remember",
+      "n": 21,
+      "target_accuracy": 0.761905,
+      "fully_validated_rate": 0.47619
+    },
+    "C3\u2192C2": {
+      "source_level": "Apply",
+      "target_level": "Understand",
+      "n": 21,
+      "target_accuracy": 0.857143,
+      "fully_validated_rate": 0.666667
+    },
+    "C3\u2192C4": {
+      "source_level": "Apply",
+      "target_level": "Analyze",
+      "n": 21,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.666667
+    },
+    "C3\u2192C5": {
+      "source_level": "Apply",
+      "target_level": "Evaluate",
+      "n": 21,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.952381
+    },
+    "C3\u2192C6": {
+      "source_level": "Apply",
+      "target_level": "Create",
+      "n": 21,
+      "target_accuracy": 0.809524,
+      "fully_validated_rate": 0.714286
+    },
+    "C4\u2192C1": {
+      "source_level": "Analyze",
+      "target_level": "Remember",
+      "n": 16,
+      "target_accuracy": 0.75,
+      "fully_validated_rate": 0.5
+    },
+    "C4\u2192C2": {
+      "source_level": "Analyze",
+      "target_level": "Understand",
+      "n": 16,
+      "target_accuracy": 0.8125,
+      "fully_validated_rate": 0.6875
+    },
+    "C4\u2192C3": {
+      "source_level": "Analyze",
+      "target_level": "Apply",
+      "n": 16,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.625
+    },
+    "C4\u2192C5": {
+      "source_level": "Analyze",
+      "target_level": "Evaluate",
+      "n": 16,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.75
+    },
+    "C4\u2192C6": {
+      "source_level": "Analyze",
+      "target_level": "Create",
+      "n": 16,
+      "target_accuracy": 0.9375,
+      "fully_validated_rate": 0.6875
+    },
+    "C5\u2192C1": {
+      "source_level": "Evaluate",
+      "target_level": "Remember",
+      "n": 8,
+      "target_accuracy": 0.5,
+      "fully_validated_rate": 0.375
+    },
+    "C5\u2192C2": {
+      "source_level": "Evaluate",
+      "target_level": "Understand",
+      "n": 8,
+      "target_accuracy": 0.875,
+      "fully_validated_rate": 0.75
+    },
+    "C5\u2192C3": {
+      "source_level": "Evaluate",
+      "target_level": "Apply",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.857143
+    },
+    "C5\u2192C4": {
+      "source_level": "Evaluate",
+      "target_level": "Analyze",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 1.0
+    },
+    "C5\u2192C6": {
+      "source_level": "Evaluate",
+      "target_level": "Create",
+      "n": 7,
+      "target_accuracy": 0.857143,
+      "fully_validated_rate": 0.857143
+    },
+    "C6\u2192C1": {
+      "source_level": "Create",
+      "target_level": "Remember",
+      "n": 8,
+      "target_accuracy": 0.75,
+      "fully_validated_rate": 0.625
+    },
+    "C6\u2192C2": {
+      "source_level": "Create",
+      "target_level": "Understand",
+      "n": 8,
+      "target_accuracy": 0.875,
+      "fully_validated_rate": 0.625
+    },
+    "C6\u2192C3": {
+      "source_level": "Create",
+      "target_level": "Apply",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 1.0
+    },
+    "C6\u2192C4": {
+      "source_level": "Create",
+      "target_level": "Analyze",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.571429
+    },
+    "C6\u2192C5": {
+      "source_level": "Create",
+      "target_level": "Evaluate",
+      "n": 7,
+      "target_accuracy": 1.0,
+      "fully_validated_rate": 0.714286
+    }
+  },
+  "topic_similarity_threshold": 0.2
+}

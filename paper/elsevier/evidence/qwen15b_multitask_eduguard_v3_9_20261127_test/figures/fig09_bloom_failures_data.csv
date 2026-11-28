@@ -1,0 +1,7 @@
+condition,failure_category,count
+base,WRONG_TARGET_LEVEL,114
+base,TOPIC_DRIFT,11
+base,LOW_CONFIDENCE,4
+base,TRIVIAL_VERB_SWAP,2
+base,DECLARATIVE_OUTPUT,2
+base,OTHER,1

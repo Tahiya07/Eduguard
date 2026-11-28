@@ -1,0 +1,43 @@
+{
+  "status": "complete",
+  "updated_utc": "2026-11-27T22:39:56.720298+00:00",
+  "output_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m",
+  "predictions_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m\\predictions.jsonl",
+  "completed": {
+    "bloom_rewrite": 341,
+    "qa": 146,
+    "summarization": 146
+  },
+  "expected": {
+    "bloom_rewrite": 341,
+    "qa": 146,
+    "summarization": 146
+  },
+  "total_completed": 633,
+  "total_expected": 633,
+  "metrics_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m\\metrics.json",
+  "report_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m\\evaluation_report.md",
+  "checkpoint": {
+    "condition": "gguf",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": null,
+    "resolved_path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+    "checkpoint_selection": "gguf_export_of_best_adapter",
+    "gguf": {
+      "path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+      "size_bytes": 986048160,
+      "name": "Merged",
+      "architecture": "qwen2",
+      "file_type": "Q4_K_M",
+      "imatrix_dataset": null
+    },
+    "gguf_runtime": {
+      "n_ctx": 9312,
+      "threads": {
+        "decode": 8,
+        "batch": 16
+      },
+      "device": "llama.cpp (gpu_layers=0)"
+    }
+  }
+}

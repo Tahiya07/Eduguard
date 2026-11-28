@@ -1,0 +1,185 @@
+{
+  "generated_utc": "2026-11-27T23:19:34.258307+00:00",
+  "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+  "precision": "4bit",
+  "condition": "gguf",
+  "split": "validation",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m",
+  "calibration_file": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127\\judge_calibration_validation.json",
+  "results": {
+    "qa": {
+      "accuracy": {
+        "mean": 0.6712,
+        "ci95": [
+          0.5959,
+          0.7466
+        ],
+        "n": 146
+      },
+      "lenient_accuracy": {
+        "mean": 0.9726,
+        "ci95": [
+          0.9452,
+          0.9932
+        ],
+        "n": 146
+      },
+      "verdicts": {
+        "correct": 98,
+        "partially_correct": 44,
+        "incorrect": 4
+      },
+      "unparsed": 0,
+      "accuracy_by_qa_type": {
+        "analytical": {
+          "n": 26,
+          "accuracy": 0.6154
+        },
+        "application": {
+          "n": 31,
+          "accuracy": 0.7419
+        },
+        "calculation": {
+          "n": 14,
+          "accuracy": 0.8571
+        },
+        "comparative": {
+          "n": 24,
+          "accuracy": 0.6667
+        },
+        "conceptual": {
+          "n": 33,
+          "accuracy": 0.6364
+        },
+        "design": {
+          "n": 2,
+          "accuracy": 0.0
+        },
+        "diagnosis": {
+          "n": 4,
+          "accuracy": 0.5
+        },
+        "explanation": {
+          "n": 3,
+          "accuracy": 1.0
+        },
+        "process": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "reasoning": {
+          "n": 2,
+          "accuracy": 0.5
+        },
+        "sequence": {
+          "n": 2,
+          "accuracy": 0.5
+        }
+      }
+    },
+    "summarization": {
+      "faithful_rate": {
+        "mean": 0.9589,
+        "ci95": [
+          0.9247,
+          0.9863
+        ],
+        "n": 146
+      },
+      "acceptable_rate": {
+        "mean": 0.9589,
+        "ci95": [
+          0.9247,
+          0.9863
+        ],
+        "n": 146
+      },
+      "mean_coverage_1_5": 3.877,
+      "unparsed": 0
+    },
+    "bloom_rewrite": {
+      "level_accuracy": {
+        "mean": 0.8211,
+        "ci95": [
+          0.7801,
+          0.8592
+        ],
+        "n": 341
+      },
+      "topic_kept_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 341
+      },
+      "judge_and_classifier_agree_on_target": {
+        "mean": 0.7566,
+        "ci95": [
+          0.7126,
+          0.8006
+        ],
+        "n": 341
+      },
+      "per_level": {
+        "Remember": {
+          "n": 61,
+          "accuracy": 0.4754
+        },
+        "Understand": {
+          "n": 59,
+          "accuracy": 0.9661
+        },
+        "Apply": {
+          "n": 52,
+          "accuracy": 0.9615
+        },
+        "Analyze": {
+          "n": 52,
+          "accuracy": 0.8846
+        },
+        "Evaluate": {
+          "n": 57,
+          "accuracy": 0.8421
+        },
+        "Create": {
+          "n": 60,
+          "accuracy": 0.8333
+        }
+      },
+      "unparsed": 1
+    }
+  },
+  "calibration": {
+    "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit",
+    "split": "validation",
+    "qa": {
+      "n": 146,
+      "reference_judged_correct": 1,
+      "other_rows_reference_judged_incorrect": 1
+    },
+    "summarization": {
+      "n": 40,
+      "reference_judged_faithful": 1,
+      "other_rows_summary_judged_unfaithful": 0.275
+    },
+    "bloom_rewrite": {
+      "n": 341,
+      "reference_level_accuracy": 0.7683,
+      "reference_per_level": {
+        "Remember": 0.623,
+        "Understand": 0.9492,
+        "Apply": 0.9423,
+        "Analyze": 0.8077,
+        "Evaluate": 0.6316,
+        "Create": 0.6833
+      }
+    }
+  },
+  "reliable": {
+    "qa": true,
+    "summarization": false
+  }
+}

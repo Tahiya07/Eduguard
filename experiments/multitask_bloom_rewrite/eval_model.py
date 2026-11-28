@@ -446,7 +446,9 @@ class GGUFGenerator:
                               int(gen_cfg.get("loop_guard_prefix_words") or 6))
         gen: list[int] = []
         hit_eos = False
-        for tok in self.llm.generate(ids, temp=0.0, top_k=1, top_p=1.0, min_p=0.0, repeat_penalty=1.0):
+        # Greedy decoding; repeat_penalty stays 1.0 unless an experiment sets it (e.g. --repeat-penalty 1.1).
+        repeat_penalty = float(gen_cfg.get("repeat_penalty") or 1.0)
+        for tok in self.llm.generate(ids, temp=0.0, top_k=1, top_p=1.0, min_p=0.0, repeat_penalty=repeat_penalty):
             if int(tok) in self.stop_ids:
                 hit_eos = True
                 break

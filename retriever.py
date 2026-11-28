@@ -198,6 +198,11 @@ class PrivacyRetriever:
             safe = " | ".join([p for p in (bloom, topic, difficulty, summary) if p.strip()])
             return safe or "protected academic assessment item", text
 
+        # Embed the section heading with public chunks so "smart contract threats" finds the chunk
+        # listing them even when the heading itself sits in an earlier chunk. Returned text is unchanged.
+        topic = str(getattr(doc, "topic", "") or "").strip()
+        if topic and not text.startswith(topic):
+            return f"{topic}\n{text}", text
         return text, text
 
     def build_index(self, documents: Sequence[Union[str, SafeDocumentChunk, object]]) -> None:

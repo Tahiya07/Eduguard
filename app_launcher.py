@@ -19,7 +19,11 @@ def get_root():
 ROOT = get_root()
 
 FRONTEND_DIR = ROOT / "frontend" / ".next" / "standalone"
-BACKEND_EXE = ROOT / "EduGuardBackend.exe"
+# The backend is a PyInstaller folder build (backend\EduGuardBackend.exe + backend\_internal).
+# A single-file build of torch/transformers would unpack several GB to %TEMP% on every start.
+BACKEND_EXE = ROOT / "backend" / "EduGuardBackend.exe"
+if not BACKEND_EXE.exists() and (ROOT / "EduGuardBackend.exe").exists():
+    BACKEND_EXE = ROOT / "EduGuardBackend.exe"  # older single-file layout
 
 # Check if running from bundled exe
 if getattr(sys, "frozen", False):
@@ -61,22 +65,35 @@ def build_environment():
     env["HF_DATASETS_OFFLINE"] = "1"
     env["OFFLINE_MODE"] = "true"
 
-    # Final generator: multitask v3 Q4_K_M GGUF
-    env["GENERATOR_MODEL_PATH"] = str(ROOT / "models" / "qwen15b_multitask_v3_q4_k_m.gguf")
+    # Tell the backend where models/, data/ and .env live (its own code sits in a private bundle folder).
+    env["EDUGUARD_ROOT"] = str(ROOT)
+
+    # Generator: multitask v3.9 Q4_K_M GGUF for every task (Bloom rewrites, QA, summaries, wording).
+    gguf_dir = ROOT / "models" / "gguf"
+    env["GENERATOR_MODEL_PATH"] = str(gguf_dir / "qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf")
+    env["GENERATOR_REWRITE_LORA_SCALE"] = "0"  # full v3.9 for rewrites, no base-model blend
+    # Token budgets measured on v3.9 outputs (median / p99): rewrite 27 / 60, QA 45 / 107, summary 106 / 431.
     env["GENERATOR_THREADS"] = env.get("GENERATOR_THREADS") or "8"
-    env["GENERATOR_CONTEXT_TOKENS"] = env.get("GENERATOR_CONTEXT_TOKENS") or "512"
-    env["GENERATOR_ANSWER_TOKENS"] = env.get("GENERATOR_ANSWER_TOKENS") or "64"
-    env["GENERATOR_SUMMARY_TOKENS"] = env.get("GENERATOR_SUMMARY_TOKENS") or "80"
-    env["GENERATOR_MODERATION_TOKENS"] = env.get("GENERATOR_MODERATION_TOKENS") or "64"
-    env["GENERATOR_REWRITE_TOKENS"] = env.get("GENERATOR_REWRITE_TOKENS") or "64"
+    env["GENERATOR_CONTEXT_TOKENS"] = env.get("GENERATOR_CONTEXT_TOKENS") or "4096"
+    env["GENERATOR_ANSWER_TOKENS"] = env.get("GENERATOR_ANSWER_TOKENS") or "160"
+    env["GENERATOR_SUMMARY_TOKENS"] = env.get("GENERATOR_SUMMARY_TOKENS") or "384"
+    env["GENERATOR_MODERATION_TOKENS"] = env.get("GENERATOR_MODERATION_TOKENS") or "96"
+    env["GENERATOR_REWRITE_TOKENS"] = env.get("GENERATOR_REWRITE_TOKENS") or "96"
+    env["EDUGUARD_WARMUP_ON_STARTUP"] = env.get("EDUGUARD_WARMUP_ON_STARTUP") or "1"
+
+    # Image OCR: use a Tesseract copy shipped next to the app if present (else a system install on PATH).
+    bundled_tesseract = ROOT / "tesseract" / "tesseract.exe"
+    if bundled_tesseract.exists():
+        env["TESSERACT_CMD"] = str(bundled_tesseract)
+        env["TESSDATA_PREFIX"] = str(ROOT / "tesseract" / "tessdata")
 
     # Final Bloom classifier: FedProx r20 best (not centralized merge)
     env["BLOOM_MODEL_DIR"] = str(resolve_runtime_bloom_dir(ROOT))
     env["BLOOM_MODEL_SIZE"] = "0.5b"
     env["BLOOM_USE_QUANTIZED"] = "false"
 
-    # IMPORTANT:
-    # This is a profile name, not the filesystem path.
+    # Profile name, not a path: resolves to models/bge-small (BAAI/bge-small-en-v1.5) relative to ROOT,
+    # which is the backend's working directory.
     env["RETRIEVAL_ENCODER"] = "bge-small"
 
     env["CORS_ORIGINS"] = (
@@ -102,6 +119,8 @@ def run_backend():
 
     env = build_environment()
     if getattr(sys, "frozen", False):
+        if not BACKEND_EXE.exists():
+            raise RuntimeError(f"Backend executable missing: {BACKEND_EXE}")
         backend_process = subprocess.Popen(
             [str(BACKEND_EXE)],
             cwd=str(ROOT),

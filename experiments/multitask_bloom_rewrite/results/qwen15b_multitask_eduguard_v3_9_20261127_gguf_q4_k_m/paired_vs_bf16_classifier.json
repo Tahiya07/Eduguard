@@ -1,0 +1,2400 @@
+{
+ "n": 341,
+ "gguf_acc": 0.9032258064516129,
+ "bf16_rescored_acc": 0.9266862170087976,
+ "bf16_reported_acc": 0.9267,
+ "only_gguf": 16,
+ "only_bf16": 24,
+ "mcnemar_exact_p": 0.26818725105476915,
+ "device": "cpu",
+ "source": "human_eval_predictions.jsonl (bf16 rewrites)",
+ "items": [
+  {
+   "id": "eduguard_v3_1_003-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9658,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_003-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.9595,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_003-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9502,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_003-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9297,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_003-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.9067,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_005-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8887,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_005-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9673,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_005-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9341,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_005-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9614,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_005-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8594,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_013-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9624,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_013-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.9185,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_013-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9375,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_013-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_013-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8633,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_016-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9365,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_016-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9619,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_016-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8652,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_016-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_016-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8394,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_032-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9697,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_032-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9292,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_032-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8511,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_032-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_032-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8594,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_037-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.8872,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_037-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_037-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_037-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.939,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_037-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9321,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_063-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9663,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_063-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9106,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_063-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9355,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_063-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9321,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_063-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8862,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_098-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9702,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_098-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_098-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9448,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_098-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9678,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_098-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8584,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_100-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9424,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_100-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9468,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_100-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9224,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_100-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9678,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_100-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8594,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_104-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.7319,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_104-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8657,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_104-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_104-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9648,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_104-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8794,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_143-Analyze",
+   "target": "Analyze",
+   "pred": "Understand",
+   "conf": 0.6514,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_143-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.7964,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_143-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8931,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_143-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9541,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_143-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9692,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_160-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_160-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9404,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_160-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8984,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_160-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9595,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_160-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.875,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_170-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.959,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_170-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.958,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_170-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9497,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_170-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9595,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_170-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8784,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_178-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9341,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_178-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9351,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_178-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9272,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_178-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9346,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_178-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.939,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_206-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.958,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_206-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8901,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_206-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9438,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_206-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.7964,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_206-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8486,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_218-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9404,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_218-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.6099,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_218-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9082,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_218-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.8042,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_218-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8682,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_222-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9404,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_222-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9604,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_222-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9028,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_222-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.6997,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_222-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8643,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_229-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8945,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_229-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9546,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_229-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9502,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_229-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9673,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_229-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8735,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_234-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9624,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_234-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8853,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_234-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8779,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_234-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9556,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_234-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8818,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_236-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.96,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_236-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9438,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_236-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9463,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_236-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9233,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_236-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8843,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_247-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9487,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_247-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.6455,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_247-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.6445,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_247-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9629,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_247-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.874,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_261-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9175,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_261-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9185,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_261-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_261-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9653,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_261-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8525,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_269-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9844,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_269-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8784,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_269-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.896,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_269-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8906,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_269-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9639,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_274-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9419,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_274-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9082,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_274-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8975,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_274-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.4314,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_274-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8452,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_287-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9551,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_287-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9033,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_287-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8555,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_287-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.959,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_287-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8755,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_300-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.8501,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_300-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9297,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_300-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.915,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_300-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9512,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_300-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8843,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_313-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_313-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9233,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_313-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9341,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_313-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9629,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_313-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9067,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_314-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9575,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_314-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9497,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_314-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8911,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_314-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9648,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_314-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.9155,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_331-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_331-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9468,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_331-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.938,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_331-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9673,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_331-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8721,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_345-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8804,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_345-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9243,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_345-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9375,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_345-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9458,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_345-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8784,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_354-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9482,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_354-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9604,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_354-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9473,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_354-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9336,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_354-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8696,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_360-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9531,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_360-Create",
+   "target": "Create",
+   "pred": "Apply",
+   "conf": 0.9438,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_360-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9126,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_360-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9565,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_360-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8447,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_366-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_366-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.874,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_366-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8887,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_366-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.5293,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_366-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8682,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_371-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9067,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_371-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9414,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_371-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.405,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_371-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.8779,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_371-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8745,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_372-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9619,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_372-Create",
+   "target": "Create",
+   "pred": "Apply",
+   "conf": 0.6548,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_372-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8618,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_372-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9634,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_372-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8511,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_386-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9482,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_386-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9253,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_386-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9336,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_386-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9561,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_386-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8672,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_401-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9492,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_401-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9556,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_401-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9346,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_401-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9497,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_401-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.8633,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_409-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9683,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_409-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.938,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_409-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8765,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_409-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.7329,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_409-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8667,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_427-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8164,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_427-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9414,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_427-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.936,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_427-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9448,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_427-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8877,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_440-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9614,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_440-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9092,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_440-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9062,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_440-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.8901,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_440-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8662,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_451-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.8086,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_451-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9497,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_451-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_451-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.8604,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_451-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8779,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_458-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9658,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_458-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8691,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_458-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8833,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_458-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9624,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_458-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.7148,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_466-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8496,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_466-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9185,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_466-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9272,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_466-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9673,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_466-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8735,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_470-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9385,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_470-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9326,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_470-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8672,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_470-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9644,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_470-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8535,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_475-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9092,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_475-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9312,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_475-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9131,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_475-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.96,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_475-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8154,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_479-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.7632,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_479-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8569,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_479-Create",
+   "target": "Create",
+   "pred": "Evaluate",
+   "conf": 0.9419,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_479-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9644,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_479-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.957,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_487-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9678,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_487-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.583,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_487-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9517,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_487-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9634,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_487-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8584,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_491-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9575,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_491-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8716,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_491-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9038,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_491-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9619,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_491-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.792,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_498-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9766,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_498-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8062,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_498-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9199,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_498-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9692,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_498-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8433,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_512-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.96,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_512-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.938,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_512-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8872,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_512-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.5376,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_512-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8711,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_522-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_522-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8296,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_522-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.7686,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_522-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.7285,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_522-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8501,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_528-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9624,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_528-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9229,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_528-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9365,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_528-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9619,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_528-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.6099,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_539-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9644,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_539-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9292,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_539-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8784,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_539-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9224,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_539-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8477,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_546-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9521,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_546-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9614,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_546-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8198,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_546-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.959,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_546-Remember",
+   "target": "Remember",
+   "pred": "Apply",
+   "conf": 0.3955,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_551-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9658,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_551-Create",
+   "target": "Create",
+   "pred": "Apply",
+   "conf": 0.9395,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_551-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9102,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_551-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9634,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_551-Understand",
+   "target": "Understand",
+   "pred": "Apply",
+   "conf": 0.7686,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_561-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.7104,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_561-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.937,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_561-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9287,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_561-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9634,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_561-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.583,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_566-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9399,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_566-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9185,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_566-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8652,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_566-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.8398,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_566-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.875,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_571-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9761,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_571-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8286,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_571-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.8809,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_571-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.8779,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_571-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.7783,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_600-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9785,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_600-Apply",
+   "target": "Apply",
+   "pred": "Evaluate",
+   "conf": 0.5298,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_600-Create",
+   "target": "Create",
+   "pred": "Evaluate",
+   "conf": 0.958,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_1_600-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_1_600-Remember",
+   "target": "Remember",
+   "pred": "Apply",
+   "conf": 0.7817,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_2_003-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9521,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_016-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.7383,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_032-Create-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.958,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_104-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9736,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_104-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8428,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_160-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9663,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_160-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.874,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_170-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.96,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_170-Remember-to-Create",
+   "target": "Create",
+   "pred": "Evaluate",
+   "conf": 0.9634,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_2_178-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8618,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_206-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9497,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_218-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8638,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_229-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9009,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_234-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9238,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_234-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.7646,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_236-Create-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9561,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_247-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9609,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_247-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8955,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_269-Create-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9438,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_274-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9536,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_274-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9194,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_300-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.7422,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_300-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9624,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_314-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8994,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_331-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.854,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_345-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9717,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_345-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9282,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_360-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9292,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_366-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9336,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_372-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.96,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_372-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9082,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_386-Remember-to-Evaluate",
+   "target": "Evaluate",
+   "pred": "Evaluate",
+   "conf": 0.9448,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_401-Create-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8286,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_409-Create-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8525,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_427-Remember-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.8823,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_451-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9512,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_458-Create-to-Apply",
+   "target": "Apply",
+   "pred": "Apply",
+   "conf": 0.9258,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_475-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9688,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_487-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.9487,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_491-Create-to-Remember",
+   "target": "Remember",
+   "pred": "Remember",
+   "conf": 0.9619,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_498-Create-to-Remember",
+   "target": "Remember",
+   "pred": "Understand",
+   "conf": 0.7637,
+   "match": false
+  },
+  {
+   "id": "eduguard_v3_2_528-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.8389,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_546-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.936,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_546-Remember-to-Understand",
+   "target": "Understand",
+   "pred": "Understand",
+   "conf": 0.7017,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_566-Remember-to-Analyze",
+   "target": "Analyze",
+   "pred": "Analyze",
+   "conf": 0.9551,
+   "match": true
+  },
+  {
+   "id": "eduguard_v3_2_600-Remember-to-Create",
+   "target": "Create",
+   "pred": "Create",
+   "conf": 0.8955,
+   "match": true
+  }
+ ]
+}

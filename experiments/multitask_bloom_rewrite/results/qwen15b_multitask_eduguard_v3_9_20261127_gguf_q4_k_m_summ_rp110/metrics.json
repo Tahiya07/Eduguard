@@ -1,0 +1,382 @@
+{
+  "evaluated_utc": "2026-11-28T06:39:00.952879+00:00",
+  "condition": "gguf",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_key": "15b",
+  "checkpoint": {
+    "condition": "gguf",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": null,
+    "resolved_path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+    "checkpoint_selection": "gguf_export_of_best_adapter",
+    "gguf": {
+      "path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+      "size_bytes": 986048160,
+      "name": "Merged",
+      "architecture": "qwen2",
+      "file_type": "Q4_K_M",
+      "imatrix_dataset": null
+    },
+    "gguf_runtime": {
+      "n_ctx": 9312,
+      "threads": {
+        "decode": 8,
+        "batch": 16
+      },
+      "device": "llama.cpp (gpu_layers=0)"
+    }
+  },
+  "dataset": {
+    "summarization_eligibility": {
+      "train": {
+        "status": "lecture_source_hashes",
+        "split": "train",
+        "rows": 1172
+      },
+      "validation": {
+        "status": "lecture_source_hashes",
+        "split": "validation",
+        "rows": 146
+      },
+      "test": {
+        "status": "lecture_source_hashes",
+        "split": "test",
+        "rows": 147
+      }
+    },
+    "layout": "task-separated",
+    "manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_9\\dataset_manifest.json",
+    "manifest_sha256": "10a9e969ff6f9e31a54cee956033e204a9926e260b1be5fe994811cb2b6b3040",
+    "manifest_version": "multitask_bloom_rewrite_separate_v1",
+    "data_dir": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_9",
+    "counts": {
+      "row_count": 633,
+      "test_count": null,
+      "validation_count": 633,
+      "by_task": {
+        "bloom_rewrite": 341,
+        "qa": 146,
+        "summarization": 146
+      }
+    },
+    "generated_files_sha256": {
+      "bloom_rewrite/test.jsonl": "6cdc56109a5e079180167df8e602dc073ff1e34717bf3296e6e1672eb16e6c88",
+      "bloom_rewrite/train.jsonl": "bf711f980a6162fcaca424d8a53ee7fe96b670883664c99f575705ceaf285ab0",
+      "bloom_rewrite/validation.jsonl": "9d386e1eb69816dcb22316f4ebb9a1aa11355a5f2fddf606076b6bd350423be7",
+      "qa/test.jsonl": "deeea41f84a80349479cc2fca76c18d7ff99133d543f5cbb33ea2a85bad0e904",
+      "qa/train.jsonl": "53226d0d6d298a9bb8a7ae4371c5720328bb17b26723e4a235d7d8cd04808236",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/test.jsonl": "3b51a4f876b063ab870a08ad52290f39949937df954f74c0e8bea347f5ccb595",
+      "summarization/train.jsonl": "7ebf4404ea341d4d59f30129f44dd21f8fc8f23ddf3be3ce6b4ceb859c932cf5",
+      "summarization/validation.jsonl": "36dc8a8225a75d6aed6e1d08a6b472e8b25b5dbb9d986f951fed4199683fbe1d"
+    },
+    "bloom_source": "C:\\Eduguard\\data\\bloom_rewrite_eduguard_v3_4",
+    "bloom_source_sha256": {
+      "train.jsonl": "e62afd7fbdef229a371c2a26421ec261154d64a54b2fb4eaea26f923265c37f2",
+      "validation.jsonl": "f12751f5a7ad8e74a79742de8bd773e72d8996299a4f29210f938d347f239b4b",
+      "test.jsonl": "9d01cb8ee73e7581515b9194c52be1a4d987d7b39bef59871cb9f242fa06a7a5",
+      "dataset_manifest.json": "cdf40c8d245fffe7ed5b666aad185df6b13366e00f0c00255f0a702a42b24df9"
+    },
+    "bloom_annotation_provenance": {
+      "inclusion_basis": "eduguard_v3_1_model_assisted_repair",
+      "independent_review_verified": false,
+      "warnings": [
+        "Bloom rewrites are model-assisted (Claude) and not human-verified; checks are automated.",
+        "Splits are pinned to final_corrected_dataset/training_ready/tests/reference_split_ids.json."
+      ]
+    },
+    "bloom_source_check": {
+      "kind": "eduguard_bloom_v3_1",
+      "rows_checked": 3427,
+      "contested_rows_excluded": 10
+    },
+    "qa_source_check": {
+      "kind": "qa_eduguard_v2",
+      "rows_checked": 1465,
+      "reserve_rows_excluded": 135
+    },
+    "summarization_source_check": {
+      "kind": "eduguard_lecture_summarization",
+      "rows_checked": 1465
+    },
+    "training_data_policy": null,
+    "summarization_eligibility_loaded": {
+      "status": "lecture_source_hashes",
+      "split": "validation",
+      "rows": 146
+    },
+    "split": "validation",
+    "split_counts_loaded": {
+      "bloom_rewrite": 341,
+      "qa": 146,
+      "summarization": 146
+    },
+    "split_file_sha256": {
+      "bloom_rewrite/validation.jsonl": "9d386e1eb69816dcb22316f4ebb9a1aa11355a5f2fddf606076b6bd350423be7",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/validation.jsonl": "36dc8a8225a75d6aed6e1d08a6b472e8b25b5dbb9d986f951fed4199683fbe1d"
+    },
+    "loaded_tasks": [
+      "bloom_rewrite",
+      "qa",
+      "summarization"
+    ],
+    "combined_in_memory_only": true,
+    "dataset_hash": "10a9e969ff6f9e31a54cee956033e204a9926e260b1be5fe994811cb2b6b3040",
+    "file_sha256": {
+      "bloom_rewrite/validation.jsonl": "9d386e1eb69816dcb22316f4ebb9a1aa11355a5f2fddf606076b6bd350423be7",
+      "qa/validation.jsonl": "b86f8a1e8cc66441dcf67d97461a6ee34923a36a73d9d8d2c76fe634a456cf68",
+      "summarization/validation.jsonl": "36dc8a8225a75d6aed6e1d08a6b472e8b25b5dbb9d986f951fed4199683fbe1d"
+    },
+    "test_manifest_path": null,
+    "validation_manifest_path": "C:\\Eduguard\\data\\multitask_bloom_rewrite_separate_eduguard_v3_9\\dataset_manifest.json",
+    "full_source_split_unchanged": true,
+    "corpus_physically_task_separated": true
+  },
+  "evaluation_subset": {
+    "full_task_counts": {
+      "bloom_rewrite": 0,
+      "qa": 0,
+      "summarization": 146
+    },
+    "evaluated_task_counts": {
+      "bloom_rewrite": 0,
+      "qa": 0,
+      "summarization": 146
+    },
+    "evaluated_total": 146,
+    "manifest_path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_summ_rp110\\evaluation_subset_manifest.json"
+  },
+  "generation": {
+    "do_sample": false,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "repeat_penalty": 1.1,
+    "max_new_tokens": 128,
+    "max_new_tokens_by_task": {
+      "bloom_rewrite": 160,
+      "qa": 192,
+      "summarization": 1104
+    },
+    "decoding": "greedy",
+    "loop_guard_ngram": 24,
+    "loop_guard_sentence_run": 4,
+    "loop_guard_prefix_words": 6,
+    "seed": 42,
+    "max_tokens": 128
+  },
+  "classifier_error": null,
+  "classifier_meta": {
+    "skipped": true
+  },
+  "classifier_call_stats": {
+    "n_ok": 0,
+    "n_fail": 0,
+    "first_error": null,
+    "first_traceback": null
+  },
+  "classifier_is_not_ground_truth": true,
+  "bloom": {
+    "classification": {
+      "n": 0,
+      "accuracy": 0.0,
+      "macro_f1": 0.0,
+      "per_level": {
+        "Remember": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Understand": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Apply": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Analyze": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Evaluate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "Create": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      },
+      "confusion_matrix": {
+        "Remember": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Understand": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Apply": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Analyze": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Evaluate": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        },
+        "Create": {
+          "Remember": 0,
+          "Understand": 0,
+          "Apply": 0,
+          "Analyze": 0,
+          "Evaluate": 0,
+          "Create": 0,
+          "MISSING": 0
+        }
+      }
+    },
+    "rates": {
+      "classifier_match_rate": 0.0,
+      "format_valid_rate": 0.0,
+      "trivial_transform_rate": 0.0
+    },
+    "by_pair_type": {}
+  },
+  "qa": {
+    "closed_book": {
+      "n": 0,
+      "rouge1": null,
+      "rouge2": null,
+      "rougeL": null,
+      "by_qa_type": {}
+    }
+  },
+  "summarization": {
+    "n": 146,
+    "rouge1": 0.411836,
+    "rouge2": 0.124054,
+    "rougeL": 0.244876,
+    "by_source_type": {
+      "lecture_slide_text_style": {
+        "n": 1,
+        "rouge1": 0.492239,
+        "rouge2": 0.227171,
+        "rougeL": 0.31929
+      },
+      "openstax_textbook_section": {
+        "n": 116,
+        "rouge1": 0.386074,
+        "rouge2": 0.11146,
+        "rougeL": 0.22089
+      },
+      "original_academic_example": {
+        "n": 29,
+        "rouge1": 0.512111,
+        "rouge2": 0.170877,
+        "rougeL": 0.338252
+      }
+    },
+    "by_length_category": {
+      "long": {
+        "n": 51,
+        "rouge1": 0.376283,
+        "rouge2": 0.108198,
+        "rougeL": 0.207862
+      },
+      "medium": {
+        "n": 44,
+        "rouge1": 0.395616,
+        "rouge2": 0.122028,
+        "rougeL": 0.245126
+      },
+      "short": {
+        "n": 29,
+        "rouge1": 0.512111,
+        "rouge2": 0.170877,
+        "rougeL": 0.338252
+      },
+      "very_long": {
+        "n": 22,
+        "rouge1": 0.39451,
+        "rouge2": 0.103145,
+        "rougeL": 0.207094
+      }
+    },
+    "empty_predictions": 0
+  },
+  "output_length": {
+    "summarization": {
+      "max_new_tokens": 1104,
+      "n": 146,
+      "hit_token_limit": 0,
+      "hit_token_limit_rate": 0.0,
+      "loop_stopped": 7,
+      "loop_stopped_by_reason": {
+        "span": 7
+      },
+      "max_output_tokens": 751,
+      "mean_output_tokens": 152.75
+    }
+  },
+  "latency": {
+    "model_load_s": 5.8197,
+    "per_example": {
+      "mean": 14.320784,
+      "p50": 12.224004,
+      "p95": 30.465869,
+      "min": 3.648932,
+      "max": 44.323828
+    }
+  },
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": "0.3.12"
+  },
+  "git_commit": "f6ff4b0f7d6393d9a9d9d03c4fcc27c002095379"
+}

@@ -1,0 +1,185 @@
+{
+  "generated_utc": "2026-11-28T01:45:53.534374+00:00",
+  "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+  "precision": "4bit",
+  "condition": "gguf",
+  "split": "test",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_test",
+  "calibration_file": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127\\judge_calibration_test.json",
+  "results": {
+    "qa": {
+      "accuracy": {
+        "mean": 0.6599,
+        "ci95": [
+          0.5782,
+          0.7347
+        ],
+        "n": 147
+      },
+      "lenient_accuracy": {
+        "mean": 0.932,
+        "ci95": [
+          0.8912,
+          0.966
+        ],
+        "n": 147
+      },
+      "verdicts": {
+        "correct": 97,
+        "partially_correct": 40,
+        "incorrect": 10
+      },
+      "unparsed": 0,
+      "accuracy_by_qa_type": {
+        "analytical": {
+          "n": 25,
+          "accuracy": 0.68
+        },
+        "application": {
+          "n": 33,
+          "accuracy": 0.697
+        },
+        "calculation": {
+          "n": 14,
+          "accuracy": 0.6429
+        },
+        "comparative": {
+          "n": 26,
+          "accuracy": 0.6154
+        },
+        "conceptual": {
+          "n": 31,
+          "accuracy": 0.5806
+        },
+        "design": {
+          "n": 3,
+          "accuracy": 0.6667
+        },
+        "diagnosis": {
+          "n": 1,
+          "accuracy": 1.0
+        },
+        "explanation": {
+          "n": 3,
+          "accuracy": 1.0
+        },
+        "process": {
+          "n": 4,
+          "accuracy": 0.5
+        },
+        "reasoning": {
+          "n": 4,
+          "accuracy": 0.75
+        },
+        "sequence": {
+          "n": 3,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "summarization": {
+      "faithful_rate": {
+        "mean": 0.9116,
+        "ci95": [
+          0.8639,
+          0.9524
+        ],
+        "n": 147
+      },
+      "acceptable_rate": {
+        "mean": 0.9116,
+        "ci95": [
+          0.8639,
+          0.9524
+        ],
+        "n": 147
+      },
+      "mean_coverage_1_5": 3.782,
+      "unparsed": 0
+    },
+    "bloom_rewrite": {
+      "level_accuracy": {
+        "mean": 0.7778,
+        "ci95": [
+          0.735,
+          0.8205
+        ],
+        "n": 351
+      },
+      "topic_kept_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 351
+      },
+      "judge_and_classifier_agree_on_target": {
+        "mean": 0.735,
+        "ci95": [
+          0.6895,
+          0.7806
+        ],
+        "n": 351
+      },
+      "per_level": {
+        "Remember": {
+          "n": 64,
+          "accuracy": 0.4531
+        },
+        "Understand": {
+          "n": 61,
+          "accuracy": 0.9508
+        },
+        "Apply": {
+          "n": 49,
+          "accuracy": 1.0
+        },
+        "Analyze": {
+          "n": 53,
+          "accuracy": 0.8491
+        },
+        "Evaluate": {
+          "n": 62,
+          "accuracy": 0.8387
+        },
+        "Create": {
+          "n": 62,
+          "accuracy": 0.6452
+        }
+      },
+      "unparsed": 0
+    }
+  },
+  "calibration": {
+    "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit",
+    "split": "test",
+    "qa": {
+      "n": 147,
+      "reference_judged_correct": 1,
+      "other_rows_reference_judged_incorrect": 0.9728
+    },
+    "summarization": {
+      "n": 40,
+      "reference_judged_faithful": 1,
+      "other_rows_summary_judged_unfaithful": 0.225
+    },
+    "bloom_rewrite": {
+      "n": 351,
+      "reference_level_accuracy": 0.7436,
+      "reference_per_level": {
+        "Remember": 0.625,
+        "Understand": 0.9016,
+        "Apply": 0.9796,
+        "Analyze": 0.7736,
+        "Evaluate": 0.7258,
+        "Create": 0.5161
+      }
+    }
+  },
+  "reliable": {
+    "qa": true,
+    "summarization": false
+  }
+}

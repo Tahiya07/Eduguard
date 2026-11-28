@@ -1,0 +1,6 @@
+Measure,EduGuard LoRA,Human reference
+Format check passed,1.0,0.9459
+Classifier agrees with requested level,0.9259,0.8034
+"Topic preserved (bge-m3, train-calibrated)",0.8832,0.9487
+Near-copy of source (lower is better),0.037,0.0655
+Fully validated (calibrated definition),0.8034,n/a

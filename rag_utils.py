@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import re
+
+import numpy as np
 from typing import Any, List, Sequence
 
 from retriever import RetrievalResult
@@ -205,11 +207,12 @@ def extractive_document_summary(chunk_texts: Sequence[str]) -> str:
     if not merged.strip():
         return _REFUSAL
 
+    # PDF text breaks lines wherever the page wrapped: a single newline is a wrap, not a sentence end.
     # Keep actual source sentences; rank them by informative-term coverage and
     # a small lead bias, then restore their original order for readability.
     sentences = [
         re.sub(r"\s+", " ", part).strip()
-        for part in re.split(r"(?<=[.!?])\s+|\n+", merged)
+        for part in re.split(r"(?<=[.!?])\s+|\n{2,}", re.sub(r"(?<!\n)\n(?!\n)", " ", merged))
         if len(re.findall(r"\w+", part)) >= 5
     ]
     if not sentences:
@@ -275,17 +278,24 @@ _GROUNDING_STOPWORDS = frozenset(
     "it its they them their there here which who whom whose what when where why how than then so such can could may "
     "might must should would will shall do does did not no also very more most other some any each both all only own "
     "same just about over under between because while during before after above below up down out off again further "
-    "once if into your you we our us i me my he she his her".split()
+    "once if into your you we our us i me my he she his her "
+    # Generic connective words a correct paraphrase adds; they say nothing about where the content came from.
+    "often usually typically generally commonly mainly mostly through via using use used uses allow allows allowed "
+    "allowing enable enables enabled make makes made making set sets get gets help helps involve involves involving "
+    "known called refers refer referred example examples include includes including such like way ways thing things "
+    "one two three four five several many much well even still already within without across among per".split()
 )
 
 
 def _content_stems(text: str) -> set[str]:
     """Content words cut to a 5-letter stem, so 'organizes'/'organizing' and 'tables'/'table' match."""
     words = re.findall(r"[a-z0-9]+", _normalize(text))
-    return {w[:5] for w in words if len(w) > 2 and w not in _GROUNDING_STOPWORDS}
+    # Drop a plural "s" first: otherwise short words differ ("call" -> "call", "calls" -> "calls").
+    return {(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w)[:5]
+            for w in words if len(w) > 2 and w not in _GROUNDING_STOPWORDS}
 
 
-def keep_supported_sentences(answer: str, chunk_texts: Sequence[str], *, min_support: float = 0.6) -> str:
+def keep_supported_sentences(answer: str, chunk_texts: Sequence[str], *, min_support: float = 0.5) -> str:
     """Keep only sentences whose content words mostly appear in the notes; refuse if none remain.
 
     Used when the user has uploaded notes: an answer must come from them, so a sentence built
@@ -306,7 +316,8 @@ def keep_supported_sentences(answer: str, chunk_texts: Sequence[str], *, min_sup
         if len(stems & source) / len(stems) >= min_support:
             kept.append(sentence)
     result = " ".join(s for s in kept if s).strip()
-    if not result or len(_content_stems(result)) == 0:
+    # A short answer such as "96%" or "243 days" has no long content words but is still an answer.
+    if not result or not re.search(r"\w", result):
         return _REFUSAL
     return result
 
@@ -336,8 +347,8 @@ def sanitize_rag_answer(
 ) -> str:
     """Strip context echoes ([n] labels, "Context:" lines) and handle near-verbatim copies.
 
-    on_copy="refuse" (summaries): a near-verbatim dump becomes the refusal, so the caller's
-    extractive fallback takes over.
+    on_copy="keep" (summaries): returned as is; summaries legitimately reuse source wording.
+    on_copy="refuse": a near-verbatim dump becomes the refusal (the caller falls back).
     on_copy="trim" (question answering): a short answer that reuses the notes' wording is the
     correct, grounded answer and is kept; a long verbatim dump is cut to its first
     ``max_sentences`` sentences instead of being thrown away. Protected-content screening is
@@ -364,6 +375,9 @@ def sanitize_rag_answer(
         text = re.sub(r"^\[\d+\]\s*", "", text).strip()
     text = re.sub(r"\[\d+\]\s*", "", text).strip()
 
+    if on_copy == "keep":
+        # Summaries: reusing the source's wording is expected, so overlap is never a reason to discard one.
+        return text or _REFUSAL
     ratio = chunk_copy_ratio(text, chunk_texts)
     if on_copy == "trim":
         # Faithful answers from short notes naturally overlap them; only shorten real passage dumps.
@@ -428,7 +442,9 @@ def sanitize_summary_answer(
     if finish_reason == "length":
         logger.warning("Summary generation hit max_tokens; using a source-derived fallback rather than returning a possibly incomplete answer")
         return extractive_document_summary(chunk_texts)
-    text = sanitize_rag_answer(answer, chunk_texts, max_copy_ratio=0.92)
+    # A faithful summary of short notes naturally reuses their wording; the former 92% overlap rule
+    # replaced good summaries with the extractive fallback. Keep the model's summary.
+    text = sanitize_rag_answer(answer, chunk_texts, on_copy="keep")
     if text == _REFUSAL or looks_like_meta_summary(text):
         return extractive_document_summary(chunk_texts)
 
@@ -443,3 +459,169 @@ def sanitize_summary_answer(
         logger.warning("Summary output ends with a dangling phrase; using extractive fallback")
         return extractive_document_summary(chunk_texts)
     return text
+
+
+# ---------------------------------------------------------------------------
+# Notes QA helpers: list-type questions and key-term coverage
+# ---------------------------------------------------------------------------
+_ENUM_QUESTION = re.compile(
+    r"\b(all|every|each|types?|kinds?|categor(?:y|ies)|classes|forms|list|enumerate|mention|name the|"
+    r"what are the|which are the|outline|steps|stages|phases|components|features|advantages|disadvantages|"
+    r"benefits|limitations|examples|differences)\b",
+    re.I,
+)
+_GENERIC_QUESTION_WORDS = {
+    "what", "which", "when", "where", "why", "how", "who", "whom", "whose", "does", "do", "did", "is", "are", "was",
+    "were", "the", "this", "that", "these", "those", "there", "their", "them", "they", "with", "from", "into", "about",
+    "for", "and", "or", "of", "in", "on", "to", "a", "an", "all", "every", "each", "any", "some", "type", "types", "kind",
+    "kinds", "list", "mention", "name", "names", "explain", "describe", "define", "give", "tell", "show", "state",
+    "included", "include", "includes", "mentioned", "discussed", "covered", "given", "listed", "notes", "note", "pdf",
+    "document", "lecture", "slides", "slide", "material", "uploaded", "please", "main", "different", "various",
+    "according", "between", "also", "other", "more", "most", "many", "much", "can", "could", "should", "would", "will",
+    "have", "has", "had", "been", "being", "its", "it's", "your", "my", "our", "you", "use", "used", "using", "example",
+    "examples", "briefly", "detail", "details", "summary", "summarize", "category", "categories", "classes", "forms",
+}
+
+
+def is_enumerative_question(question: str) -> bool:
+    """"Mention all types of threats", "list the measures": answers that need every relevant section."""
+    return bool(_ENUM_QUESTION.search(question or ""))
+
+
+def question_key_terms(question: str) -> list[str]:
+    words = re.findall(r"[a-z][a-z0-9-]{2,}", (question or "").lower())
+    return [w for w in words if w not in _GENERIC_QUESTION_WORDS and len(w) >= 4]
+
+
+def notes_contain_terms(question: str, notes_text: str) -> bool:
+    """True when every key term of the question occurs in the notes (plural/singular tolerant)."""
+    terms = question_key_terms(question)
+    if not terms:
+        return False
+    text = (notes_text or "").lower()
+
+    def found(term: str) -> bool:
+        stems = {term, term.rstrip("s"), term[:-2] if term.endswith("es") else term,
+                 term[:-3] + "y" if term.endswith("ies") else term}
+        return any(re.search(r"\b" + re.escape(s), text) for s in stems if len(s) >= 3)
+
+    return all(found(t) for t in terms)
+
+
+# ---------------------------------------------------------------------------
+# Hybrid retrieval and question-focused context
+# ---------------------------------------------------------------------------
+# Dense (BGE) similarity cannot tell "section 3" from "section 33", or find a rare code or term the
+# embedding barely encodes. Measured: the answer chunk for "What is the value for section 3?" ranked
+# 11th of 75 by BGE alone, so it never reached the model. Exact-term overlap fixes that ordering.
+HYBRID_LEXICAL_WEIGHT = 0.12
+
+
+def _lexical_terms(question: str) -> list[str]:
+    q = (question or "").lower()
+    numbers = re.findall(r"\b\d+(?:\.\d+)?%?", q)
+    words = [w for w in re.findall(r"[a-z][a-z0-9-]{3,}", q) if w not in _GENERIC_QUESTION_WORDS]
+    return list(dict.fromkeys(numbers + words))
+
+
+def _term_in(term: str, text: str) -> bool:
+    if term[0].isdigit():
+        return re.search(r"(?<![\d.])" + re.escape(term) + r"(?![\d])", text) is not None
+    return re.search(r"\b" + re.escape(term[:-1] if term.endswith("s") and len(term) > 4 else term), text) is not None
+
+
+def hybrid_rerank(question: str, results: Sequence[RetrievalResult], keep: int = 8,
+                  weight: float = HYBRID_LEXICAL_WEIGHT) -> List[RetrievalResult]:
+    """Re-order dense results by cosine + weight * IDF-weighted share of the question's exact terms
+    (numbers and content words) found in each chunk. Cosine values are left unchanged."""
+    import math
+
+    results = list(results)
+    terms = _lexical_terms(question)
+    if not results or not terms:
+        return results[:keep]
+    texts = [str(r.text or "").lower() for r in results]
+    n = len(texts)
+    idf = {t: math.log(1 + n / (1 + sum(_term_in(t, x) for x in texts))) for t in terms}
+    total = sum(idf.values()) or 1.0
+    lex = [sum(idf[t] for t in terms if _term_in(t, x)) / total for x in texts]
+    order = sorted(range(n), key=lambda i: float(results[i].cosine) + weight * lex[i], reverse=True)
+    return [results[i] for i in order[:keep]]
+
+
+def key_sentences(question: str, chunk_texts: Sequence[str], encoder: Any, n: int = 4) -> List[str]:
+    """The n sentences of the given chunks most relevant to the question (dense similarity plus exact
+    terms), in their original order. Shown to the model right before the question: a 1.5B model
+    reading ~4,000 characters otherwise often picks a nearby wrong number or answers from memory."""
+    sents: List[str] = []
+    for t in chunk_texts:
+        flat = re.sub(r"\s*\n\s*", " ", str(t or ""))
+        for s in re.split(r"(?<=[.!?])\s+", flat):
+            s = s.strip()
+            if len(s.split()) >= 4 and s not in sents:
+                sents.append(s)
+    if len(sents) <= n:
+        return sents
+    try:
+        q = np.asarray(encoder.encode_queries([question]))[0]
+        e = np.asarray(encoder.encode_passages(sents))
+        dense = e @ q
+    except Exception:  # no encoder: lexical only
+        dense = np.zeros(len(sents))
+    terms = _lexical_terms(question)
+    lex = np.array([sum(_term_in(t, s.lower()) for t in terms) / max(1, len(terms)) for s in sents])
+    score = dense + 0.25 * lex
+    top = sorted(np.argsort(-score)[:n].tolist())
+    return [sents[i] for i in top]
+
+
+def _split_sentences(text: str) -> List[str]:
+    flat = re.sub(r"\s*\n\s*", " ", str(text or ""))
+    return [s.strip() for s in re.split(r"(?<=[.!?])\s+", flat) if len(s.split()) >= 4]
+
+
+def sentence_rescore(question: str, results: Sequence[RetrievalResult], encoder: Any, cache: dict,
+                     keep: int = 8, first_pass: int = 12, max_candidates: int = 30,
+                     weight: float = HYBRID_LEXICAL_WEIGHT) -> List[RetrievalResult]:
+    """Rank chunks by their best-matching *sentence* as well as the whole chunk.
+
+    One vector per chunk mostly reflects the chunk's main topic, so a single fact inside an
+    unrelated chunk is missed (measured: the chunk holding "the value for section 3 is 21" inside
+    calculus text scored 0.51 and ranked 29th). Candidates are the best chunks by meaning + exact
+    terms, plus chunks containing a rare exact term of the question; each candidate is scored by
+    max(chunk score, best sentence score) + the exact-term bonus. Sentence vectors are cached.
+    """
+    import math
+
+    results = list(results)
+    if not results:
+        return results
+    terms = _lexical_terms(question)
+    texts = [str(r.text or "").lower() for r in results]
+    n = len(texts)
+    df = {t: sum(_term_in(t, x) for x in texts) for t in terms}
+    idf = {t: math.log(1 + n / (1 + df[t])) for t in terms}
+    total = sum(idf.values()) or 1.0
+    lex = [sum(idf[t] for t in terms if _term_in(t, x)) / total for x in texts]
+    base = [float(r.cosine) + weight * lex[i] for i, r in enumerate(results)]
+    order = sorted(range(n), key=lambda i: base[i], reverse=True)
+    rare = [t for t in terms if 0 < df[t] <= max(3, 0.1 * n)]
+    cand = list(dict.fromkeys(order[:first_pass] + [i for i in order if any(_term_in(t, texts[i]) for t in rare)]))[:max_candidates]
+    try:
+        q = np.asarray(encoder.encode_queries([question]))[0]
+        sents = {i: _split_sentences(results[i].text) for i in cand}
+        missing = list(dict.fromkeys(s for ss in sents.values() for s in ss if s not in cache))
+        if missing:
+            for s, v in zip(missing, np.asarray(encoder.encode_passages(missing))):
+                cache[s] = v
+        best_sent = {i: max((float(cache[s] @ q) for s in sents[i]), default=0.0) for i in cand}
+    except Exception:  # no encoder available: keep the chunk-level order
+        return [results[i] for i in order[:keep]]
+    from dataclasses import replace
+
+    score = {i: max(float(results[i].cosine), best_sent[i]) + weight * lex[i] for i in cand}
+    # Returned chunks carry max(chunk, best sentence) as their cosine, so later relevance filters keep a
+    # chunk whose best sentence answers the question. (The "notes cover this" gate keeps using the
+    # whole-chunk scores; see backend/service.py.)
+    return [replace(results[i], cosine=max(float(results[i].cosine), best_sent[i]))
+            for i in sorted(cand, key=lambda i: score[i], reverse=True)[:keep]]

@@ -1053,8 +1053,12 @@ def rewrite_to_target_level(
     predictor_error: str = "",
     max_tokens: int | None = None,
     suggest_verb: bool = True,
+    action_verb: str | None = None,
 ) -> TargetRewriteResult:
     """Generate one target-level rewrite without post-generation classifier gating.
+
+    action_verb: use this verb in the prompt's verb slot (the app's retry passes the level's
+    first or second suggested verb when the first rewrite fails its checks).
 
     The selected target and rewrite instructions guide generation. The Bloom
     classifier is intentionally not run as a second pass: it can disagree with
@@ -1068,6 +1072,8 @@ def rewrite_to_target_level(
     # suggest_verb=False reproduces the exact prompt the v3.9 model was trained on
     # ("Start with a suitable action verb ..."), instead of injecting one suggested verb.
     selected_verb = candidates[0] if (candidates and suggest_verb) else ""
+    if action_verb:
+        selected_verb = action_verb
     prompt = build_v3_target_rewrite_prompt(
         question, target_level, selected_action_verb=selected_verb
     )

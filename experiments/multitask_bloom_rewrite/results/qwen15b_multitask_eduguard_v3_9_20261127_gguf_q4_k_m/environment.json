@@ -1,0 +1,43 @@
+{
+  "package_versions": {
+    "torch": "2.13.0+cu126",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "numpy": "2.2.6",
+    "rouge_score": "ok",
+    "bert_score": "0.3.12"
+  },
+  "git_commit": "f6ff4b0f7d6393d9a9d9d03c4fcc27c002095379",
+  "resources": {
+    "cuda_available": true,
+    "rss_mb": 3982.34,
+    "uss_mb": 2792.89,
+    "cpu_percent": 0.0,
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "gpu_memory_allocated_mb": 958.3,
+    "gpu_memory_reserved_mb": 1022.0
+  },
+  "checkpoint": {
+    "condition": "gguf",
+    "base_model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "adapter_path": null,
+    "resolved_path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+    "checkpoint_selection": "gguf_export_of_best_adapter",
+    "gguf": {
+      "path": "C:\\Eduguard\\models\\gguf\\qwen15b_multitask_eduguard_v3_9_q4_k_m.gguf",
+      "size_bytes": 986048160,
+      "name": "Merged",
+      "architecture": "qwen2",
+      "file_type": "Q4_K_M",
+      "imatrix_dataset": null
+    },
+    "gguf_runtime": {
+      "n_ctx": 9312,
+      "threads": {
+        "decode": 8,
+        "batch": 16
+      },
+      "device": "llama.cpp (gpu_layers=0)"
+    }
+  }
+}

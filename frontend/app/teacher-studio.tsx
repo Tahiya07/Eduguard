@@ -6,6 +6,8 @@ import VideoHero from "./video-hero";
 import type { HeroClip } from "./video-hero";
 import { clearSession } from "./session";
 import ErrorModal, { errorTitle } from "./error-modal";
+import { type OperationProgress, useOperationProgress } from "./operation-progress";
+import FilePicker from "./file-picker";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -102,6 +104,7 @@ type LoadingProps = {
   finalElapsed?: number;
   showGame?: boolean;
   onCancel?: () => void;
+  progress?: OperationProgress | null;
 };
 
 type Action = "classify" | "moderate" | "linguistic" | "target-rewrite" | "qa" | "summary";
@@ -183,7 +186,7 @@ const TOOLS: {
   },
   {
     id: "qa",
-    label: "Ask the model",
+    label: "Ask questions",
     action: "qa",
     needsClassifier: true,
     intro: "Ask a subject question and get a concise answer from the local model.",
@@ -199,7 +202,13 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
   const [bloom, setBloom] = useState<Bloom | null>(null);
   const [mod, setMod] = useState<Moderation | null>(null);
   const [linguisticMod, setLinguisticMod] = useState<{ original: string; improved: string } | null>(null);
-  const [targetRewrite, setTargetRewrite] = useState<{ original: string; rewritten: string; target_level: string } | null>(null);
+  const [targetRewrite, setTargetRewrite] = useState<{
+    original: string;
+    rewritten: string;
+    target_level: string;
+    verified_level?: string | null;
+    attempts?: number;
+  } | null>(null);
   const [targetLevel, setTargetLevel] = useState("Analyze");
   // Teacher-confirmed Bloom level, saved on this machine for federated training rounds.
   const [confirmLevel, setConfirmLevel] = useState("");
@@ -209,6 +218,8 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
   const [summary, setSummary] = useState("");
   const [busy, setBusy] = useState("");
   const operationController = useRef<ReturnType<typeof createOperation> | null>(null);
+  const currentOperationId = useCallback(() => operationController.current?.id, []);
+  const progress = useOperationProgress(API, token, currentOperationId, !!busy);
   const resultsRef = useRef<HTMLElement>(null);
   const cancelOperation = useCallback(() => {
     const active = operationController.current;
@@ -386,6 +397,8 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
             original: d.original,
             rewritten: d.rewritten,
             target_level: d.target_level,
+            verified_level: d.verified_level ?? null,
+            attempts: d.attempts ?? 1,
           });
           setSuccess({ show: true, message: successMessages["target-rewrite"], elapsed: operationElapsed });
         }
@@ -565,7 +578,7 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
               Reference material <span className="optional-tag">Optional</span>
             </h2>
             <p className="section-copy">
-              Add course documents first if you want “Summarize text” and “Ask the model” to use them. Not needed for the Bloom tools, so you can collapse this and go straight to your question.
+              Add course documents first if you want “Summarize text” and “Ask questions” to use them. Not needed for the Bloom tools, so you can collapse this and go straight to your question.
             </p>
           </div>
           <svg className="chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -575,23 +588,7 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <div className="grid gap-3 content-start">
             <p className="step-label"><b>A</b>Upload a file</p>
-            <label className="glass-pill block rounded-2xl border-dashed p-5 text-center">
-              <span className="font-bold text-[#36577a] flex items-center justify-center gap-2">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
-                {file ? file.name : "Choose a document"}
-              </span>
-              <span className="field-hint">PDF, TXT, MD, CSV, JPG or PNG</span>
-              <input
-                className="sr-only"
-                type="file"
-                accept=".pdf,.txt,.md,.csv,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp"
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-              />
-            </label>
+            <FilePicker file={file} onChange={setFile} disabled={!!busy} hint="PDF, TXT, MD, CSV, JPG or PNG" />
             <button type="button" className="btn-secondary" disabled={!!busy || !file} onClick={upload}>
               Add file
             </button>
@@ -803,7 +800,21 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
                   <span>Rewritten</span>
                   <p>{targetRewrite.rewritten}</p>
                 </div>
-                <p className="field-hint">Check the rewrite before use. To verify its level, paste it into “Check Bloom level”.</p>
+                {targetRewrite.verified_level ? (
+                  targetRewrite.verified_level.toLowerCase() === targetRewrite.target_level.toLowerCase() ? (
+                    <p className="field-hint">
+                      Checked by the Bloom classifier: reads as {targetRewrite.verified_level}
+                      {targetRewrite.attempts && targetRewrite.attempts > 1 ? ` (best of ${targetRewrite.attempts} drafts)` : ""}. Still review it before use.
+                    </p>
+                  ) : (
+                    <p className="field-hint" style={{ color: "var(--warn)" }}>
+                      The Bloom classifier reads this rewrite as {targetRewrite.verified_level}, not {targetRewrite.target_level}
+                      {targetRewrite.attempts && targetRewrite.attempts > 1 ? ` (closest of ${targetRewrite.attempts} drafts)` : ""}. Edit it or try again.
+                    </p>
+                  )
+                ) : (
+                  <p className="field-hint">Check the rewrite before use. To verify its level, paste it into “Check Bloom level”.</p>
+                )}
               </article>
             )}
             {summary && (
@@ -845,7 +856,7 @@ function TeacherStudio({ token, LoadingComponent }: { token: string; LoadingComp
       )}
 
 
-      {busy && <LoadingComponent label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} />}
+      {busy && <LoadingComponent label={busy} hint={loadingHint} showGame={true} onCancel={cancelOperation} progress={progress} />}
       {showSuccess && <LoadingComponent label="" hint="Operation completed successfully" success={true} successMessage={success.message} finalElapsed={success.elapsed} />}
     </main>
   );

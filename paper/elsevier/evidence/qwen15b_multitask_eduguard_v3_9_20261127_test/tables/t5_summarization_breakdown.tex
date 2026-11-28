@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Summarization ROUGE-L by source type and length category (test).}
+\label{tab:t5_summarization_breakdown}
+\begin{tabular}{lrrrr}
+\toprule
+Grouping & Group & N & Condition & ROUGE-L [95\% CI] \\
+\midrule
+source type & OpenStax textbook & 116 & Base Qwen2.5-1.5B & 0.156 [0.148, 0.165] \\
+source type & Authored academic & 29 & Base Qwen2.5-1.5B & 0.221 [0.212, 0.230] \\
+source type & Lecture slides & 2 & Base Qwen2.5-1.5B & 0.246 [0.221, 0.271] \\
+length category & Short & 29 & Base Qwen2.5-1.5B & 0.221 [0.212, 0.230] \\
+length category & Medium & 44 & Base Qwen2.5-1.5B & 0.153 [0.139, 0.168] \\
+length category & Long & 52 & Base Qwen2.5-1.5B & 0.161 [0.148, 0.174] \\
+length category & Very long & 22 & Base Qwen2.5-1.5B & 0.160 [0.147, 0.175] \\
+\bottomrule
+\end{tabular}
+\end{table}

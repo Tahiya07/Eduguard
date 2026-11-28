@@ -29,6 +29,9 @@ htmlcov/
 # Virtual environments
 venv/
 .venv/
+# CPU-only build environment used by build_exe.bat (see README in build_exe.bat)
+.venv-build/
+.venv-*/
 venv_web/
 .venv_web/
 
@@ -137,3 +140,10 @@ data/multitask_bloom_rewrite_final/*.jsonl
 
 # llama.cpp source checkout used only for GGUF conversion
 third_party/
+
+# Packaging intermediates (PyInstaller) and local copies
+*.spec.bak
+node.exe
+
+# Local safety copies of evaluation results (kept on disk, not versioned)
+experiments/multitask_bloom_rewrite/results/*_validation_backup/

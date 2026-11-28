@@ -26,13 +26,43 @@ def operation_context(operation_id: str) -> Iterator[threading.Event]:
             event = threading.Event()
             _events[operation_id] = event
     token = _current_event.set(event)
+    id_token = _current_id.set(operation_id)
     try:
         yield event
     finally:
         _current_event.reset(token)
+        _current_id.reset(id_token)
         with _events_lock:
             if _events.get(operation_id) is event:
                 _events.pop(operation_id, None)
+            _progress.pop(operation_id, None)
+
+
+# ---------------------------------------------------------------------------
+# Progress messages: what a long operation is doing right now ("Summarizing part 3 of 9"),
+# polled by the UI's waiting dialog so users see why a step takes time.
+# ---------------------------------------------------------------------------
+_progress: dict[str, dict] = {}
+_current_id: contextvars.ContextVar[str | None] = contextvars.ContextVar("eduguard_operation_id", default=None)
+
+
+def report_progress(message: str, step: int | None = None, total: int | None = None) -> None:
+    """Record the current step of the active operation (no-op outside an operation)."""
+    op = _current_id.get()
+    if not op:
+        return
+    import time
+
+    with _events_lock:
+        _progress[op] = {"message": str(message)[:200], "step": step, "total": total, "updated": time.time()}
+        while len(_progress) > 256:
+            _progress.pop(next(iter(_progress)), None)
+
+
+def get_progress(operation_id: str) -> dict | None:
+    with _events_lock:
+        p = _progress.get(operation_id)
+        return dict(p) if p else None
 
 
 def cancel_operation(operation_id: str) -> bool:

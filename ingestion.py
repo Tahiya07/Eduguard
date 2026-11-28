@@ -13,28 +13,21 @@ from __future__ import annotations
 
 import logging
 import os
-import random
 import re
 import shutil
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Optional, Tuple, Union
 
+try:  # progress messages for the UI's waiting dialog (no-op outside a request)
+    from operation_control import report_progress
+except Exception:  # pragma: no cover - standalone use of this module
+    def report_progress(*_args, **_kwargs) -> None:
+        return None
 
-random.seed(42)
-try:
-    import numpy as np
-
-    np.random.seed(42)
-except Exception:  # pragma: no cover
-    np = None  # type: ignore[assignment]
-
-try:
-    import torch
-
-    torch.manual_seed(42)
-except Exception:  # pragma: no cover
-    torch = None  # type: ignore[assignment]
+# Chunking is deterministic; no RNG seeding is needed. (This module used to import PyTorch only to
+# seed it, which added seconds to the first upload and to every module that imports DocumentChunk.)
 
 try:
     import fitz  # PyMuPDF
@@ -125,6 +118,7 @@ class RawDocumentChunk:
     text: str
     page: Optional[int]
     modality: str
+    topic: Optional[str] = None
 
 
 class DocumentIngestor:
@@ -154,21 +148,100 @@ class DocumentIngestor:
         lines = [re.sub(r"[ \t\f\v]+", " ", line).strip() for line in text.splitlines()]
         return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
-    def _split_text(self, text: str) -> List[str]:
-        normalized = self._normalize(text)
-        words = list(re.finditer(r"\S+", normalized))
-        if not words:
-            return []
-        step = max(1, self.chunk_size - self.chunk_overlap)
-        chunks: List[str] = []
-        for start in range(0, len(words), step):
-            window = words[start : start + self.chunk_size]
-            if not window:
+    # A heading: a short line without sentence punctuation that is not a list item,
+    # e.g. "Smart Contract Threats" or "3.2 Process Scheduling".
+    _HEADING = re.compile(r"^(?:\d+(?:\.\d+)*\s+)?[A-Z][^\n]{1,80}$")
+    _LIST_ITEM = re.compile(r"^\s*(?:[-*\u2022\u25aa\u25cf\u2013]|\d+[.)]|[a-z][.)])\s+")
+
+    @classmethod
+    def _is_heading(cls, line: str) -> bool:
+        line = line.strip()
+        if not line or len(line.split()) > 10 or line[-1] in ".,;!?:":
+            return False
+        if cls._LIST_ITEM.match(line) and not re.match(r"^\d+(?:\.\d+)+\s", line):
+            return False
+        return bool(cls._HEADING.match(line))
+
+    @classmethod
+    def _units(cls, normalized: str) -> List[Tuple[int, int, int, bool]]:
+        """Sentence-sized spans (start, end, word_count, is_heading_line) of the normalized text.
+
+        Lines are kept as boundaries (slides and lists are line-structured); long lines are split
+        at sentence ends.
+        """
+        units: List[Tuple[int, int, int, bool]] = []
+        offset = 0
+        for line in normalized.split("\n"):
+            start = offset
+            offset += len(line) + 1
+            if not line.strip():
                 continue
-            # Slice the original normalized text so line breaks inside each
-            # word-bounded chunk survive ingestion and document summarization.
-            chunks.append(normalized[window[0].start() : window[-1].end()])
-        return chunks
+            heading = cls._is_heading(line)
+            cuts = [0] + [m.end() for m in re.finditer(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(\[])", line)] + [len(line)]
+            for a, b in zip(cuts, cuts[1:]):
+                raw = line[a:b]
+                seg = raw.strip()
+                if not seg:
+                    continue
+                s0 = start + a + (len(raw) - len(raw.lstrip()))
+                units.append((s0, s0 + len(seg), len(seg.split()), heading))
+        return units
+
+    def _split_text_with_headings(
+        self, text: str, heading: Optional[str] = None
+    ) -> Tuple[List[Tuple[str, Optional[str]]], Optional[str]]:
+        """Chunks of whole sentences/lines up to chunk_size words, overlapping by whole trailing
+        sentences (at most chunk_overlap words). Returns [(chunk_text, section_heading)] and the
+        heading in force at the end (carried over to the next page)."""
+        normalized = self._normalize(text)
+        units = self._units(normalized)
+        if not units:
+            return [], heading
+        # A sentence longer than a whole chunk is cut into word windows.
+        expanded: List[Tuple[int, int, int, bool]] = []
+        for s0, e0, n, h in units:
+            if n <= self.chunk_size:
+                expanded.append((s0, e0, n, h))
+                continue
+            words = list(re.finditer(r"\S+", normalized[s0:e0]))
+            for i in range(0, len(words), self.chunk_size):
+                w = words[i:i + self.chunk_size]
+                expanded.append((s0 + w[0].start(), s0 + w[-1].end(), len(w), False))
+        units = expanded
+
+        out: List[Tuple[str, Optional[str]]] = []
+        current = heading
+        i = 0
+        while i < len(units):
+            j, words = i, 0
+            while j < len(units) and (j == i or words + units[j][2] <= self.chunk_size):
+                words += units[j][2]
+                j += 1
+            # Do not end a chunk on a heading: it belongs with the text after it.
+            while j - i > 1 and j < len(units) and units[j - 1][3]:
+                j -= 1
+            # A chunk of headings only takes the following sentence too, even past chunk_size.
+            while j < len(units) and all(units[k][3] for k in range(i, j)):
+                j += 1
+            chunk_heading = current
+            for k in range(i, j):
+                if units[k][3]:
+                    if k == i:
+                        chunk_heading = normalized[units[k][0]:units[k][1]]
+                    current = normalized[units[k][0]:units[k][1]]
+            out.append((normalized[units[i][0]:units[j - 1][1]], chunk_heading))
+            if j >= len(units):
+                break
+            # Overlap: repeat trailing whole sentences (never headings) worth <= chunk_overlap words.
+            back, k = 0, j
+            while k - 1 > i and not units[k - 1][3] and back + units[k - 1][2] <= self.chunk_overlap:
+                back += units[k - 1][2]
+                k -= 1
+            i = k
+        return out, current
+
+    def _split_text(self, text: str) -> List[str]:
+        return [chunk for chunk, _ in self._split_text_with_headings(text)[0]]
 
     def chunk_text(
         self,
@@ -181,7 +254,8 @@ class DocumentIngestor:
         page: Optional[int] = None,
     ) -> List[DocumentChunk]:
         chunks: List[DocumentChunk] = []
-        for idx, piece in enumerate(self._split_text(text)):
+        pieces, _ = self._split_text_with_headings(text)
+        for idx, (piece, heading) in enumerate(pieces):
             chunks.append(
                 DocumentChunk(
                     chunk_id=idx,
@@ -191,9 +265,72 @@ class DocumentIngestor:
                     modality=modality,
                     access_level=access_level,
                     content_type=content_type,
+                    topic=heading,
                 )
             )
         return chunks
+
+    @staticmethod
+    def _strip_running_lines(pages: List[str]) -> List[str]:
+        """Remove page headers/footers (lines repeated on most pages) and bare page numbers."""
+        def key(line: str) -> str:
+            return re.sub(r"\d+", "#", line.strip().lower())
+
+        def edges(page: str) -> List[str]:
+            # Headers and footers are short lines at the very top or bottom of a page; body text
+            # that happens to repeat across pages (a recurring definition) must stay.
+            lines = [l for l in page.splitlines() if l.strip()]
+            # Slide decks put the department/course banner under the title, so look at the top and
+            # bottom three lines. Safe because only EXACT repeats (or "page N" lines) are removed.
+            n = 3
+            # A line starting in lowercase continues a wrapped sentence, so it is body text.
+            return [l for l in lines[:n] + lines[-n:] if len(l.split()) <= 12 and not l.strip()[:1].islower()]
+
+        page_number = re.compile(r"^(?:page\s*)?\d{1,4}(?:\s*(?:/|of)\s*\d{1,4})?$", re.I)
+        # A line that differs between pages only by its number is a running line only when it says so
+        # ("... page 7", "Slide 3 of 40"). Otherwise it is content: numbered slide titles such as
+        # "Lecture section 3" / "Week 4" must survive (they were being removed as headers).
+        page_word = re.compile(r"\b(?:page|pg\.?|p\.|slide)\s*\d", re.I)
+        exact = lambda line: line.strip().lower()
+        repeated: set = set()
+        repeated_numbered: set = set()
+        if len(pages) >= 4:
+            need = max(3, 0.6 * len(pages))
+            counts = Counter(k for page in pages for k in {exact(l) for l in edges(page)})
+            repeated = {k for k, c in counts.items() if c >= need}
+            counts_n = Counter(k for page in pages for k in {key(l) for l in edges(page) if page_word.search(l)})
+            repeated_numbered = {k for k, c in counts_n.items() if c >= need}
+        cleaned = []
+        for page in pages:
+            edge = {exact(l) for l in edges(page)}
+            edge_n = {key(l) for l in edges(page)}
+            lines = [l for l in page.splitlines()
+                     if not page_number.match(l.strip())
+                     and not (exact(l) in repeated and exact(l) in edge)
+                     and not (key(l) in repeated_numbered and key(l) in edge_n)]
+            cleaned.append("\n".join(lines))
+        return cleaned
+
+    # A PDF page with fewer words than this but with images is treated as scanned and OCR'd.
+    OCR_MIN_WORDS = 15
+
+    def _ocr_pdf_page(self, page) -> str:
+        """Render one PDF page at 200 dpi and read it with Tesseract (no OCR available -> "")."""
+        try:
+            status = ocr_backend_status()
+            if not status.get("available") or status.get("engine") != "pytesseract":
+                return ""
+            import io
+
+            import pytesseract
+            from PIL import Image
+
+            pytesseract.pytesseract.tesseract_cmd = status.get("command") or resolve_tesseract_cmd()
+            pix = page.get_pixmap(dpi=200)
+            return str(pytesseract.image_to_string(Image.open(io.BytesIO(pix.tobytes("png")))) or "")
+        except Exception as exc:  # OCR is a best effort; a failed page is skipped as before
+            logger.warning("OCR of PDF page %s failed: %s", getattr(page, "number", "?"), exc)
+            return ""
 
     def _load_pdf_raw(self, path: Path) -> List[RawDocumentChunk]:
         if not _HAS_PYMUPDF:
@@ -202,13 +339,25 @@ class DocumentIngestor:
         chunks: List[RawDocumentChunk] = []
         cid = 0
         try:
-            for page_i in range(len(doc)):
-                text = self._normalize(doc[page_i].get_text("text") or "")
-                for piece in self._split_text(text):
-                    chunks.append(RawDocumentChunk(cid, str(path), piece, page_i + 1, "pdf"))
-                    cid += 1
+            report_progress(f"Reading the PDF's {len(doc)} page(s)...")
+            # sort=True reads text boxes top-to-bottom, left-to-right (slides, two-column layouts).
+            pages = [self._normalize(doc[i].get_text("text", sort=True) or "") for i in range(len(doc))]
+            # Pages whose text is only a picture (scanned pages, screenshot slides) have no text layer
+            # and used to be skipped silently. OCR those pages with the bundled Tesseract.
+            for i, text in enumerate(pages):
+                if len(text.split()) < self.OCR_MIN_WORDS and doc[i].get_images(full=False):
+                    report_progress(f"Page {i + 1} of {len(pages)} is a scanned image; reading it with OCR...", i + 1, len(pages))
+                    ocr = self._ocr_pdf_page(doc[i])
+                    if len(ocr.split()) > len(text.split()):
+                        pages[i] = self._normalize(ocr)
         finally:
             doc.close()
+        heading: Optional[str] = None
+        for page_i, text in enumerate(self._strip_running_lines(pages)):
+            pieces, heading = self._split_text_with_headings(text, heading)
+            for piece, chunk_heading in pieces:
+                chunks.append(RawDocumentChunk(cid, str(path), piece, page_i + 1, "pdf", chunk_heading))
+                cid += 1
         if not chunks:
             raise RuntimeError(
                 f"No extractable text in {path.name}. Scanned/image-only PDFs need OCR — "
@@ -275,6 +424,7 @@ class DocumentIngestor:
                     modality=raw.modality,
                     access_level=access_level,
                     content_type=content_type,
+                    topic=raw.topic,
                 )
                 for raw in raw_chunks
             ]
@@ -308,6 +458,7 @@ def _self_test() -> None:
     chunks = ing.chunk_text("one two three four five six", source="demo")
     assert len(chunks) == 2
     assert chunks[0].text == "one two three four five"
+    assert chunks[1].text == "six"
     print("[OK] ingestion self-test passed")
 
 

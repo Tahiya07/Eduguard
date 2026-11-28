@@ -1,25 +1,24 @@
+# PyInstaller spec for EduGuard.exe, the small launcher that starts the frontend (node.exe) and the
+# backend (backend\EduGuardBackend.exe) and opens the browser.
+#
+# Folder build: dist\EduGuard\EduGuard.exe + dist\EduGuard\_internal\. build_exe.bat then adds
+# node.exe, backend\, frontend\, models\ and .env next to EduGuard.exe. node.exe is copied there by
+# the build script (PyInstaller 6 would put a bundled binary inside _internal\, where the launcher
+# does not look).
 from pathlib import Path
 
 ROOT = Path(SPECPATH)
 
-binaries = []
-datas = []
-
-# Only the Node runtime belongs in the launcher.
-node_exe = ROOT / "node.exe"
-if node_exe.exists():
-    binaries.append((str(node_exe), "."))
-
 a = Analysis(
     ["app_launcher.py"],
     pathex=[str(ROOT)],
-    binaries=binaries,
-    datas=datas,
+    binaries=[],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=["torch", "transformers", "numpy", "pandas", "tkinter"],
     noarchive=False,
 )
 
@@ -28,9 +27,8 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,
     name="EduGuard",
     debug=False,
     bootloader_ignore_signals=False,

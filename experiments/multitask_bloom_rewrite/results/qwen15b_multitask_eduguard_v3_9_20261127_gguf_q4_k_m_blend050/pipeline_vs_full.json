@@ -1,0 +1,54 @@
+{
+  "rule": "keep blend if classifier target match and no invented 'supplied' material; else full-strength v3.9",
+  "n_items": 341,
+  "fallback_rate": 0.1144,
+  "blend": {
+    "n": 341,
+    "target_accuracy": 0.8856,
+    "fully_validated": 0.7097,
+    "invents_supplied_material": 0.0,
+    "trivial_copy": 0.0235,
+    "per_level_target_accuracy": {
+      "Remember": 0.7541,
+      "Understand": 0.8305,
+      "Apply": 0.9231,
+      "Analyze": 0.9808,
+      "Evaluate": 0.9825,
+      "Create": 0.8667
+    }
+  },
+  "full_v3_9": {
+    "n": 341,
+    "target_accuracy": 0.9032,
+    "fully_validated": 0.6891,
+    "invents_supplied_material": 0.085,
+    "trivial_copy": 0.0029,
+    "per_level_target_accuracy": {
+      "Remember": 0.8197,
+      "Understand": 0.9153,
+      "Apply": 0.9423,
+      "Analyze": 0.9808,
+      "Evaluate": 1.0,
+      "Create": 0.7833
+    }
+  },
+  "pipeline": {
+    "n": 341,
+    "target_accuracy": 0.9619,
+    "fully_validated": 0.7537,
+    "invents_supplied_material": 0.0029,
+    "trivial_copy": 0.0205,
+    "per_level_target_accuracy": {
+      "Remember": 0.918,
+      "Understand": 0.9322,
+      "Apply": 0.9808,
+      "Analyze": 0.9808,
+      "Evaluate": 1.0,
+      "Create": 0.9667
+    }
+  },
+  "sources": {
+    "blend": "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_blend050",
+    "full": "experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m"
+  }
+}

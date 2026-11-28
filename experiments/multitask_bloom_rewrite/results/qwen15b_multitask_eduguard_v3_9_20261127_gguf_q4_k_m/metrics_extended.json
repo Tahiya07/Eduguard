@@ -1,0 +1,4956 @@
+{
+  "generated_utc": "2026-11-27T22:39:58.312138+00:00",
+  "split": "validation",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m",
+  "embedding_model": "BAAI/bge-m3",
+  "bertscore": {
+    "model": "roberta-large",
+    "rescale_with_baseline": true,
+    "lang": "en"
+  },
+  "calibration": "5th percentile over train-split references",
+  "bloom": {
+    "reference_based": {
+      "rougeL_to_reference_mean": 0.3645,
+      "bertscore_f1_to_reference_mean": 0.4347,
+      "near_copy_threshold_source_rougeL": 0.5806
+    },
+    "per_row": [
+      {
+        "id": "eduguard_v3_1_003-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "source_rougeL": 0.2128,
+        "near_copy": false,
+        "bertscore_f1": 0.5777
+      },
+      {
+        "id": "eduguard_v3_1_003-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3137,
+        "source_rougeL": 0.3265,
+        "near_copy": false,
+        "bertscore_f1": 0.4632
+      },
+      {
+        "id": "eduguard_v3_1_003-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.383,
+        "source_rougeL": 0.2979,
+        "near_copy": false,
+        "bertscore_f1": 0.5615
+      },
+      {
+        "id": "eduguard_v3_1_003-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4762,
+        "source_rougeL": 0.129,
+        "near_copy": false,
+        "bertscore_f1": 0.6177
+      },
+      {
+        "id": "eduguard_v3_1_003-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.0541,
+        "source_rougeL": 0.1143,
+        "near_copy": false,
+        "bertscore_f1": 0.2771
+      },
+      {
+        "id": "eduguard_v3_1_005-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "source_rougeL": 0.2667,
+        "near_copy": false,
+        "bertscore_f1": 0.2495
+      },
+      {
+        "id": "eduguard_v3_1_005-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2143,
+        "source_rougeL": 0.2727,
+        "near_copy": false,
+        "bertscore_f1": 0.1579
+      },
+      {
+        "id": "eduguard_v3_1_005-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2745,
+        "source_rougeL": 0.1714,
+        "near_copy": false,
+        "bertscore_f1": 0.3149
+      },
+      {
+        "id": "eduguard_v3_1_005-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.087,
+        "near_copy": false,
+        "bertscore_f1": 0.5268
+      },
+      {
+        "id": "eduguard_v3_1_005-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.32,
+        "source_rougeL": 0.2791,
+        "near_copy": false,
+        "bertscore_f1": 0.3699
+      },
+      {
+        "id": "eduguard_v3_1_013-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1702,
+        "source_rougeL": 0.3889,
+        "near_copy": false,
+        "bertscore_f1": 0.2505
+      },
+      {
+        "id": "eduguard_v3_1_013-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "source_rougeL": 0.3784,
+        "near_copy": false,
+        "bertscore_f1": 0.3677
+      },
+      {
+        "id": "eduguard_v3_1_013-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3077,
+        "source_rougeL": 0.2105,
+        "near_copy": false,
+        "bertscore_f1": 0.4423
+      },
+      {
+        "id": "eduguard_v3_1_013-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.5383
+      },
+      {
+        "id": "eduguard_v3_1_013-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "source_rougeL": 0.1818,
+        "near_copy": false,
+        "bertscore_f1": 0.458
+      },
+      {
+        "id": "eduguard_v3_1_016-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3462,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.3937
+      },
+      {
+        "id": "eduguard_v3_1_016-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1923,
+        "source_rougeL": 0.4,
+        "near_copy": false,
+        "bertscore_f1": 0.2639
+      },
+      {
+        "id": "eduguard_v3_1_016-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.439,
+        "source_rougeL": 0.6857,
+        "near_copy": true,
+        "bertscore_f1": 0.4423
+      },
+      {
+        "id": "eduguard_v3_1_016-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7778,
+        "source_rougeL": 0.3077,
+        "near_copy": false,
+        "bertscore_f1": 0.8369
+      },
+      {
+        "id": "eduguard_v3_1_016-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.2424,
+        "near_copy": false,
+        "bertscore_f1": 0.549
+      },
+      {
+        "id": "eduguard_v3_1_032-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1622,
+        "source_rougeL": 0.2105,
+        "near_copy": false,
+        "bertscore_f1": 0.2648
+      },
+      {
+        "id": "eduguard_v3_1_032-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "source_rougeL": 0.3,
+        "near_copy": false,
+        "bertscore_f1": 0.256
+      },
+      {
+        "id": "eduguard_v3_1_032-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.125,
+        "source_rougeL": 0.2941,
+        "near_copy": false,
+        "bertscore_f1": -0.0073
+      },
+      {
+        "id": "eduguard_v3_1_032-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.125,
+        "source_rougeL": 0.2727,
+        "near_copy": false,
+        "bertscore_f1": 0.1895
+      },
+      {
+        "id": "eduguard_v3_1_032-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3429,
+        "source_rougeL": 0.3243,
+        "near_copy": false,
+        "bertscore_f1": 0.485
+      },
+      {
+        "id": "eduguard_v3_1_037-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1081,
+        "source_rougeL": 0.5455,
+        "near_copy": false,
+        "bertscore_f1": 0.2712
+      },
+      {
+        "id": "eduguard_v3_1_037-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "source_rougeL": 0.3226,
+        "near_copy": false,
+        "bertscore_f1": 0.496
+      },
+      {
+        "id": "eduguard_v3_1_037-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2326,
+        "source_rougeL": 0.2857,
+        "near_copy": false,
+        "bertscore_f1": 0.2992
+      },
+      {
+        "id": "eduguard_v3_1_037-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2642,
+        "source_rougeL": 0.4571,
+        "near_copy": false,
+        "bertscore_f1": 0.2874
+      },
+      {
+        "id": "eduguard_v3_1_037-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.5459
+      },
+      {
+        "id": "eduguard_v3_1_063-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2083,
+        "source_rougeL": 0.3043,
+        "near_copy": false,
+        "bertscore_f1": 0.2853
+      },
+      {
+        "id": "eduguard_v3_1_063-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2188,
+        "source_rougeL": 0.2564,
+        "near_copy": false,
+        "bertscore_f1": 0.0599
+      },
+      {
+        "id": "eduguard_v3_1_063-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.186,
+        "source_rougeL": 0.2632,
+        "near_copy": false,
+        "bertscore_f1": 0.2718
+      },
+      {
+        "id": "eduguard_v3_1_063-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.4211,
+        "source_rougeL": 0.2727,
+        "near_copy": false,
+        "bertscore_f1": 0.4223
+      },
+      {
+        "id": "eduguard_v3_1_063-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.303,
+        "source_rougeL": 0.3226,
+        "near_copy": false,
+        "bertscore_f1": 0.4804
+      },
+      {
+        "id": "eduguard_v3_1_098-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.439,
+        "source_rougeL": 0.3529,
+        "near_copy": false,
+        "bertscore_f1": 0.5609
+      },
+      {
+        "id": "eduguard_v3_1_098-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5778,
+        "source_rougeL": 0.6154,
+        "near_copy": true,
+        "bertscore_f1": 0.5831
+      },
+      {
+        "id": "eduguard_v3_1_098-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4407,
+        "source_rougeL": 0.4231,
+        "near_copy": false,
+        "bertscore_f1": 0.5308
+      },
+      {
+        "id": "eduguard_v3_1_098-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "source_rougeL": 0.4828,
+        "near_copy": false,
+        "bertscore_f1": 0.3204
+      },
+      {
+        "id": "eduguard_v3_1_098-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.8205,
+        "source_rougeL": 0.4865,
+        "near_copy": false,
+        "bertscore_f1": 0.8697
+      },
+      {
+        "id": "eduguard_v3_1_100-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2697,
+        "source_rougeL": 0.1754,
+        "near_copy": false,
+        "bertscore_f1": 0.1296
+      },
+      {
+        "id": "eduguard_v3_1_100-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2366,
+        "source_rougeL": 0.1194,
+        "near_copy": false,
+        "bertscore_f1": 0.2298
+      },
+      {
+        "id": "eduguard_v3_1_100-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1739,
+        "source_rougeL": 0.3478,
+        "near_copy": false,
+        "bertscore_f1": 0.174
+      },
+      {
+        "id": "eduguard_v3_1_100-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "source_rougeL": 0.2609,
+        "near_copy": false,
+        "bertscore_f1": 0.4734
+      },
+      {
+        "id": "eduguard_v3_1_100-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4651,
+        "source_rougeL": 0.7647,
+        "near_copy": true,
+        "bertscore_f1": 0.4817
+      },
+      {
+        "id": "eduguard_v3_1_104-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "source_rougeL": 0.3158,
+        "near_copy": false,
+        "bertscore_f1": 0.5288
+      },
+      {
+        "id": "eduguard_v3_1_104-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3111,
+        "source_rougeL": 0.3913,
+        "near_copy": false,
+        "bertscore_f1": 0.4821
+      },
+      {
+        "id": "eduguard_v3_1_104-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3448,
+        "source_rougeL": 0.6857,
+        "near_copy": true,
+        "bertscore_f1": 0.5148
+      },
+      {
+        "id": "eduguard_v3_1_104-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5833,
+        "source_rougeL": 0.4828,
+        "near_copy": false,
+        "bertscore_f1": 0.6458
+      },
+      {
+        "id": "eduguard_v3_1_104-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.4324,
+        "near_copy": false,
+        "bertscore_f1": 0.6777
+      },
+      {
+        "id": "eduguard_v3_1_143-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2,
+        "source_rougeL": 0.35,
+        "near_copy": false,
+        "bertscore_f1": 0.2304
+      },
+      {
+        "id": "eduguard_v3_1_143-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.55,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.6263
+      },
+      {
+        "id": "eduguard_v3_1_143-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2222,
+        "source_rougeL": 0.2609,
+        "near_copy": false,
+        "bertscore_f1": 0.3115
+      },
+      {
+        "id": "eduguard_v3_1_143-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1852,
+        "source_rougeL": 0.1579,
+        "near_copy": false,
+        "bertscore_f1": 0.3491
+      },
+      {
+        "id": "eduguard_v3_1_143-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.3516
+      },
+      {
+        "id": "eduguard_v3_1_160-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2609,
+        "source_rougeL": 0.4211,
+        "near_copy": false,
+        "bertscore_f1": 0.4255
+      },
+      {
+        "id": "eduguard_v3_1_160-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3429,
+        "source_rougeL": 0.359,
+        "near_copy": false,
+        "bertscore_f1": 0.4242
+      },
+      {
+        "id": "eduguard_v3_1_160-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3704,
+        "source_rougeL": 0.3478,
+        "near_copy": false,
+        "bertscore_f1": 0.4809
+      },
+      {
+        "id": "eduguard_v3_1_160-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.32,
+        "source_rougeL": 0.3571,
+        "near_copy": false,
+        "bertscore_f1": 0.4754
+      },
+      {
+        "id": "eduguard_v3_1_160-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5517,
+        "source_rougeL": 0.4571,
+        "near_copy": false,
+        "bertscore_f1": 0.7634
+      },
+      {
+        "id": "eduguard_v3_1_170-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3673,
+        "source_rougeL": 0.3043,
+        "near_copy": false,
+        "bertscore_f1": 0.4709
+      },
+      {
+        "id": "eduguard_v3_1_170-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3175,
+        "source_rougeL": 0.2778,
+        "near_copy": false,
+        "bertscore_f1": 0.3578
+      },
+      {
+        "id": "eduguard_v3_1_170-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "source_rougeL": 0.5714,
+        "near_copy": false,
+        "bertscore_f1": 0.526
+      },
+      {
+        "id": "eduguard_v3_1_170-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.16,
+        "near_copy": false,
+        "bertscore_f1": 0.4249
+      },
+      {
+        "id": "eduguard_v3_1_170-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6471,
+        "source_rougeL": 0.2857,
+        "near_copy": false,
+        "bertscore_f1": 0.7782
+      },
+      {
+        "id": "eduguard_v3_1_178-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2388,
+        "source_rougeL": 0.5556,
+        "near_copy": false,
+        "bertscore_f1": 0.3701
+      },
+      {
+        "id": "eduguard_v3_1_178-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3125,
+        "source_rougeL": 0.5556,
+        "near_copy": false,
+        "bertscore_f1": 0.3556
+      },
+      {
+        "id": "eduguard_v3_1_178-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2927,
+        "source_rougeL": 0.25,
+        "near_copy": false,
+        "bertscore_f1": 0.3707
+      },
+      {
+        "id": "eduguard_v3_1_178-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2143,
+        "source_rougeL": 0.1923,
+        "near_copy": false,
+        "bertscore_f1": 0.2938
+      },
+      {
+        "id": "eduguard_v3_1_178-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.8235,
+        "source_rougeL": 0.4516,
+        "near_copy": false,
+        "bertscore_f1": 0.7758
+      },
+      {
+        "id": "eduguard_v3_1_206-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.5851
+      },
+      {
+        "id": "eduguard_v3_1_206-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3548,
+        "source_rougeL": 0.3529,
+        "near_copy": false,
+        "bertscore_f1": 0.4951
+      },
+      {
+        "id": "eduguard_v3_1_206-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.2273,
+        "near_copy": false,
+        "bertscore_f1": 0.5216
+      },
+      {
+        "id": "eduguard_v3_1_206-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5517,
+        "source_rougeL": 0.2353,
+        "near_copy": false,
+        "bertscore_f1": 0.5192
+      },
+      {
+        "id": "eduguard_v3_1_206-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4242,
+        "source_rougeL": 0.3158,
+        "near_copy": false,
+        "bertscore_f1": 0.6039
+      },
+      {
+        "id": "eduguard_v3_1_218-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "source_rougeL": 0.3509,
+        "near_copy": false,
+        "bertscore_f1": 0.3392
+      },
+      {
+        "id": "eduguard_v3_1_218-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6154,
+        "source_rougeL": 0.2381,
+        "near_copy": false,
+        "bertscore_f1": 0.5938
+      },
+      {
+        "id": "eduguard_v3_1_218-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3721,
+        "source_rougeL": 0.2326,
+        "near_copy": false,
+        "bertscore_f1": 0.5142
+      },
+      {
+        "id": "eduguard_v3_1_218-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6316,
+        "source_rougeL": 0.25,
+        "near_copy": false,
+        "bertscore_f1": 0.5478
+      },
+      {
+        "id": "eduguard_v3_1_218-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3684,
+        "source_rougeL": 0.3636,
+        "near_copy": false,
+        "bertscore_f1": 0.448
+      },
+      {
+        "id": "eduguard_v3_1_222-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "source_rougeL": 0.3478,
+        "near_copy": false,
+        "bertscore_f1": 0.3103
+      },
+      {
+        "id": "eduguard_v3_1_222-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4194,
+        "source_rougeL": 0.4348,
+        "near_copy": false,
+        "bertscore_f1": 0.4441
+      },
+      {
+        "id": "eduguard_v3_1_222-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5625,
+        "source_rougeL": 0.5714,
+        "near_copy": false,
+        "bertscore_f1": 0.5742
+      },
+      {
+        "id": "eduguard_v3_1_222-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4118,
+        "source_rougeL": 0.4118,
+        "near_copy": false,
+        "bertscore_f1": 0.5396
+      },
+      {
+        "id": "eduguard_v3_1_222-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7368,
+        "source_rougeL": 0.2778,
+        "near_copy": false,
+        "bertscore_f1": 0.8046
+      },
+      {
+        "id": "eduguard_v3_1_229-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.459,
+        "source_rougeL": 0.3077,
+        "near_copy": false,
+        "bertscore_f1": 0.4359
+      },
+      {
+        "id": "eduguard_v3_1_229-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.381,
+        "source_rougeL": 0.5143,
+        "near_copy": false,
+        "bertscore_f1": 0.4996
+      },
+      {
+        "id": "eduguard_v3_1_229-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4118,
+        "source_rougeL": 0.2424,
+        "near_copy": false,
+        "bertscore_f1": 0.4939
+      },
+      {
+        "id": "eduguard_v3_1_229-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1538,
+        "source_rougeL": 0.1905,
+        "near_copy": false,
+        "bertscore_f1": 0.4433
+      },
+      {
+        "id": "eduguard_v3_1_229-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "source_rougeL": 0.3043,
+        "near_copy": false,
+        "bertscore_f1": 0.2879
+      },
+      {
+        "id": "eduguard_v3_1_234-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2264,
+        "source_rougeL": 0.1905,
+        "near_copy": false,
+        "bertscore_f1": 0.2678
+      },
+      {
+        "id": "eduguard_v3_1_234-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "source_rougeL": 0.2041,
+        "near_copy": false,
+        "bertscore_f1": 0.3888
+      },
+      {
+        "id": "eduguard_v3_1_234-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2192,
+        "source_rougeL": 0.3,
+        "near_copy": false,
+        "bertscore_f1": 0.2356
+      },
+      {
+        "id": "eduguard_v3_1_234-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.1429,
+        "source_rougeL": 0.1333,
+        "near_copy": false,
+        "bertscore_f1": 0.1
+      },
+      {
+        "id": "eduguard_v3_1_234-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3111,
+        "source_rougeL": 0.8372,
+        "near_copy": true,
+        "bertscore_f1": 0.4696
+      },
+      {
+        "id": "eduguard_v3_1_236-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2449,
+        "source_rougeL": 0.2927,
+        "near_copy": false,
+        "bertscore_f1": 0.2788
+      },
+      {
+        "id": "eduguard_v3_1_236-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "source_rougeL": 0.4082,
+        "near_copy": false,
+        "bertscore_f1": 0.4787
+      },
+      {
+        "id": "eduguard_v3_1_236-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.5106,
+        "near_copy": false,
+        "bertscore_f1": 0.6154
+      },
+      {
+        "id": "eduguard_v3_1_236-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "source_rougeL": 0.2759,
+        "near_copy": false,
+        "bertscore_f1": 0.4534
+      },
+      {
+        "id": "eduguard_v3_1_236-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7879,
+        "source_rougeL": 0.5641,
+        "near_copy": false,
+        "bertscore_f1": 0.8284
+      },
+      {
+        "id": "eduguard_v3_1_247-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.439,
+        "source_rougeL": 0.3889,
+        "near_copy": false,
+        "bertscore_f1": 0.5705
+      },
+      {
+        "id": "eduguard_v3_1_247-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4681,
+        "source_rougeL": 0.359,
+        "near_copy": false,
+        "bertscore_f1": 0.485
+      },
+      {
+        "id": "eduguard_v3_1_247-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4286,
+        "source_rougeL": 0.4878,
+        "near_copy": false,
+        "bertscore_f1": 0.5271
+      },
+      {
+        "id": "eduguard_v3_1_247-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6667,
+        "source_rougeL": 0.3846,
+        "near_copy": false,
+        "bertscore_f1": 0.7362
+      },
+      {
+        "id": "eduguard_v3_1_247-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6429,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.8313
+      },
+      {
+        "id": "eduguard_v3_1_261-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3492,
+        "source_rougeL": 0.0571,
+        "near_copy": false,
+        "bertscore_f1": 0.3229
+      },
+      {
+        "id": "eduguard_v3_1_261-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4615,
+        "source_rougeL": 0.439,
+        "near_copy": false,
+        "bertscore_f1": 0.5764
+      },
+      {
+        "id": "eduguard_v3_1_261-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "source_rougeL": 0.3226,
+        "near_copy": false,
+        "bertscore_f1": 0.2475
+      },
+      {
+        "id": "eduguard_v3_1_261-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.7059,
+        "source_rougeL": 0.0952,
+        "near_copy": false,
+        "bertscore_f1": 0.7327
+      },
+      {
+        "id": "eduguard_v3_1_261-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4865,
+        "source_rougeL": 0.6897,
+        "near_copy": true,
+        "bertscore_f1": 0.5126
+      },
+      {
+        "id": "eduguard_v3_1_269-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3051,
+        "source_rougeL": 0.5246,
+        "near_copy": false,
+        "bertscore_f1": 0.3095
+      },
+      {
+        "id": "eduguard_v3_1_269-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2439,
+        "source_rougeL": 0.4615,
+        "near_copy": false,
+        "bertscore_f1": 0.3503
+      },
+      {
+        "id": "eduguard_v3_1_269-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3548,
+        "source_rougeL": 0.6557,
+        "near_copy": true,
+        "bertscore_f1": 0.3698
+      },
+      {
+        "id": "eduguard_v3_1_269-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6111,
+        "source_rougeL": 0.4651,
+        "near_copy": false,
+        "bertscore_f1": 0.6297
+      },
+      {
+        "id": "eduguard_v3_1_269-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6667,
+        "source_rougeL": 0.1143,
+        "near_copy": false,
+        "bertscore_f1": 0.7036
+      },
+      {
+        "id": "eduguard_v3_1_274-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3137,
+        "source_rougeL": 0.5714,
+        "near_copy": false,
+        "bertscore_f1": 0.3938
+      },
+      {
+        "id": "eduguard_v3_1_274-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4545,
+        "source_rougeL": 0.5517,
+        "near_copy": false,
+        "bertscore_f1": 0.5256
+      },
+      {
+        "id": "eduguard_v3_1_274-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4255,
+        "source_rougeL": 0.6792,
+        "near_copy": true,
+        "bertscore_f1": 0.5408
+      },
+      {
+        "id": "eduguard_v3_1_274-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2581,
+        "source_rougeL": 0.2,
+        "near_copy": false,
+        "bertscore_f1": 0.3144
+      },
+      {
+        "id": "eduguard_v3_1_274-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7727,
+        "source_rougeL": 0.6122,
+        "near_copy": true,
+        "bertscore_f1": 0.6963
+      },
+      {
+        "id": "eduguard_v3_1_287-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2647,
+        "source_rougeL": 0.3226,
+        "near_copy": false,
+        "bertscore_f1": 0.3063
+      },
+      {
+        "id": "eduguard_v3_1_287-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3846,
+        "source_rougeL": 0.3913,
+        "near_copy": false,
+        "bertscore_f1": 0.4143
+      },
+      {
+        "id": "eduguard_v3_1_287-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6667,
+        "source_rougeL": 0.6522,
+        "near_copy": true,
+        "bertscore_f1": 0.6015
+      },
+      {
+        "id": "eduguard_v3_1_287-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "source_rougeL": 0.4706,
+        "near_copy": false,
+        "bertscore_f1": 0.5756
+      },
+      {
+        "id": "eduguard_v3_1_287-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6207,
+        "source_rougeL": 0.2632,
+        "near_copy": false,
+        "bertscore_f1": 0.8361
+      },
+      {
+        "id": "eduguard_v3_1_300-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2667,
+        "source_rougeL": 0.5882,
+        "near_copy": true,
+        "bertscore_f1": 0.3972
+      },
+      {
+        "id": "eduguard_v3_1_300-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5294,
+        "source_rougeL": 0.625,
+        "near_copy": true,
+        "bertscore_f1": 0.6772
+      },
+      {
+        "id": "eduguard_v3_1_300-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3934,
+        "source_rougeL": 0.3556,
+        "near_copy": false,
+        "bertscore_f1": 0.4142
+      },
+      {
+        "id": "eduguard_v3_1_300-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.381,
+        "near_copy": false,
+        "bertscore_f1": 0.2693
+      },
+      {
+        "id": "eduguard_v3_1_300-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2286,
+        "source_rougeL": 0.4138,
+        "near_copy": false,
+        "bertscore_f1": 0.3385
+      },
+      {
+        "id": "eduguard_v3_1_313-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1707,
+        "source_rougeL": 0.4314,
+        "near_copy": false,
+        "bertscore_f1": 0.125
+      },
+      {
+        "id": "eduguard_v3_1_313-Apply",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.4706,
+        "source_rougeL": 0.1633,
+        "near_copy": false,
+        "bertscore_f1": 0.4297
+      },
+      {
+        "id": "eduguard_v3_1_313-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2895,
+        "source_rougeL": 0.3448,
+        "near_copy": false,
+        "bertscore_f1": 0.3809
+      },
+      {
+        "id": "eduguard_v3_1_313-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.137,
+        "source_rougeL": 0.3256,
+        "near_copy": false,
+        "bertscore_f1": 0.0867
+      },
+      {
+        "id": "eduguard_v3_1_313-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.0952,
+        "source_rougeL": 0.0,
+        "near_copy": false,
+        "bertscore_f1": 0.0133
+      },
+      {
+        "id": "eduguard_v3_1_314-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3721,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.3599
+      },
+      {
+        "id": "eduguard_v3_1_314-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4103,
+        "source_rougeL": 0.35,
+        "near_copy": false,
+        "bertscore_f1": 0.3233
+      },
+      {
+        "id": "eduguard_v3_1_314-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6486,
+        "source_rougeL": 0.7179,
+        "near_copy": true,
+        "bertscore_f1": 0.6565
+      },
+      {
+        "id": "eduguard_v3_1_314-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3529,
+        "source_rougeL": 0.1481,
+        "near_copy": false,
+        "bertscore_f1": 0.5165
+      },
+      {
+        "id": "eduguard_v3_1_314-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2162,
+        "source_rougeL": 0.1622,
+        "near_copy": false,
+        "bertscore_f1": 0.3566
+      },
+      {
+        "id": "eduguard_v3_1_331-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6111,
+        "source_rougeL": 0.4211,
+        "near_copy": false,
+        "bertscore_f1": 0.7279
+      },
+      {
+        "id": "eduguard_v3_1_331-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3548,
+        "source_rougeL": 0.383,
+        "near_copy": false,
+        "bertscore_f1": 0.2515
+      },
+      {
+        "id": "eduguard_v3_1_331-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6471,
+        "source_rougeL": 0.4615,
+        "near_copy": false,
+        "bertscore_f1": 0.7109
+      },
+      {
+        "id": "eduguard_v3_1_331-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3158,
+        "source_rougeL": 0.2308,
+        "near_copy": false,
+        "bertscore_f1": 0.4459
+      },
+      {
+        "id": "eduguard_v3_1_331-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2424,
+        "source_rougeL": 0.619,
+        "near_copy": true,
+        "bertscore_f1": 0.5493
+      },
+      {
+        "id": "eduguard_v3_1_345-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "source_rougeL": 0.3182,
+        "near_copy": false,
+        "bertscore_f1": 0.2438
+      },
+      {
+        "id": "eduguard_v3_1_345-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4333,
+        "source_rougeL": 0.2667,
+        "near_copy": false,
+        "bertscore_f1": 0.4987
+      },
+      {
+        "id": "eduguard_v3_1_345-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4324,
+        "source_rougeL": 0.4118,
+        "near_copy": false,
+        "bertscore_f1": 0.4175
+      },
+      {
+        "id": "eduguard_v3_1_345-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3529,
+        "source_rougeL": 0.3448,
+        "near_copy": false,
+        "bertscore_f1": 0.49
+      },
+      {
+        "id": "eduguard_v3_1_345-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2963,
+        "source_rougeL": 0.303,
+        "near_copy": false,
+        "bertscore_f1": 0.4143
+      },
+      {
+        "id": "eduguard_v3_1_354-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.375,
+        "source_rougeL": 0.3404,
+        "near_copy": false,
+        "bertscore_f1": 0.47
+      },
+      {
+        "id": "eduguard_v3_1_354-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.3636,
+        "near_copy": false,
+        "bertscore_f1": 0.466
+      },
+      {
+        "id": "eduguard_v3_1_354-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5263,
+        "source_rougeL": 0.7,
+        "near_copy": true,
+        "bertscore_f1": 0.6166
+      },
+      {
+        "id": "eduguard_v3_1_354-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "source_rougeL": 0.2,
+        "near_copy": false,
+        "bertscore_f1": 0.6904
+      },
+      {
+        "id": "eduguard_v3_1_354-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5143,
+        "source_rougeL": 0.4737,
+        "near_copy": false,
+        "bertscore_f1": 0.5336
+      },
+      {
+        "id": "eduguard_v3_1_360-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3214,
+        "source_rougeL": 0.3721,
+        "near_copy": false,
+        "bertscore_f1": 0.2588
+      },
+      {
+        "id": "eduguard_v3_1_360-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.459,
+        "source_rougeL": 0.4651,
+        "near_copy": false,
+        "bertscore_f1": 0.4875
+      },
+      {
+        "id": "eduguard_v3_1_360-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7742,
+        "source_rougeL": 0.5294,
+        "near_copy": false,
+        "bertscore_f1": 0.7955
+      },
+      {
+        "id": "eduguard_v3_1_360-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5714,
+        "source_rougeL": 0.4667,
+        "near_copy": false,
+        "bertscore_f1": 0.62
+      },
+      {
+        "id": "eduguard_v3_1_360-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6,
+        "source_rougeL": 0.4211,
+        "near_copy": false,
+        "bertscore_f1": 0.6868
+      },
+      {
+        "id": "eduguard_v3_1_366-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2564,
+        "source_rougeL": 0.2642,
+        "near_copy": false,
+        "bertscore_f1": 0.2732
+      },
+      {
+        "id": "eduguard_v3_1_366-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5373,
+        "source_rougeL": 0.5231,
+        "near_copy": false,
+        "bertscore_f1": 0.5947
+      },
+      {
+        "id": "eduguard_v3_1_366-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3125,
+        "source_rougeL": 0.1905,
+        "near_copy": false,
+        "bertscore_f1": 0.402
+      },
+      {
+        "id": "eduguard_v3_1_366-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.4624
+      },
+      {
+        "id": "eduguard_v3_1_366-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.359,
+        "source_rougeL": 0.3462,
+        "near_copy": false,
+        "bertscore_f1": 0.3893
+      },
+      {
+        "id": "eduguard_v3_1_371-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5854,
+        "source_rougeL": 0.3636,
+        "near_copy": false,
+        "bertscore_f1": 0.5655
+      },
+      {
+        "id": "eduguard_v3_1_371-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1667,
+        "source_rougeL": 0.6667,
+        "near_copy": true,
+        "bertscore_f1": 0.2431
+      },
+      {
+        "id": "eduguard_v3_1_371-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4906,
+        "source_rougeL": 0.2727,
+        "near_copy": false,
+        "bertscore_f1": 0.5952
+      },
+      {
+        "id": "eduguard_v3_1_371-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2222,
+        "source_rougeL": 0.1935,
+        "near_copy": false,
+        "bertscore_f1": 0.3745
+      },
+      {
+        "id": "eduguard_v3_1_371-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2439,
+        "source_rougeL": 0.2609,
+        "near_copy": false,
+        "bertscore_f1": 0.3493
+      },
+      {
+        "id": "eduguard_v3_1_372-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4231,
+        "source_rougeL": 0.449,
+        "near_copy": false,
+        "bertscore_f1": 0.4539
+      },
+      {
+        "id": "eduguard_v3_1_372-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4286,
+        "source_rougeL": 0.4483,
+        "near_copy": false,
+        "bertscore_f1": 0.4378
+      },
+      {
+        "id": "eduguard_v3_1_372-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4878,
+        "source_rougeL": 0.4348,
+        "near_copy": false,
+        "bertscore_f1": 0.532
+      },
+      {
+        "id": "eduguard_v3_1_372-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3636,
+        "source_rougeL": 0.2778,
+        "near_copy": false,
+        "bertscore_f1": 0.262
+      },
+      {
+        "id": "eduguard_v3_1_372-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.3111,
+        "near_copy": false,
+        "bertscore_f1": 0.4079
+      },
+      {
+        "id": "eduguard_v3_1_386-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.3784,
+        "near_copy": false,
+        "bertscore_f1": 0.5365
+      },
+      {
+        "id": "eduguard_v3_1_386-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2222,
+        "source_rougeL": 0.7451,
+        "near_copy": true,
+        "bertscore_f1": 0.3598
+      },
+      {
+        "id": "eduguard_v3_1_386-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3684,
+        "source_rougeL": 0.6667,
+        "near_copy": true,
+        "bertscore_f1": 0.5174
+      },
+      {
+        "id": "eduguard_v3_1_386-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "source_rougeL": 0.24,
+        "near_copy": false,
+        "bertscore_f1": 0.3952
+      },
+      {
+        "id": "eduguard_v3_1_386-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4865,
+        "source_rougeL": 0.6316,
+        "near_copy": true,
+        "bertscore_f1": 0.6683
+      },
+      {
+        "id": "eduguard_v3_1_401-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.225,
+        "source_rougeL": 0.5714,
+        "near_copy": false,
+        "bertscore_f1": 0.1704
+      },
+      {
+        "id": "eduguard_v3_1_401-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7246,
+        "source_rougeL": 0.1633,
+        "near_copy": false,
+        "bertscore_f1": 0.7143
+      },
+      {
+        "id": "eduguard_v3_1_401-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4262,
+        "source_rougeL": 0.2174,
+        "near_copy": false,
+        "bertscore_f1": 0.4366
+      },
+      {
+        "id": "eduguard_v3_1_401-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1587,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.0522
+      },
+      {
+        "id": "eduguard_v3_1_401-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1111,
+        "source_rougeL": 0.24,
+        "near_copy": false,
+        "bertscore_f1": 0.2999
+      },
+      {
+        "id": "eduguard_v3_1_409-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "source_rougeL": 0.4444,
+        "near_copy": false,
+        "bertscore_f1": 0.3654
+      },
+      {
+        "id": "eduguard_v3_1_409-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4186,
+        "source_rougeL": 0.4286,
+        "near_copy": false,
+        "bertscore_f1": 0.4838
+      },
+      {
+        "id": "eduguard_v3_1_409-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.4068,
+        "near_copy": false,
+        "bertscore_f1": 0.5141
+      },
+      {
+        "id": "eduguard_v3_1_409-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2727,
+        "source_rougeL": 0.2,
+        "near_copy": false,
+        "bertscore_f1": 0.4896
+      },
+      {
+        "id": "eduguard_v3_1_409-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2903,
+        "source_rougeL": 0.3529,
+        "near_copy": false,
+        "bertscore_f1": 0.3648
+      },
+      {
+        "id": "eduguard_v3_1_427-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3929,
+        "source_rougeL": 0.3265,
+        "near_copy": false,
+        "bertscore_f1": 0.387
+      },
+      {
+        "id": "eduguard_v3_1_427-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1695,
+        "source_rougeL": 0.3846,
+        "near_copy": false,
+        "bertscore_f1": 0.3104
+      },
+      {
+        "id": "eduguard_v3_1_427-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2381,
+        "source_rougeL": 0.3111,
+        "near_copy": false,
+        "bertscore_f1": 0.4332
+      },
+      {
+        "id": "eduguard_v3_1_427-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.4615,
+        "source_rougeL": 0.0714,
+        "near_copy": false,
+        "bertscore_f1": 0.4605
+      },
+      {
+        "id": "eduguard_v3_1_427-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2581,
+        "source_rougeL": 0.2778,
+        "near_copy": false,
+        "bertscore_f1": 0.4774
+      },
+      {
+        "id": "eduguard_v3_1_440-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4308,
+        "source_rougeL": 0.4815,
+        "near_copy": false,
+        "bertscore_f1": 0.5441
+      },
+      {
+        "id": "eduguard_v3_1_440-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3571,
+        "source_rougeL": 0.4638,
+        "near_copy": false,
+        "bertscore_f1": 0.5033
+      },
+      {
+        "id": "eduguard_v3_1_440-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4412,
+        "source_rougeL": 0.4828,
+        "near_copy": false,
+        "bertscore_f1": 0.3566
+      },
+      {
+        "id": "eduguard_v3_1_440-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3077,
+        "source_rougeL": 0.1026,
+        "near_copy": false,
+        "bertscore_f1": 0.4832
+      },
+      {
+        "id": "eduguard_v3_1_440-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.7812,
+        "near_copy": true,
+        "bertscore_f1": 0.6047
+      },
+      {
+        "id": "eduguard_v3_1_451-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4211,
+        "source_rougeL": 0.4225,
+        "near_copy": false,
+        "bertscore_f1": 0.5307
+      },
+      {
+        "id": "eduguard_v3_1_451-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5085,
+        "source_rougeL": 0.4118,
+        "near_copy": false,
+        "bertscore_f1": 0.6504
+      },
+      {
+        "id": "eduguard_v3_1_451-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2759,
+        "source_rougeL": 0.3226,
+        "near_copy": false,
+        "bertscore_f1": 0.4597
+      },
+      {
+        "id": "eduguard_v3_1_451-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2581,
+        "source_rougeL": 0.3704,
+        "near_copy": false,
+        "bertscore_f1": 0.3773
+      },
+      {
+        "id": "eduguard_v3_1_451-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4103,
+        "source_rougeL": 0.4286,
+        "near_copy": false,
+        "bertscore_f1": 0.5773
+      },
+      {
+        "id": "eduguard_v3_1_458-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1892,
+        "source_rougeL": 0.2857,
+        "near_copy": false,
+        "bertscore_f1": 0.212
+      },
+      {
+        "id": "eduguard_v3_1_458-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "source_rougeL": 0.3133,
+        "near_copy": false,
+        "bertscore_f1": 0.4412
+      },
+      {
+        "id": "eduguard_v3_1_458-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7654,
+        "source_rougeL": 0.6316,
+        "near_copy": true,
+        "bertscore_f1": 0.6676
+      },
+      {
+        "id": "eduguard_v3_1_458-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4545,
+        "source_rougeL": 0.2326,
+        "near_copy": false,
+        "bertscore_f1": 0.4444
+      },
+      {
+        "id": "eduguard_v3_1_458-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.339,
+        "source_rougeL": 0.3125,
+        "near_copy": false,
+        "bertscore_f1": 0.253
+      },
+      {
+        "id": "eduguard_v3_1_466-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1429,
+        "source_rougeL": 0.2558,
+        "near_copy": false,
+        "bertscore_f1": 0.201
+      },
+      {
+        "id": "eduguard_v3_1_466-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2368,
+        "source_rougeL": 0.1867,
+        "near_copy": false,
+        "bertscore_f1": 0.1977
+      },
+      {
+        "id": "eduguard_v3_1_466-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.525,
+        "source_rougeL": 0.6098,
+        "near_copy": true,
+        "bertscore_f1": 0.6854
+      },
+      {
+        "id": "eduguard_v3_1_466-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1739,
+        "source_rougeL": 0.1154,
+        "near_copy": false,
+        "bertscore_f1": 0.2338
+      },
+      {
+        "id": "eduguard_v3_1_466-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1111,
+        "source_rougeL": 0.6905,
+        "near_copy": true,
+        "bertscore_f1": 0.085
+      },
+      {
+        "id": "eduguard_v3_1_470-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3,
+        "source_rougeL": 0.3768,
+        "near_copy": false,
+        "bertscore_f1": 0.3455
+      },
+      {
+        "id": "eduguard_v3_1_470-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "source_rougeL": 0.3099,
+        "near_copy": false,
+        "bertscore_f1": 0.2207
+      },
+      {
+        "id": "eduguard_v3_1_470-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4932,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.5777
+      },
+      {
+        "id": "eduguard_v3_1_470-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.1778,
+        "near_copy": false,
+        "bertscore_f1": 0.2042
+      },
+      {
+        "id": "eduguard_v3_1_470-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2979,
+        "source_rougeL": 0.3774,
+        "near_copy": false,
+        "bertscore_f1": 0.2452
+      },
+      {
+        "id": "eduguard_v3_1_475-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3125,
+        "source_rougeL": 0.4571,
+        "near_copy": false,
+        "bertscore_f1": 0.3909
+      },
+      {
+        "id": "eduguard_v3_1_475-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4865,
+        "source_rougeL": 0.5517,
+        "near_copy": false,
+        "bertscore_f1": 0.5607
+      },
+      {
+        "id": "eduguard_v3_1_475-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.4681,
+        "near_copy": false,
+        "bertscore_f1": 0.3393
+      },
+      {
+        "id": "eduguard_v3_1_475-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.2,
+        "source_rougeL": 0.2143,
+        "near_copy": false,
+        "bertscore_f1": 0.1966
+      },
+      {
+        "id": "eduguard_v3_1_475-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "source_rougeL": 0.359,
+        "near_copy": false,
+        "bertscore_f1": 0.0702
+      },
+      {
+        "id": "eduguard_v3_1_479-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.24,
+        "source_rougeL": 0.6154,
+        "near_copy": true,
+        "bertscore_f1": 0.3898
+      },
+      {
+        "id": "eduguard_v3_1_479-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1791,
+        "source_rougeL": 0.2979,
+        "near_copy": false,
+        "bertscore_f1": 0.3133
+      },
+      {
+        "id": "eduguard_v3_1_479-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3846,
+        "source_rougeL": 0.2553,
+        "near_copy": false,
+        "bertscore_f1": 0.4434
+      },
+      {
+        "id": "eduguard_v3_1_479-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "source_rougeL": 0.2381,
+        "near_copy": false,
+        "bertscore_f1": 0.3483
+      },
+      {
+        "id": "eduguard_v3_1_479-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2963,
+        "source_rougeL": 0.303,
+        "near_copy": false,
+        "bertscore_f1": 0.2811
+      },
+      {
+        "id": "eduguard_v3_1_487-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3077,
+        "source_rougeL": 0.5172,
+        "near_copy": false,
+        "bertscore_f1": 0.5157
+      },
+      {
+        "id": "eduguard_v3_1_487-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3265,
+        "source_rougeL": 0.4255,
+        "near_copy": false,
+        "bertscore_f1": 0.4327
+      },
+      {
+        "id": "eduguard_v3_1_487-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4528,
+        "source_rougeL": 0.4151,
+        "near_copy": false,
+        "bertscore_f1": 0.5437
+      },
+      {
+        "id": "eduguard_v3_1_487-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.2667,
+        "near_copy": false,
+        "bertscore_f1": 0.5689
+      },
+      {
+        "id": "eduguard_v3_1_487-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.6881
+      },
+      {
+        "id": "eduguard_v3_1_491-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3235,
+        "source_rougeL": 0.4068,
+        "near_copy": false,
+        "bertscore_f1": 0.3368
+      },
+      {
+        "id": "eduguard_v3_1_491-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4444,
+        "source_rougeL": 0.2899,
+        "near_copy": false,
+        "bertscore_f1": 0.4434
+      },
+      {
+        "id": "eduguard_v3_1_491-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4068,
+        "source_rougeL": 0.4839,
+        "near_copy": false,
+        "bertscore_f1": 0.4189
+      },
+      {
+        "id": "eduguard_v3_1_491-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3448,
+        "source_rougeL": 0.3043,
+        "near_copy": false,
+        "bertscore_f1": 0.5303
+      },
+      {
+        "id": "eduguard_v3_1_491-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.76,
+        "source_rougeL": 0.75,
+        "near_copy": true,
+        "bertscore_f1": 0.7094
+      },
+      {
+        "id": "eduguard_v3_1_498-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3662,
+        "source_rougeL": 0.4333,
+        "near_copy": false,
+        "bertscore_f1": 0.373
+      },
+      {
+        "id": "eduguard_v3_1_498-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2857,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.1922
+      },
+      {
+        "id": "eduguard_v3_1_498-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5417,
+        "source_rougeL": 0.4186,
+        "near_copy": false,
+        "bertscore_f1": 0.4593
+      },
+      {
+        "id": "eduguard_v3_1_498-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.4375,
+        "near_copy": false,
+        "bertscore_f1": 0.4918
+      },
+      {
+        "id": "eduguard_v3_1_498-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4167,
+        "source_rougeL": 0.4,
+        "near_copy": false,
+        "bertscore_f1": 0.4893
+      },
+      {
+        "id": "eduguard_v3_1_512-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1875,
+        "source_rougeL": 0.2432,
+        "near_copy": false,
+        "bertscore_f1": 0.1134
+      },
+      {
+        "id": "eduguard_v3_1_512-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3662,
+        "source_rougeL": 0.3377,
+        "near_copy": false,
+        "bertscore_f1": 0.3751
+      },
+      {
+        "id": "eduguard_v3_1_512-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3692,
+        "source_rougeL": 0.4638,
+        "near_copy": false,
+        "bertscore_f1": 0.2501
+      },
+      {
+        "id": "eduguard_v3_1_512-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1935,
+        "source_rougeL": 0.3273,
+        "near_copy": false,
+        "bertscore_f1": 0.2625
+      },
+      {
+        "id": "eduguard_v3_1_512-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6415,
+        "source_rougeL": 0.4058,
+        "near_copy": false,
+        "bertscore_f1": 0.6853
+      },
+      {
+        "id": "eduguard_v3_1_522-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3333,
+        "source_rougeL": 0.2051,
+        "near_copy": false,
+        "bertscore_f1": 0.3695
+      },
+      {
+        "id": "eduguard_v3_1_522-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3218,
+        "source_rougeL": 0.1935,
+        "near_copy": false,
+        "bertscore_f1": 0.287
+      },
+      {
+        "id": "eduguard_v3_1_522-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1282,
+        "source_rougeL": 0.3261,
+        "near_copy": false,
+        "bertscore_f1": 0.1071
+      },
+      {
+        "id": "eduguard_v3_1_522-Remember",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.3226,
+        "source_rougeL": 0.137,
+        "near_copy": false,
+        "bertscore_f1": 0.3719
+      },
+      {
+        "id": "eduguard_v3_1_522-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1818,
+        "source_rougeL": 0.3636,
+        "near_copy": false,
+        "bertscore_f1": -0.0253
+      },
+      {
+        "id": "eduguard_v3_1_528-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5667,
+        "source_rougeL": 0.5902,
+        "near_copy": true,
+        "bertscore_f1": 0.6734
+      },
+      {
+        "id": "eduguard_v3_1_528-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2593,
+        "source_rougeL": 0.2041,
+        "near_copy": false,
+        "bertscore_f1": 0.2781
+      },
+      {
+        "id": "eduguard_v3_1_528-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3288,
+        "source_rougeL": 0.3125,
+        "near_copy": false,
+        "bertscore_f1": 0.3728
+      },
+      {
+        "id": "eduguard_v3_1_528-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2449,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.3769
+      },
+      {
+        "id": "eduguard_v3_1_528-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6364,
+        "source_rougeL": 0.1765,
+        "near_copy": false,
+        "bertscore_f1": 0.6882
+      },
+      {
+        "id": "eduguard_v3_1_539-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.254,
+        "source_rougeL": 0.2857,
+        "near_copy": false,
+        "bertscore_f1": 0.241
+      },
+      {
+        "id": "eduguard_v3_1_539-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4048,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.4342
+      },
+      {
+        "id": "eduguard_v3_1_539-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.7119,
+        "source_rougeL": 0.5263,
+        "near_copy": false,
+        "bertscore_f1": 0.7012
+      },
+      {
+        "id": "eduguard_v3_1_539-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.2105,
+        "near_copy": false,
+        "bertscore_f1": 0.2721
+      },
+      {
+        "id": "eduguard_v3_1_539-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3182,
+        "source_rougeL": 0.2264,
+        "near_copy": false,
+        "bertscore_f1": 0.4237
+      },
+      {
+        "id": "eduguard_v3_1_546-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1967,
+        "source_rougeL": 0.4528,
+        "near_copy": false,
+        "bertscore_f1": 0.3289
+      },
+      {
+        "id": "eduguard_v3_1_546-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3214,
+        "source_rougeL": 0.3871,
+        "near_copy": false,
+        "bertscore_f1": 0.4506
+      },
+      {
+        "id": "eduguard_v3_1_546-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4848,
+        "source_rougeL": 0.3871,
+        "near_copy": false,
+        "bertscore_f1": 0.4941
+      },
+      {
+        "id": "eduguard_v3_1_546-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "source_rougeL": 0.2456,
+        "near_copy": false,
+        "bertscore_f1": 0.3985
+      },
+      {
+        "id": "eduguard_v3_1_546-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4375,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.4898
+      },
+      {
+        "id": "eduguard_v3_1_551-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4138,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.2883
+      },
+      {
+        "id": "eduguard_v3_1_551-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4638,
+        "source_rougeL": 0.5106,
+        "near_copy": false,
+        "bertscore_f1": 0.5323
+      },
+      {
+        "id": "eduguard_v3_1_551-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4231,
+        "source_rougeL": 0.3913,
+        "near_copy": false,
+        "bertscore_f1": 0.5858
+      },
+      {
+        "id": "eduguard_v3_1_551-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4348,
+        "source_rougeL": 0.3571,
+        "near_copy": false,
+        "bertscore_f1": 0.3847
+      },
+      {
+        "id": "eduguard_v3_1_551-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2917,
+        "source_rougeL": 0.25,
+        "near_copy": false,
+        "bertscore_f1": 0.2382
+      },
+      {
+        "id": "eduguard_v3_1_561-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2456,
+        "source_rougeL": 0.25,
+        "near_copy": false,
+        "bertscore_f1": 0.33
+      },
+      {
+        "id": "eduguard_v3_1_561-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4364,
+        "source_rougeL": 0.2979,
+        "near_copy": false,
+        "bertscore_f1": 0.5007
+      },
+      {
+        "id": "eduguard_v3_1_561-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3922,
+        "source_rougeL": 0.6667,
+        "near_copy": true,
+        "bertscore_f1": 0.5713
+      },
+      {
+        "id": "eduguard_v3_1_561-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.8696,
+        "source_rougeL": 0.4375,
+        "near_copy": false,
+        "bertscore_f1": 0.9326
+      },
+      {
+        "id": "eduguard_v3_1_561-Understand",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5789,
+        "source_rougeL": 0.95,
+        "near_copy": true,
+        "bertscore_f1": 0.7844
+      },
+      {
+        "id": "eduguard_v3_1_566-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3182,
+        "source_rougeL": 0.3265,
+        "near_copy": false,
+        "bertscore_f1": 0.4486
+      },
+      {
+        "id": "eduguard_v3_1_566-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3548,
+        "source_rougeL": 0.2963,
+        "near_copy": false,
+        "bertscore_f1": 0.4958
+      },
+      {
+        "id": "eduguard_v3_1_566-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.087,
+        "source_rougeL": 0.1667,
+        "near_copy": false,
+        "bertscore_f1": 0.209
+      },
+      {
+        "id": "eduguard_v3_1_566-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6,
+        "source_rougeL": 0.375,
+        "near_copy": false,
+        "bertscore_f1": 0.7124
+      },
+      {
+        "id": "eduguard_v3_1_566-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4737,
+        "source_rougeL": 0.5455,
+        "near_copy": false,
+        "bertscore_f1": 0.6031
+      },
+      {
+        "id": "eduguard_v3_1_571-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2069,
+        "source_rougeL": 0.6729,
+        "near_copy": true,
+        "bertscore_f1": 0.0363
+      },
+      {
+        "id": "eduguard_v3_1_571-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.321,
+        "source_rougeL": 0.1818,
+        "near_copy": false,
+        "bertscore_f1": 0.2471
+      },
+      {
+        "id": "eduguard_v3_1_571-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4091,
+        "source_rougeL": 0.225,
+        "near_copy": false,
+        "bertscore_f1": 0.4198
+      },
+      {
+        "id": "eduguard_v3_1_571-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3448,
+        "source_rougeL": 0.127,
+        "near_copy": false,
+        "bertscore_f1": 0.123
+      },
+      {
+        "id": "eduguard_v3_1_571-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3125,
+        "source_rougeL": 0.1791,
+        "near_copy": false,
+        "bertscore_f1": 0.4024
+      },
+      {
+        "id": "eduguard_v3_1_600-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.381,
+        "source_rougeL": 0.3692,
+        "near_copy": false,
+        "bertscore_f1": 0.4835
+      },
+      {
+        "id": "eduguard_v3_1_600-Apply",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1333,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.3756
+      },
+      {
+        "id": "eduguard_v3_1_600-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2264,
+        "source_rougeL": 0.2979,
+        "near_copy": false,
+        "bertscore_f1": 0.2693
+      },
+      {
+        "id": "eduguard_v3_1_600-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2414,
+        "source_rougeL": 0.3158,
+        "near_copy": false,
+        "bertscore_f1": 0.2244
+      },
+      {
+        "id": "eduguard_v3_1_600-Remember",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4516,
+        "source_rougeL": 0.35,
+        "near_copy": false,
+        "bertscore_f1": 0.5129
+      },
+      {
+        "id": "eduguard_v3_2_003-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.1951,
+        "source_rougeL": 0.1935,
+        "near_copy": false,
+        "bertscore_f1": 0.3081
+      },
+      {
+        "id": "eduguard_v3_2_016-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2273,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.3045
+      },
+      {
+        "id": "eduguard_v3_2_032-Create-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6207,
+        "source_rougeL": 0.3333,
+        "near_copy": false,
+        "bertscore_f1": 0.7209
+      },
+      {
+        "id": "eduguard_v3_2_104-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4681,
+        "source_rougeL": 0.4286,
+        "near_copy": false,
+        "bertscore_f1": 0.6008
+      },
+      {
+        "id": "eduguard_v3_2_104-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4255,
+        "source_rougeL": 0.6857,
+        "near_copy": true,
+        "bertscore_f1": 0.5137
+      },
+      {
+        "id": "eduguard_v3_2_160-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2759,
+        "source_rougeL": 0.5106,
+        "near_copy": false,
+        "bertscore_f1": 0.3704
+      },
+      {
+        "id": "eduguard_v3_2_160-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5,
+        "source_rougeL": 0.3871,
+        "near_copy": false,
+        "bertscore_f1": 0.6685
+      },
+      {
+        "id": "eduguard_v3_2_170-Remember-to-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.2667,
+        "near_copy": false,
+        "bertscore_f1": 0.3192
+      },
+      {
+        "id": "eduguard_v3_2_170-Remember-to-Create",
+        "calibrated_full": false,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4878,
+        "source_rougeL": 0.3529,
+        "near_copy": false,
+        "bertscore_f1": 0.6107
+      },
+      {
+        "id": "eduguard_v3_2_178-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3913,
+        "source_rougeL": 0.4375,
+        "near_copy": false,
+        "bertscore_f1": 0.3927
+      },
+      {
+        "id": "eduguard_v3_2_206-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3243,
+        "source_rougeL": 0.4444,
+        "near_copy": false,
+        "bertscore_f1": 0.5113
+      },
+      {
+        "id": "eduguard_v3_2_218-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3158,
+        "source_rougeL": 0.5806,
+        "near_copy": false,
+        "bertscore_f1": 0.4386
+      },
+      {
+        "id": "eduguard_v3_2_229-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4179,
+        "source_rougeL": 0.2,
+        "near_copy": false,
+        "bertscore_f1": 0.3963
+      },
+      {
+        "id": "eduguard_v3_2_234-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.386,
+        "source_rougeL": 0.2909,
+        "near_copy": false,
+        "bertscore_f1": 0.509
+      },
+      {
+        "id": "eduguard_v3_2_234-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3284,
+        "source_rougeL": 0.4815,
+        "near_copy": false,
+        "bertscore_f1": 0.3156
+      },
+      {
+        "id": "eduguard_v3_2_236-Create-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4615,
+        "source_rougeL": 0.7778,
+        "near_copy": true,
+        "bertscore_f1": 0.728
+      },
+      {
+        "id": "eduguard_v3_2_247-Remember-to-Evaluate",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.375,
+        "source_rougeL": 0.2222,
+        "near_copy": false,
+        "bertscore_f1": 0.4686
+      },
+      {
+        "id": "eduguard_v3_2_247-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3125,
+        "source_rougeL": 0.4828,
+        "near_copy": false,
+        "bertscore_f1": 0.5681
+      },
+      {
+        "id": "eduguard_v3_2_269-Create-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "source_rougeL": 0.4082,
+        "near_copy": false,
+        "bertscore_f1": 0.3956
+      },
+      {
+        "id": "eduguard_v3_2_274-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2903,
+        "source_rougeL": 0.4889,
+        "near_copy": false,
+        "bertscore_f1": 0.4397
+      },
+      {
+        "id": "eduguard_v3_2_274-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2439,
+        "source_rougeL": 0.4211,
+        "near_copy": false,
+        "bertscore_f1": 0.3982
+      },
+      {
+        "id": "eduguard_v3_2_300-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2703,
+        "source_rougeL": 0.2632,
+        "near_copy": false,
+        "bertscore_f1": 0.2365
+      },
+      {
+        "id": "eduguard_v3_2_300-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.25,
+        "source_rougeL": 0.3256,
+        "near_copy": false,
+        "bertscore_f1": 0.2534
+      },
+      {
+        "id": "eduguard_v3_2_314-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4737,
+        "source_rougeL": 0.4286,
+        "near_copy": false,
+        "bertscore_f1": 0.4444
+      },
+      {
+        "id": "eduguard_v3_2_331-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2424,
+        "source_rougeL": 0.4571,
+        "near_copy": false,
+        "bertscore_f1": 0.2883
+      },
+      {
+        "id": "eduguard_v3_2_345-Remember-to-Analyze",
+        "calibrated_full": false,
+        "topic_embedding": false,
+        "ref_rougeL": 0.1778,
+        "source_rougeL": 0.1212,
+        "near_copy": false,
+        "bertscore_f1": 0.2903
+      },
+      {
+        "id": "eduguard_v3_2_345-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2553,
+        "source_rougeL": 0.25,
+        "near_copy": false,
+        "bertscore_f1": 0.2165
+      },
+      {
+        "id": "eduguard_v3_2_360-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4286,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.3444
+      },
+      {
+        "id": "eduguard_v3_2_366-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4118,
+        "source_rougeL": 0.2286,
+        "near_copy": false,
+        "bertscore_f1": 0.399
+      },
+      {
+        "id": "eduguard_v3_2_372-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4127,
+        "source_rougeL": 0.3158,
+        "near_copy": false,
+        "bertscore_f1": 0.4755
+      },
+      {
+        "id": "eduguard_v3_2_372-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3478,
+        "source_rougeL": 0.3721,
+        "near_copy": false,
+        "bertscore_f1": 0.3779
+      },
+      {
+        "id": "eduguard_v3_2_386-Remember-to-Evaluate",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4,
+        "source_rougeL": 0.4828,
+        "near_copy": false,
+        "bertscore_f1": 0.529
+      },
+      {
+        "id": "eduguard_v3_2_401-Create-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.6522,
+        "source_rougeL": 0.3279,
+        "near_copy": false,
+        "bertscore_f1": 0.7519
+      },
+      {
+        "id": "eduguard_v3_2_409-Create-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2105,
+        "source_rougeL": 0.3797,
+        "near_copy": false,
+        "bertscore_f1": 0.3395
+      },
+      {
+        "id": "eduguard_v3_2_427-Remember-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2667,
+        "source_rougeL": 0.2609,
+        "near_copy": false,
+        "bertscore_f1": 0.3207
+      },
+      {
+        "id": "eduguard_v3_2_451-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2432,
+        "source_rougeL": 0.2745,
+        "near_copy": false,
+        "bertscore_f1": 0.3102
+      },
+      {
+        "id": "eduguard_v3_2_458-Create-to-Apply",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2295,
+        "source_rougeL": 0.2941,
+        "near_copy": false,
+        "bertscore_f1": 0.5026
+      },
+      {
+        "id": "eduguard_v3_2_475-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.32,
+        "source_rougeL": 0.5,
+        "near_copy": false,
+        "bertscore_f1": 0.4527
+      },
+      {
+        "id": "eduguard_v3_2_487-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4364,
+        "source_rougeL": 0.4286,
+        "near_copy": false,
+        "bertscore_f1": 0.5023
+      },
+      {
+        "id": "eduguard_v3_2_491-Create-to-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.5185,
+        "source_rougeL": 0.1786,
+        "near_copy": false,
+        "bertscore_f1": 0.4686
+      },
+      {
+        "id": "eduguard_v3_2_498-Create-to-Remember",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.56,
+        "source_rougeL": 0.1702,
+        "near_copy": false,
+        "bertscore_f1": 0.5863
+      },
+      {
+        "id": "eduguard_v3_2_528-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.186,
+        "source_rougeL": 0.1935,
+        "near_copy": false,
+        "bertscore_f1": 0.3083
+      },
+      {
+        "id": "eduguard_v3_2_546-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.3881,
+        "source_rougeL": 0.2264,
+        "near_copy": false,
+        "bertscore_f1": 0.3313
+      },
+      {
+        "id": "eduguard_v3_2_546-Remember-to-Understand",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4889,
+        "source_rougeL": 0.5714,
+        "near_copy": false,
+        "bertscore_f1": 0.537
+      },
+      {
+        "id": "eduguard_v3_2_566-Remember-to-Analyze",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.4545,
+        "source_rougeL": 0.1818,
+        "near_copy": false,
+        "bertscore_f1": 0.6086
+      },
+      {
+        "id": "eduguard_v3_2_600-Remember-to-Create",
+        "calibrated_full": true,
+        "topic_embedding": true,
+        "ref_rougeL": 0.2667,
+        "source_rougeL": 0.2333,
+        "near_copy": false,
+        "bertscore_f1": 0.2715
+      }
+    ],
+    "n": 341,
+    "model_vs_reference": {
+      "format_valid": {
+        "model": 1.0,
+        "reference": 0.956
+      },
+      "classifier_target_match": {
+        "model": 0.9032,
+        "reference": 0.8006
+      },
+      "topic_preserved_embedding": {
+        "model": 0.9531,
+        "reference": 0.9619
+      },
+      "near_copy_of_source": {
+        "model": 0.0909,
+        "reference": 0.0528
+      }
+    },
+    "per_level": {
+      "Remember": {
+        "n": 61,
+        "model_target_accuracy": 0.8197,
+        "reference_target_accuracy": 0.4426
+      },
+      "Understand": {
+        "n": 59,
+        "model_target_accuracy": 0.9153,
+        "reference_target_accuracy": 0.8475
+      },
+      "Apply": {
+        "n": 52,
+        "model_target_accuracy": 0.9423,
+        "reference_target_accuracy": 0.9231
+      },
+      "Analyze": {
+        "n": 52,
+        "model_target_accuracy": 0.9808,
+        "reference_target_accuracy": 0.7692
+      },
+      "Evaluate": {
+        "n": 57,
+        "model_target_accuracy": 1.0,
+        "reference_target_accuracy": 0.9825
+      },
+      "Create": {
+        "n": 60,
+        "model_target_accuracy": 0.7833,
+        "reference_target_accuracy": 0.8667
+      }
+    },
+    "topic_similarity": {
+      "threshold": 0.578,
+      "train_reference_median": 0.7487,
+      "model_median": 0.7632,
+      "reference_median": 0.7662
+    },
+    "fully_validated_calibrated": 0.8563,
+    "calibrated_definition": "classifier target match (conf >= 0.5) AND embedding topic preserved AND not trivial AND (format valid OR scenario-first Evaluate item flagged declarative)"
+  },
+  "qa": {
+    "n": 146,
+    "embedding_similarity_to_reference": 0.8227,
+    "bertscore_f1": 0.3689,
+    "rougeL_length_controlled": 0.3021,
+    "median_output_words": 34.0,
+    "median_reference_words": 31.5,
+    "per_row": [
+      {
+        "id": "QA-0004",
+        "rougeL_lc": 0.1846,
+        "embedding_sim": 0.7047,
+        "bertscore_f1": 0.2524
+      },
+      {
+        "id": "QA-0020",
+        "rougeL_lc": 0.3373,
+        "embedding_sim": 0.885,
+        "bertscore_f1": 0.3158
+      },
+      {
+        "id": "QA-0033",
+        "rougeL_lc": 0.4688,
+        "embedding_sim": 0.8852,
+        "bertscore_f1": 0.397
+      },
+      {
+        "id": "QA-0045",
+        "rougeL_lc": 0.4138,
+        "embedding_sim": 0.8403,
+        "bertscore_f1": 0.2708
+      },
+      {
+        "id": "QA-0058",
+        "rougeL_lc": 0.1957,
+        "embedding_sim": 0.8581,
+        "bertscore_f1": 0.2784
+      },
+      {
+        "id": "QA-0059",
+        "rougeL_lc": 0.2202,
+        "embedding_sim": 0.8507,
+        "bertscore_f1": 0.243
+      },
+      {
+        "id": "QA-0060",
+        "rougeL_lc": 0.2273,
+        "embedding_sim": 0.8739,
+        "bertscore_f1": 0.3771
+      },
+      {
+        "id": "QA-0073",
+        "rougeL_lc": 0.22,
+        "embedding_sim": 0.7892,
+        "bertscore_f1": 0.277
+      },
+      {
+        "id": "QA-0080",
+        "rougeL_lc": 0.4082,
+        "embedding_sim": 0.7689,
+        "bertscore_f1": 0.3821
+      },
+      {
+        "id": "QA-0108",
+        "rougeL_lc": 0.3182,
+        "embedding_sim": 0.8638,
+        "bertscore_f1": 0.3889
+      },
+      {
+        "id": "QA-0114",
+        "rougeL_lc": 0.1607,
+        "embedding_sim": 0.7733,
+        "bertscore_f1": 0.2397
+      },
+      {
+        "id": "QA-0125",
+        "rougeL_lc": 0.233,
+        "embedding_sim": 0.8379,
+        "bertscore_f1": 0.2295
+      },
+      {
+        "id": "QA-0139",
+        "rougeL_lc": 0.202,
+        "embedding_sim": 0.8312,
+        "bertscore_f1": 0.2122
+      },
+      {
+        "id": "QA-0141",
+        "rougeL_lc": 0.3662,
+        "embedding_sim": 0.8705,
+        "bertscore_f1": 0.3664
+      },
+      {
+        "id": "QA-0143",
+        "rougeL_lc": 0.2529,
+        "embedding_sim": 0.8686,
+        "bertscore_f1": 0.3151
+      },
+      {
+        "id": "QA-0173",
+        "rougeL_lc": 0.3182,
+        "embedding_sim": 0.9477,
+        "bertscore_f1": 0.5248
+      },
+      {
+        "id": "QA-0199",
+        "rougeL_lc": 0.1867,
+        "embedding_sim": 0.8283,
+        "bertscore_f1": 0.3685
+      },
+      {
+        "id": "QA-0211",
+        "rougeL_lc": 0.2381,
+        "embedding_sim": 0.7257,
+        "bertscore_f1": 0.2269
+      },
+      {
+        "id": "QA-0213",
+        "rougeL_lc": 0.2192,
+        "embedding_sim": 0.8192,
+        "bertscore_f1": 0.3272
+      },
+      {
+        "id": "QA-0215",
+        "rougeL_lc": 0.2105,
+        "embedding_sim": 0.7921,
+        "bertscore_f1": 0.2859
+      },
+      {
+        "id": "QA-0217",
+        "rougeL_lc": 0.2553,
+        "embedding_sim": 0.7599,
+        "bertscore_f1": 0.3358
+      },
+      {
+        "id": "QA-0221",
+        "rougeL_lc": 0.3516,
+        "embedding_sim": 0.8554,
+        "bertscore_f1": 0.3892
+      },
+      {
+        "id": "QA-0250",
+        "rougeL_lc": 0.2826,
+        "embedding_sim": 0.8556,
+        "bertscore_f1": 0.3634
+      },
+      {
+        "id": "QA-0270",
+        "rougeL_lc": 0.275,
+        "embedding_sim": 0.8668,
+        "bertscore_f1": 0.3692
+      },
+      {
+        "id": "QA-0281",
+        "rougeL_lc": 0.2708,
+        "embedding_sim": 0.8354,
+        "bertscore_f1": 0.3288
+      },
+      {
+        "id": "QA-0289",
+        "rougeL_lc": 0.28,
+        "embedding_sim": 0.7773,
+        "bertscore_f1": 0.3976
+      },
+      {
+        "id": "QA-0291",
+        "rougeL_lc": 0.172,
+        "embedding_sim": 0.7434,
+        "bertscore_f1": 0.2473
+      },
+      {
+        "id": "QA-0333",
+        "rougeL_lc": 0.2299,
+        "embedding_sim": 0.6979,
+        "bertscore_f1": 0.1956
+      },
+      {
+        "id": "QA-0335",
+        "rougeL_lc": 0.8,
+        "embedding_sim": 0.9625,
+        "bertscore_f1": 0.7789
+      },
+      {
+        "id": "QA-0353",
+        "rougeL_lc": 0.6207,
+        "embedding_sim": 0.7645,
+        "bertscore_f1": 0.5735
+      },
+      {
+        "id": "QA-0390",
+        "rougeL_lc": 0.34,
+        "embedding_sim": 0.8696,
+        "bertscore_f1": 0.3266
+      },
+      {
+        "id": "QA-0400",
+        "rougeL_lc": 0.4222,
+        "embedding_sim": 0.9136,
+        "bertscore_f1": 0.437
+      },
+      {
+        "id": "QA-0466",
+        "rougeL_lc": 0.2449,
+        "embedding_sim": 0.7827,
+        "bertscore_f1": 0.4134
+      },
+      {
+        "id": "QA-0472",
+        "rougeL_lc": 0.2188,
+        "embedding_sim": 0.7457,
+        "bertscore_f1": 0.2413
+      },
+      {
+        "id": "QA-0483",
+        "rougeL_lc": 0.25,
+        "embedding_sim": 0.7885,
+        "bertscore_f1": 0.4088
+      },
+      {
+        "id": "QA-0514",
+        "rougeL_lc": 0.5161,
+        "embedding_sim": 0.7885,
+        "bertscore_f1": 0.2528
+      },
+      {
+        "id": "QA-0515",
+        "rougeL_lc": 0.1,
+        "embedding_sim": 0.6688,
+        "bertscore_f1": 0.3418
+      },
+      {
+        "id": "QA-0549",
+        "rougeL_lc": 0.2857,
+        "embedding_sim": 0.7619,
+        "bertscore_f1": 0.358
+      },
+      {
+        "id": "QA-0563",
+        "rougeL_lc": 0.2917,
+        "embedding_sim": 0.7248,
+        "bertscore_f1": 0.2359
+      },
+      {
+        "id": "QA-0573",
+        "rougeL_lc": 0.2414,
+        "embedding_sim": 0.8586,
+        "bertscore_f1": 0.3091
+      },
+      {
+        "id": "QA-0580",
+        "rougeL_lc": 0.7407,
+        "embedding_sim": 0.9249,
+        "bertscore_f1": 0.5113
+      },
+      {
+        "id": "QA-0594",
+        "rougeL_lc": 0.1923,
+        "embedding_sim": 0.8318,
+        "bertscore_f1": 0.3806
+      },
+      {
+        "id": "QA-0598",
+        "rougeL_lc": 0.0645,
+        "embedding_sim": 0.609,
+        "bertscore_f1": 0.0523
+      },
+      {
+        "id": "QA-0602",
+        "rougeL_lc": 0.4737,
+        "embedding_sim": 0.8509,
+        "bertscore_f1": 0.4507
+      },
+      {
+        "id": "QA-0603",
+        "rougeL_lc": 0.2105,
+        "embedding_sim": 0.8373,
+        "bertscore_f1": 0.3336
+      },
+      {
+        "id": "QA-0608",
+        "rougeL_lc": 0.2571,
+        "embedding_sim": 0.8284,
+        "bertscore_f1": 0.205
+      },
+      {
+        "id": "QA-0650",
+        "rougeL_lc": 0.4737,
+        "embedding_sim": 0.8628,
+        "bertscore_f1": 0.5094
+      },
+      {
+        "id": "QA-0653",
+        "rougeL_lc": 0.3,
+        "embedding_sim": 0.7735,
+        "bertscore_f1": -0.0221
+      },
+      {
+        "id": "QA-0657",
+        "rougeL_lc": 0.5283,
+        "embedding_sim": 0.9474,
+        "bertscore_f1": 0.6925
+      },
+      {
+        "id": "QA-0672",
+        "rougeL_lc": 0.3014,
+        "embedding_sim": 0.8929,
+        "bertscore_f1": 0.4477
+      },
+      {
+        "id": "QA-0706",
+        "rougeL_lc": 0.2121,
+        "embedding_sim": 0.7258,
+        "bertscore_f1": 0.2842
+      },
+      {
+        "id": "QA-0710",
+        "rougeL_lc": 0.1316,
+        "embedding_sim": 0.6106,
+        "bertscore_f1": 0.1574
+      },
+      {
+        "id": "QA-0711",
+        "rougeL_lc": 0.2105,
+        "embedding_sim": 0.8081,
+        "bertscore_f1": 0.3435
+      },
+      {
+        "id": "QA-0717",
+        "rougeL_lc": 0.3836,
+        "embedding_sim": 0.9207,
+        "bertscore_f1": 0.5424
+      },
+      {
+        "id": "QA-0729",
+        "rougeL_lc": 0.2295,
+        "embedding_sim": 0.8608,
+        "bertscore_f1": 0.3762
+      },
+      {
+        "id": "QA-0733",
+        "rougeL_lc": 0.2286,
+        "embedding_sim": 0.766,
+        "bertscore_f1": 0.2711
+      },
+      {
+        "id": "QA-0743",
+        "rougeL_lc": 0.3636,
+        "embedding_sim": 0.9143,
+        "bertscore_f1": 0.488
+      },
+      {
+        "id": "QA-0746",
+        "rougeL_lc": 0.1493,
+        "embedding_sim": 0.7063,
+        "bertscore_f1": 0.1695
+      },
+      {
+        "id": "QA-0749",
+        "rougeL_lc": 0.2857,
+        "embedding_sim": 0.838,
+        "bertscore_f1": 0.4096
+      },
+      {
+        "id": "QA-0750",
+        "rougeL_lc": 0.3824,
+        "embedding_sim": 0.8523,
+        "bertscore_f1": 0.4268
+      },
+      {
+        "id": "QA-0752",
+        "rougeL_lc": 0.4483,
+        "embedding_sim": 0.8526,
+        "bertscore_f1": 0.6387
+      },
+      {
+        "id": "QA-0772",
+        "rougeL_lc": 0.2188,
+        "embedding_sim": 0.7449,
+        "bertscore_f1": 0.3297
+      },
+      {
+        "id": "QA-0778",
+        "rougeL_lc": 0.3103,
+        "embedding_sim": 0.8628,
+        "bertscore_f1": 0.3865
+      },
+      {
+        "id": "QA-0784",
+        "rougeL_lc": 0.375,
+        "embedding_sim": 0.906,
+        "bertscore_f1": 0.3629
+      },
+      {
+        "id": "QA-0790",
+        "rougeL_lc": 0.3214,
+        "embedding_sim": 0.9096,
+        "bertscore_f1": 0.4652
+      },
+      {
+        "id": "QA-0791",
+        "rougeL_lc": 0.6071,
+        "embedding_sim": 0.953,
+        "bertscore_f1": 0.6845
+      },
+      {
+        "id": "QA-0798",
+        "rougeL_lc": 0.25,
+        "embedding_sim": 0.8125,
+        "bertscore_f1": 0.5576
+      },
+      {
+        "id": "QA-0805",
+        "rougeL_lc": 0.2414,
+        "embedding_sim": 0.7687,
+        "bertscore_f1": 0.2147
+      },
+      {
+        "id": "QA-0827",
+        "rougeL_lc": 0.1667,
+        "embedding_sim": 0.7653,
+        "bertscore_f1": 0.203
+      },
+      {
+        "id": "QA-0830",
+        "rougeL_lc": 0.2692,
+        "embedding_sim": 0.8699,
+        "bertscore_f1": 0.4747
+      },
+      {
+        "id": "QA-0832",
+        "rougeL_lc": 0.3235,
+        "embedding_sim": 0.8768,
+        "bertscore_f1": 0.2457
+      },
+      {
+        "id": "QA-0834",
+        "rougeL_lc": 0.3582,
+        "embedding_sim": 0.8547,
+        "bertscore_f1": 0.3139
+      },
+      {
+        "id": "QA-0838",
+        "rougeL_lc": 0.381,
+        "embedding_sim": 0.8685,
+        "bertscore_f1": 0.473
+      },
+      {
+        "id": "QA-0855",
+        "rougeL_lc": 0.2807,
+        "embedding_sim": 0.8226,
+        "bertscore_f1": 0.3209
+      },
+      {
+        "id": "QA-0891",
+        "rougeL_lc": 0.3714,
+        "embedding_sim": 0.8505,
+        "bertscore_f1": 0.4332
+      },
+      {
+        "id": "QA-0893",
+        "rougeL_lc": 0.4384,
+        "embedding_sim": 0.9141,
+        "bertscore_f1": 0.4294
+      },
+      {
+        "id": "QA-0908",
+        "rougeL_lc": 0.425,
+        "embedding_sim": 0.8217,
+        "bertscore_f1": 0.3469
+      },
+      {
+        "id": "QA-0910",
+        "rougeL_lc": 0.2,
+        "embedding_sim": 0.7408,
+        "bertscore_f1": 0.2005
+      },
+      {
+        "id": "QA-0918",
+        "rougeL_lc": 0.3,
+        "embedding_sim": 0.8283,
+        "bertscore_f1": 0.4833
+      },
+      {
+        "id": "QA-0933",
+        "rougeL_lc": 0.2105,
+        "embedding_sim": 0.8282,
+        "bertscore_f1": 0.3929
+      },
+      {
+        "id": "QA-0934",
+        "rougeL_lc": 0.3793,
+        "embedding_sim": 0.8944,
+        "bertscore_f1": 0.3456
+      },
+      {
+        "id": "QA-0935",
+        "rougeL_lc": 0.4643,
+        "embedding_sim": 0.9297,
+        "bertscore_f1": 0.5797
+      },
+      {
+        "id": "QA-0949",
+        "rougeL_lc": 0.4412,
+        "embedding_sim": 0.9463,
+        "bertscore_f1": 0.5327
+      },
+      {
+        "id": "QA-0950",
+        "rougeL_lc": 0.3273,
+        "embedding_sim": 0.8185,
+        "bertscore_f1": 0.3688
+      },
+      {
+        "id": "QA-0958",
+        "rougeL_lc": 0.2222,
+        "embedding_sim": 0.8532,
+        "bertscore_f1": 0.3307
+      },
+      {
+        "id": "QA-0973",
+        "rougeL_lc": 0.1786,
+        "embedding_sim": 0.7874,
+        "bertscore_f1": 0.3992
+      },
+      {
+        "id": "QA-0976",
+        "rougeL_lc": 0.1846,
+        "embedding_sim": 0.7601,
+        "bertscore_f1": 0.229
+      },
+      {
+        "id": "QA-0981",
+        "rougeL_lc": 0.2759,
+        "embedding_sim": 0.9012,
+        "bertscore_f1": 0.4843
+      },
+      {
+        "id": "QA-0982",
+        "rougeL_lc": 0.1404,
+        "embedding_sim": 0.7784,
+        "bertscore_f1": 0.2749
+      },
+      {
+        "id": "QA-1002",
+        "rougeL_lc": 0.4865,
+        "embedding_sim": 0.9502,
+        "bertscore_f1": 0.5388
+      },
+      {
+        "id": "QA-1003",
+        "rougeL_lc": 0.137,
+        "embedding_sim": 0.8437,
+        "bertscore_f1": 0.2904
+      },
+      {
+        "id": "QA-1004",
+        "rougeL_lc": 0.2326,
+        "embedding_sim": 0.6302,
+        "bertscore_f1": 0.3849
+      },
+      {
+        "id": "QA-1009",
+        "rougeL_lc": 0.3103,
+        "embedding_sim": 0.7819,
+        "bertscore_f1": 0.3444
+      },
+      {
+        "id": "QA-1014",
+        "rougeL_lc": 0.2745,
+        "embedding_sim": 0.7816,
+        "bertscore_f1": 0.3981
+      },
+      {
+        "id": "QA-1023",
+        "rougeL_lc": 0.1935,
+        "embedding_sim": 0.847,
+        "bertscore_f1": 0.3734
+      },
+      {
+        "id": "QA-1041",
+        "rougeL_lc": 0.2162,
+        "embedding_sim": 0.7288,
+        "bertscore_f1": 0.2741
+      },
+      {
+        "id": "QA-1054",
+        "rougeL_lc": 0.3333,
+        "embedding_sim": 0.858,
+        "bertscore_f1": 0.4189
+      },
+      {
+        "id": "QA-1072",
+        "rougeL_lc": 0.5714,
+        "embedding_sim": 0.9113,
+        "bertscore_f1": 0.665
+      },
+      {
+        "id": "QA-1093",
+        "rougeL_lc": 0.3243,
+        "embedding_sim": 0.8524,
+        "bertscore_f1": 0.3919
+      },
+      {
+        "id": "QA-1094",
+        "rougeL_lc": 0.381,
+        "embedding_sim": 0.8625,
+        "bertscore_f1": 0.5039
+      },
+      {
+        "id": "QA-1115",
+        "rougeL_lc": 0.2857,
+        "embedding_sim": 0.8707,
+        "bertscore_f1": 0.421
+      },
+      {
+        "id": "QA-1119",
+        "rougeL_lc": 0.3922,
+        "embedding_sim": 0.7931,
+        "bertscore_f1": 0.3641
+      },
+      {
+        "id": "QA-1120",
+        "rougeL_lc": 0.5,
+        "embedding_sim": 0.9151,
+        "bertscore_f1": 0.5975
+      },
+      {
+        "id": "QA-1128",
+        "rougeL_lc": 0.2903,
+        "embedding_sim": 0.8902,
+        "bertscore_f1": 0.4504
+      },
+      {
+        "id": "QA-1142",
+        "rougeL_lc": 0.3548,
+        "embedding_sim": 0.8255,
+        "bertscore_f1": 0.3375
+      },
+      {
+        "id": "QA-1179",
+        "rougeL_lc": 0.2609,
+        "embedding_sim": 0.7272,
+        "bertscore_f1": 0.5289
+      },
+      {
+        "id": "QA-1189",
+        "rougeL_lc": 0.24,
+        "embedding_sim": 0.847,
+        "bertscore_f1": 0.4275
+      },
+      {
+        "id": "QA-1202",
+        "rougeL_lc": 0.4889,
+        "embedding_sim": 0.9183,
+        "bertscore_f1": 0.4743
+      },
+      {
+        "id": "QA-1214",
+        "rougeL_lc": 0.1923,
+        "embedding_sim": 0.8006,
+        "bertscore_f1": 0.2749
+      },
+      {
+        "id": "QA-1240",
+        "rougeL_lc": 0.2333,
+        "embedding_sim": 0.8463,
+        "bertscore_f1": 0.3872
+      },
+      {
+        "id": "QA-1244",
+        "rougeL_lc": 0.2667,
+        "embedding_sim": 0.7821,
+        "bertscore_f1": 0.3349
+      },
+      {
+        "id": "QA-1246",
+        "rougeL_lc": 0.24,
+        "embedding_sim": 0.8623,
+        "bertscore_f1": 0.3301
+      },
+      {
+        "id": "QA-1256",
+        "rougeL_lc": 0.2807,
+        "embedding_sim": 0.8282,
+        "bertscore_f1": 0.3258
+      },
+      {
+        "id": "QA-1257",
+        "rougeL_lc": 0.3889,
+        "embedding_sim": 0.9396,
+        "bertscore_f1": 0.4698
+      },
+      {
+        "id": "QA-1272",
+        "rougeL_lc": 0.3,
+        "embedding_sim": 0.7438,
+        "bertscore_f1": 0.3445
+      },
+      {
+        "id": "QA-1297",
+        "rougeL_lc": 0.2182,
+        "embedding_sim": 0.8118,
+        "bertscore_f1": 0.3886
+      },
+      {
+        "id": "QA-1299",
+        "rougeL_lc": 0.4186,
+        "embedding_sim": 0.8255,
+        "bertscore_f1": 0.3787
+      },
+      {
+        "id": "QA-1317",
+        "rougeL_lc": 0.254,
+        "embedding_sim": 0.7802,
+        "bertscore_f1": 0.4227
+      },
+      {
+        "id": "QA-1357",
+        "rougeL_lc": 0.459,
+        "embedding_sim": 0.9186,
+        "bertscore_f1": 0.4364
+      },
+      {
+        "id": "QA-1362",
+        "rougeL_lc": 0.3934,
+        "embedding_sim": 0.8744,
+        "bertscore_f1": 0.4541
+      },
+      {
+        "id": "QA-1363",
+        "rougeL_lc": 0.3846,
+        "embedding_sim": 0.8745,
+        "bertscore_f1": 0.466
+      },
+      {
+        "id": "QA-1407",
+        "rougeL_lc": 0.125,
+        "embedding_sim": 0.5712,
+        "bertscore_f1": 0.2299
+      },
+      {
+        "id": "QA-1411",
+        "rougeL_lc": 0.3409,
+        "embedding_sim": 0.8492,
+        "bertscore_f1": 0.4475
+      },
+      {
+        "id": "QA-1419",
+        "rougeL_lc": 0.2388,
+        "embedding_sim": 0.7351,
+        "bertscore_f1": 0.2072
+      },
+      {
+        "id": "QA-1421",
+        "rougeL_lc": 0.2857,
+        "embedding_sim": 0.7494,
+        "bertscore_f1": 0.353
+      },
+      {
+        "id": "QA-1428",
+        "rougeL_lc": 0.3019,
+        "embedding_sim": 0.8523,
+        "bertscore_f1": 0.4093
+      },
+      {
+        "id": "QA-1430",
+        "rougeL_lc": 0.3043,
+        "embedding_sim": 0.8512,
+        "bertscore_f1": 0.3588
+      },
+      {
+        "id": "QA-1434",
+        "rougeL_lc": 0.3137,
+        "embedding_sim": 0.8487,
+        "bertscore_f1": 0.3925
+      },
+      {
+        "id": "QA-1438",
+        "rougeL_lc": 0.2424,
+        "embedding_sim": 0.9191,
+        "bertscore_f1": 0.4534
+      },
+      {
+        "id": "QA-1449",
+        "rougeL_lc": 0.2593,
+        "embedding_sim": 0.785,
+        "bertscore_f1": 0.3794
+      },
+      {
+        "id": "QA-1453",
+        "rougeL_lc": 0.1852,
+        "embedding_sim": 0.7289,
+        "bertscore_f1": 0.2683
+      },
+      {
+        "id": "QA-1458",
+        "rougeL_lc": 0.2927,
+        "embedding_sim": 0.7408,
+        "bertscore_f1": 0.3277
+      },
+      {
+        "id": "QA-1459",
+        "rougeL_lc": 0.25,
+        "embedding_sim": 0.8227,
+        "bertscore_f1": 0.292
+      },
+      {
+        "id": "QA-1463",
+        "rougeL_lc": 0.2278,
+        "embedding_sim": 0.8188,
+        "bertscore_f1": 0.2552
+      },
+      {
+        "id": "QA-1467",
+        "rougeL_lc": 0.3636,
+        "embedding_sim": 0.8821,
+        "bertscore_f1": 0.3792
+      },
+      {
+        "id": "QA-1475",
+        "rougeL_lc": 0.2059,
+        "embedding_sim": 0.8657,
+        "bertscore_f1": 0.3913
+      },
+      {
+        "id": "QA-1542",
+        "rougeL_lc": 0.5357,
+        "embedding_sim": 0.9113,
+        "bertscore_f1": 0.5188
+      },
+      {
+        "id": "QA-1544",
+        "rougeL_lc": 0.2712,
+        "embedding_sim": 0.7657,
+        "bertscore_f1": 0.2809
+      },
+      {
+        "id": "QA-1553",
+        "rougeL_lc": 0.2609,
+        "embedding_sim": 0.7047,
+        "bertscore_f1": 0.2189
+      },
+      {
+        "id": "QA-1561",
+        "rougeL_lc": 0.1333,
+        "embedding_sim": 0.6114,
+        "bertscore_f1": 0.1178
+      },
+      {
+        "id": "QA-1569",
+        "rougeL_lc": 0.2222,
+        "embedding_sim": 0.7597,
+        "bertscore_f1": 0.3106
+      },
+      {
+        "id": "QA-1582",
+        "rougeL_lc": 0.3235,
+        "embedding_sim": 0.8794,
+        "bertscore_f1": 0.3707
+      },
+      {
+        "id": "QA-1586",
+        "rougeL_lc": 0.1613,
+        "embedding_sim": 0.813,
+        "bertscore_f1": 0.3916
+      },
+      {
+        "id": "QA-1587",
+        "rougeL_lc": 0.3611,
+        "embedding_sim": 0.815,
+        "bertscore_f1": 0.4651
+      },
+      {
+        "id": "QA-1588",
+        "rougeL_lc": 0.3636,
+        "embedding_sim": 0.8611,
+        "bertscore_f1": 0.356
+      },
+      {
+        "id": "QA-1593",
+        "rougeL_lc": 0.1724,
+        "embedding_sim": 0.7317,
+        "bertscore_f1": 0.3654
+      }
+    ]
+  },
+  "summarization": {
+    "n": 146,
+    "embedding_similarity_to_reference": 0.8327,
+    "bertscore_f1": 0.2604,
+    "rougeLsum": {
+      "mean": 0.3763,
+      "note": "summary-level ROUGE-L over newline-separated sentences"
+    },
+    "median_output_words": 98.5,
+    "median_reference_words": 89.0,
+    "per_row": [
+      {
+        "id": "OSX-SUM-0744",
+        "rougeLsum": 0.3294,
+        "embedding_sim": 0.7214,
+        "bertscore_f1": 0.1613
+      },
+      {
+        "id": "OSX-SUM-0745",
+        "rougeLsum": 0.2379,
+        "embedding_sim": 0.7333,
+        "bertscore_f1": 0.0369
+      },
+      {
+        "id": "OSX-SUM-0746",
+        "rougeLsum": 0.21,
+        "embedding_sim": 0.7616,
+        "bertscore_f1": 0.1014
+      },
+      {
+        "id": "OSX-SUM-0747",
+        "rougeLsum": 0.5036,
+        "embedding_sim": 0.9045,
+        "bertscore_f1": 0.4004
+      },
+      {
+        "id": "OSX-SUM-0748",
+        "rougeLsum": 0.315,
+        "embedding_sim": 0.7601,
+        "bertscore_f1": 0.0617
+      },
+      {
+        "id": "OSX-SUM-0749",
+        "rougeLsum": 0.3121,
+        "embedding_sim": 0.751,
+        "bertscore_f1": 0.1039
+      },
+      {
+        "id": "OSX-SUM-0750",
+        "rougeLsum": 0.4841,
+        "embedding_sim": 0.8888,
+        "bertscore_f1": 0.236
+      },
+      {
+        "id": "OSX-SUM-0751",
+        "rougeLsum": 0.3441,
+        "embedding_sim": 0.7399,
+        "bertscore_f1": 0.2512
+      },
+      {
+        "id": "OSX-SUM-0752",
+        "rougeLsum": 0.266,
+        "embedding_sim": 0.7757,
+        "bertscore_f1": 0.0731
+      },
+      {
+        "id": "OSX-SUM-0753",
+        "rougeLsum": 0.4062,
+        "embedding_sim": 0.8976,
+        "bertscore_f1": 0.2419
+      },
+      {
+        "id": "OSX-SUM-0754",
+        "rougeLsum": 0.4727,
+        "embedding_sim": 0.7823,
+        "bertscore_f1": 0.2053
+      },
+      {
+        "id": "OSX-SUM-0755",
+        "rougeLsum": 0.3171,
+        "embedding_sim": 0.8575,
+        "bertscore_f1": 0.229
+      },
+      {
+        "id": "OSX-SUM-0756",
+        "rougeLsum": 0.2553,
+        "embedding_sim": 0.7825,
+        "bertscore_f1": 0.0477
+      },
+      {
+        "id": "OSX-SUM-0757",
+        "rougeLsum": 0.1765,
+        "embedding_sim": 0.685,
+        "bertscore_f1": 0.0114
+      },
+      {
+        "id": "OSX-SUM-0758",
+        "rougeLsum": 0.0987,
+        "embedding_sim": 0.8416,
+        "bertscore_f1": 0.0857
+      },
+      {
+        "id": "OSX-SUM-0759",
+        "rougeLsum": 0.4167,
+        "embedding_sim": 0.8679,
+        "bertscore_f1": 0.2102
+      },
+      {
+        "id": "OSX-SUM-0760",
+        "rougeLsum": 0.3459,
+        "embedding_sim": 0.7801,
+        "bertscore_f1": 0.3207
+      },
+      {
+        "id": "OSX-SUM-0761",
+        "rougeLsum": 0.4777,
+        "embedding_sim": 0.8524,
+        "bertscore_f1": 0.2507
+      },
+      {
+        "id": "OSX-SUM-0762",
+        "rougeLsum": 0.4952,
+        "embedding_sim": 0.9009,
+        "bertscore_f1": 0.3134
+      },
+      {
+        "id": "OSX-SUM-0763",
+        "rougeLsum": 0.5165,
+        "embedding_sim": 0.9233,
+        "bertscore_f1": 0.3357
+      },
+      {
+        "id": "OSX-SUM-0764",
+        "rougeLsum": 0.362,
+        "embedding_sim": 0.867,
+        "bertscore_f1": 0.1706
+      },
+      {
+        "id": "OSX-SUM-0765",
+        "rougeLsum": 0.3871,
+        "embedding_sim": 0.8766,
+        "bertscore_f1": 0.1005
+      },
+      {
+        "id": "OSX-SUM-0766",
+        "rougeLsum": 0.2663,
+        "embedding_sim": 0.7343,
+        "bertscore_f1": 0.0232
+      },
+      {
+        "id": "OSX-SUM-0767",
+        "rougeLsum": 0.3333,
+        "embedding_sim": 0.727,
+        "bertscore_f1": 0.3266
+      },
+      {
+        "id": "OSX-SUM-0768",
+        "rougeLsum": 0.2537,
+        "embedding_sim": 0.8105,
+        "bertscore_f1": 0.0627
+      },
+      {
+        "id": "OSX-SUM-0769",
+        "rougeLsum": 0.155,
+        "embedding_sim": 0.7013,
+        "bertscore_f1": 0.0459
+      },
+      {
+        "id": "OSX-SUM-0770",
+        "rougeLsum": 0.4411,
+        "embedding_sim": 0.7651,
+        "bertscore_f1": 0.1261
+      },
+      {
+        "id": "OSX-SUM-0771",
+        "rougeLsum": 0.4012,
+        "embedding_sim": 0.9057,
+        "bertscore_f1": 0.2679
+      },
+      {
+        "id": "OSX-SUM-0772",
+        "rougeLsum": 0.4539,
+        "embedding_sim": 0.8344,
+        "bertscore_f1": 0.2881
+      },
+      {
+        "id": "OSX-SUM-0773",
+        "rougeLsum": 0.2914,
+        "embedding_sim": 0.8223,
+        "bertscore_f1": 0.2501
+      },
+      {
+        "id": "OSX-SUM-0774",
+        "rougeLsum": 0.3614,
+        "embedding_sim": 0.8447,
+        "bertscore_f1": 0.153
+      },
+      {
+        "id": "OSX-SUM-0775",
+        "rougeLsum": 0.2788,
+        "embedding_sim": 0.8779,
+        "bertscore_f1": 0.2929
+      },
+      {
+        "id": "OSX-SUM-0776",
+        "rougeLsum": 0.2241,
+        "embedding_sim": 0.7764,
+        "bertscore_f1": 0.3035
+      },
+      {
+        "id": "OSX-SUM-0777",
+        "rougeLsum": 0.6154,
+        "embedding_sim": 0.9236,
+        "bertscore_f1": 0.5081
+      },
+      {
+        "id": "OSX-SUM-0778",
+        "rougeLsum": 0.356,
+        "embedding_sim": 0.8494,
+        "bertscore_f1": 0.147
+      },
+      {
+        "id": "OSX-SUM-0779",
+        "rougeLsum": 0.4111,
+        "embedding_sim": 0.7881,
+        "bertscore_f1": 0.2535
+      },
+      {
+        "id": "OSX-SUM-0780",
+        "rougeLsum": 0.1481,
+        "embedding_sim": 0.7586,
+        "bertscore_f1": 0.1526
+      },
+      {
+        "id": "OSX-SUM-0781",
+        "rougeLsum": 0.4721,
+        "embedding_sim": 0.8488,
+        "bertscore_f1": 0.2818
+      },
+      {
+        "id": "OSX-SUM-0782",
+        "rougeLsum": 0.2571,
+        "embedding_sim": 0.8713,
+        "bertscore_f1": 0.1675
+      },
+      {
+        "id": "OSX-SUM-0783",
+        "rougeLsum": 0.26,
+        "embedding_sim": 0.6448,
+        "bertscore_f1": -0.0597
+      },
+      {
+        "id": "OSX-SUM-0784",
+        "rougeLsum": 0.348,
+        "embedding_sim": 0.7171,
+        "bertscore_f1": -0.0132
+      },
+      {
+        "id": "OSX-SUM-0785",
+        "rougeLsum": 0.4017,
+        "embedding_sim": 0.8253,
+        "bertscore_f1": 0.1989
+      },
+      {
+        "id": "OSX-SUM-0786",
+        "rougeLsum": 0.2123,
+        "embedding_sim": 0.7687,
+        "bertscore_f1": -0.0299
+      },
+      {
+        "id": "OSX-SUM-0787",
+        "rougeLsum": 0.2683,
+        "embedding_sim": 0.8551,
+        "bertscore_f1": 0.0499
+      },
+      {
+        "id": "OSX-SUM-0788",
+        "rougeLsum": 0.4648,
+        "embedding_sim": 0.8601,
+        "bertscore_f1": 0.4138
+      },
+      {
+        "id": "OSX-SUM-0789",
+        "rougeLsum": 0.5205,
+        "embedding_sim": 0.9459,
+        "bertscore_f1": 0.6652
+      },
+      {
+        "id": "OSX-SUM-0790",
+        "rougeLsum": 0.3984,
+        "embedding_sim": 0.8054,
+        "bertscore_f1": 0.2044
+      },
+      {
+        "id": "OSX-SUM-0791",
+        "rougeLsum": 0.3333,
+        "embedding_sim": 0.8607,
+        "bertscore_f1": 0.3199
+      },
+      {
+        "id": "OSX-SUM-0792",
+        "rougeLsum": 0.6667,
+        "embedding_sim": 0.9476,
+        "bertscore_f1": 0.5805
+      },
+      {
+        "id": "OSX-SUM-0793",
+        "rougeLsum": 0.4527,
+        "embedding_sim": 0.8644,
+        "bertscore_f1": 0.3136
+      },
+      {
+        "id": "OSX-SUM-0794",
+        "rougeLsum": 0.6769,
+        "embedding_sim": 0.9397,
+        "bertscore_f1": 0.6499
+      },
+      {
+        "id": "OSX-SUM-0795",
+        "rougeLsum": 0.3667,
+        "embedding_sim": 0.8299,
+        "bertscore_f1": 0.2385
+      },
+      {
+        "id": "OSX-SUM-0796",
+        "rougeLsum": 0.3795,
+        "embedding_sim": 0.8567,
+        "bertscore_f1": 0.2879
+      },
+      {
+        "id": "OSX-SUM-0797",
+        "rougeLsum": 0.541,
+        "embedding_sim": 0.9089,
+        "bertscore_f1": 0.4408
+      },
+      {
+        "id": "OSX-SUM-0798",
+        "rougeLsum": 0.4595,
+        "embedding_sim": 0.9073,
+        "bertscore_f1": 0.2318
+      },
+      {
+        "id": "OSX-SUM-0799",
+        "rougeLsum": 0.4358,
+        "embedding_sim": 0.8489,
+        "bertscore_f1": 0.2789
+      },
+      {
+        "id": "OSX-SUM-0800",
+        "rougeLsum": 0.3103,
+        "embedding_sim": 0.7408,
+        "bertscore_f1": 0.3173
+      },
+      {
+        "id": "OSX-SUM-0801",
+        "rougeLsum": 0.3418,
+        "embedding_sim": 0.8038,
+        "bertscore_f1": 0.2152
+      },
+      {
+        "id": "OSX-SUM-0802",
+        "rougeLsum": 0.3251,
+        "embedding_sim": 0.7945,
+        "bertscore_f1": 0.235
+      },
+      {
+        "id": "OSX-SUM-0803",
+        "rougeLsum": 0.3346,
+        "embedding_sim": 0.818,
+        "bertscore_f1": 0.175
+      },
+      {
+        "id": "OSX-SUM-0804",
+        "rougeLsum": 0.3876,
+        "embedding_sim": 0.8979,
+        "bertscore_f1": 0.2896
+      },
+      {
+        "id": "OSX-SUM-0805",
+        "rougeLsum": 0.3068,
+        "embedding_sim": 0.79,
+        "bertscore_f1": 0.2186
+      },
+      {
+        "id": "OSX-SUM-0806",
+        "rougeLsum": 0.1607,
+        "embedding_sim": 0.7601,
+        "bertscore_f1": 0.209
+      },
+      {
+        "id": "OSX-SUM-0807",
+        "rougeLsum": 0.1538,
+        "embedding_sim": 0.7721,
+        "bertscore_f1": 0.1997
+      },
+      {
+        "id": "OSX-SUM-0808",
+        "rougeLsum": 0.2857,
+        "embedding_sim": 0.776,
+        "bertscore_f1": 0.1679
+      },
+      {
+        "id": "OSX-SUM-0809",
+        "rougeLsum": 0.3977,
+        "embedding_sim": 0.8195,
+        "bertscore_f1": 0.1755
+      },
+      {
+        "id": "OSX-SUM-0810",
+        "rougeLsum": 0.2252,
+        "embedding_sim": 0.7367,
+        "bertscore_f1": 0.0367
+      },
+      {
+        "id": "OSX-SUM-0811",
+        "rougeLsum": 0.39,
+        "embedding_sim": 0.8948,
+        "bertscore_f1": 0.2652
+      },
+      {
+        "id": "OSX-SUM-0812",
+        "rougeLsum": 0.3547,
+        "embedding_sim": 0.8337,
+        "bertscore_f1": 0.184
+      },
+      {
+        "id": "OSX-SUM-0813",
+        "rougeLsum": 0.4113,
+        "embedding_sim": 0.8754,
+        "bertscore_f1": 0.0887
+      },
+      {
+        "id": "OSX-SUM-0814",
+        "rougeLsum": 0.1387,
+        "embedding_sim": 0.6169,
+        "bertscore_f1": -0.1473
+      },
+      {
+        "id": "OSX-SUM-0815",
+        "rougeLsum": 0.4528,
+        "embedding_sim": 0.8836,
+        "bertscore_f1": 0.3822
+      },
+      {
+        "id": "OSX-SUM-0816",
+        "rougeLsum": 0.4412,
+        "embedding_sim": 0.8463,
+        "bertscore_f1": 0.3835
+      },
+      {
+        "id": "OSX-SUM-0817",
+        "rougeLsum": 0.5972,
+        "embedding_sim": 0.8472,
+        "bertscore_f1": 0.391
+      },
+      {
+        "id": "OSX-SUM-0818",
+        "rougeLsum": 0.3659,
+        "embedding_sim": 0.8892,
+        "bertscore_f1": 0.3684
+      },
+      {
+        "id": "OSX-SUM-0819",
+        "rougeLsum": 0.32,
+        "embedding_sim": 0.8158,
+        "bertscore_f1": 0.1894
+      },
+      {
+        "id": "OSX-SUM-0820",
+        "rougeLsum": 0.2482,
+        "embedding_sim": 0.7978,
+        "bertscore_f1": 0.1781
+      },
+      {
+        "id": "OSX-SUM-0821",
+        "rougeLsum": 0.3964,
+        "embedding_sim": 0.9049,
+        "bertscore_f1": 0.3717
+      },
+      {
+        "id": "OSX-SUM-0822",
+        "rougeLsum": 0.2923,
+        "embedding_sim": 0.7855,
+        "bertscore_f1": 0.2247
+      },
+      {
+        "id": "OSX-SUM-0823",
+        "rougeLsum": 0.5342,
+        "embedding_sim": 0.8935,
+        "bertscore_f1": 0.3514
+      },
+      {
+        "id": "OSX-SUM-0824",
+        "rougeLsum": 0.4901,
+        "embedding_sim": 0.9156,
+        "bertscore_f1": 0.2858
+      },
+      {
+        "id": "OSX-SUM-0825",
+        "rougeLsum": 0.4322,
+        "embedding_sim": 0.8198,
+        "bertscore_f1": 0.3476
+      },
+      {
+        "id": "OSX-SUM-0826",
+        "rougeLsum": 0.4216,
+        "embedding_sim": 0.7953,
+        "bertscore_f1": 0.2049
+      },
+      {
+        "id": "OSX-SUM-0827",
+        "rougeLsum": 0.4,
+        "embedding_sim": 0.7877,
+        "bertscore_f1": 0.2512
+      },
+      {
+        "id": "OSX-SUM-0828",
+        "rougeLsum": 0.2857,
+        "embedding_sim": 0.7804,
+        "bertscore_f1": 0.2639
+      },
+      {
+        "id": "OSX-SUM-0829",
+        "rougeLsum": 0.3991,
+        "embedding_sim": 0.8941,
+        "bertscore_f1": 0.1587
+      },
+      {
+        "id": "OSX-SUM-0830",
+        "rougeLsum": 0.1899,
+        "embedding_sim": 0.7184,
+        "bertscore_f1": 0.0835
+      },
+      {
+        "id": "OSX-SUM-0831",
+        "rougeLsum": 0.3636,
+        "embedding_sim": 0.8309,
+        "bertscore_f1": 0.284
+      },
+      {
+        "id": "OSX-SUM-0832",
+        "rougeLsum": 0.2171,
+        "embedding_sim": 0.8547,
+        "bertscore_f1": 0.2194
+      },
+      {
+        "id": "OSX-SUM-0833",
+        "rougeLsum": 0.3028,
+        "embedding_sim": 0.8206,
+        "bertscore_f1": 0.251
+      },
+      {
+        "id": "OSX-SUM-0834",
+        "rougeLsum": 0.3011,
+        "embedding_sim": 0.8703,
+        "bertscore_f1": 0.2231
+      },
+      {
+        "id": "OSX-SUM-0835",
+        "rougeLsum": 0.3053,
+        "embedding_sim": 0.7659,
+        "bertscore_f1": 0.1849
+      },
+      {
+        "id": "OSX-SUM-0836",
+        "rougeLsum": 0.2615,
+        "embedding_sim": 0.6291,
+        "bertscore_f1": 0.1276
+      },
+      {
+        "id": "OSX-SUM-0837",
+        "rougeLsum": 0.2061,
+        "embedding_sim": 0.7413,
+        "bertscore_f1": 0.1435
+      },
+      {
+        "id": "OSX-SUM-0838",
+        "rougeLsum": 0.228,
+        "embedding_sim": 0.7116,
+        "bertscore_f1": 0.0743
+      },
+      {
+        "id": "OSX-SUM-0839",
+        "rougeLsum": 0.2791,
+        "embedding_sim": 0.7761,
+        "bertscore_f1": 0.2098
+      },
+      {
+        "id": "OSX-SUM-0840",
+        "rougeLsum": 0.3046,
+        "embedding_sim": 0.7772,
+        "bertscore_f1": 0.1524
+      },
+      {
+        "id": "OSX-SUM-0841",
+        "rougeLsum": 0.2373,
+        "embedding_sim": 0.7349,
+        "bertscore_f1": 0.0993
+      },
+      {
+        "id": "OSX-SUM-0842",
+        "rougeLsum": 0.3515,
+        "embedding_sim": 0.8354,
+        "bertscore_f1": 0.2656
+      },
+      {
+        "id": "OSX-SUM-0843",
+        "rougeLsum": 0.4864,
+        "embedding_sim": 0.8328,
+        "bertscore_f1": 0.2008
+      },
+      {
+        "id": "OSX-SUM-0844",
+        "rougeLsum": 0.2676,
+        "embedding_sim": 0.7049,
+        "bertscore_f1": 0.2034
+      },
+      {
+        "id": "OSX-SUM-0845",
+        "rougeLsum": 0.2057,
+        "embedding_sim": 0.7034,
+        "bertscore_f1": 0.1213
+      },
+      {
+        "id": "OSX-SUM-0846",
+        "rougeLsum": 0.5328,
+        "embedding_sim": 0.9598,
+        "bertscore_f1": 0.5051
+      },
+      {
+        "id": "OSX-SUM-0847",
+        "rougeLsum": 0.3264,
+        "embedding_sim": 0.8724,
+        "bertscore_f1": 0.1635
+      },
+      {
+        "id": "OSX-SUM-0848",
+        "rougeLsum": 0.3588,
+        "embedding_sim": 0.7146,
+        "bertscore_f1": 0.1336
+      },
+      {
+        "id": "OSX-SUM-0849",
+        "rougeLsum": 0.3209,
+        "embedding_sim": 0.7696,
+        "bertscore_f1": 0.1265
+      },
+      {
+        "id": "OSX-SUM-0850",
+        "rougeLsum": 0.3125,
+        "embedding_sim": 0.6719,
+        "bertscore_f1": 0.1064
+      },
+      {
+        "id": "OSX-SUM-0851",
+        "rougeLsum": 0.3717,
+        "embedding_sim": 0.678,
+        "bertscore_f1": 0.1553
+      },
+      {
+        "id": "OSX-SUM-0852",
+        "rougeLsum": 0.32,
+        "embedding_sim": 0.8362,
+        "bertscore_f1": 0.2635
+      },
+      {
+        "id": "OSX-SUM-0853",
+        "rougeLsum": 0.2667,
+        "embedding_sim": 0.8524,
+        "bertscore_f1": 0.1099
+      },
+      {
+        "id": "OSX-SUM-0854",
+        "rougeLsum": 0.2727,
+        "embedding_sim": 0.8194,
+        "bertscore_f1": 0.1971
+      },
+      {
+        "id": "OSX-SUM-0855",
+        "rougeLsum": 0.2277,
+        "embedding_sim": 0.7551,
+        "bertscore_f1": 0.1446
+      },
+      {
+        "id": "OSX-SUM-0856",
+        "rougeLsum": 0.4182,
+        "embedding_sim": 0.8296,
+        "bertscore_f1": 0.2531
+      },
+      {
+        "id": "OSX-SUM-0857",
+        "rougeLsum": 0.3737,
+        "embedding_sim": 0.7729,
+        "bertscore_f1": 0.1606
+      },
+      {
+        "id": "OSX-SUM-0858",
+        "rougeLsum": 0.3925,
+        "embedding_sim": 0.7488,
+        "bertscore_f1": 0.2158
+      },
+      {
+        "id": "OSX-SUM-0859",
+        "rougeLsum": 0.3881,
+        "embedding_sim": 0.772,
+        "bertscore_f1": 0.2295
+      },
+      {
+        "id": "UAP-CURR-SUM-0128",
+        "rougeLsum": 0.5986,
+        "embedding_sim": 0.9471,
+        "bertscore_f1": 0.3959
+      },
+      {
+        "id": "UAP-SUM-0002",
+        "rougeLsum": 0.4935,
+        "embedding_sim": 0.9212,
+        "bertscore_f1": 0.4287
+      },
+      {
+        "id": "UAP-SUM-0012",
+        "rougeLsum": 0.4412,
+        "embedding_sim": 0.8859,
+        "bertscore_f1": 0.3558
+      },
+      {
+        "id": "UAP-SUM-0014",
+        "rougeLsum": 0.479,
+        "embedding_sim": 0.9209,
+        "bertscore_f1": 0.4195
+      },
+      {
+        "id": "UAP-SUM-0020",
+        "rougeLsum": 0.4503,
+        "embedding_sim": 0.9041,
+        "bertscore_f1": 0.3703
+      },
+      {
+        "id": "UAP-SUM-0025",
+        "rougeLsum": 0.5082,
+        "embedding_sim": 0.9495,
+        "bertscore_f1": 0.5213
+      },
+      {
+        "id": "UAP-SUM-0033",
+        "rougeLsum": 0.5593,
+        "embedding_sim": 0.9142,
+        "bertscore_f1": 0.5048
+      },
+      {
+        "id": "UAP-SUM-0035",
+        "rougeLsum": 0.5093,
+        "embedding_sim": 0.8992,
+        "bertscore_f1": 0.4626
+      },
+      {
+        "id": "UAP-SUM-0042",
+        "rougeLsum": 0.4219,
+        "embedding_sim": 0.8872,
+        "bertscore_f1": 0.3034
+      },
+      {
+        "id": "UAP-SUM-0064",
+        "rougeLsum": 0.5103,
+        "embedding_sim": 0.8877,
+        "bertscore_f1": 0.5488
+      },
+      {
+        "id": "UAP-SUM-0073",
+        "rougeLsum": 0.5442,
+        "embedding_sim": 0.9126,
+        "bertscore_f1": 0.4339
+      },
+      {
+        "id": "UAP-SUM-0075",
+        "rougeLsum": 0.4966,
+        "embedding_sim": 0.9173,
+        "bertscore_f1": 0.4073
+      },
+      {
+        "id": "UAP-SUM-0084",
+        "rougeLsum": 0.5517,
+        "embedding_sim": 0.9045,
+        "bertscore_f1": 0.4813
+      },
+      {
+        "id": "UAP-SUM-0087",
+        "rougeLsum": 0.434,
+        "embedding_sim": 0.9385,
+        "bertscore_f1": 0.5133
+      },
+      {
+        "id": "UAP-SUM-0100",
+        "rougeLsum": 0.5735,
+        "embedding_sim": 0.9586,
+        "bertscore_f1": 0.5344
+      },
+      {
+        "id": "UAP-SUM-0105",
+        "rougeLsum": 0.5161,
+        "embedding_sim": 0.9259,
+        "bertscore_f1": 0.4804
+      },
+      {
+        "id": "UAP-SUM-0107",
+        "rougeLsum": 0.4697,
+        "embedding_sim": 0.8895,
+        "bertscore_f1": 0.3775
+      },
+      {
+        "id": "UAP-SUM-0113",
+        "rougeLsum": 0.4638,
+        "embedding_sim": 0.9219,
+        "bertscore_f1": 0.484
+      },
+      {
+        "id": "UAP-SUM-0116",
+        "rougeLsum": 0.4202,
+        "embedding_sim": 0.8984,
+        "bertscore_f1": 0.4151
+      },
+      {
+        "id": "UAP-SUM-0119",
+        "rougeLsum": 0.4789,
+        "embedding_sim": 0.9472,
+        "bertscore_f1": 0.5287
+      },
+      {
+        "id": "UAP-SUM-0126",
+        "rougeLsum": 0.3608,
+        "embedding_sim": 0.8783,
+        "bertscore_f1": 0.3038
+      },
+      {
+        "id": "UAP-SUM-0134",
+        "rougeLsum": 0.486,
+        "embedding_sim": 0.9293,
+        "bertscore_f1": 0.4158
+      },
+      {
+        "id": "UAP-SUM-0139",
+        "rougeLsum": 0.4809,
+        "embedding_sim": 0.9594,
+        "bertscore_f1": 0.4374
+      },
+      {
+        "id": "UAP-SUM-0154",
+        "rougeLsum": 0.5032,
+        "embedding_sim": 0.9128,
+        "bertscore_f1": 0.4051
+      },
+      {
+        "id": "UAP-SUM-0156",
+        "rougeLsum": 0.3724,
+        "embedding_sim": 0.8929,
+        "bertscore_f1": 0.3936
+      },
+      {
+        "id": "UAP-SUM-0160",
+        "rougeLsum": 0.3358,
+        "embedding_sim": 0.8682,
+        "bertscore_f1": 0.3816
+      },
+      {
+        "id": "UAP-SUM-0176",
+        "rougeLsum": 0.4675,
+        "embedding_sim": 0.936,
+        "bertscore_f1": 0.4317
+      },
+      {
+        "id": "UAP-SUM-0177",
+        "rougeLsum": 0.4933,
+        "embedding_sim": 0.8903,
+        "bertscore_f1": 0.3704
+      },
+      {
+        "id": "UAP-SUM-0178",
+        "rougeLsum": 0.4167,
+        "embedding_sim": 0.9239,
+        "bertscore_f1": 0.4177
+      },
+      {
+        "id": "UAP-SUM-0187",
+        "rougeLsum": 0.4762,
+        "embedding_sim": 0.9218,
+        "bertscore_f1": 0.5368
+      }
+    ]
+  },
+  "latency_by_task": {
+    "bloom_rewrite": {
+      "n": 341,
+      "mean_s": 5.529,
+      "p50_s": 5.442,
+      "p95_s": 8.759
+    },
+    "qa": {
+      "n": 146,
+      "mean_s": 3.579,
+      "p50_s": 3.481,
+      "p95_s": 5.427
+    },
+    "summarization": {
+      "n": 146,
+      "mean_s": 26.132,
+      "p50_s": 22.688,
+      "p95_s": 51.594
+    }
+  },
+  "human_eval_sheets": {
+    "qa": {
+      "path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m\\human_eval_qa.csv",
+      "items": 62,
+      "stratified_by": "qa_type"
+    },
+    "summarization": {
+      "path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m\\human_eval_summarization.csv",
+      "items": 41,
+      "stratified_by": "source_type"
+    }
+  }
+}

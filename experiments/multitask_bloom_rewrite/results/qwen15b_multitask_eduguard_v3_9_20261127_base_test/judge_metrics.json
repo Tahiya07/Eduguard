@@ -1,0 +1,185 @@
+{
+  "generated_utc": "2026-11-27T20:26:22.382123+00:00",
+  "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+  "precision": "4bit",
+  "condition": "base",
+  "split": "test",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_base_test",
+  "calibration_file": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127\\judge_calibration_test.json",
+  "results": {
+    "qa": {
+      "accuracy": {
+        "mean": 0.9728,
+        "ci95": [
+          0.9456,
+          0.9932
+        ],
+        "n": 147
+      },
+      "lenient_accuracy": {
+        "mean": 0.9796,
+        "ci95": [
+          0.9524,
+          1.0
+        ],
+        "n": 147
+      },
+      "verdicts": {
+        "correct": 143,
+        "incorrect": 3,
+        "partially_correct": 1
+      },
+      "unparsed": 0,
+      "accuracy_by_qa_type": {
+        "analytical": {
+          "n": 25,
+          "accuracy": 1.0
+        },
+        "application": {
+          "n": 33,
+          "accuracy": 1.0
+        },
+        "calculation": {
+          "n": 14,
+          "accuracy": 0.9286
+        },
+        "comparative": {
+          "n": 26,
+          "accuracy": 1.0
+        },
+        "conceptual": {
+          "n": 31,
+          "accuracy": 0.9677
+        },
+        "design": {
+          "n": 3,
+          "accuracy": 0.6667
+        },
+        "diagnosis": {
+          "n": 1,
+          "accuracy": 1.0
+        },
+        "explanation": {
+          "n": 3,
+          "accuracy": 1.0
+        },
+        "process": {
+          "n": 4,
+          "accuracy": 1.0
+        },
+        "reasoning": {
+          "n": 4,
+          "accuracy": 1.0
+        },
+        "sequence": {
+          "n": 3,
+          "accuracy": 0.6667
+        }
+      }
+    },
+    "summarization": {
+      "faithful_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 147
+      },
+      "acceptable_rate": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 147
+      },
+      "mean_coverage_1_5": 4.204,
+      "unparsed": 0
+    },
+    "bloom_rewrite": {
+      "level_accuracy": {
+        "mean": 0.6125,
+        "ci95": [
+          0.5613,
+          0.661
+        ],
+        "n": 351
+      },
+      "topic_kept_rate": {
+        "mean": 0.9915,
+        "ci95": [
+          0.9801,
+          1.0
+        ],
+        "n": 351
+      },
+      "judge_and_classifier_agree_on_target": {
+        "mean": 0.5242,
+        "ci95": [
+          0.4729,
+          0.5755
+        ],
+        "n": 351
+      },
+      "per_level": {
+        "Remember": {
+          "n": 64,
+          "accuracy": 0.1406
+        },
+        "Understand": {
+          "n": 61,
+          "accuracy": 0.8852
+        },
+        "Apply": {
+          "n": 49,
+          "accuracy": 0.6122
+        },
+        "Analyze": {
+          "n": 53,
+          "accuracy": 0.2642
+        },
+        "Evaluate": {
+          "n": 62,
+          "accuracy": 0.9516
+        },
+        "Create": {
+          "n": 62,
+          "accuracy": 0.7903
+        }
+      },
+      "unparsed": 0
+    }
+  },
+  "calibration": {
+    "judge_model": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit",
+    "split": "test",
+    "qa": {
+      "n": 147,
+      "reference_judged_correct": 1,
+      "other_rows_reference_judged_incorrect": 0.9728
+    },
+    "summarization": {
+      "n": 40,
+      "reference_judged_faithful": 1,
+      "other_rows_summary_judged_unfaithful": 0.25
+    },
+    "bloom_rewrite": {
+      "n": 351,
+      "reference_level_accuracy": 0.755,
+      "reference_per_level": {
+        "Remember": 0.6406,
+        "Understand": 0.9016,
+        "Apply": 0.9796,
+        "Analyze": 0.7736,
+        "Evaluate": 0.7581,
+        "Create": 0.5323
+      }
+    }
+  },
+  "reliable": {
+    "qa": true,
+    "summarization": false
+  }
+}

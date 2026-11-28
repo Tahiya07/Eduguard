@@ -90,7 +90,9 @@ def meteor_lite(pred: str, ref: str, alpha: float = 0.9) -> float:
 
 GOVERNOR_PRESETS: Dict[str, Dict[str, Any]] = {
     "off": {"max_chunk_chars": 20_000, "max_total_chars": 100_000, "diversify": False},
-    "qa": {"max_chunk_chars": 700, "max_total_chars": 2800, "diversify": False},
+    # QA over uploaded notes: chunks are ~120 words (~800 chars), so a 1,000-char cap keeps whole chunks.
+    # The former 700-char cap silently cut lists and definitions out of larger chunks.
+    "qa": {"max_chunk_chars": 1000, "max_total_chars": 4000, "diversify": False},
     "mild": {"max_chunk_chars": 900, "max_total_chars": 3600, "diversify": False},
     "summary": {"max_chunk_chars": 1200, "max_total_chars": 5000, "diversify": True},
     "strong": {"max_chunk_chars": 420, "max_total_chars": 1680, "diversify": True},

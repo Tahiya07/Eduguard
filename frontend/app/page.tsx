@@ -18,7 +18,7 @@ export default function Home() {
     <main className="page-wrap fade-in">
       <section className="relative mx-auto max-w-4xl pt-0 pb-10 text-center sm:pt-0 sm:pb-20">
         <p className="eyebrow">Local academic intelligence</p>
-        <h1 className="display mx-auto mt-5 max-w-4xl text-5xl font-extrabold leading-[.96] sm:text-7xl">
+        <h1 className="display mx-auto mt-5 max-w-4xl text-4xl font-extrabold leading-[.96] sm:text-5xl lg:text-6xl 2xl:text-7xl">
           Private academic intelligence,
           <br />
           <span className="text-[#416ce4]">built for your university.</span>

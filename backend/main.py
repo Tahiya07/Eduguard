@@ -10,7 +10,7 @@ from .auth import create_token, current_session, require_teacher
 from .config import settings
 from .schemas import BloomRequest, ChatRequest, IndexTextRequest, LoginRequest, ModerationReviewRequest, TargetRewriteRequest, TextRequest
 from .service import service
-from operation_control import OperationCancelled, cancel_operation, check_cancelled, operation_context
+from operation_control import OperationCancelled, cancel_operation, check_cancelled, get_progress, operation_context
 
 
 @asynccontextmanager
@@ -60,6 +60,11 @@ def run_operation(operation_id: str, fn):
 def cancel_running_operation(operation_id: str, session: dict = Depends(current_session)):
     return {"cancelled": cancel_operation(operation_id), "operation_id": operation_id}
 
+@app.get("/operations/progress")
+def operation_progress(operation_id: str, session: dict = Depends(current_session)):
+    # What a running request is doing right now; the waiting dialog polls this every second.
+    return get_progress(operation_id) or {"message": None, "step": None, "total": None}
+
 @app.get("/health")
 def health():
     # Public and non-sensitive: lets the UI show whether the local models are still warming up.
@@ -93,9 +98,9 @@ async def upload(file: UploadFile = File(...), scope: str = Form("public"), cont
 # Bloom inference is a teacher-side capability. Keep the legacy route but
 # protect it identically to the explicit teacher endpoint.
 @app.post("/bloom/classify")
-def classify(body: BloomRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.classify(body.question))
+def classify(body: BloomRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.classify_teacher_question(body.question))
 @app.post("/teacher/exam/classify")
-def classify_exam(body: BloomRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.classify(body.question))
+def classify_exam(body: BloomRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.classify_teacher_question(body.question))
 @app.post("/teacher/exam/moderate")
 def moderate_exam(body: BloomRequest, session: dict = Depends(require_teacher), operation_id: str = Header(default="", alias="X-Operation-ID")): return run_operation(operation_id, lambda: service.moderate_exam_question(session["sid"], body.question))
 @app.post("/teacher/exam/linguistic-moderate")

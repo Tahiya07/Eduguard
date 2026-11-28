@@ -20,6 +20,9 @@
 }
 
 html  {
+  /* Scales rem-based type and spacing with the screen: ~13.7px at 1280px wide (typical
+     laptop at 125-150% Windows scaling), 16px at 1920px+. Without this the UI looked zoomed in. */
+  font-size:clamp(13.5px,calc(9.5px + .33vw),16px);
   min-height:100%;
   background:#edf6fb;
 }
@@ -812,7 +815,7 @@ to {
 .student-access-intro h1  {
   margin:1.1rem 0;
   color:#203a5c;
-  font-size:clamp(3rem,6vw,5.5rem);
+  font-size:clamp(2.6rem,4.4vw,4.6rem);
   font-weight:850;
   line-height:.9;
 }
@@ -1039,7 +1042,7 @@ to {
 .teacher-hero-copy h1  {
   margin:1rem 0;
   color:#203a5c;
-  font-size:clamp(2.35rem,4.4vw,4.8rem);
+  font-size:clamp(2.2rem,3.6vw,4rem);
   font-weight:850;
   line-height:.94;
 }
@@ -1307,7 +1310,7 @@ section.teacher-console.glass-card  {
 
 .teacher-level strong  {
   color:#355cda;
-  font:800 clamp(2rem,4vw,3.3rem) Manrope,sans-serif;
+  font:800 clamp(1.8rem,3.2vw,2.9rem) Manrope,sans-serif;
   letter-spacing:-.07em;
 }
 
@@ -2072,7 +2075,7 @@ section.teacher-console.glass-card  {
 .video-hero-copy h1  {
   margin:1rem 0 .9rem;
   color:#203a5c;
-  font-size:clamp(2.2rem,4.2vw,4.4rem);
+  font-size:clamp(2rem,3.4vw,3.8rem);
   font-weight:850;
   line-height:.96;
 }
@@ -2723,4 +2726,131 @@ section.teacher-console.glass-card  {
 
 @media (prefers-reduced-motion: reduce)  {
   .error-modal-backdrop,.error-modal  { animation:none; }
+}
+
+/* Live step of a long operation in the waiting dialog ("Summarizing part 3 of 9: …"). */
+.loading-progress {
+  display:grid;
+  gap:.45rem;
+  justify-items:center;
+  max-width:28rem;
+  margin:0 auto;
+}
+
+.loading-progress small {
+  color:#3d5f86;
+  line-height:1.5;
+  text-align:center;
+}
+
+.loading-progress-bar {
+  display:block;
+  width:min(16rem, 80%);
+  height:.35rem;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(53,92,218,.14);
+}
+
+.loading-progress-bar i {
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#355cda,#5b8def);
+  transition:width .4s ease;
+}
+
+/* Access-code field with a show/hide (eye) button. */
+.password-field {
+  position:relative;
+  display:block;
+  margin-top:.35rem;
+}
+
+.password-field input {
+  padding-right:2.9rem;
+}
+
+.password-toggle {
+  position:absolute;
+  top:50%;
+  right:.45rem;
+  display:grid;
+  place-items:center;
+  width:2.1rem;
+  height:2.1rem;
+  transform:translateY(-50%);
+  border:0;
+  border-radius:10px;
+  color:#5c7895;
+  background:transparent;
+  cursor:pointer;
+}
+
+.password-toggle:hover {
+  color:#294f7b;
+  background:rgba(74,116,207,.1);
+}
+
+.password-toggle:focus-visible {
+  outline:2px solid #6f91d9;
+  outline-offset:1px;
+}
+
+.password-toggle svg {
+  width:1.15rem;
+  height:1.15rem;
+}
+
+/* Document upload: a real button inside the dashed drop area. */
+.file-picker {
+  display:grid;
+  justify-items:center;
+  gap:.55rem;
+  padding:1.1rem;
+  border:1.5px dashed rgba(122,158,196,.75);
+  border-radius:1rem;
+  background:rgba(255,255,255,.36);
+  text-align:center;
+}
+
+.file-picker-button {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.62rem 1.1rem;
+  border:1px solid rgba(172,197,218,.95);
+  border-radius:999px;
+  color:#294f7b;
+  background:rgba(255,255,255,.78);
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(41,79,123,.1);
+  transition:background .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+
+.file-picker-button:hover {
+  background:#fff;
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(41,79,123,.16);
+}
+
+.file-picker-button:focus-visible {
+  outline:2px solid #6f91d9;
+  outline-offset:2px;
+}
+
+.file-picker-button svg {
+  width:1.1rem;
+  height:1.1rem;
+}
+
+.file-picker-name {
+  max-width:100%;
+  overflow:hidden;
+  color:#294f7b;
+  font-size:.85rem;
+  font-weight:700;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }

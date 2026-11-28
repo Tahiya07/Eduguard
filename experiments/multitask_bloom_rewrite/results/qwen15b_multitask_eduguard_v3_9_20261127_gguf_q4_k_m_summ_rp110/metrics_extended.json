@@ -1,0 +1,916 @@
+{
+  "generated_utc": "2026-11-28T06:39:04.279619+00:00",
+  "split": "validation",
+  "results_dir": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_summ_rp110",
+  "embedding_model": "BAAI/bge-m3",
+  "bertscore": {
+    "model": "roberta-large",
+    "rescale_with_baseline": true,
+    "lang": "en"
+  },
+  "calibration": "5th percentile over train-split references",
+  "summarization": {
+    "n": 146,
+    "embedding_similarity_to_reference": 0.8391,
+    "bertscore_f1": 0.2531,
+    "rougeLsum": {
+      "mean": 0.3705,
+      "note": "summary-level ROUGE-L over newline-separated sentences"
+    },
+    "median_output_words": 105.0,
+    "median_reference_words": 89.0,
+    "per_row": [
+      {
+        "id": "OSX-SUM-0744",
+        "rougeLsum": 0.3182,
+        "embedding_sim": 0.7406,
+        "bertscore_f1": 0.1252
+      },
+      {
+        "id": "OSX-SUM-0745",
+        "rougeLsum": 0.2584,
+        "embedding_sim": 0.7279,
+        "bertscore_f1": 0.0433
+      },
+      {
+        "id": "OSX-SUM-0746",
+        "rougeLsum": 0.3546,
+        "embedding_sim": 0.8089,
+        "bertscore_f1": 0.1305
+      },
+      {
+        "id": "OSX-SUM-0747",
+        "rougeLsum": 0.4382,
+        "embedding_sim": 0.899,
+        "bertscore_f1": 0.302
+      },
+      {
+        "id": "OSX-SUM-0748",
+        "rougeLsum": 0.2968,
+        "embedding_sim": 0.7615,
+        "bertscore_f1": 0.0759
+      },
+      {
+        "id": "OSX-SUM-0749",
+        "rougeLsum": 0.413,
+        "embedding_sim": 0.7894,
+        "bertscore_f1": 0.2697
+      },
+      {
+        "id": "OSX-SUM-0750",
+        "rougeLsum": 0.5146,
+        "embedding_sim": 0.8888,
+        "bertscore_f1": 0.2802
+      },
+      {
+        "id": "OSX-SUM-0751",
+        "rougeLsum": 0.3864,
+        "embedding_sim": 0.7555,
+        "bertscore_f1": 0.2927
+      },
+      {
+        "id": "OSX-SUM-0752",
+        "rougeLsum": 0.2841,
+        "embedding_sim": 0.779,
+        "bertscore_f1": 0.0406
+      },
+      {
+        "id": "OSX-SUM-0753",
+        "rougeLsum": 0.3148,
+        "embedding_sim": 0.9032,
+        "bertscore_f1": 0.3562
+      },
+      {
+        "id": "OSX-SUM-0754",
+        "rougeLsum": 0.403,
+        "embedding_sim": 0.8286,
+        "bertscore_f1": 0.1912
+      },
+      {
+        "id": "OSX-SUM-0755",
+        "rougeLsum": 0.4422,
+        "embedding_sim": 0.9072,
+        "bertscore_f1": 0.2695
+      },
+      {
+        "id": "OSX-SUM-0756",
+        "rougeLsum": 0.3613,
+        "embedding_sim": 0.8478,
+        "bertscore_f1": 0.1883
+      },
+      {
+        "id": "OSX-SUM-0757",
+        "rougeLsum": 0.2642,
+        "embedding_sim": 0.8105,
+        "bertscore_f1": 0.1091
+      },
+      {
+        "id": "OSX-SUM-0758",
+        "rougeLsum": 0.2208,
+        "embedding_sim": 0.8661,
+        "bertscore_f1": 0.1445
+      },
+      {
+        "id": "OSX-SUM-0759",
+        "rougeLsum": 0.37,
+        "embedding_sim": 0.865,
+        "bertscore_f1": 0.2272
+      },
+      {
+        "id": "OSX-SUM-0760",
+        "rougeLsum": 0.3276,
+        "embedding_sim": 0.7985,
+        "bertscore_f1": 0.3237
+      },
+      {
+        "id": "OSX-SUM-0761",
+        "rougeLsum": 0.5858,
+        "embedding_sim": 0.8657,
+        "bertscore_f1": 0.3238
+      },
+      {
+        "id": "OSX-SUM-0762",
+        "rougeLsum": 0.3782,
+        "embedding_sim": 0.8905,
+        "bertscore_f1": 0.2158
+      },
+      {
+        "id": "OSX-SUM-0763",
+        "rougeLsum": 0.4768,
+        "embedding_sim": 0.9098,
+        "bertscore_f1": 0.2704
+      },
+      {
+        "id": "OSX-SUM-0764",
+        "rougeLsum": 0.3719,
+        "embedding_sim": 0.8678,
+        "bertscore_f1": 0.2263
+      },
+      {
+        "id": "OSX-SUM-0765",
+        "rougeLsum": 0.3894,
+        "embedding_sim": 0.9249,
+        "bertscore_f1": 0.2438
+      },
+      {
+        "id": "OSX-SUM-0766",
+        "rougeLsum": 0.2266,
+        "embedding_sim": 0.8197,
+        "bertscore_f1": 0.2262
+      },
+      {
+        "id": "OSX-SUM-0767",
+        "rougeLsum": 0.2394,
+        "embedding_sim": 0.7268,
+        "bertscore_f1": 0.2873
+      },
+      {
+        "id": "OSX-SUM-0768",
+        "rougeLsum": 0.3481,
+        "embedding_sim": 0.8431,
+        "bertscore_f1": 0.0841
+      },
+      {
+        "id": "OSX-SUM-0769",
+        "rougeLsum": 0.2545,
+        "embedding_sim": 0.7148,
+        "bertscore_f1": 0.257
+      },
+      {
+        "id": "OSX-SUM-0770",
+        "rougeLsum": 0.439,
+        "embedding_sim": 0.7624,
+        "bertscore_f1": 0.1269
+      },
+      {
+        "id": "OSX-SUM-0771",
+        "rougeLsum": 0.4161,
+        "embedding_sim": 0.9068,
+        "bertscore_f1": 0.2672
+      },
+      {
+        "id": "OSX-SUM-0772",
+        "rougeLsum": 0.3973,
+        "embedding_sim": 0.8353,
+        "bertscore_f1": 0.2655
+      },
+      {
+        "id": "OSX-SUM-0773",
+        "rougeLsum": 0.5316,
+        "embedding_sim": 0.9377,
+        "bertscore_f1": 0.3422
+      },
+      {
+        "id": "OSX-SUM-0774",
+        "rougeLsum": 0.4,
+        "embedding_sim": 0.8319,
+        "bertscore_f1": 0.2861
+      },
+      {
+        "id": "OSX-SUM-0775",
+        "rougeLsum": 0.28,
+        "embedding_sim": 0.8612,
+        "bertscore_f1": 0.2389
+      },
+      {
+        "id": "OSX-SUM-0776",
+        "rougeLsum": 0.3314,
+        "embedding_sim": 0.8542,
+        "bertscore_f1": 0.2601
+      },
+      {
+        "id": "OSX-SUM-0777",
+        "rougeLsum": 0.6543,
+        "embedding_sim": 0.9373,
+        "bertscore_f1": 0.5604
+      },
+      {
+        "id": "OSX-SUM-0778",
+        "rougeLsum": 0.356,
+        "embedding_sim": 0.8494,
+        "bertscore_f1": 0.147
+      },
+      {
+        "id": "OSX-SUM-0779",
+        "rougeLsum": 0.4041,
+        "embedding_sim": 0.7916,
+        "bertscore_f1": 0.2421
+      },
+      {
+        "id": "OSX-SUM-0780",
+        "rougeLsum": 0.4958,
+        "embedding_sim": 0.854,
+        "bertscore_f1": 0.2701
+      },
+      {
+        "id": "OSX-SUM-0781",
+        "rougeLsum": 0.3869,
+        "embedding_sim": 0.8232,
+        "bertscore_f1": 0.1791
+      },
+      {
+        "id": "OSX-SUM-0782",
+        "rougeLsum": 0.3155,
+        "embedding_sim": 0.9062,
+        "bertscore_f1": 0.2243
+      },
+      {
+        "id": "OSX-SUM-0783",
+        "rougeLsum": 0.1845,
+        "embedding_sim": 0.6234,
+        "bertscore_f1": -0.0613
+      },
+      {
+        "id": "OSX-SUM-0784",
+        "rougeLsum": 0.2481,
+        "embedding_sim": 0.7113,
+        "bertscore_f1": 0.0093
+      },
+      {
+        "id": "OSX-SUM-0785",
+        "rougeLsum": 0.3498,
+        "embedding_sim": 0.7944,
+        "bertscore_f1": 0.0889
+      },
+      {
+        "id": "OSX-SUM-0786",
+        "rougeLsum": 0.3209,
+        "embedding_sim": 0.8209,
+        "bertscore_f1": 0.069
+      },
+      {
+        "id": "OSX-SUM-0787",
+        "rougeLsum": 0.4155,
+        "embedding_sim": 0.8494,
+        "bertscore_f1": 0.205
+      },
+      {
+        "id": "OSX-SUM-0788",
+        "rougeLsum": 0.4028,
+        "embedding_sim": 0.8848,
+        "bertscore_f1": 0.3796
+      },
+      {
+        "id": "OSX-SUM-0789",
+        "rougeLsum": 0.5,
+        "embedding_sim": 0.9493,
+        "bertscore_f1": 0.5442
+      },
+      {
+        "id": "OSX-SUM-0790",
+        "rougeLsum": 0.3464,
+        "embedding_sim": 0.8206,
+        "bertscore_f1": 0.3137
+      },
+      {
+        "id": "OSX-SUM-0791",
+        "rougeLsum": 0.3575,
+        "embedding_sim": 0.8668,
+        "bertscore_f1": 0.3489
+      },
+      {
+        "id": "OSX-SUM-0792",
+        "rougeLsum": 0.701,
+        "embedding_sim": 0.9574,
+        "bertscore_f1": 0.5395
+      },
+      {
+        "id": "OSX-SUM-0793",
+        "rougeLsum": 0.3797,
+        "embedding_sim": 0.8713,
+        "bertscore_f1": 0.2732
+      },
+      {
+        "id": "OSX-SUM-0794",
+        "rougeLsum": 0.2222,
+        "embedding_sim": 0.748,
+        "bertscore_f1": 0.1579
+      },
+      {
+        "id": "OSX-SUM-0795",
+        "rougeLsum": 0.4881,
+        "embedding_sim": 0.8716,
+        "bertscore_f1": 0.3214
+      },
+      {
+        "id": "OSX-SUM-0796",
+        "rougeLsum": 0.3404,
+        "embedding_sim": 0.8761,
+        "bertscore_f1": 0.2062
+      },
+      {
+        "id": "OSX-SUM-0797",
+        "rougeLsum": 0.5424,
+        "embedding_sim": 0.9266,
+        "bertscore_f1": 0.4497
+      },
+      {
+        "id": "OSX-SUM-0798",
+        "rougeLsum": 0.479,
+        "embedding_sim": 0.925,
+        "bertscore_f1": 0.2277
+      },
+      {
+        "id": "OSX-SUM-0799",
+        "rougeLsum": 0.4077,
+        "embedding_sim": 0.8723,
+        "bertscore_f1": 0.2498
+      },
+      {
+        "id": "OSX-SUM-0800",
+        "rougeLsum": 0.2721,
+        "embedding_sim": 0.8089,
+        "bertscore_f1": 0.2796
+      },
+      {
+        "id": "OSX-SUM-0801",
+        "rougeLsum": 0.3406,
+        "embedding_sim": 0.8008,
+        "bertscore_f1": 0.2108
+      },
+      {
+        "id": "OSX-SUM-0802",
+        "rougeLsum": 0.3689,
+        "embedding_sim": 0.7979,
+        "bertscore_f1": 0.2734
+      },
+      {
+        "id": "OSX-SUM-0803",
+        "rougeLsum": 0.3346,
+        "embedding_sim": 0.818,
+        "bertscore_f1": 0.175
+      },
+      {
+        "id": "OSX-SUM-0804",
+        "rougeLsum": 0.3473,
+        "embedding_sim": 0.8901,
+        "bertscore_f1": 0.2468
+      },
+      {
+        "id": "OSX-SUM-0805",
+        "rougeLsum": 0.3068,
+        "embedding_sim": 0.7899,
+        "bertscore_f1": 0.2186
+      },
+      {
+        "id": "OSX-SUM-0806",
+        "rougeLsum": 0.2933,
+        "embedding_sim": 0.8577,
+        "bertscore_f1": 0.2074
+      },
+      {
+        "id": "OSX-SUM-0807",
+        "rougeLsum": 0.163,
+        "embedding_sim": 0.8082,
+        "bertscore_f1": 0.1838
+      },
+      {
+        "id": "OSX-SUM-0808",
+        "rougeLsum": 0.2741,
+        "embedding_sim": 0.7755,
+        "bertscore_f1": 0.167
+      },
+      {
+        "id": "OSX-SUM-0809",
+        "rougeLsum": 0.2751,
+        "embedding_sim": 0.8222,
+        "bertscore_f1": 0.1479
+      },
+      {
+        "id": "OSX-SUM-0810",
+        "rougeLsum": 0.2308,
+        "embedding_sim": 0.7444,
+        "bertscore_f1": 0.0605
+      },
+      {
+        "id": "OSX-SUM-0811",
+        "rougeLsum": 0.3226,
+        "embedding_sim": 0.8021,
+        "bertscore_f1": 0.1737
+      },
+      {
+        "id": "OSX-SUM-0812",
+        "rougeLsum": 0.4103,
+        "embedding_sim": 0.8465,
+        "bertscore_f1": 0.2636
+      },
+      {
+        "id": "OSX-SUM-0813",
+        "rougeLsum": 0.4291,
+        "embedding_sim": 0.8933,
+        "bertscore_f1": 0.1256
+      },
+      {
+        "id": "OSX-SUM-0814",
+        "rougeLsum": 0.2328,
+        "embedding_sim": 0.6252,
+        "bertscore_f1": -0.1173
+      },
+      {
+        "id": "OSX-SUM-0815",
+        "rougeLsum": 0.4625,
+        "embedding_sim": 0.8705,
+        "bertscore_f1": 0.3579
+      },
+      {
+        "id": "OSX-SUM-0816",
+        "rougeLsum": 0.392,
+        "embedding_sim": 0.869,
+        "bertscore_f1": 0.288
+      },
+      {
+        "id": "OSX-SUM-0817",
+        "rougeLsum": 0.3982,
+        "embedding_sim": 0.8077,
+        "bertscore_f1": 0.2129
+      },
+      {
+        "id": "OSX-SUM-0818",
+        "rougeLsum": 0.3179,
+        "embedding_sim": 0.8334,
+        "bertscore_f1": 0.2798
+      },
+      {
+        "id": "OSX-SUM-0819",
+        "rougeLsum": 0.3041,
+        "embedding_sim": 0.8622,
+        "bertscore_f1": 0.2407
+      },
+      {
+        "id": "OSX-SUM-0820",
+        "rougeLsum": 0.2596,
+        "embedding_sim": 0.7738,
+        "bertscore_f1": 0.1534
+      },
+      {
+        "id": "OSX-SUM-0821",
+        "rougeLsum": 0.4545,
+        "embedding_sim": 0.8753,
+        "bertscore_f1": 0.3596
+      },
+      {
+        "id": "OSX-SUM-0822",
+        "rougeLsum": 0.3016,
+        "embedding_sim": 0.7814,
+        "bertscore_f1": 0.236
+      },
+      {
+        "id": "OSX-SUM-0823",
+        "rougeLsum": 0.4,
+        "embedding_sim": 0.8428,
+        "bertscore_f1": 0.2486
+      },
+      {
+        "id": "OSX-SUM-0824",
+        "rougeLsum": 0.4901,
+        "embedding_sim": 0.9157,
+        "bertscore_f1": 0.2858
+      },
+      {
+        "id": "OSX-SUM-0825",
+        "rougeLsum": 0.2762,
+        "embedding_sim": 0.7633,
+        "bertscore_f1": 0.2056
+      },
+      {
+        "id": "OSX-SUM-0826",
+        "rougeLsum": 0.5074,
+        "embedding_sim": 0.7803,
+        "bertscore_f1": 0.2715
+      },
+      {
+        "id": "OSX-SUM-0827",
+        "rougeLsum": 0.359,
+        "embedding_sim": 0.7884,
+        "bertscore_f1": 0.1512
+      },
+      {
+        "id": "OSX-SUM-0828",
+        "rougeLsum": 0.2759,
+        "embedding_sim": 0.8304,
+        "bertscore_f1": 0.2971
+      },
+      {
+        "id": "OSX-SUM-0829",
+        "rougeLsum": 0.456,
+        "embedding_sim": 0.8715,
+        "bertscore_f1": 0.2127
+      },
+      {
+        "id": "OSX-SUM-0830",
+        "rougeLsum": 0.2393,
+        "embedding_sim": 0.8354,
+        "bertscore_f1": 0.2064
+      },
+      {
+        "id": "OSX-SUM-0831",
+        "rougeLsum": 0.3922,
+        "embedding_sim": 0.8718,
+        "bertscore_f1": 0.3356
+      },
+      {
+        "id": "OSX-SUM-0832",
+        "rougeLsum": 0.2156,
+        "embedding_sim": 0.8268,
+        "bertscore_f1": 0.1714
+      },
+      {
+        "id": "OSX-SUM-0833",
+        "rougeLsum": 0.2739,
+        "embedding_sim": 0.8387,
+        "bertscore_f1": 0.2435
+      },
+      {
+        "id": "OSX-SUM-0834",
+        "rougeLsum": 0.3016,
+        "embedding_sim": 0.8782,
+        "bertscore_f1": 0.169
+      },
+      {
+        "id": "OSX-SUM-0835",
+        "rougeLsum": 0.2381,
+        "embedding_sim": 0.752,
+        "bertscore_f1": 0.2127
+      },
+      {
+        "id": "OSX-SUM-0836",
+        "rougeLsum": 0.2615,
+        "embedding_sim": 0.6291,
+        "bertscore_f1": 0.1276
+      },
+      {
+        "id": "OSX-SUM-0837",
+        "rougeLsum": 0.2044,
+        "embedding_sim": 0.7432,
+        "bertscore_f1": 0.1403
+      },
+      {
+        "id": "OSX-SUM-0838",
+        "rougeLsum": 0.228,
+        "embedding_sim": 0.7115,
+        "bertscore_f1": 0.0743
+      },
+      {
+        "id": "OSX-SUM-0839",
+        "rougeLsum": 0.2871,
+        "embedding_sim": 0.8129,
+        "bertscore_f1": 0.1215
+      },
+      {
+        "id": "OSX-SUM-0840",
+        "rougeLsum": 0.2556,
+        "embedding_sim": 0.7454,
+        "bertscore_f1": 0.062
+      },
+      {
+        "id": "OSX-SUM-0841",
+        "rougeLsum": 0.2466,
+        "embedding_sim": 0.7397,
+        "bertscore_f1": 0.1162
+      },
+      {
+        "id": "OSX-SUM-0842",
+        "rougeLsum": 0.3111,
+        "embedding_sim": 0.8984,
+        "bertscore_f1": 0.2992
+      },
+      {
+        "id": "OSX-SUM-0843",
+        "rougeLsum": 0.1412,
+        "embedding_sim": 0.7142,
+        "bertscore_f1": 0.1336
+      },
+      {
+        "id": "OSX-SUM-0844",
+        "rougeLsum": 0.2754,
+        "embedding_sim": 0.7825,
+        "bertscore_f1": 0.2695
+      },
+      {
+        "id": "OSX-SUM-0845",
+        "rougeLsum": 0.1965,
+        "embedding_sim": 0.7134,
+        "bertscore_f1": 0.0952
+      },
+      {
+        "id": "OSX-SUM-0846",
+        "rougeLsum": 0.5901,
+        "embedding_sim": 0.9498,
+        "bertscore_f1": 0.4171
+      },
+      {
+        "id": "OSX-SUM-0847",
+        "rougeLsum": 0.3684,
+        "embedding_sim": 0.878,
+        "bertscore_f1": 0.2145
+      },
+      {
+        "id": "OSX-SUM-0848",
+        "rougeLsum": 0.3904,
+        "embedding_sim": 0.7298,
+        "bertscore_f1": 0.2407
+      },
+      {
+        "id": "OSX-SUM-0849",
+        "rougeLsum": 0.4214,
+        "embedding_sim": 0.8391,
+        "bertscore_f1": 0.2401
+      },
+      {
+        "id": "OSX-SUM-0850",
+        "rougeLsum": 0.2717,
+        "embedding_sim": 0.6676,
+        "bertscore_f1": 0.0308
+      },
+      {
+        "id": "OSX-SUM-0851",
+        "rougeLsum": 0.3266,
+        "embedding_sim": 0.6601,
+        "bertscore_f1": 0.0921
+      },
+      {
+        "id": "OSX-SUM-0852",
+        "rougeLsum": 0.2778,
+        "embedding_sim": 0.862,
+        "bertscore_f1": 0.2628
+      },
+      {
+        "id": "OSX-SUM-0853",
+        "rougeLsum": 0.232,
+        "embedding_sim": 0.8476,
+        "bertscore_f1": 0.1538
+      },
+      {
+        "id": "OSX-SUM-0854",
+        "rougeLsum": 0.2635,
+        "embedding_sim": 0.8219,
+        "bertscore_f1": 0.1472
+      },
+      {
+        "id": "OSX-SUM-0855",
+        "rougeLsum": 0.2954,
+        "embedding_sim": 0.7661,
+        "bertscore_f1": 0.1688
+      },
+      {
+        "id": "OSX-SUM-0856",
+        "rougeLsum": 0.3769,
+        "embedding_sim": 0.8315,
+        "bertscore_f1": 0.2538
+      },
+      {
+        "id": "OSX-SUM-0857",
+        "rougeLsum": 0.3534,
+        "embedding_sim": 0.7382,
+        "bertscore_f1": 0.1339
+      },
+      {
+        "id": "OSX-SUM-0858",
+        "rougeLsum": 0.3629,
+        "embedding_sim": 0.8012,
+        "bertscore_f1": 0.2304
+      },
+      {
+        "id": "OSX-SUM-0859",
+        "rougeLsum": 0.4062,
+        "embedding_sim": 0.7595,
+        "bertscore_f1": 0.1916
+      },
+      {
+        "id": "UAP-CURR-SUM-0128",
+        "rougeLsum": 0.439,
+        "embedding_sim": 0.8931,
+        "bertscore_f1": 0.258
+      },
+      {
+        "id": "UAP-SUM-0002",
+        "rougeLsum": 0.5546,
+        "embedding_sim": 0.9201,
+        "bertscore_f1": 0.5575
+      },
+      {
+        "id": "UAP-SUM-0012",
+        "rougeLsum": 0.4861,
+        "embedding_sim": 0.9196,
+        "bertscore_f1": 0.3168
+      },
+      {
+        "id": "UAP-SUM-0014",
+        "rougeLsum": 0.4636,
+        "embedding_sim": 0.9279,
+        "bertscore_f1": 0.4322
+      },
+      {
+        "id": "UAP-SUM-0020",
+        "rougeLsum": 0.3966,
+        "embedding_sim": 0.8774,
+        "bertscore_f1": 0.3176
+      },
+      {
+        "id": "UAP-SUM-0025",
+        "rougeLsum": 0.507,
+        "embedding_sim": 0.9345,
+        "bertscore_f1": 0.4305
+      },
+      {
+        "id": "UAP-SUM-0033",
+        "rougeLsum": 0.4516,
+        "embedding_sim": 0.8991,
+        "bertscore_f1": 0.3184
+      },
+      {
+        "id": "UAP-SUM-0035",
+        "rougeLsum": 0.5135,
+        "embedding_sim": 0.9238,
+        "bertscore_f1": 0.4529
+      },
+      {
+        "id": "UAP-SUM-0042",
+        "rougeLsum": 0.4569,
+        "embedding_sim": 0.881,
+        "bertscore_f1": 0.3365
+      },
+      {
+        "id": "UAP-SUM-0064",
+        "rougeLsum": 0.4824,
+        "embedding_sim": 0.9212,
+        "bertscore_f1": 0.5198
+      },
+      {
+        "id": "UAP-SUM-0073",
+        "rougeLsum": 0.4132,
+        "embedding_sim": 0.875,
+        "bertscore_f1": 0.3175
+      },
+      {
+        "id": "UAP-SUM-0075",
+        "rougeLsum": 0.4667,
+        "embedding_sim": 0.9437,
+        "bertscore_f1": 0.3756
+      },
+      {
+        "id": "UAP-SUM-0084",
+        "rougeLsum": 0.5063,
+        "embedding_sim": 0.8949,
+        "bertscore_f1": 0.4319
+      },
+      {
+        "id": "UAP-SUM-0087",
+        "rougeLsum": 0.4364,
+        "embedding_sim": 0.942,
+        "bertscore_f1": 0.502
+      },
+      {
+        "id": "UAP-SUM-0100",
+        "rougeLsum": 0.4684,
+        "embedding_sim": 0.946,
+        "bertscore_f1": 0.4658
+      },
+      {
+        "id": "UAP-SUM-0105",
+        "rougeLsum": 0.4624,
+        "embedding_sim": 0.9188,
+        "bertscore_f1": 0.3651
+      },
+      {
+        "id": "UAP-SUM-0107",
+        "rougeLsum": 0.4242,
+        "embedding_sim": 0.8973,
+        "bertscore_f1": 0.3862
+      },
+      {
+        "id": "UAP-SUM-0113",
+        "rougeLsum": 0.4615,
+        "embedding_sim": 0.9546,
+        "bertscore_f1": 0.4397
+      },
+      {
+        "id": "UAP-SUM-0116",
+        "rougeLsum": 0.3826,
+        "embedding_sim": 0.8808,
+        "bertscore_f1": 0.3546
+      },
+      {
+        "id": "UAP-SUM-0119",
+        "rougeLsum": 0.5195,
+        "embedding_sim": 0.9371,
+        "bertscore_f1": 0.4693
+      },
+      {
+        "id": "UAP-SUM-0126",
+        "rougeLsum": 0.4372,
+        "embedding_sim": 0.8831,
+        "bertscore_f1": 0.3547
+      },
+      {
+        "id": "UAP-SUM-0134",
+        "rougeLsum": 0.4388,
+        "embedding_sim": 0.9177,
+        "bertscore_f1": 0.329
+      },
+      {
+        "id": "UAP-SUM-0139",
+        "rougeLsum": 0.3944,
+        "embedding_sim": 0.9244,
+        "bertscore_f1": 0.4112
+      },
+      {
+        "id": "UAP-SUM-0154",
+        "rougeLsum": 0.5405,
+        "embedding_sim": 0.9237,
+        "bertscore_f1": 0.4355
+      },
+      {
+        "id": "UAP-SUM-0156",
+        "rougeLsum": 0.4,
+        "embedding_sim": 0.8847,
+        "bertscore_f1": 0.3284
+      },
+      {
+        "id": "UAP-SUM-0160",
+        "rougeLsum": 0.3837,
+        "embedding_sim": 0.8507,
+        "bertscore_f1": 0.3724
+      },
+      {
+        "id": "UAP-SUM-0176",
+        "rougeLsum": 0.4375,
+        "embedding_sim": 0.911,
+        "bertscore_f1": 0.3736
+      },
+      {
+        "id": "UAP-SUM-0177",
+        "rougeLsum": 0.3593,
+        "embedding_sim": 0.8398,
+        "bertscore_f1": 0.2558
+      },
+      {
+        "id": "UAP-SUM-0178",
+        "rougeLsum": 0.4277,
+        "embedding_sim": 0.9039,
+        "bertscore_f1": 0.3826
+      },
+      {
+        "id": "UAP-SUM-0187",
+        "rougeLsum": 0.381,
+        "embedding_sim": 0.934,
+        "bertscore_f1": 0.4581
+      }
+    ]
+  },
+  "latency_by_task": {
+    "summarization": {
+      "n": 146,
+      "mean_s": 14.321,
+      "p50_s": 12.262,
+      "p95_s": 30.466
+    }
+  },
+  "human_eval_sheets": {
+    "summarization": {
+      "path": "C:\\Eduguard\\experiments\\multitask_bloom_rewrite\\results\\qwen15b_multitask_eduguard_v3_9_20261127_gguf_q4_k_m_summ_rp110\\human_eval_summarization.csv",
+      "items": 41,
+      "stratified_by": "source_type"
+    }
+  }
+}
