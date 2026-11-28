@@ -4,20 +4,23 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
 	type FormEvent,
-	type KeyboardEvent, 
+	type KeyboardEvent,
 	useCallback,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
 import ErrorModal, { errorTitle } from "./error-modal";
+import FilePicker from "./file-picker";
+import {
+	type OperationProgress,
+	useOperationProgress,
+} from "./operation-progress";
+import PasswordInput from "./password-input";
 import { clearSession, saveSession, useSession } from "./session";
 import type { HeroClip } from "./video-hero";
 import VideoHero from "./video-hero";
 import WaitingGame from "./waiting-game";
-import { type OperationProgress, useOperationProgress } from "./operation-progress";
-import PasswordInput from "./password-input";
-import FilePicker from "./file-picker";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 async function apiFetch(
@@ -325,7 +328,10 @@ export default function Workspace({ role }: { role: Role }) {
 	const operationController = useRef<ReturnType<typeof createOperation> | null>(
 		null,
 	);
-	const currentOperationId = useCallback(() => operationController.current?.id, []);
+	const currentOperationId = useCallback(
+		() => operationController.current?.id,
+		[],
+	);
 	const progress = useOperationProgress(API, token, currentOperationId, !!busy);
 	const cancelOperation = useCallback(() => {
 		const active = operationController.current;
@@ -574,7 +580,12 @@ export default function Workspace({ role }: { role: Role }) {
 		<form className="mt-7 grid gap-4" onSubmit={login}>
 			<label htmlFor="access-code">
 				Local access code
-				<PasswordInput id="access-code" value={code} onChange={setCode} autoFocus />
+				<PasswordInput
+					id="access-code"
+					value={code}
+					onChange={setCode}
+					autoFocus
+				/>
 			</label>
 			<button className="btn-primary" disabled={!!busy}>
 				{busy ? "Opening workspace..." : "Continue to workspace →"}
@@ -821,7 +832,9 @@ export default function Workspace({ role }: { role: Role }) {
 								</article>
 							))
 						)}
-						{showModelLoading && <ChatLoading label={busy} progress={progress} />}
+						{showModelLoading && (
+							<ChatLoading label={busy} progress={progress} />
+						)}
 					</div>
 
 					<div className="mt-6 grid gap-3">
